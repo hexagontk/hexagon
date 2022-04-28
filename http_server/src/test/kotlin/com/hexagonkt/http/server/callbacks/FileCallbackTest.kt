@@ -2,14 +2,15 @@ package com.hexagonkt.http.server.callbacks
 
 import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.core.media.TextMedia
+import com.hexagonkt.http.model.ClientErrorStatus
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.SuccessStatus
-import com.hexagonkt.http.patterns.LiteralPathPattern
 import com.hexagonkt.http.patterns.TemplatePathPattern
 import com.hexagonkt.http.server.handlers.HttpServerContext
 import com.hexagonkt.http.server.handlers.HttpServerPredicate
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequest
+import com.hexagonkt.http.server.model.HttpServerResponse
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.lang.IllegalStateException
@@ -21,56 +22,58 @@ internal class FileCallbackTest {
 
     @Test fun `Invalid filter raises an error`() {
         val e = assertFailsWith<IllegalStateException> {
-            val callback = FileCallback(File("."))
-            val context = Context(
-                HttpServerCall(),
-                HttpServerPredicate(pathPattern = LiteralPathPattern("/noParam"))
-            )
-            callback(HttpServerContext(context))
+            processFileCallback(".", "/params/1/2", "/params/{a}/{b}")
         }
 
-        assertEquals("File loading require a single path parameter", e.message)
+        assertEquals("File loading require a single path parameter or none", e.message)
+    }
+
+    @Test fun `Filter with one parameter resolves to a file`() {
+        val result = processFileCallback(".", "/params/README.md", "/params/*")
+
+        assertEquals(SuccessStatus.OK, result.status)
+        assertEquals(ContentType(TextMedia.MARKDOWN), result.contentType)
+    }
+
+    @Test fun `Filter with one parameter resolves to a missing file`() {
+        val result = processFileCallback(".", "/params/foo.bar", "/params/*")
+
+        assertEquals(ClientErrorStatus.NOT_FOUND, result.status)
+        assertEquals("File 'foo.bar' not found", result.bodyString())
+    }
+
+    @Test fun `Filter with no parameter resolves to the callback's file`() {
+        val result = processFileCallback("README.md", "/params", "/params")
+
+        assertEquals(SuccessStatus.OK, result.status)
+        assertEquals(ContentType(TextMedia.MARKDOWN), result.contentType)
     }
 
     @Test fun `Return file without known media type`() {
-        val callback = FileCallback(File("."))
-        val result = callback(
-            HttpServerContext(
-                Context(
-                    HttpServerCall(
-                        HttpServerRequest(
-                            path = "/build.gradle.kts"
-                        )
-                    ),
-                    HttpServerPredicate(
-                        pathPattern = TemplatePathPattern("/*")
-                    )
-                )
-            )
-        ).response
+        val result = processFileCallback(".", "/build.gradle.kts", "/*")
 
         assertEquals(SuccessStatus.OK, result.status)
         assertNull(result.contentType)
     }
 
     @Test fun `Return file with known media type`() {
-        val callback = FileCallback(File("."))
-        val result = callback(
-            HttpServerContext(
-                Context(
-                    HttpServerCall(
-                        HttpServerRequest(
-                            path = "/README.md"
-                        )
-                    ),
-                    HttpServerPredicate(
-                        pathPattern = TemplatePathPattern("/*")
-                    )
-                )
-            )
-        ).response
+        val result = processFileCallback(".", "/README.md", "/*")
 
         assertEquals(SuccessStatus.OK, result.status)
         assertEquals(ContentType(TextMedia.MARKDOWN), result.contentType)
     }
+
+    private fun processFileCallback(
+        filePath: String,
+        requestPath: String,
+        pathPattern: String
+    ): HttpServerResponse =
+        FileCallback(File(filePath))(
+            HttpServerContext(
+                Context(
+                    HttpServerCall(HttpServerRequest(path = requestPath)),
+                    HttpServerPredicate(pathPattern = TemplatePathPattern(pathPattern))
+                )
+            )
+        ).response
 }
