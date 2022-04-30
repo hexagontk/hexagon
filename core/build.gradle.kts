@@ -13,8 +13,6 @@ description = "Hexagon core utilities. Includes serialization and logging helper
 dependencies {
     api("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-
     testImplementation("org.jetbrains.kotlin:kotlin-reflect")
 }
 

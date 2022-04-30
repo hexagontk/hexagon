@@ -1,68 +1,74 @@
 package com.hexagonkt.core.args
 
-import kotlin.reflect.KClass
-import kotlin.reflect.KParameter
-import kotlin.reflect.full.primaryConstructor
+object OptionParser {
 
-class OptionParser {
+    private val LONG_NAME_REGEX = Regex("--[a-z]+-?[a-z]+=?[a-zA-Z\\d]*")
+    private val SHORT_NAME_REGEX = Regex("-[a-z]+")
+    private val SUPPORTED_TYPES = listOf(String::class, Boolean::class, Double::class, Int::class)
+    private const val BOOLEAN = "kotlin.Boolean"
 
-    private val allowedTypes = listOf(String::class, Boolean::class, Double::class, Int::class)
+    fun parse(options: List<Option<*>>, args: Array<String>): Result<Map<Option<*>, *>> {
 
-    fun <T : Arguments> parse(argumentsClass: KClass<T>, args: Array<String>): Result<T> {
+        if (hasUnsupportedParameters(options)) return Result.failure(UnsupportedArgumentTypeException)
 
-        val hasUnsupportedParams = hasUnsupportedParameters(argumentsClass).getOrElse { return Result.failure(it) }
+        val result = mutableMapOf<Option<*>, Any>()
 
-        if (hasUnsupportedParams)
-            return Result.failure(IllegalArgumentException("${argumentsClass.simpleName} has unsupported parameter types"))
-
-        val constructorParameters = argumentsClass.primaryConstructor!!.parameters
-        val parameters = constructorParameters.filterNot { it.name == null }
-            .fold(mutableMapOf<String, Pair<KParameter, KClass<*>>>()) { acc, kparameter ->
-                acc[kparameter.name!!] = kparameter to kparameter.type.classifier as KClass<*>
-                return@fold acc
-            }
-        val paramsNames = parameters.keys
-        val argumentsClassParams = mutableMapOf<KParameter, Any>()
-
-        var option: String? = null
         for (arg in args) {
             if (isArg(arg)) {
-                val commandName = removeDashes(arg)
+                if (!hasValidSyntax(arg)) return Result.failure(InvalidOptionSyntaxException)
+                val isLong = arg.startsWith("--")
+                val argWithoutPrefixedDashes = removePrefixedDashes(arg)
 
-                option = paramsNames.find { it == commandName } ?: return Result.failure(IllegalArgumentException("bad input"))
-            } else {
-                if (option == null) return Result.failure(IllegalArgumentException("bad input"))
-                argumentsClassParams[parameters[option]!!.first] = resolveParamValue(arg, parameters[option]!!.second)
-                option = null
+                if (isLong) {
+                    val split = argWithoutPrefixedDashes.split("=")
+                    val option = options.find { split.first() == it.longName }
+                        ?: return Result.failure(InvalidOptionException)
+
+                    result[option] = if (split.size > 1) resolveParamValue(split[1], option)
+                    else if (option.type.qualifiedName == BOOLEAN) {
+                        true
+                    } else {
+                        return Result.failure(OptionNeedsAValueException)
+                    }
+                } else {
+                    argWithoutPrefixedDashes.forEach { shortName ->
+                        val option = options.find { it.shortName == shortName }
+                            ?: return Result.failure(InvalidOptionSyntaxException)
+                        result[option] = true
+                    }
+                }
             }
         }
 
-        val arguments = argumentsClass.primaryConstructor!!.callBy(argumentsClassParams)
-
-        return Result.success(arguments)
+        return Result.success(result)
     }
 
-    private fun resolveParamValue(arg: String, second: KClass<*>): Any {
-        return when (second.qualifiedName) {
-            "kotlin.Boolean" -> arg.toBoolean()
+    private fun hasUnsupportedParameters(options: List<Option<*>>): Boolean {
+        return options.any { !SUPPORTED_TYPES.contains(it.type) }
+    }
+
+    private fun isArg(arg: String) = arg.startsWith("-") || arg.startsWith("--")
+
+    private fun hasValidSyntax(arg: String): Boolean {
+        return LONG_NAME_REGEX.matches(arg) || SHORT_NAME_REGEX.matches(arg)
+    }
+
+    private fun removePrefixedDashes(arg: String): String {
+        var result = arg
+        while (result.startsWith("-")) {
+            result = result.substring(1)
+        }
+
+        return result
+    }
+    private fun resolveParamValue(arg: String, option: Option<*>): Any {
+        return when (option.type.qualifiedName) {
+            BOOLEAN -> arg.toBoolean()
             "kotlin.Double" -> arg.toDouble()
             "kotlin.Int" -> arg.toInt()
             "kotlin.String" -> arg
             else -> error("not supported type")
         }
     }
-
-    private fun hasUnsupportedParameters(argumentsClass: KClass<*>): Result<Boolean> {
-        val result = argumentsClass.primaryConstructor?.parameters?.any {
-            val klass = it.type.classifier as? KClass<*> ?: return Result.failure(RuntimeException("not a kclass"))
-            !allowedTypes.contains(klass)
-        } ?: return Result.failure(RuntimeException("A proper constructor is needed"))
-
-        return Result.success(result)
-    }
-
-    private fun removeDashes(arg: String): String = arg.replace("-", "")
-
-    private fun isArg(arg: String) = arg.startsWith("-") || arg.startsWith("--")
-
 }
+
