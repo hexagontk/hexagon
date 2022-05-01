@@ -14,28 +14,27 @@ object OptionParser {
         val result = mutableMapOf<Option<*>, Any>()
 
         for (arg in args) {
-            if (isArg(arg)) {
-                if (!hasValidSyntax(arg)) return Result.failure(InvalidOptionSyntaxException)
-                val isLong = arg.startsWith("--")
-                val argWithoutPrefixedDashes = removePrefixedDashes(arg)
+            if (!isOption(arg)) continue
 
-                if (isLong) {
-                    val split = argWithoutPrefixedDashes.split("=")
-                    val option = options.find { split.first() == it.longName }
-                        ?: return Result.failure(InvalidOptionException)
+            if (!hasValidSyntax(arg)) return Result.failure(InvalidOptionSyntaxException)
+            val isLong = arg.startsWith("--")
+            val optionWithoutPrefixedDashes = removePrefixedDashes(arg)
 
-                    result[option] = if (split.size > 1) resolveParamValue(split[1], option)
-                    else if (option.type.qualifiedName == BOOLEAN) {
-                        true
-                    } else {
-                        return Result.failure(OptionNeedsAValueException)
-                    }
-                } else {
-                    argWithoutPrefixedDashes.forEach { shortName ->
-                        val option = options.find { it.shortName == shortName }
-                            ?: return Result.failure(InvalidOptionSyntaxException)
-                        result[option] = true
-                    }
+            if (isLong) {
+                val split = optionWithoutPrefixedDashes.split("=")
+                val option = options.find { split.first() == it.longName }
+                    ?: return Result.failure(InvalidOptionException)
+
+                result[option] = when {
+                    split.size > 1 -> resolveParamValue(split[1], option)
+                    option.type.qualifiedName == BOOLEAN -> true
+                    else -> return Result.failure(OptionNeedsAValueException)
+                }
+            } else {
+                optionWithoutPrefixedDashes.forEach { shortName ->
+                    val option = options.find { it.shortName == shortName }
+                        ?: return Result.failure(InvalidOptionSyntaxException)
+                    result[option] = true
                 }
             }
         }
@@ -47,7 +46,7 @@ object OptionParser {
         return options.any { !SUPPORTED_TYPES.contains(it.type) }
     }
 
-    private fun isArg(arg: String) = arg.startsWith("-") || arg.startsWith("--")
+    private fun isOption(arg: String) = arg.startsWith("-") || arg.startsWith("--")
 
     private fun hasValidSyntax(arg: String): Boolean {
         return LONG_NAME_REGEX.matches(arg) || SHORT_NAME_REGEX.matches(arg)
