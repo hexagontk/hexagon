@@ -12,7 +12,7 @@ inputs:
     default: "17"
 
   java_distribution:
-    description: Java distrubution used to run Gradle.
+    description: Java distribution used to run Gradle.
     required: true
     default: temurin
 
