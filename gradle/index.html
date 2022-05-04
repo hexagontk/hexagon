@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/gradle/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.11">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
@@ -23,10 +23,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.8c5ef100.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.e411adfe.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.9647289d.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
         
       
     
@@ -1078,13 +1078,12 @@ development machine.</p>
 <p>To use it, apply <code>$gradleScripts/application.gradle</code> to your <code>build.gradle</code>.</p>
 <p>To set up this script you need to add the main class name to your <code>build.gradle</code> file with the
 following code:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">application</span> <span class="o">{</span>
-    <span class="n">mainClass</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s2">&quot;com.example.ApplicationKt&quot;</span><span class="o">)</span>
-<span class="o">}</span>
-</code></pre></div>
-</td></tr></table>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">application</span><span class="w"> </span><span class="o">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">mainClass</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s2">&quot;com.example.ApplicationKt&quot;</span><span class="o">)</span><span class="w"></span>
+<span class="o">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 <h3 id="certificates">Certificates<a class="headerlink" href="#certificates" title="Permanent link">&para;</a></h3>
 <p>Creates the required key stores for development purposes. <strong>IMPORTANT</strong> these key stores must not be
 used for production environments.</p>
@@ -1136,13 +1135,12 @@ you must apply the <code>$gradleScripts/detekt.gradle</code> script to your <cod
 applied after the Kotlin plugin.</p>
 <p>For the script to work you need to add the plugin to the plugins build section before importing the
 script. I.e.:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">plugins</span> <span class="p">{</span>
-    <span class="n">id</span><span class="p">(</span><span class="s">&quot;io.gitlab.arturbosch.detekt&quot;</span><span class="p">)</span> <span class="n">version</span> <span class="s">&quot;VERSION&quot;</span> <span class="n">apply</span> <span class="kc">false</span>
-<span class="p">}</span>
-</code></pre></div>
-</td></tr></table>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">id</span><span class="p">(</span><span class="s">&quot;io.gitlab.arturbosch.detekt&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s">&quot;VERSION&quot;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>detektConfigPath: file with Detekt rules and settings. If not set, the default Detekt setup will
@@ -1309,7 +1307,7 @@ script. I.e.:</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.748e2769.min.js"></script>
+      <script src="../assets/javascripts/bundle.ed9748b7.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

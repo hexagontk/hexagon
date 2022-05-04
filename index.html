@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/">
       
       <link rel="icon" href="favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.11">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
@@ -23,10 +23,10 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.8c5ef100.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.e411adfe.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.9647289d.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.cc9b2e1e.min.css">
         
       
     
@@ -955,7 +955,7 @@ single standalone features<sup id="fnref:1"><a class="footnote-ref" href="#fn:1"
 principles also fit into this architecture.</p>
 <h2 id="hello-world">Hello World<a class="headerlink" href="#hello-world" title="Permanent link">&para;</a></h2>
 <p>Simple Hello World HTTP example.</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -969,23 +969,22 @@ principles also fit into this architecture.</p>
 <span class="normal">12</span>
 <span class="normal">13</span>
 <span class="normal">14</span>
-<span class="normal">15</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">com.hexagonkt.http.server.jetty.serve</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">com.hexagonkt.http.server.jetty.serve</span><span class="w"></span>
 
-<span class="kd">lateinit</span> <span class="kd">var</span> <span class="nv">server</span><span class="p">:</span> <span class="n">HttpServer</span>
+<span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">server</span><span class="p">:</span><span class="w"> </span><span class="n">HttpServer</span><span class="w"></span>
 
 <span class="cm">/**</span>
 <span class="cm"> * Start a Hello World server, serving at path &quot;/hello&quot;.</span>
-<span class="cm"> */</span>
-<span class="kd">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">server</span> <span class="o">=</span> <span class="n">serve</span> <span class="p">{</span>
-        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello/{name}&quot;</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">val</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">pathParameters</span><span class="o">[</span><span class="s">&quot;name&quot;</span><span class="o">]</span>
-            <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello </span><span class="si">$</span><span class="n">name</span><span class="s">!&quot;</span><span class="p">,</span> <span class="n">contentType</span> <span class="o">=</span> <span class="n">ContentType</span><span class="p">(</span><span class="n">PLAIN</span><span class="p">))</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-</td></tr></table>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serve</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello/{name}&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pathParameters</span><span class="o">[</span><span class="s">&quot;name&quot;</span><span class="o">]</span><span class="w"></span>
+<span class="w">            </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello </span><span class="si">$</span><span class="n">name</span><span class="s">!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">PLAIN</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 <p>You can check the <a href="/examples/http_server_examples/">code examples</a> and <a href="/examples/example_projects/">demo projects</a> for more complex use cases.</p>
 <h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
 <p>Hexagon's goals and design principles:</p>
@@ -1212,7 +1211,7 @@ capacities can be replaced by other third party libraries.&#160;<a class="footno
     <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "nagivation.instant"], "search": "assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.748e2769.min.js"></script>
+      <script src="assets/javascripts/bundle.ed9748b7.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

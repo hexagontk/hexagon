@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/maven/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.11">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
@@ -23,10 +23,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.8c5ef100.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.e411adfe.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.9647289d.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
         
       
     
@@ -904,17 +904,16 @@ on the directory schema you want to use):</p>
 <li>Use <a href="https://junit.org/junit5">JUnit 5</a> and <a href="https://mockk.io">MockK</a> for testing</li>
 <li>Configure <a href="https://www.eclemma.org/jacoco">Jacoco</a> coverage report</li>
 </ul>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">&lt;parent&gt;</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">&lt;parent&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>com.hexagonkt<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>kotlin_pom<span class="nt">&lt;/artifactId&gt;</span>
   <span class="nt">&lt;version&gt;</span>$hexagonVersion<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/parent&gt;</span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <h3 id="lean-parent-pom">Lean Parent POM<a class="headerlink" href="#lean-parent-pom" title="Permanent link">&para;</a></h3>
 <p>This directory layout has less nested directories, and it is more compact. The main downside of
 using this approach is that it differs of the standard one.</p>
@@ -923,17 +922,16 @@ using this approach is that it differs of the standard one.</p>
 <li>Change the source directories to be <code>main</code> and <code>test</code> instead <code>src/{main,test}/kotlin</code></li>
 <li>Store resources together with source files instead of <code>src/&lt;sourceSet&gt;/resources</code></li>
 </ul>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">&lt;parent&gt;</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">&lt;parent&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>com.hexagonkt<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>kotlin_lean_pom<span class="nt">&lt;/artifactId&gt;</span>
   <span class="nt">&lt;version&gt;</span>$hexagonVersion<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/parent&gt;</span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 
               
             </article>
@@ -1095,7 +1093,7 @@ using this approach is that it differs of the standard one.</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.748e2769.min.js"></script>
+      <script src="../assets/javascripts/bundle.ed9748b7.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

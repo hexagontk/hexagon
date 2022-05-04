@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/quick_start/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.11">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
@@ -23,10 +23,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.8c5ef100.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.e411adfe.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.9647289d.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
         
       
     
@@ -873,37 +873,35 @@ a project from scratch following these steps:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">build.gradle</label><label for="__tabbed_1_2">pom.xml</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">repositories</span> <span class="o">{</span>
-    <span class="n">mavenCentral</span><span class="o">()</span>
-<span class="o">}</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">repositories</span><span class="w"> </span><span class="o">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">mavenCentral</span><span class="o">()</span><span class="w"></span>
+<span class="o">}</span><span class="w"></span>
 
-<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:http_server_jetty:$hexagonVersion&quot;</span><span class="o">)</span>
-</code></pre></div>
-</td></tr></table>
+<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:http_server_jetty:$hexagonVersion&quot;</span><span class="o">)</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>com.hexagonkt<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>http_server_jetty<span class="nt">&lt;/artifactId&gt;</span>
   <span class="nt">&lt;version&gt;</span>$hexagonVersion<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 </div>
 </div>
 </div>
 <ol>
 <li>Write the code in the <code>src/main/kotlin/Hello.kt</code> file:</li>
 </ol>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -917,23 +915,22 @@ a project from scratch following these steps:</p>
 <span class="normal">12</span>
 <span class="normal">13</span>
 <span class="normal">14</span>
-<span class="normal">15</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">com.hexagonkt.http.server.jetty.serve</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">com.hexagonkt.http.server.jetty.serve</span><span class="w"></span>
 
-<span class="kd">lateinit</span> <span class="kd">var</span> <span class="nv">server</span><span class="p">:</span> <span class="n">HttpServer</span>
+<span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">server</span><span class="p">:</span><span class="w"> </span><span class="n">HttpServer</span><span class="w"></span>
 
 <span class="cm">/**</span>
 <span class="cm"> * Start a Hello World server, serving at path &quot;/hello&quot;.</span>
-<span class="cm"> */</span>
-<span class="kd">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">server</span> <span class="o">=</span> <span class="n">serve</span> <span class="p">{</span>
-        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello/{name}&quot;</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">val</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">pathParameters</span><span class="o">[</span><span class="s">&quot;name&quot;</span><span class="o">]</span>
-            <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello </span><span class="si">$</span><span class="n">name</span><span class="s">!&quot;</span><span class="p">,</span> <span class="n">contentType</span> <span class="o">=</span> <span class="n">ContentType</span><span class="p">(</span><span class="n">PLAIN</span><span class="p">))</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-</td></tr></table>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serve</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello/{name}&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pathParameters</span><span class="o">[</span><span class="s">&quot;name&quot;</span><span class="o">]</span><span class="w"></span>
+<span class="w">            </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello </span><span class="si">$</span><span class="n">name</span><span class="s">!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">PLAIN</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 <ol>
 <li>Run the service and view the results at: <a href="http://localhost:2010/hello">http://localhost:2010/hello</a></li>
 </ol>
@@ -946,11 +943,10 @@ changes with the command: <code>./gradlew watch -t</code></p>
 <p>Hexagon's dependencies are signed, you can get the public key at the
 <a href="https://keys.openpgp.org/search?q=project%40hexagonkt.com">OpenPGP Public Key Server</a> or <a href="/project_hexagonkt_com_public.key">here</a>.</p>
 <p>These are the details of the public key:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>pub  4096R/2AEE3721 2020-05-30 Hexagon Toolkit (Key used to sign published binaries) &lt;project@hexagonkt.com&gt;
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>pub  4096R/2AEE3721 2020-05-30 Hexagon Toolkit (Key used to sign published binaries) &lt;project@hexagonkt.com&gt;
      Fingerprint=792B D37F F598 91C4 AC6F  8D92 3B26 711D 2AEE 3721
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <p>To continue learning about this toolkit, you can:</p>
 <ul>
@@ -1120,7 +1116,7 @@ changes with the command: <code>./gradlew watch -t</code></p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.748e2769.min.js"></script>
+      <script src="../assets/javascripts/bundle.ed9748b7.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

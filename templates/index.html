@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/templates/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.11">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
@@ -23,10 +23,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.8c5ef100.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.e411adfe.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.9647289d.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
         
       
     
@@ -925,39 +925,36 @@ feature (as <a href="/templates_pebble/">templates_pebble</a> and/or <a href="/t
 the same time.</p>
 <h4 id="register-a-template-engine">Register a Template Engine<a class="headerlink" href="#register-a-template-engine" title="Permanent link">&para;</a></h4>
 <p>You can register multiple template engines using regular expressions:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">TemplateManager</span><span class="p">.</span><span class="na">adapters</span> <span class="o">=</span> <span class="n">mapOf</span><span class="p">(</span>
-    <span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*\\.html&quot;</span><span class="p">)</span> <span class="n">to</span> <span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;html&quot;</span><span class="p">),</span>
-    <span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*\\.txt&quot;</span><span class="p">)</span> <span class="n">to</span> <span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">),</span>
-    <span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*&quot;</span><span class="p">)</span> <span class="n">to</span> <span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;others&quot;</span><span class="p">),</span>
-<span class="p">)</span>
-</code></pre></div>
-</td></tr></table>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">TemplateManager</span><span class="p">.</span><span class="na">adapters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*\\.html&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;html&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*\\.txt&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;others&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 <p>The template adapter is selected from top to bottom, picking the first matched one.</p>
 <p>You can use Glob syntax to bind patterns to template adapters if you prefer:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">TemplateManager</span><span class="p">.</span><span class="na">adapters</span> <span class="o">=</span> <span class="n">mapOf</span><span class="p">(</span>
-    <span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*.html&quot;</span><span class="p">).</span><span class="na">regex</span> <span class="n">to</span> <span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;html&quot;</span><span class="p">),</span>
-    <span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*.txt&quot;</span><span class="p">).</span><span class="na">regex</span> <span class="n">to</span> <span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">),</span>
-    <span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">).</span><span class="na">regex</span> <span class="n">to</span> <span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;others&quot;</span><span class="p">),</span>
-<span class="p">)</span>
-</code></pre></div>
-</td></tr></table>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">TemplateManager</span><span class="p">.</span><span class="na">adapters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*.html&quot;</span><span class="p">).</span><span class="na">regex</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;html&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*.txt&quot;</span><span class="p">).</span><span class="na">regex</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">).</span><span class="na">regex</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;others&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 <h4 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h4>
 <p>To render a template, you have to use the <a href="/api/templates/com.hexagonkt.templates/-template-manager/index.html">TemplateManager</a> object. The data to be used inside the
 template must be supplied in a map (context), the template URL and current time-stamp (<code>_template_</code>
 and <code>_now_</code> variables) are added to the context automatically. Check the code below for an example:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">context</span> <span class="o">=</span> <span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;key1&quot;</span> <span class="n">to</span> <span class="s">&quot;value1&quot;</span><span class="p">,</span> <span class="s">&quot;key2&quot;</span> <span class="n">to</span> <span class="s">&quot;value2&quot;</span><span class="p">)</span>
-<span class="kd">val</span> <span class="nv">rendered</span> <span class="o">=</span> <span class="n">TemplateManager</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:template.txt&quot;</span><span class="p">),</span> <span class="n">context</span><span class="p">)</span>
-</code></pre></div>
-</td></tr></table>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;key1&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;value1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;key2&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;value2&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">rendered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TemplateManager</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:template.txt&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 <h2 id="package-comhexagonkttemplates">Package com.hexagonkt.templates<a class="headerlink" href="#package-comhexagonkttemplates" title="Permanent link">&para;</a></h2>
 <p>Feature implementation code.</p>
 
@@ -1121,7 +1118,7 @@ and <code>_now_</code> variables) are added to the context automatically. Check 
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.748e2769.min.js"></script>
+      <script src="../assets/javascripts/bundle.ed9748b7.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

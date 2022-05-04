@@ -26,7 +26,7 @@ if(savedDarkMode === true){
     <div class="library-name">
 <a href="../index.html">
 <span>hexagon</span>            </a>    </div>
-    <div>2.0.7
+    <div>2.0.8
     </div>
     <div class="pull-right d-flex">
         <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
@@ -45,6 +45,10 @@ if(savedDarkMode === true){
     <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server_jetty:dokkaHtmlPartial/main"><p class="paragraph"><a href="https://www.eclipse.org/jetty">Jetty</a> adapter for the /http_server port.</p><h3 class=""> Install the Dependency</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    ```groovy
     repositories {
         mavenCentral()
+    }
+
+    dependencies {
+      implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
     }
     ```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    ```xml
     
