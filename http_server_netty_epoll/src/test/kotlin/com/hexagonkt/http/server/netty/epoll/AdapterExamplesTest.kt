@@ -9,6 +9,7 @@ import com.hexagonkt.serialization.jackson.yaml.Yaml
 // TODO Fix disabled test
 // TODO Assert context methods (request.method, request.protocol...)
 // TODO Check response headers don't contain invalid chars (\n, \t...)
+// TODO Ignore these tests on Windows and macOS
 
 val clientAdapter: () -> JettyClientAdapter = ::JettyClientAdapter
 val serverAdapter: () -> NettyEpollServerAdapter = ::NettyEpollServerAdapter

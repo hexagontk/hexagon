@@ -23,7 +23,7 @@ jobs:
       - name: Build Project
         uses: ./.github/actions/gradle
         # TODO Don't ignore these tests for Linux
-        with: { tasks: "build -x http_server_netty_epoll:test" }
+        with: { tasks: "build -x http_server_netty_epoll:test -x http_server_netty_epoll:verify" }
 
   sample_keystores:
     defaults:
