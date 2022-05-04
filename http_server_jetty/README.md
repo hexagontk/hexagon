@@ -13,6 +13,10 @@
     repositories {
         mavenCentral()
     }
+
+    dependencies {
+      implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
+    }
     ```
 
 === "pom.xml"
