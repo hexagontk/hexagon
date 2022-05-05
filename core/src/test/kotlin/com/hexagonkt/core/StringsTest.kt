@@ -58,6 +58,7 @@ internal class StringsTest {
 
     @Test fun `Filter variables ignores empty parameters` () {
         val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars(
+            null to "Void",
             "" to "John",
             "email" to "john@example.co"
         )
@@ -145,6 +146,16 @@ internal class StringsTest {
         assert(banner.contains("***********"))
 
         assert(sequenceOf<Int>().maxOrElse(123) == 123)
+
+        val banner1 = "foo".banner(">")
+        assert(banner1.contains("foo"))
+        assert(banner1.contains(">>>"))
+    }
+
+    @Test fun `toStream works as expected`() {
+        val s = "alfa-beta-charlie"
+        val striped = s.toStream().readAllBytes()
+        assertContentEquals(striped, s.toByteArray())
     }
 
     @Test fun `Normalize works as expected`() {
