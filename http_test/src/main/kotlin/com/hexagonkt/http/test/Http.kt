@@ -41,7 +41,7 @@ data class Http(
     private fun toMultiMap(map: Map<String, *>): MultiMap<String, String> = MultiMap(
         map.mapValues { (_, v) ->
             when (v) {
-                is List<*> -> v.map { it.toString() }
+                is Collection<*> -> v.map { it.toString() }.toList()
                 else -> listOf(v.toString())
             }
         }
@@ -138,14 +138,4 @@ data class Http(
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
         send(TRACE, path, headers, body, formParameters, parts, contentType)
-
-    fun head(
-        path: String = "/",
-        headers: Map<String, *> = emptyMap<String, Any>(),
-        body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
-        parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
-    ): HttpClientResponse =
-        send(HEAD, path, headers, body, formParameters, parts, contentType)
 }
