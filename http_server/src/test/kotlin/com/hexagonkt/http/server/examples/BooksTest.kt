@@ -207,9 +207,7 @@ internal class BooksTest {
             pathAlternative.byMethod()[POST] ?: fail,
             pathAlternative2.byMethod()[POST] ?: fail,
         ).forEach {
-            val start = System.nanoTime()
             val result = it.send(POST, "/books", "author=Vladimir%20Nabokov&title=Lolita")
-            logger.time(start)
             assert(Integer.valueOf(result.body as String) > 0)
             assertEquals(CREATED, result.status)
         }

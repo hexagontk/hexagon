@@ -15,7 +15,7 @@ import kotlin.test.assertTrue
 internal class LoggingManagerTest {
 
     // TODO Repeat this test on other logging adapters
-    @Test fun `Loggers are enabled and disabled in runtime`() {
+    @Test fun `Loggers are enabled and disabled at runtime`() {
 
         LoggingManager.adapter = JulLoggingAdapter()
         val allLevels = LoggingLevel.values()
@@ -49,6 +49,14 @@ internal class LoggingManagerTest {
         assertTrue(chc.isLoggerLevelEnabled(INFO))
         assertTrue(chc.isLoggerLevelEnabled(DEBUG))
         assertTrue(chc.isLoggerLevelEnabled(TRACE))
+    }
+
+    @Test fun `'defaultLoggerName' cannot be set to empty string`() {
+        val e = assertFailsWith<IllegalArgumentException> {
+            LoggingManager.defaultLoggerName = ""
+        }
+
+        assertEquals("Default logger name cannot be empty string", e.message)
     }
 
     @Test fun `Problem reading class name raises error`() {
