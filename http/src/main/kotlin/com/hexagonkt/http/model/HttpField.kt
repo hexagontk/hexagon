@@ -7,9 +7,9 @@ package com.hexagonkt.http.model
 interface HttpField {
     val name: String
     val values: List<String>
+    val value: String?
 
-    fun value(): String? =
-        values.firstOrNull()
+    operator fun plus(value: Any): HttpField
 
-    operator fun plus(value: String)
+    operator fun minus(element: String): HttpField
 }
