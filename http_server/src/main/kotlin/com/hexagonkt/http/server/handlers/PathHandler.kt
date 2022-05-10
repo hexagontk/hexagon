@@ -1,9 +1,15 @@
 package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.core.handlers.ChainHandler
+import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.core.handlers.Handler
+import com.hexagonkt.core.media.TextMedia.PLAIN
+import com.hexagonkt.core.toText
+import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
+import com.hexagonkt.http.model.HttpStatusType.SERVER_ERROR
+import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
@@ -46,7 +52,18 @@ data class PathHandler(
         this(pattern, handlers.toList())
 
     fun process(request: HttpServerRequestPort): HttpServerResponse =
-        process(HttpServerCall(request = request)).response
+        process(Context(HttpServerCall(request = request), predicate)).let {
+            val response = it.event.response
+            val exception = it.exception
+
+            if (exception != null && response.status.type != SERVER_ERROR)
+                response.copy(
+                    body = exception.toText(),
+                    contentType = ContentType(PLAIN),
+                    status = INTERNAL_SERVER_ERROR,
+                )
+            else response
+        }
 
     override fun addPrefix(prefix: String): HttpHandler =
         copy(serverPredicate = serverPredicate.addPrefix(prefix))

@@ -45,6 +45,47 @@ tasks.register("jarAll", Jar) {
     }
 }
 
+tasks.register("jre", Exec) {
+    group = "distribution"
+    description = "Create an application distribution based on a jlink generated JRE."
+    dependsOn("jarAll")
+
+    final String projectName = project.name
+    final String jarFileName = "${project.name}-all-${project.version}.jar"
+    final String modules = findProperty("modules") ?: "java.logging,java.management"
+
+    commandLine(
+        [
+            "jlink",
+            "--add-modules",
+            $modules,
+            "--compress=2",
+            "--strip-debug",
+            "--no-header-files",
+            "--no-man-pages",
+            "--output",
+            "$buildDir/$projectName",
+        ]
+    )
+
+    doLast {
+        copy {
+            from("$buildDir/libs")
+            include(jarFileName)
+            into("$buildDir/$projectName/lib")
+        }
+
+        final File launcher = file("$buildDir/$projectName/bin/$projectName")
+        launcher.write("""\
+            #!/usr/bin/env sh
+            set -e
+            appRoot="\$(dirname \$0)"
+            "\$appRoot/java" -jar "\$appRoot/../lib/$jarFileName"
+        """.stripIndent())
+        launcher.setExecutable(true)
+    }
+}
+
 tasks.register("watch") {
     group = "application"
     description = "Run application in other thread. Allows the possibility to watch source changes."

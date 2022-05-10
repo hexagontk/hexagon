@@ -39,15 +39,44 @@ fun File.parse(): Any =
 fun URL.parse(): Any =
     this.openStream().parse(mediaTypeOf(this))
 
-// TODO Add `parseMap` and `parseList` helpers
 fun URL.parseMap(): Map<*, *> =
     this.parse().castToMap()
 
 fun URL.parseList(): List<*> =
     this.parse().castToList()
 
+fun File.parseMap(): Map<*, *> =
+    this.parse().castToMap()
+
+fun File.parseList(): List<*> =
+    this.parse().castToList()
+
+fun String.parseMap(format: SerializationFormat = requireDefaultFormat()): Map<*, *> =
+    this.parse(format).castToMap()
+
+fun String.parseList(format: SerializationFormat = requireDefaultFormat()): List<*> =
+    this.parse(format).castToList()
+
+fun String.parseMap(mediaType: MediaType): Map<*, *> =
+    this.parse(mediaType).castToMap()
+
+fun String.parseList(mediaType: MediaType): List<*> =
+    this.parse(mediaType).castToList()
+
+fun InputStream.parseMap(format: SerializationFormat = requireDefaultFormat()): Map<*, *> =
+    this.parse(format).castToMap()
+
+fun InputStream.parseList(format: SerializationFormat = requireDefaultFormat()): List<*> =
+    this.parse(format).castToList()
+
+fun InputStream.parseMap(mediaType: MediaType): Map<*, *> =
+    this.parse(mediaType).castToMap()
+
+fun InputStream.parseList(mediaType: MediaType): List<*> =
+    this.parse(mediaType).castToList()
+
 private fun Any?.castToMap(): Map<*, *> =
-    this as? Map<*, *> ?: error("")
+    this as? Map<*, *> ?: error("$this cannot be cast to Map")
 
 private fun Any?.castToList(): List<*> =
-    this as? List<*> ?: error("")
+    this as? List<*> ?: error("$this cannot be cast to List")

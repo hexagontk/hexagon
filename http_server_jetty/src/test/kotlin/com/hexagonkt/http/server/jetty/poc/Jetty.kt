@@ -1,7 +1,5 @@
 package com.hexagonkt.http.server.jetty.poc
 
-import com.hexagonkt.core.Jvm
-import com.hexagonkt.core.logging.logger
 import jakarta.servlet.*
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.ServerConnector
@@ -60,8 +58,6 @@ fun main() {
     server.handler = context
     server.stopAtShutdown = true
     server.start()
-
-    logger.info { Jvm.uptime() }
 
 //        .get("/hello") {
 //            it.requestPath
