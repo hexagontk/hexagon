@@ -28,7 +28,10 @@ jobs:
 
   publish:
     name: Publish
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    # TODO Restore ubuntu-latest when 22.04 becomes stable. Check:
+    #  https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
+    #runs-on: ubuntu-latest
     needs: [ build, sample_keystores ]
     steps:
 
@@ -38,8 +41,6 @@ jobs:
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 17, distribution: temurin }
-      - name: Install ImageMagick
-        uses: ./.github/actions/image_magick
       - name: Restore Cache
         uses: actions/cache@v2
         with:
