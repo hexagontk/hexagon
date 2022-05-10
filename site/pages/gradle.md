@@ -20,7 +20,7 @@ These scripts can be added to your build to include a whole new capability to yo
 To use them, you can import the online versions, or copy them to your `gradle` directory before
 importing the script.
 
-You can import these scripts by adding add `apply from: $gradleScripts/$script.gradle` to your
+You can import these scripts by adding `apply from: $gradleScripts/$script.gradle` to your
 `build.gradle` file some of them may require additional plugins inside the `plugins` section in the
 root `build.gradle`. Check toolkit `build.gradle` files for examples.
 
@@ -104,7 +104,7 @@ To set up this script's parameters, check the [build variables section]. These h
 * kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
 * mockkVersion: MockK mocking library version. If no value is supplied, Hexagon's version is taken.
 * junitVersion: JUnit version (5+), the default value is the toolkit version.
-* basePackage: Module's base package (used by the Jacoco Report when using Kotlin Coding Standard)
+* basePackage: module's base package (used by the Jacoco Report when using Kotlin Coding Standard).
 
 [JUnit 5]: https://junit.org
 [MockK]: https://mockk.io
@@ -119,8 +119,14 @@ Gradle's script for a service or application. It adds these extra tasks:
   (`-t`) Gradle flag. Ie: `gw -t watch`.
 * jarAll: creates a single JAR with all dependencies, and the application main class set up. This
   task is an alternative to the Gradle `installDist` task.
+* jre: create an application distribution based on a jlink generated JRE.
 
 To use it, apply `$gradleScripts/application.gradle` to your `build.gradle`.
+
+To set up this script's parameters, check the [build variables section]. These helper settings are:
+
+* modules: comma separated list of modules to include in the generated JRE. By default:
+  `java.logging,java.management`.
 
 To set up this script you need to add the main class name to your `build.gradle` file with the
 following code:
@@ -167,7 +173,8 @@ To set up this script's parameters, check the [build variables section]. These h
 * sslCaFile: certificate authority key store file. By default: "ca.p12".
 * sslCaAlias: CA alias in the key store. If not provided, it will be "ca".
 * sslTrustFile: trust store file name, by default it is "trust.p12".
-* sslPath: path used to generate the key stores. By default, it will be the project's build directory.
+* sslPath: path used to generate the key stores. By default, it will be the project's build
+  directory.
 * sslPassword: password used for the generated key stores. By default, it is the file name reversed.
 * sslValidity: validity period (in days) for certificates. If not provided, it will be 365.
 * sslCountry: country used in the certificates. By default, it is the current locale's country code.

@@ -9,7 +9,6 @@ import com.hexagonkt.http.model.HttpCookie
 import com.hexagonkt.http.model.HttpMethod.*
 import java.io.Closeable
 import java.net.URL
-//import kotlin.io.use as ioUse
 
 /**
  * Client to use other REST services.
@@ -44,13 +43,6 @@ class HttpClient(
     fun stop() {
         adapter.shutDown()
     }
-
-//    fun <T> use(block: (HttpClient) -> T?) {
-//        this.ioUse {
-//            start()
-//            block(it)
-//        }
-//    }
 
     /**
      * Synchronous execution.

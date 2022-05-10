@@ -1,7 +1,6 @@
 package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.fail
-import com.hexagonkt.core.logging.logger
 import com.hexagonkt.core.require
 import com.hexagonkt.core.security.getPrivateKey
 import com.hexagonkt.core.security.getPublicKey
@@ -109,7 +108,6 @@ abstract class HttpsTest(
         val client = HttpClient(clientAdapter(), contextPath, clientSettings)
         client.start()
         client.get("/hello").apply {
-            logger.debug { body }
             // Assure the certificate received (and returned) by the server is correct
             assert(headers.require("cert").startsWith("CN=hexagonkt.com"))
             assertEquals("Hello World!", body)
@@ -128,7 +126,6 @@ abstract class HttpsTest(
         val client = HttpClient(clientAdapter(), contextPath, clientSettings)
         client.start()
         client.get("/hello").apply {
-            logger.debug { body }
             assert(headers.require("cert").startsWith("CN=hexagonkt.com"))
             assertEquals("Hello World!", body)
         }
@@ -145,7 +142,6 @@ abstract class HttpsTest(
         val client = HttpClient(clientAdapter(), contextPath, clientSettings)
         client.start()
         client.get("/hello").apply {
-            logger.debug { body }
             assert(headers.require("cert").startsWith("CN=hexagonkt.com"))
             assertEquals("Hello World!", body)
         }

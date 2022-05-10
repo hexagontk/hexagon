@@ -20,6 +20,14 @@ import kotlin.test.assertNull
 
 internal class FileCallbackTest {
 
+    @Test fun `Request referencing parent directories raises an error`() {
+        val e = assertFailsWith<IllegalStateException> {
+            processFileCallback(".", "/params/../1", "/params/*")
+        }
+
+        assertEquals("Requested path cannot contain '..': ../1", e.message)
+    }
+
     @Test fun `Invalid filter raises an error`() {
         val e = assertFailsWith<IllegalStateException> {
             processFileCallback(".", "/params/1/2", "/params/{a}/{b}")

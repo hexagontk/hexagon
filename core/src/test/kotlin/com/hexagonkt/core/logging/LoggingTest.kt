@@ -9,7 +9,9 @@ import kotlin.test.assertTrue
 
 internal class LoggingTest {
 
-    @Test fun `Log helper`() {
+    @Test fun `Log helpers`() {
+        assertEquals(LoggingManager.defaultLoggerName, logger.name)
+
         assertEquals("foo", "foo".trace(">>> "))
         assertEquals("foo", "foo".trace())
         assertEquals(null, null.trace())

@@ -1,7 +1,7 @@
 package com.hexagonkt.core.logging
 
 /** Default logger for when you feel too lazy to declare one. */
-val logger: Logger by lazy { Logger(Logger::class) }
+val logger: Logger by lazy { Logger(LoggingManager.defaultLoggerName) }
 
 /**
  * Uses this [T] to log a message with a prefix using [TRACE][LoggingLevel.TRACE] level.

@@ -1,6 +1,6 @@
 package com.hexagonkt.core
 
-import com.hexagonkt.core.logging.logger
+import com.hexagonkt.core.logging.Logger
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -23,6 +23,8 @@ import kotlin.reflect.KProperty1
  *  not advised and should be done carefully.
  */
 var disableChecks: Boolean = Jvm.systemFlag("DISABLE_CHECKS")
+
+private val logger: Logger by lazy { Logger("com.hexagonkt.core.Helpers") }
 
 /**
  * Print receiver to stdout. Convenient utility to debug variables quickly.

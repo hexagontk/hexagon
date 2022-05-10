@@ -20,6 +20,14 @@ import kotlin.test.assertNull
 
 internal class UrlCallbackTest {
 
+    @Test fun `Request referencing parent directories raises an error`() {
+        val e = assertFailsWith<IllegalStateException> {
+            processUrlCallback("classpath:", "/params/../1", "/params/*")
+        }
+
+        assertEquals("Requested path cannot contain '..': ../1", e.message)
+    }
+
     @Test fun `Invalid filter raises an error`() {
         val e = assertFailsWith<IllegalStateException> {
             processUrlCallback("classpath:resource.txt", "/noParam/1/2", "/noParam/{a}/{b}")

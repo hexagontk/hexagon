@@ -89,10 +89,10 @@ alternatives:
 https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
 
 # Package com.hexagonkt.core.logging.jul
-TODO
+Logging implementation for Java logging module. This is the default implementation.
 
 # Package com.hexagonkt.core.media
-TODO
+Media types definitions and constants for default media types.
 
 # Package com.hexagonkt.core.security
-TODO
+Cryptography and key stores utilities.
