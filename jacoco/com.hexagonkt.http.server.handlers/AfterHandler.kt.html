@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
 <span class="fc" id="L13">) : HttpHandler, Handler&lt;HttpServerCall&gt; by AfterHandler(serverPredicate, toCallback(block)) {</span>
 
 <span class="fc" id="L15">    constructor(</span>
-<span class="fc" id="L16">        methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
+<span class="nc" id="L16">        methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
 <span class="fc" id="L17">        pattern: String = &quot;&quot;,</span>
 <span class="fc" id="L18">        exception: KClass&lt;out Exception&gt;? = null,</span>
 <span class="fc" id="L19">        status: HttpStatus? = null,</span>

@@ -1,93 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PathHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.handlers</a> &gt; <span class="el_source">PathHandler.kt</span></div><h1>PathHandler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.core.handlers.ChainHandler
+import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.core.handlers.Handler
+import com.hexagonkt.core.media.TextMedia.PLAIN
+import com.hexagonkt.core.toText
+import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
+import com.hexagonkt.http.model.HttpStatusType.SERVER_ERROR
+import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
 
-<span class="fc" id="L11">data class PathHandler(</span>
-<span class="fc" id="L12">    override val serverPredicate: HttpServerPredicate,</span>
-<span class="fc" id="L13">    val handlers: List&lt;HttpHandler&gt;</span>
+<span class="fc" id="L17">data class PathHandler(</span>
+<span class="fc" id="L18">    override val serverPredicate: HttpServerPredicate,</span>
+<span class="fc" id="L19">    val handlers: List&lt;HttpHandler&gt;</span>
 ) :
     HttpHandler,
-<span class="fc" id="L16">    Handler&lt;HttpServerCall&gt; by ChainHandler(</span>
-<span class="fc" id="L17">        handlers.map { it.addPrefix(serverPredicate.pathPattern.pattern) },</span>
-<span class="fc" id="L18">        serverPredicate</span>
+<span class="fc" id="L22">    Handler&lt;HttpServerCall&gt; by ChainHandler(</span>
+<span class="fc" id="L23">        handlers.map { it.addPrefix(serverPredicate.pathPattern.pattern) },</span>
+<span class="fc" id="L24">        serverPredicate</span>
     )
 {
 
     private companion object {
         fun nestedMethods(handlers: List&lt;HttpHandler&gt;): Set&lt;HttpMethod&gt; =
-<span class="fc" id="L24">            handlers</span>
-<span class="fc bfc" id="L25" title="All 2 branches covered.">                .flatMap { it.serverPredicate.methods.ifEmpty { ALL } }</span>
-<span class="fc" id="L26">                .toSet()</span>
+<span class="fc" id="L30">            handlers</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">                .flatMap { it.serverPredicate.methods.ifEmpty { ALL } }</span>
+<span class="fc" id="L32">                .toSet()</span>
     }
 
     constructor(vararg handlers: HttpHandler) :
-<span class="fc" id="L30">        this(</span>
-<span class="fc" id="L31">            HttpServerPredicate(methods = nestedMethods(handlers.toList())),</span>
-<span class="fc" id="L32">            handlers.toList()</span>
-<span class="fc" id="L33">        )</span>
+<span class="fc" id="L36">        this(</span>
+<span class="fc" id="L37">            HttpServerPredicate(methods = nestedMethods(handlers.toList())),</span>
+<span class="fc" id="L38">            handlers.toList()</span>
+<span class="fc" id="L39">        )</span>
 
     constructor(pattern: String, handlers: List&lt;HttpHandler&gt;) :
-<span class="fc" id="L36">        this(</span>
-<span class="fc" id="L37">            HttpServerPredicate(</span>
-<span class="fc" id="L38">                methods = nestedMethods(handlers.toList()),</span>
-<span class="fc" id="L39">                pattern = pattern,</span>
-<span class="fc" id="L40">                prefix = true,</span>
+<span class="fc" id="L42">        this(</span>
+<span class="fc" id="L43">            HttpServerPredicate(</span>
+<span class="fc" id="L44">                methods = nestedMethods(handlers.toList()),</span>
+<span class="fc" id="L45">                pattern = pattern,</span>
+<span class="fc" id="L46">                prefix = true,</span>
             ),
-<span class="fc" id="L42">            handlers</span>
-<span class="fc" id="L43">        )</span>
+<span class="fc" id="L48">            handlers</span>
+<span class="fc" id="L49">        )</span>
 
     constructor(pattern: String, vararg handlers: HttpHandler) :
-<span class="fc" id="L46">        this(pattern, handlers.toList())</span>
+<span class="fc" id="L52">        this(pattern, handlers.toList())</span>
 
     fun process(request: HttpServerRequestPort): HttpServerResponse =
-<span class="fc" id="L49">        process(HttpServerCall(request = request)).response</span>
+<span class="fc" id="L55">        process(Context(HttpServerCall(request = request), predicate)).let {</span>
+<span class="fc" id="L56">            val response = it.event.response</span>
+<span class="fc" id="L57">            val exception = it.exception</span>
+
+<span class="fc bfc" id="L59" title="All 4 branches covered.">            if (exception != null &amp;&amp; response.status.type != SERVER_ERROR)</span>
+<span class="fc" id="L60">                response.copy(</span>
+<span class="fc" id="L61">                    body = exception.toText(),</span>
+<span class="fc" id="L62">                    contentType = ContentType(PLAIN),</span>
+<span class="fc" id="L63">                    status = INTERNAL_SERVER_ERROR,</span>
+                )
+<span class="fc" id="L65">            else response</span>
+<span class="fc" id="L66">        }</span>
 
     override fun addPrefix(prefix: String): HttpHandler =
-<span class="fc" id="L52">        copy(serverPredicate = serverPredicate.addPrefix(prefix))</span>
+<span class="fc" id="L69">        copy(serverPredicate = serverPredicate.addPrefix(prefix))</span>
 
     fun byMethod(): Map&lt;HttpMethod, PathHandler&gt; =
-<span class="fc" id="L55">        serverPredicate.methods.associateWith { filter(it) }</span>
+<span class="fc" id="L72">        serverPredicate.methods.associateWith { filter(it) }</span>
 
     fun filter(method: HttpMethod): PathHandler =
-<span class="fc" id="L58">        copy(</span>
-<span class="fc" id="L59">            serverPredicate = serverPredicate.clearMethods(),</span>
-<span class="fc" id="L60">            handlers = handlers</span>
-<span class="fc" id="L61">                .filter {</span>
-<span class="fc bfc" id="L62" title="All 6 branches covered.">                    method in it.serverPredicate.methods || it.serverPredicate.methods.isEmpty()</span>
+<span class="fc" id="L75">        copy(</span>
+<span class="fc" id="L76">            serverPredicate = serverPredicate.clearMethods(),</span>
+<span class="fc" id="L77">            handlers = handlers</span>
+<span class="fc" id="L78">                .filter {</span>
+<span class="fc bfc" id="L79" title="All 6 branches covered.">                    method in it.serverPredicate.methods || it.serverPredicate.methods.isEmpty()</span>
                 }
-<span class="fc" id="L64">                .map {</span>
-<span class="fc" id="L65">                    when (it) {</span>
-<span class="fc bfc" id="L66" title="All 2 branches covered.">                        is PathHandler -&gt;</span>
-<span class="fc" id="L67">                            it.filter(method)</span>
-<span class="fc bfc" id="L68" title="All 2 branches covered.">                        is OnHandler -&gt;</span>
-<span class="fc" id="L69">                            it.copy(serverPredicate = it.serverPredicate.clearMethods())</span>
-<span class="fc bfc" id="L70" title="All 2 branches covered.">                        is FilterHandler -&gt;</span>
-<span class="fc" id="L71">                            it.copy(serverPredicate = it.serverPredicate.clearMethods())</span>
-<span class="fc" id="L72">                        is AfterHandler -&gt;</span>
-<span class="fc" id="L73">                            it.copy(serverPredicate = it.serverPredicate.clearMethods())</span>
+<span class="fc" id="L81">                .map {</span>
+<span class="fc" id="L82">                    when (it) {</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">                        is PathHandler -&gt;</span>
+<span class="fc" id="L84">                            it.filter(method)</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">                        is OnHandler -&gt;</span>
+<span class="fc" id="L86">                            it.copy(serverPredicate = it.serverPredicate.clearMethods())</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">                        is FilterHandler -&gt;</span>
+<span class="fc" id="L88">                            it.copy(serverPredicate = it.serverPredicate.clearMethods())</span>
+<span class="fc" id="L89">                        is AfterHandler -&gt;</span>
+<span class="fc" id="L90">                            it.copy(serverPredicate = it.serverPredicate.clearMethods())</span>
                     }
                 }
-<span class="fc" id="L76">        )</span>
+<span class="fc" id="L93">        )</span>
 
     fun describe(): String =
-<span class="fc" id="L79">        listOf(</span>
-<span class="fc" id="L80">            listOf(serverPredicate.describe()),</span>
-<span class="fc" id="L81">            handlers</span>
-<span class="fc" id="L82">                .map {</span>
-<span class="fc" id="L83">                    when (it) {</span>
-<span class="fc bfc" id="L84" title="All 2 branches covered.">                        is PathHandler -&gt; it.describe()</span>
-<span class="fc" id="L85">                        else -&gt; it.serverPredicate.describe()</span>
+<span class="fc" id="L96">        listOf(</span>
+<span class="fc" id="L97">            listOf(serverPredicate.describe()),</span>
+<span class="fc" id="L98">            handlers</span>
+<span class="fc" id="L99">                .map {</span>
+<span class="fc" id="L100">                    when (it) {</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">                        is PathHandler -&gt; it.describe()</span>
+<span class="fc" id="L102">                        else -&gt; it.serverPredicate.describe()</span>
                     }
                 }
-<span class="fc" id="L88">                .map {it.prependIndent(&quot; &quot;.repeat(4)) }</span>
+<span class="fc" id="L105">                .map {it.prependIndent(&quot; &quot;.repeat(4)) }</span>
         )
-<span class="fc" id="L90">        .flatten()</span>
-<span class="fc" id="L91">        .joinToString(&quot;\n&quot;) { it }</span>
+<span class="fc" id="L107">        .flatten()</span>
+<span class="fc" id="L108">        .joinToString(&quot;\n&quot;) { it }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

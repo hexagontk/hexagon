@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/gradle/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.14">
     
     
       
@@ -23,7 +23,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.e411adfe.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.3de6f41f.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
@@ -1000,7 +1000,7 @@ places:</p>
 <p>These scripts can be added to your build to include a whole new capability to your building logic.</p>
 <p>To use them, you can import the online versions, or copy them to your <code>gradle</code> directory before
 importing the script.</p>
-<p>You can import these scripts by adding add <code>apply from: $gradleScripts/$script.gradle</code> to your
+<p>You can import these scripts by adding <code>apply from: $gradleScripts/$script.gradle</code> to your
 <code>build.gradle</code> file some of them may require additional plugins inside the <code>plugins</code> section in the
 root <code>build.gradle</code>. Check toolkit <code>build.gradle</code> files for examples.</p>
 <h3 id="publish">Publish<a class="headerlink" href="#publish" title="Permanent link">&para;</a></h3>
@@ -1062,7 +1062,7 @@ development machine.</p>
 <li>kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.</li>
 <li>mockkVersion: MockK mocking library version. If no value is supplied, Hexagon's version is taken.</li>
 <li>junitVersion: JUnit version (5+), the default value is the toolkit version.</li>
-<li>basePackage: Module's base package (used by the Jacoco Report when using Kotlin Coding Standard)</li>
+<li>basePackage: module's base package (used by the Jacoco Report when using Kotlin Coding Standard).</li>
 </ul>
 <h3 id="application">Application<a class="headerlink" href="#application" title="Permanent link">&para;</a></h3>
 <p>Gradle's script for a service or application. It adds these extra tasks:</p>
@@ -1074,8 +1074,14 @@ development machine.</p>
   (<code>-t</code>) Gradle flag. Ie: <code>gw -t watch</code>.</li>
 <li>jarAll: creates a single JAR with all dependencies, and the application main class set up. This
   task is an alternative to the Gradle <code>installDist</code> task.</li>
+<li>jre: create an application distribution based on a jlink generated JRE.</li>
 </ul>
 <p>To use it, apply <code>$gradleScripts/application.gradle</code> to your <code>build.gradle</code>.</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<ul>
+<li>modules: comma separated list of modules to include in the generated JRE. By default:
+  <code>java.logging,java.management</code>.</li>
+</ul>
 <p>To set up this script you need to add the main class name to your <code>build.gradle</code> file with the
 following code:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -1118,7 +1124,8 @@ used for production environments.</p>
 <li>sslCaFile: certificate authority key store file. By default: "ca.p12".</li>
 <li>sslCaAlias: CA alias in the key store. If not provided, it will be "ca".</li>
 <li>sslTrustFile: trust store file name, by default it is "trust.p12".</li>
-<li>sslPath: path used to generate the key stores. By default, it will be the project's build directory.</li>
+<li>sslPath: path used to generate the key stores. By default, it will be the project's build
+  directory.</li>
 <li>sslPassword: password used for the generated key stores. By default, it is the file name reversed.</li>
 <li>sslValidity: validity period (in days) for certificates. If not provided, it will be 365.</li>
 <li>sslCountry: country used in the certificates. By default, it is the current locale's country code.</li>
@@ -1307,7 +1314,7 @@ script. I.e.:</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.ed9748b7.min.js"></script>
+      <script src="../assets/javascripts/bundle.c2e1ee47.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

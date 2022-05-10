@@ -4,12 +4,15 @@
  * TODO
  * Container for headers, query parameters and form parameters
  */
-<span class="nc" id="L7">data class HttpFields&lt;T : HttpField&gt;(</span>
-<span class="nc" id="L8">    val httpFields: Map&lt;String, T&gt;</span>
-) {
+<span class="fc" id="L7">data class HttpFields&lt;T : HttpField&gt;(</span>
+<span class="pc" id="L8">    val httpFields: Map&lt;String, T&gt;</span>
+) : Map&lt;String, T&gt; by httpFields {
 
-<span class="nc" id="L11">    constructor(fields: List&lt;T&gt;) : this(fields.associateBy { it.name })</span>
+<span class="fc" id="L11">    constructor(fields: List&lt;T&gt;) : this(fields.associateBy { it.name })</span>
 
-<span class="nc" id="L13">    constructor(vararg fields: T) : this(fields.toList())</span>
+<span class="fc" id="L13">    constructor(vararg fields: T) : this(fields.toList())</span>
+
+    operator fun plus(element: T): HttpFields&lt;T&gt; =
+<span class="fc" id="L16">        copy(httpFields = httpFields + (element.name to element))</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

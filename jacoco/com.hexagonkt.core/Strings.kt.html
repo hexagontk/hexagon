@@ -58,7 +58,7 @@ fun String.filterVars(parameters: Map&lt;*, *&gt;): String =
 <span class="fc" id="L58">        VARIABLE_PREFIX,</span>
 <span class="fc" id="L59">        VARIABLE_SUFFIX,</span>
 <span class="fc" id="L60">        *parameters</span>
-<span class="pc bpc" id="L61" title="2 of 4 branches missed.">            .filterKeys { it != null }</span>
+<span class="fc bfc" id="L61" title="All 4 branches covered.">            .filterKeys { it != null }</span>
 <span class="fc" id="L62">            .map { (k, v) -&gt; k.toString() to v.toString() }</span>
 <span class="fc" id="L63">            .toTypedArray()</span>
 <span class="fc" id="L64">    )</span>

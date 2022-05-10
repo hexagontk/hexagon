@@ -31,7 +31,7 @@ import kotlin.reflect.KClass
 <span class="fc" id="L31">        predicate: HttpServerPredicate = HttpServerPredicate(),</span>
         callback: HttpCallback
     ) {
-<span class="fc" id="L34">        use(OnHandler(predicate, callback))</span>
+<span class="fc" id="L34">        use(com.hexagonkt.http.server.handlers.on(predicate, callback))</span>
 <span class="fc" id="L35">    }</span>
 
 <span class="fc" id="L37">    fun on(</span>
@@ -41,22 +41,22 @@ import kotlin.reflect.KClass
 <span class="fc" id="L41">        status: HttpStatus? = null,</span>
         callback: HttpCallback,
     ) {
-<span class="fc" id="L44">        use(OnHandler(methods, pattern, exception, status, callback))</span>
+<span class="fc" id="L44">        use(com.hexagonkt.http.server.handlers.on(methods, pattern, exception, status, callback))</span>
 <span class="fc" id="L45">    }</span>
 
 <span class="fc" id="L47">    fun on(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L48">        use(OnHandler(method, pattern, callback))</span>
+<span class="fc" id="L48">        use(com.hexagonkt.http.server.handlers.on(method, pattern, callback))</span>
 <span class="fc" id="L49">    }</span>
 
     fun on(pattern: String, callback: HttpCallback) {
-<span class="fc" id="L52">        use(OnHandler(pattern, callback))</span>
+<span class="fc" id="L52">        use(com.hexagonkt.http.server.handlers.on(pattern, callback))</span>
 <span class="fc" id="L53">    }</span>
 
 <span class="fc" id="L55">    fun filter(</span>
 <span class="fc" id="L56">        predicate: HttpServerPredicate = HttpServerPredicate(),</span>
         callback: HttpCallback
     ) {
-<span class="fc" id="L59">        use(FilterHandler(predicate, callback))</span>
+<span class="fc" id="L59">        use(com.hexagonkt.http.server.handlers.filter(predicate, callback))</span>
 <span class="fc" id="L60">    }</span>
 
 <span class="fc" id="L62">    fun filter(</span>
@@ -66,87 +66,89 @@ import kotlin.reflect.KClass
 <span class="fc" id="L66">        status: HttpStatus? = null,</span>
         callback: HttpCallback,
     ) {
-<span class="fc" id="L69">        use(FilterHandler(methods, pattern, exception, status, callback))</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc" id="L69">        use(</span>
+<span class="fc" id="L70">            com.hexagonkt.http.server.handlers.filter(methods, pattern, exception, status, callback)</span>
+        )
+<span class="fc" id="L72">    }</span>
 
-<span class="fc" id="L72">    fun filter(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L73">        use(FilterHandler(method, pattern, callback))</span>
-<span class="fc" id="L74">    }</span>
+<span class="fc" id="L74">    fun filter(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L75">        use(com.hexagonkt.http.server.handlers.filter(method, pattern, callback))</span>
+<span class="fc" id="L76">    }</span>
 
     fun filter(pattern: String, callback: HttpCallback) {
-<span class="fc" id="L77">        use(FilterHandler(pattern, callback))</span>
-<span class="fc" id="L78">    }</span>
+<span class="fc" id="L79">        use(com.hexagonkt.http.server.handlers.filter(pattern, callback))</span>
+<span class="fc" id="L80">    }</span>
 
-<span class="fc" id="L80">    fun after(</span>
-<span class="fc" id="L81">        predicate: HttpServerPredicate = HttpServerPredicate(),</span>
+<span class="fc" id="L82">    fun after(</span>
+<span class="fc" id="L83">        predicate: HttpServerPredicate = HttpServerPredicate(),</span>
         callback: HttpCallback
     ) {
-<span class="fc" id="L84">        use(AfterHandler(predicate, callback))</span>
-<span class="fc" id="L85">    }</span>
+<span class="fc" id="L86">        use(com.hexagonkt.http.server.handlers.after(predicate, callback))</span>
+<span class="fc" id="L87">    }</span>
 
-<span class="fc" id="L87">    fun after(</span>
-<span class="fc" id="L88">        methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
-<span class="fc" id="L89">        pattern: String = &quot;&quot;,</span>
-<span class="fc" id="L90">        exception: KClass&lt;out Exception&gt;? = null,</span>
-<span class="fc" id="L91">        status: HttpStatus? = null,</span>
+<span class="fc" id="L89">    fun after(</span>
+<span class="fc" id="L90">        methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
+<span class="fc" id="L91">        pattern: String = &quot;&quot;,</span>
+<span class="fc" id="L92">        exception: KClass&lt;out Exception&gt;? = null,</span>
+<span class="fc" id="L93">        status: HttpStatus? = null,</span>
         callback: HttpCallback,
     ) {
-<span class="fc" id="L94">        use(AfterHandler(methods, pattern, exception, status, callback))</span>
-<span class="fc" id="L95">    }</span>
+<span class="fc" id="L96">        use(com.hexagonkt.http.server.handlers.after(methods, pattern, exception, status, callback))</span>
+<span class="fc" id="L97">    }</span>
 
-<span class="fc" id="L97">    fun after(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L98">        use(AfterHandler(method, pattern, callback))</span>
-<span class="fc" id="L99">    }</span>
+<span class="fc" id="L99">    fun after(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L100">        use(com.hexagonkt.http.server.handlers.after(method, pattern, callback))</span>
+<span class="fc" id="L101">    }</span>
 
     fun after(pattern: String, callback: HttpCallback) {
-<span class="fc" id="L102">        use(AfterHandler(pattern, callback))</span>
-<span class="fc" id="L103">    }</span>
+<span class="fc" id="L104">        use(com.hexagonkt.http.server.handlers.after(pattern, callback))</span>
+<span class="fc" id="L105">    }</span>
 
-<span class="nc" id="L105">    fun exception(</span>
-<span class="nc" id="L106">        exception: KClass&lt;out Exception&gt;? = null,</span>
-<span class="nc" id="L107">        status: HttpStatus? = null,</span>
+<span class="nc" id="L107">    fun exception(</span>
+<span class="nc" id="L108">        exception: KClass&lt;out Exception&gt;? = null,</span>
+<span class="nc" id="L109">        status: HttpStatus? = null,</span>
         callback: HttpCallback,
     ) {
-<span class="fc" id="L110">        after(emptySet(), &quot;*&quot;, exception, status, callback)</span>
-<span class="fc" id="L111">    }</span>
+<span class="nc" id="L112">        use(com.hexagonkt.http.server.handlers.exception(exception, status, callback))</span>
+<span class="nc" id="L113">    }</span>
 
-<span class="nc" id="L113">    inline fun &lt;reified T : Exception&gt; exception(</span>
-<span class="nc" id="L114">        status: HttpStatus? = null,</span>
+<span class="nc" id="L115">    inline fun &lt;reified T : Exception&gt; exception(</span>
+<span class="nc" id="L116">        status: HttpStatus? = null,</span>
         noinline callback: HttpCallback,
     ) {
-<span class="nc" id="L117">        exception(T::class, status, callback)</span>
-<span class="nc" id="L118">    }</span>
+<span class="nc" id="L119">        use(com.hexagonkt.http.server.handlers.exception(T::class, status, callback))</span>
+<span class="nc" id="L120">    }</span>
 
-<span class="fc" id="L120">    fun get(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L121">        on(GET, pattern, callback)</span>
-<span class="fc" id="L122">    }</span>
+<span class="fc" id="L122">    fun get(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L123">        use(com.hexagonkt.http.server.handlers.get(pattern, callback))</span>
+<span class="fc" id="L124">    }</span>
 
-<span class="fc" id="L124">    fun head(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L125">        on(HEAD, pattern, callback)</span>
-<span class="fc" id="L126">    }</span>
+<span class="fc" id="L126">    fun head(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L127">        use(com.hexagonkt.http.server.handlers.head(pattern, callback))</span>
+<span class="fc" id="L128">    }</span>
 
-<span class="fc" id="L128">    fun post(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L129">        on(POST, pattern, callback)</span>
-<span class="fc" id="L130">    }</span>
+<span class="fc" id="L130">    fun post(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L131">        use(com.hexagonkt.http.server.handlers.post(pattern, callback))</span>
+<span class="fc" id="L132">    }</span>
 
-<span class="fc" id="L132">    fun put(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L133">        on(PUT, pattern, callback)</span>
-<span class="fc" id="L134">    }</span>
+<span class="fc" id="L134">    fun put(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L135">        use(com.hexagonkt.http.server.handlers.put(pattern, callback))</span>
+<span class="fc" id="L136">    }</span>
 
-<span class="fc" id="L136">    fun delete(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L137">        on(DELETE, pattern, callback)</span>
-<span class="fc" id="L138">    }</span>
+<span class="fc" id="L138">    fun delete(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L139">        use(com.hexagonkt.http.server.handlers.delete(pattern, callback))</span>
+<span class="fc" id="L140">    }</span>
 
-<span class="fc" id="L140">    fun trace(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L141">        on(TRACE, pattern, callback)</span>
-<span class="fc" id="L142">    }</span>
+<span class="fc" id="L142">    fun trace(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L143">        use(com.hexagonkt.http.server.handlers.trace(pattern, callback))</span>
+<span class="fc" id="L144">    }</span>
 
-<span class="fc" id="L144">    fun options(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L145">        on(OPTIONS, pattern, callback)</span>
-<span class="fc" id="L146">    }</span>
+<span class="fc" id="L146">    fun options(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L147">        use(com.hexagonkt.http.server.handlers.options(pattern, callback))</span>
+<span class="fc" id="L148">    }</span>
 
-<span class="fc" id="L148">    fun patch(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L149">        on(PATCH, pattern, callback)</span>
-<span class="fc" id="L150">    }</span>
-<span class="fc" id="L151">}</span>
+<span class="fc" id="L150">    fun patch(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L151">        use(com.hexagonkt.http.server.handlers.patch(pattern, callback))</span>
+<span class="fc" id="L152">    }</span>
+<span class="fc" id="L153">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

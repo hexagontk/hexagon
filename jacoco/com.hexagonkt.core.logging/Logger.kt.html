@@ -111,7 +111,7 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param startNanos The start logging time in nanoseconds.
      * @param message The required message to log.
      */
-<span class="fc" id="L114">    fun time(startNanos: Long, message: () -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="nc" id="L114">    fun time(startNanos: Long, message: () -&gt; Any? = { &quot;&quot; }) {</span>
 <span class="fc bfc" id="L115" title="All 2 branches covered.">        log.log(TRACE) { &quot;${message() ?: &quot;TIME&quot;} : ${formatNanos(nanoTime() - startNanos)}&quot; }</span>
 <span class="fc" id="L116">    }</span>
 

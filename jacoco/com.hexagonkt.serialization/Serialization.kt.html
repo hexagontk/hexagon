@@ -39,16 +39,45 @@ fun File.parse(): Any =
 fun URL.parse(): Any =
 <span class="fc" id="L40">    this.openStream().parse(mediaTypeOf(this))</span>
 
-// TODO Add `parseMap` and `parseList` helpers
 fun URL.parseMap(): Map&lt;*, *&gt; =
-<span class="nc" id="L44">    this.parse().castToMap()</span>
+<span class="fc" id="L43">    this.parse().castToMap()</span>
 
 fun URL.parseList(): List&lt;*&gt; =
-<span class="nc" id="L47">    this.parse().castToList()</span>
+<span class="fc" id="L46">    this.parse().castToList()</span>
+
+fun File.parseMap(): Map&lt;*, *&gt; =
+<span class="fc" id="L49">    this.parse().castToMap()</span>
+
+fun File.parseList(): List&lt;*&gt; =
+<span class="fc" id="L52">    this.parse().castToList()</span>
+
+<span class="fc" id="L54">fun String.parseMap(format: SerializationFormat = requireDefaultFormat()): Map&lt;*, *&gt; =</span>
+<span class="fc" id="L55">    this.parse(format).castToMap()</span>
+
+<span class="fc" id="L57">fun String.parseList(format: SerializationFormat = requireDefaultFormat()): List&lt;*&gt; =</span>
+<span class="fc" id="L58">    this.parse(format).castToList()</span>
+
+fun String.parseMap(mediaType: MediaType): Map&lt;*, *&gt; =
+<span class="fc" id="L61">    this.parse(mediaType).castToMap()</span>
+
+fun String.parseList(mediaType: MediaType): List&lt;*&gt; =
+<span class="fc" id="L64">    this.parse(mediaType).castToList()</span>
+
+<span class="fc" id="L66">fun InputStream.parseMap(format: SerializationFormat = requireDefaultFormat()): Map&lt;*, *&gt; =</span>
+<span class="fc" id="L67">    this.parse(format).castToMap()</span>
+
+<span class="fc" id="L69">fun InputStream.parseList(format: SerializationFormat = requireDefaultFormat()): List&lt;*&gt; =</span>
+<span class="fc" id="L70">    this.parse(format).castToList()</span>
+
+fun InputStream.parseMap(mediaType: MediaType): Map&lt;*, *&gt; =
+<span class="fc" id="L73">    this.parse(mediaType).castToMap()</span>
+
+fun InputStream.parseList(mediaType: MediaType): List&lt;*&gt; =
+<span class="fc" id="L76">    this.parse(mediaType).castToList()</span>
 
 private fun Any?.castToMap(): Map&lt;*, *&gt; =
-<span class="nc bnc" id="L50" title="All 4 branches missed.">    this as? Map&lt;*, *&gt; ?: error(&quot;&quot;)</span>
+<span class="fc bfc" id="L79" title="All 4 branches covered.">    this as? Map&lt;*, *&gt; ?: error(&quot;$this cannot be cast to Map&quot;)</span>
 
 private fun Any?.castToList(): List&lt;*&gt; =
-<span class="nc bnc" id="L53" title="All 4 branches missed.">    this as? List&lt;*&gt; ?: error(&quot;&quot;)</span>
+<span class="fc bfc" id="L82" title="All 4 branches covered.">    this as? List&lt;*&gt; ?: error(&quot;$this cannot be cast to List&quot;)</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

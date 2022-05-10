@@ -1,38 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UrlCallback.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.callbacks</a> &gt; <span class="el_source">UrlCallback.kt</span></div><h1>UrlCallback.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.callbacks
 
 import com.hexagonkt.core.ResourceNotFoundException
+import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.mediaTypeOfOrNull
 import com.hexagonkt.core.require
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.server.handlers.HttpServerContext
 import java.net.URL
 
-<span class="fc" id="L10">class UrlCallback(private val url: URL) : (HttpServerContext) -&gt; HttpServerContext {</span>
+<span class="fc" id="L11">class UrlCallback(private val url: URL) : (HttpServerContext) -&gt; HttpServerContext {</span>
+<span class="fc" id="L12">    private val logger: Logger = Logger(UrlCallback::class)</span>
 
     override fun invoke(context: HttpServerContext): HttpServerContext {
-<span class="fc bfc" id="L13" title="All 3 branches covered.">        val requestPath = when (context.pathParameters.size) {</span>
-<span class="fc" id="L14">            0 -&gt; &quot;&quot;</span>
-<span class="fc" id="L15">            1 -&gt; context.pathParameters.require(&quot;0&quot;)</span>
-<span class="fc" id="L16">            else -&gt; error(&quot;URL loading require a single path parameter or none&quot;)</span>
+<span class="fc bfc" id="L15" title="All 3 branches covered.">        val requestPath = when (context.pathParameters.size) {</span>
+<span class="fc" id="L16">            0 -&gt; &quot;&quot;</span>
+<span class="fc" id="L17">            1 -&gt; context.pathParameters.require(&quot;0&quot;)</span>
+<span class="fc" id="L18">            else -&gt; error(&quot;URL loading require a single path parameter or none&quot;)</span>
         }
 
-<span class="fc" id="L19">        return try {</span>
-<span class="fc bfc" id="L20" title="All 2 branches covered.">            if (requestPath.endsWith(&quot;/&quot;))</span>
-<span class="fc" id="L21">                throw ResourceNotFoundException(&quot;$requestPath not found (folder)&quot;)</span>
+<span class="fc bfc" id="L21" title="All 4 branches covered.">        check(!requestPath.contains(&quot;..&quot;)) { &quot;Requested path cannot contain '..': $requestPath&quot; }</span>
+<span class="pc" id="L22">        logger.debug { &quot;Resolving resource: $requestPath&quot; }</span>
 
-<span class="fc" id="L23">            val url = when {</span>
-<span class="fc bfc" id="L24" title="All 4 branches covered.">                requestPath.isEmpty() -&gt; url.toString()</span>
-<span class="fc bfc" id="L25" title="All 2 branches covered.">                url.toString() == &quot;classpath:&quot; -&gt; &quot;$url$requestPath&quot;</span>
-<span class="fc" id="L26">                else -&gt; &quot;$url/$requestPath&quot;</span>
+<span class="fc" id="L24">        return try {</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">            if (requestPath.endsWith(&quot;/&quot;))</span>
+<span class="fc" id="L26">                throw ResourceNotFoundException(&quot;$requestPath not found (folder)&quot;)</span>
+
+<span class="fc" id="L28">            val url = when {</span>
+<span class="fc bfc" id="L29" title="All 4 branches covered.">                requestPath.isEmpty() -&gt; url.toString()</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">                url.toString() == &quot;classpath:&quot; -&gt; &quot;$url$requestPath&quot;</span>
+<span class="fc" id="L31">                else -&gt; &quot;$url/$requestPath&quot;</span>
             }
 
-<span class="fc" id="L29">            val resource = URL(url)</span>
-<span class="fc" id="L30">            val bytes = resource.readBytes()</span>
-<span class="fc" id="L31">            val mediaType = mediaTypeOfOrNull(resource)</span>
-<span class="fc bfc" id="L32" title="All 2 branches covered.">            context.ok(bytes, contentType = mediaType?.let { ContentType(it) })</span>
+<span class="fc" id="L34">            val resource = URL(url)</span>
+<span class="fc" id="L35">            val bytes = resource.readBytes()</span>
+<span class="fc" id="L36">            val mediaType = mediaTypeOfOrNull(resource)</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            context.ok(bytes, contentType = mediaType?.let { ContentType(it) })</span>
         }
-<span class="fc" id="L34">        catch (e: ResourceNotFoundException) {</span>
-<span class="pc bpc" id="L35" title="1 of 2 branches missed.">            context.notFound(e.message ?: &quot;&quot;)</span>
+<span class="fc" id="L39">        catch (e: ResourceNotFoundException) {</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">            context.notFound(e.message ?: &quot;&quot;)</span>
         }
     }
 }
