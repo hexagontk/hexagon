@@ -27,7 +27,8 @@ jobs:
 
   build_site:
     name: Build Site
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+#    runs-on: ubuntu-latest
     steps:
 
       # SET UP
@@ -36,8 +37,8 @@ jobs:
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 17, distribution: temurin }
-      - name: Install ImageMagick
-        uses: ./.github/actions/image_magick
+#      - name: Install ImageMagick
+#        uses: ./.github/actions/image_magick
       - name: Restore Cache
         uses: actions/cache@v2
         with:
