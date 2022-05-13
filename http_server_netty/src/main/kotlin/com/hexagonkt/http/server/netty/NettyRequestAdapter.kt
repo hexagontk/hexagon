@@ -51,8 +51,13 @@ class NettyRequestAdapter(
         }
     }
 
-    override val formParameters: MultiMap<String, String> by lazy {
-        MultiMap(parts.filter { it.submittedFileName == null }.map { it.name to it.bodyString() })
+    override val formParameters: HttpFields<HttpFormParameter> by lazy {
+        val fields = parts
+            .filter { it.submittedFileName == null }
+            .map { HttpFormParameter(it.name, it.bodyString()) }
+
+        // TODO Bug, here form parameters are overwritten instead merged
+        HttpFields(fields)
     }
 
     override val method: HttpMethod by lazy {

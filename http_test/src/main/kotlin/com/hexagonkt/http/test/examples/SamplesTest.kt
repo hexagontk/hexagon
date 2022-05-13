@@ -227,14 +227,15 @@ abstract class SamplesTest(
                 // Parameters
                 pathParameters                    // map with all path parameters
                 request.formParameters            // map with first values of all form fields
-                request.formParameters.allValues  // map with all form fields values
+                // TODO Enable
+//                request.formParameters.allValues  // map with all form fields values
                 request.queryParameters           // map with first values of all query parameters
                 request.queryParameters.allValues // map with all query parameters values
 
                 queryParameters                   // Shortcut of `request.queryParameters`
                 queryParameters.allValues         // Shortcut of `request.queryParameters.allValues`
                 formParameters                    // Shortcut of `request.formParameters`
-                formParameters.allValues          // Shortcut of `request.formParameters.allValues`
+//                formParameters.allValues          // Shortcut of `request.formParameters.allValues`
 
                 // Body processing
                 request.contentLength             // length of request body
@@ -285,8 +286,8 @@ abstract class SamplesTest(
             get("/formParam") {
                 request.formParameters                       // the query param list
                 request.formParameters["FOO"]                // value of FOO query param
-                request.formParameters.allValues             // the query param list
-                request.formParameters.allValues["FOO"]      // all values of FOO query param
+//                request.formParameters.allValues             // the query param list
+//                request.formParameters.allValues["FOO"]      // all values of FOO query param
                 ok()
             }
             // callbackFormParam

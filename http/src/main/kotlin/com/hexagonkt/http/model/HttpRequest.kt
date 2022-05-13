@@ -14,7 +14,7 @@ interface HttpRequest : HttpMessage {
     val path: String                              // "/foo" servlet path + path info
     val queryParameters: MultiMap<String, String>
     val parts: List<HttpPartPort>                 // hash of multipart parts
-    val formParameters: MultiMap<String, String>
+    val formParameters: HttpFields<HttpFormParameter>
     val accept: List<ContentType>
 
     fun partsMap(): Map<String, HttpPartPort> =

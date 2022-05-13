@@ -87,7 +87,7 @@ abstract class FilesTest(
             )
 
             val queryParams = serializeMap(queryParameters.allValues)
-            val formParams = serializeMap(formParameters.allValues)
+            val formParams = serializeMap(formParameters.mapValues { it.value.values })
             val headers =
                 multiMapOfLists("query-params" to queryParams, "form-params" to formParams)
 

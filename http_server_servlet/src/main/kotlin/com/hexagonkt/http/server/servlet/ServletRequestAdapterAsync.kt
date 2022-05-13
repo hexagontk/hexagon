@@ -74,11 +74,12 @@ internal class ServletRequestAdapterAsync(
         partList
     }
 
-    override val formParameters: MultiMap<String, String> by lazy {
+    override val formParameters: HttpFields<HttpFormParameter> by lazy {
         val parameters = parts
             .map { it.name to it.bodyString() }
             .groupBy({ it.first }, { it.second })
+            .map { (k, v) -> HttpFormParameter(k, v) }
 
-        MultiMap(parameters)
+        HttpFields(parameters)
     }
 }

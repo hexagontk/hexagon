@@ -17,7 +17,7 @@ data class HttpClientRequest(
     override val headers: MultiMap<String, String> = multiMapOf(),
     override val body: Any = "",
     override val parts: List<HttpPart> = emptyList(),
-    override val formParameters: MultiMap<String, String> = multiMapOf(),
+    override val formParameters: HttpFields<HttpFormParameter> = HttpFields(),
     override val cookies: List<HttpCookie> = emptyList(),
     override val contentType: ContentType? = null,
     override val accept: List<ContentType> = emptyList(),

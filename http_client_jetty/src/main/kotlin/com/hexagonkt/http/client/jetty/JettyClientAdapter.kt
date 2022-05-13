@@ -156,8 +156,8 @@ class JettyClientAdapter : HttpClientPort {
                 )
         }
 
-        request.formParameters.allValues
-            .flatMap { (k, v) -> v.map { k to it } }
+        request.formParameters
+            .flatMap { (k, v) -> v.values.map { k to it } }
             .forEach { (k, v) ->
                 // TODO Add content type if present
                 multiPart.addFieldPart(k, StringRequestContent(v), EMPTY)

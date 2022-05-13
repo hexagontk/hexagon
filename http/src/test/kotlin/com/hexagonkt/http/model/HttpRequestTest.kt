@@ -34,7 +34,7 @@ internal class HttpRequestTest {
         override val port: Int get() = testPort
         override val path: String get() = testPath
         override val queryParameters: MultiMap<String, String> get() = testQueryParameters
-        override val formParameters: MultiMap<String, String> get() = fail
+        override val formParameters: HttpFields<HttpFormParameter> get() = fail
         override val body: Any get() = fail
         override val headers: MultiMap<String, String> get() = testHeaders
         override val contentType: ContentType get() = fail

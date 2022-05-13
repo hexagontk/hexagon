@@ -9,10 +9,8 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.HttpMethod
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.HttpPart
 import java.net.URL
 
 data class Http(
@@ -52,7 +50,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<HttpFormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -62,7 +60,7 @@ data class Http(
             path = path,
             body = body,
             headers = toMultiMap(headers),
-            formParameters = toMultiMap(formParameters),
+            formParameters = HttpFields(formParameters),
             parts = parts,
             contentType = contentType,
         )
@@ -72,7 +70,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<HttpFormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -83,7 +81,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<HttpFormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -93,7 +91,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<HttpFormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -103,7 +101,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<HttpFormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -113,7 +111,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<HttpFormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -123,7 +121,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<HttpFormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -133,7 +131,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<HttpFormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =

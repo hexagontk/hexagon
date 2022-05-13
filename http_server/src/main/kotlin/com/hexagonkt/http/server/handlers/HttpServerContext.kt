@@ -36,7 +36,7 @@ data class HttpServerContext(
     val path: String by lazy { request.path }
     val queryParameters: MultiMap<String, String> by lazy { request.queryParameters }
     val parts: List<HttpPartPort> by lazy { request.parts }
-    val formParameters: MultiMap<String, String> by lazy { request.formParameters }
+    val formParameters: HttpFields<HttpFormParameter> by lazy { request.formParameters }
     val accept: List<ContentType> by lazy { request.accept }
     val certificateChain: List<X509Certificate> by lazy { request.certificateChain }
 
@@ -59,13 +59,14 @@ data class HttpServerContext(
         pattern.extractParameters(request.path)
     }
 
-    val allParameters: MultiMap<String, *> by lazy {
-        MultiMap(
-            request.formParameters.allValues
-                + request.queryParameters.allValues
-                + pathParameters.mapValues { listOf(it.value) }
-        )
-    }
+    // TODO Enable this!
+//    val allParameters: MultiMap<String, *> by lazy {
+//        MultiMap(
+//            request.formParameters.allValues
+//                + request.queryParameters.allValues
+//                + pathParameters.mapValues { listOf(it.value) }
+//        )
+//    }
 
     fun next(): HttpServerContext =
         HttpServerContext(context.next())
