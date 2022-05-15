@@ -54,9 +54,10 @@ class NettyRequestAdapter(
     override val formParameters: HttpFields<HttpFormParameter> by lazy {
         val fields = parts
             .filter { it.submittedFileName == null }
-            .map { HttpFormParameter(it.name, it.bodyString()) }
+            .groupBy { it.name }
+            .mapValues { it.value.map { v -> v.bodyString() } }
+            .map { (k, v) -> HttpFormParameter(k, v) }
 
-        // TODO Bug, here form parameters are overwritten instead merged
         HttpFields(fields)
     }
 
