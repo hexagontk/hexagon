@@ -58,7 +58,7 @@ tasks.register("jre", Exec) {
         [
             "jlink",
             "--add-modules",
-            $modules,
+            modules,
             "--compress=2",
             "--strip-debug",
             "--no-header-files",
