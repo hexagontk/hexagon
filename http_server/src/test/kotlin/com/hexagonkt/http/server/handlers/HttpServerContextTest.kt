@@ -21,6 +21,7 @@ import com.hexagonkt.http.server.model.HttpServerResponse
 import org.junit.jupiter.api.Test
 import java.lang.RuntimeException
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
@@ -81,16 +82,15 @@ internal class HttpServerContextTest {
 
         assertEquals(mapOf("p1" to "v1", "0" to "v1"), requestData.pathParameters)
 
-        // TODO Enable this!
-//        assertEquals(
-//            multiMapOfLists(
-//                "fp1" to listOf("fp1v1", "fp1v2"),
-//                "k" to listOf("v"),
-//                "p1" to listOf("v1"),
-//                "0" to listOf("v1"),
-//            ),
-//            requestData.allParameters
-//        )
+        assertEquals(
+            multiMapOfLists(
+                "fp1" to listOf("fp1v1", "fp1v2"),
+                "k" to listOf("v"),
+                "p1" to listOf("v1"),
+                "0" to listOf("v1"),
+            ),
+            requestData.allParameters
+        )
 
         val emptyRequest = HttpServerContext(
             Context(
@@ -99,7 +99,7 @@ internal class HttpServerContextTest {
             )
         )
 
-//        assertEquals(emptyMap(), emptyRequest.allParameters)
+        assertEquals(emptyMap(), emptyRequest.allParameters)
         assertEquals(emptyMap(), emptyRequest.pathParameters)
     }
 
@@ -111,7 +111,7 @@ internal class HttpServerContextTest {
             )
         )
 
-//        assertFailsWith<IllegalStateException> { serverContext.allParameters }
+        assertFailsWith<IllegalStateException> { serverContext.allParameters }
 
         disableChecks = true
         assertEquals(mapOf("p1" to "v1", "0" to "v1"), serverContext.pathParameters)

@@ -59,14 +59,13 @@ data class HttpServerContext(
         pattern.extractParameters(request.path)
     }
 
-    // TODO Enable this!
-//    val allParameters: MultiMap<String, *> by lazy {
-//        MultiMap(
-//            request.formParameters.allValues
-//                + request.queryParameters.allValues
-//                + pathParameters.mapValues { listOf(it.value) }
-//        )
-//    }
+    val allParameters: MultiMap<String, *> by lazy {
+        MultiMap(
+            request.formParameters.mapValues { it.value.values }
+                + request.queryParameters.allValues
+                + pathParameters.mapValues { listOf(it.value) }
+        )
+    }
 
     fun next(): HttpServerContext =
         HttpServerContext(context.next())
