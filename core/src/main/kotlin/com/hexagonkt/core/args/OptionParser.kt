@@ -2,7 +2,7 @@ package com.hexagonkt.core.args
 
 object OptionParser {
 
-    private val LONG_NAME_REGEX = Regex("--[a-z]+-?[a-z]+=?[a-zA-Z\\d]*")
+    private val LONG_NAME_REGEX = Regex("--[a-z]+-?[a-z]+=?[a-zA-Z\\d.]*")
     private val SHORT_NAME_REGEX = Regex("-[a-z]+")
     private val SUPPORTED_TYPES = listOf(String::class, Boolean::class, Double::class, Int::class)
     private const val BOOLEAN = "kotlin.Boolean"

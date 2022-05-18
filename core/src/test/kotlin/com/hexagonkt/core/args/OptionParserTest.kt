@@ -87,4 +87,33 @@ class OptionParserTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test fun `Parse long named flag with false as value`() {
+        val longFlag = Option('l', longName = "long", type = Boolean::class)
+
+        val actual = optionParser.parse(listOf(longFlag), arrayOf("--long=false"))
+        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(longFlag to false))
+
+        assertEquals(expected, actual)
+    }
+
+    @Test fun `Parse options with int values`() {
+        val level = Option('l',longName = "level", type = Int::class)
+        val another = Option('a', "another-arg", Boolean::class)
+
+        val actual = optionParser.parse(listOf(level, another), arrayOf("--another-arg", "--level=3"))
+        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(level to 3, another to true))
+
+        assertEquals(expected, actual)
+    }
+
+    @Test fun `Parse options with double values`() {
+        val time = Option('t',longName = "time", type = Double::class)
+        val another = Option('a', "another-arg", Boolean::class)
+
+        val actual = optionParser.parse(listOf(time, another), arrayOf("--time=2.5", "--another-arg"))
+        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(time to 2.5, another to true))
+
+        assertEquals(expected, actual)
+    }
 }
