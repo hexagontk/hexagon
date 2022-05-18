@@ -24,11 +24,11 @@ internal class HttpClientRequestTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path",
-            queryParameters = multiMapOf("k" to "v"),
+            queryParameters = HttpFields(QueryParameter("k", "v")),
             headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
-            formParameters = HttpFields(HttpFormParameter("fp1", "fp1v1", "fp1v2")),
+            formParameters = HttpFields(FormParameter("fp1", "fp1v1", "fp1v2")),
             cookies = listOf(HttpCookie("cn", "cv")),
             contentType = ContentType(PLAIN),
             accept = listOf(ContentType(HTML)),
@@ -43,7 +43,7 @@ internal class HttpClientRequestTest {
 
         val headers = multiMapOf("h1" to "v1")
         val parts = listOf(HttpPart("p", "v"))
-        val formParameters = HttpFields(HttpFormParameter("h1", "v1"))
+        val formParameters = HttpFields(FormParameter("h1", "v1"))
         val cookies = listOf(HttpCookie("p", "v"))
         val contentType = ContentType(RICHTEXT)
         val accept = listOf(ContentType(CSS))
@@ -62,7 +62,7 @@ internal class HttpClientRequestTest {
         assertNotEquals(httpClientRequest, httpClientRequest.copy(accept = accept))
         assertNotEquals(
             httpClientRequest,
-            httpClientRequest.copy(queryParameters = multiMapOf("k" to "v", "k" to "v2"))
+            httpClientRequest.copy(queryParameters = HttpFields(QueryParameter("k", "v", "v2")))
         )
 
         assertEquals(httpClientRequest.hashCode(), httpClientRequestData().hashCode())

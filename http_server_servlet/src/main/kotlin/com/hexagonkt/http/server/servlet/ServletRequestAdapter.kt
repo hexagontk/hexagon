@@ -27,7 +27,7 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpSer
 
     override val contentLength: Long by lazy { req.contentLength.toLong() }
 
-    override val queryParameters: MultiMap<String, String> by lazy {
+    override val queryParameters: HttpFields<QueryParameter> by lazy {
         parseQueryString(req.queryString ?: "")
     }
 

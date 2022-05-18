@@ -15,11 +15,11 @@ internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletReque
         req.parts.map { ServletPartAdapter(it) }
     }
 
-    override val formParameters: HttpFields<HttpFormParameter> by lazy {
+    override val formParameters: HttpFields<FormParameter> by lazy {
         req.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfig)
         val fields = parameters
-            .filter { it.key !in queryParameters.keys }
-            .map { (k, v) -> HttpFormParameter(k, v) }
+            .filter { it.key !in queryParameters.httpFields.keys }
+            .map { (k, v) -> FormParameter(k, v) }
 
         HttpFields(fields)
     }

@@ -4,7 +4,6 @@ import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.*
@@ -34,11 +33,11 @@ internal class HttpServerContextTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path/v1",
-            queryParameters = multiMapOf("k" to "v"),
+            queryParameters = HttpFields(QueryParameter("k", "v")),
             headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
-            formParameters = HttpFields(HttpFormParameter("fp1", "fp1v1", "fp1v2")),
+            formParameters = HttpFields(FormParameter("fp1", "fp1v1", "fp1v2")),
             cookies = listOf(HttpCookie("cn", "cv")),
             contentType = ContentType(PLAIN),
             certificateChain = emptyList(),

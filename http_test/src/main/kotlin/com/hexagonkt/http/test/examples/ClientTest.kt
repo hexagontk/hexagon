@@ -13,10 +13,7 @@ import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.formatQueryString
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.HttpCookie
-import com.hexagonkt.http.model.HttpFields
-import com.hexagonkt.http.model.HttpFormParameter
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
 import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
@@ -90,7 +87,7 @@ abstract class ClientTest(
 
     @Test fun `Form parameters are sent correctly`() {
         callback = {
-            val mapData = formParameters.map { (k, v) -> k to v.values.map(Any::toString) }.toMap()
+            val mapData = formParameters.allValues
             val headers = MultiMap(mapData)
             ok(headers = headers)
         }
@@ -98,8 +95,8 @@ abstract class ClientTest(
         val response = client.send(
             HttpClientRequest(
                 formParameters = HttpFields(
-                    HttpFormParameter("p1", "v11"),
-                    HttpFormParameter("p2", "v21", "v22"),
+                    FormParameter("p1", "v11"),
+                    FormParameter("p2", "v21", "v22"),
                 )
             )
         )
@@ -184,7 +181,7 @@ abstract class ClientTest(
             path = "/",
             body = mapOf("body" to "payload").serialize(),
             headers = multiMapOf("x-header" to "value"),
-            queryParameters = multiMapOf("qp" to "qpValue"),
+            queryParameters = HttpFields(QueryParameter("qp", "qpValue")),
             contentType = ContentType(JSON)
         )
 

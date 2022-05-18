@@ -34,9 +34,9 @@ data class HttpServerContext(
     val host: String by lazy { request.host }
     val port: Int by lazy { request.port }
     val path: String by lazy { request.path }
-    val queryParameters: MultiMap<String, String> by lazy { request.queryParameters }
+    val queryParameters: HttpFields<QueryParameter> by lazy { request.queryParameters }
     val parts: List<HttpPartPort> by lazy { request.parts }
-    val formParameters: HttpFields<HttpFormParameter> by lazy { request.formParameters }
+    val formParameters: HttpFields<FormParameter> by lazy { request.formParameters }
     val accept: List<ContentType> by lazy { request.accept }
     val certificateChain: List<X509Certificate> by lazy { request.certificateChain }
 
@@ -61,7 +61,7 @@ data class HttpServerContext(
 
     val allParameters: MultiMap<String, *> by lazy {
         MultiMap(
-            request.formParameters.mapValues { it.value.values }
+            request.formParameters.allValues
                 + request.queryParameters.allValues
                 + pathParameters.mapValues { listOf(it.value) }
         )

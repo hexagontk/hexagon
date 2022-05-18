@@ -50,7 +50,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: List<HttpFormParameter> = emptyList(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -70,7 +70,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: List<HttpFormParameter> = emptyList(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -81,7 +81,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: List<HttpFormParameter> = emptyList(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -91,7 +91,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: List<HttpFormParameter> = emptyList(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -101,7 +101,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: List<HttpFormParameter> = emptyList(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -111,7 +111,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: List<HttpFormParameter> = emptyList(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -121,7 +121,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: List<HttpFormParameter> = emptyList(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -131,7 +131,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: List<HttpFormParameter> = emptyList(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =

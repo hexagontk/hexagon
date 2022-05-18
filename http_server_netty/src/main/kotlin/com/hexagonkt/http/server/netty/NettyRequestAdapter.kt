@@ -31,9 +31,9 @@ class NettyRequestAdapter(
         req.headers()[CONTENT_LENGTH]?.toLong() ?: 0L
     }
 
-    override val queryParameters: MultiMap<String, String> by lazy {
+    override val queryParameters: HttpFields<QueryParameter> by lazy {
         val queryStringDecoder = QueryStringDecoder(req.uri())
-        MultiMap(queryStringDecoder.parameters())
+        HttpFields(queryStringDecoder.parameters().mapValues { (k, v) -> QueryParameter(k, v) })
     }
 
     override val parts: List<HttpPartPort> by lazy {
@@ -51,12 +51,12 @@ class NettyRequestAdapter(
         }
     }
 
-    override val formParameters: HttpFields<HttpFormParameter> by lazy {
+    override val formParameters: HttpFields<FormParameter> by lazy {
         val fields = parts
             .filter { it.submittedFileName == null }
             .groupBy { it.name }
             .mapValues { it.value.map { v -> v.bodyString() } }
-            .map { (k, v) -> HttpFormParameter(k, v) }
+            .map { (k, v) -> FormParameter(k, v) }
 
         HttpFields(fields)
     }

@@ -21,9 +21,8 @@ internal class HttpRequestTest {
             "referer" to "Referer",
             "origin" to "Origin",
         )
-        var testQueryParameters: MultiMap<String, String> = multiMapOf(
-            "qp1" to "value1",
-            "qp1" to "value2",
+        var testQueryParameters: HttpFields<QueryParameter> = HttpFields(
+            QueryParameter("qp1", "value1", "value2")
         )
     }
 
@@ -33,8 +32,8 @@ internal class HttpRequestTest {
         override val host: String get() = testHost
         override val port: Int get() = testPort
         override val path: String get() = testPath
-        override val queryParameters: MultiMap<String, String> get() = testQueryParameters
-        override val formParameters: HttpFields<HttpFormParameter> get() = fail
+        override val queryParameters: HttpFields<QueryParameter> get() = testQueryParameters
+        override val formParameters: HttpFields<FormParameter> get() = fail
         override val body: Any get() = fail
         override val headers: MultiMap<String, String> get() = testHeaders
         override val contentType: ContentType get() = fail
@@ -68,7 +67,7 @@ internal class HttpRequestTest {
     @Test fun `URL is generated correctly`() {
         assertEquals(URL("http://localhost:80/path?qp1=value1&qp1=value2"), TestRequest.url())
         testPort = 9999
-        testQueryParameters = multiMapOf()
+        testQueryParameters = HttpFields()
         assertEquals(URL("http://localhost:9999/path"), TestRequest.url())
     }
 }

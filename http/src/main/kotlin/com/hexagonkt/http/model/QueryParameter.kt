@@ -1,11 +1,9 @@
 package com.hexagonkt.http.model
 
-data class HttpQueryParameter(
+data class QueryParameter(
     override val name: String,
     override val values: List<String>,
 ) : HttpField {
-
-    override val value: String? by lazy { values.firstOrNull() }
 
     constructor(name: String, vararg values: Any) : this(name, values.map(Any::toString))
 

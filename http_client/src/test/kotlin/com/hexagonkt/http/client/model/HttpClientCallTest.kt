@@ -40,7 +40,7 @@ internal class HttpClientCallTest {
             headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
-            formParameters = HttpFields(HttpFormParameter("fp1", "fp1v1", "fp1v2")),
+            formParameters = HttpFields(FormParameter("fp1", "fp1v1", "fp1v2")),
             cookies = listOf(HttpCookie("cn", "cv")),
             contentType = ContentType(PLAIN),
             accept = listOf(ContentType(HTML)),

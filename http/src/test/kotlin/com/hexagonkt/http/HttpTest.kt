@@ -2,7 +2,8 @@ package com.hexagonkt.http
 
 import com.hexagonkt.core.disableChecks
 import com.hexagonkt.core.multiMapOf
-import com.hexagonkt.core.multiMapOfLists
+import com.hexagonkt.http.model.HttpFields
+import com.hexagonkt.http.model.QueryParameter
 import org.junit.jupiter.api.Test
 import java.math.BigInteger
 import java.time.*
@@ -93,11 +94,11 @@ internal class HttpTest {
     }
 
     @Test fun `Parse handles encoded characters` () {
-        val expected = multiMapOf(
-            "a " to "1",
-            "b " to "",
-            " c " to "",
-            "d " to " e"
+        val expected = HttpFields(
+            QueryParameter("a ", "1"),
+            QueryParameter("b ", ""),
+            QueryParameter(" c ", ""),
+            QueryParameter("d ", " e"),
         )
 
         assertEquals(expected, parseQueryString("a%20=1&b%20&%20c%20&d%20=%20e"))
@@ -105,53 +106,56 @@ internal class HttpTest {
     }
 
     @Test fun `Parse strips spaces` () {
-        assertEquals(multiMapOf(
-            "a" to "1",
-            "b" to "",
-            "c" to "",
-            "d" to "e"
+        assertEquals(HttpFields(
+            QueryParameter("a", "1"),
+            QueryParameter("b", ""),
+            QueryParameter("c", ""),
+            QueryParameter("d", "e"),
         ), parseQueryString("a =1&b & c &d = e"))
     }
 
     @Test fun `Parse key only query parameters return correct data` () {
-        assertEquals(multiMapOf(
-            "a" to "1",
-            "b" to "",
-            "c" to "",
-            "d" to "e"
+        assertEquals(HttpFields(
+            QueryParameter("a", "1"),
+            QueryParameter("b", ""),
+            QueryParameter("c", ""),
+            QueryParameter("d", "e"),
         ), parseQueryString("a=1&b&c&d=e"))
     }
 
     @Test fun `Parse multiple keys return list of values` () {
-        assertEquals(multiMapOfLists(
-            "a" to listOf("1", "2"),
-            "b" to listOf("", "c"),
-            "c" to listOf(""),
-            "d" to listOf("e")
+        assertEquals(HttpFields(
+            QueryParameter("a", "1", "2"),
+            QueryParameter("b", "", "c"),
+            QueryParameter("c", ""),
+            QueryParameter("d", "e"),
         ), parseQueryString("a=1&b&c&d=e&a=2&b=c"))
     }
 
     @Test fun `Parse multiple empty values` () {
-        assertEquals(multiMapOf("a" to ""), parseQueryString("a="))
-        assertEquals(multiMapOf("a" to "", "b" to ""), parseQueryString("a=&b="))
-        assertEquals(multiMapOfLists("c" to listOf("", "")), parseQueryString("c=&c"))
-        assertEquals(multiMapOf(
-            "a" to "",
-            "b" to "",
-            "c" to ""
+        assertEquals(HttpFields(QueryParameter("a", "")), parseQueryString("a="))
+        assertEquals(HttpFields(QueryParameter("c", "", "")), parseQueryString("c=&c"))
+        assertEquals(HttpFields(
+            QueryParameter("a", ""),
+            QueryParameter("b", "")
+        ), parseQueryString("a=&b="))
+        assertEquals(HttpFields(
+            QueryParameter("a", ""),
+            QueryParameter("b", ""),
+            QueryParameter("c", ""),
         ), parseQueryString("a=&b=&c"))
     }
 
     @Test fun `Parse key only` () {
-        assertEquals(multiMapOf("ab" to ""), parseQueryString("ab"))
+        assertEquals(HttpFields(QueryParameter("ab", "")), parseQueryString("ab"))
     }
 
     @Test fun `Parse value only` () {
-        assert(parseQueryString(" =ab").none())
+        assert(parseQueryString(" =ab").isEmpty())
     }
 
     @Test fun `Parse white space only`() {
-        assert(parseQueryString("    ").none())
+        assert(parseQueryString("    ").isEmpty())
     }
 
     @Test fun `HTTP date has the correct format`() {
