@@ -70,6 +70,11 @@ H1
 H1
 ```
 
+## Events
+## Handlers
+## Filters
+## Callbacks
+
 # Package com.hexagonkt.core.logging
 Provides a logging management capabilities abstracting the application from logging libraries.
 

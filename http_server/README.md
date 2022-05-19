@@ -46,6 +46,44 @@ the [Servlet HTTP Server Adapter][http_server_servlet] into your project. Check 
 
 [http_server_servlet]: /http_server_servlet/
 
+### Context on HTTP processing
+An HTTP server is nothing more than a function that takes a request and returns a response. Requests
+and responses comply with several Web standards.
+
+For the sake of ease of use, HTTP toolkits (or frameworks) are build. These tools make easier to
+write an HTTP server that has to deal with different behaviour based on requests attributes.
+
+These development tools usually have different layers/parts:
+* IO
+* HTTP messages (requests and responses) parser and writer.
+* Routing
+
+Hexagon takes care of the third layer (it's "just" an abstraction layer for the IO engine
+underneath), previous two layers depends on the adapter. This particularity allows users to swap
+adapters for different use cases. You can use a low memory for embedded boards (as Raspberry Pi) or
+high through-output for servers, another use case would be to use a fast boot adapter for
+development, and a different one for production. To be agnostic of the adapter below, a custom HTTP
+model is implemented and adapters must map their own structures to this model.
+
+Most of the tools (in the JVM world) use metaprogramming (annotations) to effectively perform the
+HTTP parsing and request routing. However, this poses a problem. The code must run on a container
+and your handling code is called from generated code that is harder for you to tackle. This also
+makes harder to create many instances (something very useful to test microservices, for example).
+
+On the other hand you have toolkits, toolkits are just a set of plain libraries that you call, you
+can build methods out of them (not easy to do for annotations).
+
+In the past, metaprogramming would simplify development as Java lacked some language features
+(like lambdas) that made writing some HTTP routing constructions harder, but now I don't see any
+advantage (this is something similar to Dependency Injection, by the way)
+
+For some advanced HTTP features (SSE and Websockets) asynchronous processing is desirable (as the
+connections are kept open more time and the 'one thread per request' model doesn't scale well on
+this basis). This is not yet implemented, but it will be.
+
+Hexagon HTTP Handlers are a list of functions that may or may not be applied to the call (tuple of
+request and response) based on a filter (more details below).
+
 ### Http Call (Event)
 ### Handlers
 #### Path Handler
@@ -281,7 +319,7 @@ Check the [tests of the starter projects].
 If you have an OpenAPI/Swagger spec defined for your server, you can also make use of the mock server ([see below](#openapi-mock-server)).
 
 #### Mocking calls
-To unit test callbacks you can create test calls with hardcoded requests, responses and sessions.
+To unit test handlers you can call them with hardcoded requests.
 
 For a quick sample, check the snipped below:
 
