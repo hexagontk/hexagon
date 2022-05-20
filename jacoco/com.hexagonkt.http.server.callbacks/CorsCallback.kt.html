@@ -2,6 +2,7 @@
 
 import com.hexagonkt.core.Glob
 import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.HttpMethod.OPTIONS
@@ -12,14 +13,14 @@ import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
 /**
  * HTTP CORS callback. It holds info for CORS.
  */
-<span class="pc" id="L15">class CorsCallback(</span>
-<span class="fc" id="L16">    private val allowedOrigin: Regex,</span>
-<span class="pc" id="L17">    private val allowedMethods: Set&lt;HttpMethod&gt; = ALL,</span>
-<span class="pc" id="L18">    private val allowedHeaders: Set&lt;String&gt; = emptySet(),</span>
-<span class="pc" id="L19">    private val exposedHeaders: Set&lt;String&gt; = emptySet(),</span>
-<span class="pc" id="L20">    private val supportCredentials: Boolean = true,</span>
-<span class="pc" id="L21">    private val preFlightStatus: SuccessStatus = NO_CONTENT,</span>
-<span class="pc" id="L22">    private val preFlightMaxAge: Long = 0</span>
+<span class="pc" id="L16">class CorsCallback(</span>
+<span class="fc" id="L17">    private val allowedOrigin: Regex,</span>
+<span class="pc" id="L18">    private val allowedMethods: Set&lt;HttpMethod&gt; = ALL,</span>
+<span class="pc" id="L19">    private val allowedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="pc" id="L20">    private val exposedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="pc" id="L21">    private val supportCredentials: Boolean = true,</span>
+<span class="pc" id="L22">    private val preFlightStatus: SuccessStatus = NO_CONTENT,</span>
+<span class="pc" id="L23">    private val preFlightMaxAge: Long = 0</span>
 ) : (HttpServerContext) -&gt; HttpServerContext {
 
     private companion object {
@@ -32,105 +33,105 @@ import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
         const val MAX_AGE = &quot;access-control-max-age&quot;
     }
 
-<span class="fc" id="L35">    constructor(</span>
-<span class="fc" id="L36">        allowedOrigin: String = &quot;*&quot;,</span>
-<span class="fc" id="L37">        allowedMethods: Set&lt;HttpMethod&gt; = ALL,</span>
-<span class="fc" id="L38">        allowedHeaders: Set&lt;String&gt; = emptySet(),</span>
-<span class="fc" id="L39">        exposedHeaders: Set&lt;String&gt; = emptySet(),</span>
-<span class="fc" id="L40">        supportCredentials: Boolean = true,</span>
-<span class="fc" id="L41">        preFlightStatus: SuccessStatus = NO_CONTENT,</span>
-<span class="fc" id="L42">        preFlightMaxAge: Long = 0) :</span>
-<span class="fc" id="L43">        this(</span>
-<span class="fc" id="L44">            Glob(allowedOrigin).regex,</span>
-<span class="fc" id="L45">            allowedMethods,</span>
-<span class="fc" id="L46">            allowedHeaders,</span>
-<span class="fc" id="L47">            exposedHeaders,</span>
-<span class="fc" id="L48">            supportCredentials,</span>
-<span class="fc" id="L49">            preFlightStatus,</span>
-<span class="fc" id="L50">            preFlightMaxAge</span>
-<span class="fc" id="L51">        )</span>
+<span class="fc" id="L36">    constructor(</span>
+<span class="fc" id="L37">        allowedOrigin: String = &quot;*&quot;,</span>
+<span class="fc" id="L38">        allowedMethods: Set&lt;HttpMethod&gt; = ALL,</span>
+<span class="fc" id="L39">        allowedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="fc" id="L40">        exposedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="fc" id="L41">        supportCredentials: Boolean = true,</span>
+<span class="fc" id="L42">        preFlightStatus: SuccessStatus = NO_CONTENT,</span>
+<span class="fc" id="L43">        preFlightMaxAge: Long = 0) :</span>
+<span class="fc" id="L44">        this(</span>
+<span class="fc" id="L45">            Glob(allowedOrigin).regex,</span>
+<span class="fc" id="L46">            allowedMethods,</span>
+<span class="fc" id="L47">            allowedHeaders,</span>
+<span class="fc" id="L48">            exposedHeaders,</span>
+<span class="fc" id="L49">            supportCredentials,</span>
+<span class="fc" id="L50">            preFlightStatus,</span>
+<span class="fc" id="L51">            preFlightMaxAge</span>
+<span class="fc" id="L52">        )</span>
 
     override fun invoke(context: HttpServerContext): HttpServerContext =
-<span class="fc" id="L54">        context.simpleRequest().let {</span>
-<span class="fc bfc" id="L55" title="All 2 branches covered.">            if (context.request.method == OPTIONS) it.preFlightRequest()</span>
-<span class="fc" id="L56">            else it</span>
-<span class="fc" id="L57">        }.let {</span>
-<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (it.response.status != FORBIDDEN) it.next()</span>
-<span class="fc" id="L59">            else it</span>
-<span class="fc" id="L60">        }</span>
+<span class="fc" id="L55">        context.simpleRequest().let {</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">            if (context.request.method == OPTIONS) it.preFlightRequest()</span>
+<span class="fc" id="L57">            else it</span>
+<span class="fc" id="L58">        }.let {</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">            if (it.response.status != FORBIDDEN) it.next()</span>
+<span class="fc" id="L60">            else it</span>
+<span class="fc" id="L61">        }</span>
 
     private fun allowOrigin(origin: String): Boolean =
-<span class="fc" id="L63">        allowedOrigin.matches(origin)</span>
+<span class="fc" id="L64">        allowedOrigin.matches(origin)</span>
 
     private fun accessControlAllowOrigin(origin: String): String =
-<span class="pc bpc" id="L66" title="1 of 4 branches missed.">        if (allowedOrigin.pattern == &quot;.*&quot; &amp;&amp; !supportCredentials) &quot;*&quot;</span>
-<span class="fc" id="L67">        else origin</span>
+<span class="pc bpc" id="L67" title="1 of 4 branches missed.">        if (allowedOrigin.pattern == &quot;.*&quot; &amp;&amp; !supportCredentials) &quot;*&quot;</span>
+<span class="fc" id="L68">        else origin</span>
 
     private fun HttpServerContext.simpleRequest(): HttpServerContext {
-<span class="fc bfc" id="L70" title="All 2 branches covered.">        val origin = request.origin() ?: return this</span>
-<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (!allowOrigin(origin))</span>
-<span class="fc" id="L72">            return clientError(FORBIDDEN, &quot;Not allowed origin: $origin&quot;)</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        val origin = request.origin() ?: return this</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (!allowOrigin(origin))</span>
+<span class="fc" id="L73">            return clientError(FORBIDDEN, &quot;Not allowed origin: $origin&quot;)</span>
 
-<span class="fc" id="L74">        val accessControlAllowOrigin = accessControlAllowOrigin(origin)</span>
-<span class="fc" id="L75">        var h = response.headers + (ALLOW_ORIGIN to accessControlAllowOrigin)</span>
+<span class="fc" id="L75">        val accessControlAllowOrigin = accessControlAllowOrigin(origin)</span>
+<span class="fc" id="L76">        var h = response.headers + Header(ALLOW_ORIGIN, accessControlAllowOrigin)</span>
 
-<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (accessControlAllowOrigin != &quot;*&quot;)</span>
-<span class="fc" id="L78">            h += &quot;vary&quot; to &quot;Origin&quot;</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (accessControlAllowOrigin != &quot;*&quot;)</span>
+<span class="fc" id="L79">            h += Header(&quot;vary&quot;, &quot;Origin&quot;)</span>
 
-<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (supportCredentials)</span>
-<span class="fc" id="L81">            h += ALLOW_CREDENTIALS to true.toString()</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (supportCredentials)</span>
+<span class="fc" id="L82">            h += Header(ALLOW_CREDENTIALS, true)</span>
 
-<span class="fc" id="L83">        val accessControlRequestMethod = request.headers[REQUEST_METHOD]</span>
-<span class="fc bfc" id="L84" title="All 4 branches covered.">        if (request.method == OPTIONS &amp;&amp; accessControlRequestMethod != null)</span>
-<span class="fc" id="L85">            return badRequest()</span>
+<span class="fc" id="L84">        val accessControlRequestMethod = request.headers[REQUEST_METHOD]</span>
+<span class="fc bfc" id="L85" title="All 4 branches covered.">        if (request.method == OPTIONS &amp;&amp; accessControlRequestMethod != null)</span>
+<span class="fc" id="L86">            return badRequest()</span>
 
-<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (request.method !in allowedMethods)</span>
-<span class="fc" id="L88">            return clientError(FORBIDDEN, &quot;Not allowed method: ${request.method}&quot;)</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (request.method !in allowedMethods)</span>
+<span class="fc" id="L89">            return clientError(FORBIDDEN, &quot;Not allowed method: ${request.method}&quot;)</span>
 
-<span class="fc bfc" id="L90" title="All 4 branches covered.">        if (exposedHeaders.isNotEmpty()) {</span>
-<span class="fc" id="L91">            val requestHeaderNames = request.headers.keys.toSet()</span>
-<span class="fc bfc" id="L92" title="All 2 branches covered.">            val requestHeaders = requestHeaderNames.filter { it in exposedHeaders }</span>
+<span class="fc bfc" id="L91" title="All 4 branches covered.">        if (exposedHeaders.isNotEmpty()) {</span>
+<span class="fc" id="L92">            val requestHeaderNames = request.headers.httpFields.keys.toSet()</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">            val requestHeaders = requestHeaderNames.filter { it in exposedHeaders }</span>
 
-<span class="fc" id="L94">            h += EXPOSE_HEADERS to requestHeaders.joinToString(&quot;,&quot;)</span>
+<span class="fc" id="L95">            h += Header(EXPOSE_HEADERS, requestHeaders.joinToString(&quot;,&quot;))</span>
         }
 
-<span class="fc" id="L97">        return success(preFlightStatus, headers = h)</span>
+<span class="fc" id="L98">        return success(preFlightStatus, headers = h)</span>
     }
 
     private fun HttpServerContext.preFlightRequest(): HttpServerContext {
 
-<span class="fc" id="L102">        val methodHeader = request.headers[REQUEST_METHOD]</span>
-<span class="fc bfc" id="L103" title="All 2 branches covered.">        val requestMethod = methodHeader</span>
-<span class="fc" id="L104">            ?: return clientError(FORBIDDEN, &quot;$REQUEST_METHOD required header not found&quot;)</span>
+<span class="fc" id="L103">        val methodHeader = request.headers[REQUEST_METHOD]</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        val requestMethod = methodHeader</span>
+<span class="fc" id="L105">            ?: return clientError(FORBIDDEN, &quot;$REQUEST_METHOD required header not found&quot;)</span>
 
-<span class="fc" id="L106">        val method = HttpMethod.valueOf(requestMethod)</span>
-<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (method !in allowedMethods)</span>
-<span class="fc" id="L108">            return clientError(FORBIDDEN, &quot;Not allowed method: $method&quot;)</span>
+<span class="fc" id="L107">        val method = HttpMethod.valueOf(requestMethod)</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (method !in allowedMethods)</span>
+<span class="fc" id="L109">            return clientError(FORBIDDEN, &quot;Not allowed method: $method&quot;)</span>
 
-<span class="fc" id="L110">        val accessControlRequestHeaders = request.headers[REQUEST_HEADERS]</span>
+<span class="fc" id="L111">        val accessControlRequestHeaders = request.headers[REQUEST_HEADERS]</span>
 
-<span class="fc" id="L112">        var h = response.headers</span>
+<span class="fc" id="L113">        var h = response.headers</span>
 
-<span class="fc bfc" id="L114" title="All 2 branches covered.">        if (accessControlRequestHeaders != null) {</span>
-<span class="fc" id="L115">            val allowedHeaders = accessControlRequestHeaders</span>
-<span class="fc" id="L116">                .split(&quot;,&quot;)</span>
-<span class="fc" id="L117">                .map { it.trim() }</span>
-<span class="fc bfc" id="L118" title="All 2 branches covered.">                .all { it in allowedHeaders }</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (accessControlRequestHeaders != null) {</span>
+<span class="fc" id="L116">            val allowedHeaders = accessControlRequestHeaders</span>
+<span class="fc" id="L117">                .split(&quot;,&quot;)</span>
+<span class="fc" id="L118">                .map { it.trim() }</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">                .all { it in allowedHeaders }</span>
 
-<span class="fc bfc" id="L120" title="All 6 branches covered.">            if (!allowedHeaders &amp;&amp; this@CorsCallback.allowedHeaders.isNotEmpty())</span>
-<span class="fc" id="L121">                return clientError(FORBIDDEN, &quot;Not allowed headers&quot;)</span>
+<span class="fc bfc" id="L121" title="All 6 branches covered.">            if (!allowedHeaders &amp;&amp; this@CorsCallback.allowedHeaders.isNotEmpty())</span>
+<span class="fc" id="L122">                return clientError(FORBIDDEN, &quot;Not allowed headers&quot;)</span>
 
-<span class="fc" id="L123">            val headers = this@CorsCallback.allowedHeaders</span>
-<span class="fc bfc" id="L124" title="All 2 branches covered.">            val requestHeaders = headers.ifEmpty { request.headers.keys.toSet() }</span>
-<span class="fc" id="L125">            h += ALLOW_HEADERS to requestHeaders.joinToString(&quot;,&quot;)</span>
+<span class="fc" id="L124">            val headers = this@CorsCallback.allowedHeaders</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">            val requestHeaders = headers.ifEmpty { request.headers.httpFields.keys.toSet() }</span>
+<span class="fc" id="L126">            h += Header(ALLOW_HEADERS, requestHeaders.joinToString(&quot;,&quot;))</span>
         }
 
-<span class="fc" id="L128">        h += REQUEST_METHOD to allowedMethods.joinToString(&quot;,&quot;)</span>
+<span class="fc" id="L129">        h += Header(REQUEST_METHOD, allowedMethods.joinToString(&quot;,&quot;))</span>
 
-<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (preFlightMaxAge &gt; 0)</span>
-<span class="fc" id="L131">            h += MAX_AGE to preFlightMaxAge.toString()</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (preFlightMaxAge &gt; 0)</span>
+<span class="fc" id="L132">            h += Header(MAX_AGE, preFlightMaxAge.toString())</span>
 
-<span class="fc" id="L133">        return success(preFlightStatus, headers = h)</span>
+<span class="fc" id="L134">        return success(preFlightStatus, headers = h)</span>
     }
-<span class="nc" id="L135">}</span>
+<span class="nc" id="L136">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

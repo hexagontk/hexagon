@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NettyRequestAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.netty</a> &gt; <span class="el_source">NettyRequestAdapter.kt</span></div><h1>NettyRequestAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.netty
 
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
 import com.hexagonkt.http.server.model.HttpServerRequestPort
@@ -16,97 +15,103 @@ import java.net.URI
 import java.security.cert.X509Certificate
 import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 
-<span class="fc" id="L19">class NettyRequestAdapter(</span>
+<span class="fc" id="L18">class NettyRequestAdapter(</span>
     methodName: NettyHttpMethod,
     req: FullHttpRequest,
-<span class="fc" id="L22">    override val certificateChain: List&lt;X509Certificate&gt;,</span>
+<span class="fc" id="L21">    override val certificateChain: List&lt;X509Certificate&gt;,</span>
     address: InetSocketAddress,
 ) : HttpServerRequestPort {
 
-<span class="fc" id="L26">    override val accept: List&lt;ContentType&gt; by lazy {</span>
-<span class="pc" id="L27">        req.headers().getAll(ACCEPT).map { parseContentType(it) }</span>
+<span class="fc" id="L25">    override val accept: List&lt;ContentType&gt; by lazy {</span>
+<span class="pc" id="L26">        req.headers().getAll(ACCEPT).map { parseContentType(it) }</span>
     }
 
-<span class="fc" id="L30">    override val contentLength: Long by lazy {</span>
-<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        req.headers()[CONTENT_LENGTH]?.toLong() ?: 0L</span>
+<span class="fc" id="L29">    override val contentLength: Long by lazy {</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        req.headers()[CONTENT_LENGTH]?.toLong() ?: 0L</span>
     }
 
-<span class="fc" id="L34">    override val queryParameters: MultiMap&lt;String, String&gt; by lazy {</span>
-<span class="fc" id="L35">        val queryStringDecoder = QueryStringDecoder(req.uri())</span>
-<span class="fc" id="L36">        MultiMap(queryStringDecoder.parameters())</span>
+<span class="fc" id="L33">    override val queryParameters: HttpFields&lt;QueryParameter&gt; by lazy {</span>
+<span class="fc" id="L34">        val queryStringDecoder = QueryStringDecoder(req.uri())</span>
+<span class="fc" id="L35">        HttpFields(queryStringDecoder.parameters().mapValues { (k, v) -&gt; QueryParameter(k, v) })</span>
     }
 
-<span class="fc" id="L39">    override val parts: List&lt;HttpPartPort&gt; by lazy {</span>
-<span class="fc" id="L40">        HttpPostRequestDecoder(req).bodyHttpDatas.map {</span>
-<span class="fc" id="L41">            when (it) {</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">                is FileUpload -&gt; HttpPart(</span>
-<span class="fc" id="L43">                    name = it.name,</span>
-<span class="fc" id="L44">                    body = ByteBufUtil.getBytes(it.content()),</span>
-<span class="fc" id="L45">                    submittedFileName = it.filename,</span>
-<span class="pc bpc" id="L46" title="1 of 2 branches missed.">                    contentType = it.contentType?.let { ct -&gt; parseContentType(ct) },</span>
+<span class="fc" id="L38">    override val parts: List&lt;HttpPartPort&gt; by lazy {</span>
+<span class="fc" id="L39">        HttpPostRequestDecoder(req).bodyHttpDatas.map {</span>
+<span class="fc" id="L40">            when (it) {</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">                is FileUpload -&gt; HttpPart(</span>
+<span class="fc" id="L42">                    name = it.name,</span>
+<span class="fc" id="L43">                    body = ByteBufUtil.getBytes(it.content()),</span>
+<span class="fc" id="L44">                    submittedFileName = it.filename,</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">                    contentType = it.contentType?.let { ct -&gt; parseContentType(ct) },</span>
                 )
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">                is Attribute -&gt; HttpPart(it.name, it.value)</span>
-<span class="nc" id="L49">                else -&gt; error(&quot;Unknown part type: ${it.javaClass}&quot;)</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">                is Attribute -&gt; HttpPart(it.name, it.value)</span>
+<span class="nc" id="L48">                else -&gt; error(&quot;Unknown part type: ${it.javaClass}&quot;)</span>
             }
         }
     }
 
-<span class="fc" id="L54">    override val formParameters: MultiMap&lt;String, String&gt; by lazy {</span>
-<span class="pc bpc" id="L55" title="2 of 4 branches missed.">        MultiMap(parts.filter { it.submittedFileName == null }.map { it.name to it.bodyString() })</span>
+<span class="fc" id="L53">    override val formParameters: HttpFields&lt;FormParameter&gt; by lazy {</span>
+<span class="fc" id="L54">        val fields = parts</span>
+<span class="pc bpc" id="L55" title="2 of 4 branches missed.">            .filter { it.submittedFileName == null }</span>
+<span class="fc" id="L56">            .groupBy { it.name }</span>
+<span class="fc" id="L57">            .mapValues { it.value.map { v -&gt; v.bodyString() } }</span>
+<span class="fc" id="L58">            .map { (k, v) -&gt; FormParameter(k, v) }</span>
+
+<span class="fc" id="L60">        HttpFields(fields)</span>
     }
 
-<span class="fc" id="L58">    override val method: HttpMethod by lazy {</span>
-<span class="fc" id="L59">        HttpMethod.valueOf(methodName.name())</span>
+<span class="fc" id="L63">    override val method: HttpMethod by lazy {</span>
+<span class="fc" id="L64">        HttpMethod.valueOf(methodName.name())</span>
     }
 
-<span class="fc" id="L62">    override val protocol: HttpProtocol by lazy {</span>
-<span class="fc" id="L63">        HttpProtocol.valueOf(req.protocolVersion().protocolName())</span>
+<span class="fc" id="L67">    override val protocol: HttpProtocol by lazy {</span>
+<span class="fc" id="L68">        HttpProtocol.valueOf(req.protocolVersion().protocolName())</span>
     }
 
-<span class="fc" id="L66">    override val host: String by lazy {</span>
-<span class="fc" id="L67">        address.hostName</span>
+<span class="fc" id="L71">    override val host: String by lazy {</span>
+<span class="fc" id="L72">        address.hostName</span>
     }
 
-<span class="fc" id="L70">    override val port: Int by lazy {</span>
-<span class="fc" id="L71">        address.port</span>
+<span class="fc" id="L75">    override val port: Int by lazy {</span>
+<span class="fc" id="L76">        address.port</span>
     }
 
-<span class="fc" id="L74">    override val path: String by lazy { URI(req.uri()).path }</span>
+<span class="fc" id="L79">    override val path: String by lazy { URI(req.uri()).path }</span>
 
-<span class="fc" id="L76">    override val cookies: List&lt;HttpCookie&gt; by lazy {</span>
-<span class="fc bfc" id="L77" title="All 2 branches covered.">        val cookieHeader: String = req.headers().get(COOKIE)</span>
-<span class="fc" id="L78">            ?: return@lazy emptyList&lt;HttpCookie&gt;()</span>
+<span class="fc" id="L81">    override val cookies: List&lt;HttpCookie&gt; by lazy {</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        val cookieHeader: String = req.headers().get(COOKIE)</span>
+<span class="fc" id="L83">            ?: return@lazy emptyList&lt;HttpCookie&gt;()</span>
 
-<span class="fc" id="L80">        val cookies: Set&lt;Cookie&gt; = ServerCookieDecoder.STRICT.decode(cookieHeader)</span>
+<span class="fc" id="L85">        val cookies: Set&lt;Cookie&gt; = ServerCookieDecoder.STRICT.decode(cookieHeader)</span>
 
-<span class="fc" id="L82">        cookies.map {</span>
-<span class="fc" id="L83">            HttpCookie(</span>
-<span class="fc" id="L84">                name = it.name(),</span>
-<span class="fc" id="L85">                value = it.value(),</span>
-<span class="pc bpc" id="L86" title="1 of 2 branches missed.">                maxAge = if (it.maxAge() == Long.MIN_VALUE) -1 else it.maxAge(),</span>
-<span class="fc" id="L87">                secure = it.isSecure,</span>
+<span class="fc" id="L87">        cookies.map {</span>
+<span class="fc" id="L88">            HttpCookie(</span>
+<span class="fc" id="L89">                name = it.name(),</span>
+<span class="fc" id="L90">                value = it.value(),</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">                maxAge = if (it.maxAge() == Long.MIN_VALUE) -1 else it.maxAge(),</span>
+<span class="fc" id="L92">                secure = it.isSecure,</span>
             )
         }
     }
 
-<span class="fc" id="L92">    override val body: Any by lazy {</span>
-<span class="fc" id="L93">        val content = req.content()</span>
+<span class="fc" id="L97">    override val body: Any by lazy {</span>
+<span class="fc" id="L98">        val content = req.content()</span>
 
-<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (content.isReadable) ByteBufUtil.getBytes(content)</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        if (content.isReadable) ByteBufUtil.getBytes(content)</span>
         else byteArrayOf()
     }
 
-<span class="fc" id="L99">    override val headers: MultiMap&lt;String, String&gt; by lazy {</span>
-<span class="fc" id="L100">        MultiMap(</span>
-<span class="fc" id="L101">            req.headers().names()</span>
-<span class="fc" id="L102">                .toList()</span>
-<span class="fc" id="L103">                .map { it.lowercase() }</span>
-<span class="fc" id="L104">                .associateWith { req.headers().getAll(it) }</span>
+<span class="fc" id="L104">    override val headers: HttpFields&lt;Header&gt; by lazy {</span>
+<span class="fc" id="L105">        HttpFields(</span>
+<span class="fc" id="L106">            req.headers().names()</span>
+<span class="fc" id="L107">                .toList()</span>
+<span class="fc" id="L108">                .map { it.lowercase() }</span>
+<span class="fc" id="L109">                .map { Header(it, req.headers().getAll(it)) }</span>
         )
     }
 
-<span class="fc" id="L108">    override val contentType: ContentType? by lazy {</span>
-<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        req.headers()[CONTENT_TYPE]?.let { parseContentType(it) }</span>
+<span class="fc" id="L113">    override val contentType: ContentType? by lazy {</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">        req.headers()[CONTENT_TYPE]?.let { parseContentType(it) }</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

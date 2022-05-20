@@ -68,7 +68,7 @@ import java.security.cert.X509Certificate
 <span class="fc" id="L68">        val headers = response.headers()</span>
 
 <span class="fc" id="L70">        val hexagonHeaders = hexagonResponse.headers</span>
-<span class="fc bfc" id="L71" title="All 4 branches covered.">        if (hexagonHeaders.isNotEmpty())</span>
+<span class="fc bfc" id="L71" title="All 4 branches covered.">        if (hexagonHeaders.httpFields.isNotEmpty())</span>
 <span class="fc" id="L72">            hexagonHeaders.allValues.map { (k, v) -&gt; headers.add(k, v) }</span>
 
 <span class="fc" id="L74">        val hexagonCookies = hexagonResponse.cookies</span>

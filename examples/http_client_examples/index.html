@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/examples/http_client_examples/">
       
       <link rel="icon" href="../../favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.14">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
     
     
       
@@ -23,7 +23,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.3de6f41f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.c382b1dc.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.cc9b2e1e.min.css">
@@ -1076,7 +1076,7 @@ for more information.</p>
 <span class="w">    </span><span class="n">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://host:1234/base&quot;</span><span class="p">),</span><span class="w"></span>
 <span class="w">    </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">JSON</span><span class="p">),</span><span class="w"></span>
 <span class="w">    </span><span class="n">useCookies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">multiMapOf</span><span class="p">(</span><span class="s">&quot;x-api-Key&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;cafebabe&quot;</span><span class="p">),</span><span class="w"> </span><span class="c1">// Headers used in all requests</span><span class="w"></span>
+<span class="w">    </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpFields</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;x-api-Key&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cafebabe&quot;</span><span class="p">)),</span><span class="w"> </span><span class="c1">// Headers used in all requests</span><span class="w"></span>
 <span class="w">    </span><span class="n">insecure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">               </span><span class="c1">// If true, the client doesn&#39;t check server certificates</span><span class="w"></span>
 <span class="w">    </span><span class="n">sslSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SslSettings</span><span class="p">()</span><span class="w">     </span><span class="c1">// Key stores settings (check TLS section for details)</span><span class="w"></span>
 <span class="p">))</span><span class="w"></span>
@@ -1098,8 +1098,8 @@ for more information.</p>
 <span class="w">    </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;body&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;payload&quot;</span><span class="p">).</span><span class="na">serialize</span><span class="p">(),</span><span class="w"></span>
-<span class="w">    </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">multiMapOf</span><span class="p">(</span><span class="s">&quot;x-header&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p">),</span><span class="w"></span>
-<span class="w">    </span><span class="n">queryParameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">multiMapOf</span><span class="p">(</span><span class="s">&quot;qp&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;qpValue&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpFields</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;x-header&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p">)),</span><span class="w"></span>
+<span class="w">    </span><span class="n">queryParameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpFields</span><span class="p">(</span><span class="n">QueryParameter</span><span class="p">(</span><span class="s">&quot;qp&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;qpValue&quot;</span><span class="p">)),</span><span class="w"></span>
 <span class="w">    </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">JSON</span><span class="p">)</span><span class="w"></span>
 <span class="p">)</span><span class="w"></span>
 
@@ -1294,7 +1294,7 @@ for more details.</p>
 <span class="w">    </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="c1">// We can access the certificate used by the client from the request</span><span class="w"></span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">subjectDn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">certificate</span><span class="p">()</span><span class="o">?.</span><span class="na">subjectX500Principal</span><span class="o">?.</span><span class="na">name</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">subjectDn</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">subjectDn</span><span class="p">)</span><span class="w"></span>
 <span class="w">        </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -1474,7 +1474,7 @@ for more details.</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "nagivation.instant"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.c2e1ee47.min.js"></script>
+      <script src="../../assets/javascripts/bundle.a6c66575.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

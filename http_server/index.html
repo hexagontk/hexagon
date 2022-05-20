@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/http_server/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.14">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
     
     
       
@@ -23,7 +23,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.3de6f41f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
@@ -484,6 +484,13 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-on-http-processing" class="md-nav__link">
+    Context on HTTP processing
+  </a>
   
 </li>
         
@@ -1194,6 +1201,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#context-on-http-processing" class="md-nav__link">
+    Context on HTTP processing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#http-call-event" class="md-nav__link">
     Http Call (Event)
   </a>
@@ -1605,6 +1619,35 @@ and after creating a server you can run it or stop it with <a href="/api/http_se
 <p>There is a special server adapter for running inside Servlet Containers. To use it you should import
 the <a href="/http_server_servlet/">Servlet HTTP Server Adapter</a> into your project. Check the
 <a href="/http_server_servlet/">http_server_servlet</a> module for more information.</p>
+<h4 id="context-on-http-processing">Context on HTTP processing<a class="headerlink" href="#context-on-http-processing" title="Permanent link">&para;</a></h4>
+<p>An HTTP server is nothing more than a function that takes a request and returns a response. Requests
+and responses comply with several Web standards.</p>
+<p>For the sake of ease of use, HTTP toolkits (or frameworks) are build. These tools make easier to
+write an HTTP server that has to deal with different behaviour based on requests attributes.</p>
+<p>These development tools usually have different layers/parts:
+* IO
+* HTTP messages (requests and responses) parser and writer.
+* Routing</p>
+<p>Hexagon takes care of the third layer (it's "just" an abstraction layer for the IO engine
+underneath), previous two layers depends on the adapter. This particularity allows users to swap
+adapters for different use cases. You can use a low memory for embedded boards (as Raspberry Pi) or
+high through-output for servers, another use case would be to use a fast boot adapter for
+development, and a different one for production. To be agnostic of the adapter below, a custom HTTP
+model is implemented and adapters must map their own structures to this model.</p>
+<p>Most of the tools (in the JVM world) use metaprogramming (annotations) to effectively perform the
+HTTP parsing and request routing. However, this poses a problem. The code must run on a container
+and your handling code is called from generated code that is harder for you to tackle. This also
+makes harder to create many instances (something very useful to test microservices, for example).</p>
+<p>On the other hand you have toolkits, toolkits are just a set of plain libraries that you call, you
+can build methods out of them (not easy to do for annotations).</p>
+<p>In the past, metaprogramming would simplify development as Java lacked some language features
+(like lambdas) that made writing some HTTP routing constructions harder, but now I don't see any
+advantage (this is something similar to Dependency Injection, by the way)</p>
+<p>For some advanced HTTP features (SSE and Websockets) asynchronous processing is desirable (as the
+connections are kept open more time and the 'one thread per request' model doesn't scale well on
+this basis). This is not yet implemented, but it will be.</p>
+<p>Hexagon HTTP Handlers are a list of functions that may or may not be applied to the call (tuple of
+request and response) based on a filter (more details below).</p>
 <h4 id="http-call-event">Http Call (Event)<a class="headerlink" href="#http-call-event" title="Permanent link">&para;</a></h4>
 <h4 id="handlers">Handlers<a class="headerlink" href="#handlers" title="Permanent link">&para;</a></h4>
 <h5 id="path-handler">Path Handler<a class="headerlink" href="#path-handler" title="Permanent link">&para;</a></h5>
@@ -1903,8 +1946,8 @@ object:</p>
 <span class="w">        </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w">                  </span><span class="c1">// sets content to Hello</span><span class="w"></span>
 <span class="w">        </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">XML</span><span class="p">),</span><span class="w">  </span><span class="c1">// set content type to application/xml</span><span class="w"></span>
 <span class="w">        </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"></span>
-<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">)</span><span class="w">           </span><span class="c1">// sets header FOO with single value bar</span><span class="w"></span>
-<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">multiMapOfLists</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">))</span><span class="w"> </span><span class="c1">// sets header FOO values with [ bar ]</span><span class="w"></span>
+<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">)</span><span class="w">           </span><span class="c1">// sets header FOO with single value bar</span><span class="w"></span>
+<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">HttpFields</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">))</span><span class="w"> </span><span class="c1">// sets header FOO values with [ bar ]</span><span class="w"></span>
 <span class="w">    </span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
@@ -1998,24 +2041,24 @@ after filters are executed anyway).</p>
 <span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
-<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">on</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;b-all&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">on</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;b-all&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 
-<span class="n">on</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;b-filters&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="n">on</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;b-filters&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters/route&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;filters route&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="n">after</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;a-filters&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="n">after</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;a-filters&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 
 <span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;filters&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 
 <span class="n">path</span><span class="p">(</span><span class="s">&quot;/nested&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">on</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;b-nested&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="n">on</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;b-nested-2&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">on</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;b-nested&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">on</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;b-nested-2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;nested filters&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/halted&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">499</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;halted&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="k">get</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;nested also&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="n">after</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;a-nested&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">after</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;a-nested&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="n">after</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;a-all&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="n">after</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;a-all&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
 <h4 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h4>
 <p>You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
@@ -2246,7 +2289,7 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="w">    </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="c1">// We can access the certificate used by the client from the request</span><span class="w"></span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">subjectDn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">certificate</span><span class="p">()</span><span class="o">?.</span><span class="na">subjectX500Principal</span><span class="o">?.</span><span class="na">name</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">subjectDn</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">subjectDn</span><span class="p">)</span><span class="w"></span>
 <span class="w">        </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -2301,7 +2344,7 @@ This will pick a random free port which you can check later:</p>
 Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt">tests of the starter projects</a>.</p>
 <p>If you have an OpenAPI/Swagger spec defined for your server, you can also make use of the mock server (<a href="#openapi-mock-server">see below</a>).</p>
 <h5 id="mocking-calls">Mocking calls<a class="headerlink" href="#mocking-calls" title="Permanent link">&para;</a></h5>
-<p>To unit test callbacks you can create test calls with hardcoded requests, responses and sessions.</p>
+<p>To unit test handlers you can call them with hardcoded requests.</p>
 <p>For a quick sample, check the snipped below:</p>
 <p>TODO Add example code</p>
 <h2 id="package-comhexagonkthttpserver">Package com.hexagonkt.http.server<a class="headerlink" href="#package-comhexagonkthttpserver" title="Permanent link">&para;</a></h2>
@@ -2473,7 +2516,7 @@ Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/t
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.c2e1ee47.min.js"></script>
+      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

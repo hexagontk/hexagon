@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpBase.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.model</a> &gt; <span class="el_source">HttpBase.kt</span></div><h1>HttpBase.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.model
 
-import com.hexagonkt.core.MultiMap
-
 interface HttpBase {
     // TODO Allow get by chunks with 'channel/flow'
     val body: Any
-    val headers: MultiMap&lt;String, String&gt;  // [&quot;H&quot;] // value of &quot;H&quot; header
-    val contentType: ContentType?          // media type of request.body
+    val headers: HttpFields&lt;Header&gt;  // [&quot;H&quot;] // value of &quot;H&quot; header
+    val contentType: ContentType?    // media type of request.body
 
     fun bodyString(): String =
-<span class="fc" id="L12">        when (body) {</span>
-<span class="fc bfc" id="L13" title="All 2 branches covered.">            is String -&gt; body as String</span>
-<span class="fc bfc" id="L14" title="All 2 branches covered.">            is ByteArray -&gt; String(body as ByteArray)</span>
-<span class="fc" id="L15">            else -&gt; body.toString()</span>
-<span class="fc" id="L16">        }</span>
+<span class="fc" id="L10">        when (body) {</span>
+<span class="fc bfc" id="L11" title="All 2 branches covered.">            is String -&gt; body as String</span>
+<span class="fc bfc" id="L12" title="All 2 branches covered.">            is ByteArray -&gt; String(body as ByteArray)</span>
+<span class="fc" id="L13">            else -&gt; body.toString()</span>
+<span class="fc" id="L14">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

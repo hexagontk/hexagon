@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpFields.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.model</a> &gt; <span class="el_source">HttpFields.kt</span></div><h1>HttpFields.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.model
 
-/**
- * TODO
- * Container for headers, query parameters and form parameters
- */
-<span class="fc" id="L7">data class HttpFields&lt;T : HttpField&gt;(</span>
-<span class="pc" id="L8">    val httpFields: Map&lt;String, T&gt;</span>
-) : Map&lt;String, T&gt; by httpFields {
+import com.hexagonkt.core.require
 
-<span class="fc" id="L11">    constructor(fields: List&lt;T&gt;) : this(fields.associateBy { it.name })</span>
+<span class="fc" id="L5">data class HttpFields&lt;T : HttpField&gt;(</span>
+<span class="fc" id="L6">    val httpFields: Map&lt;String, T&gt;</span>
+) {
 
-<span class="fc" id="L13">    constructor(vararg fields: T) : this(fields.toList())</span>
+<span class="fc" id="L9">    constructor(fields: List&lt;T&gt;) : this(fields.associateBy { it.name })</span>
+
+<span class="fc" id="L11">    constructor(vararg fields: T) : this(fields.toList())</span>
 
     operator fun plus(element: T): HttpFields&lt;T&gt; =
-<span class="fc" id="L16">        copy(httpFields = httpFields + (element.name to element))</span>
+<span class="fc" id="L14">        copy(httpFields = httpFields + (element.name to element))</span>
+
+    operator fun plus(element: HttpFields&lt;T&gt;): HttpFields&lt;T&gt; =
+<span class="fc" id="L17">        copy(httpFields = httpFields + element.httpFields)</span>
+
+    operator fun minus(name: String): HttpFields&lt;T&gt; =
+<span class="fc" id="L20">        copy(httpFields = httpFields - name)</span>
+
+<span class="fc" id="L22">    val allPairs: List&lt;Pair&lt;String, String&gt;&gt; by lazy {</span>
+<span class="fc" id="L23">        httpFields.flatMap { (k, v) -&gt; v.values.map { k to it } }</span>
+    }
+
+<span class="fc" id="L26">    val allValues: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
+<span class="fc" id="L27">        httpFields.mapValues { it.value.values }</span>
+    }
+
+<span class="fc" id="L30">    val values: Map&lt;String, String&gt; by lazy {</span>
+<span class="fc" id="L31">        httpFields</span>
+<span class="fc bfc" id="L32" title="All 4 branches covered.">            .filterValues { it.values.isNotEmpty() }</span>
+<span class="fc" id="L33">            .mapValues { it.value.values.first() }</span>
+    }
+
+    fun isEmpty(): Boolean =
+<span class="fc" id="L37">        httpFields.isEmpty()</span>
+
+    operator fun get(key: String): String? =
+<span class="pc bpc" id="L40" title="1 of 4 branches missed.">        httpFields[key]?.values?.firstOrNull()</span>
+
+    fun require(key: String): String =
+<span class="fc" id="L43">        httpFields.require(key).values.first()</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

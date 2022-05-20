@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OptionParser.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.args</a> &gt; <span class="el_source">OptionParser.kt</span></div><h1>OptionParser.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.args
+
+object OptionParser {
+
+<span class="fc" id="L5">    private val LONG_NAME_REGEX = Regex(&quot;--[a-z]+-?[a-z]+=?[a-zA-Z\\d.]*&quot;)</span>
+<span class="fc" id="L6">    private val SHORT_NAME_REGEX = Regex(&quot;-[a-z]+&quot;)</span>
+<span class="fc" id="L7">    private val SUPPORTED_TYPES = listOf(String::class, Boolean::class, Double::class, Int::class)</span>
+    private const val BOOLEAN = &quot;kotlin.Boolean&quot;
+
+    fun parse(options: List&lt;Option&lt;*&gt;&gt;, args: Array&lt;String&gt;): Result&lt;Map&lt;Option&lt;*&gt;, *&gt;&gt; {
+
+<span class="pc bpc" id="L12" title="1 of 2 branches missed.">        if (hasUnsupportedParameters(options)) return Result.failure(UnsupportedArgumentTypeException)</span>
+
+<span class="fc" id="L14">        val result = mutableMapOf&lt;Option&lt;*&gt;, Any&gt;()</span>
+
+<span class="fc bfc" id="L16" title="All 2 branches covered.">        for (arg in args) {</span>
+<span class="pc bpc" id="L17" title="1 of 2 branches missed.">            if (!isOption(arg)) continue</span>
+
+<span class="fc bfc" id="L19" title="All 2 branches covered.">            if (!hasValidSyntax(arg)) return Result.failure(InvalidOptionSyntaxException)</span>
+<span class="fc" id="L20">            val isLong = arg.startsWith(&quot;--&quot;)</span>
+<span class="fc" id="L21">            val optionWithoutPrefixedDashes = removePrefixedDashes(arg)</span>
+
+<span class="fc bfc" id="L23" title="All 2 branches covered.">            if (isLong) {</span>
+<span class="fc" id="L24">                val split = optionWithoutPrefixedDashes.split(&quot;=&quot;)</span>
+<span class="pc bpc" id="L25" title="2 of 6 branches missed.">                val option = options.find { split.first() == it.longName }</span>
+<span class="nc" id="L26">                    ?: return Result.failure(InvalidOptionException)</span>
+
+<span class="fc" id="L28">                result[option] = when {</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">                    split.size &gt; 1 -&gt; resolveParamValue(split[1], option)</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">                    option.type.qualifiedName == BOOLEAN -&gt; true</span>
+<span class="pc" id="L31">                    else -&gt; return Result.failure(OptionNeedsAValueException)</span>
+                }
+            } else {
+<span class="fc" id="L34">                optionWithoutPrefixedDashes.forEach { shortName -&gt;</span>
+<span class="pc bpc" id="L35" title="2 of 8 branches missed.">                    val option = options.find { it.shortName == shortName }</span>
+<span class="nc" id="L36">                        ?: return Result.failure(InvalidOptionSyntaxException)</span>
+<span class="fc" id="L37">                    result[option] = true</span>
+<span class="fc" id="L38">                }</span>
+            }
+        }
+
+<span class="fc" id="L42">        return Result.success(result)</span>
+    }
+
+    private fun hasUnsupportedParameters(options: List&lt;Option&lt;*&gt;&gt;): Boolean {
+<span class="pc bpc" id="L46" title="2 of 4 branches missed.">        return options.any { !SUPPORTED_TYPES.contains(it.type) }</span>
+    }
+
+<span class="pc bpc" id="L49" title="3 of 4 branches missed.">    private fun isOption(arg: String) = arg.startsWith(&quot;-&quot;) || arg.startsWith(&quot;--&quot;)</span>
+
+    private fun hasValidSyntax(arg: String): Boolean {
+<span class="fc bfc" id="L52" title="All 4 branches covered.">        return LONG_NAME_REGEX.matches(arg) || SHORT_NAME_REGEX.matches(arg)</span>
+    }
+
+    private fun removePrefixedDashes(arg: String): String {
+<span class="fc" id="L56">        var result = arg</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        while (result.startsWith(&quot;-&quot;)) {</span>
+<span class="fc" id="L58">            result = result.substring(1)</span>
+        }
+
+<span class="fc" id="L61">        return result</span>
+    }
+    private fun resolveParamValue(arg: String, option: Option&lt;*&gt;): Any {
+<span class="pc bpc" id="L64" title="2 of 7 branches missed.">        return when (option.type.qualifiedName) {</span>
+<span class="fc" id="L65">            BOOLEAN -&gt; arg.toBoolean()</span>
+<span class="fc" id="L66">            &quot;kotlin.Double&quot; -&gt; arg.toDouble()</span>
+<span class="fc" id="L67">            &quot;kotlin.Int&quot; -&gt; arg.toInt()</span>
+<span class="pc" id="L68">            &quot;kotlin.String&quot; -&gt; arg</span>
+<span class="nc" id="L69">            else -&gt; error(&quot;not supported type&quot;)</span>
+        }
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

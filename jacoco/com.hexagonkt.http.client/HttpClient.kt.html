@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpClient.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.client</a> &gt; <span class="el_source">HttpClient.kt</span></div><h1>HttpClient.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.client
 
-import com.hexagonkt.core.MultiMap
-import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpCookie
+import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.model.HttpMethod.*
 import java.io.Closeable
 import java.net.URL
@@ -52,7 +52,7 @@ import java.net.URL
 
 <span class="fc" id="L53">    fun get(</span>
         path: String,
-<span class="fc" id="L55">        headers: MultiMap&lt;String, String&gt; = multiMapOf(),</span>
+<span class="fc" id="L55">        headers: HttpFields&lt;Header&gt; = HttpFields(),</span>
 <span class="fc" id="L56">        body: Any? = null,</span>
 <span class="fc" id="L57">        contentType: ContentType? = settings.contentType): HttpClientResponse =</span>
 <span class="fc" id="L58">            send(</span>
@@ -65,7 +65,7 @@ import java.net.URL
 <span class="fc" id="L65">            )</span>
 
 <span class="fc" id="L67">    fun head(</span>
-<span class="fc" id="L68">        path: String, headers: MultiMap&lt;String, String&gt; = multiMapOf()</span>
+<span class="fc" id="L68">        path: String, headers: HttpFields&lt;Header&gt; = HttpFields()</span>
     ): HttpClientResponse =
 <span class="fc" id="L70">        send(HttpClientRequest(HEAD, path = path, body = ByteArray(0), headers = headers))</span>
 
@@ -100,7 +100,7 @@ import java.net.URL
 <span class="fc" id="L100">    fun options(</span>
         path: String,
 <span class="fc" id="L102">        body: Any? = null,</span>
-<span class="fc" id="L103">        headers: MultiMap&lt;String, String&gt; = multiMapOf(),</span>
+<span class="fc" id="L103">        headers: HttpFields&lt;Header&gt; = HttpFields(),</span>
 <span class="fc" id="L104">        contentType: ContentType? = settings.contentType</span>
     ): HttpClientResponse =
 <span class="fc" id="L106">        send(</span>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletRequestAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">ServletRequestAdapter.kt</span></div><h1>ServletRequestAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
 import com.hexagonkt.http.parseQueryString
@@ -8,55 +7,55 @@ import com.hexagonkt.http.server.model.HttpServerRequestPort
 import java.security.cert.X509Certificate
 import jakarta.servlet.http.HttpServletRequest
 
-<span class="fc" id="L11">internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpServerRequestPort {</span>
+<span class="fc" id="L10">internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpServerRequestPort {</span>
 
     private companion object {
         const val CERTIFICATE_ATTRIBUTE = &quot;jakarta.servlet.request.X509Certificate&quot;
     }
 
     @Suppress(&quot;UNCHECKED_CAST&quot;)
-<span class="fc" id="L18">    override val certificateChain: List&lt;X509Certificate&gt; by lazy {</span>
-<span class="pc bpc" id="L19" title="1 of 4 branches missed.">        (req.getAttribute(CERTIFICATE_ATTRIBUTE) as? Array&lt;X509Certificate&gt;)</span>
-<span class="fc bfc" id="L20" title="All 2 branches covered.">            ?.toList()</span>
-<span class="fc" id="L21">            ?: emptyList()</span>
+<span class="fc" id="L17">    override val certificateChain: List&lt;X509Certificate&gt; by lazy {</span>
+<span class="pc bpc" id="L18" title="1 of 4 branches missed.">        (req.getAttribute(CERTIFICATE_ATTRIBUTE) as? Array&lt;X509Certificate&gt;)</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">            ?.toList()</span>
+<span class="fc" id="L20">            ?: emptyList()</span>
     }
 
-<span class="fc" id="L24">    override val accept: List&lt;ContentType&gt; by lazy {</span>
-<span class="pc bpc" id="L25" title="2 of 4 branches missed.">        req.getHeaders(&quot;accept&quot;)?.toList()?.map { parseContentType(it) } ?: emptyList()</span>
+<span class="fc" id="L23">    override val accept: List&lt;ContentType&gt; by lazy {</span>
+<span class="pc bpc" id="L24" title="2 of 4 branches missed.">        req.getHeaders(&quot;accept&quot;)?.toList()?.map { parseContentType(it) } ?: emptyList()</span>
     }
 
-<span class="fc" id="L28">    override val contentLength: Long by lazy { req.contentLength.toLong() }</span>
+<span class="fc" id="L27">    override val contentLength: Long by lazy { req.contentLength.toLong() }</span>
 
-<span class="fc" id="L30">    override val queryParameters: MultiMap&lt;String, String&gt; by lazy {</span>
-<span class="fc bfc" id="L31" title="All 2 branches covered.">        parseQueryString(req.queryString ?: &quot;&quot;)</span>
+<span class="fc" id="L29">    override val queryParameters: HttpFields&lt;QueryParameter&gt; by lazy {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        parseQueryString(req.queryString ?: &quot;&quot;)</span>
     }
 
-<span class="fc" id="L34">    override val method: HttpMethod by lazy {</span>
-<span class="fc" id="L35">        HttpMethod.valueOf(req.method)</span>
+<span class="fc" id="L33">    override val method: HttpMethod by lazy {</span>
+<span class="fc" id="L34">        HttpMethod.valueOf(req.method)</span>
     }
 
-<span class="fc" id="L38">    override val protocol: HttpProtocol by lazy { HttpProtocol.valueOf(req.scheme.uppercase()) }</span>
-<span class="fc" id="L39">    override val host: String by lazy { req.remoteHost }</span>
-<span class="fc" id="L40">    override val port: Int by lazy { req.serverPort }</span>
-<span class="fc bfc" id="L41" title="All 4 branches covered.">    override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }</span>
+<span class="fc" id="L37">    override val protocol: HttpProtocol by lazy { HttpProtocol.valueOf(req.scheme.uppercase()) }</span>
+<span class="fc" id="L38">    override val host: String by lazy { req.remoteHost }</span>
+<span class="fc" id="L39">    override val port: Int by lazy { req.serverPort }</span>
+<span class="fc bfc" id="L40" title="All 4 branches covered.">    override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }</span>
 
-<span class="fc" id="L43">    override val cookies: List&lt;HttpCookie&gt; by lazy {</span>
-<span class="fc" id="L44">        req.cookies</span>
-<span class="fc bfc" id="L45" title="All 2 branches covered.">            ?.map { HttpCookie(it.name, it.value, it.maxAge.toLong(), it.secure) }</span>
-<span class="fc" id="L46">            ?: emptyList()</span>
+<span class="fc" id="L42">    override val cookies: List&lt;HttpCookie&gt; by lazy {</span>
+<span class="fc" id="L43">        req.cookies</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            ?.map { HttpCookie(it.name, it.value, it.maxAge.toLong(), it.secure) }</span>
+<span class="fc" id="L45">            ?: emptyList()</span>
     }
 
-<span class="fc" id="L49">    override val headers: MultiMap&lt;String, String&gt; by lazy {</span>
-<span class="fc" id="L50">        MultiMap(</span>
-<span class="fc" id="L51">            req.headerNames</span>
-<span class="fc" id="L52">                .toList()</span>
-<span class="fc" id="L53">                .map { it.lowercase() }</span>
-<span class="fc" id="L54">                .associateWith { req.getHeaders(it).toList() }</span>
+<span class="fc" id="L48">    override val headers: HttpFields&lt;Header&gt; by lazy {</span>
+<span class="fc" id="L49">        HttpFields(</span>
+<span class="fc" id="L50">            req.headerNames</span>
+<span class="fc" id="L51">                .toList()</span>
+<span class="fc" id="L52">                .map { it.lowercase() }</span>
+<span class="fc" id="L53">                .map { Header(it, req.getHeaders(it).toList()) }</span>
         )
     }
 
-<span class="fc" id="L58">    override val contentType: ContentType? by lazy {</span>
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        req.contentType?.let { parseContentType(it) }</span>
+<span class="fc" id="L57">    override val contentType: ContentType? by lazy {</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        req.contentType?.let { parseContentType(it) }</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
