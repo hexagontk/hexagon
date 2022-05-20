@@ -1,6 +1,5 @@
 package com.hexagonkt.http.client.jetty
 
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.http.bodyToBytes
@@ -10,6 +9,7 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpCookie
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.parseContentType
@@ -28,6 +28,7 @@ import org.eclipse.jetty.io.ClientConnector
 import java.net.CookieStore
 import java.net.URI
 import java.util.concurrent.ExecutionException
+import com.hexagonkt.http.model.HttpFields as HxHttpFields
 import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFactory
 import org.eclipse.jetty.client.HttpClient as JettyHttpClient
 
@@ -98,13 +99,13 @@ class JettyClientAdapter : HttpClientPort {
         )
     }
 
-    private fun convertHeaders(headers: HttpFields): MultiMap<String, String> =
-        MultiMap(
+    private fun convertHeaders(headers: HttpFields): HxHttpFields<Header> =
+        HxHttpFields(
             headers
                 .fieldNamesCollection
                 .map { it.lowercase() }
                 .filter { it !in checkedHeaders }
-                .associateWith { headers.getValuesList(it) }
+                .map { Header(it, headers.getValuesList(it)) }
         )
 
     private fun createJettyRequest(
@@ -156,8 +157,8 @@ class JettyClientAdapter : HttpClientPort {
                 )
         }
 
-        request.formParameters.allValues
-            .flatMap { (k, v) -> v.map { k to it } }
+        request.formParameters
+            .allPairs
             .forEach { (k, v) ->
                 // TODO Add content type if present
                 multiPart.addFieldPart(k, StringRequestContent(v), EMPTY)

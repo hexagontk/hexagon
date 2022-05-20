@@ -2,10 +2,11 @@ package com.hexagonkt.http
 
 import com.hexagonkt.core.disableChecks
 import com.hexagonkt.core.Jvm
-import com.hexagonkt.core.MultiMap
-import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.model.Header
+import com.hexagonkt.http.model.HttpFields
+import com.hexagonkt.http.model.QueryParameter
 import java.math.BigInteger
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -20,17 +21,17 @@ val gmtZone: ZoneId = ZoneId.of("GMT")
 
 val httpDateFormatter: DateTimeFormatter = RFC_1123_DATE_TIME.withZone(ZoneOffset.UTC)
 
-fun checkHeaders(headers: MultiMap<String, String>) {
+fun checkHeaders(headers: HttpFields<Header>) {
     if (disableChecks)
         return
 
-    val headersKeys = headers.keys
+    val headersKeys = headers.httpFields.keys
     check(headersKeys.all { key -> key.all { it.isLowerCase() || it.isDigit() || it == '-' } }) {
         val invalidHeaders = headersKeys.joinToString(",") { "'$it'" }
         "Header names must be lower-case and contain only letters, digits or '-': $invalidHeaders"
     }
 
-    val invalidHeaders = checkedHeaders.filter { headers.containsKey(it) }
+    val invalidHeaders = checkedHeaders.filter { headers.httpFields.containsKey(it) }
 
     check(invalidHeaders.isEmpty()) {
         val invalidHeadersText = invalidHeaders.joinToString(",") { "'$it'" }
@@ -54,11 +55,11 @@ fun checkHeaders(headers: MultiMap<String, String>) {
  * @return Map with query parameter keys bound to a list with their values.
  *
  */
-fun parseQueryString(query: String): MultiMap<String, String> =
+fun parseQueryString(query: String): HttpFields<QueryParameter> =
     if (query.isBlank())
-        multiMapOf()
+        HttpFields()
     else
-        MultiMap(
+        HttpFields(
             query
                 .split("&".toRegex())
                 .map {
@@ -70,9 +71,10 @@ fun parseQueryString(query: String): MultiMap<String, String> =
                 .filter { it.first.isNotBlank() }
                 .groupBy { it.first }
                 .mapValues { pair -> pair.value.map { it.second } }
+                .map { (k, v) -> QueryParameter(k, v) }
         )
 
-fun formatQueryString(parameters: MultiMap<String, String>): String =
+fun formatQueryString(parameters: HttpFields<QueryParameter>): String =
     parameters.allPairs
         .filter { it.first.isNotBlank() }
         .joinToString("&") { (k, v) ->

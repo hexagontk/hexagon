@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.core.encodeToBase64
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.SuccessStatus.OK
@@ -48,7 +49,7 @@ internal fun HttpServerRequest.auth(
             null
 
     return if (authorization != null)
-        copy(headers = headers + ("authorization" to "Basic $authorization"))
+        copy(headers = headers + Header("authorization", "Basic $authorization"))
     else
         this
 }

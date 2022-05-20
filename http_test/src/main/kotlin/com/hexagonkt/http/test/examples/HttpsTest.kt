@@ -1,7 +1,6 @@
 package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.fail
-import com.hexagonkt.core.require
 import com.hexagonkt.core.security.getPrivateKey
 import com.hexagonkt.core.security.getPublicKey
 import com.hexagonkt.core.security.loadKeyStore
@@ -9,6 +8,7 @@ import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
 import com.hexagonkt.http.server.*
@@ -54,7 +54,7 @@ abstract class HttpsTest(
     private val router = path {
         get("/hello") {
             val certificateSubject = request.certificate()?.subjectX500Principal?.name ?: fail
-            val headers = response.headers + ("cert" to certificateSubject)
+            val headers = response.headers + Header("cert", certificateSubject)
             ok("Hello World!", headers = headers)
         }
     }
@@ -94,7 +94,7 @@ abstract class HttpsTest(
             get("/hello") {
                 // We can access the certificate used by the client from the request
                 val subjectDn = request.certificate()?.subjectX500Principal?.name ?: ""
-                val h = response.headers + ("cert" to subjectDn)
+                val h = response.headers + Header("cert", subjectDn)
                 ok("Hello World!", headers = h)
             }
         }

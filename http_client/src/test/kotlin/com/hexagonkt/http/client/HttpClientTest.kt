@@ -1,11 +1,11 @@
 package com.hexagonkt.http.client
 
-import com.hexagonkt.core.MultiMap
-import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.core.media.TextMedia.CSV
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpCookie
+import com.hexagonkt.http.model.HttpFields
 import org.junit.jupiter.api.Test
 import java.net.URL
 import kotlin.test.assertEquals
@@ -53,10 +53,10 @@ internal class HttpClientTest {
         fun HttpClientResponse.checkClient(
             path: String,
             body: String = "",
-            headers: MultiMap<String, String> = multiMapOf(),
+            headers: HttpFields<Header> = HttpFields(),
             contentType: ContentType? = null,
         ) {
-            assertEquals(headers + ("-path-" to path), this.headers)
+            assertEquals(headers + Header("-path-", path), this.headers)
             assertEquals(body, this.bodyString())
             assertEquals(contentType, this.contentType)
         }
@@ -64,7 +64,7 @@ internal class HttpClientTest {
         val client = HttpClient(VoidAdapter)
         val csv = ContentType(CSV)
         val csvClient = HttpClient(VoidAdapter, HttpClientSettings(contentType = csv))
-        val headers = multiMapOf("h1" to "v1")
+        val headers = HttpFields(Header("h1", "v1"))
         val body = "body"
 
         client.get("/a").checkClient("/a")

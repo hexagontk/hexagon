@@ -1,7 +1,5 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.core.MultiMap
-import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
 import jakarta.servlet.http.HttpServletRequest
@@ -18,7 +16,7 @@ internal class ServletRequestAdapterAsync(
     // TODO Parts parsing is a hack, can be improved (a lot)
     override val parts: List<HttpPartPort> by lazy {
         var partList: List<HttpPart> = emptyList()
-        var partHeaders: MultiMap<String, String> = multiMapOf()
+        var partHeaders: HttpFields<Header> = HttpFields()
         val partBody = StringBuilder()
 
         val boundary = contentType?.boundary
@@ -31,7 +29,7 @@ internal class ServletRequestAdapterAsync(
         bodyLines.forEach { ln ->
             when {
                 ln.contains(boundary) -> {
-                    if (partHeaders.isNotEmpty() || partBody.isNotBlank()) {
+                    if (partHeaders.httpFields.isNotEmpty() || partBody.isNotBlank()) {
                         val bodyBytes = partBody.toString().removeSuffix("\n").toByteArray()
                         val type = partHeaders["content-type"]?.let { ct -> parseContentType(ct) }
                         val size = bodyBytes.size.toLong()
@@ -51,7 +49,7 @@ internal class ServletRequestAdapterAsync(
                             submittedFileName = fileName,
                         )
 
-                        partHeaders = multiMapOf()
+                        partHeaders = HttpFields()
                         partBody.clear()
                         inBody = false
                     }
@@ -61,7 +59,7 @@ internal class ServletRequestAdapterAsync(
                     partHeaders += ln
                         .split(":")
                         .map { it.trim() }
-                        .let { it.first().lowercase() to it.last() }
+                        .let { Header(it.first().lowercase(), it.last()) }
 
                 !inBody && ln.isBlank() ->
                     inBody = true
@@ -74,11 +72,12 @@ internal class ServletRequestAdapterAsync(
         partList
     }
 
-    override val formParameters: MultiMap<String, String> by lazy {
+    override val formParameters: HttpFields<FormParameter> by lazy {
         val parameters = parts
             .map { it.name to it.bodyString() }
             .groupBy({ it.first }, { it.second })
+            .map { (k, v) -> FormParameter(k, v) }
 
-        MultiMap(parameters)
+        HttpFields(parameters)
     }
 }

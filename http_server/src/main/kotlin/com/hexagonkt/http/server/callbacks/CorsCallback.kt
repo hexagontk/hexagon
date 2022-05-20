@@ -2,6 +2,7 @@ package com.hexagonkt.http.server.callbacks
 
 import com.hexagonkt.core.Glob
 import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.HttpMethod.OPTIONS
@@ -72,13 +73,13 @@ class CorsCallback(
             return clientError(FORBIDDEN, "Not allowed origin: $origin")
 
         val accessControlAllowOrigin = accessControlAllowOrigin(origin)
-        var h = response.headers + (ALLOW_ORIGIN to accessControlAllowOrigin)
+        var h = response.headers + Header(ALLOW_ORIGIN, accessControlAllowOrigin)
 
         if (accessControlAllowOrigin != "*")
-            h += "vary" to "Origin"
+            h += Header("vary", "Origin")
 
         if (supportCredentials)
-            h += ALLOW_CREDENTIALS to true.toString()
+            h += Header(ALLOW_CREDENTIALS, true)
 
         val accessControlRequestMethod = request.headers[REQUEST_METHOD]
         if (request.method == OPTIONS && accessControlRequestMethod != null)
@@ -88,10 +89,10 @@ class CorsCallback(
             return clientError(FORBIDDEN, "Not allowed method: ${request.method}")
 
         if (exposedHeaders.isNotEmpty()) {
-            val requestHeaderNames = request.headers.keys.toSet()
+            val requestHeaderNames = request.headers.httpFields.keys.toSet()
             val requestHeaders = requestHeaderNames.filter { it in exposedHeaders }
 
-            h += EXPOSE_HEADERS to requestHeaders.joinToString(",")
+            h += Header(EXPOSE_HEADERS, requestHeaders.joinToString(","))
         }
 
         return success(preFlightStatus, headers = h)
@@ -121,14 +122,14 @@ class CorsCallback(
                 return clientError(FORBIDDEN, "Not allowed headers")
 
             val headers = this@CorsCallback.allowedHeaders
-            val requestHeaders = headers.ifEmpty { request.headers.keys.toSet() }
-            h += ALLOW_HEADERS to requestHeaders.joinToString(",")
+            val requestHeaders = headers.ifEmpty { request.headers.httpFields.keys.toSet() }
+            h += Header(ALLOW_HEADERS, requestHeaders.joinToString(","))
         }
 
-        h += REQUEST_METHOD to allowedMethods.joinToString(",")
+        h += Header(REQUEST_METHOD, allowedMethods.joinToString(","))
 
         if (preFlightMaxAge > 0)
-            h += MAX_AGE to preFlightMaxAge.toString()
+            h += Header(MAX_AGE, preFlightMaxAge.toString())
 
         return success(preFlightStatus, headers = h)
     }

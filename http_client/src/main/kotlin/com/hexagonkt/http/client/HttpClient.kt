@@ -1,11 +1,11 @@
 package com.hexagonkt.http.client
 
-import com.hexagonkt.core.MultiMap
-import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpCookie
+import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.model.HttpMethod.*
 import java.io.Closeable
 import java.net.URL
@@ -52,7 +52,7 @@ class HttpClient(
 
     fun get(
         path: String,
-        headers: MultiMap<String, String> = multiMapOf(),
+        headers: HttpFields<Header> = HttpFields(),
         body: Any? = null,
         contentType: ContentType? = settings.contentType): HttpClientResponse =
             send(
@@ -65,7 +65,7 @@ class HttpClient(
             )
 
     fun head(
-        path: String, headers: MultiMap<String, String> = multiMapOf()
+        path: String, headers: HttpFields<Header> = HttpFields()
     ): HttpClientResponse =
         send(HttpClientRequest(HEAD, path = path, body = ByteArray(0), headers = headers))
 
@@ -100,7 +100,7 @@ class HttpClient(
     fun options(
         path: String,
         body: Any? = null,
-        headers: MultiMap<String, String> = multiMapOf(),
+        headers: HttpFields<Header> = HttpFields(),
         contentType: ContentType? = settings.contentType
     ): HttpClientResponse =
         send(

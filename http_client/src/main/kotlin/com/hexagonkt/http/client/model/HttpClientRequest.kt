@@ -1,7 +1,5 @@
 package com.hexagonkt.http.client.model
 
-import com.hexagonkt.core.MultiMap
-import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.*
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.GET
@@ -13,11 +11,11 @@ data class HttpClientRequest(
     override val host: String = "localhost",
     override val port: Int = 80,
     override val path: String = "",
-    override val queryParameters: MultiMap<String, String> = multiMapOf(),
-    override val headers: MultiMap<String, String> = multiMapOf(),
+    override val queryParameters: HttpFields<QueryParameter> = HttpFields(),
+    override val headers: HttpFields<Header> = HttpFields(),
     override val body: Any = "",
     override val parts: List<HttpPart> = emptyList(),
-    override val formParameters: MultiMap<String, String> = multiMapOf(),
+    override val formParameters: HttpFields<FormParameter> = HttpFields(),
     override val cookies: List<HttpCookie> = emptyList(),
     override val contentType: ContentType? = null,
     override val accept: List<ContentType> = emptyList(),
