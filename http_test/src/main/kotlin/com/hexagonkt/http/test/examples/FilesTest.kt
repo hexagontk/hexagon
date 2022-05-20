@@ -1,13 +1,12 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.MultiMap
-import com.hexagonkt.core.multiMapOf
-import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.core.media.TextMedia.CSS
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.Header
+import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.HttpMethod.POST
 import com.hexagonkt.http.model.HttpPart
@@ -60,14 +59,14 @@ abstract class FilesTest(
         get("/pub/*", FileCallback(File(directory))) // Serve `test` folder on `/pub/*`
 
         post("/multipart") {
-            val headers: MultiMap<String, String> = parts.first().let { p ->
+            val headers: HttpFields<Header> = parts.first().let { p ->
                 val name = p.name
                 val bodyString = p.bodyString()
                 val size = p.size.toString()
-                multiMapOf(
-                    "name" to name,
-                    "body" to bodyString,
-                    "size" to size,
+                HttpFields(
+                    Header("name", name),
+                    Header("body", bodyString),
+                    Header("size", size),
                 )
             }
 
@@ -78,7 +77,7 @@ abstract class FilesTest(
             val part = parts.first()
             val content = part.bodyString()
             val submittedFile = part.submittedFileName ?: ""
-            ok(content, headers = response.headers + ("submitted-file" to submittedFile))
+            ok(content, headers = response.headers + Header("submitted-file", submittedFile))
         }
 
         post("/form") {
@@ -89,7 +88,7 @@ abstract class FilesTest(
             val queryParams = serializeMap(queryParameters.allValues)
             val formParams = serializeMap(formParameters.allValues)
             val headers =
-                multiMapOfLists("query-params" to queryParams, "form-params" to formParams)
+                HttpFields(Header("query-params", queryParams), Header("form-params", formParams))
 
             ok(headers = response.headers + headers)
         }
@@ -145,10 +144,10 @@ abstract class FilesTest(
         val parts = listOf(HttpPart("name", "value"))
         val response = client.send(HttpClientRequest(POST, path = "/multipart", parts = parts))
         // clientForm
-        val expectedHeaders = multiMapOf(
-            "name" to "name",
-            "body" to "value",
-            "size" to "5",
+        val expectedHeaders = HttpFields(
+            Header("name", "name"),
+            Header("body", "value"),
+            Header("size", "5"),
         )
         val headers = response.headers - "transfer-encoding" - "content-length" - "connection"
         assertEquals(expectedHeaders, headers)

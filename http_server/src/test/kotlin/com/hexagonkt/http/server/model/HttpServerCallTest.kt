@@ -2,7 +2,6 @@ package com.hexagonkt.http.server.model
 
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
-import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
 import com.hexagonkt.http.model.HttpMethod.*
@@ -24,7 +23,7 @@ internal class HttpServerCallTest {
     private fun httpServerResponseData(): HttpServerResponse =
         HttpServerResponse(
             body = "response",
-            headers = multiMapOfLists("hr1" to listOf("hr1v1", "hr1v2")),
+            headers = HttpFields(Header("hr1", "hr1v1", "hr1v2")),
             contentType = ContentType(HTML),
             cookies = listOf(HttpCookie("cn", "cv")),
             status = NOT_FOUND,
@@ -37,7 +36,7 @@ internal class HttpServerCallTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path",
-            headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
+            headers = HttpFields(Header("h1", "h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
             formParameters = HttpFields(FormParameter("fp1", "fp1v1", "fp1v2")),

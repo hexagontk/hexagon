@@ -1,8 +1,5 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.MultiMap
-import com.hexagonkt.core.multiMapOf
-import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.core.require
 import com.hexagonkt.core.media.ApplicationMedia.JSON
 import com.hexagonkt.core.media.ApplicationMedia.YAML
@@ -68,9 +65,9 @@ abstract class ClientTest(
             ok(
                 body = bodyString,
                 headers = response.headers
-                    + ("body" to bodyHeader)
-                    + ("ct" to (request.contentType?.text ?: ""))
-                    + ("query-parameters" to formatQueryString(queryParameters)),
+                    + Header("body", bodyHeader)
+                    + Header("ct", request.contentType?.text ?: "")
+                    + Header("query-parameters", formatQueryString(queryParameters)),
                 contentType = contentType,
             )
         }
@@ -87,8 +84,9 @@ abstract class ClientTest(
 
     @Test fun `Form parameters are sent correctly`() {
         callback = {
-            val mapData = formParameters.allValues
-            val headers = MultiMap(mapData)
+            val headers = HttpFields(
+                formParameters.httpFields.map { (k, v) -> Header(k, v.values) }
+            )
             ok(headers = headers)
         }
 
@@ -101,7 +99,7 @@ abstract class ClientTest(
             )
         )
 
-        val expectedHeaders = multiMapOfLists("p1" to listOf("v11"), "p2" to listOf("v21", "v22"))
+        val expectedHeaders = HttpFields(Header("p1", "v11"), Header("p2", "v21", "v22"))
         val actualHeaders = response.headers - "transfer-encoding" - "content-length" - "connection"
         assertEquals(expectedHeaders, actualHeaders)
     }
@@ -154,7 +152,7 @@ abstract class ClientTest(
             baseUrl = URL("http://host:1234/base"),
             contentType = ContentType(JSON),
             useCookies = true,
-            headers = multiMapOf("x-api-Key" to "cafebabe"), // Headers used in all requests
+            headers = HttpFields(Header("x-api-Key", "cafebabe")), // Headers used in all requests
             insecure = false,               // If true, the client doesn't check server certificates
             sslSettings = SslSettings()     // Key stores settings (check TLS section for details)
         ))
@@ -180,7 +178,7 @@ abstract class ClientTest(
             method = GET,
             path = "/",
             body = mapOf("body" to "payload").serialize(),
-            headers = multiMapOf("x-header" to "value"),
+            headers = HttpFields(Header("x-header", "value")),
             queryParameters = HttpFields(QueryParameter("qp", "qpValue")),
             contentType = ContentType(JSON)
         )
@@ -267,7 +265,7 @@ abstract class ClientTest(
 
     @Test fun `Parameters are set properly` () {
         val endpoint = URL("http://localhost:${server.runtimePort}")
-        val h = multiMapOfLists("header1" to listOf("val1", "val2"))
+        val h = HttpFields(Header("header1", "val1", "val2"))
         val settings = HttpClientSettings(
             contentType = ContentType(JSON),
             useCookies = false,
@@ -281,7 +279,7 @@ abstract class ClientTest(
         assertEquals(c.settings.headers, h)
 
         callback = {
-            val headers = multiMapOfLists("head1" to request.headers.allValues.require("header1"))
+            val headers = Header("head1", request.headers.allValues.require("header1"))
             ok(headers = response.headers + headers)
         }
 
@@ -302,7 +300,7 @@ abstract class ClientTest(
             val number = BigInteger(request.body as ByteArray).toLong()
             ok(
                 body = number,
-                headers = response.headers + ("body" to number.toString()),
+                headers = response.headers + Header("body", number),
                 contentType = contentType
             )
         }
@@ -362,7 +360,7 @@ abstract class ClientTest(
             get("/hello") {
                 // We can access the certificate used by the client from the request
                 val subjectDn = request.certificate()?.subjectX500Principal?.name ?: ""
-                ok("Hello World!", headers = response.headers + ("cert" to subjectDn) )
+                ok("Hello World!", headers = response.headers + Header("cert", subjectDn) )
             }
         }
 

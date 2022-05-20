@@ -13,6 +13,12 @@ data class HttpFields<T : HttpField>(
     operator fun plus(element: T): HttpFields<T> =
         copy(httpFields = httpFields + (element.name to element))
 
+    operator fun plus(element: HttpFields<T>): HttpFields<T> =
+        copy(httpFields = httpFields + element.httpFields)
+
+    operator fun minus(name: String): HttpFields<T> =
+        copy(httpFields = httpFields - name)
+
     val allPairs: List<Pair<String, String>> by lazy {
         httpFields.flatMap { (k, v) -> v.values.map { k to it } }
     }

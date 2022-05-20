@@ -1,8 +1,6 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.core.fail
-import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.model.HttpProtocol.HTTP
 import org.junit.jupiter.api.Test
 import java.net.URL
@@ -16,10 +14,10 @@ internal class HttpRequestTest {
         var testHost: String = "localhost"
         var testPort: Int = 80
         var testPath: String = "path"
-        var testHeaders: MultiMap<String, String> = multiMapOf(
-            "user-agent" to "User Agent",
-            "referer" to "Referer",
-            "origin" to "Origin",
+        var testHeaders: HttpFields<Header> = HttpFields(
+            Header("user-agent", "User Agent"),
+            Header("referer", "Referer"),
+            Header("origin", "Origin"),
         )
         var testQueryParameters: HttpFields<QueryParameter> = HttpFields(
             QueryParameter("qp1", "value1", "value2")
@@ -35,7 +33,7 @@ internal class HttpRequestTest {
         override val queryParameters: HttpFields<QueryParameter> get() = testQueryParameters
         override val formParameters: HttpFields<FormParameter> get() = fail
         override val body: Any get() = fail
-        override val headers: MultiMap<String, String> get() = testHeaders
+        override val headers: HttpFields<Header> get() = testHeaders
         override val contentType: ContentType get() = fail
         override val accept: List<ContentType> get() = fail
 

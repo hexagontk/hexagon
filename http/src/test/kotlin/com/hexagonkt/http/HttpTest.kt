@@ -1,7 +1,7 @@
 package com.hexagonkt.http
 
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.core.multiMapOf
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.model.QueryParameter
 import org.junit.jupiter.api.Test
@@ -45,11 +45,11 @@ internal class HttpTest {
         val invalidHeaderError =
             "Header names must be lower-case and contain only letters, digits or '-':"
         val forbiddenHeaders = listOf("Content-Type", "accept_all")
-            .map { multiMapOf(it to "value") }
+            .map { HttpFields(Header(it, "value")) }
 
         forbiddenHeaders.forEach {
             val e = assertFailsWith<IllegalStateException> { checkHeaders(it) }
-            val header = it.keys.first()
+            val header = it.httpFields.keys.first()
             assertTrue(e.message?.contains("'$header'") ?: false)
             assertTrue(e.message?.contains(invalidHeaderError) ?: false)
         }
@@ -61,11 +61,11 @@ internal class HttpTest {
 
     @Test fun `Check headers fails when using reserved headers when not in production mode` () {
         val forbiddenHeaders = listOf("content-type", "accept", "set-cookie")
-            .map { multiMapOf(it to "value") }
+            .map { HttpFields(Header(it, "value")) }
 
         forbiddenHeaders.forEach {
             val e = assertFailsWith<IllegalStateException> { checkHeaders(it) }
-            val header = it.keys.first()
+            val header = it.httpFields.keys.first()
             assertTrue(e.message?.contains("'$header'") ?: false)
         }
 
@@ -75,21 +75,21 @@ internal class HttpTest {
     }
 
     @Test fun `Check headers list all invalid headers on error` () {
-        val headers = multiMapOf(
-            "content-type" to "1",
-            "accept" to "1",
-            "set-cookie" to "1",
+        val headers = HttpFields(
+            Header("content-type", "1"),
+            Header("accept", "1"),
+            Header("set-cookie", "1"),
         )
 
         val e = assertFailsWith<IllegalStateException> { checkHeaders(headers) }
-        headers.keys
+        headers.httpFields.keys
             .map { it.lowercase() }
             .forEach { assertTrue(e.message?.contains("'$it'") ?: false) }
     }
 
     @Test fun `Check headers succeed on regular headers` () {
         listOf("referrer", "origin")
-            .map { multiMapOf(it to "value") }
+            .map { HttpFields(Header(it, "value")) }
             .forEach { checkHeaders(it) }
     }
 

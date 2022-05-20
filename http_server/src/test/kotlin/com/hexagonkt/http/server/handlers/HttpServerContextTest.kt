@@ -34,7 +34,7 @@ internal class HttpServerContextTest {
             port = 9999,
             path = "/path/v1",
             queryParameters = HttpFields(QueryParameter("k", "v")),
-            headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
+            headers = HttpFields(Header("h1", "h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
             formParameters = HttpFields(FormParameter("fp1", "fp1v1", "fp1v2")),

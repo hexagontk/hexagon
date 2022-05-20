@@ -2,9 +2,9 @@ package com.hexagonkt.http
 
 import com.hexagonkt.core.disableChecks
 import com.hexagonkt.core.Jvm
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.model.QueryParameter
 import java.math.BigInteger
@@ -21,17 +21,17 @@ val gmtZone: ZoneId = ZoneId.of("GMT")
 
 val httpDateFormatter: DateTimeFormatter = RFC_1123_DATE_TIME.withZone(ZoneOffset.UTC)
 
-fun checkHeaders(headers: MultiMap<String, String>) {
+fun checkHeaders(headers: HttpFields<Header>) {
     if (disableChecks)
         return
 
-    val headersKeys = headers.keys
+    val headersKeys = headers.httpFields.keys
     check(headersKeys.all { key -> key.all { it.isLowerCase() || it.isDigit() || it == '-' } }) {
         val invalidHeaders = headersKeys.joinToString(",") { "'$it'" }
         "Header names must be lower-case and contain only letters, digits or '-': $invalidHeaders"
     }
 
-    val invalidHeaders = checkedHeaders.filter { headers.containsKey(it) }
+    val invalidHeaders = checkedHeaders.filter { headers.httpFields.containsKey(it) }
 
     check(invalidHeaders.isEmpty()) {
         val invalidHeadersText = invalidHeaders.joinToString(",") { "'$it'" }

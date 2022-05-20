@@ -1,11 +1,9 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.core.MultiMap
-
 data class HttpPart (
     override val name: String,
     override val body: Any,
-    override val headers: MultiMap<String, String> = MultiMap(emptyMap()),
+    override val headers: HttpFields<Header> = HttpFields(),
     override val contentType: ContentType? = null,
     override val size: Long = -1L,
     override val submittedFileName: String? = null

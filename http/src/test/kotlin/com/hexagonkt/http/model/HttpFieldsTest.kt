@@ -27,6 +27,13 @@ internal class HttpFieldsTest {
 
         assertEquals(fields + Header("b", "c", 0, false), fields)
         assertEquals("0", (fields + Header("c", 0)).require("c"))
+
+        assertEquals(
+            fields + HttpFields(Header("c", 0), Header("d", 1)),
+            fields + Header("c", 0) + Header("d", 1)
+        )
+
+        assertEquals(fields, (fields + Header("c", 0)) - "c")
     }
 
     @Test fun `HTTP fields works correctly with empty fields`() {

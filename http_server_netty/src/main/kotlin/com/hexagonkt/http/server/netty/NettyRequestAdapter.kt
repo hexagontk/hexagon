@@ -1,6 +1,5 @@
 package com.hexagonkt.http.server.netty
 
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
 import com.hexagonkt.http.server.model.HttpServerRequestPort
@@ -102,12 +101,12 @@ class NettyRequestAdapter(
         else byteArrayOf()
     }
 
-    override val headers: MultiMap<String, String> by lazy {
-        MultiMap(
+    override val headers: HttpFields<Header> by lazy {
+        HttpFields(
             req.headers().names()
                 .toList()
                 .map { it.lowercase() }
-                .associateWith { req.headers().getAll(it) }
+                .map { Header(it, req.headers().getAll(it)) }
         )
     }
 

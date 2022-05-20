@@ -1,6 +1,5 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
@@ -227,15 +226,14 @@ abstract class SamplesTest(
                 // Parameters
                 pathParameters                    // map with all path parameters
                 request.formParameters            // map with first values of all form fields
-                // TODO Enable
-//                request.formParameters.allValues  // map with all form fields values
+                request.formParameters.allValues  // map with all form fields values
                 request.queryParameters           // map with first values of all query parameters
                 request.queryParameters.allValues // map with all query parameters values
 
                 queryParameters                   // Shortcut of `request.queryParameters`
                 queryParameters.allValues         // Shortcut of `request.queryParameters.allValues`
                 formParameters                    // Shortcut of `request.formParameters`
-//                formParameters.allValues          // Shortcut of `request.formParameters.allValues`
+                formParameters.allValues          // Shortcut of `request.formParameters.allValues`
 
                 // Body processing
                 request.contentLength             // length of request body
@@ -257,8 +255,8 @@ abstract class SamplesTest(
                     body = "Hello",                  // sets content to Hello
                     contentType = ContentType(XML),  // set content type to application/xml
                     headers = response.headers
-                        + ("foo" to "bar")           // sets header FOO with single value bar
-                        + multiMapOfLists("baz" to listOf("1", "2")) // sets header FOO values with [ bar ]
+                        + Header("foo", "bar")           // sets header FOO with single value bar
+                        + HttpFields(Header("baz", "1", "2")) // sets header FOO values with [ bar ]
                 )
             }
             // callbackResponse
@@ -286,8 +284,8 @@ abstract class SamplesTest(
             get("/formParam") {
                 request.formParameters                       // the query param list
                 request.formParameters["FOO"]                // value of FOO query param
-//                request.formParameters.allValues             // the query param list
-//                request.formParameters.allValues["FOO"]      // all values of FOO query param
+                request.formParameters.allValues             // the query param list
+                request.formParameters.allValues["FOO"]      // all values of FOO query param
                 ok()
             }
             // callbackFormParam
@@ -369,7 +367,7 @@ abstract class SamplesTest(
             assertEquals(OK, response.status)
             assertEquals(body, response.body)
             (headers.toList() + "b-all" + "a-all").forEach {
-                assert(response.headers.containsKey(it))
+                assert(response.headers.httpFields.containsKey(it))
             }
         }
 
@@ -377,30 +375,31 @@ abstract class SamplesTest(
             code: HttpStatus, response: HttpClientResponse, body: String, vararg headers: String) {
 
             assertEquals(code, response.status)
-            (headers.toList() + "b-all" + "a-all").forEach { assert(response.headers.contains(it)) }
+            (headers.toList() + "b-all" + "a-all")
+                .forEach { assert(response.headers.httpFields.contains(it)) }
             assertEquals(body, response.body)
         }
 
         val server = HttpServer(serverAdapter()) {
             // filters
-            on("/*") { send(headers = response.headers + ("b-all" to "true")) }
+            on("/*") { send(headers = response.headers + Header("b-all", "true")) }
 
-            on("/filters/*") { send(headers = response.headers + ("b-filters" to "true")) }
+            on("/filters/*") { send(headers = response.headers + Header("b-filters", "true")) }
             get("/filters/route") { ok("filters route") }
-            after("/filters/*") { send(headers = response.headers + ("a-filters" to "true")) }
+            after("/filters/*") { send(headers = response.headers + Header("a-filters", "true")) }
 
             get("/filters") { ok("filters") }
 
             path("/nested") {
-                on("*") { send(headers = response.headers + ("b-nested" to "true")) }
-                on { send(headers = response.headers + ("b-nested-2" to "true")) }
+                on("*") { send(headers = response.headers + Header("b-nested", "true")) }
+                on { send(headers = response.headers + Header("b-nested-2", "true")) }
                 get("/filters") { ok("nested filters") }
                 get("/halted") { send(HttpStatus(499), "halted") }
                 get { ok("nested also") }
-                after("*") { send(headers = response.headers + ("a-nested" to "true")) }
+                after("*") { send(headers = response.headers + Header("a-nested", "true")) }
             }
 
-            after("/*") { send(headers = response.headers + ("a-all" to "true")) }
+            after("/*") { send(headers = response.headers + Header("a-all", "true")) }
             // filters
         }
 
@@ -416,8 +415,8 @@ abstract class SamplesTest(
                 assertResponse(responseNested, "nested also", "b-nested", "b-nested-2", "a-nested")
                 val responseHalted = it.get("/nested/halted")
                 assertFail(HttpStatus(499), responseHalted, "halted", "b-nested", "a-nested")
-                assert(!it.get("/filters/route").headers.contains("b-nested"))
-                assert(!it.get("/filters/route").headers.contains("a-nested"))
+                assert(!it.get("/filters/route").headers.httpFields.contains("b-nested"))
+                assert(!it.get("/filters/route").headers.httpFields.contains("a-nested"))
             }
         }
     }

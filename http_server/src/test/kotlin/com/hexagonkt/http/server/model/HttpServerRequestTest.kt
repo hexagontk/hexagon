@@ -4,8 +4,6 @@ import com.hexagonkt.core.media.TextMedia.CSS
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.media.TextMedia.RICHTEXT
-import com.hexagonkt.core.multiMapOf
-import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
@@ -35,7 +33,7 @@ internal class HttpServerRequestTest {
             port = 9999,
             path = "/path",
             queryParameters = HttpFields(QueryParameter("k", "v")),
-            headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
+            headers = HttpFields(Header("h1", "h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
             formParameters = HttpFields(FormParameter("fp1", "fp1v1", "fp1v2")),
@@ -52,7 +50,7 @@ internal class HttpServerRequestTest {
         assertEquals(httpServerRequestData(), httpServerRequestData())
         assertFalse(httpServerRequest.equals(""))
 
-        val headers = multiMapOf("h1" to "v1")
+        val headers = HttpFields(Header("h1", "v1"))
         val parts = listOf(HttpPart("p", "v"))
         val formParameters = HttpFields(FormParameter("h1", "v1"))
         val cookies = listOf(HttpCookie("p", "v"))
@@ -98,10 +96,10 @@ internal class HttpServerRequestTest {
         assertNull(requestData.origin())
 
         requestData.copy(
-            headers = multiMapOf(
-                "user-agent" to "ua",
-                "referer" to "r",
-                "origin" to "o",
+            headers = HttpFields(
+                Header("user-agent", "ua"),
+                Header("referer", "r"),
+                Header("origin", "o"),
             )
         ).let {
             assertEquals("ua", it.userAgent())

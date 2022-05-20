@@ -73,7 +73,7 @@ data class HttpServerContext(
     fun success(
         status: SuccessStatus,
         body: Any = response.body,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
@@ -83,7 +83,7 @@ data class HttpServerContext(
     fun redirect(
         status: RedirectionStatus,
         body: Any = response.body,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
@@ -93,7 +93,7 @@ data class HttpServerContext(
     fun clientError(
         status: ClientErrorStatus,
         body: Any = response.body,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
@@ -103,7 +103,7 @@ data class HttpServerContext(
     fun serverError(
         status: ServerErrorStatus,
         body: Any = response.body,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
@@ -112,7 +112,7 @@ data class HttpServerContext(
 
     fun internalServerError(
         body: Any = response.body,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
@@ -122,7 +122,7 @@ data class HttpServerContext(
     fun serverError(
         status: ServerErrorStatus,
         exception: Exception,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         serverError(
@@ -135,14 +135,14 @@ data class HttpServerContext(
 
     fun internalServerError(
         exception: Exception,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         serverError(INTERNAL_SERVER_ERROR, exception, headers, attributes)
 
     fun ok(
         body: Any = response.body,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
@@ -152,13 +152,13 @@ data class HttpServerContext(
     fun sse(body: SubmissionPublisher<HttpServerEvent>): HttpServerContext =
         ok(
             body = body,
-            headers = response.headers + ("cache-control" to "no-cache"),
+            headers = response.headers + Header("cache-control", "no-cache"),
             contentType = ContentType(TextMedia.EVENT_STREAM)
         )
 
     fun badRequest(
         body: Any = response.body,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
@@ -167,7 +167,7 @@ data class HttpServerContext(
 
     fun notFound(
         body: Any = response.body,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
@@ -176,7 +176,7 @@ data class HttpServerContext(
 
     fun created(
         body: Any = response.body,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
@@ -186,7 +186,7 @@ data class HttpServerContext(
     fun send(
         status: HttpStatus = response.status,
         body: Any = response.body,
-        headers: MultiMap<String, String> = response.headers,
+        headers: HttpFields<Header> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,

@@ -1,6 +1,5 @@
 package com.hexagonkt.http.test
 
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.media.ApplicationMedia.JSON
 import com.hexagonkt.http.SslSettings
@@ -36,12 +35,15 @@ data class Http(
     val response: HttpClientResponse
         get() = responseOrNull ?: fail
 
-    private fun toMultiMap(map: Map<String, *>): MultiMap<String, String> = MultiMap(
-        map.mapValues { (_, v) ->
-            when (v) {
-                is Collection<*> -> v.map { it.toString() }.toList()
-                else -> listOf(v.toString())
-            }
+    private fun toMultiMap(map: Map<String, *>): HttpFields<Header> = HttpFields(
+        map.mapValues { (k, v) ->
+            Header(
+                k,
+                when (v) {
+                    is Collection<*> -> v.map { it.toString() }.toList()
+                    else -> listOf(v.toString())
+                }
+            )
         }
     )
 
