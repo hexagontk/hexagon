@@ -1,6 +1,5 @@
 package com.hexagonkt.http.test
 
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.media.ApplicationMedia.JSON
 import com.hexagonkt.http.SslSettings
@@ -9,10 +8,8 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.HttpMethod
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.HttpPart
 import java.net.URL
 
 data class Http(
@@ -38,12 +35,15 @@ data class Http(
     val response: HttpClientResponse
         get() = responseOrNull ?: fail
 
-    private fun toMultiMap(map: Map<String, *>): MultiMap<String, String> = MultiMap(
-        map.mapValues { (_, v) ->
-            when (v) {
-                is Collection<*> -> v.map { it.toString() }.toList()
-                else -> listOf(v.toString())
-            }
+    private fun toMultiMap(map: Map<String, *>): HttpFields<Header> = HttpFields(
+        map.mapValues { (k, v) ->
+            Header(
+                k,
+                when (v) {
+                    is Collection<*> -> v.map { it.toString() }.toList()
+                    else -> listOf(v.toString())
+                }
+            )
         }
     )
 
@@ -52,7 +52,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -62,7 +62,7 @@ data class Http(
             path = path,
             body = body,
             headers = toMultiMap(headers),
-            formParameters = toMultiMap(formParameters),
+            formParameters = HttpFields(formParameters),
             parts = parts,
             contentType = contentType,
         )
@@ -72,7 +72,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -83,7 +83,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -93,7 +93,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -103,7 +103,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -113,7 +113,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -123,7 +123,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
@@ -133,7 +133,7 @@ data class Http(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
         body: Any = "",
-        formParameters: Map<String, *> = emptyMap<String, Any>(),
+        formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =

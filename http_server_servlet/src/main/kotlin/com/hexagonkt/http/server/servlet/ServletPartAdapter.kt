@@ -1,7 +1,8 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.model.Header
+import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.model.HttpPartPort
 import com.hexagonkt.http.parseContentType
 import jakarta.servlet.http.Part
@@ -12,8 +13,10 @@ class ServletPartAdapter(private val part: Part) : HttpPartPort {
         part.inputStream.readAllBytes()
     }
 
-    override val headers: MultiMap<String, String> by lazy {
-        MultiMap(part.headerNames.filterNotNull().associateWith { part.getHeaders(it).toList() })
+    override val headers: HttpFields<Header> by lazy {
+        HttpFields(
+            part.headerNames.filterNotNull().map { Header(it, part.getHeaders(it).toList()) }
+        )
     }
 
     override val contentType: ContentType? by lazy {

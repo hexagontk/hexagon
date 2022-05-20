@@ -1,10 +1,11 @@
 package com.hexagonkt.http.test.openapi
 
-import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.ClientErrorStatus.*
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpCookie
+import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServer
@@ -61,7 +62,7 @@ internal class OpenApiHandlerTest {
     }
 
     @Test fun `x-mock-response-example is fetched from multiple examples correctly`() {
-        val headers = multiMapOf("x-mock-response-example" to "example2")
+        val headers = HttpFields(Header("x-mock-response-example", "example2"))
         val response = client.get("/get-from-multiple-examples", headers = headers)
         assertEquals(OK, response.status)
         assertEquals("bar", response.body)
@@ -120,12 +121,12 @@ internal class OpenApiHandlerTest {
         assertEquals(BAD_REQUEST, response1.status)
         assertEquals("invalid or missing header param", response1.body)
 
-        val validHeaders = multiMapOf("header-param" to "aValidValue")
+        val validHeaders = HttpFields(Header("header-param", "aValidValue"))
         val response2 = client.get("/check-header-param", headers = validHeaders)
         assertEquals(OK, response2.status)
         assertEquals("success", response2.body)
 
-        val invalidHeaders = multiMapOf("header-param" to "anInvalidValue")
+        val invalidHeaders = HttpFields(Header("header-param", "anInvalidValue"))
         val response3 = client.get("/check-header-param", headers = invalidHeaders)
         assertEquals(BAD_REQUEST, response3.status)
         assertEquals("invalid or missing header param", response3.body)
@@ -136,12 +137,12 @@ internal class OpenApiHandlerTest {
         assertEquals(OK, response1.status)
         assertEquals("success", response1.body)
 
-        val validHeaders = multiMapOf("header-param" to "aValidValue")
+        val validHeaders = HttpFields(Header("header-param", "aValidValue"))
         val response2 = client.get("/check-optional-header-param", headers = validHeaders)
         assertEquals(OK, response2.status)
         assertEquals("success", response2.body)
 
-        val invalidHeaders = multiMapOf("header-param" to "anInvalidValue")
+        val invalidHeaders = HttpFields(Header("header-param", "anInvalidValue"))
         val response3 = client.get("/check-optional-header-param", headers = invalidHeaders)
         assertEquals(BAD_REQUEST, response3.status)
         assertEquals("invalid or missing header param", response3.body)
@@ -198,7 +199,7 @@ internal class OpenApiHandlerTest {
         assertEquals(OK, response1.status)
         assertEquals("success", response1.body)
 
-        val headers = multiMapOf("authorization" to "Basic dGVzdDEwMDA6aW1vam8xMjM=")
+        val headers = HttpFields(Header("authorization", "Basic dGVzdDEwMDA6aW1vam8xMjM="))
         val response2 = client.get("/check-optional-auth", headers = headers)
         assertEquals(OK, response2.status)
         assertEquals("success", response2.body)
@@ -209,7 +210,7 @@ internal class OpenApiHandlerTest {
         assertEquals(UNAUTHORIZED, response1.status)
         assertEquals("Invalid authorization credentials", response1.body)
 
-        val headers = multiMapOf("authorization" to "Basic dGVzdDEwMDA6aW1vam8xMjM=")
+        val headers = HttpFields(Header("authorization", "Basic dGVzdDEwMDA6aW1vam8xMjM="))
         val response2 = client.get("/check-basic-auth", headers = headers)
         assertEquals(OK, response2.status)
         assertEquals("success", response2.body)
@@ -220,7 +221,7 @@ internal class OpenApiHandlerTest {
         assertEquals(UNAUTHORIZED, response1.status)
         assertEquals("Invalid authorization credentials", response1.body)
 
-        val headers = multiMapOf("authorization" to "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjI5NDc1LCJleHAiOjE3MDg2MDI1OTEsImlhdCI6MTYwMjA3MTM5MSwidXNlcl90eXBlIjoiMyJ9.oeeIax23lgfEY_rDt_iDXP5cONAXUgfoWZ43A4XCLIw")
+        val headers = HttpFields(Header("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjI5NDc1LCJleHAiOjE3MDg2MDI1OTEsImlhdCI6MTYwMjA3MTM5MSwidXNlcl90eXBlIjoiMyJ9.oeeIax23lgfEY_rDt_iDXP5cONAXUgfoWZ43A4XCLIw"))
         val response2 = client.get("/check-bearer-auth", headers = headers)
         assertEquals(OK, response2.status)
         assertEquals("success", response2.body)
@@ -247,7 +248,7 @@ internal class OpenApiHandlerTest {
         assertEquals(UNAUTHORIZED, response1.status)
         assertEquals("Invalid authorization credentials", response1.body)
 
-        val headers = multiMapOf("api-key" to "abcdefg")
+        val headers = HttpFields(Header("api-key", "abcdefg"))
         val response2 = client.get("/check-header-api-auth", headers = headers)
         assertEquals(OK, response2.status)
         assertEquals("success", response2.body)
@@ -282,7 +283,7 @@ internal class OpenApiHandlerTest {
         assertEquals("success", response2.body)
         client.cookies = emptyList()
 
-        val headers = multiMapOf("authorization" to "Basic dGVzdDEwMDA6aW1vam8xMjM=")
+        val headers = HttpFields(Header("authorization", "Basic dGVzdDEwMDA6aW1vam8xMjM="))
         val response3 = client.get("/check-multiple-mechanisms", headers = headers)
         assertEquals(OK, response3.status)
         assertEquals("success", response3.body)
@@ -299,7 +300,7 @@ internal class OpenApiHandlerTest {
         assertEquals("Invalid authorization credentials", response2.body)
         client.cookies = emptyList()
 
-        val headers = multiMapOf("authorization" to "Basic dGVzdDEwMDA6aW1vam8xMjM=")
+        val headers = HttpFields(Header("authorization", "Basic dGVzdDEwMDA6aW1vam8xMjM="))
         val response3 = client.get("/check-multiple-schemes", headers = headers)
         assertEquals(UNAUTHORIZED, response3.status)
         assertEquals("Invalid authorization credentials", response3.body)

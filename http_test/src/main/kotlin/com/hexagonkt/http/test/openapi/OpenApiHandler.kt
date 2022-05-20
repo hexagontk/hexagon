@@ -116,7 +116,7 @@ internal class OpenApiHandler(pathToSpec: String) {
     private fun validateApiKey(securityScheme: SecurityScheme, call: HttpServerContext): Boolean =
         when (securityScheme.`in`) {
             SecurityScheme.In.QUERY ->
-                !call.request.queryParameters[securityScheme.name].isNullOrBlank()
+                call.request.queryParameters.require(securityScheme.name).isNotBlank()
             SecurityScheme.In.HEADER ->
                 !call.request.headers[securityScheme.name].isNullOrBlank()
             SecurityScheme.In.COOKIE ->
@@ -207,7 +207,7 @@ internal class OpenApiHandler(pathToSpec: String) {
     }
 
     private fun verifyQueryParam(parameter: Parameter, call: HttpServerContext): Boolean {
-        if (call.request.queryParameters[parameter.name].isNullOrBlank()) {
+        if (call.request.queryParameters.require(parameter.name).isBlank()) {
             return !parameter.required
         }
         parameter.schema.enum?.let {
