@@ -68,7 +68,7 @@ internal class NettyServerHandler(
         val headers = response.headers()
 
         val hexagonHeaders = hexagonResponse.headers
-        if (hexagonHeaders.isNotEmpty())
+        if (hexagonHeaders.httpFields.isNotEmpty())
             hexagonHeaders.allValues.map { (k, v) -> headers.add(k, v) }
 
         val hexagonCookies = hexagonResponse.cookies

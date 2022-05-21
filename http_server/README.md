@@ -322,7 +322,7 @@ Check the [tests of the starter projects].
 If you have an OpenAPI/Swagger spec defined for your server, you can also make use of the mock server ([see below](#openapi-mock-server)).
 
 #### Mocking calls
-To unit test handlers you can call them with hardcoded requests.
+To unit test callbacks you can create test calls with hardcoded requests, responses and sessions.
 
 For a quick sample, check the snipped below:
 

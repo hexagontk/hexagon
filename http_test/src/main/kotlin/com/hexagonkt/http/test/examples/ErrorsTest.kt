@@ -3,6 +3,7 @@ package com.hexagonkt.http.test.examples
 import com.hexagonkt.core.fail
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.server.HttpServerPort
@@ -37,13 +38,13 @@ abstract class ErrorsTest(
 
         exception<IllegalArgumentException> {
             val error = exception?.message ?: exception?.javaClass?.name ?: fail
-            val newHeaders = response.headers + ("runtime-error" to error)
+            val newHeaders = response.headers + Header("runtime-error", error)
             send(HttpStatus(598), "Runtime", headers = newHeaders)
         }
 
         exception<UnsupportedOperationException> {
             val error = exception?.message ?: exception?.javaClass?.name ?: fail
-            val newHeaders = response.headers + ("error" to error)
+            val newHeaders = response.headers + Header("error", error)
             send(HttpStatus(599), "Unsupported", headers = newHeaders)
         }
 

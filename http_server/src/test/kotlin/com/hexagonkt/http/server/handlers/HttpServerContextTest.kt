@@ -4,13 +4,10 @@ import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.core.multiMapOfLists
-import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.*
-import com.hexagonkt.http.model.HttpCookie
 import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.HttpPart
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
 import com.hexagonkt.http.model.RedirectionStatus.FOUND
 import com.hexagonkt.http.model.ServerErrorStatus.BAD_GATEWAY
@@ -36,11 +33,11 @@ internal class HttpServerContextTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path/v1",
-            queryParameters = multiMapOf("k" to "v"),
-            headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
+            queryParameters = HttpFields(QueryParameter("k", "v")),
+            headers = HttpFields(Header("h1", "h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
-            formParameters = multiMapOfLists("fp1" to listOf("fp1v1", "fp1v2")),
+            formParameters = HttpFields(FormParameter("fp1", "fp1v1", "fp1v2")),
             cookies = listOf(HttpCookie("cn", "cv")),
             contentType = ContentType(PLAIN),
             certificateChain = emptyList(),

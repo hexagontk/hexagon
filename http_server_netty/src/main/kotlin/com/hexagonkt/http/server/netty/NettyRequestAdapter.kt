@@ -1,6 +1,5 @@
 package com.hexagonkt.http.server.netty
 
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
 import com.hexagonkt.http.server.model.HttpServerRequestPort
@@ -31,9 +30,9 @@ class NettyRequestAdapter(
         req.headers()[CONTENT_LENGTH]?.toLong() ?: 0L
     }
 
-    override val queryParameters: MultiMap<String, String> by lazy {
+    override val queryParameters: HttpFields<QueryParameter> by lazy {
         val queryStringDecoder = QueryStringDecoder(req.uri())
-        MultiMap(queryStringDecoder.parameters())
+        HttpFields(queryStringDecoder.parameters().mapValues { (k, v) -> QueryParameter(k, v) })
     }
 
     override val parts: List<HttpPartPort> by lazy {
@@ -51,8 +50,14 @@ class NettyRequestAdapter(
         }
     }
 
-    override val formParameters: MultiMap<String, String> by lazy {
-        MultiMap(parts.filter { it.submittedFileName == null }.map { it.name to it.bodyString() })
+    override val formParameters: HttpFields<FormParameter> by lazy {
+        val fields = parts
+            .filter { it.submittedFileName == null }
+            .groupBy { it.name }
+            .mapValues { it.value.map { v -> v.bodyString() } }
+            .map { (k, v) -> FormParameter(k, v) }
+
+        HttpFields(fields)
     }
 
     override val method: HttpMethod by lazy {
@@ -96,12 +101,12 @@ class NettyRequestAdapter(
         else byteArrayOf()
     }
 
-    override val headers: MultiMap<String, String> by lazy {
-        MultiMap(
+    override val headers: HttpFields<Header> by lazy {
+        HttpFields(
             req.headers().names()
                 .toList()
                 .map { it.lowercase() }
-                .associateWith { req.headers().getAll(it) }
+                .map { Header(it, req.headers().getAll(it)) }
         )
     }
 

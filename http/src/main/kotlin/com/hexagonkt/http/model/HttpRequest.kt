@@ -1,6 +1,5 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.http.formatQueryString
 import java.net.URL
 
@@ -12,16 +11,16 @@ interface HttpRequest : HttpMessage {
     val host: String                              // "example.com"
     val port: Int                                 // 80
     val path: String                              // "/foo" servlet path + path info
-    val queryParameters: MultiMap<String, String>
+    val queryParameters: HttpFields<QueryParameter>
     val parts: List<HttpPartPort>                 // hash of multipart parts
-    val formParameters: MultiMap<String, String>
+    val formParameters: HttpFields<FormParameter>
     val accept: List<ContentType>
 
     fun partsMap(): Map<String, HttpPartPort> =
         parts.associateBy { it.name }
 
     fun url(): URL =
-        if (queryParameters.none())
+        if (queryParameters.isEmpty())
             URL("${protocol.schema}://$host:$port/$path")
         else
             URL("${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}")

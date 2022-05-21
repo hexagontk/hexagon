@@ -3,6 +3,7 @@ package com.hexagonkt.http.server.examples
 import com.hexagonkt.core.decodeBase64
 import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
 import com.hexagonkt.http.model.ClientErrorStatus.UNAUTHORIZED
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.SuccessStatus.*
@@ -26,7 +27,7 @@ internal class FiltersTest {
             val next = next()
             val time = (System.nanoTime() - start).toString()
             // Copies result from chain with the extra data
-            next.send(headers = response.headers + ("time" to time))
+            next.send(headers = response.headers + Header("time", time))
         }
 
         filter("/protected/*") {

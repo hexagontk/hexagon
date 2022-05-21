@@ -1,6 +1,5 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.core.MultiMap
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
 import com.hexagonkt.http.parseQueryString
@@ -27,7 +26,7 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpSer
 
     override val contentLength: Long by lazy { req.contentLength.toLong() }
 
-    override val queryParameters: MultiMap<String, String> by lazy {
+    override val queryParameters: HttpFields<QueryParameter> by lazy {
         parseQueryString(req.queryString ?: "")
     }
 
@@ -46,12 +45,12 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpSer
             ?: emptyList()
     }
 
-    override val headers: MultiMap<String, String> by lazy {
-        MultiMap(
+    override val headers: HttpFields<Header> by lazy {
+        HttpFields(
             req.headerNames
                 .toList()
                 .map { it.lowercase() }
-                .associateWith { req.getHeaders(it).toList() }
+                .map { Header(it, req.getHeaders(it).toList()) }
         )
     }
 
