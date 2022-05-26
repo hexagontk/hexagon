@@ -9,9 +9,9 @@ places:
 3. Passing them from the command line with the following switch: `-Pkey=val`.
 4. Defining a project's extra property inside `build.gradle`. Ie: `project.ext.key='val'`.
 
-For examples and reference, check [build.gradle] and [gradle.properties].
+For examples and reference, check [build.gradle.kts] and [gradle.properties].
 
-[build.gradle]: https://github.com/hexagonkt/hexagon/blob/master/build.gradle
+[build.gradle.kts]: https://github.com/hexagonkt/hexagon/blob/master/build.gradle.kts
 [gradle.properties]: https://github.com/hexagonkt/hexagon/blob/master/gradle.properties
 
 # Helper scripts

@@ -319,8 +319,6 @@ Check the [tests of the starter projects].
 
 [tests of the starter projects]: https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt
 
-If you have an OpenAPI/Swagger spec defined for your server, you can also make use of the mock server ([see below](#openapi-mock-server)).
-
 #### Mocking calls
 To unit test callbacks you can create test calls with hardcoded requests, responses and sessions.
 
