@@ -13,7 +13,7 @@ description = "Hexagon CSV serialization format (using Jackson)."
 dependencies {
     val jacksonVersion = properties["jacksonVersion"]
 
-    api(project(":serialization_jackson"))
-    api(platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
-    api("com.fasterxml.jackson.dataformat:jackson-dataformat-csv")
+    "api"(project(":serialization_jackson"))
+    "api"(platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
+    "api"("com.fasterxml.jackson.dataformat:jackson-dataformat-csv")
 }

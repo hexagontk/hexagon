@@ -10,9 +10,9 @@ apply(from = "../gradle/dokka.gradle")
 dependencies {
     val servletVersion = properties["servletVersion"]
 
-    api(project(":http_server"))
-    compileOnly("jakarta.servlet:jakarta.servlet-api:$servletVersion")
+    "api"(project(":http_server"))
+    "compileOnly"("jakarta.servlet:jakarta.servlet-api:$servletVersion")
 
-    testImplementation(project(":http_client_jetty"))
-    testImplementation("org.eclipse.jetty:jetty-webapp")
+    "testImplementation"(project(":http_client_jetty"))
+    "testImplementation"("org.eclipse.jetty:jetty-webapp")
 }

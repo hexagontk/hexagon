@@ -13,9 +13,9 @@ description = "Hexagon serialization testing helpers."
 dependencies {
     val junitVersion = properties["junitVersion"]
 
-    api(project(":serialization"))
-    api("org.jetbrains.kotlin:kotlin-test")
-    api("org.junit.jupiter:junit-jupiter:$junitVersion")
+    "api"(project(":serialization"))
+    "api"("org.jetbrains.kotlin:kotlin-test")
+    "api"("org.junit.jupiter:junit-jupiter:$junitVersion")
 
-    testImplementation(project(":serialization_jackson_json"))
+    "testImplementation"(project(":serialization_jackson_json"))
 }

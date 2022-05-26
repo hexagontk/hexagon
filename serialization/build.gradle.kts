@@ -11,5 +11,5 @@ apply(from = "../gradle/detekt.gradle")
 description = "Hexagon serialization module."
 
 dependencies {
-    api(project(":core"))
+    "api"(project(":core"))
 }

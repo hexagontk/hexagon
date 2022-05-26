@@ -10,13 +10,13 @@ apply(from = "../gradle/dokka.gradle")
 dependencies {
     val jettyVersion = properties["jettyVersion"]
 
-    api(project(":http_server_servlet"))
-    api(platform("org.eclipse.jetty:jetty-bom:$jettyVersion"))
-    api("org.eclipse.jetty:jetty-webapp")
-    api("org.eclipse.jetty.http2:http2-server")
-    api("org.eclipse.jetty:jetty-alpn-java-server")
+    "api"(project(":http_server_servlet"))
+    "api"(platform("org.eclipse.jetty:jetty-bom:$jettyVersion"))
+    "api"("org.eclipse.jetty:jetty-webapp")
+    "api"("org.eclipse.jetty.http2:http2-server")
+    "api"("org.eclipse.jetty:jetty-alpn-java-server")
 
-    testImplementation(project(":http_client_jetty"))
-    testImplementation("org.eclipse.jetty.websocket:websocket-jetty-server")
-    testImplementation("org.eclipse.jetty.websocket:websocket-jetty-client")
+    "testImplementation"(project(":http_client_jetty"))
+    "testImplementation"("org.eclipse.jetty.websocket:websocket-jetty-server")
+    "testImplementation"("org.eclipse.jetty.websocket:websocket-jetty-client")
 }

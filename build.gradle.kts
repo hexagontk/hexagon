@@ -1,4 +1,5 @@
 
+import com.github.jk1.license.LicenseReportExtension
 import com.github.jk1.license.render.CsvReportRenderer
 import com.github.jk1.license.render.InventoryHtmlReportRenderer
 import com.github.jk1.license.render.InventoryMarkdownReportRenderer
@@ -75,7 +76,7 @@ task("release") {
     }
 }
 
-licenseReport {
+extensions.configure<LicenseReportExtension> {
     projects = subprojects.toTypedArray()
     renderers = arrayOf<ReportRenderer>(
         CsvReportRenderer(),
