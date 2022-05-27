@@ -85,7 +85,7 @@ Hexagon HTTP Handlers are a list of functions that may or may not be applied to 
 request and response) based on a filter (more details below).
 
 The functions handling HTTP requests get a call and return a call, operate on (mostly) immutable
-structures
+structures.
 
 ### Http Call (Event)
 ### Handlers

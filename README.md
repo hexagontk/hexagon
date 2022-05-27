@@ -153,7 +153,7 @@ fun main() {
 <summary>Books Example</summary>
 
 A simple CRUD example showing how to manage book resources. Here you can check the
-[full test](http_server/src/test/kotlin/examples/BooksTest.kt).
+[full test](http_test/src/main/kotlin/com/hexagonkt/http/test/examples/BooksTest.kt).
 
 ```kotlin
 // books
@@ -227,7 +227,7 @@ private val path: PathHandler = path {
 <summary>Error Handling Example</summary>
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
-[full test](http_server/src/test/kotlin/examples/ErrorsTest.kt).
+[full test](http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ErrorsTest.kt).
 
 ```kotlin
 // errors
@@ -276,7 +276,7 @@ private val path: PathHandler = path {
 <summary>Filters Example</summary>
 
 This example shows how to add filters before and after route execution. Here you can check the
-[full test](http_server/src/test/kotlin/examples/FiltersTest.kt).
+[full test](http_test/src/main/kotlin/com/hexagonkt/http/test/examples/FiltersTest.kt).
 
 ```kotlin
 // filters
@@ -346,7 +346,7 @@ private val path: PathHandler = path {
 <summary>Files Example</summary>
 
 The following code shows how to serve resources and receive files. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/http_server/src/test/kotlin/examples/FilesTest.kt).
+[full test](http_test/src/main/kotlin/com/hexagonkt/http/test/examples/FilesTest.kt).
 
 ```kotlin
 // files
