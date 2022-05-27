@@ -44,7 +44,7 @@ add the Classpath handler manually with the `--enable-url-protocols=classpath` p
 # Package com.hexagonkt.core.converters
 Registry of functions to convert from one type to another.
 
-TODO
+@code core/src/test/kotlin/com/hexagonkt/core/converters/ConvertersManagerTest.kt?converters
 
 # Package com.hexagonkt.core.handlers
 TODO
