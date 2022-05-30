@@ -47,6 +47,20 @@ Registry of functions to convert from one type to another.
 @code core/src/test/kotlin/com/hexagonkt/core/converters/ConvertersManagerTest.kt?converters
 
 # Package com.hexagonkt.core.handlers
+Provide general utilities to attach many handlers to be applied to events processing. Events can be
+of any type.
+
+Handlers may or may not be applied to certain events at runtime based on rules provided as
+predicates (functions) to those handlers.
+
+If a handler doesn't match a handler's predicate, that handler is ignored, and the next one will be
+processed.
+
+When a handler's predicate returns true, its callback will be called. That block will process the
+event, and return a modified copy.
+
+The event is passed to handlers' callbacks wrapped in a 'context'.
+
 TODO
 
 KEY TAKEAWAY: the order is NOT the order, it is the depth. Handlers are not linked, they are NESTED.
@@ -72,8 +86,13 @@ H1
 
 ## Events
 ## Handlers
-## Filters
-## Callbacks
+### Predicates
+### Callbacks
+#### Context
+## On Handler
+## After Handler
+## Filter Handler
+## Chain Handler
 
 # Package com.hexagonkt.core.logging
 Provides a logging management capabilities abstracting the application from logging libraries.
