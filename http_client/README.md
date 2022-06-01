@@ -40,8 +40,8 @@ Check this code snippet to get a glimpse on how to send the most general request
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt?genericRequest
 
-[Request]: /api/http_client/com.hexagonkt.http.client/-request
-[Response]: /api/http_client/com.hexagonkt.http.client/-response
+[Request]: /api/http_client/com.hexagonkt.http.client.model/-http-client-request
+[Response]: /api/http_client/com.hexagonkt.http.client.model/-http-client-response
 
 ### Simple requests shortcuts
 There are utility methods to make the most common request in an easy way.
