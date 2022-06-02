@@ -258,7 +258,8 @@ Check the next example for details:
 The MIME types of static files are computed from the file extension using the
 [SerializationManager.contentTypeOf()] method.
 
-[SerializationManager.contentTypeOf()]: /api/serialization/com.hexagonkt.serialization/-serialization-manager/content-type-of
+[SerializationManager.contentTypeOf()]:
+/api/serialization/com.hexagonkt.serialization/-serialization-manager/content-type-of
 
 ### CORS
 CORS behaviour can be different depending on the path. You can attach different [CorsSettings] to
@@ -311,7 +312,8 @@ This will pick a random free port which you can check later:
 To do this kind of tests without creating a custom server (using the real production code).
 Check the [tests of the starter projects].
 
-[tests of the starter projects]: https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt
+[tests of the starter projects]:
+https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt
 
 #### Mocking calls
 To unit test callbacks you can create test calls with hardcoded requests, responses and sessions.

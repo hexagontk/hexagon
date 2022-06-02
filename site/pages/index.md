@@ -69,6 +69,57 @@ Hexagon's goals and design principles:
 * **Kotlin Native**: because of the added complexity of Kotlin Native, focus will be set on the JVM
   platform, native binaries' generation will rely on GraalVM.
 
+# Concepts
+
+## Port
+It is an interface for a task. The toolkit ports are designed to work on their own. For example: you
+can use the [http_server] module without importing the [templates] one, and the other way around
+(taking only the dependencies you need for your application).
+
+Ports may have different implementations (Adapters). They cannot be used by themselves and in their
+place, an adapter implementing them should be added to the list of dependencies.
+
+## Adapter
+They are implementations of a functionality (Port) for a given product/technology. Clients should
+only use ports' code (not Adapters specific code), this makes it easy to switch among different
+adapters with minimum impact.
+
+Adapters are independent of each other, and you can use several adapters for the same port in a
+single application.
+
+[http_client_jetty], and [http_server_jetty] are examples of this type of module. Adapter names must
+start with their port name.
+
+## Library
+Module that provide functionality that does not depend on different implementations, like [core].
+These modules can depend on several Ports, but never on Adapters.
+
+## Manager
+Singleton object to manage a cross toolkit aspect. I.e., Serialization, Logging or Templates.
+
+[core]: /core
+
+[http_server]: /http_server
+[templates]: /templates
+
+[http_client_jetty]: /http_client_jetty
+[http_server_jetty]: /http_server_jetty
+
+# Hexagon Extras
+The libraries inside the `hexagon_extra` repository provide extra features not bound to different
+implementations (rely on ports to work). They will not use dependencies outside the Hexagon
+toolkit.
+
+* [Web]: this module is meant to ease web application development. Provides helpers for
+  generating HTML and depends on the [HTTP Server] and [Templates] ports.
+* [Schedulers]: Provides repeated tasks execution based on [Cron] expressions.
+* [Models]: Contain classes that model common data objects.
+
+[Web]: /web
+[Schedulers]: /scheduler
+[Models]: /models
+[Cron]: https://en.wikipedia.org/wiki/Cron
+
 # Architecture
 How Hexagon fits in your architecture in a picture.
 

@@ -84,7 +84,7 @@ To set up client/server certificates, you need to include [SslSettings] in your 
 the sections below you can see how to configure these parameters.
 
 [SslSettings]: /api/http/com.hexagonkt.http/-ssl-settings
-[ClientSettings]: /api/http_client/com.hexagonkt.http.client/-client-settings
+[ClientSettings]: /api/http_client/com.hexagonkt.http.client/-http-client-settings
 
 #### Key Store
 This store holds the identity certificate, this certificate is presented to the server by the client
@@ -110,4 +110,6 @@ and client authenticated by the server). You can see a complete example below:
 This package holds the classes that define the HTTP client and its configuration settings.
 
 # Package com.hexagonkt.http.client.model
-TODO
+Classes to model client HTTP messages (requests and responses). Built on top of the [http] module.
+
+[http]: /http

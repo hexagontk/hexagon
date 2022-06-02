@@ -25,8 +25,7 @@
 
 <p align="center">
   <a href="https://hexagonkt.com">Home Site</a> |
-  <a href="https://hexagonkt.com/quick_start">Quick Start</a> |
-  <a href="https://hexagonkt.com/developer_guide">Developer Guide</a>
+  <a href="https://hexagonkt.com/quick_start">Quick Start</a>
 </p>
 
 ---
@@ -76,7 +75,7 @@ The Hexagon's goals and design principles are:
 * **Properly Tested**: The project's coverage is checked in every Pull Request. It is also
   stress-tested at [TechEmpower Frameworks Benchmark][benchmark].
 
-For more information check the [Quick Start Guide] or the [Developer Guide].
+For more information check the [Quick Start Guide].
 
 [framework]: https://stackoverflow.com/a/3057818/973418
 [Kotlin]: http://kotlinlang.org
@@ -87,7 +86,6 @@ For more information check the [Quick Start Guide] or the [Developer Guide].
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
 [Quick Start Guide]: http://hexagonkt.com/quick_start
-[Developer Guide]: http://hexagonkt.com/developer_guide
 
 ## Simple HTTP service
 

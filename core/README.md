@@ -61,9 +61,20 @@ event, and return a modified copy.
 
 The event is passed to handlers' callbacks wrapped in a 'context'.
 
-TODO
+Concepts:
+* Events
+* Handlers
+  * Predicates
+  * Callbacks
+    * Context
 
-KEY TAKEAWAY: the order is NOT the order, it is the depth. Handlers are not linked, they are NESTED.
+Types of handlers:
+* On Handler
+* After Handler
+* Filter Handler
+* Chain Handler
+
+IMPORTANT: the order is NOT the order, it is the depth. Handlers are not linked, they are NESTED.
 The `next()` method passes control to the next level.
 
 So this:
@@ -83,16 +94,6 @@ H1
   H2
 H1
 ```
-
-## Events
-## Handlers
-### Predicates
-### Callbacks
-#### Context
-## On Handler
-## After Handler
-## Filter Handler
-## Chain Handler
 
 # Package com.hexagonkt.core.logging
 Provides a logging management capabilities abstracting the application from logging libraries.

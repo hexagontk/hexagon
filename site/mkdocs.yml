@@ -50,7 +50,6 @@ nav:
   - Documentation:
     - Home: index.md
     - Quick Start: quick_start.md
-    - Developer Guide: developer_guide.md
     - Core: core.md
     - HTTP Server: http_server.md
     - HTTP Client: http_client.md
