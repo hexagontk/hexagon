@@ -12,6 +12,11 @@ feature (as [http_server_jetty]) in order to create an HTTP server.
 
 [http_server_jetty]: /http_server_jetty
 
+### Project History
+1. Fork of Spark to support Java8
+2. Port to Kotlin (first Hexagon version). Still heavily based on Spark
+3. V2, complete rewrite to be more like middlewares, and no before after filters
+
 ### Context on HTTP processing
 An HTTP server is nothing more than a function that takes a request and returns a response. Requests
 and responses comply with several Web standards.

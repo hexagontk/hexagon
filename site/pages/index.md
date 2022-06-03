@@ -24,9 +24,9 @@ principles also fit into this architecture.
 [^1]: Except the Core module that contains a set of utilities like logging. However, some of these
 capacities can be replaced by other third party libraries.
 
-[The HTTP server]: /http_server/
-[The HTTP client]: /http_client/
-[Template Processing]: /templates/
+[The HTTP server]: /http_server
+[The HTTP client]: /http_client
+[Template Processing]: /templates
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Onion Architecture]: https://dzone.com/articles/onion-architecture-is-interesting
@@ -76,23 +76,28 @@ It is an interface for a task. The toolkit ports are designed to work on their o
 can use the [http_server] module without importing the [templates] one, and the other way around
 (taking only the dependencies you need for your application).
 
-Ports may have different implementations (Adapters). They cannot be used by themselves and in their
-place, an adapter implementing them should be added to the list of dependencies.
+Each Port may have different implementations (Adapters).
+
+Ports cannot be used by themselves and in their place, an adapter implementing them should be added
+to the list of dependencies.
 
 ## Adapter
 They are implementations of a functionality (Port) for a given product/technology. Clients should
-only use ports' code (not Adapters specific code), this makes it easy to switch among different
+only use ports' code (not Adapters specific code), this makes them easy to switch among different
 adapters with minimum impact.
 
 Adapters are independent of each other, and you can use several adapters for the same port in a
-single application.
+single application. For example, you could use many Template adapters to support several template
+engines.
 
 [http_client_jetty], and [http_server_jetty] are examples of this type of module. Adapter names must
-start with their port name.
+start with their Port name.
 
 ## Library
 Module that provide functionality that does not depend on different implementations, like [core].
-These modules can depend on several Ports, but never on Adapters.
+These modules can depend on several Ports, but never on Adapters. An example would be the [Web]
+module that uses [http_server] and [template][Template Processing] Ports, but leaves clients the
+decission of picking the adapters they want.
 
 ## Manager
 Singleton object to manage a cross toolkit aspect. I.e., Serialization, Logging or Templates.

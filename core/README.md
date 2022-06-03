@@ -47,7 +47,7 @@ Registry of functions to convert from one type to another.
 @code core/src/test/kotlin/com/hexagonkt/core/converters/ConvertersManagerTest.kt?converters
 
 # Package com.hexagonkt.core.handlers
-Provide general utilities to attach many handlers to be applied to events processing. Events can be
+Provide general utilities to attach many handlers to be applied on events processing. Events can be
 of any type.
 
 Handlers may or may not be applied to certain events at runtime based on rules provided as
@@ -57,7 +57,9 @@ If a handler doesn't match a handler's predicate, that handler is ignored, and t
 processed.
 
 When a handler's predicate returns true, its callback will be called. That block will process the
-event, and return a modified copy.
+event, and return a modified copy. Subsequent handler's will be evaluated only if the current
+handler calls the next one. There are types of handlers like 'After' y 'Before' that call 'next'
+as part as their operation.
 
 The event is passed to handlers' callbacks wrapped in a 'context'.
 
