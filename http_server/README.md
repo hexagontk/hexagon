@@ -12,12 +12,7 @@ feature (as [http_server_jetty]) in order to create an HTTP server.
 
 [http_server_jetty]: /http_server_jetty
 
-### Project History
-1. Fork of Spark to support Java8
-2. Port to Kotlin (first Hexagon version). Still heavily based on Spark
-3. V2, complete rewrite to be more like middlewares, and no before after filters
-
-### Context on HTTP processing
+# Context on HTTP processing
 An HTTP server is nothing more than a function that takes a request and returns a response. Requests
 and responses comply with several Web standards.
 
@@ -26,6 +21,7 @@ write an HTTP server that has to deal with different behaviour based on requests
 
 These development tools usually have different layers/parts (the ones below are some of the most
 common ones):
+
 * IO
 * HTTP messages (requests and responses) parser and writer.
 * Routing
@@ -59,7 +55,7 @@ request and response) based on a filter (more details below).
 The functions handling HTTP requests get a call and return a call, operate on (mostly) immutable
 structures.
 
-### Server
+# Servers
 A server is a process listening to HTTP requests on a TCP port.
 
 You can run multiple ones on different ports at the same time on the same JVM (this can be useful to
@@ -84,14 +80,14 @@ and after creating a server you can run it or stop it with [start()] and [stop()
 [start()]: /api/http_server/com.hexagonkt.http.server/-server/start.html
 [stop()]: /api/http_server/com.hexagonkt.http.server/-server/stop.html
 
-#### Servlet Web server
+## Servlet Web server
 There is a special server adapter for running inside Servlet Containers. To use it you should import
 the [Servlet HTTP Server Adapter][http_server_servlet] into your project. Check the
 [http_server_servlet] module for more information.
 
 [http_server_servlet]: /http_server_servlet
 
-### Http Call (Event)
+# HTTP Calls Context (Event)
 Wraps HTTP request and response.
 
 The Call object provides you with everything you need to handle a http-request.
@@ -108,7 +104,7 @@ This sample code illustrates the usage:
 
 [API documentation]: /api/http_server/com.hexagonkt.http.server/-call
 
-### Handlers
+# Handlers
 The main building block of a Hexagon HTTP service is a set of handlers. A route is made up of two
 simple pieces:
 
@@ -125,71 +121,68 @@ Check the next snippet for usage examples:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routesCreation
 
-#### Path Predicate
+## Path Predicates
 * A **verb** (get, post, put, delete, head, trace, connect, options). It can also be `any`.
 * A **path** (/hello, /users/{name}). Paths must start with '/' and trailing slash is ignored.
+
+### Path Pattern
 <!-- TODO Explain path pattern format -->
 
-### Filters
+# Filters
 
-#### Path Pattern
-
-#### Supplying custom patterns using functions
-
-### Callbacks
-Callbacks are request's handling blocks that are bound to handlers. They make the request and
-response objects available to the handling code.
-
-#### Route groups
+# Handler groups (Routers)
 Routes can be nested by calling the `path()` method, which takes a String prefix and gives you a
 scope to declare routes and filters (or more nested paths). Ie:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routeGroups
 
-#### Routers
 If you have a lot of routes, it can be helpful to group them into routers. You can create routers
 to mount a group of routes in different paths (allowing you to reuse them). Check this snippet:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routers
 
-#### Request
+# Callbacks
+Callbacks are request's handling blocks that are bound to handlers. They make the request and
+response objects available to the handling code.
+
+## Request
 Request functionality is provided by the `request` field:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackRequest
 
-#### Path Parameters
+## Path Parameters
 Route patterns can include named parameters, accessible via the `pathParameters` map on the request
 object:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackPathParam
 
-#### Query Parameters
+## Query Parameters
 It is possible to access the whole query string or only a specific query parameter using the
 `parameters` map on the `request` object:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackQueryParam
 
-#### Form Parameters
+## Form Parameters
 HTML Form processing. Don't parse body!
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackFormParam
 
-#### File Uploads
+## File Uploads
 Multipart Requests
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackFile
 
-#### Response
+## Response
 Response information is provided by the `response` field:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackResponse
 
-#### Redirects
+## Redirects
 You can redirect requests (returning 30x codes) by using `Call` utility methods:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackRedirect
 
-#### Cookies
+## Cookies
 The request and response cookie functions provide a convenient way for sharing information between
 handlers, requests, or even servers.
 
@@ -200,13 +193,13 @@ Check the following sample code for details:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCookie
 
-#### Compression
+# Compression
 <!-- TODO Explain how to set up using server features -->
 
-#### Halting
+# Halting
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackHalt
 
-### Filters
+# Filters
 You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
 code executed before or after one or more routes. They can read the request and read/modify the
 response.
@@ -227,26 +220,26 @@ The following code details filters usage:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?filters
 
-### Error Handling
+# Error Handling
 You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
 callbacks, or handlers halted with an error code.
 
 Error handlers for a given code or exception are unique, and the first one defined is the one which
 will be used.
 
-#### HTTP Errors Handlers
+## HTTP Errors Handlers
 Allows handling routes halted with a given code. These handlers are only applied if the route is
 halted, if the error code is returned with `send` it won't be handled as an error. Example:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?errors
 
-#### Exception Mapping
+## Exception Mapping
 You can handle exceptions of a given type for all routes and filters. The handler allows you to
 refer to the thrown exception. Look at the following code for a detailed example:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?exceptions
 
-### Static Files
+# Static Files
 You can use a folder in the classpath for serving static files with the `get()` methods. Note that
 the public directory name is not included in the URL.
 
@@ -259,14 +252,14 @@ Check the next example for details:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?files
 
-#### MIME types
+## MIME types
 The MIME types of static files are computed from the file extension using the
 [SerializationManager.contentTypeOf()] method.
 
 [SerializationManager.contentTypeOf()]:
 /api/serialization/com.hexagonkt.serialization/-serialization-manager/content-type-of
 
-### CORS
+# CORS
 CORS behaviour can be different depending on the path. You can attach different [CorsSettings] to
 different routers. Check [CorsSettings] class for more details.
 
@@ -274,7 +267,7 @@ different routers. Check [CorsSettings] class for more details.
 
 [CorsSettings]: /api/http_server/com.hexagonkt.http.server/-cors-settings
 
-### HTTPS
+# HTTPS
 It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
 certificate and its key in the server's [SslSettings]. Once you use a server certificate, it is also
 possible to serve content using [HTTP/2], for this to work, [ALPN] is required (however, this is
@@ -306,9 +299,9 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 [SslSettings.clientAuth]: /api/http/com.hexagonkt.http/-ssl-settings/client-auth
 [Request.certificateChain]: /api/http_server/com.hexagonkt.http.server/-request/certificate-chain
 
-### Testing
+# Testing
 
-#### Integration tests
+## Integration tests
 To test HTTP servers from outside using a real Adapter, you can create a server setting `0` as port.
 This will pick a random free port which you can check later:
 
@@ -320,7 +313,7 @@ Check the [tests of the starter projects].
 [tests of the starter projects]:
 https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt
 
-#### Mocking calls
+## Mocking calls
 To unit test callbacks you can create test calls with hardcoded requests, responses and sessions.
 
 For a quick sample, check the snipped below:
@@ -328,13 +321,17 @@ For a quick sample, check the snipped below:
 TODO Add example code
 
 # Package com.hexagonkt.http.server
-This package defines the classes used in the HTTP DSL.
+This package defines server interfaces for HTTP server adapters.
 
 # Package com.hexagonkt.http.server.callbacks
-TODO
+Utility callbacks that can be used on handlers. Reuse a callback in different handlers (after,
+filter, etc.).
 
 # Package com.hexagonkt.http.server.handlers
-TODO
+Contains the HTTP handlers implementation (on top of Core's general event handlers). It houses the
+HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the HTTP predicate.
 
 # Package com.hexagonkt.http.server.model
-TODO
+Classes to model server HTTP messages (requests and responses). Built on top of the [http] module.
+
+[http]: /http
