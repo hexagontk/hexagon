@@ -314,11 +314,12 @@ Check the [tests of the starter projects].
 https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt
 
 ## Mocking calls
-To unit test callbacks you can create test calls with hardcoded requests, responses and sessions.
+To unit test callbacks and handlers you can create test calls with hardcoded requests without
+relying on mocking libraries.
 
-For a quick sample, check the snipped below:
+For a quick example, check the snipped below:
 
-TODO Add example code
+@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?mockRequest
 
 # Package com.hexagonkt.http.server
 This package defines server interfaces for HTTP server adapters.
