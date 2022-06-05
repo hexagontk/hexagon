@@ -4,6 +4,7 @@ import com.hexagonkt.core.logging.Logger
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
 import java.util.*
@@ -58,6 +59,18 @@ fun <T : ResourceBundle> resourceBundle(
         ResourceBundle.getBundle(type.java.name, locale)
 
 // NETWORK /////////////////////////////////////////////////////////////////////////////////////////
+/** Internet address used to bind services to all local network interfaces. */
+val allInterfaces: InetAddress = inetAddress(0, 0, 0, 0)
+
+/**
+ * Syntactic sugar to create an Internet address.
+ *
+ * @param bytes Bytes used in the address.
+ * @return The Internet address corresponding with the supplied bytes.
+ */
+fun inetAddress(vararg bytes: Byte): InetAddress =
+    InetAddress.getByAddress(bytes)
+
 /**
  * Return a random free port (not used by any other local process).
  *

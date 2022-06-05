@@ -2,6 +2,7 @@ package com.hexagonkt.core
 
 import java.net.ServerSocket
 import org.junit.jupiter.api.Test
+import java.net.InetAddress
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -24,6 +25,11 @@ internal class HelpersTest {
         ),
         0 to 1
     )
+
+    @Test fun `Internet address helper works correctly`() {
+        assertEquals(InetAddress.getByAddress(byteArrayOf(0, 0, 0, 0)), allInterfaces)
+        assertEquals(InetAddress.getByAddress(byteArrayOf(127, 3, 2, 1)), inetAddress(127, 3, 2, 1))
+    }
 
     @Test fun `Production mode is disabled by default`() {
         assertFalse(disableChecks)

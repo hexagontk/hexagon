@@ -11,6 +11,6 @@ apply(from = "../gradle/detekt.gradle")
 description = "Hexagon JSON serialization format (using Jackson)."
 
 dependencies {
-    api(project(":serialization_jackson"))
-    testImplementation(project(":serialization_test"))
+    "api"(project(":serialization_jackson"))
+    "testImplementation"(project(":serialization_test"))
 }

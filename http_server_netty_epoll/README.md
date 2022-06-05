@@ -38,5 +38,5 @@
     </dependency>
     ```
 
-# Package com.hexagonkt.http.server.jetty
+# Package com.hexagonkt.http.server.netty.epoll
 Code implementing the Netty HTTP server adapter using Epoll transport.

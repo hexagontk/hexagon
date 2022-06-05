@@ -8,9 +8,9 @@ apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 
 dependencies {
-    api(project(":templates"))
-    api("io.pebbletemplates:pebble:${properties["pebbleVersion"]}")
+    "api"(project(":templates"))
+    "api"("io.pebbletemplates:pebble:${properties["pebbleVersion"]}")
 
-    testImplementation(project(":templates_test"))
-    testImplementation(project(":serialization_jackson_json"))
+    "testImplementation"(project(":templates_test"))
+    "testImplementation"(project(":serialization_jackson_json"))
 }

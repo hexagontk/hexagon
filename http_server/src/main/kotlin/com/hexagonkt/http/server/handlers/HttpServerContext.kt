@@ -14,6 +14,7 @@ import com.hexagonkt.http.model.HttpServerEvent
 import com.hexagonkt.http.model.SuccessStatus.CREATED
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.model.HttpServerCall
+import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
 import java.net.URL
@@ -66,6 +67,13 @@ data class HttpServerContext(
                 + pathParameters.mapValues { listOf(it.value) }
         )
     }
+
+    constructor(
+        request: HttpServerRequestPort = HttpServerRequest(),
+        response: HttpServerResponse = HttpServerResponse(),
+        predicate: HttpServerPredicate = HttpServerPredicate(),
+        attributes: Map<*, *> = emptyMap<Any, Any>(),
+    ) : this(Context(HttpServerCall(request, response), predicate), attributes)
 
     fun next(): HttpServerContext =
         HttpServerContext(context.next())

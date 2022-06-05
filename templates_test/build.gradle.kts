@@ -10,7 +10,7 @@ apply(from = "../gradle/dokka.gradle")
 dependencies {
     val junitVersion = properties["junitVersion"]
 
-    api(project(":templates"))
-    api("org.jetbrains.kotlin:kotlin-test")
-    api("org.junit.jupiter:junit-jupiter:$junitVersion")
+    "api"(project(":templates"))
+    "api"("org.jetbrains.kotlin:kotlin-test")
+    "api"("org.junit.jupiter:junit-jupiter:$junitVersion")
 }

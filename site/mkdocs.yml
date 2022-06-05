@@ -50,7 +50,6 @@ nav:
   - Documentation:
     - Home: index.md
     - Quick Start: quick_start.md
-    - Developer Guide: developer_guide.md
     - Core: core.md
     - HTTP Server: http_server.md
     - HTTP Client: http_client.md
@@ -137,3 +136,6 @@ extra:
       link: https://twitter.com/hexagon_kt
     - icon: fontawesome/brands/slack
       link: https://kotlinlang.slack.com/messages/hexagon
+
+plugins:
+  - htmlproofer
