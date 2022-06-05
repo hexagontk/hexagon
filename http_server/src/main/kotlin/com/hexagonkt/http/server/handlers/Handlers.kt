@@ -1,16 +1,63 @@
 package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.core.handlers.Callback
-import com.hexagonkt.http.model.HttpMethod
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.HttpStatus
+import com.hexagonkt.http.model.HttpProtocol.HTTP
 import com.hexagonkt.http.server.model.HttpServerCall
+import com.hexagonkt.http.server.model.HttpServerRequest
+import java.security.cert.X509Certificate
 import kotlin.reflect.KClass
 
 typealias HttpCallback = HttpServerContext.() -> HttpServerContext
 
 internal fun toCallback(handler: HttpCallback): Callback<HttpServerCall> =
     { context -> HttpServerContext(context).handler().context }
+
+fun HttpCallback.process(
+    request: HttpServerRequest,
+    attributes: Map<*, *> = emptyMap<Any, Any>()
+): HttpServerContext =
+    this(HttpServerContext(request = request, attributes = attributes))
+
+fun HttpCallback.process(
+    method: HttpMethod = GET,
+    protocol: HttpProtocol = HTTP,
+    host: String = "localhost",
+    port: Int = 80,
+    path: String = "",
+    queryParameters: HttpFields<QueryParameter> = HttpFields(),
+    headers: HttpFields<Header> = HttpFields(),
+    body: Any = "",
+    parts: List<HttpPart> = emptyList(),
+    formParameters: HttpFields<FormParameter> = HttpFields(),
+    cookies: List<HttpCookie> = emptyList(),
+    contentType: ContentType? = null,
+    certificateChain: List<X509Certificate> = emptyList(),
+    accept: List<ContentType> = emptyList(),
+    contentLength: Long = -1L,
+    attributes: Map<*, *> = emptyMap<Any, Any>(),
+): HttpServerContext =
+    this.process(
+        HttpServerRequest(
+            method,
+            protocol,
+            host,
+            port,
+            path,
+            queryParameters,
+            headers,
+            body,
+            parts,
+            formParameters,
+            cookies,
+            contentType,
+            certificateChain,
+            accept,
+            contentLength,
+        ),
+        attributes,
+    )
 
 // TODO Create PathBuilder to leave outside WS. ServerBuilder would use PathBuilder and WsBuilder
 fun path(pattern: String = "", block: ServerBuilder.() -> Unit): PathHandler {
