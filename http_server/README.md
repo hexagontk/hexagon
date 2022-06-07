@@ -6,7 +6,7 @@ to declare HTTP request handlers.
 Adapters implementing this port are in charge of processing HTTP requests through a list of
 handlers. And allows you to switch implementations without changing the service.
 
-### Install the Dependency
+## Install the Dependency
 This module is not meant to be used directly. You should include and Adapter implementing this
 feature (as [http_server_jetty]) in order to create an HTTP server.
 
