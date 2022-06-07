@@ -22,39 +22,52 @@ write an HTTP server that has to deal with different behaviour based on requests
 These development tools usually have different layers/parts (the ones below are some of the most
 common ones):
 
-* IO: sockets and buffers management, SSL and thread scheduling is usually handled here.
-* HTTP messages (requests and responses) parser and writer.
-* Routing
+* IO: sockets and buffers management, SSL and thread scheduling is usually handled here also.
+* HTTP messages parsing: parse requests to internal model and serialize responses to bytes.
+* Routing: makes easy to run different blocks of code based on requests (usually supporting
+  pipelining among different blocks).
 
-Hexagon takes care of the third layer (it's "just" an abstraction layer for the IO engine
-underneath), previous two layers depends on the adapter. This particularity allows users to swap
-adapters for different use cases. You can use a low memory for embedded boards (as Raspberry Pi) or
-high through-output for servers, another use case would be to use a fast boot adapter for
-development, and a different one for production. To be agnostic of the adapter below, a custom HTTP
-model is implemented and adapters must map their own structures to this model.
+Hexagon takes care of the third layer, it's "just" an abstraction layer for the IO engine and HTTP
+parser underneath, those two layers depends on the adapter (which you can select from a few
+alternatives).
+
+This particularity allows users to swap adapters for different use cases. For example, You can use a
+low memory for embedded boards (as Raspberry Pi) or high through-output for servers, another use
+case would be to use a fast boot adapter for development, and a different one for production.
+
+To be agnostic of the adapter below, a custom HTTP model is implemented in Hexagon, and adapters
+must map their own structures to this model.
 
 Most of the tools (in the JVM world) use metaprogramming (annotations) to effectively perform the
-HTTP parsing and request routing. However, this poses a problem. The code must run on a container
-and your handling code is called from generated code that is harder for you to tackle. This also
-makes harder to create many instances (something very useful to test microservices, for example).
+HTTP parsing and request routing. However, this poses a problem: the code must run on a container
+and your handling code is called from generated code that is harder for you to tackle.
 
-On the other hand you have toolkits, toolkits are just a set of plain libraries that you call, you
-can build methods out of them (not easy to do for annotations).
+Using annotations processing also makes harder some scenarios as creating many instances (something
+very useful to test microservices, for example) or creating controllers programmatically using
+parameters.
+
+On the other hand you have toolkits (the chosen architecture for Hexagon), toolkits are just a set
+of plain libraries that you call, you can build methods out of them (not easy to do for
+annotations). The main difference is that you call toolkits' code, and on the other side, frameworks
+calls your code (and not the other way around).
 
 In the past, metaprogramming would simplify development as Java lacked some language features
 (like lambdas) that made writing some HTTP routing constructions harder, but now I don't see any
-advantage (this is something similar to Dependency Injection, by the way)
+advantage on using annotations over other Java constructions (this is something similar to
+Dependency Injection, by the way).
 
-For some advanced HTTP features (SSE and Websockets) asynchronous processing is desirable (as the
-connections are kept open more time and the 'one thread per request' model doesn't scale well on
-this basis). This is not yet implemented, but it will be.
+Coming back to Hexagon, now we'll talk about how HTTP routing is done in the toolkit. The
+cornerstone of HTTP handling in Hexagon is the handler: Hexagon handlers are a list of functions
+that may or may not be applied to an HTTP call (which is a tuple of request and response).
 
-Hexagon HTTP Handlers are a list of functions that may or may not be applied to the call (tuple of
-request and response) based on a filter (more details below).
+Handlers have a predicate, and they are only applied to a given request if the current request
+matches the predicate.
 
-The functions handling HTTP requests get a call and return a call, operate on immutable structures.
+The functions that handle HTTP requests (named 'callbacks' in Hexagon) are blocks of code that get
+an HTTP call and return an HTTP call (probably the received one with a modified response),
+callbacks operate on immutable structures (the HTTP model).
 
-Below you can find an in deep description on the concepts and components of this toolkit.
+Below you can find an in deep description of the concepts and components of this toolkit.
 
 # Servers
 A server is a process listening to HTTP requests on a TCP port.
@@ -88,25 +101,25 @@ the [Servlet HTTP Server Adapter][http_server_servlet] into your project. Check 
 
 [http_server_servlet]: /http_server_servlet
 
-# HTTP Calls Context (Event)
-Wraps HTTP request and response.
+# HTTP Context
+These are the events that the handlers handle (they are also called HTTP calls or just calls along
+this documentation). They wrap HTTP requests and responses along with some attributes that may be
+used to pass data across handlers and an exception field to express that a previous callback
+resulted in an error.
 
-The Call object provides you with everything you need to handle a http-request.
+The HTTP context provides you with everything you need to handle a HTTP request. It contains the
+request, the response, and a bunch of utility methods to return results, read parameters or pass
+attributes among filters/routes.
 
-It contains the underlying request and response, and a bunch of utility methods to return results,
-read parameters or pass attributes among filters/routes.
-
-The methods are available directly from the callback (`Call` is the callback receiver). You can
-check the [API documentation] for the full list of methods.
-
-This sample code illustrates the usage:
+The methods are available directly from the callback. You can check the [API documentation] for the
+full list of methods. This sample code illustrates the usage:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCall
 
 [API documentation]: /api/http_server/com.hexagonkt.http.server/-call
 
 # Handlers
-The main building block of a Hexagon HTTP service is a set of handlers. A route is made up of two
+The main building blocks of Hexagon HTTP services are a set of handlers. A handler is made up of two
 simple pieces:
 
 * A **predicate** (get, post, put, delete, head, trace, connect, options). It can also be `any`.
