@@ -85,7 +85,7 @@ theme:
 
   features:
     - navigation.tabs
-    - nagivation.instant
+    - navigation.instant
 
   palette:
     - media: "(prefers-color-scheme: light)"
@@ -124,7 +124,7 @@ extra:
 
   analytics:
     provider: google
-    property: UA-48216810-3
+    property: G-BEKWF2E4DJ
 
   twitter_user: hexagon_kt
   social:
