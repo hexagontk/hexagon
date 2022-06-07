@@ -22,7 +22,7 @@ write an HTTP server that has to deal with different behaviour based on requests
 These development tools usually have different layers/parts (the ones below are some of the most
 common ones):
 
-* IO
+* IO: sockets and buffers management, SSL and thread scheduling is usually handled here.
 * HTTP messages (requests and responses) parser and writer.
 * Routing
 
@@ -52,8 +52,9 @@ this basis). This is not yet implemented, but it will be.
 Hexagon HTTP Handlers are a list of functions that may or may not be applied to the call (tuple of
 request and response) based on a filter (more details below).
 
-The functions handling HTTP requests get a call and return a call, operate on (mostly) immutable
-structures.
+The functions handling HTTP requests get a call and return a call, operate on immutable structures.
+
+Below you can find an in deep description on the concepts and components of this toolkit.
 
 # Servers
 A server is a process listening to HTTP requests on a TCP port.
