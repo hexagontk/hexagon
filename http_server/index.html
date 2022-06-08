@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/http_server/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.3">
     
     
       
@@ -23,11 +23,12 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4a0965b7.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
         
+      
       
     
     
@@ -53,8 +54,8 @@
   
 
 
-  <script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-48216810-3","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
-  <script async src="https://www.google-analytics.com/analytics.js"></script>
+  <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-BEKWF2E4DJ"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&gtag("event","search",{search_term:this.value})}),"undefined"!=typeof location$&&location$.subscribe(function(e){gtag("config","G-BEKWF2E4DJ",{page_path:e.pathname})})})</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BEKWF2E4DJ"></script>
 
 
     
@@ -165,39 +166,6 @@
       </form>
     
     
-    
-      <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
     
     
       <div class="md-header__source">
@@ -395,20 +363,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../developer_guide/" class="md-nav__link">
-        Developer Guide
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../core/" class="md-nav__link">
         Core
       </a>
@@ -467,12 +421,24 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#server" class="md-nav__link">
-    Server
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context-on-http-processing" class="md-nav__link">
+    Context on HTTP processing
   </a>
   
-    <nav class="md-nav" aria-label="Server">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servers" class="md-nav__link">
+    Servers
+  </a>
+  
+    <nav class="md-nav" aria-label="Servers">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -486,22 +452,15 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#context-on-http-processing" class="md-nav__link">
-    Context on HTTP processing
+      
+        <li class="md-nav__item">
+  <a href="#http-context" class="md-nav__link">
+    HTTP Context
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#http-call-event" class="md-nav__link">
-    Http Call (Event)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#handlers" class="md-nav__link">
     Handlers
   </a>
@@ -510,23 +469,11 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#path-handler" class="md-nav__link">
-    Path Handler
+  <a href="#path-predicates" class="md-nav__link">
+    Path Predicates
   </a>
   
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#filters" class="md-nav__link">
-    Filters
-  </a>
-  
-    <nav class="md-nav" aria-label="Filters">
+    <nav class="md-nav" aria-label="Path Predicates">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -536,10 +483,8 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#supplying-custom-patterns-using-functions" class="md-nav__link">
-    Supplying custom patterns using functions
-  </a>
+      </ul>
+    </nav>
   
 </li>
         
@@ -547,55 +492,28 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
+  <a href="#filters" class="md-nav__link">
+    Filters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handler-groups-routers" class="md-nav__link">
+    Handler groups (Routers)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#callbacks" class="md-nav__link">
-    Callbacks
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#routes" class="md-nav__link">
-    Routes
-  </a>
-  
-    <nav class="md-nav" aria-label="Routes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#route-groups" class="md-nav__link">
-    Route groups
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#routers" class="md-nav__link">
-    Routers
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#callbacks_1" class="md-nav__link">
     Callbacks
   </a>
   
     <nav class="md-nav" aria-label="Callbacks">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#call" class="md-nav__link">
-    Call
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#request" class="md-nav__link">
@@ -653,33 +571,33 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#compression" class="md-nav__link">
     Compression
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#halting" class="md-nav__link">
     Halting
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#filters_1" class="md-nav__link">
     Filters
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#error-handling" class="md-nav__link">
     Error Handling
   </a>
@@ -705,8 +623,8 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#static-files" class="md-nav__link">
     Static Files
   </a>
@@ -725,22 +643,22 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#cors" class="md-nav__link">
     CORS
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#https" class="md-nav__link">
     HTTPS
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#testing" class="md-nav__link">
     Testing
   </a>
@@ -759,11 +677,6 @@
   <a href="#mocking-calls" class="md-nav__link">
     Mocking calls
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1180,12 +1093,24 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#server" class="md-nav__link">
-    Server
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context-on-http-processing" class="md-nav__link">
+    Context on HTTP processing
   </a>
   
-    <nav class="md-nav" aria-label="Server">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servers" class="md-nav__link">
+    Servers
+  </a>
+  
+    <nav class="md-nav" aria-label="Servers">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1199,22 +1124,15 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#context-on-http-processing" class="md-nav__link">
-    Context on HTTP processing
+      
+        <li class="md-nav__item">
+  <a href="#http-context" class="md-nav__link">
+    HTTP Context
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#http-call-event" class="md-nav__link">
-    Http Call (Event)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#handlers" class="md-nav__link">
     Handlers
   </a>
@@ -1223,23 +1141,11 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#path-handler" class="md-nav__link">
-    Path Handler
+  <a href="#path-predicates" class="md-nav__link">
+    Path Predicates
   </a>
   
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#filters" class="md-nav__link">
-    Filters
-  </a>
-  
-    <nav class="md-nav" aria-label="Filters">
+    <nav class="md-nav" aria-label="Path Predicates">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1249,10 +1155,8 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#supplying-custom-patterns-using-functions" class="md-nav__link">
-    Supplying custom patterns using functions
-  </a>
+      </ul>
+    </nav>
   
 </li>
         
@@ -1260,55 +1164,28 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
+  <a href="#filters" class="md-nav__link">
+    Filters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handler-groups-routers" class="md-nav__link">
+    Handler groups (Routers)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#callbacks" class="md-nav__link">
-    Callbacks
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#routes" class="md-nav__link">
-    Routes
-  </a>
-  
-    <nav class="md-nav" aria-label="Routes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#route-groups" class="md-nav__link">
-    Route groups
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#routers" class="md-nav__link">
-    Routers
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#callbacks_1" class="md-nav__link">
     Callbacks
   </a>
   
     <nav class="md-nav" aria-label="Callbacks">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#call" class="md-nav__link">
-    Call
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#request" class="md-nav__link">
@@ -1366,33 +1243,33 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#compression" class="md-nav__link">
     Compression
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#halting" class="md-nav__link">
     Halting
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#filters_1" class="md-nav__link">
     Filters
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#error-handling" class="md-nav__link">
     Error Handling
   </a>
@@ -1418,8 +1295,8 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#static-files" class="md-nav__link">
     Static Files
   </a>
@@ -1438,22 +1315,22 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#cors" class="md-nav__link">
     CORS
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#https" class="md-nav__link">
     HTTPS
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#testing" class="md-nav__link">
     Testing
   </a>
@@ -1472,11 +1349,6 @@
   <a href="#mocking-calls" class="md-nav__link">
     Mocking calls
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1532,27 +1404,68 @@
 <h2 id="module-http_server">Module http_server<a class="headerlink" href="#module-http_server" title="Permanent link">&para;</a></h2>
 <p>This port's purpose is to develop HTTP servers (REST services or Web applications). It defines a DSL
 to declare HTTP request handlers.</p>
-<p>Adapters implementing this port are in charge of transforming the DSL into a runtime. And allows you
-to switch implementations without changing the service.</p>
-<h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
+<p>Adapters implementing this port are in charge of processing HTTP requests through a list of
+handlers. And allows you to switch implementations without changing the service.</p>
+<h3 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h3>
 <p>This module is not meant to be used directly. You should include and Adapter implementing this
 feature (as <a href="/http_server_jetty">http_server_jetty</a>) in order to create an HTTP server.</p>
-<h4 id="server">Server<a class="headerlink" href="#server" title="Permanent link">&para;</a></h4>
+<h2 id="context-on-http-processing">Context on HTTP processing<a class="headerlink" href="#context-on-http-processing" title="Permanent link">&para;</a></h2>
+<p>An HTTP server is nothing more than a function that takes a request and returns a response. Requests
+and responses comply with several Web standards.</p>
+<p>For the sake of ease of use, HTTP toolkits (or frameworks) are build. These tools make easier to
+write an HTTP server that has to deal with different behaviour based on requests attributes.</p>
+<p>These development tools usually have different layers/parts (the ones below are some of the most
+common ones):</p>
+<ul>
+<li>IO: sockets and buffers management, SSL and thread scheduling is usually handled here also.</li>
+<li>HTTP messages parsing: parse requests to internal model and serialize responses to bytes.</li>
+<li>Routing: makes easy to run different blocks of code based on requests (usually supporting
+  pipelining among different blocks).</li>
+</ul>
+<p>Hexagon takes care of the third layer, it's "just" an abstraction layer for the IO engine and HTTP
+parser underneath, those two layers depends on the adapter (which you can select from a few
+alternatives).</p>
+<p>This particularity allows users to swap adapters for different use cases. For example, You can use a
+low memory for embedded boards (as Raspberry Pi) or high through-output for servers, another use
+case would be to use a fast boot adapter for development, and a different one for production.</p>
+<p>To be agnostic of the adapter below, a custom HTTP model is implemented in Hexagon, and adapters
+must map their own structures to this model.</p>
+<p>Most of the tools (in the JVM world) use metaprogramming (annotations) to effectively perform the
+HTTP parsing and request routing. However, this poses a problem: the code must run on a container
+and your handling code is called from generated code that is harder for you to tackle.</p>
+<p>Using annotations processing also makes harder some scenarios as creating many instances (something
+very useful to test microservices, for example) or creating controllers programmatically using
+parameters.</p>
+<p>On the other hand you have toolkits (the chosen architecture for Hexagon), toolkits are just a set
+of plain libraries that you call, you can build methods out of them (not easy to do for
+annotations). The main difference is that you call toolkits' code, and on the other side, frameworks
+calls your code (and not the other way around).</p>
+<p>In the past, metaprogramming would simplify development as Java lacked some language features
+(like lambdas) that made writing some HTTP routing constructions harder, but now I don't see any
+advantage on using annotations over other Java constructions (this is something similar to
+Dependency Injection, by the way).</p>
+<p>Coming back to Hexagon, now we'll talk about how HTTP routing is done in the toolkit. The
+cornerstone of HTTP handling in Hexagon is the handler: Hexagon handlers are a list of functions
+that may or may not be applied to an HTTP call (which is a tuple of request and response).</p>
+<p>Handlers have a predicate, and they are only applied to a given request if the current request
+matches the predicate.</p>
+<p>The functions that handle HTTP requests (named 'callbacks' in Hexagon) are blocks of code that get
+an HTTP call and return an HTTP call (probably the received one with a modified response),
+callbacks operate on immutable structures (the HTTP model).</p>
+<p>Below you can find an in deep description of the concepts and components of this toolkit.</p>
+<h2 id="servers">Servers<a class="headerlink" href="#servers" title="Permanent link">&para;</a></h2>
 <p>A server is a process listening to HTTP requests on a TCP port.</p>
-<p>You can run multiple ones on different ports at the same time (this can be useful to test many
-microservices at the same time).</p>
-<p>The server can be configured with different properties. If you do not provide a value for them, they
-are searched inside the application settings and lastly, a default value is picked. This is the
-parameters list:</p>
+<p>You can run multiple ones on different ports at the same time on the same JVM (this can be useful to
+test many microservices at the same time).</p>
+<p>The server can be <a href="/api/http_server/com.hexagonkt.http.server/-http-server-settings">configured with different properties</a>. If you do not provide a
+value for them, they are searched inside the application settings and lastly, a default value is
+picked. This is the parameters list:</p>
 <ul>
 <li>banner: informative text shown at start up logs. If not set only runtime information is displayed.</li>
 <li>bindAddress: address to which this process is bound. If none is provided, <code>127.0.0.1</code> is taken.</li>
 <li>bindPort: the port which the process listens to. By default, it is <code>2010</code>.</li>
 <li>contextPath: initial path used for the rest of the routes, by default it is empty.</li>
 </ul>
-<!-- TODO Link to ServerSettings properties to explain set up. -->
-<!-- TODO Document ServerSettings configuration options (options field)). -->
-
 <p>To create a server, you need to provide a router (check the <a href="/http_server/#routes">next section</a> for more information),
 and after creating a server you can run it or stop it with <a href="/api/http_server/com.hexagonkt.http.server/-server/start.html">start()</a> and <a href="/api/http_server/com.hexagonkt.http.server/-server/stop.html">stop()</a> methods.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -1615,56 +1528,51 @@ and after creating a server you can run it or stop it with <a href="/api/http_se
 <span class="cm"> */</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">defaultSettingsServer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serve</span><span class="p">(</span><span class="n">serverAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span><span class="n">path</span><span class="p">))</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="servlet-web-server">Servlet Web server<a class="headerlink" href="#servlet-web-server" title="Permanent link">&para;</a></h5>
+<h3 id="servlet-web-server">Servlet Web server<a class="headerlink" href="#servlet-web-server" title="Permanent link">&para;</a></h3>
 <p>There is a special server adapter for running inside Servlet Containers. To use it you should import
-the <a href="/http_server_servlet/">Servlet HTTP Server Adapter</a> into your project. Check the
-<a href="/http_server_servlet/">http_server_servlet</a> module for more information.</p>
-<h4 id="context-on-http-processing">Context on HTTP processing<a class="headerlink" href="#context-on-http-processing" title="Permanent link">&para;</a></h4>
-<p>An HTTP server is nothing more than a function that takes a request and returns a response. Requests
-and responses comply with several Web standards.</p>
-<p>For the sake of ease of use, HTTP toolkits (or frameworks) are build. These tools make easier to
-write an HTTP server that has to deal with different behaviour based on requests attributes.</p>
-<p>These development tools usually have different layers/parts:
-* IO
-* HTTP messages (requests and responses) parser and writer.
-* Routing</p>
-<p>Hexagon takes care of the third layer (it's "just" an abstraction layer for the IO engine
-underneath), previous two layers depends on the adapter. This particularity allows users to swap
-adapters for different use cases. You can use a low memory for embedded boards (as Raspberry Pi) or
-high through-output for servers, another use case would be to use a fast boot adapter for
-development, and a different one for production. To be agnostic of the adapter below, a custom HTTP
-model is implemented and adapters must map their own structures to this model.</p>
-<p>Most of the tools (in the JVM world) use metaprogramming (annotations) to effectively perform the
-HTTP parsing and request routing. However, this poses a problem. The code must run on a container
-and your handling code is called from generated code that is harder for you to tackle. This also
-makes harder to create many instances (something very useful to test microservices, for example).</p>
-<p>On the other hand you have toolkits, toolkits are just a set of plain libraries that you call, you
-can build methods out of them (not easy to do for annotations).</p>
-<p>In the past, metaprogramming would simplify development as Java lacked some language features
-(like lambdas) that made writing some HTTP routing constructions harder, but now I don't see any
-advantage (this is something similar to Dependency Injection, by the way)</p>
-<p>For some advanced HTTP features (SSE and Websockets) asynchronous processing is desirable (as the
-connections are kept open more time and the 'one thread per request' model doesn't scale well on
-this basis). This is not yet implemented, but it will be.</p>
-<p>Hexagon HTTP Handlers are a list of functions that may or may not be applied to the call (tuple of
-request and response) based on a filter (more details below).</p>
-<h4 id="http-call-event">Http Call (Event)<a class="headerlink" href="#http-call-event" title="Permanent link">&para;</a></h4>
-<h4 id="handlers">Handlers<a class="headerlink" href="#handlers" title="Permanent link">&para;</a></h4>
-<h5 id="path-handler">Path Handler<a class="headerlink" href="#path-handler" title="Permanent link">&para;</a></h5>
-<h4 id="filters">Filters<a class="headerlink" href="#filters" title="Permanent link">&para;</a></h4>
-<h5 id="path-pattern">Path Pattern<a class="headerlink" href="#path-pattern" title="Permanent link">&para;</a></h5>
-<h5 id="supplying-custom-patterns-using-functions">Supplying custom patterns using functions<a class="headerlink" href="#supplying-custom-patterns-using-functions" title="Permanent link">&para;</a></h5>
-<h4 id="callbacks">Callbacks<a class="headerlink" href="#callbacks" title="Permanent link">&para;</a></h4>
-<h4 id="routes">Routes<a class="headerlink" href="#routes" title="Permanent link">&para;</a></h4>
-<p>The main building block of a Hexagon HTTP service is a set of routes. A route is made up of three
+the <a href="/http_server_servlet">Servlet HTTP Server Adapter</a> into your project. Check the
+<a href="/http_server_servlet">http_server_servlet</a> module for more information.</p>
+<h2 id="http-context">HTTP Context<a class="headerlink" href="#http-context" title="Permanent link">&para;</a></h2>
+<p>These are the events that the handlers handle (they are also called HTTP calls or just calls along
+this documentation). They wrap HTTP requests and responses along with some attributes that may be
+used to pass data across handlers and an exception field to express that a previous callback
+resulted in an error.</p>
+<p>The HTTP context provides you with everything you need to handle a HTTP request. It contains the
+request, the response, and a bunch of utility methods to return results, read parameters or pass
+attributes among filters/routes.</p>
+<p>The methods are available directly from the callback. You can check the <a href="/api/http_server/com.hexagonkt.http.server/-call">API documentation</a> for the
+full list of methods. This sample code illustrates the usage:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/call&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">attributes</span><span class="w">          </span><span class="c1">// The attributes list</span><span class="w"></span>
+<span class="w">    </span><span class="n">attributes</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span><span class="w">   </span><span class="c1">// Value of foo attribute</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Response body&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// Returns a 200 status</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// return any status (previous return value is ignored here)</span><span class="w"></span>
+<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="w"></span>
+<span class="w">        </span><span class="n">BAD_REQUEST</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s">&quot;Invalid request&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">attributes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attributes</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;V&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// Sets value of attribute A to V</span><span class="w"></span>
+<span class="w">    </span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<h2 id="handlers">Handlers<a class="headerlink" href="#handlers" title="Permanent link">&para;</a></h2>
+<p>The main building blocks of Hexagon HTTP services are a set of handlers. A handler is made up of two
 simple pieces:</p>
 <ul>
-<li>A <strong>verb</strong> (get, post, put, delete, head, trace, connect, options). It can also be <code>any</code>.</li>
-<li>A <strong>path</strong> (/hello, /users/{name}). Paths must start with '/' and trailing slash is ignored.</li>
+<li>A <strong>predicate</strong> (get, post, put, delete, head, trace, connect, options). It can also be <code>any</code>.</li>
 <li>A <strong>callback</strong> code block.</li>
 </ul>
-<!-- TODO Explain path pattern format -->
-
 <p>The callback has a void return type. You should use <code>Call.send()</code> to set the response which will
 be returned to the user.</p>
 <p>Routes are matched in the order they are defined. The first route that matches the request is
@@ -1684,8 +1592,16 @@ invoked, and the following ones are ignored.</p>
 
 <span class="n">on</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/&#39; if no route matched before&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<p>HTTP clients will be able to reuse the routes to create REST services clients.</p>
-<h5 id="route-groups">Route groups<a class="headerlink" href="#route-groups" title="Permanent link">&para;</a></h5>
+<h3 id="path-predicates">Path Predicates<a class="headerlink" href="#path-predicates" title="Permanent link">&para;</a></h3>
+<ul>
+<li>A <strong>verb</strong> (get, post, put, delete, head, trace, connect, options). It can also be <code>any</code>.</li>
+<li>A <strong>path</strong> (/hello, /users/{name}). Paths must start with '/' and trailing slash is ignored.</li>
+</ul>
+<h4 id="path-pattern">Path Pattern<a class="headerlink" href="#path-pattern" title="Permanent link">&para;</a></h4>
+<!-- TODO Explain path pattern format -->
+
+<h2 id="filters">Filters<a class="headerlink" href="#filters" title="Permanent link">&para;</a></h2>
+<h2 id="handler-groups-routers">Handler groups (Routers)<a class="headerlink" href="#handler-groups-routers" title="Permanent link">&para;</a></h2>
 <p>Routes can be nested by calling the <code>path()</code> method, which takes a String prefix and gives you a
 scope to declare routes and filters (or more nested paths). Ie:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -1706,7 +1622,6 @@ scope to declare routes and filters (or more nested paths). Ie:</p>
 <span class="w">    </span><span class="k">get</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/nested&#39;&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="routers">Routers<a class="headerlink" href="#routers" title="Permanent link">&para;</a></h5>
 <p>If you have a lot of routes, it can be helpful to group them into routers. You can create routers
 to mount a group of routes in different paths (allowing you to reuse them). Check this snippet:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -1729,41 +1644,10 @@ to mount a group of routes in different paths (allowing you to reuse them). Chec
 <span class="w">    </span><span class="n">path</span><span class="p">(</span><span class="s">&quot;/customers&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">personRouter</span><span class="p">(</span><span class="s">&quot;customer&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h4 id="callbacks_1">Callbacks<a class="headerlink" href="#callbacks_1" title="Permanent link">&para;</a></h4>
-<p>Callbacks are request's handling blocks that are bound to routes or filters. They make the request,
-response and session objects available to the handling code.</p>
-<h5 id="call">Call<a class="headerlink" href="#call" title="Permanent link">&para;</a></h5>
-<p>The Call object provides you with everything you need to handle a http-request.</p>
-<p>It contains the underlying request and response, and a bunch of utility methods to return results,
-read parameters or pass attributes among filters/routes.</p>
-<p>The methods are available directly from the callback (<code>Call</code> is the callback receiver). You can
-check the <a href="/api/http_server/com.hexagonkt.http.server/-call/">API documentation</a> for the full list of methods.</p>
-<p>This sample code illustrates the usage:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/call&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">attributes</span><span class="w">                   </span><span class="c1">// the attributes list</span><span class="w"></span>
-<span class="w">    </span><span class="n">attributes</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span><span class="w">            </span><span class="c1">// value of foo attribute</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Response body&quot;</span><span class="p">)</span><span class="w">          </span><span class="c1">// returns a 200 status</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// return any status</span><span class="w"></span>
-<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="w"></span>
-<span class="w">        </span><span class="n">BAD_REQUEST</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="s">&quot;Invalid request&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="n">attributes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attributes</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;V&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// sets value of attribute A to V</span><span class="w"></span>
-<span class="w">    </span><span class="p">)</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</code></pre></div></td></tr></table></div>
-<h5 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h5>
+<h2 id="callbacks">Callbacks<a class="headerlink" href="#callbacks" title="Permanent link">&para;</a></h2>
+<p>Callbacks are request's handling blocks that are bound to handlers. They make the request and
+response objects available to the handling code.</p>
+<h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
 <p>Request functionality is provided by the <code>request</code> field:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -1813,12 +1697,12 @@ check the <a href="/api/http_server/com.hexagonkt.http.server/-call/">API docume
 <span class="normal">46</span>
 <span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/request&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// URL Information</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="w">                   </span><span class="c1">// the HTTP method (GET, ..etc)</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">protocol</span><span class="w">                 </span><span class="c1">// http or https TODO</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">host</span><span class="w">                     </span><span class="c1">// the host, e.g. &quot;example.com&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">port</span><span class="w">                     </span><span class="c1">// the server port</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">path</span><span class="w">                     </span><span class="c1">// the request path, e.g. /result.jsp</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">body</span><span class="w">                     </span><span class="c1">// request body sent by the client</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="w">                   </span><span class="c1">// The HTTP method (GET, ..etc)</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">protocol</span><span class="w">                 </span><span class="c1">// HTTP or HTTPS</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">host</span><span class="w">                     </span><span class="c1">// The host, e.g. &quot;example.com&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">port</span><span class="w">                     </span><span class="c1">// The server port</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">path</span><span class="w">                     </span><span class="c1">// The request path, e.g. /result.jsp</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">body</span><span class="w">                     </span><span class="c1">// Request body sent by the client</span><span class="w"></span>
 
 <span class="w">    </span><span class="n">method</span><span class="w">                           </span><span class="c1">// Shortcut of `request.method`</span><span class="w"></span>
 <span class="w">    </span><span class="n">protocol</span><span class="w">                         </span><span class="c1">// Shortcut of `request.protocol`</span><span class="w"></span>
@@ -1827,26 +1711,26 @@ check the <a href="/api/http_server/com.hexagonkt.http.server/-call/">API docume
 <span class="w">    </span><span class="n">path</span><span class="w">                             </span><span class="c1">// Shortcut of `request.path`</span><span class="w"></span>
 
 <span class="w">    </span><span class="c1">// Headers</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="w">                  </span><span class="c1">// the HTTP header list with first values only</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="o">[</span><span class="s">&quot;BAR&quot;</span><span class="o">]</span><span class="w">           </span><span class="c1">// first value of BAR header</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="p">.</span><span class="na">allValues</span><span class="w">        </span><span class="c1">// the HTTP header list with their full values list</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="p">.</span><span class="na">allValues</span><span class="o">[</span><span class="s">&quot;BAR&quot;</span><span class="o">]</span><span class="w"> </span><span class="c1">// list of values of BAR header</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="w">                  </span><span class="c1">// The HTTP header list</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="o">[</span><span class="s">&quot;BAR&quot;</span><span class="o">]</span><span class="w">           </span><span class="c1">// First value of BAR header</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="p">.</span><span class="na">allValues</span><span class="w">        </span><span class="c1">// The HTTP header list with their full values list</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="p">.</span><span class="na">allValues</span><span class="o">[</span><span class="s">&quot;BAR&quot;</span><span class="o">]</span><span class="w"> </span><span class="c1">// List of values of BAR header</span><span class="w"></span>
 
 <span class="w">    </span><span class="c1">// Common headers shortcuts</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">contentType</span><span class="w">              </span><span class="c1">// content type of request.body</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">contentType</span><span class="w">              </span><span class="c1">// Content type of request.body</span><span class="w"></span>
 <span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">accept</span><span class="w">                   </span><span class="c1">// Client accepted content types</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">userAgent</span><span class="p">()</span><span class="w">              </span><span class="c1">// user agent (browser requests)</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">origin</span><span class="p">()</span><span class="w">                 </span><span class="c1">// origin (browser requests)</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">referer</span><span class="p">()</span><span class="w">                </span><span class="c1">// TODO</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">userAgent</span><span class="p">()</span><span class="w">              </span><span class="c1">// User agent (browser requests)</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">origin</span><span class="p">()</span><span class="w">                 </span><span class="c1">// Origin (browser requests)</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">referer</span><span class="p">()</span><span class="w">                </span><span class="c1">// Referer header (page that makes the request)</span><span class="w"></span>
 
-<span class="w">    </span><span class="n">accept</span><span class="w">                             </span><span class="c1">// Shortcut of `request.accept`</span><span class="w"></span>
+<span class="w">    </span><span class="n">accept</span><span class="w">                           </span><span class="c1">// Shortcut of `request.accept`</span><span class="w"></span>
 
 <span class="w">    </span><span class="c1">// Parameters</span><span class="w"></span>
-<span class="w">    </span><span class="n">pathParameters</span><span class="w">                    </span><span class="c1">// map with all path parameters</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="w">            </span><span class="c1">// map with first values of all form fields</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="p">.</span><span class="na">allValues</span><span class="w">  </span><span class="c1">// map with all form fields values</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="w">           </span><span class="c1">// map with first values of all query parameters</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="p">.</span><span class="na">allValues</span><span class="w"> </span><span class="c1">// map with all query parameters values</span><span class="w"></span>
+<span class="w">    </span><span class="n">pathParameters</span><span class="w">                    </span><span class="c1">// Map with all path parameters</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="w">            </span><span class="c1">// List with all form fields</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="p">.</span><span class="na">allValues</span><span class="w">  </span><span class="c1">// Map with all form fields values</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="w">           </span><span class="c1">// List with all query parameters</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="p">.</span><span class="na">allValues</span><span class="w"> </span><span class="c1">// Map with all query parameters values</span><span class="w"></span>
 
 <span class="w">    </span><span class="n">queryParameters</span><span class="w">                   </span><span class="c1">// Shortcut of `request.queryParameters`</span><span class="w"></span>
 <span class="w">    </span><span class="n">queryParameters</span><span class="p">.</span><span class="na">allValues</span><span class="w">         </span><span class="c1">// Shortcut of `request.queryParameters.allValues`</span><span class="w"></span>
@@ -1854,12 +1738,12 @@ check the <a href="/api/http_server/com.hexagonkt.http.server/-call/">API docume
 <span class="w">    </span><span class="n">formParameters</span><span class="p">.</span><span class="na">allValues</span><span class="w">          </span><span class="c1">// Shortcut of `request.formParameters.allValues`</span><span class="w"></span>
 
 <span class="w">    </span><span class="c1">// Body processing</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">contentLength</span><span class="w">             </span><span class="c1">// length of request body</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">contentLength</span><span class="w">             </span><span class="c1">// Length of request body</span><span class="w"></span>
 
 <span class="w">    </span><span class="n">ok</span><span class="p">()</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="path-parameters">Path Parameters<a class="headerlink" href="#path-parameters" title="Permanent link">&para;</a></h5>
+<h3 id="path-parameters">Path Parameters<a class="headerlink" href="#path-parameters" title="Permanent link">&para;</a></h3>
 <p>Route patterns can include named parameters, accessible via the <code>pathParameters</code> map on the request
 object:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -1867,12 +1751,12 @@ object:</p>
 <span class="normal">3</span>
 <span class="normal">4</span>
 <span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/pathParam/{foo}&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">pathParameters</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span><span class="w"> </span><span class="c1">// value of foo path parameter</span><span class="w"></span>
-<span class="w">    </span><span class="n">pathParameters</span><span class="w">        </span><span class="c1">// map with all parameters</span><span class="w"></span>
+<span class="w">    </span><span class="n">pathParameters</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span><span class="w"> </span><span class="c1">// Value of foo path parameter</span><span class="w"></span>
+<span class="w">    </span><span class="n">pathParameters</span><span class="w">        </span><span class="c1">// Map with all parameters</span><span class="w"></span>
 <span class="w">    </span><span class="n">ok</span><span class="p">()</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="query-parameters">Query Parameters<a class="headerlink" href="#query-parameters" title="Permanent link">&para;</a></h5>
+<h3 id="query-parameters">Query Parameters<a class="headerlink" href="#query-parameters" title="Permanent link">&para;</a></h3>
 <p>It is possible to access the whole query string or only a specific query parameter using the
 <code>parameters</code> map on the <code>request</code> object:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -1883,15 +1767,15 @@ object:</p>
 <span class="normal">6</span>
 <span class="normal">7</span>
 <span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/queryParam&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="w">                       </span><span class="c1">// the query param list</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span><span class="w">                </span><span class="c1">// value of FOO query param</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="p">.</span><span class="na">allValues</span><span class="w">             </span><span class="c1">// the query param list</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="p">.</span><span class="na">allValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span><span class="w">      </span><span class="c1">// all values of FOO query param</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="w">                       </span><span class="c1">// The query param list</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span><span class="w">                </span><span class="c1">// Value of FOO query param</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="p">.</span><span class="na">allValues</span><span class="w">             </span><span class="c1">// The query param list</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="p">.</span><span class="na">allValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span><span class="w">      </span><span class="c1">// All values of FOO query param</span><span class="w"></span>
 
 <span class="w">    </span><span class="n">ok</span><span class="p">()</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="form-parameters">Form Parameters<a class="headerlink" href="#form-parameters" title="Permanent link">&para;</a></h5>
+<h3 id="form-parameters">Form Parameters<a class="headerlink" href="#form-parameters" title="Permanent link">&para;</a></h3>
 <p>HTML Form processing. Don't parse body!</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -1900,14 +1784,14 @@ object:</p>
 <span class="normal">5</span>
 <span class="normal">6</span>
 <span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/formParam&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="w">                       </span><span class="c1">// the query param list</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span><span class="w">                </span><span class="c1">// value of FOO query param</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="p">.</span><span class="na">allValues</span><span class="w">             </span><span class="c1">// the query param list</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="p">.</span><span class="na">allValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span><span class="w">      </span><span class="c1">// all values of FOO query param</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="w">                       </span><span class="c1">// The query param list</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span><span class="w">                </span><span class="c1">// Value of FOO query param</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="p">.</span><span class="na">allValues</span><span class="w">             </span><span class="c1">// The query param list</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="p">.</span><span class="na">allValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span><span class="w">      </span><span class="c1">// All values of FOO query param</span><span class="w"></span>
 <span class="w">    </span><span class="n">ok</span><span class="p">()</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="file-uploads">File Uploads<a class="headerlink" href="#file-uploads" title="Permanent link">&para;</a></h5>
+<h3 id="file-uploads">File Uploads<a class="headerlink" href="#file-uploads" title="Permanent link">&para;</a></h3>
 <p>Multipart Requests</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -1917,7 +1801,7 @@ object:</p>
 <span class="w">    </span><span class="n">ok</span><span class="p">(</span><span class="n">filePart</span><span class="p">.</span><span class="na">body</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h5>
+<h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
 <p>Response information is provided by the <code>response</code> field:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -1935,23 +1819,23 @@ object:</p>
 <span class="normal">14</span>
 <span class="normal">15</span>
 <span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/response&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">body</span><span class="w">                        </span><span class="c1">// get response content</span><span class="w"></span>
-<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">status</span><span class="w">                      </span><span class="c1">// get the response status</span><span class="w"></span>
-<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">contentType</span><span class="w">                 </span><span class="c1">// get the content type</span><span class="w"></span>
+<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">body</span><span class="w">                       </span><span class="c1">// Get response content</span><span class="w"></span>
+<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">status</span><span class="w">                     </span><span class="c1">// Get the response status</span><span class="w"></span>
+<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">contentType</span><span class="w">                </span><span class="c1">// Get the content type</span><span class="w"></span>
 
-<span class="w">    </span><span class="n">status</span><span class="w">                               </span><span class="c1">// Shortcut of `response.status`</span><span class="w"></span>
+<span class="w">    </span><span class="n">status</span><span class="w">                              </span><span class="c1">// Shortcut of `response.status`</span><span class="w"></span>
 
 <span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="w"></span>
-<span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UNAUTHORIZED</span><span class="p">,</span><span class="w">           </span><span class="c1">// set status code to 401</span><span class="w"></span>
-<span class="w">        </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w">                  </span><span class="c1">// sets content to Hello</span><span class="w"></span>
-<span class="w">        </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">XML</span><span class="p">),</span><span class="w">  </span><span class="c1">// set content type to application/xml</span><span class="w"></span>
+<span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UNAUTHORIZED</span><span class="p">,</span><span class="w">          </span><span class="c1">// Set status code to 401</span><span class="w"></span>
+<span class="w">        </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Sets content to Hello</span><span class="w"></span>
+<span class="w">        </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">XML</span><span class="p">),</span><span class="w"> </span><span class="c1">// Set content type to application/xml</span><span class="w"></span>
 <span class="w">        </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"></span>
-<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">)</span><span class="w">           </span><span class="c1">// sets header FOO with single value bar</span><span class="w"></span>
-<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">HttpFields</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">))</span><span class="w"> </span><span class="c1">// sets header FOO values with [ bar ]</span><span class="w"></span>
+<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// Sets header FOO with single value bar</span><span class="w"></span>
+<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// Sets header FOO values with [ bar ]</span><span class="w"></span>
 <span class="w">    </span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="redirects">Redirects<a class="headerlink" href="#redirects" title="Permanent link">&para;</a></h5>
+<h3 id="redirects">Redirects<a class="headerlink" href="#redirects" title="Permanent link">&para;</a></h3>
 <p>You can redirect requests (returning 30x codes) by using <code>Call</code> utility methods:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -1959,7 +1843,7 @@ object:</p>
 <span class="w">    </span><span class="n">redirect</span><span class="p">(</span><span class="n">FOUND</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/call&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// browser redirect to /call</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="cookies">Cookies<a class="headerlink" href="#cookies" title="Permanent link">&para;</a></h5>
+<h3 id="cookies">Cookies<a class="headerlink" href="#cookies" title="Permanent link">&para;</a></h3>
 <p>The request and response cookie functions provide a convenient way for sharing information between
 handlers, requests, or even servers.</p>
 <p>You can read client sent cookies from the request's <code>cookies</code> read only map. To change cookies or
@@ -1979,39 +1863,37 @@ add new ones you have to use <code>response.addCookie()</code> and <code>respons
 <span class="normal">12</span>
 <span class="normal">13</span>
 <span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/cookie&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">cookies</span><span class="w">                       </span><span class="c1">// get map of all request cookies</span><span class="w"></span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">cookiesMap</span><span class="p">()</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span><span class="w">           </span><span class="c1">// access request cookie by name</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">cookies</span><span class="w">                     </span><span class="c1">// Get map of all request cookies</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">cookiesMap</span><span class="p">()</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span><span class="w">         </span><span class="c1">// Access request cookie by name</span><span class="w"></span>
 
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">cookie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpCookie</span><span class="p">(</span><span class="s">&quot;new_foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">ok</span><span class="p">(</span><span class="w"></span>
 <span class="w">        </span><span class="n">cookies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span><span class="w"></span>
-<span class="w">            </span><span class="n">cookie</span><span class="p">,</span><span class="w">                     </span><span class="c1">// set cookie with a value</span><span class="w"></span>
-<span class="w">            </span><span class="n">cookie</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">maxAge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3600</span><span class="p">),</span><span class="w"> </span><span class="c1">// set cookie with a max-age</span><span class="w"></span>
-<span class="w">            </span><span class="n">cookie</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">secure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">),</span><span class="w"> </span><span class="c1">// secure cookie</span><span class="w"></span>
-<span class="w">            </span><span class="n">cookie</span><span class="p">.</span><span class="na">delete</span><span class="p">(),</span><span class="w">            </span><span class="c1">// remove cookie</span><span class="w"></span>
+<span class="w">            </span><span class="n">cookie</span><span class="p">,</span><span class="w">                     </span><span class="c1">// Set cookie with a value</span><span class="w"></span>
+<span class="w">            </span><span class="n">cookie</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">maxAge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3600</span><span class="p">),</span><span class="w"> </span><span class="c1">// Set cookie with a max-age</span><span class="w"></span>
+<span class="w">            </span><span class="n">cookie</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">secure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">),</span><span class="w"> </span><span class="c1">// Secure cookie</span><span class="w"></span>
+<span class="w">            </span><span class="n">cookie</span><span class="p">.</span><span class="na">delete</span><span class="p">(),</span><span class="w">            </span><span class="c1">// Remove cookie</span><span class="w"></span>
 <span class="w">        </span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="compression">Compression<a class="headerlink" href="#compression" title="Permanent link">&para;</a></h5>
+<h2 id="compression">Compression<a class="headerlink" href="#compression" title="Permanent link">&para;</a></h2>
 <!-- TODO Explain how to set up using server features -->
 
-<h5 id="halting">Halting<a class="headerlink" href="#halting" title="Permanent link">&para;</a></h5>
-<p>To immediately stop a request within a filter or route use <code>halt()</code>. <code>halt()</code> is not intended to be
-used inside exception-mappers. Check the following snippet for an example:</p>
+<h2 id="halting">Halting<a class="headerlink" href="#halting" title="Permanent link">&para;</a></h2>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
 <span class="normal">5</span>
 <span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/halt&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">)</span><span class="w">             </span><span class="c1">// halt with status</span><span class="w"></span>
-<span class="w">    </span><span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Go away!&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// halt with status and message</span><span class="w"></span>
-<span class="w">    </span><span class="n">internalServerError</span><span class="p">(</span><span class="s">&quot;Body Message&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// halt with message (status 500)</span><span class="w"></span>
-<span class="w">    </span><span class="n">internalServerError</span><span class="p">()</span><span class="w">                 </span><span class="c1">// halt with status 500</span><span class="w"></span>
+<span class="w">    </span><span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">)</span><span class="w">             </span><span class="c1">// Halt with status</span><span class="w"></span>
+<span class="w">    </span><span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Go away!&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// Halt with status and message</span><span class="w"></span>
+<span class="w">    </span><span class="n">internalServerError</span><span class="p">(</span><span class="s">&quot;Body Message&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// Halt with message (status 500)</span><span class="w"></span>
+<span class="w">    </span><span class="n">internalServerError</span><span class="p">()</span><span class="w">                 </span><span class="c1">// Halt with status 500</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h4 id="filters_1">Filters<a class="headerlink" href="#filters_1" title="Permanent link">&para;</a></h4>
+<h2 id="filters_1">Filters<a class="headerlink" href="#filters_1" title="Permanent link">&para;</a></h2>
 <p>You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
 code executed before or after one or more routes. They can read the request and read/modify the
 response.</p>
@@ -2060,12 +1942,12 @@ after filters are executed anyway).</p>
 
 <span class="n">after</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;a-all&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h4 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h4>
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
 <p>You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
 callbacks, or handlers halted with an error code.</p>
 <p>Error handlers for a given code or exception are unique, and the first one defined is the one which
 will be used.</p>
-<h5 id="http-errors-handlers">HTTP Errors Handlers<a class="headerlink" href="#http-errors-handlers" title="Permanent link">&para;</a></h5>
+<h3 id="http-errors-handlers">HTTP Errors Handlers<a class="headerlink" href="#http-errors-handlers" title="Permanent link">&para;</a></h3>
 <p>Allows handling routes halted with a given code. These handlers are only applied if the route is
 halted, if the error code is returned with <code>send</code> it won't be handled as an error. Example:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -2084,10 +1966,9 @@ halted, if the error code is returned with <code>send</code> it won't be handled
 
 <span class="n">on</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">512</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">INTERNAL_SERVER_ERROR</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ouch&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="exception-mapping">Exception Mapping<a class="headerlink" href="#exception-mapping" title="Permanent link">&para;</a></h5>
+<h3 id="exception-mapping">Exception Mapping<a class="headerlink" href="#exception-mapping" title="Permanent link">&para;</a></h3>
 <p>You can handle exceptions of a given type for all routes and filters. The handler allows you to
 refer to the thrown exception. Look at the following code for a detailed example:</p>
-<p>TODO add <code>exceptionHandler</code> usage and example</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -2108,7 +1989,7 @@ refer to the thrown exception. Look at the following code for a detailed example
 <span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">HTTP_VERSION_NOT_SUPPORTED</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="o">?.</span><span class="na">message</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">&quot;empty&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h4 id="static-files">Static Files<a class="headerlink" href="#static-files" title="Permanent link">&para;</a></h4>
+<h2 id="static-files">Static Files<a class="headerlink" href="#static-files" title="Permanent link">&para;</a></h2>
 <p>You can use a folder in the classpath for serving static files with the <code>get()</code> methods. Note that
 the public directory name is not included in the URL.</p>
 <p>Asset mapping is handled like any other route, so if an asset mapping is matched, no other route
@@ -2140,12 +2021,12 @@ Check the next example for details:</p>
 <span class="c1">// &#39;/public/css/style.css&#39; resource would be: &#39;http://{host}:{port}/css/style.css&#39;</span><span class="w"></span>
 <span class="n">on</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UrlCallback</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">)))</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h5 id="mime-types">MIME types<a class="headerlink" href="#mime-types" title="Permanent link">&para;</a></h5>
+<h3 id="mime-types">MIME types<a class="headerlink" href="#mime-types" title="Permanent link">&para;</a></h3>
 <p>The MIME types of static files are computed from the file extension using the
-<a href="/api/serialization/com.hexagonkt.serialization/-serialization-manager/content-type-of/">SerializationManager.contentTypeOf()</a> method.</p>
-<h4 id="cors">CORS<a class="headerlink" href="#cors" title="Permanent link">&para;</a></h4>
-<p>CORS behaviour can be different depending on the path. You can attach different <a href="/api/http_server/com.hexagonkt.http.server/-cors-settings/">CorsSettings</a> to
-different routers. Check <a href="/api/http_server/com.hexagonkt.http.server/-cors-settings/">CorsSettings</a> class for more details.</p>
+<a href="/api/serialization/com.hexagonkt.serialization/-serialization-manager/content-type-of">SerializationManager.contentTypeOf()</a> method.</p>
+<h2 id="cors">CORS<a class="headerlink" href="#cors" title="Permanent link">&para;</a></h2>
+<p>CORS behaviour can be different depending on the path. You can attach different <a href="/api/http_server/com.hexagonkt.http.server/-cors-settings">CorsSettings</a> to
+different routers. Check <a href="/api/http_server/com.hexagonkt.http.server/-cors-settings">CorsSettings</a> class for more details.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -2196,16 +2077,16 @@ different routers. Check <a href="/api/http_server/com.hexagonkt.http.server/-co
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h4 id="https">HTTPS<a class="headerlink" href="#https" title="Permanent link">&para;</a></h4>
+<h2 id="https">HTTPS<a class="headerlink" href="#https" title="Permanent link">&para;</a></h2>
 <p>It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
-certificate and its key in the server's <a href="/api/http/com.hexagonkt.http/-ssl-settings/">SslSettings</a>. Once you use a server certificate, it is also
+certificate and its key in the server's <a href="/api/http/com.hexagonkt.http/-ssl-settings">SslSettings</a>. Once you use a server certificate, it is also
 possible to serve content using <a href="https://en.wikipedia.org/wiki/HTTP/2">HTTP/2</a>, for this to work, <a href="https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation">ALPN</a> is required (however, this is
 already handled if you use Java 11).</p>
 <p>The certificate common name should match the host that will serve the content in order to be
 accepted by an HTTP client without a security error. There is a <a href="https://gradle.org">Gradle</a> helper to
 <a href="/gradle/#certificates">create sample certificates</a> for development purposes.</p>
 <p>HTTP clients can also be configured to use a certificate. This is required to implement a double
-ended authorization (<a href="https://en.wikipedia.org/wiki/Mutual_authentication">mutual TLS</a>). This is also done by passing a <a href="/api/http/com.hexagonkt.http/-ssl-settings/">SslSettings</a> object the HTTP
+ended authorization (<a href="https://en.wikipedia.org/wiki/Mutual_authentication">mutual TLS</a>). This is also done by passing an <a href="/api/http/com.hexagonkt.http/-ssl-settings">SslSettings</a> object the HTTP
 client.</p>
 <p>If you want to implement mutual trust, you must enforce client certificate in the server
 configuration (check <a href="/api/http/com.hexagonkt.http/-ssl-settings/client-auth">SslSettings.clientAuth</a>). If this is done, you can access the certificate the
@@ -2308,8 +2189,8 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<h4 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h4>
-<h5 id="integration-tests">Integration tests<a class="headerlink" href="#integration-tests" title="Permanent link">&para;</a></h5>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
+<h3 id="integration-tests">Integration tests<a class="headerlink" href="#integration-tests" title="Permanent link">&para;</a></h3>
 <p>To test HTTP servers from outside using a real Adapter, you can create a server setting <code>0</code> as port.
 This will pick a random free port which you can check later:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -2342,22 +2223,72 @@ This will pick a random free port which you can check later:</p>
 </code></pre></div></td></tr></table></div>
 <p>To do this kind of tests without creating a custom server (using the real production code).
 Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt">tests of the starter projects</a>.</p>
-<p>If you have an OpenAPI/Swagger spec defined for your server, you can also make use of the mock server (<a href="#openapi-mock-server">see below</a>).</p>
-<h5 id="mocking-calls">Mocking calls<a class="headerlink" href="#mocking-calls" title="Permanent link">&para;</a></h5>
-<p>To unit test handlers you can call them with hardcoded requests.</p>
-<p>For a quick sample, check the snipped below:</p>
-<p>TODO Add example code</p>
+<h3 id="mocking-calls">Mocking calls<a class="headerlink" href="#mocking-calls" title="Permanent link">&para;</a></h3>
+<p>To unit test callbacks and handlers you can create test calls with hardcoded requests without
+relying on mocking libraries.</p>
+<p>For a quick example, check the snipped below:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Test callback (basically, a handler without a predicate)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">callback</span><span class="p">:</span><span class="w"> </span><span class="n">HttpCallback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">fakeAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attributes</span><span class="o">[</span><span class="s">&quot;fake&quot;</span><span class="o">]</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">fakeHeader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="o">[</span><span class="s">&quot;fake&quot;</span><span class="o">]</span><span class="w"></span>
+<span class="w">    </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Callback result </span><span class="si">$</span><span class="n">fakeAttribute</span><span class="s"> </span><span class="si">$</span><span class="n">fakeHeader</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// You can test callbacks with fake data</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">resultContext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">callback</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">attributes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;fake&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;attribute&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpFields</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;fake&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;header&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+
+<span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Callback result attribute header&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">resultContext</span><span class="p">.</span><span class="na">response</span><span class="p">.</span><span class="na">bodyString</span><span class="p">())</span><span class="w"></span>
+
+<span class="c1">// Handlers can also be tested to check predicates along the callbacks</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">)</span><span class="w"></span>
+
+<span class="kd">val</span><span class="w"> </span><span class="nv">notFound</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/path&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">assertEquals</span><span class="p">(</span><span class="n">NOT_FOUND</span><span class="p">,</span><span class="w"> </span><span class="n">notFound</span><span class="p">.</span><span class="na">status</span><span class="p">)</span><span class="w"></span>
+<span class="n">assertEquals</span><span class="p">(</span><span class="n">OK</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">.</span><span class="na">status</span><span class="p">)</span><span class="w"></span>
+<span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Callback result null null&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">.</span><span class="na">bodyString</span><span class="p">())</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 <h2 id="package-comhexagonkthttpserver">Package com.hexagonkt.http.server<a class="headerlink" href="#package-comhexagonkthttpserver" title="Permanent link">&para;</a></h2>
-<p>This package defines the classes used in the HTTP DSL.</p>
+<p>This package defines server interfaces for HTTP server adapters.</p>
 <h2 id="package-comhexagonkthttpservercallbacks">Package com.hexagonkt.http.server.callbacks<a class="headerlink" href="#package-comhexagonkthttpservercallbacks" title="Permanent link">&para;</a></h2>
-<p>TODO</p>
+<p>Utility callbacks that can be used on handlers. Reuse a callback in different handlers (after,
+filter, etc.).</p>
 <h2 id="package-comhexagonkthttpserverhandlers">Package com.hexagonkt.http.server.handlers<a class="headerlink" href="#package-comhexagonkthttpserverhandlers" title="Permanent link">&para;</a></h2>
-<p>TODO</p>
+<p>Contains the HTTP handlers implementation (on top of Core's general event handlers). It houses the
+HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the HTTP predicate.</p>
 <h2 id="package-comhexagonkthttpservermodel">Package com.hexagonkt.http.server.model<a class="headerlink" href="#package-comhexagonkthttpservermodel" title="Permanent link">&para;</a></h2>
-<p>TODO</p>
+<p>Classes to model server HTTP messages (requests and responses). Built on top of the <a href="/http">http</a> module.</p>
 
               
             </article>
+            
           </div>
         </div>
         
@@ -2450,13 +2381,13 @@ Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/t
             aria-label="Star hexagonkt/hexagon on GitHub">Star</a>
           <a
             class="github-button"
-            href="https://github.com/hexagonkt/hexagonsubscription"
+            href="https://github.com/hexagonkt/hexagon/subscription"
             data-icon="octicon-eye"
             data-show-count="true"
             aria-label="Watch hexagonkt/hexagon on GitHub">Watch</a>
           <a
             class="github-button"
-            href="https://github.com/hexagonkt/hexagonfork"
+            href="https://github.com/hexagonkt/hexagon/fork"
             data-icon="octicon-git-branch"
             data-show-count="true"
             aria-label="Fork hexagonkt/hexagon on GitHub">Fork</a>
@@ -2513,10 +2444,10 @@ Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/t
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
+      <script src="../assets/javascripts/bundle.f758a944.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

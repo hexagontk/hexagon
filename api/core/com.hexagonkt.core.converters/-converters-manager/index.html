@@ -26,7 +26,7 @@ if(savedDarkMode === true){
     <div class="library-name">
 <a href="../../../index.html">
 <span>hexagon</span>            </a>    </div>
-    <div>2.0.10
+    <div>2.0.11
     </div>
     <div class="pull-right d-flex">
         <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
@@ -65,7 +65,8 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertSame
 fun main() { 
    //sampleStart 
-   // Define a mapper from a source type to a target type
+   // converters
+// Define a mapper from a source type to a target type
 ConvertersManager.register(Date::class to String::class) { it.toString() }
 
 // Conversions can be done with different utility methods
@@ -83,7 +84,8 @@ ConvertersManager.remove(Date::class to String::class)
 val e = assertFailsWith&lt;IllegalStateException&gt; { Date().convert&lt;String&gt;() }
 val source = Date::class.simpleName
 val target = String::class.simpleName
-assertEquals("No converter for $source -&gt; $target", e.message) 
+assertEquals("No converter for $source -&gt; $target", e.message)
+// converters 
    //sampleEnd
 }</code></pre></div></div></div>
       <h2 class="">Functions</h2>

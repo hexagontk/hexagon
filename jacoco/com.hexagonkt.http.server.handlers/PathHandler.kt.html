@@ -14,7 +14,7 @@ import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
 
-<span class="fc" id="L17">data class PathHandler(</span>
+<span class="pc" id="L17">data class PathHandler(</span>
 <span class="fc" id="L18">    override val serverPredicate: HttpServerPredicate,</span>
 <span class="fc" id="L19">    val handlers: List&lt;HttpHandler&gt;</span>
 ) :
@@ -51,7 +51,7 @@ import com.hexagonkt.http.server.model.HttpServerResponse
     constructor(pattern: String, vararg handlers: HttpHandler) :
 <span class="fc" id="L52">        this(pattern, handlers.toList())</span>
 
-    fun process(request: HttpServerRequestPort): HttpServerResponse =
+    override fun process(request: HttpServerRequestPort): HttpServerResponse =
 <span class="fc" id="L55">        process(Context(HttpServerCall(request = request), predicate)).let {</span>
 <span class="fc" id="L56">            val response = it.event.response</span>
 <span class="fc" id="L57">            val exception = it.exception</span>

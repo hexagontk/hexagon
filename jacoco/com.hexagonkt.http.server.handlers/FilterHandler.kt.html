@@ -7,7 +7,7 @@ import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.server.model.HttpServerCall
 import kotlin.reflect.KClass
 
-<span class="fc" id="L10">data class FilterHandler(</span>
+<span class="pc" id="L10">data class FilterHandler(</span>
 <span class="fc" id="L11">    override val serverPredicate: HttpServerPredicate = HttpServerPredicate(),</span>
 <span class="pc" id="L12">    val block: HttpCallback</span>
 <span class="fc" id="L13">) : HttpHandler, Handler&lt;HttpServerCall&gt; by FilterHandler(serverPredicate, toCallback(block)) {</span>
