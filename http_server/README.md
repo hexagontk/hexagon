@@ -101,23 +101,6 @@ the [Servlet HTTP Server Adapter][http_server_servlet] into your project. Check 
 
 [http_server_servlet]: /http_server_servlet
 
-# HTTP Context
-These are the events that the handlers handle (they are also called HTTP calls or just calls along
-this documentation). They wrap HTTP requests and responses along with some attributes that may be
-used to pass data across handlers and an exception field to express that a previous callback
-resulted in an error.
-
-The HTTP context provides you with everything you need to handle a HTTP request. It contains the
-request, the response, and a bunch of utility methods to return results, read parameters or pass
-attributes among filters/routes.
-
-The methods are available directly from the callback. You can check the [API documentation] for the
-full list of methods. This sample code illustrates the usage:
-
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCall
-
-[API documentation]: /api/http_server/com.hexagonkt.http.server/-call
-
 # Handlers
 The main building blocks of Hexagon HTTP services are a set of handlers. A handler is made up of two
 simple pieces:
@@ -142,9 +125,12 @@ Check the next snippet for usage examples:
 ### Path Pattern
 <!-- TODO Explain path pattern format -->
 
-# Filters
-
-# Handler groups (Routers)
+# Handler Types
+## On Handlers
+## After Handlers
+## Filters
+## Path Handlers
+groups (Routers)
 Routes can be nested by calling the `path()` method, which takes a String prefix and gives you a
 scope to declare routes and filters (or more nested paths). Ie:
 
@@ -154,6 +140,23 @@ If you have a lot of routes, it can be helpful to group them into routers. You c
 to mount a group of routes in different paths (allowing you to reuse them). Check this snippet:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routers
+
+# HTTP Context
+These are the events that the handlers handle (they are also called HTTP calls or just calls along
+this documentation). They wrap HTTP requests and responses along with some attributes that may be
+used to pass data across handlers and an exception field to express that a previous callback
+resulted in an error.
+
+The HTTP context provides you with everything you need to handle a HTTP request. It contains the
+request, the response, and a bunch of utility methods to return results, read parameters or pass
+attributes among filters/routes.
+
+The methods are available directly from the callback. You can check the [API documentation] for the
+full list of methods. This sample code illustrates the usage:
+
+@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCall
+
+[API documentation]: /api/http_server/com.hexagonkt.http.server/-call
 
 # Callbacks
 Callbacks are request's handling blocks that are bound to handlers. They make the request and
