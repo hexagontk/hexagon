@@ -24,9 +24,9 @@ principles also fit into this architecture.
 [^1]: Except the Core module that contains a set of utilities like logging. However, some of these
 capacities can be replaced by other third party libraries.
 
-[The HTTP server]: /http_server/
-[The HTTP client]: /http_client/
-[Template Processing]: /templates/
+[The HTTP server]: /http_server
+[The HTTP client]: /http_client
+[Template Processing]: /templates
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Onion Architecture]: https://dzone.com/articles/onion-architecture-is-interesting
@@ -69,6 +69,62 @@ Hexagon's goals and design principles:
 * **Kotlin Native**: because of the added complexity of Kotlin Native, focus will be set on the JVM
   platform, native binaries' generation will rely on GraalVM.
 
+# Concepts
+
+## Port
+It is an interface for a task. The toolkit ports are designed to work on their own. For example: you
+can use the [http_server] module without importing the [templates] one, and the other way around
+(taking only the dependencies you need for your application).
+
+Each Port may have different implementations (Adapters).
+
+Ports cannot be used by themselves and in their place, an adapter implementing them should be added
+to the list of dependencies.
+
+## Adapter
+They are implementations of a functionality (Port) for a given product/technology. Clients should
+only use ports' code (not Adapters specific code), this makes them easy to switch among different
+adapters with minimum impact.
+
+Adapters are independent of each other, and you can use several adapters for the same port in a
+single application. For example, you could use many Template adapters to support several template
+engines.
+
+[http_client_jetty], and [http_server_jetty] are examples of this type of module. Adapter names must
+start with their Port name.
+
+## Library
+Module that provide functionality that does not depend on different implementations, like [core].
+These modules can depend on several Ports, but never on Adapters. An example would be the [Web]
+module that uses [http_server] and [template][Template Processing] Ports, but leaves clients the
+decission of picking the adapters they want.
+
+## Manager
+Singleton object to manage a cross toolkit aspect. I.e., Serialization, Logging or Templates.
+
+[core]: /core
+
+[http_server]: /http_server
+[templates]: /templates
+
+[http_client_jetty]: /http_client_jetty
+[http_server_jetty]: /http_server_jetty
+
+# Hexagon Extras
+The libraries inside the `hexagon_extra` repository provide extra features not bound to different
+implementations (rely on ports to work). They will not use dependencies outside the Hexagon
+toolkit.
+
+* [Web]: this module is meant to ease web application development. Provides helpers for
+  generating HTML and depends on the [HTTP Server] and [Templates] ports.
+* [Schedulers]: Provides repeated tasks execution based on [Cron] expressions.
+* [Models]: Contain classes that model common data objects.
+
+[Web]: /web
+[Schedulers]: /scheduler
+[Models]: /models
+[Cron]: https://en.wikipedia.org/wiki/Cron
+
 # Architecture
 How Hexagon fits in your architecture in a picture.
 
@@ -99,7 +155,7 @@ Ports with their provided implementations (Adapters).
 [Pebble]: /templates_pebble
 [FreeMarker]: /templates_freemarker
 [Serialization Formats]: /core/#serialization
-[JSON]: /api/serialization_jackson_json/com.hexagonkt.serialization.json/-json
-[YAML]: /api/serialization_jackson_yaml/com.hexagonkt.serialization.yaml/-yaml
-[CSV]: /api/serialization_jackson_csv/com.hexagonkt.serialization.csv/-Csv
-[XML]: /api/serialization_jackson_xml/com.hexagonkt.serialization.xml/-Xml
+[JSON]: /api/serialization_jackson_json/com.hexagonkt.serialization.jackson.json/-json
+[YAML]: /api/serialization_jackson_yaml/com.hexagonkt.serialization.jackson.yaml/-yaml
+[CSV]: /api/serialization_jackson_csv/com.hexagonkt.serialization.jackson.csv/-csv
+[XML]: /api/serialization_jackson_xml/com.hexagonkt.serialization.jackson.xml/-xml

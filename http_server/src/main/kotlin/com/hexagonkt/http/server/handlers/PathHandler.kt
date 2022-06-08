@@ -51,7 +51,7 @@ data class PathHandler(
     constructor(pattern: String, vararg handlers: HttpHandler) :
         this(pattern, handlers.toList())
 
-    fun process(request: HttpServerRequestPort): HttpServerResponse =
+    override fun process(request: HttpServerRequestPort): HttpServerResponse =
         process(Context(HttpServerCall(request = request), predicate)).let {
             val response = it.event.response
             val exception = it.exception

@@ -46,10 +46,8 @@ internal class HttpServerContextTest {
 
     @Test fun `Context helper methods work properly`() {
         val context = HttpServerContext(
-            Context(
-                HttpServerCall(httpServerRequest(), HttpServerResponse()),
-                HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}"))
-            )
+            request = httpServerRequest(),
+            predicate = HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}")),
         )
 
         assertSame(context.method, context.context.event.request.method)
@@ -73,10 +71,8 @@ internal class HttpServerContextTest {
 
     @Test fun `'allParameters' return a map with all request parameters`() {
         val requestData = HttpServerContext(
-            Context(
-                HttpServerCall(httpServerRequest(), HttpServerResponse()),
-                HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}"))
-            )
+            request = httpServerRequest(),
+            predicate = HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}")),
         )
 
         assertEquals(mapOf("p1" to "v1", "0" to "v1"), requestData.pathParameters)
@@ -104,10 +100,8 @@ internal class HttpServerContextTest {
 
     @Test fun `loading path parameters fails for prefixes`() {
         val serverContext = HttpServerContext(
-            Context(
-                HttpServerCall(httpServerRequest(), HttpServerResponse()),
-                HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}", true))
-            )
+            request = httpServerRequest(),
+            predicate = HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}", true)),
         )
 
         assertFailsWith<IllegalStateException> { serverContext.allParameters }
@@ -119,10 +113,8 @@ internal class HttpServerContextTest {
 
     @Test fun `Send without parameters return the same response`() {
         val serverContext = HttpServerContext(
-            Context(
-                HttpServerCall(httpServerRequest(), HttpServerResponse()),
-                HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}", true))
-            )
+            request = httpServerRequest(),
+            predicate = HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}", true)),
         )
 
         assertEquals(serverContext, serverContext.send())

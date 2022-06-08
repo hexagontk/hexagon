@@ -115,9 +115,12 @@ task("checkDocs") {
     }
 }
 
-tasks.register<Exec>("installMkDocs") {
-    val mkdocsMaterialVersion = properties["mkdocsMaterialVersion"]
-    commandLine("pip install mkdocs-material==$mkdocsMaterialVersion".split(" "))
+tasks.register("installMkDocs") {
+    doLast {
+        val mkdocsMaterialVersion = properties["mkdocsMaterialVersion"]
+        exec { commandLine("pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
+        exec { commandLine("pip install mkdocs-htmlproofer-plugin".split(" ")) }
+    }
 }
 
 tasks.register<Exec>("serveSite") {

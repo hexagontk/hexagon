@@ -130,6 +130,7 @@ internal class ConvertersManagerTest {
     }
 
     @Test fun usageExample() {
+        // converters
         // Define a mapper from a source type to a target type
         ConvertersManager.register(Date::class to String::class) { it.toString() }
 
@@ -149,6 +150,7 @@ internal class ConvertersManagerTest {
         val source = Date::class.simpleName
         val target = String::class.simpleName
         assertEquals("No converter for $source -> $target", e.message)
+        // converters
     }
 
     private fun personToMap(person: Person): Map<String, *> =

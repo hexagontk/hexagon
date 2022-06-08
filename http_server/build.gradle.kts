@@ -8,5 +8,5 @@ apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 
 dependencies {
-    api(project(":http"))
+    "api"(project(":http"))
 }

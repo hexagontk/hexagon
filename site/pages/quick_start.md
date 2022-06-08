@@ -58,7 +58,7 @@ pub  4096R/2AEE3721 2020-05-30 Hexagon Toolkit (Key used to sign published binar
 # Next Steps
 To continue learning about this toolkit, you can:
 
-* Check the [Developer Guide] for more details.
+* Read the [Core] or [HTTP Server] modules documentation for details on specific modules.
 * Clone the [Gradle Starter] or [Maven Starter] repository for a minimal fully working example
   (including tests).
 * Proceed to the [Examples] section to check code snippets or full example projects.
@@ -71,6 +71,5 @@ To continue learning about this toolkit, you can:
 [Gradle]: https://gradle.org
 [Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello
-[Developer Guide]: /developer_guide/
 [Core]: /core
 [HTTP Server]: /http_server

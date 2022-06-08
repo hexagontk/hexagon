@@ -11,9 +11,9 @@ apply(from = "../gradle/detekt.gradle")
 description = "Hexagon core utilities. Includes serialization and logging helpers."
 
 dependencies {
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    testImplementation("org.jetbrains.kotlin:kotlin-reflect")
+    "testImplementation"("org.jetbrains.kotlin:kotlin-reflect")
 }
 
 task("hexagonInfo") {

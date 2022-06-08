@@ -8,7 +8,7 @@ apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 
 dependencies {
-    api(project(":core"))
+    "api"(project(":core"))
 
-    testImplementation(project(":serialization_jackson_yaml"))
+    "testImplementation"(project(":serialization_jackson_yaml"))
 }

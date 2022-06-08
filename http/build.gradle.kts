@@ -13,7 +13,7 @@ apply(from = "../gradle/detekt.gradle")
 description = "HTTP classes. These classes are shared among the HTTP client and the HTTP server."
 
 dependencies {
-    api(project(":core"))
+    "api"(project(":core"))
 }
 
 tasks.withType<KotlinCompile> {
