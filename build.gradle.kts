@@ -22,6 +22,7 @@ plugins {
 
     id("idea")
     id("eclipse")
+    id("project-report")
     id("org.jetbrains.dokka") version("1.6.21")
     id("com.github.jk1.dependency-license-report") version("2.1")
     id("io.gitlab.arturbosch.detekt") version("1.20.0") apply(false)
