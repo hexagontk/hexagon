@@ -4,7 +4,7 @@ This port's purpose is to develop HTTP servers (REST services or Web application
 to declare HTTP request handlers.
 
 Adapters implementing this port are in charge of processing HTTP requests through a list of
-handlers. And allows you to switch implementations without changing the service.
+handlers.
 
 ## Install the Dependency
 This module is not meant to be used directly. You should include and Adapter implementing this
@@ -16,7 +16,7 @@ feature (as [http_server_jetty]) in order to create an HTTP server.
 An HTTP server is nothing more than a function that takes a request and returns a response. Requests
 and responses comply with several Web standards.
 
-For the sake of ease of use, HTTP toolkits (or frameworks) are build. These tools make easier to
+For the sake of ease of use, HTTP toolkits (or frameworks) are built. These tools make easier to
 write an HTTP server that has to deal with different behaviour based on requests attributes.
 
 These development tools usually have different layers/parts (the ones below are some of the most
@@ -33,32 +33,14 @@ alternatives).
 
 This particularity allows users to swap adapters for different use cases. For example, You can use a
 low memory for embedded boards (as Raspberry Pi) or high through-output for servers, another use
-case would be to use a fast boot adapter for development, and a different one for production.
+case would be to use a fast boot adapter for development, and select a different one for production.
 
 To be agnostic of the adapter below, a custom HTTP model is implemented in Hexagon, and adapters
 must map their own structures to this model.
 
-Most of the tools (in the JVM world) use metaprogramming (annotations) to effectively perform the
-HTTP parsing and request routing. However, this poses a problem: the code must run on a container
-and your handling code is called from generated code that is harder for you to tackle.
-
-Using annotations processing also makes harder some scenarios as creating many instances (something
-very useful to test microservices, for example) or creating controllers programmatically using
-parameters.
-
-On the other hand you have toolkits (the chosen architecture for Hexagon), toolkits are just a set
-of plain libraries that you call, you can build methods out of them (not easy to do for
-annotations). The main difference is that you call toolkits' code, and on the other side, frameworks
-calls your code (and not the other way around).
-
-In the past, metaprogramming would simplify development as Java lacked some language features
-(like lambdas) that made writing some HTTP routing constructions harder, but now I don't see any
-advantage on using annotations over other Java constructions (this is something similar to
-Dependency Injection, by the way).
-
-Coming back to Hexagon, now we'll talk about how HTTP routing is done in the toolkit. The
-cornerstone of HTTP handling in Hexagon is the handler: Hexagon handlers are a list of functions
-that may or may not be applied to an HTTP call (which is a tuple of request and response).
+Now we'll talk about how HTTP routing is done in the toolkit. The cornerstone of HTTP handling in
+Hexagon is the handler: Hexagon handlers are a list of functions that may or may not be applied to
+an HTTP call depending on a predicate.
 
 Handlers have a predicate, and they are only applied to a given request if the current request
 matches the predicate.
@@ -84,51 +66,111 @@ picked. This is the parameters list:
 * bindPort: the port which the process listens to. By default, it is `2010`.
 * contextPath: initial path used for the rest of the routes, by default it is empty.
 
-To create a server, you need to provide a router (check the [next section] for more information),
-and after creating a server you can run it or stop it with [start()] and [stop()] methods.
+To create a server, you need to provide a handler (check the [handlers section] for more
+information), and after creating a server you can run it or stop it with [start()] and [stop()]
+methods.
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?serverCreation
 
 [server settings]: /api/http_server/com.hexagonkt.http.server/-http-server-settings
-[next section]: /http_server/#routes
-[start()]: /api/http_server/com.hexagonkt.http.server/-server/start.html
-[stop()]: /api/http_server/com.hexagonkt.http.server/-server/stop.html
+[handlers section]: /http_server/#handlers
+[start()]: /api/http_server/com.hexagonkt.http.server/-http-server/start.html
+[stop()]: /api/http_server/com.hexagonkt.http.server/-http-server/stop.html
 
 ## Servlet Web server
 There is a special server adapter for running inside Servlet Containers. To use it you should import
-the [Servlet HTTP Server Adapter][http_server_servlet] into your project. Check the
-[http_server_servlet] module for more information.
+the Servlet HTTP Server Adapter into your project. Check the [http_server_servlet] module for more
+information.
 
 [http_server_servlet]: /http_server_servlet
+
+# HTTP Context
+These are the events that the handlers handle (they are also called HTTP calls or just calls along
+this documentation). They wrap HTTP requests and responses along with some attributes that may be
+used to pass data across handlers or to signal that a previous callback resulted in an error.
+
+The HTTP context provides you with everything you need to handle an HTTP request. It contains the
+request, the response, and a bunch of utility methods to return results, read parameters or pass
+attributes among handlers.
+
+The methods are available directly from the callback. You can check the [API documentation] for the
+full list of methods. This sample code illustrates the usage:
+
+@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCall
+
+[API documentation]: /api/http_server/com.hexagonkt.http.server.handlers/-http-server-context
 
 # Handlers
 The main building blocks of Hexagon HTTP services are a set of handlers. A handler is made up of two
 simple pieces:
 
-* A **predicate** (get, post, put, delete, head, trace, connect, options). It can also be `any`.
-* A **callback** code block.
+* A **predicate**: which decides if the handler should be executed for a given request.
+* A **callback**: code that receives an HTTP context and returns another (or the same) context.
 
-The callback has a void return type. You should use `Call.send()` to set the response which will
-be returned to the user.
+IMPORTANT: the order in which handlers are declared is NOT the order, it is the depth. Handlers are
+not linked, they are NESTED. The [next()][next] method passes control to the next level. If
+[next()][next] is not called in a Handler, following Handlers WON'T be executed (However, the
+"after" part of already executed Handlers will be run).
 
-Routes are matched in the order they are defined. The first route that matches the request is
-invoked, and the following ones are ignored.
+For example, this definition:
 
-Check the next snippet for usage examples:
+```
+H1
+H2
+H3
+```
+
+Is really this execution:
+
+```
+H1 (on)
+  H2 (on)
+    H3 (on)
+  H2 (after)
+H1 (after)
+```
+
+Check the next snippet for Handlers usage examples:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routesCreation
 
-## Path Predicates
+[next]: /api/http_server/com.hexagonkt.http.server.handlers/-http-server-context/next.html
+
+<!-- TODO Start -->
+
+# Handler Predicates
+## Path Patterns
 * A **verb** (get, post, put, delete, head, trace, connect, options). It can also be `any`.
 * A **path** (/hello, /users/{name}). Paths must start with '/' and trailing slash is ignored.
-
-### Path Pattern
 <!-- TODO Explain path pattern format -->
 
 # Handler Types
+
 ## On Handlers
+
 ## After Handlers
+
 ## Filters
+You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
+code executed before or after one or more routes. They can read the request and read/modify the
+response.
+
+All filters that match a route are executed in the order they are declared.
+
+Filters optionally take a pattern, causing them to be executed only if the request path matches
+that pattern.
+
+Before and after filters are always executed (if the route is matched). However, any of them may
+stop the execution chain if halted.
+
+If `halt()` is called in one filter, filter processing is stopped for that kind of filter (*before*
+or *after*). In the case of before filters, this also prevent the route from being executed (but
+after filters are executed anyway).
+
+The following code details filters usage:
+
+@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?filters
+
 ## Path Handlers
 groups (Routers)
 Routes can be nested by calling the `path()` method, which takes a String prefix and gives you a
@@ -141,26 +183,13 @@ to mount a group of routes in different paths (allowing you to reuse them). Chec
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routers
 
-# HTTP Context
-These are the events that the handlers handle (they are also called HTTP calls or just calls along
-this documentation). They wrap HTTP requests and responses along with some attributes that may be
-used to pass data across handlers and an exception field to express that a previous callback
-resulted in an error.
-
-The HTTP context provides you with everything you need to handle a HTTP request. It contains the
-request, the response, and a bunch of utility methods to return results, read parameters or pass
-attributes among filters/routes.
-
-The methods are available directly from the callback. You can check the [API documentation] for the
-full list of methods. This sample code illustrates the usage:
-
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCall
-
-[API documentation]: /api/http_server/com.hexagonkt.http.server/-call
-
-# Callbacks
+# Handler Callbacks
 Callbacks are request's handling blocks that are bound to handlers. They make the request and
 response objects available to the handling code.
+
+Sending error responses:
+
+@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackHalt
 
 ## Request
 Request functionality is provided by the `request` field:
@@ -210,33 +239,6 @@ Check the following sample code for details:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCookie
 
-# Compression
-<!-- TODO Explain how to set up using server features -->
-
-# Halting
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackHalt
-
-# Filters
-You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
-code executed before or after one or more routes. They can read the request and read/modify the
-response.
-
-All filters that match a route are executed in the order they are declared.
-
-Filters optionally take a pattern, causing them to be executed only if the request path matches
-that pattern.
-
-Before and after filters are always executed (if the route is matched). However, any of them may
-stop the execution chain if halted.
-
-If `halt()` is called in one filter, filter processing is stopped for that kind of filter (*before*
-or *after*). In the case of before filters, this also prevent the route from being executed (but
-after filters are executed anyway).
-
-The following code details filters usage:
-
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?filters
-
 # Error Handling
 You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
 callbacks, or handlers halted with an error code.
@@ -269,20 +271,21 @@ Check the next example for details:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?files
 
-## MIME types
-The MIME types of static files are computed from the file extension using the
-[SerializationManager.contentTypeOf()] method.
+<!-- TODO End -->
 
-[SerializationManager.contentTypeOf()]:
-/api/serialization/com.hexagonkt.serialization/-serialization-manager/content-type-of
+## Media Types
+The media types of static files are computed from the file extension using the utility methods of
+the [com.hexagonkt.core.media] package.
+
+[com.hexagonkt.core.media]: /api/core/com.hexagonkt.core.media
 
 # CORS
-CORS behaviour can be different depending on the path. You can attach different [CorsSettings] to
-different routers. Check [CorsSettings] class for more details.
+CORS behaviour can be different depending on the path. You can attach different [CORS Callbacks] to
+different handlers. Check the [CorsCallback][CORS Callbacks] class for more details.
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CorsTest.kt?cors
 
-[CorsSettings]: /api/http_server/com.hexagonkt.http.server/-cors-settings
+[CORS Callbacks]: /api/http_server/com.hexagonkt.http.server.callbacks/-cors-callback
 
 # HTTPS
 It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
@@ -313,12 +316,19 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 [Gradle]: https://gradle.org
 [create sample certificates]: /gradle/#certificates
 [mutual TLS]: https://en.wikipedia.org/wiki/Mutual_authentication
-[SslSettings.clientAuth]: /api/http/com.hexagonkt.http/-ssl-settings/client-auth
-[Request.certificateChain]: /api/http_server/com.hexagonkt.http.server/-request/certificate-chain
+[SslSettings.clientAuth]: /api/http/com.hexagonkt.http/-ssl-settings/client-auth.html
+[Request.certificateChain]: /api/http_server/com.hexagonkt.http.server.model/-http-server-request/certificate-chain.html
+
+# Compression
+Gzip encoding is supported on the Hexagon Toolkit, however, its implementation depends on the used
+adapter. To turn on Gzip encoding, you need to enable that feature on the server settings. Check the
+code below for an example:
+
+@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ZipTest.kt?zip
 
 # Testing
 
-## Integration tests
+## Integration Tests
 To test HTTP servers from outside using a real Adapter, you can create a server setting `0` as port.
 This will pick a random free port which you can check later:
 
@@ -330,7 +340,7 @@ Check the [tests of the starter projects].
 [tests of the starter projects]:
 https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt
 
-## Mocking calls
+## Mocking Calls
 To unit test callbacks and handlers you can create test calls with hardcoded requests without
 relying on mocking libraries.
 
