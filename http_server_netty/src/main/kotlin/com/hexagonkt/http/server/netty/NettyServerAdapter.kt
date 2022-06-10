@@ -31,6 +31,7 @@ import io.netty.handler.stream.ChunkedWriteHandler
 import io.netty.util.concurrent.DefaultEventExecutorGroup
 import io.netty.util.concurrent.EventExecutorGroup
 import java.net.InetSocketAddress
+import java.util.concurrent.TimeUnit.SECONDS
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.TrustManagerFactory
 import kotlin.Int.Companion.MAX_VALUE
@@ -48,6 +49,8 @@ open class NettyServerAdapter(
     private val soBacklog: Int = 4 * 1_024,
     private val soReuseAddr: Boolean = true,
     private val soKeepAlive: Boolean = true,
+    private val shutdownQuietSeconds: Long = 0,
+    private val shutdownTimeoutSeconds: Long = 0,
 ) : HttpServerPort {
 
     private var nettyChannel: Channel? = null
@@ -61,6 +64,8 @@ open class NettyServerAdapter(
         soBacklog = 4 * 1_024,
         soReuseAddr = true,
         soKeepAlive = true,
+        shutdownQuietSeconds = 0,
+        shutdownTimeoutSeconds = 0,
     )
 
     override fun runtimePort(): Int =
@@ -163,8 +168,10 @@ open class NettyServerAdapter(
     }
 
     override fun shutDown() {
-        workerEventLoop?.shutdownGracefully()?.sync()
-        bossEventLoop?.shutdownGracefully()?.sync()
+        workerEventLoop
+            ?.shutdownGracefully(shutdownQuietSeconds, shutdownTimeoutSeconds, SECONDS)?.sync()
+        bossEventLoop
+            ?.shutdownGracefully(shutdownQuietSeconds, shutdownTimeoutSeconds, SECONDS)?.sync()
 
         nettyChannel = null
         bossEventLoop = null
@@ -184,6 +191,8 @@ open class NettyServerAdapter(
             NettyServerAdapter::executorThreads to executorThreads,
             NettyServerAdapter::soBacklog to soBacklog,
             NettyServerAdapter::soKeepAlive to soKeepAlive,
+            NettyServerAdapter::shutdownQuietSeconds to shutdownQuietSeconds,
+            NettyServerAdapter::shutdownTimeoutSeconds to shutdownTimeoutSeconds,
         )
 
     class HttpChannelInitializer(
