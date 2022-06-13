@@ -1979,12 +1979,13 @@ add new ones you have to use <code>response.addCookie()</code> and <code>respons
 <span class="w">    </span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
+<!-- TODO End -->
+
 <h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
-<p>You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
-callbacks, or handlers returning error codes.</p>
+<p>You can provide handlers for runtime errors. Errors are unhandled exceptions in the callbacks, or
+handlers returning error codes.</p>
 <h3 id="http-errors-handlers">HTTP Errors Handlers<a class="headerlink" href="#http-errors-handlers" title="Permanent link">&para;</a></h3>
-<p>Allows handling routes halted with a given code. These handlers are only applied if the route is
-halted, if the error code is returned with <code>send</code> it won't be handled as an error. Example:</p>
+<p>Allow handling responses that returned an HTTP error code. Example:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
@@ -2002,7 +2003,7 @@ halted, if the error code is returned with <code>send</code> it won't be handled
 <span class="n">on</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">512</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">INTERNAL_SERVER_ERROR</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ouch&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
 <h3 id="exception-mapping">Exception Mapping<a class="headerlink" href="#exception-mapping" title="Permanent link">&para;</a></h3>
-<p>You can handle exceptions of a given type for all routes and filters. The handler allows you to
+<p>You can handle previously thrown exceptions of a given type (or subtype). The handler allows you to
 refer to the thrown exception. Look at the following code for a detailed example:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -2025,13 +2026,10 @@ refer to the thrown exception. Look at the following code for a detailed example
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
 <h2 id="static-files">Static Files<a class="headerlink" href="#static-files" title="Permanent link">&para;</a></h2>
-<p>You can use a folder in the classpath for serving static files with the <code>get()</code> methods. Note that
-the public directory name is not included in the URL.</p>
-<p>Asset mapping is handled like any other route, so if an asset mapping is matched, no other route
-will be checked (assets or other routes). Also, if a previous route is matched, the asset mapping
-will never be checked.</p>
-<p>Being <code>get(resource)</code> a shortcut of <code>get("/*", resource)</code> it should be placed as the last route.
-Check the next example for details:</p>
+<p>You can use a [FileCallback] or a [UrlCallback] to route requests to files or classpath resources.</p>
+<p>Those callbacks can point to folders or to files. If they point to a folder, the pattern should
+have a parameter to provide the file to be fetched inside the folder.</p>
+<p>Check the next example for details:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -2056,8 +2054,6 @@ Check the next example for details:</p>
 <span class="c1">// &#39;/public/css/style.css&#39; resource would be: &#39;http://{host}:{port}/css/style.css&#39;</span><span class="w"></span>
 <span class="n">on</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UrlCallback</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">)))</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<!-- TODO End -->
-
 <h3 id="media-types">Media Types<a class="headerlink" href="#media-types" title="Permanent link">&para;</a></h3>
 <p>The media types of static files are computed from the file extension using the utility methods of
 the <a href="/api/core/com.hexagonkt.core.media">com.hexagonkt.core.media</a> package.</p>
