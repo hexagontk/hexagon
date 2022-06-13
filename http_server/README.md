@@ -136,50 +136,64 @@ Check the next snippet for Handlers usage examples:
 
 [next]: /api/http_server/com.hexagonkt.http.server.handlers/-http-server-context/next.html
 
-<!-- TODO Start -->
+<!-- TODO Start document review -->
 
 # Handler Predicates
+A predicate is a function that is applied to a call context and returns a boolean. If the result is
+true, the handler will be executed.
+
+The default implementation ([HttpServerPredicate]) is based on a template with any combination of
+the following fields:
+
+* a list of HTTP methods
+* a path pattern
+* an exception
+* a status
+
+It yields true if all the supplied fields matches a call context.
+
+[HttpServerPredicate]: /api/http_server/com.hexagonkt.http.server.handlers/-http-server-predicate
+
 ## Path Patterns
-* A **verb** (get, post, put, delete, head, trace, connect, options). It can also be `any`.
-* A **path** (/hello, /users/{name}). Paths must start with '/' and trailing slash is ignored.
-<!-- TODO Explain path pattern format -->
+Patterns to match requests paths. They can have:
+
+* Variables: `/path/{param}`
+* Wildcards: `/*/path`
+* Regular expresión subset: `/(this|that)/path`
 
 # Handler Types
 
 ## On Handlers
+* Predicate evaluated at start
+* Executed at the start (before the 'next' handler is called)
 
 ## After Handlers
+* Predicate evaluated at end (checked on the coming back of the execution next handler)
+* Executed at the end (after 'next' handler has returned)
 
 ## Filters
 You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
-code executed before or after one or more routes. They can read the request and read/modify the
-response.
+code executed before and/or after other handlers. They can read the request, read/modify the
+response, and call the remaining handlers or skip them to halt the call processing.
 
 All filters that match a route are executed in the order they are declared.
 
 Filters optionally take a pattern, causing them to be executed only if the request path matches
 that pattern.
 
-Before and after filters are always executed (if the route is matched). However, any of them may
-stop the execution chain if halted.
-
-If `halt()` is called in one filter, filter processing is stopped for that kind of filter (*before*
-or *after*). In the case of before filters, this also prevent the route from being executed (but
-after filters are executed anyway).
-
 The following code details filters usage:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?filters
 
 ## Path Handlers
-groups (Routers)
-Routes can be nested by calling the `path()` method, which takes a String prefix and gives you a
-scope to declare routes and filters (or more nested paths). Ie:
+Handlers can be grouped by calling the `path()` method, which takes a String prefix and gives you a
+scope to declare other handlers. Ie:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routeGroups
 
-If you have a lot of routes, it can be helpful to group them into routers. You can create routers
-to mount a group of routes in different paths (allowing you to reuse them). Check this snippet:
+If you have a lot of routes, it can be helpful to group them into Path Handlers. You can create path
+handlers to mount a group of routes in different paths (allowing you to reuse them). Check this
+snippet:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routers
 
@@ -187,9 +201,8 @@ to mount a group of routes in different paths (allowing you to reuse them). Chec
 Callbacks are request's handling blocks that are bound to handlers. They make the request and
 response objects available to the handling code.
 
-Sending error responses:
-
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackHalt
+Callbacks produce a result by returning the received HTTP context with a different response.
+Callbacks results are the input for the next handler's callbacks in the pipeline.
 
 ## Request
 Request functionality is provided by the `request` field:
@@ -199,6 +212,8 @@ Request functionality is provided by the `request` field:
 ## Path Parameters
 Route patterns can include named parameters, accessible via the `pathParameters` map on the request
 object:
+
+Path parameters can be accessed by name or by index.
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackPathParam
 
@@ -223,6 +238,10 @@ Response information is provided by the `response` field:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackResponse
 
+To send error responses:
+
+@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackHalt
+
 ## Redirects
 You can redirect requests (returning 30x codes) by using `Call` utility methods:
 
@@ -241,10 +260,7 @@ Check the following sample code for details:
 
 # Error Handling
 You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
-callbacks, or handlers halted with an error code.
-
-Error handlers for a given code or exception are unique, and the first one defined is the one which
-will be used.
+callbacks, or handlers returning error codes.
 
 ## HTTP Errors Handlers
 Allows handling routes halted with a given code. These handlers are only applied if the route is
