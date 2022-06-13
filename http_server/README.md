@@ -258,36 +258,32 @@ Check the following sample code for details:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCookie
 
+<!-- TODO End -->
+
 # Error Handling
-You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
-callbacks, or handlers returning error codes.
+You can provide handlers for runtime errors. Errors are unhandled exceptions in the callbacks, or
+handlers returning error codes.
 
 ## HTTP Errors Handlers
-Allows handling routes halted with a given code. These handlers are only applied if the route is
-halted, if the error code is returned with `send` it won't be handled as an error. Example:
+Allow handling responses that returned an HTTP error code. Example:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?errors
 
 ## Exception Mapping
-You can handle exceptions of a given type for all routes and filters. The handler allows you to
+You can handle previously thrown exceptions of a given type (or subtype). The handler allows you to
 refer to the thrown exception. Look at the following code for a detailed example:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?exceptions
 
 # Static Files
-You can use a folder in the classpath for serving static files with the `get()` methods. Note that
-the public directory name is not included in the URL.
+You can use a [FileCallback] or a [UrlCallback] to route requests to files or classpath resources.
 
-Asset mapping is handled like any other route, so if an asset mapping is matched, no other route
-will be checked (assets or other routes). Also, if a previous route is matched, the asset mapping
-will never be checked.
+Those callbacks can point to folders or to files. If they point to a folder, the pattern should
+have a parameter to provide the file to be fetched inside the folder.
 
-Being `get(resource)` a shortcut of `get("/*", resource)` it should be placed as the last route.
 Check the next example for details:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?files
-
-<!-- TODO End -->
 
 ## Media Types
 The media types of static files are computed from the file extension using the utility methods of
