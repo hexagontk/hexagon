@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/http_server/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.3">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.4">
     
     
       
@@ -1610,31 +1610,45 @@ H1 (after)
 
 <span class="n">on</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/&#39; if no route matched before&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<!-- TODO Start -->
+<!-- TODO Start document review -->
 
 <h2 id="handler-predicates">Handler Predicates<a class="headerlink" href="#handler-predicates" title="Permanent link">&para;</a></h2>
-<h3 id="path-patterns">Path Patterns<a class="headerlink" href="#path-patterns" title="Permanent link">&para;</a></h3>
+<p>A predicate is a function that is applied to a call context and returns a boolean. If the result is
+true, the handler will be executed.</p>
+<p>The default implementation (<a href="/api/http_server/com.hexagonkt.http.server.handlers/-http-server-predicate">HttpServerPredicate</a>) is based on a template with any combination of
+the following fields:</p>
 <ul>
-<li>A <strong>verb</strong> (get, post, put, delete, head, trace, connect, options). It can also be <code>any</code>.</li>
-<li>A <strong>path</strong> (/hello, /users/{name}). Paths must start with '/' and trailing slash is ignored.</li>
+<li>a list of HTTP methods</li>
+<li>a path pattern</li>
+<li>an exception</li>
+<li>a status</li>
 </ul>
-<!-- TODO Explain path pattern format -->
-
+<p>It yields true if all the supplied fields matches a call context.</p>
+<h3 id="path-patterns">Path Patterns<a class="headerlink" href="#path-patterns" title="Permanent link">&para;</a></h3>
+<p>Patterns to match requests paths. They can have:</p>
+<ul>
+<li>Variables: <code>/path/{param}</code></li>
+<li>Wildcards: <code>/*/path</code></li>
+<li>Regular expresión subset: <code>/(this|that)/path</code></li>
+</ul>
 <h2 id="handler-types">Handler Types<a class="headerlink" href="#handler-types" title="Permanent link">&para;</a></h2>
 <h3 id="on-handlers">On Handlers<a class="headerlink" href="#on-handlers" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Predicate evaluated at start</li>
+<li>Executed at the start (before the 'next' handler is called)</li>
+</ul>
 <h3 id="after-handlers">After Handlers<a class="headerlink" href="#after-handlers" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Predicate evaluated at end (checked on the coming back of the execution next handler)</li>
+<li>Executed at the end (after 'next' handler has returned)</li>
+</ul>
 <h3 id="filters">Filters<a class="headerlink" href="#filters" title="Permanent link">&para;</a></h3>
 <p>You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
-code executed before or after one or more routes. They can read the request and read/modify the
-response.</p>
+code executed before and/or after other handlers. They can read the request, read/modify the
+response, and call the remaining handlers or skip them to halt the call processing.</p>
 <p>All filters that match a route are executed in the order they are declared.</p>
 <p>Filters optionally take a pattern, causing them to be executed only if the request path matches
 that pattern.</p>
-<p>Before and after filters are always executed (if the route is matched). However, any of them may
-stop the execution chain if halted.</p>
-<p>If <code>halt()</code> is called in one filter, filter processing is stopped for that kind of filter (<em>before</em>
-or <em>after</em>). In the case of before filters, this also prevent the route from being executed (but
-after filters are executed anyway).</p>
 <p>The following code details filters usage:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -1673,9 +1687,8 @@ after filters are executed anyway).</p>
 <span class="n">after</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;a-all&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
 <h3 id="path-handlers">Path Handlers<a class="headerlink" href="#path-handlers" title="Permanent link">&para;</a></h3>
-<p>groups (Routers)
-Routes can be nested by calling the <code>path()</code> method, which takes a String prefix and gives you a
-scope to declare routes and filters (or more nested paths). Ie:</p>
+<p>Handlers can be grouped by calling the <code>path()</code> method, which takes a String prefix and gives you a
+scope to declare other handlers. Ie:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
@@ -1694,8 +1707,9 @@ scope to declare routes and filters (or more nested paths). Ie:</p>
 <span class="w">    </span><span class="k">get</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/nested&#39;&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<p>If you have a lot of routes, it can be helpful to group them into routers. You can create routers
-to mount a group of routes in different paths (allowing you to reuse them). Check this snippet:</p>
+<p>If you have a lot of routes, it can be helpful to group them into Path Handlers. You can create path
+handlers to mount a group of routes in different paths (allowing you to reuse them). Check this
+snippet:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -1719,19 +1733,8 @@ to mount a group of routes in different paths (allowing you to reuse them). Chec
 <h2 id="handler-callbacks">Handler Callbacks<a class="headerlink" href="#handler-callbacks" title="Permanent link">&para;</a></h2>
 <p>Callbacks are request's handling blocks that are bound to handlers. They make the request and
 response objects available to the handling code.</p>
-<p>Sending error responses:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/halt&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">)</span><span class="w">             </span><span class="c1">// Halt with status</span><span class="w"></span>
-<span class="w">    </span><span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Go away!&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// Halt with status and message</span><span class="w"></span>
-<span class="w">    </span><span class="n">internalServerError</span><span class="p">(</span><span class="s">&quot;Body Message&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// Halt with message (status 500)</span><span class="w"></span>
-<span class="w">    </span><span class="n">internalServerError</span><span class="p">()</span><span class="w">                 </span><span class="c1">// Halt with status 500</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</code></pre></div></td></tr></table></div>
+<p>Callbacks produce a result by returning the received HTTP context with a different response.
+Callbacks results are the input for the next handler's callbacks in the pipeline.</p>
 <h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
 <p>Request functionality is provided by the <code>request</code> field:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -1831,6 +1834,7 @@ response objects available to the handling code.</p>
 <h3 id="path-parameters">Path Parameters<a class="headerlink" href="#path-parameters" title="Permanent link">&para;</a></h3>
 <p>Route patterns can include named parameters, accessible via the <code>pathParameters</code> map on the request
 object:</p>
+<p>Path parameters can be accessed by name or by index.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
@@ -1920,6 +1924,19 @@ object:</p>
 <span class="w">    </span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
+<p>To send error responses:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/halt&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">)</span><span class="w">             </span><span class="c1">// Halt with status</span><span class="w"></span>
+<span class="w">    </span><span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Go away!&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// Halt with status and message</span><span class="w"></span>
+<span class="w">    </span><span class="n">internalServerError</span><span class="p">(</span><span class="s">&quot;Body Message&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// Halt with message (status 500)</span><span class="w"></span>
+<span class="w">    </span><span class="n">internalServerError</span><span class="p">()</span><span class="w">                 </span><span class="c1">// Halt with status 500</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 <h3 id="redirects">Redirects<a class="headerlink" href="#redirects" title="Permanent link">&para;</a></h3>
 <p>You can redirect requests (returning 30x codes) by using <code>Call</code> utility methods:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -1964,9 +1981,7 @@ add new ones you have to use <code>response.addCookie()</code> and <code>respons
 </code></pre></div></td></tr></table></div>
 <h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
 <p>You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
-callbacks, or handlers halted with an error code.</p>
-<p>Error handlers for a given code or exception are unique, and the first one defined is the one which
-will be used.</p>
+callbacks, or handlers returning error codes.</p>
 <h3 id="http-errors-handlers">HTTP Errors Handlers<a class="headerlink" href="#http-errors-handlers" title="Permanent link">&para;</a></h3>
 <p>Allows handling routes halted with a given code. These handlers are only applied if the route is
 halted, if the error code is returned with <code>send</code> it won't be handled as an error. Example:</p>
@@ -2520,7 +2535,7 @@ HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the H
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.85cb4492.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.f758a944.min.js"></script>
