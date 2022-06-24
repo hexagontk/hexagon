@@ -1,7 +1,6 @@
 package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.http.model.HttpMethod
-import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpStatus
 import kotlin.reflect.KClass
 
@@ -104,17 +103,17 @@ class ServerBuilder(var handlers: List<ServerHandler> = emptyList()) {
         use(com.hexagonkt.http.server.handlers.after(pattern, callback))
     }
 
-    fun exception(
-        exception: KClass<out Exception>? = null,
+    fun <T : Exception> exception(
+        exception: KClass<T>? = null,
         status: HttpStatus? = null,
-        callback: HttpCallback,
+        callback: HttpExceptionCallback<T>,
     ) {
         use(com.hexagonkt.http.server.handlers.exception(exception, status, callback))
     }
 
     inline fun <reified T : Exception> exception(
         status: HttpStatus? = null,
-        noinline callback: HttpCallback,
+        noinline callback: HttpExceptionCallback<T>,
     ) {
         use(com.hexagonkt.http.server.handlers.exception(T::class, status, callback))
     }
