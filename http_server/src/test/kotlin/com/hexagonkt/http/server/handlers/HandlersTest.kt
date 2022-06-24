@@ -2,6 +2,8 @@ package com.hexagonkt.http.server.handlers
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.reflect.KClass
 
 internal class HandlersTest {
 
@@ -36,6 +38,22 @@ internal class HandlersTest {
         val actual2 = path("/prefix", listOf(OnHandler("/a") { this }, OnHandler("/b") { this }))
         assertEquals(expected2.serverPredicate, actual2.serverPredicate)
         assertEquals(expected2.handlersPredicates(), actual2.handlersPredicates())
+    }
+
+    @Test
+    @Suppress("CAST_NEVER_SUCCEEDS") // Required for test 'null' arguments
+    fun `Exceptions are casted properly`() {
+        assertFailsWith<IllegalStateException> { null.castException(Exception::class) }
+        assertFailsWith<IllegalStateException> { null.castException(null as? KClass<Exception>) }
+        assertFailsWith<ClassCastException> {
+            IllegalStateException().castException(IllegalArgumentException::class)
+        }
+        assertFailsWith<IllegalStateException> {
+            RuntimeException().castException(null as? KClass<Exception>)
+        }
+
+        val ise = IllegalStateException()
+        assertEquals(ise, ise.castException(RuntimeException::class))
     }
 
     private fun PathHandler.handlersPredicates(): List<HttpServerPredicate> =

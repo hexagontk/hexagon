@@ -8,8 +8,10 @@ import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequest
 import java.security.cert.X509Certificate
 import kotlin.reflect.KClass
+import kotlin.reflect.cast
 
 typealias HttpCallback = HttpServerContext.() -> HttpServerContext
+typealias HttpExceptionCallback<T> = HttpServerContext.(T) -> HttpServerContext
 
 internal fun toCallback(handler: HttpCallback): Callback<HttpServerCall> =
     { context -> HttpServerContext(context).handler().context }
@@ -140,18 +142,23 @@ fun after(method: HttpMethod, pattern: String = "", callback: HttpCallback): Aft
 fun after(pattern: String, callback: HttpCallback): AfterHandler =
     AfterHandler(pattern, callback)
 
-fun exception(
-    exception: KClass<out Exception>? = null,
+fun <T : Exception> exception(
+    exception: KClass<T>? = null,
     status: HttpStatus? = null,
-    callback: HttpCallback,
+    callback: HttpExceptionCallback<T>,
 ): AfterHandler =
-    after(emptySet(), "*", exception, status, callback)
+    after(emptySet(), "*", exception, status) {
+        callback(this.exception.castException(exception))
+    }
 
 inline fun <reified T : Exception> exception(
     status: HttpStatus? = null,
-    noinline callback: HttpCallback,
+    noinline callback: HttpExceptionCallback<T>,
 ): AfterHandler =
     exception(T::class, status, callback)
+
+internal fun <T : Exception> Exception?.castException(exception: KClass<T>?) =
+    this?.let { exception?.cast(this) } ?: error("Exception 'null' or incorrect type")
 
 fun get(pattern: String = "", callback: HttpCallback): OnHandler =
     on(GET, pattern, callback)

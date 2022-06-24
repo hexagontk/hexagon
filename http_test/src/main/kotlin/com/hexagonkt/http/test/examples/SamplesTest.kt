@@ -1,5 +1,6 @@
 package com.hexagonkt.http.test.examples
 
+import com.hexagonkt.core.CodedException
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
@@ -434,6 +435,12 @@ abstract class SamplesTest(
             on(pattern = "*", status = HttpStatus(512)) { send(INTERNAL_SERVER_ERROR, "Ouch") }
             // errors
 
+            exception<CodedException> { e ->
+                internalServerError(e.code.toString())
+            }
+
+            get("/codeException") { throw CodedException(9) }
+
             // exceptions
             // Register handler for routes which callbacks throw exceptions
             get("/exceptions") { error("Message") }
@@ -463,6 +470,11 @@ abstract class SamplesTest(
                 val codedExceptions = it.get("/codedExceptions")
                 assertEquals(HttpStatus(599), codedExceptions.status)
                 assertEquals("code", codedExceptions.body)
+
+                it.get("/codeException").apply {
+                    assertEquals(INTERNAL_SERVER_ERROR, status)
+                    assertEquals("9", bodyString())
+                }
             }
         }
     }
