@@ -46,7 +46,7 @@ import kotlin.reflect.KClass
 <span class="fc bfc" id="L46" title="All 2 branches covered.">        return if (logger.isDebugEnabled()) {</span>
 <span class="fc" id="L47">            {</span>
 <span class="fc" id="L48">                val allowed = predicate(it)</span>
-<span class="pc bnc" id="L49" title="All 2 branches missed.">                logger.debug { &quot;${describe()} -&gt; ${if (allowed) &quot;ALLOWED&quot; else &quot;DENIED&quot;}&quot; }</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">                logger.debug { &quot;${describe()} -&gt; ${if (allowed) &quot;ALLOWED&quot; else &quot;DENIED&quot;}&quot; }</span>
 <span class="fc" id="L50">                allowed</span>
             }
         }

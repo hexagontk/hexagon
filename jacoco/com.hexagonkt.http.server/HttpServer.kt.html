@@ -160,8 +160,8 @@ import java.lang.System.nanoTime
 <span class="fc" id="L160">        val startUpTime = &quot;%,.0f&quot;.format(startUpTimestamp / 1e6)</span>
 <span class="fc" id="L161">        val bindAddress = settings.bindAddress</span>
 <span class="fc" id="L162">        val protocol = settings.protocol</span>
-<span class="pc bpc" id="L163" title="1 of 2 branches missed.">        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName</span>
-<span class="pc bpc" id="L164" title="1 of 2 branches missed.">        val scheme = if (protocol == HTTP) &quot;http&quot; else &quot;https&quot;</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        val scheme = if (protocol == HTTP) &quot;http&quot; else &quot;https&quot;</span>
 <span class="fc" id="L165">        val binding = &quot;$scheme://$hostName:$runtimePort&quot;</span>
 
 <span class="fc" id="L167">        val serverAdapterValue = &quot;$BOLD$CYAN$portName$RESET&quot;</span>
@@ -206,7 +206,7 @@ import java.lang.System.nanoTime
 <span class="fc" id="L206">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
 
 <span class="fc" id="L208">            ⏱ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
-<span class="pc bpc" id="L209" title="1 of 2 branches missed.">            🚀 Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot; }</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">            🚀 Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot; }</span>
 
 <span class="fc" id="L211">        &quot;&quot;&quot;.trimIndent()</span>
 

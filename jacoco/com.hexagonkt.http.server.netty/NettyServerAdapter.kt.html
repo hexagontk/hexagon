@@ -185,15 +185,15 @@ import kotlin.Int.Companion.MAX_VALUE
 <span class="fc" id="L185">        setOf(ZIP, ASYNC)</span>
 
     override fun options(): Map&lt;String, *&gt; =
-<span class="nc" id="L188">        fieldsMapOf(</span>
-<span class="nc" id="L189">            NettyServerAdapter::bossGroupThreads to bossGroupThreads,</span>
-<span class="nc" id="L190">            NettyServerAdapter::workerGroupThreads to workerGroupThreads,</span>
-<span class="nc" id="L191">            NettyServerAdapter::executorThreads to executorThreads,</span>
-<span class="nc" id="L192">            NettyServerAdapter::soBacklog to soBacklog,</span>
-<span class="nc" id="L193">            NettyServerAdapter::soKeepAlive to soKeepAlive,</span>
-<span class="nc" id="L194">            NettyServerAdapter::shutdownQuietSeconds to shutdownQuietSeconds,</span>
-<span class="nc" id="L195">            NettyServerAdapter::shutdownTimeoutSeconds to shutdownTimeoutSeconds,</span>
-<span class="nc" id="L196">        )</span>
+<span class="fc" id="L188">        fieldsMapOf(</span>
+<span class="fc" id="L189">            NettyServerAdapter::bossGroupThreads to bossGroupThreads,</span>
+<span class="fc" id="L190">            NettyServerAdapter::workerGroupThreads to workerGroupThreads,</span>
+<span class="fc" id="L191">            NettyServerAdapter::executorThreads to executorThreads,</span>
+<span class="fc" id="L192">            NettyServerAdapter::soBacklog to soBacklog,</span>
+<span class="fc" id="L193">            NettyServerAdapter::soKeepAlive to soKeepAlive,</span>
+<span class="fc" id="L194">            NettyServerAdapter::shutdownQuietSeconds to shutdownQuietSeconds,</span>
+<span class="fc" id="L195">            NettyServerAdapter::shutdownTimeoutSeconds to shutdownTimeoutSeconds,</span>
+<span class="fc" id="L196">        )</span>
 
 <span class="fc" id="L198">    class HttpChannelInitializer(</span>
 <span class="fc" id="L199">        private val handlers: Map&lt;HttpMethod, PathHandler&gt;,</span>
