@@ -178,4 +178,9 @@ internal class HttpServerContextTest {
 
         assertEquals(OK, context.next().response.status)
     }
+
+    @Test fun `Client errors helpers returns proper status`() {
+        assertEquals(UNAUTHORIZED, HttpServerContext().unauthorized().status)
+        assertEquals(FORBIDDEN, HttpServerContext().forbidden().status)
+    }
 }

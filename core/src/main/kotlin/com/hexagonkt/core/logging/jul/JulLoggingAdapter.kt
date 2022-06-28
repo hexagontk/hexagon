@@ -17,16 +17,15 @@ import java.util.logging.Logger as JulLogger
 /**
  * Implements [LoggingPort] using [Logger][JulLogger].
  */
-class JulLoggingAdapter(private val useColor: Boolean = LoggingManager.useColor) : LoggingPort {
+class JulLoggingAdapter : LoggingPort {
 
     init {
-        LoggingManager.useColor = useColor
         val root = JulLogger.getLogger("")
 
         for (hnd in root.handlers)
             root.removeHandler(hnd)
 
-        root.addHandler(SystemOutHandler(PatternFormat(useColor)))
+        root.addHandler(SystemOutHandler(PatternFormat(LoggingManager.useColor)))
         root.level = Level.INFO
     }
 
@@ -55,7 +54,7 @@ class JulLoggingAdapter(private val useColor: Boolean = LoggingManager.useColor)
             }
 
             private fun color(message: String): String =
-                if (useColor) message
+                if (LoggingManager.useColor) message
                 else message.stripAnsi()
         }
 

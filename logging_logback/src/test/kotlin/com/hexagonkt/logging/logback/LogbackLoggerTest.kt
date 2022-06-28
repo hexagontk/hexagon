@@ -16,8 +16,18 @@ internal class LogbackLoggerTest {
      */
     @Test fun `Messages are logged without errors using Logback`() {
 
+        LoggingManager.useColor = true
         LoggingManager.adapter = LogbackLoggingAdapter()
         val logger = Logger(this::class)
+
+        traceAll(logger, TRACE)
+        traceAll(logger, DEBUG)
+        traceAll(logger, INFO)
+        traceAll(logger, WARN)
+        traceAll(logger, ERROR)
+        traceAll(logger, OFF)
+
+        LoggingManager.useColor = false
 
         traceAll(logger, TRACE)
         traceAll(logger, DEBUG)
