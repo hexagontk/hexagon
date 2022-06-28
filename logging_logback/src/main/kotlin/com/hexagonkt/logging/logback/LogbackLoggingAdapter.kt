@@ -10,16 +10,46 @@ import com.hexagonkt.core.logging.LoggingLevel.INFO
 import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import com.hexagonkt.core.logging.LoggingLevel.WARN
 import com.hexagonkt.core.logging.LoggingLevel.OFF
+import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.logging.LoggingPort
-import com.hexagonkt.core.logging.jul.JulLoggingAdapter
+import com.hexagonkt.core.stripAnsi
 import org.slf4j.LoggerFactory
 
 class LogbackLoggingAdapter : LoggingPort {
 
-    private val julLoggingAdapter = JulLoggingAdapter()
-
     override fun createLogger(name: String): LoggerPort =
-        julLoggingAdapter.createLogger(name)
+        object : LoggerPort {
+            val log: org.slf4j.Logger = LoggerFactory.getLogger(name)
+
+            override fun log(level: LoggingLevel, message: () -> Any?) {
+                val processedMessage = color(message().toString())
+                when (level) {
+                    TRACE -> if (log.isTraceEnabled) log.trace(processedMessage)
+                    DEBUG -> if (log.isDebugEnabled) log.debug(processedMessage)
+                    INFO -> if (log.isInfoEnabled) log.info(processedMessage)
+                    WARN -> if (log.isWarnEnabled) log.warn(processedMessage)
+                    ERROR -> if (log.isErrorEnabled) log.error(processedMessage)
+                    OFF -> {}
+                }
+            }
+
+            override fun <E : Throwable> log(
+                level: LoggingLevel,
+                exception: E,
+                message: (E) -> Any?,
+            ) {
+                val processedMessage = color(message(exception).toString())
+                when (level) {
+                    WARN -> if (log.isWarnEnabled) log.warn(processedMessage, exception)
+                    ERROR -> if (log.isErrorEnabled) log.error(processedMessage, exception)
+                    else -> {}
+                }
+            }
+
+            private fun color(message: String): String =
+                if (LoggingManager.useColor) message
+                else message.stripAnsi()
+        }
 
     override fun setLoggerLevel(name: String, level: LoggingLevel) {
         val loggerName = name.ifEmpty { Logger.ROOT_LOGGER_NAME }

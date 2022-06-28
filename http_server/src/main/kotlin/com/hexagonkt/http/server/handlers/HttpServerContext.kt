@@ -7,8 +7,7 @@ import com.hexagonkt.core.disableChecks
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.toText
 import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.ClientErrorStatus.BAD_REQUEST
-import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.model.HttpServerEvent
 import com.hexagonkt.http.model.SuccessStatus.CREATED
@@ -107,6 +106,24 @@ data class HttpServerContext(
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(status, body, headers, contentType, cookies, attributes)
+
+    fun unauthorized(
+        body: Any = response.body,
+        headers: HttpFields<Header> = response.headers,
+        contentType: ContentType? = response.contentType,
+        cookies: List<HttpCookie> = response.cookies,
+        attributes: Map<*, *> = context.attributes,
+    ): HttpServerContext =
+        send(UNAUTHORIZED, body, headers, contentType, cookies, attributes)
+
+    fun forbidden(
+        body: Any = response.body,
+        headers: HttpFields<Header> = response.headers,
+        contentType: ContentType? = response.contentType,
+        cookies: List<HttpCookie> = response.cookies,
+        attributes: Map<*, *> = context.attributes,
+    ): HttpServerContext =
+        send(FORBIDDEN, body, headers, contentType, cookies, attributes)
 
     fun serverError(
         status: ServerErrorStatus,
