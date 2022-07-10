@@ -1,5 +1,7 @@
 package com.hexagonkt.http.patterns
 
+import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.patternToRegex
+
 data class RegexPathPattern(val regex: Regex) : PathPattern {
 
     override val pattern: String = regex.pattern
@@ -20,7 +22,7 @@ data class RegexPathPattern(val regex: Regex) : PathPattern {
 
     override fun addPrefix(prefix: String?): PathPattern =
         if (prefix == null) this
-        else copy(regex = Regex(prefix + pattern))
+        else copy(regex = Regex(patternToRegex(prefix, true) + pattern))
 
     @OptIn(ExperimentalStdlibApi::class)
     override fun matches(requestUrl: String): Boolean =
