@@ -10,7 +10,7 @@
 <span class="fc" id="L10">data class TemplatePathPattern(</span>
 <span class="fc" id="L11">    override val pattern: String,</span>
 <span class="fc" id="L12">    override val prefix: Boolean = false</span>
-<span class="fc" id="L13">) : PathPattern by RegexPathPattern(patternToRegex(pattern, prefix)) {</span>
+<span class="fc" id="L13">) : PathPattern by RegexPathPattern(Regex(patternToRegex(pattern, prefix))) {</span>
 
     internal companion object {
         private const val PARAMETER_PREFIX = &quot;{&quot;
@@ -28,29 +28,28 @@
         fun isTemplate(pattern: String): Boolean =
 <span class="fc bfc" id="L29" title="All 4 branches covered.">            REGEX_CHARACTERS.any { pattern.contains(it) } || PLACEHOLDER_REGEX in pattern</span>
 
-        fun patternToRegex(pattern: String, prefix: Boolean): Regex {
+        fun patternToRegex(pattern: String, prefix: Boolean): String {
 <span class="fc" id="L32">            checkPathPatternVariables(pattern)</span>
 <span class="fc" id="L33">            return pattern</span>
 <span class="fc" id="L34">                .replace(WILDCARD, &quot;(.*?)&quot;)</span>
 <span class="fc" id="L35">                .replaceParameters(parameters(pattern))</span>
 <span class="fc bfc" id="L36" title="All 2 branches covered.">                .let { if (prefix) it else &quot;$it$&quot; }</span>
-<span class="fc" id="L37">                .let { Regex(it) }</span>
         }
 
         private fun parameters(pattern: String): List&lt;String&gt; =
-<span class="fc" id="L41">            PARAMETER_REGEX.findAll(pattern)</span>
-<span class="fc" id="L42">                .map { it.value.removePrefix(PARAMETER_PREFIX).removeSuffix(PARAMETER_SUFFIX) }</span>
-<span class="fc" id="L43">                .toList()</span>
+<span class="fc" id="L40">            PARAMETER_REGEX.findAll(pattern)</span>
+<span class="fc" id="L41">                .map { it.value.removePrefix(PARAMETER_PREFIX).removeSuffix(PARAMETER_SUFFIX) }</span>
+<span class="fc" id="L42">                .toList()</span>
 
         private fun String.replaceParameters(parameters: List&lt;String&gt;): String =
-<span class="fc" id="L46">            parameters</span>
-<span class="fc" id="L47">                .fold(this) { accumulator, item -&gt;</span>
-<span class="fc" id="L48">                    accumulator.replace(&quot;$PARAMETER_PREFIX$item$PARAMETER_SUFFIX&quot;, &quot;(?&lt;$item&gt;.*?)&quot;)</span>
-<span class="fc" id="L49">                }</span>
+<span class="fc" id="L45">            parameters</span>
+<span class="fc" id="L46">                .fold(this) { accumulator, item -&gt;</span>
+<span class="fc" id="L47">                    accumulator.replace(&quot;$PARAMETER_PREFIX$item$PARAMETER_SUFFIX&quot;, &quot;(?&lt;$item&gt;.*?)&quot;)</span>
+<span class="fc" id="L48">                }</span>
     }
 
-<span class="fc" id="L52">    init {</span>
-<span class="fc" id="L53">        checkPathPatternPrefix(pattern, listOf(&quot;*&quot;))</span>
-<span class="fc" id="L54">    }</span>
-<span class="fc" id="L55">}</span>
+<span class="fc" id="L51">    init {</span>
+<span class="fc" id="L52">        checkPathPatternPrefix(pattern, listOf(&quot;*&quot;))</span>
+<span class="fc" id="L53">    }</span>
+<span class="fc" id="L54">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
