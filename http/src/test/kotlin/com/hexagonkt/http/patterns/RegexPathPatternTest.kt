@@ -16,6 +16,12 @@ internal class RegexPathPatternTest {
         assertFalse(regexPathPrefix.matches("/prefix/alpha/bravo"))
     }
 
+    @Test fun `Regex prefixes can be appended to patterns`() {
+        val regexPath = RegexPathPattern(Regex(""))
+        val pattern = regexPath.addPrefix("/prefix/{variable}")
+        assertTrue(pattern.matches("/prefix/bravo"))
+    }
+
     @Test fun `Prefixes can be appended to patterns`() {
         val regexPath = RegexPathPattern(Regex("/alpha/bravo"))
         assert(regexPath.addPrefix(null).matches("/alpha/bravo"))
