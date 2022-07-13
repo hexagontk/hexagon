@@ -10,7 +10,7 @@ package com.hexagonkt.http.patterns
 data class TemplatePathPattern(
     override val pattern: String,
     override val prefix: Boolean = false
-) : PathPattern by RegexPathPattern(patternToRegex(pattern, prefix)) {
+) : PathPattern by RegexPathPattern(Regex(patternToRegex(pattern, prefix))) {
 
     internal companion object {
         private const val PARAMETER_PREFIX = "{"
@@ -28,13 +28,12 @@ data class TemplatePathPattern(
         fun isTemplate(pattern: String): Boolean =
             REGEX_CHARACTERS.any { pattern.contains(it) } || PLACEHOLDER_REGEX in pattern
 
-        fun patternToRegex(pattern: String, prefix: Boolean): Regex {
+        fun patternToRegex(pattern: String, prefix: Boolean): String {
             checkPathPatternVariables(pattern)
             return pattern
                 .replace(WILDCARD, "(.*?)")
                 .replaceParameters(parameters(pattern))
                 .let { if (prefix) it else "$it$" }
-                .let { Regex(it) }
         }
 
         private fun parameters(pattern: String): List<String> =
