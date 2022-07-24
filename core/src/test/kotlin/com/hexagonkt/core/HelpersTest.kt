@@ -28,6 +28,7 @@ internal class HelpersTest {
 
     @Test fun `Internet address helper works correctly`() {
         assertEquals(InetAddress.getByAddress(byteArrayOf(0, 0, 0, 0)), allInterfaces)
+        assertEquals(InetAddress.getByAddress(byteArrayOf(127, 0, 0, 1)), loopbackInterface)
         assertEquals(InetAddress.getByAddress(byteArrayOf(127, 3, 2, 1)), inetAddress(127, 3, 2, 1))
     }
 

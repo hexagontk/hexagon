@@ -62,6 +62,9 @@ fun <T : ResourceBundle> resourceBundle(
 /** Internet address used to bind services to all local network interfaces. */
 val allInterfaces: InetAddress = inetAddress(0, 0, 0, 0)
 
+/** Internet address used to bind services to the loopback interface. */
+val loopbackInterface: InetAddress = inetAddress(127, 0, 0, 1)
+
 /**
  * Syntactic sugar to create an Internet address.
  *
