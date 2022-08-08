@@ -4,6 +4,7 @@ import com.hexagonkt.core.logging.Logger
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import java.lang.IllegalArgumentException
 import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
@@ -23,6 +24,21 @@ import kotlin.reflect.KClass
  *  not advised and should be done carefully.
  */
 var disableChecks: Boolean = Jvm.systemFlag("DISABLE_CHECKS")
+
+/** Set of allowed country codes in this JVM. */
+val countryCodes: Set<String> by lazy {
+    Locale.getISOCountries().toSet()
+}
+
+/** Set of allowed language codes in this JVM. */
+val languageCodes: Set<String> by lazy {
+    Locale.getISOLanguages().toSet()
+}
+
+/** Set of allowed currency codes in this JVM. */
+val currencyCodes: Set<String> by lazy {
+    Currency.getAvailableCurrencies().map { it.currencyCode }.toSet()
+}
 
 private val logger: Logger by lazy { Logger("com.hexagonkt.core.Helpers") }
 
@@ -56,6 +72,37 @@ inline fun <reified T : ResourceBundle> resourceBundle(
 fun <T : ResourceBundle> resourceBundle(
     type: KClass<T>, locale: Locale = Locale.getDefault()): ResourceBundle =
         ResourceBundle.getBundle(type.java.name, locale)
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param language .
+ * @param country .
+ * @return .
+ */
+fun localeOf(language: String = "", country: String = ""): Locale {
+    require(language.isNotEmpty() || country.isNotEmpty()) {
+        "A non-blank language or country is required"
+    }
+    require(language.isEmpty() || language in languageCodes) { "Language: '$language' not allowed" }
+    require(country.isEmpty() || country in countryCodes) { "Country: '$country' not allowed" }
+    return Locale(language, country)
+}
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param language .
+ * @param country .
+ * @return .
+ */
+fun localeOfOrNull(language: String = "", country: String = ""): Locale? =
+    try {
+        localeOf(language, country)
+    }
+    catch (_: IllegalArgumentException) {
+        null
+    }
 
 // NETWORK /////////////////////////////////////////////////////////////////////////////////////////
 /** Internet address used to bind services to all local network interfaces. */
@@ -103,7 +150,7 @@ fun isPortOpened(port: Int): Boolean =
  * @param times Number of times to try to execute the callback. Must be greater than 0.
  * @param delay Milliseconds to wait to next execution if there was an error. Must be 0 or greater.
  * @param block Code to be executed.
- * @return Callback's result if succeed.
+ * @return Callback's result if succeeded.
  * @throws [MultipleException] if the callback didn't succeed in the given times.
  */
 fun <T> retry(times: Int, delay: Long, block: () -> T): T {
@@ -168,10 +215,10 @@ fun List<String>.exec(
  *  directory.
  * @param timeout Maximum number of seconds allowed for process execution. Defaults to the maximum
  *  long value. It must be greater than zero.
- * @param fail If true Raise an exception if the result code is different than zero. The default
+ * @param fail If true Raise an exception if the result code is different from zero. The default
  *  value is `false`.
  * @throws CodedException Thrown if the process return an error code (the actual code is passed
- *  inside [CodedException.code] and the command output is set at [CodedException.message].
+ *  inside [CodedException.code] and the command output is set at [CodedException.message]).
  * @throws IllegalStateException If the command doesn't end within the allowed time or the command
  *  string is blank, an exception will be thrown.
  * @return The output of the command.
