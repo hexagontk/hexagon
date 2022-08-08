@@ -1,5 +1,7 @@
 package com.hexagonkt.core.logging
 
+import com.hexagonkt.core.logging.LoggingLevel.ERROR
+import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
@@ -31,6 +33,8 @@ internal class LoggerTest {
         logger.flare { "message" }
         logger.time("message") {}
         logger.time {}
+        logger.log(TRACE) { "message" }
+        logger.log(ERROR, RuntimeException()) { 0..100 }
     }
 
     @Test fun `A logger for a custom name has the proper name`() {

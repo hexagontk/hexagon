@@ -70,7 +70,7 @@ class CorsCallback(
     private fun HttpServerContext.simpleRequest(): HttpServerContext {
         val origin = request.origin() ?: return this
         if (!allowOrigin(origin))
-            return clientError(FORBIDDEN, "Not allowed origin: $origin")
+            return forbidden("Not allowed origin: $origin")
 
         val accessControlAllowOrigin = accessControlAllowOrigin(origin)
         var h = response.headers + Header(ALLOW_ORIGIN, accessControlAllowOrigin)
@@ -86,7 +86,7 @@ class CorsCallback(
             return badRequest()
 
         if (request.method !in allowedMethods)
-            return clientError(FORBIDDEN, "Not allowed method: ${request.method}")
+            return forbidden("Not allowed method: ${request.method}")
 
         if (exposedHeaders.isNotEmpty()) {
             val requestHeaderNames = request.headers.httpFields.keys.toSet()
@@ -102,11 +102,11 @@ class CorsCallback(
 
         val methodHeader = request.headers[REQUEST_METHOD]
         val requestMethod = methodHeader
-            ?: return clientError(FORBIDDEN, "$REQUEST_METHOD required header not found")
+            ?: return forbidden("$REQUEST_METHOD required header not found")
 
         val method = HttpMethod.valueOf(requestMethod)
         if (method !in allowedMethods)
-            return clientError(FORBIDDEN, "Not allowed method: $method")
+            return forbidden("Not allowed method: $method")
 
         val accessControlRequestHeaders = request.headers[REQUEST_HEADERS]
 
@@ -119,7 +119,7 @@ class CorsCallback(
                 .all { it in allowedHeaders }
 
             if (!allowedHeaders && this@CorsCallback.allowedHeaders.isNotEmpty())
-                return clientError(FORBIDDEN, "Not allowed headers")
+                return forbidden("Not allowed headers")
 
             val headers = this@CorsCallback.allowedHeaders
             val requestHeaders = headers.ifEmpty { request.headers.httpFields.keys.toSet() }
@@ -131,6 +131,16 @@ class CorsCallback(
         if (preFlightMaxAge > 0)
             h += Header(MAX_AGE, preFlightMaxAge.toString())
 
-        return success(preFlightStatus, headers = h)
+        val origin = request.origin() ?: ""
+        return when {
+            allowOrigin(origin) && origin.isBlank() ->
+                success(preFlightStatus, headers = h)
+            allowOrigin(origin) ->
+                success(preFlightStatus, headers = h + Header(ALLOW_ORIGIN, accessControlAllowOrigin(origin)))
+            !allowOrigin(origin) && origin.isNotBlank() ->
+                forbidden("Not allowed origin: $origin")
+            else ->
+                forbidden("Forbidden pre-flight request")
+        }
     }
 }

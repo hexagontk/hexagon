@@ -1,8 +1,7 @@
 package com.hexagonkt.core.media
 
 import com.hexagonkt.core.media.ApplicationMedia.*
-import com.hexagonkt.core.media.MediaTypeGroup.APPLICATION
-import com.hexagonkt.core.media.MediaTypeGroup.TEXT
+import com.hexagonkt.core.media.MediaTypeGroup.*
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import org.junit.jupiter.api.Test
@@ -17,6 +16,13 @@ import kotlin.test.assertNull
 internal class MediaTypesTest {
 
     @Test fun `Parse correct media types`() {
+        MediaType("*/*").apply {
+            assertEquals(ANY, group)
+            assertEquals("*", type)
+            assertEquals("*/*", fullType)
+
+        }
+
         MediaType("text/plain").apply {
             assertEquals(TEXT, group)
             assertEquals("text", group.text)

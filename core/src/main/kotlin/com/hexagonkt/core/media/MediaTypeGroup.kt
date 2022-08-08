@@ -7,7 +7,8 @@ enum class MediaTypeGroup {
     IMAGE,
     MULTIPART,
     TEXT,
-    VIDEO;
+    VIDEO,
+    ANY;
 
     val text: String = toString().lowercase()
 }
