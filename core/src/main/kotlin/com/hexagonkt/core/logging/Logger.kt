@@ -22,6 +22,24 @@ class Logger(val name: String) {
     internal val log: LoggerPort = LoggingManager.adapter.createLogger(name)
 
     /**
+     * Log a message, with associated exception information.
+     *
+     * @see LoggerPort.log
+     */
+    fun <E : Throwable> log(level: LoggingLevel, exception: E, message: (E) -> Any?) {
+        log.log(level, exception, message)
+    }
+
+    /**
+     * Log a message.
+     *
+     * @see LoggerPort.log
+     */
+    fun log(level: LoggingLevel, message: () -> Any?) {
+        log.log(level, message)
+    }
+
+    /**
      * Logger class with Kotlin improvements like lazy evaluation.
      *
      * @param type Logger type. It is shown in the logs messages and used for log filtering.
