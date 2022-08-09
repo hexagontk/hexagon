@@ -6,7 +6,7 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
-internal class CollectionsTest {
+internal class DataTest {
 
     data class Player(
         val name: String,
