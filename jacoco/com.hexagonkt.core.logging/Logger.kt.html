@@ -22,12 +22,30 @@ import com.hexagonkt.core.logging.LoggingLevel.*
 <span class="pc" id="L22">    internal val log: LoggerPort = LoggingManager.adapter.createLogger(name)</span>
 
     /**
+     * Log a message, with associated exception information.
+     *
+     * @see LoggerPort.log
+     */
+    fun &lt;E : Throwable&gt; log(level: LoggingLevel, exception: E, message: (E) -&gt; Any?) {
+<span class="fc" id="L30">        log.log(level, exception, message)</span>
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Log a message.
+     *
+     * @see LoggerPort.log
+     */
+    fun log(level: LoggingLevel, message: () -&gt; Any?) {
+<span class="fc" id="L39">        log.log(level, message)</span>
+<span class="fc" id="L40">    }</span>
+
+    /**
      * Logger class with Kotlin improvements like lazy evaluation.
      *
      * @param type Logger type. It is shown in the logs messages and used for log filtering.
      */
     constructor(type: KClass&lt;*&gt;):
-<span class="fc bfc" id="L30" title="All 2 branches covered.">        this(type.qualifiedName ?: error(&quot;Cannot get qualified name of type&quot;))</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        this(type.qualifiedName ?: error(&quot;Cannot get qualified name of type&quot;))</span>
 
     /**
      * Log a message using [TRACE] level.
@@ -35,8 +53,8 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param message The required message to log.
      */
     fun trace(message: () -&gt; Any?) {
-<span class="fc" id="L38">        log.log(TRACE, message)</span>
-<span class="fc" id="L39">    }</span>
+<span class="fc" id="L56">        log.log(TRACE, message)</span>
+<span class="fc" id="L57">    }</span>
 
     /**
      * Log a message using [DEBUG] level.
@@ -44,8 +62,8 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param message The required message to log.
      */
     fun debug(message: () -&gt; Any?) {
-<span class="fc" id="L47">        log.log(DEBUG, message)</span>
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L65">        log.log(DEBUG, message)</span>
+<span class="fc" id="L66">    }</span>
 
     /**
      * Log a message using [INFO] level.
@@ -53,8 +71,8 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param message The required message to log.
      */
     fun info(message: () -&gt; Any?) {
-<span class="fc" id="L56">        log.log(INFO, message)</span>
-<span class="fc" id="L57">    }</span>
+<span class="fc" id="L74">        log.log(INFO, message)</span>
+<span class="fc" id="L75">    }</span>
 
     /**
      * Log a message using [WARN] level.
@@ -62,8 +80,8 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param message The required message to log.
      */
     fun warn(message: () -&gt; Any?) {
-<span class="fc" id="L65">        log.log(WARN, message)</span>
-<span class="fc" id="L66">    }</span>
+<span class="fc" id="L83">        log.log(WARN, message)</span>
+<span class="fc" id="L84">    }</span>
 
     /**
      * Log a message using [ERROR] level.
@@ -71,8 +89,8 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param message The required message to log.
      */
     fun error(message: () -&gt; Any?) {
-<span class="fc" id="L74">        log.log(ERROR, message)</span>
-<span class="fc" id="L75">    }</span>
+<span class="fc" id="L92">        log.log(ERROR, message)</span>
+<span class="fc" id="L93">    }</span>
 
     /**
      * Log a message using [WARN] level with associated exception information.
@@ -80,10 +98,10 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param exception The exception associated with log message.
      * @param message The message to log (optional). If not supplied it will be empty.
      */
-<span class="fc" id="L83">    fun &lt;E : Throwable&gt; warn(exception: E?, message: (E?) -&gt; Any? = { &quot;&quot; }) {</span>
-<span class="fc bfc" id="L84" title="All 2 branches covered.">        if (exception == null) log.log(WARN) { message(null) }</span>
-<span class="fc" id="L85">        else log.log(WARN, exception, message)</span>
-<span class="fc" id="L86">    }</span>
+<span class="fc" id="L101">    fun &lt;E : Throwable&gt; warn(exception: E?, message: (E?) -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (exception == null) log.log(WARN) { message(null) }</span>
+<span class="fc" id="L103">        else log.log(WARN, exception, message)</span>
+<span class="fc" id="L104">    }</span>
 
     /**
      * Log a message using [ERROR] level with associated exception information.
@@ -91,19 +109,19 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param exception The exception associated with log message.
      * @param message The message to log (optional). If not supplied it will be empty.
      */
-<span class="fc" id="L94">    fun &lt;E : Throwable&gt; error(exception: E?, message: (E?) -&gt; Any? = { &quot;&quot; }) {</span>
-<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (exception == null) log.log(ERROR) { message(null) }</span>
-<span class="fc" id="L96">        else log.log(ERROR, exception, message)</span>
-<span class="fc" id="L97">    }</span>
+<span class="fc" id="L112">    fun &lt;E : Throwable&gt; error(exception: E?, message: (E?) -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        if (exception == null) log.log(ERROR) { message(null) }</span>
+<span class="fc" id="L114">        else log.log(ERROR, exception, message)</span>
+<span class="fc" id="L115">    }</span>
 
     /**
      * Log a message using [TRACE] level.
      *
      * @param message The required message to log.
      */
-<span class="nc" id="L104">    fun flare(message: () -&gt; Any? = { &quot;&quot; }) {</span>
-<span class="fc" id="L105">        log.log(TRACE) { &quot;$BOLD$BLINK$FLARE_PREFIX$RESET ${message()}&quot; }</span>
-<span class="fc" id="L106">    }</span>
+<span class="nc" id="L122">    fun flare(message: () -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="fc" id="L123">        log.log(TRACE) { &quot;$BOLD$BLINK$FLARE_PREFIX$RESET ${message()}&quot; }</span>
+<span class="fc" id="L124">    }</span>
 
     /**
      * Log a message using [TRACE] level with the logging time.
@@ -111,9 +129,9 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param startNanos The start logging time in nanoseconds.
      * @param message The required message to log.
      */
-<span class="nc" id="L114">    fun time(startNanos: Long, message: () -&gt; Any? = { &quot;&quot; }) {</span>
-<span class="fc bfc" id="L115" title="All 2 branches covered.">        log.log(TRACE) { &quot;${message() ?: &quot;TIME&quot;} : ${formatNanos(nanoTime() - startNanos)}&quot; }</span>
-<span class="fc" id="L116">    }</span>
+<span class="nc" id="L132">    fun time(startNanos: Long, message: () -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        log.log(TRACE) { &quot;${message() ?: &quot;TIME&quot;} : ${formatNanos(nanoTime() - startNanos)}&quot; }</span>
+<span class="fc" id="L134">    }</span>
 
     /**
      * Execute a lambda block and log a message using [TRACE] level with the logging time.
@@ -121,9 +139,9 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param message The required message to log.
      * @param block The lambda block to execute.
      */
-<span class="fc" id="L124">    fun &lt;T&gt; time(message: () -&gt; Any? = { null }, block: () -&gt; T): T {</span>
-<span class="fc" id="L125">        val start = nanoTime()</span>
-<span class="fc" id="L126">        return block().also { time(start, message) }</span>
+<span class="fc" id="L142">    fun &lt;T&gt; time(message: () -&gt; Any? = { null }, block: () -&gt; T): T {</span>
+<span class="fc" id="L143">        val start = nanoTime()</span>
+<span class="fc" id="L144">        return block().also { time(start, message) }</span>
     }
 
     /**
@@ -132,7 +150,7 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param message The required message to log.
      * @param block The lambda block to execute.
      */
-<span class="fc" id="L135">    fun &lt;T&gt; time(message: Any?, block: () -&gt; T): T = this.time({ message }, block)</span>
+<span class="fc" id="L153">    fun &lt;T&gt; time(message: Any?, block: () -&gt; T): T = this.time({ message }, block)</span>
 
     /**
      * Set a logging level for this logger.
@@ -140,8 +158,8 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param level One of the logging levels identifiers, e.g., TRACE
      */
     fun setLoggerLevel(level: LoggingLevel) {
-<span class="fc" id="L143">        LoggingManager.setLoggerLevel(name, level)</span>
-<span class="fc" id="L144">    }</span>
+<span class="fc" id="L161">        LoggingManager.setLoggerLevel(name, level)</span>
+<span class="fc" id="L162">    }</span>
 
     /**
      * Check if a logging level is enabled for this logger.
@@ -150,7 +168,7 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @return True if the supplied level is enabled for this logger.
      */
     fun isLoggerLevelEnabled(level: LoggingLevel): Boolean =
-<span class="fc" id="L153">        LoggingManager.isLoggerLevelEnabled(name, level)</span>
+<span class="fc" id="L171">        LoggingManager.isLoggerLevelEnabled(name, level)</span>
 
     /**
      * Check if the [TRACE] logging level is enabled for this logger.
@@ -158,7 +176,7 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @return True if the [TRACE] level is enabled for this logger.
      */
     fun isTraceEnabled(): Boolean =
-<span class="fc" id="L161">        isLoggerLevelEnabled(TRACE)</span>
+<span class="fc" id="L179">        isLoggerLevelEnabled(TRACE)</span>
 
     /**
      * Check if the [DEBUG] logging level is enabled for this logger.
@@ -166,7 +184,7 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @return True if the [DEBUG] level is enabled for this logger.
      */
     fun isDebugEnabled(): Boolean =
-<span class="fc" id="L169">        isLoggerLevelEnabled(DEBUG)</span>
+<span class="fc" id="L187">        isLoggerLevelEnabled(DEBUG)</span>
 
     /**
      * Check if the [INFO] logging level is enabled for this logger.
@@ -174,7 +192,7 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @return True if the [INFO] level is enabled for this logger.
      */
     fun isInfoEnabled(): Boolean =
-<span class="fc" id="L177">        isLoggerLevelEnabled(INFO)</span>
+<span class="fc" id="L195">        isLoggerLevelEnabled(INFO)</span>
 
     /**
      * Check if the [WARN] logging level is enabled for this logger.
@@ -182,7 +200,7 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @return True if the [WARN] level is enabled for this logger.
      */
     fun isWarnEnabled(): Boolean =
-<span class="fc" id="L185">        isLoggerLevelEnabled(WARN)</span>
+<span class="fc" id="L203">        isLoggerLevelEnabled(WARN)</span>
 
     /**
      * Check if the [ERROR] logging level is enabled for this logger.
@@ -190,8 +208,8 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @return True if the [ERROR] level is enabled for this logger.
      */
     fun isErrorEnabled(): Boolean =
-<span class="fc" id="L193">        isLoggerLevelEnabled(ERROR)</span>
+<span class="fc" id="L211">        isLoggerLevelEnabled(ERROR)</span>
 
-<span class="fc" id="L195">    private fun formatNanos (nanoseconds: Long): String = &quot;%1.3f ms&quot;.format (nanoseconds / 1e6)</span>
+<span class="fc" id="L213">    private fun formatNanos (nanoseconds: Long): String = &quot;%1.3f ms&quot;.format (nanoseconds / 1e6)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

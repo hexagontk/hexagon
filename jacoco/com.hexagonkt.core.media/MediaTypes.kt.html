@@ -8,12 +8,12 @@ fun parseMediaType(fullType: String): MediaType {
 <span class="fc bfc" id="L8" title="All 4 branches covered.">    require(groupType.size == 2) { &quot;Media type format must be &lt;type&gt;/&lt;subtype&gt;: $fullType&quot; }</span>
 
 <span class="fc" id="L10">    val groupText = groupType.first().uppercase()</span>
-<span class="fc" id="L11">    val group = MediaTypeGroup.valueOf(groupText)</span>
+<span class="fc bfc" id="L11" title="All 2 branches covered.">    val group = if (groupText == &quot;*&quot;) MediaTypeGroup.ANY else MediaTypeGroup.valueOf(groupText)</span>
 <span class="fc" id="L12">    val type = groupType.last()</span>
 <span class="fc" id="L13">    return CustomMedia(group, type)</span>
 }
 
-<span class="fc" id="L16">val mediaTypeFormat: Regex = &quot;&quot;&quot;[\w+.-]+&quot;&quot;&quot;.toRegex()</span>
+<span class="fc" id="L16">val mediaTypeFormat: Regex = &quot;&quot;&quot;\*|([\w+.-]+)&quot;&quot;&quot;.toRegex()</span>
 
 <span class="fc" id="L18">val defaultMediaType: MediaType = ApplicationMedia.OCTET_STREAM</span>
 

@@ -70,7 +70,7 @@ import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
     private fun HttpServerContext.simpleRequest(): HttpServerContext {
 <span class="fc bfc" id="L71" title="All 2 branches covered.">        val origin = request.origin() ?: return this</span>
 <span class="fc bfc" id="L72" title="All 2 branches covered.">        if (!allowOrigin(origin))</span>
-<span class="fc" id="L73">            return clientError(FORBIDDEN, &quot;Not allowed origin: $origin&quot;)</span>
+<span class="fc" id="L73">            return forbidden(&quot;Not allowed origin: $origin&quot;)</span>
 
 <span class="fc" id="L75">        val accessControlAllowOrigin = accessControlAllowOrigin(origin)</span>
 <span class="fc" id="L76">        var h = response.headers + Header(ALLOW_ORIGIN, accessControlAllowOrigin)</span>
@@ -86,7 +86,7 @@ import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
 <span class="fc" id="L86">            return badRequest()</span>
 
 <span class="fc bfc" id="L88" title="All 2 branches covered.">        if (request.method !in allowedMethods)</span>
-<span class="fc" id="L89">            return clientError(FORBIDDEN, &quot;Not allowed method: ${request.method}&quot;)</span>
+<span class="fc" id="L89">            return forbidden(&quot;Not allowed method: ${request.method}&quot;)</span>
 
 <span class="fc bfc" id="L91" title="All 4 branches covered.">        if (exposedHeaders.isNotEmpty()) {</span>
 <span class="fc" id="L92">            val requestHeaderNames = request.headers.httpFields.keys.toSet()</span>
@@ -102,11 +102,11 @@ import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
 
 <span class="fc" id="L103">        val methodHeader = request.headers[REQUEST_METHOD]</span>
 <span class="fc bfc" id="L104" title="All 2 branches covered.">        val requestMethod = methodHeader</span>
-<span class="fc" id="L105">            ?: return clientError(FORBIDDEN, &quot;$REQUEST_METHOD required header not found&quot;)</span>
+<span class="fc" id="L105">            ?: return forbidden(&quot;$REQUEST_METHOD required header not found&quot;)</span>
 
 <span class="fc" id="L107">        val method = HttpMethod.valueOf(requestMethod)</span>
 <span class="fc bfc" id="L108" title="All 2 branches covered.">        if (method !in allowedMethods)</span>
-<span class="fc" id="L109">            return clientError(FORBIDDEN, &quot;Not allowed method: $method&quot;)</span>
+<span class="fc" id="L109">            return forbidden(&quot;Not allowed method: $method&quot;)</span>
 
 <span class="fc" id="L111">        val accessControlRequestHeaders = request.headers[REQUEST_HEADERS]</span>
 
@@ -119,7 +119,7 @@ import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
 <span class="fc bfc" id="L119" title="All 2 branches covered.">                .all { it in allowedHeaders }</span>
 
 <span class="fc bfc" id="L121" title="All 6 branches covered.">            if (!allowedHeaders &amp;&amp; this@CorsCallback.allowedHeaders.isNotEmpty())</span>
-<span class="fc" id="L122">                return clientError(FORBIDDEN, &quot;Not allowed headers&quot;)</span>
+<span class="fc" id="L122">                return forbidden(&quot;Not allowed headers&quot;)</span>
 
 <span class="fc" id="L124">            val headers = this@CorsCallback.allowedHeaders</span>
 <span class="fc bfc" id="L125" title="All 2 branches covered.">            val requestHeaders = headers.ifEmpty { request.headers.httpFields.keys.toSet() }</span>
@@ -131,7 +131,17 @@ import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
 <span class="fc bfc" id="L131" title="All 2 branches covered.">        if (preFlightMaxAge &gt; 0)</span>
 <span class="fc" id="L132">            h += Header(MAX_AGE, preFlightMaxAge.toString())</span>
 
-<span class="fc" id="L134">        return success(preFlightStatus, headers = h)</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        val origin = request.origin() ?: &quot;&quot;</span>
+<span class="fc" id="L135">        return when {</span>
+<span class="fc bfc" id="L136" title="All 4 branches covered.">            allowOrigin(origin) &amp;&amp; origin.isBlank() -&gt;</span>
+<span class="fc" id="L137">                success(preFlightStatus, headers = h)</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">            allowOrigin(origin) -&gt;</span>
+<span class="fc" id="L139">                success(preFlightStatus, headers = h + Header(ALLOW_ORIGIN, accessControlAllowOrigin(origin)))</span>
+<span class="pc bpc" id="L140" title="1 of 6 branches missed.">            !allowOrigin(origin) &amp;&amp; origin.isNotBlank() -&gt;</span>
+<span class="fc" id="L141">                forbidden(&quot;Not allowed origin: $origin&quot;)</span>
+            else -&gt;
+<span class="fc" id="L143">                forbidden(&quot;Forbidden pre-flight request&quot;)</span>
+        }
     }
-<span class="nc" id="L136">}</span>
+<span class="nc" id="L146">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
