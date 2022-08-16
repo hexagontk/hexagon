@@ -10,7 +10,7 @@ import kotlin.text.prependIndent
 
 internal class StringsTest {
 
-    @Test fun `Find groups takes care of 'nulls'` () {
+    @Test fun `Find groups takes care of 'nulls'`() {
         val reEmpty = mockk<Regex>()
         every { reEmpty.find(any()) } returns null
 
@@ -27,7 +27,7 @@ internal class StringsTest {
         assert(reNullGroup.findGroups("").isEmpty())
     }
 
-    @Test fun `Data can be encoded and decoded from to base64` () {
+    @Test fun `Data can be encoded and decoded from to base64`() {
         val data = "abcDEF"
         val base64Data = data.encodeToBase64()
         val decodedData = base64Data.decodeBase64()
@@ -35,67 +35,30 @@ internal class StringsTest {
         assertEquals(data, String(decodedData))
     }
 
-    @Test fun `Filter variables returns the given string if no parameters are set` () {
+    @Test fun `Filter variables returns the given string if no parameters are set`() {
         val template = "User #{user}"
 
-        assert (template.filterVars(mapOf<Any, Any>()) == template)
-        assert (template.filterVars() == template)
+        assertEquals(template, template.filterVars(mapOf<Any, Any>()))
+        assertEquals(template, template.filterVars())
     }
 
-    @Test fun `Filter variables returns the same string if no variables are defined in it` () {
+    @Test fun `Filter variables returns the same string if no variables are defined in it`() {
         val template = "User no vars"
 
-        assert (template.filterVars() == template)
-        assert (template.filterVars("vars" to "value") == template)
-        assert (template.filterVars(mapOf<Any, Any>()) == template)
+        assertEquals(template, template.filterVars())
+        assertEquals(template, template.filterVars("vars" to "value"))
+        assertEquals(template, template.filterVars(mapOf<Any, Any>()))
     }
 
-    @Test fun `Filter variables returns the same string if variable values are not found` () {
+    @Test fun `Filter variables returns the same string if variable values are not found`() {
         val template = "User #{user}"
 
-        assert (template.filterVars("key" to "value") == template)
+        assertEquals(template, template.filterVars("key" to "value"))
     }
 
-    @Test fun `Filter variables ignores empty parameters` () {
+    @Test fun `Filter variables ignores empty parameters`() {
         val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars(
             null to "Void",
-            "" to "John",
-            "email" to "john@example.co"
-        )
-
-        assert(result == "john@example.co: User {{user}} aka {{user}} <john@example.co>")
-    }
-
-    @Test fun `Filter variables replaces all occurrences of variables with their values` () {
-        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars(
-            "user" to "John",
-            "email" to "john@example.co"
-        )
-
-        assert(result == "john@example.co: User John aka John <john@example.co>")
-    }
-
-    @Test fun `Filter returns the given string if no parameters are set` () {
-        val template = "User #{user}"
-
-        assert(template.filter("#{", "}") == template)
-    }
-
-    @Test fun `Filter returns the same string if no variables are defined in it` () {
-        val template = "User no vars"
-
-        assert(template.filter("#{", "}") == template)
-        assert(template.filter("#{", "}", "vars" to "value") == template)
-    }
-
-    @Test fun `Filter returns the same string if variable values are not found` () {
-        val template = "User #{user}"
-
-        assert(template.filter("#{", "}", "key" to "value") == template)
-    }
-
-    @Test fun `Filter ignores empty parameters` () {
-        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filter("{{", "}}",
             "" to "John",
             "email" to "john@example.co"
         )
@@ -103,8 +66,8 @@ internal class StringsTest {
         assertEquals("john@example.co: User {{user}} aka {{user}} <john@example.co>", result)
     }
 
-    @Test fun `Filter replaces all occurrences of variables with their values` () {
-        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filter("{{", "}}",
+    @Test fun `Filter variables replaces all occurrences of variables with their values`() {
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars(
             "user" to "John",
             "email" to "john@example.co"
         )
@@ -112,18 +75,57 @@ internal class StringsTest {
         assertEquals("john@example.co: User John aka John <john@example.co>", result)
     }
 
-    @Test fun `Converting empty text to camel case fails` () {
-        assert ("".snakeToCamel () == "")
+    @Test fun `Filter returns the given string if no parameters are set`() {
+        val template = "User #{user}"
+
+        assertEquals(template, template.filter("#{", "}"))
     }
 
-    @Test fun `Converting valid snake case texts to camel case succeed` () {
-        assert ("alfa_beta".snakeToCamel () == "alfaBeta")
-        assert ("alfa__beta".snakeToCamel () == "alfaBeta")
-        assert ("alfa___beta".snakeToCamel () == "alfaBeta")
+    @Test fun `Filter returns the same string if no variables are defined in it`() {
+        val template = "User no vars"
+
+        assertEquals(template, template.filter("#{", "}"))
+        assertEquals(template, template.filter("#{", "}", "vars" to "value"))
     }
 
-    @Test fun `Converting valid camel case texts to snake case succeed` () {
-        assert ("alfaBeta".camelToSnake () == "alfa_beta")
+    @Test fun `Filter returns the same string if variable values are not found`() {
+        val template = "User #{user}"
+
+        assertEquals(template, template.filter("#{", "}", "key" to "value"))
+    }
+
+    @Test fun `Filter ignores empty parameters`() {
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filter(
+            "{{", "}}",
+            "" to "John",
+            "email" to "john@example.co"
+        )
+
+        assertEquals("john@example.co: User {{user}} aka {{user}} <john@example.co>", result)
+    }
+
+    @Test fun `Filter replaces all occurrences of variables with their values`() {
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filter(
+            "{{", "}}",
+            "user" to "John",
+            "email" to "john@example.co"
+        )
+
+        assertEquals("john@example.co: User John aka John <john@example.co>", result)
+    }
+
+    @Test fun `Converting empty text to camel case fails`() {
+        assertEquals("", "".snakeToCamel())
+    }
+
+    @Test fun `Converting valid snake case texts to camel case succeed`() {
+        assertEquals("alfaBeta", "alfa_beta".snakeToCamel())
+        assertEquals("alfaBeta", "alfa__beta".snakeToCamel())
+        assertEquals("alfaBeta", "alfa___beta".snakeToCamel())
+    }
+
+    @Test fun `Converting valid camel case texts to snake case succeed`() {
+        assertEquals("alfa_beta", "alfaBeta".camelToSnake())
     }
 
     @Test fun `Banner logs the proper message`() {
@@ -132,7 +134,7 @@ internal class StringsTest {
         assert(banner.contains("*********"))
 
         banner = "".banner()
-        assert(banner == eol + eol)
+        assertEquals(eol + eol, banner)
 
         banner =
             """alfa
@@ -145,7 +147,7 @@ internal class StringsTest {
         assert(banner.contains("looong line"))
         assert(banner.contains("***********"))
 
-        assert(sequenceOf<Int>().maxOrElse(123) == 123)
+        assertEquals(123, sequenceOf<Int>().maxOrElse(123))
 
         val banner1 = "foo".banner(">")
         assert(banner1.contains("foo"))
@@ -160,36 +162,36 @@ internal class StringsTest {
 
     @Test fun `Normalize works as expected`() {
         val striped = "áéíóúñçÁÉÍÓÚÑÇ".stripAccents()
-        assert(striped == "aeiouncAEIOUNC")
+        assertEquals("aeiouncAEIOUNC", striped)
     }
 
     @Test fun `Utf8 returns proper characters`() {
-        assert(utf8(0xF0, 0x9F, 0x91, 0x8D) == "👍")
-        assert(utf8(0xF0, 0x9F, 0x91, 0x8E) == "👎")
+        assertEquals("👍", utf8(0xF0, 0x9F, 0x91, 0x8D))
+        assertEquals("👎", utf8(0xF0, 0x9F, 0x91, 0x8E))
     }
 
     @Test fun `Indent works as expected`() {
-        assert(" text ".prependIndent() == "     text ")
-        assert(" text ".prependIndent(0) == " text ")
-        assert(" text ".prependIndent(0, "·") == " text ")
-        assert(" text ".prependIndent(1) == "  text ")
-        assert(" text ".prependIndent(1, "") == " text ")
-        assert(" text ".prependIndent(1, "·") == "· text ")
-        assert(" text ".prependIndent(2, "·") == "·· text ")
-        assert(" text ".prependIndent(1, "·*") == "·* text ")
-        assert(" text ".prependIndent(2, "·*") == "·*·* text ")
-        assert("·*text ".prependIndent(2, "·*") == "·*·*·*text ")
+        assertEquals("     text ", " text ".prependIndent())
+        assertEquals(" text ", " text ".prependIndent(0))
+        assertEquals(" text ", " text ".prependIndent(0, "·"))
+        assertEquals("  text ", " text ".prependIndent(1))
+        assertEquals(" text ", " text ".prependIndent(1, ""))
+        assertEquals("· text ", " text ".prependIndent(1, "·"))
+        assertEquals("·· text ", " text ".prependIndent(2, "·"))
+        assertEquals("·* text ", " text ".prependIndent(1, "·*"))
+        assertEquals("·*·* text ", " text ".prependIndent(2, "·*"))
+        assertEquals("·*·*·*text ", "·*text ".prependIndent(2, "·*"))
 
-        assert("line 1\nline 2".prependIndent() == "    line 1\n    line 2")
-        assert("line 1\nline 2".prependIndent(0) == "line 1\nline 2")
-        assert("line 1\nline 2".prependIndent(0, "·") == "line 1\nline 2")
-        assert("line 1\nline 2".prependIndent(1) == " line 1\n line 2")
-        assert("line 1\nline 2".prependIndent(1, "") == "line 1\nline 2")
-        assert("line 1\nline 2".prependIndent(1, "·") == "·line 1\n·line 2")
-        assert("line 1\nline 2".prependIndent(2, "·") == "··line 1\n··line 2")
-        assert("line 1\nline 2".prependIndent(1, "·*") == "·*line 1\n·*line 2")
-        assert("line 1\nline 2".prependIndent(2, "·*") == "·*·*line 1\n·*·*line 2")
-        assert("·*line 1\n·*line 2".prependIndent(2, "·*") == "·*·*·*line 1\n·*·*·*line 2")
+        assertEquals("    line 1\n    line 2", "line 1\nline 2".prependIndent())
+        assertEquals("line 1\nline 2", "line 1\nline 2".prependIndent(0))
+        assertEquals("line 1\nline 2", "line 1\nline 2".prependIndent(0, "·"))
+        assertEquals(" line 1\n line 2", "line 1\nline 2".prependIndent(1))
+        assertEquals("line 1\nline 2", "line 1\nline 2".prependIndent(1, ""))
+        assertEquals("·line 1\n·line 2", "line 1\nline 2".prependIndent(1, "·"))
+        assertEquals("··line 1\n··line 2", "line 1\nline 2".prependIndent(2, "·"))
+        assertEquals("·*line 1\n·*line 2", "line 1\nline 2".prependIndent(1, "·*"))
+        assertEquals("·*·*line 1\n·*·*line 2", "line 1\nline 2".prependIndent(2, "·*"))
+        assertEquals("·*·*·*line 1\n·*·*·*line 2", "·*line 1\n·*line 2".prependIndent(2, "·*"))
     }
 
     @Test fun `ANSI testing`() {

@@ -108,19 +108,25 @@ fun Regex.findGroups(text: String): List<MatchGroup> =
  * Transform the target string from snake case to camel case.
  */
 fun String.snakeToCamel(): String =
-    this.split("_")
-        .asSequence()
-        .filter(String::isNotEmpty)
-        .joinToString("", transform = { it.replaceFirstChar(Char::uppercase) })
-        .replaceFirstChar(Char::lowercase)
+    snakeToWords().wordsToCamel()
+
+fun String.snakeToWords(): List<String> =
+    this.split("_").filter(String::isNotEmpty).map(String::lowercase)
+
+fun List<String>.wordsToSnake(): String =
+    joinToString("_").replaceFirstChar(Char::lowercase)
+
+fun String.camelToWords(): List<String> =
+    split("(?=\\p{Upper}\\p{Lower})".toRegex()).map(String::lowercase)
+
+fun List<String>.wordsToCamel(): String =
+    joinToString("") { it.replaceFirstChar(Char::uppercase) }.replaceFirstChar(Char::lowercase)
 
 /**
  * Transform the target string from camel case to snake case.
  */
 fun String.camelToSnake(): String =
-    this.split("(?=\\p{Upper}\\p{Lower})".toRegex())
-        .joinToString("_", transform = String::lowercase)
-        .replaceFirstChar(Char::lowercase)
+    camelToWords().wordsToSnake()
 
 /**
  * Format the string as a banner with a delimiter above and below text. The character used to

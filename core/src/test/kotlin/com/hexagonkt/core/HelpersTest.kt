@@ -3,10 +3,6 @@ package com.hexagonkt.core
 import java.net.ServerSocket
 import org.junit.jupiter.api.Test
 import java.net.InetAddress
-import java.util.*
-import java.util.Currency.getAvailableCurrencies
-import java.util.Locale.getISOCountries
-import java.util.Locale.getISOLanguages
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -130,47 +126,5 @@ internal class HelpersTest {
         assertFailsWith<IllegalArgumentException> { retry(0, 1) {} }
         assertFailsWith<IllegalArgumentException> { retry(1, -1) {} }
         retry(1, 0) {} // Ok case
-    }
-
-    @Test fun `All JVM countries are contained in the codes set`() {
-        assertEquals(getISOCountries().toSet(), countryCodes)
-    }
-
-    @Test fun `All JVM languages are contained in the codes set`() {
-        assertEquals(getISOLanguages().toSet(), languageCodes)
-    }
-
-    @Test fun `All JVM currencies are contained in the codes set`() {
-        assertEquals(getAvailableCurrencies().map { it.currencyCode }.toSet(), currencyCodes)
-    }
-
-    @Test fun `Locales are created and checked correctly`() {
-        assertEquals(
-            "A non-blank language or country is required",
-            assertFailsWith<IllegalArgumentException> { localeOf() }.message
-        )
-        assertEquals(
-            "Language: '_' not allowed",
-            assertFailsWith<IllegalArgumentException> { localeOf("_") }.message
-        )
-        assertEquals(
-            "Country: '#' not allowed",
-            assertFailsWith<IllegalArgumentException> { localeOf(country = "#") }.message
-        )
-        assertEquals(
-            "Language: '_' not allowed",
-            assertFailsWith<IllegalArgumentException> { localeOf("_", "#") }.message
-        )
-
-        assertEquals(Locale("", "ES"), localeOf(country = "ES"))
-        assertEquals(Locale("en", ""), localeOf(language = "en"))
-
-        assertNull(localeOfOrNull())
-        assertNull(localeOfOrNull("_"))
-        assertNull(localeOfOrNull(country = "#"))
-        assertNull(localeOfOrNull("_", "#"))
-
-        assertEquals(Locale("", "IT"), localeOfOrNull(country = "IT"))
-        assertEquals(Locale("fr", ""), localeOfOrNull(language = "fr"))
     }
 }

@@ -155,8 +155,6 @@ fun <V> notEmpty(value: V?): Boolean {
     }
 }
 
-// TODO TEST FROM HERE
-
 inline fun <reified T : Any> Map<*, *>.getKey(key: KProperty1<*, *>): T? =
     this[key.name] as? T
 
@@ -208,8 +206,39 @@ fun Map<*, *>.getLists(key: KProperty1<*, *>): List<List<*>>? =
 fun Map<*, *>.getMaps(key: KProperty1<*, *>): List<Map<String, *>>? =
     getKey(key)
 
+fun Map<*, *>.getListOrEmpty(key: KProperty1<*, *>): List<*> =
+    getList(key) ?: emptyList<Any>()
+
+fun Map<*, *>.getMapOrEmpty(key: KProperty1<*, *>): Map<String, *> =
+    getMap(key) ?: emptyMap<String, Any>()
+
+fun Map<*, *>.getIntsOrEmpty(key: KProperty1<*, *>): List<Int> =
+    getInts(key) ?: emptyList()
+
+fun Map<*, *>.getLongsOrEmpty(key: KProperty1<*, *>): List<Long> =
+    getLongs(key) ?: emptyList()
+
+fun Map<*, *>.getFloatsOrEmpty(key: KProperty1<*, *>): List<Float> =
+    getFloats(key) ?: emptyList()
+
+fun Map<*, *>.getDoublesOrEmpty(key: KProperty1<*, *>): List<Double> =
+    getDoubles(key) ?: emptyList()
+
+fun Map<*, *>.getBooleansOrEmpty(key: KProperty1<*, *>): List<Boolean> =
+    getBooleans(key) ?: emptyList()
+
+fun Map<*, *>.getStringsOrEmpty(key: KProperty1<*, *>): List<String> =
+    getStrings(key) ?: emptyList()
+
+fun Map<*, *>.getListsOrEmpty(key: KProperty1<*, *>): List<List<*>> =
+    getLists(key) ?: emptyList()
+
+fun Map<*, *>.getMapsOrEmpty(key: KProperty1<*, *>): List<Map<String, *>> =
+    getMaps(key) ?: emptyList()
+
 inline fun <reified T : Any> Map<*, *>.requireKey(key: KProperty1<*, *>): T =
-    getKey(key) ?: error("$key key not found, or wrong type (must be ${key::class.qualifiedName})")
+    getKey(key)
+        ?: error("'${key.name}' key not found, or wrong type (must be ${T::class.qualifiedName})")
 
 fun Map<*, *>.requireInt(key: KProperty1<*, *>): Int =
     requireKey(key)
