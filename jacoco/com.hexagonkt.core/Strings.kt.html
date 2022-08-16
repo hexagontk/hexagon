@@ -108,19 +108,25 @@ fun Regex.findGroups(text: String): List&lt;MatchGroup&gt; =
  * Transform the target string from snake case to camel case.
  */
 fun String.snakeToCamel(): String =
-<span class="fc" id="L111">    this.split(&quot;_&quot;)</span>
-<span class="fc" id="L112">        .asSequence()</span>
-<span class="fc" id="L113">        .filter(String::isNotEmpty)</span>
-<span class="pc bpc" id="L114" title="2 of 4 branches missed.">        .joinToString(&quot;&quot;, transform = { it.replaceFirstChar(Char::uppercase) })</span>
-<span class="fc bfc" id="L115" title="All 4 branches covered.">        .replaceFirstChar(Char::lowercase)</span>
+<span class="fc" id="L111">    snakeToWords().wordsToCamel()</span>
+
+fun String.snakeToWords(): List&lt;String&gt; =
+<span class="fc bfc" id="L114" title="All 4 branches covered.">    this.split(&quot;_&quot;).filter(String::isNotEmpty).map(String::lowercase)</span>
+
+fun List&lt;String&gt;.wordsToSnake(): String =
+<span class="pc bpc" id="L117" title="2 of 4 branches missed.">    joinToString(&quot;_&quot;).replaceFirstChar(Char::lowercase)</span>
+
+fun String.camelToWords(): List&lt;String&gt; =
+<span class="fc" id="L120">    split(&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex()).map(String::lowercase)</span>
+
+fun List&lt;String&gt;.wordsToCamel(): String =
+<span class="pc bpc" id="L123" title="2 of 8 branches missed.">    joinToString(&quot;&quot;) { it.replaceFirstChar(Char::uppercase) }.replaceFirstChar(Char::lowercase)</span>
 
 /**
  * Transform the target string from camel case to snake case.
  */
 fun String.camelToSnake(): String =
-<span class="fc" id="L121">    this.split(&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex())</span>
-<span class="fc" id="L122">        .joinToString(&quot;_&quot;, transform = String::lowercase)</span>
-<span class="pc bpc" id="L123" title="2 of 4 branches missed.">        .replaceFirstChar(Char::lowercase)</span>
+<span class="fc" id="L129">    camelToWords().wordsToSnake()</span>
 
 /**
  * Format the string as a banner with a delimiter above and below text. The character used to
@@ -128,18 +134,18 @@ fun String.camelToSnake(): String =
  *
  * @param bannerDelimiter Delimiter char for banners.
  */
-<span class="fc" id="L131">fun String.banner(bannerDelimiter: String = &quot;*&quot;): String =</span>
-<span class="fc" id="L132">    bannerDelimiter</span>
-<span class="fc" id="L133">        .repeat(this</span>
-<span class="fc" id="L134">            .lines()</span>
-<span class="fc" id="L135">            .asSequence()</span>
-<span class="fc" id="L136">            .map { it.length }</span>
-<span class="fc" id="L137">            .maxOrElse(0)</span>
+<span class="fc" id="L137">fun String.banner(bannerDelimiter: String = &quot;*&quot;): String =</span>
+<span class="fc" id="L138">    bannerDelimiter</span>
+<span class="fc" id="L139">        .repeat(this</span>
+<span class="fc" id="L140">            .lines()</span>
+<span class="fc" id="L141">            .asSequence()</span>
+<span class="fc" id="L142">            .map { it.length }</span>
+<span class="fc" id="L143">            .maxOrElse(0)</span>
         )
-<span class="fc" id="L139">        .let { &quot;$it$eol$this$eol$it&quot; }</span>
+<span class="fc" id="L145">        .let { &quot;$it$eol$this$eol$it&quot; }</span>
 
 fun String.stripAnsi(): String =
-<span class="fc" id="L142">    replace(Ansi.regex, &quot;&quot;)</span>
+<span class="fc" id="L148">    replace(Ansi.regex, &quot;&quot;)</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -148,7 +154,7 @@ fun String.stripAnsi(): String =
  * @return .
  */
 fun String.stripAccents(): String =
-<span class="fc" id="L151">    normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
+<span class="fc" id="L157">    normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -157,7 +163,7 @@ fun String.stripAccents(): String =
  * @return .
  */
 fun String.toStream(): InputStream =
-<span class="fc" id="L160">    ByteArrayInputStream(this.toByteArray())</span>
+<span class="fc" id="L166">    ByteArrayInputStream(this.toByteArray())</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -166,7 +172,7 @@ fun String.toStream(): InputStream =
  * @return .
  */
 fun utf8(vararg bytes: Int): String =
-<span class="fc" id="L169">    String(bytes.map(Int::toByte).toByteArray())</span>
+<span class="fc" id="L175">    String(bytes.map(Int::toByte).toByteArray())</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -176,9 +182,9 @@ fun utf8(vararg bytes: Int): String =
  * @param pad .
  * @return .
  */
-<span class="fc" id="L179">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;): String =</span>
-<span class="fc" id="L180">    this.prependIndent(pad.repeat(count))</span>
+<span class="fc" id="L185">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;): String =</span>
+<span class="fc" id="L186">    this.prependIndent(pad.repeat(count))</span>
 
 internal fun Sequence&lt;Int&gt;.maxOrElse(fallback: Int): Int =
-<span class="fc bfc" id="L183" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
