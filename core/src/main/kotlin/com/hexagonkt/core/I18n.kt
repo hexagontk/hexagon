@@ -99,7 +99,7 @@ fun parseLocale(languageCountry: String): Locale =
 
 fun parseLocaleOrNull(languageCountry: String): Locale? =
     try {
-        localeOf(languageCountry)
+        parseLocale(languageCountry)
     }
     catch (_: IllegalArgumentException) {
         null
