@@ -254,6 +254,7 @@ internal class DataTest {
         assertNull(m.getString(DataClass::q))
         assertNull(m.getFloat(DataClass::a))
 
+        assertEquals(1, m["a"])
         assertEquals(1, m.getInt(DataClass::a))
         assertEquals(2L, m.getLong(DataClass::b))
         assertEquals(3.1F, m.getFloat(DataClass::c))
@@ -280,6 +281,7 @@ internal class DataTest {
         assertEquals("text", m.requireString(DataClass::f))
         assertEquals(listOf("a", "b"), m.requireList(DataClass::g))
         assertEquals(mapOf("c" to 0, "d" to true), m.requireMap(DataClass::h))
+        assertEquals(mapOf("c" to 0, "d" to true), m["h"])
 
         assertEquals(listOf(1), m.requireInts(DataClass::i))
         assertEquals(listOf(2L), m.requireLongs(DataClass::j))
@@ -290,6 +292,60 @@ internal class DataTest {
         assertEquals(listOf(listOf("a", "b")), m.requireLists(DataClass::o))
         assertEquals(listOf(mapOf("c" to 0, "d" to true)), m.requireMaps(DataClass::p))
 
-        assertFailsWith<IllegalStateException> { m.requireKey(DataClass::q) }
+        val exception = assertFailsWith<IllegalStateException> { m.requireKey<Int>(DataClass::q) }
+        assertEquals("'q' key not found, or wrong type (must be kotlin.Int)", exception.message)
+    }
+
+    @Test fun `Utilities to map data lists of objects works correctly`() {
+        data class DataClass(
+            val g: List<*>,
+            val h: Map<*, *>,
+            val i: List<Int>,
+            val j: List<Long>,
+            val k: List<Float>,
+            val l: List<Double>,
+            val m: List<Boolean>,
+            val n: List<String>,
+            val o: List<List<*>>,
+            val p: List<Map<*, *>>,
+            val q: Int,
+        )
+
+        val m = fieldsMapOfNotNull(
+            DataClass::g to listOf("a", "b"),
+            DataClass::h to mapOf("c" to 0, "d" to true),
+            DataClass::i to listOf(1),
+            DataClass::j to listOf(2L),
+            DataClass::k to listOf(3.1F),
+            DataClass::l to listOf(4.2),
+            DataClass::m to listOf(true),
+            DataClass::n to listOf("text"),
+            DataClass::o to listOf(listOf("a", "b")),
+            DataClass::p to listOf(mapOf("c" to 0, "d" to true)),
+        )
+
+        assertEquals(listOf("a", "b"), m.getListOrEmpty(DataClass::g))
+        assertEquals(mapOf("c" to 0, "d" to true), m.getMapOrEmpty(DataClass::h))
+        assertEquals(listOf(1), m.getIntsOrEmpty(DataClass::i))
+        assertEquals(listOf(2L), m.getLongsOrEmpty(DataClass::j))
+        assertEquals(listOf(3.1F), m.getFloatsOrEmpty(DataClass::k))
+        assertEquals(listOf(4.2), m.getDoublesOrEmpty(DataClass::l))
+        assertEquals(listOf(true), m.getBooleansOrEmpty(DataClass::m))
+        assertEquals(listOf("text"), m.getStringsOrEmpty(DataClass::n))
+        assertEquals(listOf(listOf("a", "b")), m.getListsOrEmpty(DataClass::o))
+        assertEquals(listOf(mapOf("c" to 0, "d" to true)), m.getMapsOrEmpty(DataClass::p))
+
+        val m2= fieldsMapOfNotNull(DataClass::q to 1)
+
+        assertEquals(emptyList<Any>(), m2.getListOrEmpty(DataClass::g))
+        assertEquals(emptyMap<String, Any>(), m2.getMapOrEmpty(DataClass::h))
+        assertEquals(emptyList(), m2.getIntsOrEmpty(DataClass::i))
+        assertEquals(emptyList(), m2.getLongsOrEmpty(DataClass::j))
+        assertEquals(emptyList(), m2.getFloatsOrEmpty(DataClass::k))
+        assertEquals(emptyList(), m2.getDoublesOrEmpty(DataClass::l))
+        assertEquals(emptyList(), m2.getBooleansOrEmpty(DataClass::m))
+        assertEquals(emptyList(), m2.getStringsOrEmpty(DataClass::n))
+        assertEquals(emptyList(), m2.getListsOrEmpty(DataClass::o))
+        assertEquals(emptyList(), m2.getMapsOrEmpty(DataClass::p))
     }
 }
