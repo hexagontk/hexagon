@@ -5,7 +5,7 @@ description: Install ImageMagick 7 (GitHub runners have ImageMagick 6).
 runs:
   using: composite
   steps:
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       with:
         key: ${{ runner.os }}-imagemagick-${{ hashFiles('assets/*.gradle*') }}
         restore-keys: ${{ runner.os }}-imagemagick-
