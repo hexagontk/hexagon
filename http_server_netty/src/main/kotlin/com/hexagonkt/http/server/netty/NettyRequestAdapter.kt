@@ -23,7 +23,7 @@ class NettyRequestAdapter(
 ) : HttpServerRequestPort {
 
     override val accept: List<ContentType> by lazy {
-        req.headers().getAll(ACCEPT).map { parseContentType(it) }
+        req.headers().getAll(ACCEPT).flatMap { it.split(",") }.map { parseContentType(it) }
     }
 
     override val contentLength: Long by lazy {
@@ -113,4 +113,6 @@ class NettyRequestAdapter(
     override val contentType: ContentType? by lazy {
         req.headers()[CONTENT_TYPE]?.let { parseContentType(it) }
     }
+
+    override val authorization: Authorization? by lazy { authorization() }
 }

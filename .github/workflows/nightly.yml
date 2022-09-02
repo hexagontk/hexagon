@@ -18,7 +18,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check Out
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with: { ref: develop }
       - name: Build Project
         uses: ./.github/actions/gradle
@@ -37,7 +37,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check Out
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with: { ref: develop }
       - name: Create Sample Keystores
         uses: ./.github/actions/gradle
@@ -51,15 +51,15 @@ jobs:
 
       # SET UP
       - name: Check Out
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with: { ref: develop }
       - name: Install Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with: { java-version: 17, distribution: temurin }
       - name: Install ImageMagick
         uses: ./.github/actions/image_magick
       - name: Restore Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
@@ -92,7 +92,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check Out
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with: { ref: develop }
       - name: Test Publishing
         uses: ./.github/actions/gradle

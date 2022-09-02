@@ -1,6 +1,7 @@
 package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.CodedException
+import com.hexagonkt.core.disableChecks
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
@@ -9,6 +10,7 @@ import com.hexagonkt.core.media.ApplicationMedia.XML
 import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.*
@@ -36,7 +38,6 @@ import java.net.URL
 import kotlin.test.assertEquals
 
 @TestInstance(PER_CLASS)
-@Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class SamplesTest(
     val clientAdapter: () -> HttpClientPort,
     val serverAdapter: () -> HttpServerPort,
@@ -175,7 +176,6 @@ abstract class SamplesTest(
         }
     }
 
-    @Suppress("UNREACHABLE_CODE")
     @Test fun callbacks() {
         val server = HttpServer(serverAdapter()) {
             // callbackCall
@@ -218,11 +218,13 @@ abstract class SamplesTest(
                 // Common headers shortcuts
                 request.contentType              // Content type of request.body
                 request.accept                   // Client accepted content types
+                request.authorization            // Client authorization
                 request.userAgent()              // User agent (browser requests)
                 request.origin()                 // Origin (browser requests)
                 request.referer()                // Referer header (page that makes the request)
 
                 accept                           // Shortcut of `request.accept`
+                authorization                    // Shortcut of `request.authorization`
 
                 // Parameters
                 pathParameters                    // Map with all path parameters
@@ -562,5 +564,43 @@ abstract class SamplesTest(
         assertEquals(OK, ok.status)
         assertEquals("Callback result null null", ok.bodyString())
         // mockRequest
+    }
+
+    @Test fun customHeaders() {
+        disableChecks = true
+
+        val server = serve(serverAdapter()) {
+            get("/accept") { ok(accept.joinToString(":") { it.text }) }
+            get("/authorization") { ok(authorization?.let { "${it.type}:${it.value}" } ?: "empty") }
+        }
+
+        server.use { s ->
+            val baseUrl = URL("http://localhost:${s.runtimePort}")
+            HttpClient(clientAdapter(), baseUrl).use {
+                it.start()
+
+                val acceptHeader = Header("accept", "text/plain, text/html")
+                val acceptResponse = it.get("/accept", headers = HttpFields(acceptHeader))
+                assertEquals("text/plain:text/html", acceptResponse.bodyString())
+            }
+
+            val settings = HttpClientSettings(authorization = Authorization("basic", "value"))
+            HttpClient(clientAdapter(), baseUrl, settings).use {
+                it.start()
+
+                val acceptResponse = it.get("/authorization")
+                assertEquals("basic:value", acceptResponse.bodyString())
+
+                val request = HttpClientRequest(
+                    method = GET,
+                    path = "/authorization",
+                    authorization = Authorization("basic", "data")
+                )
+                val response = it.send(request)
+                assertEquals("basic:data", response.bodyString())
+            }
+        }
+
+        disableChecks = false
     }
 }

@@ -1,6 +1,7 @@
 package com.hexagonkt.http.client
 
 import com.hexagonkt.http.SslSettings
+import com.hexagonkt.http.model.Authorization
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpFields
@@ -13,5 +14,6 @@ data class HttpClientSettings(
     val useCookies: Boolean = true,
     val headers: HttpFields<Header> = HttpFields(),
     val insecure: Boolean = false,
-    val sslSettings: SslSettings? = null
+    val sslSettings: SslSettings? = null,
+    val authorization: Authorization? = null,
 )
