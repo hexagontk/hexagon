@@ -44,9 +44,8 @@ abstract class FiltersTest(
         }
 
         filter("/protected/*") {
-            val authorization = request.headers["authorization"]
-                ?: return@filter send(UNAUTHORIZED, "Unauthorized")
-            val credentials = authorization.removePrefix("Basic ")
+            val authorization = request.authorization ?: return@filter unauthorized("Unauthorized")
+            val credentials = authorization.value
             val userPassword = String(credentials.decodeBase64()).split(":")
 
             // Parameters set in call attributes are accessible in other filters and routes

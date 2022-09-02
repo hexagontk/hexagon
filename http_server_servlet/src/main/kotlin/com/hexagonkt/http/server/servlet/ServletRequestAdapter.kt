@@ -21,7 +21,11 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpSer
     }
 
     override val accept: List<ContentType> by lazy {
-        req.getHeaders("accept")?.toList()?.map { parseContentType(it) } ?: emptyList()
+        req.getHeaders("accept")
+            ?.toList()
+            ?.flatMap { it.split(",") }
+            ?.map { parseContentType(it) }
+            ?: emptyList()
     }
 
     override val contentLength: Long by lazy { req.contentLength.toLong() }
@@ -38,6 +42,7 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpSer
     override val host: String by lazy { req.remoteHost }
     override val port: Int by lazy { req.serverPort }
     override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }
+    override val authorization: Authorization? by lazy { authorization() }
 
     override val cookies: List<HttpCookie> by lazy {
         req.cookies

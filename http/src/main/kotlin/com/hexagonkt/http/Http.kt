@@ -15,7 +15,7 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 
-val checkedHeaders: List<String> = listOf("content-type", "accept", "set-cookie")
+val checkedHeaders: List<String> = listOf("content-type", "accept", "set-cookie", "authorization")
 
 val gmtZone: ZoneId = ZoneId.of("GMT")
 

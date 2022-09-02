@@ -116,6 +116,7 @@ class JettyClientAdapter : HttpClientPort {
 
         val settings = adapterHttpClient.settings
         val contentType = request.contentType ?: settings.contentType
+        val authorization = request.authorization ?: settings.authorization
 
         if (settings.useCookies)
             addCookies(adapterHttpClient, adapterJettyClient.cookieStore, request.cookies)
@@ -127,6 +128,8 @@ class JettyClientAdapter : HttpClientPort {
                 it.remove("accept-encoding") // Don't send encoding by default
                 if (contentType != null)
                     it.put("content-type", contentType.text)
+                if (authorization != null)
+                    it.put("authorization", authorization.text)
                 (settings.headers + request.headers).allValues.forEach { (k, v) -> it.put(k, v) }
             }
             .body(createBody(request))
