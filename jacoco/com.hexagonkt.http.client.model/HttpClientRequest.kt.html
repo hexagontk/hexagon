@@ -19,10 +19,11 @@ import com.hexagonkt.http.model.HttpProtocol.HTTP
 <span class="fc" id="L19">    override val cookies: List&lt;HttpCookie&gt; = emptyList(),</span>
 <span class="fc" id="L20">    override val contentType: ContentType? = null,</span>
 <span class="fc" id="L21">    override val accept: List&lt;ContentType&gt; = emptyList(),</span>
+<span class="fc" id="L22">    override val authorization: Authorization? = null,</span>
 ) : HttpRequest {
 
-<span class="fc" id="L24">    init {</span>
-<span class="fc" id="L25">        checkHeaders(headers)</span>
-<span class="fc" id="L26">    }</span>
-<span class="fc" id="L27">}</span>
+<span class="fc" id="L25">    init {</span>
+<span class="fc" id="L26">        checkHeaders(headers)</span>
+<span class="fc" id="L27">    }</span>
+<span class="fc" id="L28">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

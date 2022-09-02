@@ -22,10 +22,11 @@ import java.security.cert.X509Certificate
 <span class="fc" id="L22">    override val certificateChain: List&lt;X509Certificate&gt; = emptyList(),</span>
 <span class="fc" id="L23">    override val accept: List&lt;ContentType&gt; = emptyList(),</span>
 <span class="fc" id="L24">    override val contentLength: Long = -1L,</span>
+<span class="fc" id="L25">    override val authorization: Authorization? = null,</span>
 ) : HttpServerRequestPort {
 
-<span class="fc" id="L27">    init {</span>
-<span class="fc" id="L28">        checkHeaders(headers)</span>
-<span class="fc" id="L29">    }</span>
-<span class="fc" id="L30">}</span>
+<span class="fc" id="L28">    init {</span>
+<span class="fc" id="L29">        checkHeaders(headers)</span>
+<span class="fc" id="L30">    }</span>
+<span class="fc" id="L31">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

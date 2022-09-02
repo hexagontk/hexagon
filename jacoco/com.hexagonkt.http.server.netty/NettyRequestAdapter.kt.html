@@ -23,7 +23,7 @@ import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 ) : HttpServerRequestPort {
 
 <span class="fc" id="L25">    override val accept: List&lt;ContentType&gt; by lazy {</span>
-<span class="pc" id="L26">        req.headers().getAll(ACCEPT).map { parseContentType(it) }</span>
+<span class="fc" id="L26">        req.headers().getAll(ACCEPT).flatMap { it.split(&quot;,&quot;) }.map { parseContentType(it) }</span>
     }
 
 <span class="fc" id="L29">    override val contentLength: Long by lazy {</span>
@@ -113,5 +113,7 @@ import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 <span class="fc" id="L113">    override val contentType: ContentType? by lazy {</span>
 <span class="pc bpc" id="L114" title="1 of 2 branches missed.">        req.headers()[CONTENT_TYPE]?.let { parseContentType(it) }</span>
     }
+
+<span class="fc" id="L117">    override val authorization: Authorization? by lazy { authorization() }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -15,23 +15,71 @@ import java.net.URL
     val parts: List&lt;HttpPartPort&gt;                 // hash of multipart parts
     val formParameters: HttpFields&lt;FormParameter&gt;
     val accept: List&lt;ContentType&gt;
+    val authorization: Authorization?
 
     fun partsMap(): Map&lt;String, HttpPartPort&gt; =
-<span class="fc" id="L20">        parts.associateBy { it.name }</span>
+<span class="fc" id="L21">        parts.associateBy { it.name }</span>
 
     fun url(): URL =
-<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (queryParameters.isEmpty())</span>
-<span class="fc" id="L24">            URL(&quot;${protocol.schema}://$host:$port/$path&quot;)</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (queryParameters.isEmpty())</span>
+<span class="fc" id="L25">            URL(&quot;${protocol.schema}://$host:$port/$path&quot;)</span>
         else
-<span class="fc" id="L26">            URL(&quot;${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}&quot;)</span>
+<span class="fc" id="L27">            URL(&quot;${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}&quot;)</span>
 
     fun userAgent(): String? =
-<span class="fc" id="L29">        headers[&quot;user-agent&quot;]</span>
+<span class="fc" id="L30">        headers[&quot;user-agent&quot;]</span>
 
     fun referer(): String? =
-<span class="fc" id="L32">        headers[&quot;referer&quot;]</span>
+<span class="fc" id="L33">        headers[&quot;referer&quot;]</span>
 
     fun origin(): String? =
-<span class="fc" id="L35">        headers[&quot;origin&quot;]</span>
-<span class="fc" id="L36">}</span>
+<span class="fc" id="L36">        headers[&quot;origin&quot;]</span>
+
+    fun authorization(): Authorization? =
+<span class="fc" id="L39">        headers[&quot;authorization&quot;]</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            ?.split(&quot; &quot;, limit = 2)</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            ?.let {</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">                if (it.size == 2) it</span>
+<span class="nc" id="L43">                else error(&quot;Authorization header must have two words (&lt;type&gt; &lt;value&gt;): $it&quot;)</span>
+            }
+<span class="fc" id="L45">            ?.let { Authorization(it.first(), it.last()) }</span>
+<span class="fc" id="L46">}</span>
+
+<span class="fc" id="L48">data class Authorization(</span>
+<span class="fc" id="L49">    val type: String,</span>
+<span class="fc" id="L50">    val value: String,</span>
+) {
+<span class="fc" id="L52">    val text: String by lazy { &quot;$type $value&quot; }</span>
+}
+
+//object AuthorizationManager {
+//    var authorizers: Map&lt;String, Authorizer&gt; = emptyMap()
+//}
+//
+//interface Authorizer {
+//    val type: String
+//
+//    fun encode(data: Credential): Authorization
+//    fun decode(authorization: Authorization): Credential
+//}
+//
+//interface Credential
+//
+//class BasicAuthorizer : Authorizer {
+//
+//    override val type: String = &quot;basic&quot;
+//
+//    override fun encode(data: Credential): Authorization {
+//        TODO(&quot;Not yet implemented&quot;)
+//    }
+//
+//    override fun decode(authorization: Authorization): Credential {
+//        TODO(&quot;Not yet implemented&quot;)
+//    }
+//}
+//
+//data class BasicCredential(
+//    val user: String,
+//    val password: String,
+//) : Credential
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
