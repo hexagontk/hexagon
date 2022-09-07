@@ -12,15 +12,7 @@ jobs:
     steps:
       - name: Check Out
         uses: actions/checkout@v3
-#      - name: Build Project
-#        uses: ./.github/actions/gradle
-#      - name: Check Build
-#        run: ls -AlF core/build
-      - name: ImageMagick
-        shell: bash
-        run: |
-          sudo apt-get install imagemagick
-          #sudo apt-get install librsvg2-bin
-          which magick
-          magick --version
-          magick convert --help
+      - name: Build Project
+        uses: ./.github/actions/gradle
+      - name: Check Build
+        run: ls -AlF core/build
