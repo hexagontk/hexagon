@@ -4,8 +4,6 @@ name: Nightly
 on:
   schedule:
     - cron: "59 23 * * *"
-  push:
-    branches-ignore: [ master, release/** ]
 
 jobs:
   build:
