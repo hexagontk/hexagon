@@ -35,6 +35,7 @@ private void createPng(
 
     exec {
         commandLine(
+            "magick",
             "convert",
             "-gravity", "center",
             "-background", "transparent",
