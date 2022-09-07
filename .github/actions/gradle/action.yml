@@ -30,13 +30,14 @@ runs:
       with:
         java-version: ${{ inputs.java }}
         distribution: ${{ inputs.java_distribution }}
-    - uses: actions/cache@v3
-      with:
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
-        restore-keys: ${{ runner.os }}-gradle-
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
+        cache: gradle
+#    - uses: actions/cache@v3
+#      with:
+#        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+#        restore-keys: ${{ runner.os }}-gradle-
+#        path: |
+#          ~/.gradle/caches
+#          ~/.gradle/wrapper
 
     # PROCESS
     - run: ./gradlew ${{ inputs.tasks }}
@@ -46,8 +47,8 @@ runs:
       shell: bash
 
     # CLEAN UP
-    - shell: bash
-      run: |
-        ./gradlew --stop
-        sleep 3
-        rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+#    - shell: bash
+#      run: |
+#        ./gradlew --stop
+#        sleep 3
+#        rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
