@@ -19,6 +19,8 @@ jobs:
       - name: ImageMagick
         shell: bash
         run: |
+          sudo apt-get install imagemagick
+          #sudo apt-get install librsvg2-bin
           which magick
           magick --version
           magick convert --help
