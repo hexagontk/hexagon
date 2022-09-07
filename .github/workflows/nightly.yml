@@ -4,6 +4,8 @@ name: Nightly
 on:
   schedule:
     - cron: "59 23 * * *"
+  push:
+    branches-ignore: [ master, release/** ]
 
 jobs:
   build:
@@ -12,8 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # TODO Change for ubuntu-latest when 22.04 become the stable release
-        os: [ ubuntu-22.04, windows-latest, macos-latest ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -32,8 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # TODO Change for ubuntu-latest when 22.04 become the stable release
-        os: [ ubuntu-22.04, windows-latest, macos-latest ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: Sample Keystores (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -58,16 +58,16 @@ jobs:
       - name: Install Java
         uses: actions/setup-java@v3
         with: { java-version: 17, distribution: temurin, cache: gradle }
-#      - name: Install ImageMagick
-#        uses: ./.github/actions/image_magick
-#      - name: Restore Cache
-#        uses: actions/cache@v3
-#        with:
-#          key: ${{ runner.os }}-mkdocs-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
-#          restore-keys: ${{ runner.os }}-mkdocs-
-#          path: |
-#            ~/.local/bin
-#            ~/.local/lib/python*/site-packages
+      - name: Install ImageMagick
+        uses: ./.github/actions/image_magick
+      - name: Restore Cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-mkdocs-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+          restore-keys: ${{ runner.os }}-mkdocs-
+          path: |
+            ~/.local/bin
+            ~/.local/lib/python*/site-packages
 
       # PROCESS
       - name: Build Site
@@ -82,8 +82,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # TODO Change for ubuntu-latest when 22.04 become the stable release
-        os: [ ubuntu-22.04, windows-latest, macos-latest ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: Test Publishing (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
