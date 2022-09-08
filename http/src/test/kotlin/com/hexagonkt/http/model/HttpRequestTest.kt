@@ -36,7 +36,7 @@ internal class HttpRequestTest {
         override val headers: HttpFields<Header> get() = testHeaders
         override val contentType: ContentType get() = fail
         override val accept: List<ContentType> get() = fail
-        override val authorization: Authorization get() = fail
+        override val authorization: HttpAuthorization get() = fail
 
         override val cookies: List<HttpCookie> =
             listOf(HttpCookie("name1", "value1"), HttpCookie("name2", "value2"))

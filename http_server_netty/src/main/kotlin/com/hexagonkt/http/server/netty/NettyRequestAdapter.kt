@@ -35,7 +35,7 @@ class NettyRequestAdapter(
         HttpFields(queryStringDecoder.parameters().mapValues { (k, v) -> QueryParameter(k, v) })
     }
 
-    override val parts: List<HttpPartPort> by lazy {
+    override val parts: List<HttpPart> by lazy {
         HttpPostRequestDecoder(req).bodyHttpDatas.map {
             when (it) {
                 is FileUpload -> HttpPart(
@@ -114,5 +114,5 @@ class NettyRequestAdapter(
         req.headers()[CONTENT_TYPE]?.let { parseContentType(it) }
     }
 
-    override val authorization: Authorization? by lazy { authorization() }
+    override val authorization: HttpAuthorization? by lazy { authorization() }
 }

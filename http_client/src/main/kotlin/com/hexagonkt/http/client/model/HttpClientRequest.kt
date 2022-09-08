@@ -19,7 +19,7 @@ data class HttpClientRequest(
     override val cookies: List<HttpCookie> = emptyList(),
     override val contentType: ContentType? = null,
     override val accept: List<ContentType> = emptyList(),
-    override val authorization: Authorization? = null,
+    override val authorization: HttpAuthorization? = null,
 ) : HttpRequest {
 
     init {
