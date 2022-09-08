@@ -14,7 +14,7 @@ import java.lang.StringBuilder
 <span class="fc" id="L14">    private val partFileNameRe: Regex = &quot;.*name=\&quot;(.*?)\&quot;.*&quot;.toRegex()</span>
 
     // TODO Parts parsing is a hack, can be improved (a lot)
-<span class="fc" id="L17">    override val parts: List&lt;HttpPartPort&gt; by lazy {</span>
+<span class="fc" id="L17">    override val parts: List&lt;HttpPart&gt; by lazy {</span>
 <span class="fc" id="L18">        var partList: List&lt;HttpPart&gt; = emptyList()</span>
 <span class="fc" id="L19">        var partHeaders: HttpFields&lt;Header&gt; = HttpFields()</span>
 <span class="fc" id="L20">        val partBody = StringBuilder()</span>

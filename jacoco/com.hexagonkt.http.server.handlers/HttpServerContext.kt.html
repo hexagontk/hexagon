@@ -35,13 +35,13 @@ import java.util.concurrent.SubmissionPublisher
 <span class="fc" id="L35">    val port: Int by lazy { request.port }</span>
 <span class="fc" id="L36">    val path: String by lazy { request.path }</span>
 <span class="fc" id="L37">    val queryParameters: HttpFields&lt;QueryParameter&gt; by lazy { request.queryParameters }</span>
-<span class="fc" id="L38">    val parts: List&lt;HttpPartPort&gt; by lazy { request.parts }</span>
+<span class="fc" id="L38">    val parts: List&lt;HttpPart&gt; by lazy { request.parts }</span>
 <span class="fc" id="L39">    val formParameters: HttpFields&lt;FormParameter&gt; by lazy { request.formParameters }</span>
 <span class="fc" id="L40">    val accept: List&lt;ContentType&gt; by lazy { request.accept }</span>
-<span class="fc" id="L41">    val authorization: Authorization? by lazy { request.authorization }</span>
+<span class="fc" id="L41">    val authorization: HttpAuthorization? by lazy { request.authorization }</span>
 <span class="fc" id="L42">    val certificateChain: List&lt;X509Certificate&gt; by lazy { request.certificateChain }</span>
 
-<span class="fc" id="L44">    val partsMap: Map&lt;String, HttpPartPort&gt; by lazy { request.partsMap() }</span>
+<span class="fc" id="L44">    val partsMap: Map&lt;String, HttpPart&gt; by lazy { request.partsMap() }</span>
 <span class="fc" id="L45">    val url: URL by lazy { request.url() }</span>
 <span class="fc" id="L46">    val userAgent: String? by lazy { request.userAgent() }</span>
 <span class="fc" id="L47">    val referer: String? by lazy { request.referer() }</span>

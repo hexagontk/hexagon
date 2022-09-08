@@ -42,7 +42,7 @@ import jakarta.servlet.http.HttpServletRequest
 <span class="fc" id="L42">    override val host: String by lazy { req.remoteHost }</span>
 <span class="fc" id="L43">    override val port: Int by lazy { req.serverPort }</span>
 <span class="fc bfc" id="L44" title="All 4 branches covered.">    override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }</span>
-<span class="fc" id="L45">    override val authorization: Authorization? by lazy { authorization() }</span>
+<span class="fc" id="L45">    override val authorization: HttpAuthorization? by lazy { authorization() }</span>
 
 <span class="fc" id="L47">    override val cookies: List&lt;HttpCookie&gt; by lazy {</span>
 <span class="fc" id="L48">        req.cookies</span>

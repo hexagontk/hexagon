@@ -36,7 +36,7 @@ fun checkHeaders(headers: HttpFields&lt;Header&gt;) {
 <span class="fc bfc" id="L36" title="All 2 branches covered.">    check(invalidHeaders.isEmpty()) {</span>
 <span class="fc" id="L37">        val invalidHeadersText = invalidHeaders.joinToString(&quot;,&quot;) { &quot;'$it'&quot; }</span>
 
-<span class="fc" id="L39">        &quot;&quot;&quot;</span>
+        &quot;&quot;&quot;
         Special headers should be handled with their respective properties (i.e.: contentType)
 <span class="fc" id="L41">        instead setting them in the headers map. Ignored headers: $invalidHeadersText</span>
 <span class="fc" id="L42">        &quot;&quot;&quot;.trimIndent()</span>

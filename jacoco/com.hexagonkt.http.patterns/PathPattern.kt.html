@@ -12,7 +12,7 @@ interface PathPattern {
     fun extractParameters(requestUrl: String): Map&lt;String, String&gt;
 
     fun describe(): String =
-<span class="fc bfc" id="L15" title="All 2 branches covered.">        &quot;${type()}${if (prefix) &quot; (PREFIX)&quot; else &quot;&quot;} '$pattern'&quot;</span>
+        &quot;${type()}${if (prefix) &quot; (PREFIX)&quot; else &quot;&quot;} '$pattern'&quot;
 
     private fun type(): String =
 <span class="fc" id="L18">        javaClass.simpleName.removeSuffix(typeSuffix)</span>

@@ -1,33 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletRequestAdapterSync.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">ServletRequestAdapterSync.kt</span></div><h1>ServletRequestAdapterSync.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.http.model.*
+import com.hexagonkt.http.parseContentType
 import jakarta.servlet.MultipartConfigElement
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.Part
 
-<span class="fc" id="L7">internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletRequestAdapter(req) {</span>
+<span class="fc" id="L9">internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletRequestAdapter(req) {</span>
 
-<span class="fc" id="L9">    private val parameters: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
-<span class="fc" id="L10">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
+<span class="fc" id="L11">    private val parameters: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
+<span class="fc" id="L12">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
     }
 
-<span class="fc" id="L13">    override val parts: List&lt;HttpPartPort&gt; by lazy {</span>
-<span class="fc" id="L14">        req.setAttribute(&quot;org.eclipse.jetty.multipartConfig&quot;, multipartConfig)</span>
-<span class="fc" id="L15">        req.parts.map { ServletPartAdapter(it) }</span>
+<span class="fc" id="L15">    override val parts: List&lt;HttpPart&gt; by lazy {</span>
+<span class="fc" id="L16">        req.setAttribute(&quot;org.eclipse.jetty.multipartConfig&quot;, multipartConfig)</span>
+<span class="fc" id="L17">        req.parts.map { servletPartAdapter(it) }</span>
     }
 
-<span class="fc" id="L18">    override val formParameters: HttpFields&lt;FormParameter&gt; by lazy {</span>
-<span class="fc" id="L19">        req.setAttribute(&quot;org.eclipse.jetty.multipartConfig&quot;, multipartConfig)</span>
-<span class="fc" id="L20">        val fields = parameters</span>
-<span class="fc bfc" id="L21" title="All 4 branches covered.">            .filter { it.key !in queryParameters.httpFields.keys }</span>
-<span class="fc" id="L22">            .map { (k, v) -&gt; FormParameter(k, v) }</span>
+<span class="fc" id="L20">    override val formParameters: HttpFields&lt;FormParameter&gt; by lazy {</span>
+<span class="fc" id="L21">        req.setAttribute(&quot;org.eclipse.jetty.multipartConfig&quot;, multipartConfig)</span>
+<span class="fc" id="L22">        val fields = parameters</span>
+<span class="fc bfc" id="L23" title="All 4 branches covered.">            .filter { it.key !in queryParameters.httpFields.keys }</span>
+<span class="fc" id="L24">            .map { (k, v) -&gt; FormParameter(k, v) }</span>
 
-<span class="fc" id="L24">        HttpFields(fields)</span>
+<span class="fc" id="L26">        HttpFields(fields)</span>
     }
 
-<span class="fc" id="L27">    private val multipartConfig: MultipartConfigElement by lazy { MultipartConfigElement(&quot;/tmp&quot;) }</span>
+<span class="fc" id="L29">    private val multipartConfig: MultipartConfigElement by lazy { MultipartConfigElement(&quot;/tmp&quot;) }</span>
 
-<span class="fc" id="L29">    override val body: Any by lazy {</span>
-<span class="fc" id="L30">        req.inputStream.readAllBytes()</span>
+<span class="fc" id="L31">    override val body: Any by lazy {</span>
+<span class="fc" id="L32">        req.inputStream.readAllBytes()</span>
+    }
+
+    private fun servletPartAdapter(part: Part) : HttpPart {
+<span class="fc" id="L36">        val headerNames = part.headerNames.filterNotNull()</span>
+<span class="fc" id="L37">        return HttpPart(</span>
+<span class="fc" id="L38">            name = part.name,</span>
+<span class="fc" id="L39">            body = part.inputStream.readAllBytes(),</span>
+<span class="fc" id="L40">            headers = HttpFields(headerNames.map { Header(it, part.getHeaders(it).toList()) }),</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            contentType = part.contentType?.let { parseContentType(it) },</span>
+<span class="fc" id="L42">            size = part.size,</span>
+<span class="fc" id="L43">            submittedFileName = part.submittedFileName,</span>
+        )
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

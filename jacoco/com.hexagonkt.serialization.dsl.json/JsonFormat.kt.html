@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonFormat.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.serialization.dsl.json</a> &gt; <span class="el_source">JsonFormat.kt</span></div><h1>JsonFormat.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.serialization.dsl.json
+
+import com.dslplatform.json.DslJson
+import com.dslplatform.json.PrettifyOutputStream
+import com.dslplatform.json.runtime.Settings
+import com.hexagonkt.core.media.ApplicationMedia
+import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.serialization.SerializationFormat
+import java.io.InputStream
+import java.io.OutputStream
+
+<span class="pc" id="L12">open class JsonFormat(private val prettyPrint: Boolean = true) : SerializationFormat {</span>
+<span class="fc" id="L13">    override val textFormat: Boolean = true</span>
+<span class="fc" id="L14">    override val mediaType: MediaType = ApplicationMedia.JSON</span>
+
+    private val dslJson: DslJson&lt;Any&gt; =
+<span class="fc" id="L17">        DslJson(Settings.withRuntime())</span>
+
+    override fun serialize(instance: Any, output: OutputStream) {
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        val stream = if (prettyPrint) PrettifyOutputStream(output) else output</span>
+<span class="fc" id="L21">        dslJson.serialize(instance, stream)</span>
+<span class="fc" id="L22">    }</span>
+
+    override fun parse(input: InputStream): Any =
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        dslJson.deserialize(Any::class.java, input) ?: error(&quot;Error parsing input&quot;)</span>
+<span class="fc" id="L26">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

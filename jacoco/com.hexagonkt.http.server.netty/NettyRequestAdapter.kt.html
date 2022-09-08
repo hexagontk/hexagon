@@ -35,7 +35,7 @@ import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 <span class="fc" id="L35">        HttpFields(queryStringDecoder.parameters().mapValues { (k, v) -&gt; QueryParameter(k, v) })</span>
     }
 
-<span class="fc" id="L38">    override val parts: List&lt;HttpPartPort&gt; by lazy {</span>
+<span class="fc" id="L38">    override val parts: List&lt;HttpPart&gt; by lazy {</span>
 <span class="fc" id="L39">        HttpPostRequestDecoder(req).bodyHttpDatas.map {</span>
 <span class="fc" id="L40">            when (it) {</span>
 <span class="fc bfc" id="L41" title="All 2 branches covered.">                is FileUpload -&gt; HttpPart(</span>
@@ -114,6 +114,6 @@ import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 <span class="pc bpc" id="L114" title="1 of 2 branches missed.">        req.headers()[CONTENT_TYPE]?.let { parseContentType(it) }</span>
     }
 
-<span class="fc" id="L117">    override val authorization: Authorization? by lazy { authorization() }</span>
+<span class="fc" id="L117">    override val authorization: HttpAuthorization? by lazy { authorization() }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

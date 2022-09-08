@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpPart.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.model</a> &gt; <span class="el_source">HttpPart.kt</span></div><h1>HttpPart.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.model
 
 <span class="fc" id="L3">data class HttpPart (</span>
-<span class="fc" id="L4">    override val name: String,</span>
+<span class="fc" id="L4">    val name: String,</span>
 <span class="fc" id="L5">    override val body: Any,</span>
 <span class="fc" id="L6">    override val headers: HttpFields&lt;Header&gt; = HttpFields(),</span>
 <span class="fc" id="L7">    override val contentType: ContentType? = null,</span>
-<span class="fc" id="L8">    override val size: Long = -1L,</span>
-<span class="fc" id="L9">    override val submittedFileName: String? = null</span>
-) : HttpPartPort {
+<span class="fc" id="L8">    val size: Long = -1L,</span>
+<span class="fc" id="L9">    val submittedFileName: String? = null</span>
+) : HttpBase {
 
     constructor(name: String, value: String) :
 <span class="fc" id="L13">        this(name, value, size = value.toByteArray().size.toLong())</span>
