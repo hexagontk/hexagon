@@ -114,5 +114,5 @@ class NettyRequestAdapter(
         req.headers()[CONTENT_TYPE]?.let { parseContentType(it) }
     }
 
-    override val authorization: Authorization? by lazy { authorization() }
+    override val authorization: HttpAuthorization? by lazy { authorization() }
 }
