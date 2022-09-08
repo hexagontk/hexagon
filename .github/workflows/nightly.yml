@@ -55,17 +55,15 @@ jobs:
         with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v3
-        with: { java-version: 17, distribution: temurin }
+        with: { java-version: 17, distribution: temurin, cache: gradle }
       - name: Install ImageMagick
         uses: ./.github/actions/image_magick
       - name: Restore Cache
         uses: actions/cache@v3
         with:
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
+          key: ${{ runner.os }}-mkdocs-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+          restore-keys: ${{ runner.os }}-mkdocs-
           path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
             ~/.local/bin
             ~/.local/lib/python*/site-packages
 
@@ -75,10 +73,6 @@ jobs:
           ./gradlew --info build
           ./gradlew --info -x build buildSite
           ls -AlF site/build/site
-
-      # CLEAN UP
-      - name: Clean Gradle Cache
-        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
 
   test_publishing:
     defaults:

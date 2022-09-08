@@ -42,7 +42,7 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpSer
     override val host: String by lazy { req.remoteHost }
     override val port: Int by lazy { req.serverPort }
     override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }
-    override val authorization: Authorization? by lazy { authorization() }
+    override val authorization: HttpAuthorization? by lazy { authorization() }
 
     override val cookies: List<HttpCookie> by lazy {
         req.cookies

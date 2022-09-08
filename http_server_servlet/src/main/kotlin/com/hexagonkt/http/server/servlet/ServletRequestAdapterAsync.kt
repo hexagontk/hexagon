@@ -14,7 +14,7 @@ internal class ServletRequestAdapterAsync(
     private val partFileNameRe: Regex = ".*name=\"(.*?)\".*".toRegex()
 
     // TODO Parts parsing is a hack, can be improved (a lot)
-    override val parts: List<HttpPartPort> by lazy {
+    override val parts: List<HttpPart> by lazy {
         var partList: List<HttpPart> = emptyList()
         var partHeaders: HttpFields<Header> = HttpFields()
         val partBody = StringBuilder()

@@ -43,11 +43,9 @@ jobs:
       - name: Restore Cache
         uses: actions/cache@v3
         with:
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
+          key: ${{ runner.os }}-mkdocs-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+          restore-keys: ${{ runner.os }}-mkdocs-
           path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
             ~/.local/bin
             ~/.local/lib/python*/site-packages
 
@@ -70,7 +68,3 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: ./gradlew --info --no-daemon -x test release
-
-      # CLEAN UP
-      - name: Clean Gradle Cache
-        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}

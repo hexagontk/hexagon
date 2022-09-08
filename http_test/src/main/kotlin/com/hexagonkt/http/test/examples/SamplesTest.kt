@@ -584,7 +584,7 @@ abstract class SamplesTest(
                 assertEquals("text/plain:text/html", acceptResponse.bodyString())
             }
 
-            val settings = HttpClientSettings(authorization = Authorization("basic", "value"))
+            val settings = HttpClientSettings(authorization = HttpAuthorization("basic", "value"))
             HttpClient(clientAdapter(), baseUrl, settings).use {
                 it.start()
 
@@ -594,7 +594,7 @@ abstract class SamplesTest(
                 val request = HttpClientRequest(
                     method = GET,
                     path = "/authorization",
-                    authorization = Authorization("basic", "data")
+                    authorization = HttpAuthorization("basic", "data")
                 )
                 val response = it.send(request)
                 assertEquals("basic:data", response.bodyString())
