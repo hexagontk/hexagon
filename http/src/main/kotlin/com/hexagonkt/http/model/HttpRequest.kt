@@ -12,12 +12,12 @@ interface HttpRequest : HttpMessage {
     val port: Int                                 // 80
     val path: String                              // "/foo" servlet path + path info
     val queryParameters: HttpFields<QueryParameter>
-    val parts: List<HttpPartPort>                 // hash of multipart parts
+    val parts: List<HttpPart>                 // hash of multipart parts
     val formParameters: HttpFields<FormParameter>
     val accept: List<ContentType>
     val authorization: HttpAuthorization?
 
-    fun partsMap(): Map<String, HttpPartPort> =
+    fun partsMap(): Map<String, HttpPart> =
         parts.associateBy { it.name }
 
     fun url(): URL =

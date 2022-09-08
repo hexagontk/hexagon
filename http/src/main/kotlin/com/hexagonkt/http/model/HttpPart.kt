@@ -1,13 +1,13 @@
 package com.hexagonkt.http.model
 
 data class HttpPart (
-    override val name: String,
+    val name: String,
     override val body: Any,
     override val headers: HttpFields<Header> = HttpFields(),
     override val contentType: ContentType? = null,
-    override val size: Long = -1L,
-    override val submittedFileName: String? = null
-) : HttpPartPort {
+    val size: Long = -1L,
+    val submittedFileName: String? = null
+) : HttpBase {
 
     constructor(name: String, value: String) :
         this(name, value, size = value.toByteArray().size.toLong())

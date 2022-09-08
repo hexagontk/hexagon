@@ -35,13 +35,13 @@ data class HttpServerContext(
     val port: Int by lazy { request.port }
     val path: String by lazy { request.path }
     val queryParameters: HttpFields<QueryParameter> by lazy { request.queryParameters }
-    val parts: List<HttpPartPort> by lazy { request.parts }
+    val parts: List<HttpPart> by lazy { request.parts }
     val formParameters: HttpFields<FormParameter> by lazy { request.formParameters }
     val accept: List<ContentType> by lazy { request.accept }
     val authorization: HttpAuthorization? by lazy { request.authorization }
     val certificateChain: List<X509Certificate> by lazy { request.certificateChain }
 
-    val partsMap: Map<String, HttpPartPort> by lazy { request.partsMap() }
+    val partsMap: Map<String, HttpPart> by lazy { request.partsMap() }
     val url: URL by lazy { request.url() }
     val userAgent: String? by lazy { request.userAgent() }
     val referer: String? by lazy { request.referer() }
