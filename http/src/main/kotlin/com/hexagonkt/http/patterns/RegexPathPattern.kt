@@ -24,7 +24,6 @@ data class RegexPathPattern(val regex: Regex) : PathPattern {
         if (prefix == null) this
         else copy(regex = Regex(patternToRegex(prefix, true) + pattern))
 
-    @OptIn(ExperimentalStdlibApi::class)
     override fun matches(requestUrl: String): Boolean =
         if (prefix) regex.matchesAt(requestUrl, 0)
         else regex.matches(requestUrl)

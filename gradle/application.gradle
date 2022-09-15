@@ -6,6 +6,10 @@ apply(plugin: "application")
 
 classes.dependsOn("buildInfo")
 
+application {
+    mainClass = findProperty("applicationClass")
+}
+
 task("buildInfo") {
     group = "build"
     description =

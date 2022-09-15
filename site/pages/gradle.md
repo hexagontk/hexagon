@@ -105,6 +105,7 @@ To set up this script's parameters, check the [build variables section]. These h
 * mockkVersion: MockK mocking library version. If no value is supplied, Hexagon's version is taken.
 * junitVersion: JUnit version (5+), the default value is the toolkit version.
 * basePackage: module's base package (used by the Jacoco Report when using Kotlin Coding Standard).
+* jvmTarget: target JVM version (defines the bytecode version used). If not set, '11' will be used.
 
 [JUnit 5]: https://junit.org
 [MockK]: https://mockk.io
@@ -127,6 +128,7 @@ To set up this script's parameters, check the [build variables section]. These h
 
 * modules: comma separated list of modules to include in the generated JRE. By default:
   `java.logging,java.management`.
+* applicationClass (REQUIRED): fully qualified name of the main class of the application.
 
 To set up this script you need to add the main class name to your `build.gradle` file with the
 following code:
