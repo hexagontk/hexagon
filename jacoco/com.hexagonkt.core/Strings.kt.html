@@ -185,6 +185,9 @@ fun utf8(vararg bytes: Int): String =
 <span class="fc" id="L185">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;): String =</span>
 <span class="fc" id="L186">    this.prependIndent(pad.repeat(count))</span>
 
+fun String.toEnumValue(): String =
+<span class="fc" id="L189">    trim().uppercase().replace(&quot; &quot;, &quot;_&quot;)</span>
+
 internal fun Sequence&lt;Int&gt;.maxOrElse(fallback: Int): Int =
-<span class="fc bfc" id="L189" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

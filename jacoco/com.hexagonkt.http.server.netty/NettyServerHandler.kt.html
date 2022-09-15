@@ -7,7 +7,7 @@ import com.hexagonkt.http.server.model.HttpServerResponse
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelFutureListener.CLOSE
 import io.netty.channel.ChannelHandlerContext
-import io.netty.channel.SimpleChannelInboundHandler
+import io.netty.channel.ChannelInboundHandlerAdapter
 import io.netty.handler.codec.http.*
 import io.netty.handler.codec.http.HttpHeaderNames.*
 import io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE
@@ -18,43 +18,46 @@ import io.netty.handler.codec.http.cookie.DefaultCookie
 import io.netty.handler.codec.http.cookie.ServerCookieEncoder.STRICT
 import io.netty.handler.ssl.SslHandler
 import io.netty.handler.ssl.SslHandshakeCompletionEvent
+import java.lang.IllegalStateException
 import java.net.InetSocketAddress
 import java.security.cert.X509Certificate
 
-<span class="fc" id="L24">internal class NettyServerHandler(</span>
-<span class="fc" id="L25">    private val handlers: Map&lt;HttpMethod, PathHandler&gt;,</span>
-<span class="fc" id="L26">    private val sslHandler: SslHandler?,</span>
-<span class="fc" id="L27">) : SimpleChannelInboundHandler&lt;FullHttpRequest&gt;() {</span>
+<span class="fc" id="L25">internal class NettyServerHandler(</span>
+<span class="fc" id="L26">    private val handlers: Map&lt;HttpMethod, PathHandler&gt;,</span>
+<span class="fc" id="L27">    private val sslHandler: SslHandler?,</span>
+<span class="fc" id="L28">) : ChannelInboundHandlerAdapter() {</span>
 
-<span class="fc" id="L29">    private var certificates: List&lt;X509Certificate&gt; = emptyList()</span>
+<span class="fc" id="L30">    private var certificates: List&lt;X509Certificate&gt; = emptyList()</span>
 
-    @Suppress(&quot;deprecation&quot;) // Deprecated in ChannelHandler, not in SimpleChannelInboundHandler
-    override fun channelRead0(context: ChannelHandlerContext, nettyRequest: FullHttpRequest) {
-<span class="fc" id="L33">        val result = nettyRequest.decoderResult()</span>
-<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (result.isFailure)</span>
-<span class="nc" id="L35">            exceptionCaught(context, result.cause())</span>
+    override fun channelRead(context: ChannelHandlerContext, nettyRequest: Any) {
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        if (nettyRequest is FullHttpRequest) {</span>
+<span class="fc" id="L34">            val result = nettyRequest.decoderResult()</span>
 
-<span class="fc" id="L37">        val address = context.channel().remoteAddress() as InetSocketAddress</span>
-<span class="fc" id="L38">        val method = nettyRequest.method</span>
-<span class="fc" id="L39">        val request = NettyRequestAdapter(method, nettyRequest, certificates, address)</span>
-<span class="pc bpc" id="L40" title="2 of 4 branches missed.">        val response = handlers[method]?.process(request) ?: HttpServerResponse()</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">            if (result.isFailure)</span>
+<span class="nc" id="L37">                throw IllegalStateException(result.cause())</span>
 
-<span class="fc" id="L42">        writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))</span>
-<span class="fc" id="L43">    }</span>
+<span class="fc" id="L39">            val address = context.channel().remoteAddress() as InetSocketAddress</span>
+<span class="fc" id="L40">            val method = nettyRequest.method()</span>
+<span class="fc" id="L41">            val request = NettyRequestAdapter(method, nettyRequest, certificates, address)</span>
+<span class="pc bpc" id="L42" title="2 of 4 branches missed.">            val response = handlers[method]?.process(request) ?: HttpServerResponse()</span>
+
+<span class="fc" id="L44">            writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))</span>
+        }
+<span class="fc" id="L46">    }</span>
 
     override fun userEventTriggered(ctx: ChannelHandlerContext, evt: Any) {
-<span class="fc bfc" id="L46" title="All 4 branches covered.">        if (evt is SslHandshakeCompletionEvent &amp;&amp; sslHandler != null) {</span>
-<span class="fc" id="L47">            val peerCertificates = sslHandler.engine().session.peerCertificates</span>
-<span class="fc" id="L48">            certificates = peerCertificates.map { it as X509Certificate }</span>
+<span class="fc bfc" id="L49" title="All 4 branches covered.">        if (evt is SslHandshakeCompletionEvent &amp;&amp; sslHandler != null) {</span>
+<span class="fc" id="L50">            val peerCertificates = sslHandler.engine().session.peerCertificates</span>
+<span class="fc" id="L51">            certificates = peerCertificates.map { it as X509Certificate }</span>
         }
-<span class="fc" id="L50">    }</span>
+<span class="fc" id="L53">    }</span>
 
     @Suppress(&quot;OVERRIDE_DEPRECATION&quot;)
     override fun exceptionCaught(context: ChannelHandlerContext, cause: Throwable) {
-<span class="fc" id="L54">        val body = &quot;Failure: $cause\n&quot;</span>
-<span class="fc" id="L55">        val response = HttpServerResponse(body, status = ServerErrorStatus.INTERNAL_SERVER_ERROR)</span>
-<span class="fc" id="L56">        writeResponse(context, response, false)</span>
-<span class="fc" id="L57">    }</span>
+<span class="fc" id="L57">        val body = &quot;Failure: $cause\n&quot;</span>
+<span class="fc" id="L58">        val response = HttpServerResponse(body, status = ServerErrorStatus.INTERNAL_SERVER_ERROR)</span>
+<span class="fc" id="L59">        writeResponse(context, response, false)</span>
+<span class="fc" id="L60">    }</span>
 
     private fun writeResponse(
         context: ChannelHandlerContext,
@@ -62,104 +65,104 @@ import java.security.cert.X509Certificate
         keepAlive: Boolean,
     ) {
 
-<span class="fc" id="L65">        val buffer = Unpooled.copiedBuffer(bodyToBytes(hexagonResponse.body))</span>
-<span class="fc" id="L66">        val status = nettyStatus(hexagonResponse.status)</span>
-<span class="fc" id="L67">        val response = DefaultFullHttpResponse(HTTP_1_1, status, buffer)</span>
-<span class="fc" id="L68">        val headers = response.headers()</span>
+<span class="fc" id="L68">        val buffer = Unpooled.copiedBuffer(bodyToBytes(hexagonResponse.body))</span>
+<span class="fc" id="L69">        val status = nettyStatus(hexagonResponse.status)</span>
+<span class="fc" id="L70">        val response = DefaultFullHttpResponse(HTTP_1_1, status, buffer)</span>
+<span class="fc" id="L71">        val headers = response.headers()</span>
 
-<span class="fc" id="L70">        val hexagonHeaders = hexagonResponse.headers</span>
-<span class="fc bfc" id="L71" title="All 4 branches covered.">        if (hexagonHeaders.httpFields.isNotEmpty())</span>
-<span class="fc" id="L72">            hexagonHeaders.allValues.map { (k, v) -&gt; headers.add(k, v) }</span>
+<span class="fc" id="L73">        val hexagonHeaders = hexagonResponse.headers</span>
+<span class="fc bfc" id="L74" title="All 4 branches covered.">        if (hexagonHeaders.httpFields.isNotEmpty())</span>
+<span class="fc" id="L75">            hexagonHeaders.allValues.map { (k, v) -&gt; headers.add(k, v) }</span>
 
-<span class="fc" id="L74">        val hexagonCookies = hexagonResponse.cookies</span>
-<span class="fc bfc" id="L75" title="All 4 branches covered.">        if (hexagonCookies.isNotEmpty())</span>
-<span class="fc" id="L76">            headers[SET_COOKIE] = STRICT.encode(nettyCookies(hexagonCookies))</span>
+<span class="fc" id="L77">        val hexagonCookies = hexagonResponse.cookies</span>
+<span class="fc bfc" id="L78" title="All 4 branches covered.">        if (hexagonCookies.isNotEmpty())</span>
+<span class="fc" id="L79">            headers[SET_COOKIE] = STRICT.encode(nettyCookies(hexagonCookies))</span>
 
-<span class="fc" id="L78">        val contentType = hexagonResponse.contentType</span>
-<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (contentType != null)</span>
-<span class="fc" id="L80">            headers[CONTENT_TYPE] = contentType.text</span>
+<span class="fc" id="L81">        val contentType = hexagonResponse.contentType</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (contentType != null)</span>
+<span class="fc" id="L83">            headers[CONTENT_TYPE] = contentType.text</span>
 
-<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (keepAlive) {</span>
-<span class="fc" id="L83">            headers.setInt(CONTENT_LENGTH, response.content().readableBytes())</span>
-<span class="fc" id="L84">            headers[CONNECTION] = KEEP_ALIVE</span>
-<span class="fc" id="L85">            context.writeAndFlush(response)</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (keepAlive) {</span>
+<span class="fc" id="L86">            headers.setInt(CONTENT_LENGTH, response.content().readableBytes())</span>
+<span class="fc" id="L87">            headers[CONNECTION] = KEEP_ALIVE</span>
+<span class="fc" id="L88">            context.writeAndFlush(response)</span>
         }
         else {
-<span class="fc" id="L88">            context.writeAndFlush(response).addListener(CLOSE)</span>
+<span class="fc" id="L91">            context.writeAndFlush(response).addListener(CLOSE)</span>
         }
-<span class="fc" id="L90">    }</span>
+<span class="fc" id="L93">    }</span>
 
     private fun nettyCookies(hexagonCookies: List&lt;HttpCookie&gt;) =
-<span class="fc" id="L93">        hexagonCookies.map {</span>
-<span class="fc" id="L94">            DefaultCookie(it.name, it.value).apply {</span>
-<span class="fc bfc" id="L95" title="All 2 branches covered.">                if (it.maxAge != -1L)</span>
-<span class="fc" id="L96">                    setMaxAge(it.maxAge)</span>
-<span class="fc" id="L97">                isSecure = it.secure</span>
-<span class="fc" id="L98">            }</span>
-<span class="fc" id="L99">        }</span>
+<span class="fc" id="L96">        hexagonCookies.map {</span>
+<span class="fc" id="L97">            DefaultCookie(it.name, it.value).apply {</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">                if (it.maxAge != -1L)</span>
+<span class="fc" id="L99">                    setMaxAge(it.maxAge)</span>
+<span class="fc" id="L100">                isSecure = it.secure</span>
+<span class="fc" id="L101">            }</span>
+<span class="fc" id="L102">        }</span>
 
     internal fun nettyStatus(status: HttpStatus): HttpResponseStatus =
-<span class="fc" id="L102">        when (status) {</span>
-<span class="fc bfc" id="L103" title="All 2 branches covered.">            InformationStatus.CONTINUE -&gt; CONTINUE</span>
-<span class="fc bfc" id="L104" title="All 2 branches covered.">            InformationStatus.SWITCHING_PROTOCOLS -&gt; SWITCHING_PROTOCOLS</span>
-<span class="fc bfc" id="L105" title="All 2 branches covered.">            InformationStatus.PROCESSING -&gt; PROCESSING</span>
+<span class="fc" id="L105">        when (status) {</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            InformationStatus.CONTINUE -&gt; CONTINUE</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">            InformationStatus.SWITCHING_PROTOCOLS -&gt; SWITCHING_PROTOCOLS</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">            InformationStatus.PROCESSING -&gt; PROCESSING</span>
 
-<span class="fc bfc" id="L107" title="All 2 branches covered.">            SuccessStatus.OK -&gt; OK</span>
-<span class="fc bfc" id="L108" title="All 2 branches covered.">            SuccessStatus.CREATED -&gt; CREATED</span>
-<span class="fc bfc" id="L109" title="All 2 branches covered.">            SuccessStatus.ACCEPTED -&gt; ACCEPTED</span>
-<span class="fc bfc" id="L110" title="All 2 branches covered.">            SuccessStatus.NON_AUTHORITATIVE_INFORMATION -&gt; NON_AUTHORITATIVE_INFORMATION</span>
-<span class="fc bfc" id="L111" title="All 2 branches covered.">            SuccessStatus.NO_CONTENT -&gt; NO_CONTENT</span>
-<span class="fc bfc" id="L112" title="All 2 branches covered.">            SuccessStatus.RESET_CONTENT -&gt; RESET_CONTENT</span>
-<span class="fc bfc" id="L113" title="All 2 branches covered.">            SuccessStatus.PARTIAL_CONTENT -&gt; PARTIAL_CONTENT</span>
-<span class="fc bfc" id="L114" title="All 2 branches covered.">            SuccessStatus.MULTI_STATUS -&gt; MULTI_STATUS</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">            SuccessStatus.OK -&gt; OK</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">            SuccessStatus.CREATED -&gt; CREATED</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">            SuccessStatus.ACCEPTED -&gt; ACCEPTED</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">            SuccessStatus.NON_AUTHORITATIVE_INFORMATION -&gt; NON_AUTHORITATIVE_INFORMATION</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">            SuccessStatus.NO_CONTENT -&gt; NO_CONTENT</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">            SuccessStatus.RESET_CONTENT -&gt; RESET_CONTENT</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">            SuccessStatus.PARTIAL_CONTENT -&gt; PARTIAL_CONTENT</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">            SuccessStatus.MULTI_STATUS -&gt; MULTI_STATUS</span>
 
-<span class="fc bfc" id="L116" title="All 2 branches covered.">            RedirectionStatus.MULTIPLE_CHOICES -&gt; MULTIPLE_CHOICES</span>
-<span class="fc bfc" id="L117" title="All 2 branches covered.">            RedirectionStatus.MOVED_PERMANENTLY -&gt; MOVED_PERMANENTLY</span>
-<span class="fc bfc" id="L118" title="All 2 branches covered.">            RedirectionStatus.FOUND -&gt; FOUND</span>
-<span class="fc bfc" id="L119" title="All 2 branches covered.">            RedirectionStatus.SEE_OTHER -&gt; SEE_OTHER</span>
-<span class="fc bfc" id="L120" title="All 2 branches covered.">            RedirectionStatus.NOT_MODIFIED -&gt; NOT_MODIFIED</span>
-<span class="fc bfc" id="L121" title="All 2 branches covered.">            RedirectionStatus.USE_PROXY -&gt; USE_PROXY</span>
-<span class="fc bfc" id="L122" title="All 2 branches covered.">            RedirectionStatus.TEMPORARY_REDIRECT -&gt; TEMPORARY_REDIRECT</span>
-<span class="fc bfc" id="L123" title="All 2 branches covered.">            RedirectionStatus.PERMANENT_REDIRECT -&gt; PERMANENT_REDIRECT</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">            RedirectionStatus.MULTIPLE_CHOICES -&gt; MULTIPLE_CHOICES</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">            RedirectionStatus.MOVED_PERMANENTLY -&gt; MOVED_PERMANENTLY</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">            RedirectionStatus.FOUND -&gt; FOUND</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">            RedirectionStatus.SEE_OTHER -&gt; SEE_OTHER</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">            RedirectionStatus.NOT_MODIFIED -&gt; NOT_MODIFIED</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">            RedirectionStatus.USE_PROXY -&gt; USE_PROXY</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">            RedirectionStatus.TEMPORARY_REDIRECT -&gt; TEMPORARY_REDIRECT</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">            RedirectionStatus.PERMANENT_REDIRECT -&gt; PERMANENT_REDIRECT</span>
 
-<span class="fc bfc" id="L125" title="All 2 branches covered.">            ClientErrorStatus.BAD_REQUEST -&gt; BAD_REQUEST</span>
-<span class="fc bfc" id="L126" title="All 2 branches covered.">            ClientErrorStatus.NOT_FOUND -&gt; NOT_FOUND</span>
-<span class="fc bfc" id="L127" title="All 2 branches covered.">            ClientErrorStatus.UNAUTHORIZED -&gt; UNAUTHORIZED</span>
-<span class="fc bfc" id="L128" title="All 2 branches covered.">            ClientErrorStatus.PAYMENT_REQUIRED -&gt; PAYMENT_REQUIRED</span>
-<span class="fc bfc" id="L129" title="All 2 branches covered.">            ClientErrorStatus.FORBIDDEN -&gt; FORBIDDEN</span>
-<span class="fc bfc" id="L130" title="All 2 branches covered.">            ClientErrorStatus.METHOD_NOT_ALLOWED -&gt; METHOD_NOT_ALLOWED</span>
-<span class="fc bfc" id="L131" title="All 2 branches covered.">            ClientErrorStatus.NOT_ACCEPTABLE -&gt; NOT_ACCEPTABLE</span>
-<span class="fc bfc" id="L132" title="All 2 branches covered.">            ClientErrorStatus.PROXY_AUTHENTICATION_REQUIRED -&gt; PROXY_AUTHENTICATION_REQUIRED</span>
-<span class="fc bfc" id="L133" title="All 2 branches covered.">            ClientErrorStatus.REQUEST_TIMEOUT -&gt; REQUEST_TIMEOUT</span>
-<span class="fc bfc" id="L134" title="All 2 branches covered.">            ClientErrorStatus.CONFLICT -&gt; CONFLICT</span>
-<span class="fc bfc" id="L135" title="All 2 branches covered.">            ClientErrorStatus.GONE -&gt; GONE</span>
-<span class="fc bfc" id="L136" title="All 2 branches covered.">            ClientErrorStatus.LENGTH_REQUIRED -&gt; LENGTH_REQUIRED</span>
-<span class="fc bfc" id="L137" title="All 2 branches covered.">            ClientErrorStatus.PRECONDITION_FAILED -&gt; PRECONDITION_FAILED</span>
-<span class="fc bfc" id="L138" title="All 2 branches covered.">            ClientErrorStatus.URI_TOO_LONG -&gt; REQUEST_URI_TOO_LONG</span>
-<span class="fc bfc" id="L139" title="All 2 branches covered.">            ClientErrorStatus.UNSUPPORTED_MEDIA_TYPE -&gt; UNSUPPORTED_MEDIA_TYPE</span>
-<span class="fc bfc" id="L140" title="All 2 branches covered.">            ClientErrorStatus.RANGE_NOT_SATISFIABLE -&gt; REQUESTED_RANGE_NOT_SATISFIABLE</span>
-<span class="fc bfc" id="L141" title="All 2 branches covered.">            ClientErrorStatus.EXPECTATION_FAILED -&gt; EXPECTATION_FAILED</span>
-<span class="fc bfc" id="L142" title="All 2 branches covered.">            ClientErrorStatus.MISDIRECTED_REQUEST -&gt; MISDIRECTED_REQUEST</span>
-<span class="fc bfc" id="L143" title="All 2 branches covered.">            ClientErrorStatus.UNPROCESSABLE_CONTENT -&gt; UNPROCESSABLE_ENTITY</span>
-<span class="fc bfc" id="L144" title="All 2 branches covered.">            ClientErrorStatus.LOCKED -&gt; LOCKED</span>
-<span class="fc bfc" id="L145" title="All 2 branches covered.">            ClientErrorStatus.FAILED_DEPENDENCY -&gt; FAILED_DEPENDENCY</span>
-<span class="fc bfc" id="L146" title="All 2 branches covered.">            ClientErrorStatus.UPGRADE_REQUIRED -&gt; UPGRADE_REQUIRED</span>
-<span class="fc bfc" id="L147" title="All 2 branches covered.">            ClientErrorStatus.PRECONDITION_REQUIRED -&gt; PRECONDITION_REQUIRED</span>
-<span class="fc bfc" id="L148" title="All 2 branches covered.">            ClientErrorStatus.TOO_MANY_REQUESTS -&gt; TOO_MANY_REQUESTS</span>
-<span class="fc bfc" id="L149" title="All 2 branches covered.">            ClientErrorStatus.REQUEST_HEADER_FIELDS_TOO_LARGE -&gt; REQUEST_HEADER_FIELDS_TOO_LARGE</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">            ClientErrorStatus.BAD_REQUEST -&gt; BAD_REQUEST</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">            ClientErrorStatus.NOT_FOUND -&gt; NOT_FOUND</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">            ClientErrorStatus.UNAUTHORIZED -&gt; UNAUTHORIZED</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">            ClientErrorStatus.PAYMENT_REQUIRED -&gt; PAYMENT_REQUIRED</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">            ClientErrorStatus.FORBIDDEN -&gt; FORBIDDEN</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">            ClientErrorStatus.METHOD_NOT_ALLOWED -&gt; METHOD_NOT_ALLOWED</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">            ClientErrorStatus.NOT_ACCEPTABLE -&gt; NOT_ACCEPTABLE</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">            ClientErrorStatus.PROXY_AUTHENTICATION_REQUIRED -&gt; PROXY_AUTHENTICATION_REQUIRED</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">            ClientErrorStatus.REQUEST_TIMEOUT -&gt; REQUEST_TIMEOUT</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">            ClientErrorStatus.CONFLICT -&gt; CONFLICT</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">            ClientErrorStatus.GONE -&gt; GONE</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">            ClientErrorStatus.LENGTH_REQUIRED -&gt; LENGTH_REQUIRED</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            ClientErrorStatus.PRECONDITION_FAILED -&gt; PRECONDITION_FAILED</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">            ClientErrorStatus.URI_TOO_LONG -&gt; REQUEST_URI_TOO_LONG</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">            ClientErrorStatus.UNSUPPORTED_MEDIA_TYPE -&gt; UNSUPPORTED_MEDIA_TYPE</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">            ClientErrorStatus.RANGE_NOT_SATISFIABLE -&gt; REQUESTED_RANGE_NOT_SATISFIABLE</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">            ClientErrorStatus.EXPECTATION_FAILED -&gt; EXPECTATION_FAILED</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">            ClientErrorStatus.MISDIRECTED_REQUEST -&gt; MISDIRECTED_REQUEST</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">            ClientErrorStatus.UNPROCESSABLE_CONTENT -&gt; UNPROCESSABLE_ENTITY</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">            ClientErrorStatus.LOCKED -&gt; LOCKED</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">            ClientErrorStatus.FAILED_DEPENDENCY -&gt; FAILED_DEPENDENCY</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">            ClientErrorStatus.UPGRADE_REQUIRED -&gt; UPGRADE_REQUIRED</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">            ClientErrorStatus.PRECONDITION_REQUIRED -&gt; PRECONDITION_REQUIRED</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">            ClientErrorStatus.TOO_MANY_REQUESTS -&gt; TOO_MANY_REQUESTS</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">            ClientErrorStatus.REQUEST_HEADER_FIELDS_TOO_LARGE -&gt; REQUEST_HEADER_FIELDS_TOO_LARGE</span>
 
-<span class="fc bfc" id="L151" title="All 2 branches covered.">            ServerErrorStatus.INTERNAL_SERVER_ERROR -&gt; INTERNAL_SERVER_ERROR</span>
-<span class="fc bfc" id="L152" title="All 2 branches covered.">            ServerErrorStatus.NOT_IMPLEMENTED -&gt; NOT_IMPLEMENTED</span>
-<span class="fc bfc" id="L153" title="All 2 branches covered.">            ServerErrorStatus.BAD_GATEWAY -&gt; BAD_GATEWAY</span>
-<span class="fc bfc" id="L154" title="All 2 branches covered.">            ServerErrorStatus.SERVICE_UNAVAILABLE -&gt; SERVICE_UNAVAILABLE</span>
-<span class="fc bfc" id="L155" title="All 2 branches covered.">            ServerErrorStatus.GATEWAY_TIMEOUT -&gt; GATEWAY_TIMEOUT</span>
-<span class="fc bfc" id="L156" title="All 2 branches covered.">            ServerErrorStatus.HTTP_VERSION_NOT_SUPPORTED -&gt; HTTP_VERSION_NOT_SUPPORTED</span>
-<span class="fc bfc" id="L157" title="All 2 branches covered.">            ServerErrorStatus.VARIANT_ALSO_NEGOTIATES -&gt; VARIANT_ALSO_NEGOTIATES</span>
-<span class="fc bfc" id="L158" title="All 2 branches covered.">            ServerErrorStatus.INSUFFICIENT_STORAGE -&gt; INSUFFICIENT_STORAGE</span>
-<span class="fc bfc" id="L159" title="All 2 branches covered.">            ServerErrorStatus.NOT_EXTENDED -&gt; NOT_EXTENDED</span>
-<span class="fc bfc" id="L160" title="All 2 branches covered.">            ServerErrorStatus.NETWORK_AUTHENTICATION_REQUIRED -&gt; NETWORK_AUTHENTICATION_REQUIRED</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">            ServerErrorStatus.INTERNAL_SERVER_ERROR -&gt; INTERNAL_SERVER_ERROR</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">            ServerErrorStatus.NOT_IMPLEMENTED -&gt; NOT_IMPLEMENTED</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">            ServerErrorStatus.BAD_GATEWAY -&gt; BAD_GATEWAY</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">            ServerErrorStatus.SERVICE_UNAVAILABLE -&gt; SERVICE_UNAVAILABLE</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">            ServerErrorStatus.GATEWAY_TIMEOUT -&gt; GATEWAY_TIMEOUT</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">            ServerErrorStatus.HTTP_VERSION_NOT_SUPPORTED -&gt; HTTP_VERSION_NOT_SUPPORTED</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">            ServerErrorStatus.VARIANT_ALSO_NEGOTIATES -&gt; VARIANT_ALSO_NEGOTIATES</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">            ServerErrorStatus.INSUFFICIENT_STORAGE -&gt; INSUFFICIENT_STORAGE</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">            ServerErrorStatus.NOT_EXTENDED -&gt; NOT_EXTENDED</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">            ServerErrorStatus.NETWORK_AUTHENTICATION_REQUIRED -&gt; NETWORK_AUTHENTICATION_REQUIRED</span>
 
-<span class="fc" id="L162">            else -&gt; HttpResponseStatus(status.code, status.toString())</span>
-<span class="fc" id="L163">        }</span>
+<span class="fc" id="L165">            else -&gt; HttpResponseStatus(status.code, status.toString())</span>
+<span class="fc" id="L166">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
