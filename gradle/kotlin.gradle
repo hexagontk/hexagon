@@ -11,7 +11,7 @@ apply(plugin: "maven-publish")
 defaultTasks("build")
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.toVersion(findProperty("jvmTarget") ?: "11")
     targetCompatibility = sourceCompatibility
 }
 
@@ -36,7 +36,7 @@ repositories {
 
 dependencies {
     final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.12.4"
-    final String scriptJunitVersion = findProperty("junitVersion") ?: "5.8.2"
+    final String scriptJunitVersion = findProperty("junitVersion") ?: "5.9.0"
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
@@ -82,10 +82,10 @@ tasks.withType(JavaCompile) {
 }
 
 sourceSets.main.java.srcDirs = sourceSets.main.kotlin.srcDirs
-tasks.compileJava.destinationDirectory = tasks.compileKotlin.destinationDirectory
+tasks.compileJava.destinationDirectory.set(tasks.compileKotlin.destinationDirectory)
 
 tasks.compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
-tasks.compileKotlin.kotlinOptions.apiVersion = "1.6"
+tasks.compileKotlin.kotlinOptions.apiVersion = "1.7"
 
 tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
 tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
