@@ -200,4 +200,10 @@ internal class StringsTest {
         assertNotEquals(message, noAnsiMessage)
         assertContentEquals(noAnsiMessage.toByteArray(), "ANSI normal".toByteArray())
     }
+
+    @Test fun `Texts are translated properly to enum values`() {
+        val sources = listOf("A", "Ab", "ab c", "DE f", "  Gh Y  ")
+        val expected = listOf("A", "AB", "AB_C", "DE_F", "GH_Y")
+        assertEquals(expected, sources.map(String::toEnumValue))
+    }
 }

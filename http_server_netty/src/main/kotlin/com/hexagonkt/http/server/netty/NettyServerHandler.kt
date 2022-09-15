@@ -7,7 +7,7 @@ import com.hexagonkt.http.server.model.HttpServerResponse
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelFutureListener.CLOSE
 import io.netty.channel.ChannelHandlerContext
-import io.netty.channel.SimpleChannelInboundHandler
+import io.netty.channel.ChannelInboundHandlerAdapter
 import io.netty.handler.codec.http.*
 import io.netty.handler.codec.http.HttpHeaderNames.*
 import io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE
@@ -18,28 +18,31 @@ import io.netty.handler.codec.http.cookie.DefaultCookie
 import io.netty.handler.codec.http.cookie.ServerCookieEncoder.STRICT
 import io.netty.handler.ssl.SslHandler
 import io.netty.handler.ssl.SslHandshakeCompletionEvent
+import java.lang.IllegalStateException
 import java.net.InetSocketAddress
 import java.security.cert.X509Certificate
 
 internal class NettyServerHandler(
     private val handlers: Map<HttpMethod, PathHandler>,
     private val sslHandler: SslHandler?,
-) : SimpleChannelInboundHandler<FullHttpRequest>() {
+) : ChannelInboundHandlerAdapter() {
 
     private var certificates: List<X509Certificate> = emptyList()
 
-    @Suppress("deprecation") // Deprecated in ChannelHandler, not in SimpleChannelInboundHandler
-    override fun channelRead0(context: ChannelHandlerContext, nettyRequest: FullHttpRequest) {
-        val result = nettyRequest.decoderResult()
-        if (result.isFailure)
-            exceptionCaught(context, result.cause())
+    override fun channelRead(context: ChannelHandlerContext, nettyRequest: Any) {
+        if (nettyRequest is FullHttpRequest) {
+            val result = nettyRequest.decoderResult()
 
-        val address = context.channel().remoteAddress() as InetSocketAddress
-        val method = nettyRequest.method
-        val request = NettyRequestAdapter(method, nettyRequest, certificates, address)
-        val response = handlers[method]?.process(request) ?: HttpServerResponse()
+            if (result.isFailure)
+                throw IllegalStateException(result.cause())
 
-        writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))
+            val address = context.channel().remoteAddress() as InetSocketAddress
+            val method = nettyRequest.method()
+            val request = NettyRequestAdapter(method, nettyRequest, certificates, address)
+            val response = handlers[method]?.process(request) ?: HttpServerResponse()
+
+            writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))
+        }
     }
 
     override fun userEventTriggered(ctx: ChannelHandlerContext, evt: Any) {

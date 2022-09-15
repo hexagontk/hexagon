@@ -185,5 +185,8 @@ fun utf8(vararg bytes: Int): String =
 fun String.prependIndent(count: Int = 4, pad: String = " "): String =
     this.prependIndent(pad.repeat(count))
 
+fun String.toEnumValue(): String =
+    trim().uppercase().replace(" ", "_")
+
 internal fun Sequence<Int>.maxOrElse(fallback: Int): Int =
     this.maxOrNull() ?: fallback

@@ -1,30 +1,28 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>WS</title>
-  </head>
 
-  <body>
-    <script type="text/javascript">
-      var ws = new WebSocket('ws://localhost:8080/ws');
+<meta charset="utf-8">
+<title>WS</title>
 
-      ws.onmessage = function(event) {
-        var messageFromServer = event.data;
-        document.getElementById('output').append('received: ' + messageFromServer + '');
-      }
+<script type="text/javascript">
+  var ws = new WebSocket("ws://localhost:8080/ws");
 
-      function send(message) {
-        ws.send(message);
-      }
-    </script>
+  ws.onmessage = (event) => {
+    var messageFromServer = event.data;
+    document.getElementById("output").append(`received: ${messageFromServer}`);
+  }
 
-    <form onsubmit="return false;">
-      <input type="text" name="message" value="Hello, world!"/>
-      <input type="button" value="send web socket data" onclick="send(this.form.message.value)"/>
-    </form>
+  function send(message) {
+    ws.send(message);
+  }
+</script>
 
-    <div id="output"></div>
-  </body>
+<form onsubmit="return false">
+  <input type="text" name="message" value="Hi!"/>
+  <input type="button" value="Send Web Socket Data" onclick="send(this.form.message.value)"/>
+</form>
+
+<div id="output"></div>
+
 </html>
