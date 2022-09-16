@@ -33,10 +33,10 @@ internal class JettyTest {
         val session: Session = fut.get()
 
         session.remote.sendString("Hello")
-        Thread.sleep(100)
+        Thread.sleep(300)
         assertEquals("Hello_", result)
         session.remote.sendString("Goodbye")
-        Thread.sleep(100)
+        Thread.sleep(300)
         session.close()
         assertEquals("Goodbye_", result)
         server.stop()

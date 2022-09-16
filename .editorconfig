@@ -28,10 +28,6 @@ ij_any_method_annotation_wrap = off
 ij_any_parameter_annotation_wrap = off
 ij_any_variable_annotation_wrap = off
 
-# Change charset for Java properties (required by Java)
-[*.properties]
-charset = latin1
-
 # IntelliJ JSON specific rules
 [*.json]
 ij_json_space_after_colon = true
@@ -43,7 +39,7 @@ ij_json_spaces_within_brackets = true
 ij_json_wrap_long_lines = true
 
 # IntelliJ HTML formatting
-[*.html]
+[*.{html,htm}]
 ij_html_do_not_indent_children_of_tags = html
 
 # 4 space indentation
