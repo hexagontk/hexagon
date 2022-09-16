@@ -9,6 +9,7 @@ pom.xml.*
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
+*.versionsBackup
 
 # Gradle
 .gradle/
@@ -37,6 +38,7 @@ log/
 hs_err_pid*
 
 # Other Tools
+kotlin-js-store/
 node_modules/
 package-lock.json
 .env
@@ -44,3 +46,4 @@ package-lock.json
 # System Files
 .DS_Store
 Thumbs.db
+
