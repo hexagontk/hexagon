@@ -55,7 +55,7 @@ jobs:
         with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v3
-        with: { java-version: 11, distribution: temurin, cache: gradle }
+        with: { java-version: 17, distribution: temurin, cache: gradle }
       - name: Install ImageMagick
         uses: ./.github/actions/image_magick
       - name: Restore Cache
