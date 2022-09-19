@@ -4,6 +4,7 @@ import org.eclipse.jetty.websocket.api.Session
 import org.eclipse.jetty.websocket.api.StatusCode
 import org.eclipse.jetty.websocket.api.WebSocketAdapter
 import org.eclipse.jetty.websocket.client.WebSocketClient
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.net.URI
 import java.util.*
@@ -12,7 +13,9 @@ import kotlin.test.assertEquals
 
 internal class JettyTest {
 
-    @Test fun `HTTP call works OK`() {
+    @Test
+    @Disabled
+    fun `HTTP call works OK`() {
 
         main()
 
