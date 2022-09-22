@@ -16,6 +16,7 @@ import io.netty.handler.codec.http.HttpResponseStatus.*
 import io.netty.handler.codec.http.HttpVersion.HTTP_1_1
 import io.netty.handler.codec.http.cookie.DefaultCookie
 import io.netty.handler.codec.http.cookie.ServerCookieEncoder.STRICT
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory
 import io.netty.handler.ssl.SslHandler
 import io.netty.handler.ssl.SslHandshakeCompletionEvent
 import java.lang.IllegalStateException
@@ -36,12 +37,36 @@ internal class NettyServerHandler(
             if (result.isFailure)
                 throw IllegalStateException(result.cause())
 
-            val address = context.channel().remoteAddress() as InetSocketAddress
+            val channel = context.channel()
+            val address = channel.remoteAddress() as InetSocketAddress
             val method = nettyRequest.method()
-            val request = NettyRequestAdapter(method, nettyRequest, certificates, address)
+            val headers = nettyRequest.headers()
+            val request = NettyRequestAdapter(method, nettyRequest, certificates, address, headers)
             val response = handlers[method]?.process(request) ?: HttpServerResponse()
 
-            writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))
+            val connection = headers[CONNECTION]?.lowercase()
+            val upgrade = headers[UPGRADE]?.lowercase()
+
+            if (connection == "upgrade" && upgrade == "websocket") {
+
+                // Adding new handler to the existing pipeline to handle WebSocket Messages
+                context.pipeline().replace(this, "webSocketHandler", NettyWebSocketHandler())
+
+                // Do the Handshake to upgrade connection from HTTP to WebSocket protocol
+                val host = headers["host"]
+                val uri = nettyRequest.uri()
+                val url = "ws://$host$uri"
+                val wsFactory = WebSocketServerHandshakerFactory(url, null, true)
+                val handShaker = wsFactory.newHandshaker(nettyRequest)
+
+                if (handShaker == null)
+                    WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(channel)
+                else
+                    handShaker.handshake(channel, nettyRequest)
+            }
+            else {
+                writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))
+            }
         }
     }
 
@@ -52,7 +77,7 @@ internal class NettyServerHandler(
         }
     }
 
-    @Suppress("OVERRIDE_DEPRECATION")
+    @Suppress("OVERRIDE_DEPRECATION") // Deprecated in base interface, but allowed in parent class
     override fun exceptionCaught(context: ChannelHandlerContext, cause: Throwable) {
         val body = "Failure: $cause\n"
         val response = HttpServerResponse(body, status = ServerErrorStatus.INTERNAL_SERVER_ERROR)
