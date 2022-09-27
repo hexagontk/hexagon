@@ -6,6 +6,7 @@ import com.hexagonkt.http.server.model.HttpServerRequestPort
 import io.netty.buffer.ByteBufUtil
 import io.netty.handler.codec.http.FullHttpRequest
 import io.netty.handler.codec.http.HttpHeaderNames.*
+import io.netty.handler.codec.http.HttpHeaders
 import io.netty.handler.codec.http.QueryStringDecoder
 import io.netty.handler.codec.http.cookie.Cookie
 import io.netty.handler.codec.http.cookie.ServerCookieDecoder
@@ -20,14 +21,15 @@ class NettyRequestAdapter(
     req: FullHttpRequest,
     override val certificateChain: List<X509Certificate>,
     address: InetSocketAddress,
+    nettyHeaders: HttpHeaders,
 ) : HttpServerRequestPort {
 
     override val accept: List<ContentType> by lazy {
-        req.headers().getAll(ACCEPT).flatMap { it.split(",") }.map { parseContentType(it) }
+        nettyHeaders.getAll(ACCEPT).flatMap { it.split(",") }.map { parseContentType(it) }
     }
 
     override val contentLength: Long by lazy {
-        req.headers()[CONTENT_LENGTH]?.toLong() ?: 0L
+        nettyHeaders[CONTENT_LENGTH]?.toLong() ?: 0L
     }
 
     override val queryParameters: HttpFields<QueryParameter> by lazy {
@@ -79,7 +81,7 @@ class NettyRequestAdapter(
     override val path: String by lazy { URI(req.uri()).path }
 
     override val cookies: List<HttpCookie> by lazy {
-        val cookieHeader: String = req.headers().get(COOKIE)
+        val cookieHeader: String = nettyHeaders.get(COOKIE)
             ?: return@lazy emptyList<HttpCookie>()
 
         val cookies: Set<Cookie> = ServerCookieDecoder.STRICT.decode(cookieHeader)
@@ -103,15 +105,15 @@ class NettyRequestAdapter(
 
     override val headers: HttpFields<Header> by lazy {
         HttpFields(
-            req.headers().names()
+            nettyHeaders.names()
                 .toList()
                 .map { it.lowercase() }
-                .map { Header(it, req.headers().getAll(it)) }
+                .map { Header(it, nettyHeaders.getAll(it)) }
         )
     }
 
     override val contentType: ContentType? by lazy {
-        req.headers()[CONTENT_TYPE]?.let { parseContentType(it) }
+        nettyHeaders[CONTENT_TYPE]?.let { parseContentType(it) }
     }
 
     override val authorization: HttpAuthorization? by lazy { authorization() }

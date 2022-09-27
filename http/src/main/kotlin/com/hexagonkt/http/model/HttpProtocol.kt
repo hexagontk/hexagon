@@ -10,10 +10,6 @@ enum class HttpProtocol(val schema: String) {
     HTTPS("https"),
     /** HTTP/2. */
     HTTP2("https"),
-    /** Web Sockets. */
-    WS("ws"),
-    /** Secure Web Sockets. */
-    WSS("wss"),
     /** HTTP/2 clear text. */
     H2C("http"),
 }

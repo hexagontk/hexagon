@@ -1,5 +1,7 @@
 package com.hexagonkt.http.server.netty.poc
 
+import com.hexagonkt.http.server.HttpServerSettings
+import com.hexagonkt.http.server.netty.serve
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.*
 import io.netty.channel.nio.NioEventLoopGroup
@@ -24,7 +26,9 @@ import kotlin.test.assertEquals
 internal class WebSocketTest {
 
     @Test fun `WS connections`() {
-        main()
+        val server = serve(HttpServerSettings(bindPort = 8080)) {
+            get("/ws") { ok() }
+        }
 
         val uri = URI("ws://localhost:8080/ws")
         val handShaker = newHandshaker(uri, V13, null, true, DefaultHttpHeaders())
@@ -33,22 +37,15 @@ internal class WebSocketTest {
         val channel = bootstrap.connect(uri.host, uri.port).sync().channel()
         clientHandler.handshakeSync()
 
-        try {
-            // Ping
-//            channel.writeAndFlush(PingWebSocketFrame(Unpooled.wrappedBuffer(byteArrayOf(8, 1, 8))))
-            // Message
-            channel.writeAndFlush(TextWebSocketFrame("msg"))
-            // Bye
-//            channel.writeAndFlush(CloseWebSocketFrame())
+        channel.writeAndFlush(TextWebSocketFrame("msg"))
 
-            Thread.sleep(100)
-            assertEquals("msg", clientHandler.result)
+        Thread.sleep(300)
+        assertEquals("msg", clientHandler.result)
 
-            channel.close().sync()
-        }
-        finally {
-            bootstrap.config().group().shutdownGracefully()
-        }
+        channel.close().sync()
+
+        bootstrap.config().group().shutdownGracefully()
+        server.stop()
     }
 
     private fun client(clientHandler: WebSocketClientHandler, uri: URI): Bootstrap {
