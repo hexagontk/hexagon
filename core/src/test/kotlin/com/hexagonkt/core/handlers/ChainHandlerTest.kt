@@ -387,11 +387,18 @@ internal class ChainHandlerTest {
                 },
                 FilterHandler({ it.hasLetters('a', 'b') }) {
                     if (it.event.startsWith("a"))
-                        it.copy(event = it.event + "<PASS>").next()
+                        it.copy(
+                            event = it.event + "<PASS>",
+                            attributes = it.attributes + ("passed" to true)
+                        ).next()
                     else
                         it.copy(event = it.event + "<HALT>")
                 },
-                OnHandler { it.copy(attributes = it.attributes + ("B2" to "B2")) },
+                OnHandler {
+                    if (it.event.startsWith("a"))
+                        assertEquals(true, it.attributes["passed"])
+                    it.copy(attributes = it.attributes + ("B2" to "B2") - "passed")
+                },
             ),
         )
 

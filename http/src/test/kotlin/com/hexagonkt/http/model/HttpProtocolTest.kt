@@ -10,8 +10,6 @@ internal class HttpProtocolTest {
         assertEquals("http", HTTP.schema)
         assertEquals("https", HTTPS.schema)
         assertEquals("https", HTTP2.schema)
-        assertEquals("ws", WS.schema)
-        assertEquals("wss", WSS.schema)
         assertEquals("http", H2C.schema)
     }
 }

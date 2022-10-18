@@ -5,8 +5,10 @@ package com.hexagonkt.http.server
  *
  * @property ZIP Request and response compression.
  * @property ASYNC Asynchronous request processing.
+ * @property WEB_SOCKETS Support for server Web Sockets.
  */
 enum class HttpServerFeature {
     ZIP,
     ASYNC,
+    WEB_SOCKETS,
 }
