@@ -26,7 +26,7 @@
 <span class="fc" id="L26">        val PLACEHOLDER_REGEX = Regex(&quot;\\$WILDCARD|$PARAMETER&quot;)</span>
 
         fun isTemplate(pattern: String): Boolean =
-<span class="fc bfc" id="L29" title="All 4 branches covered.">            REGEX_CHARACTERS.any { pattern.contains(it) } || PLACEHOLDER_REGEX in pattern</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">            REGEX_CHARACTERS.any { pattern.contains(it) } || PLACEHOLDER_REGEX in pattern</span>
 
         fun patternToRegex(pattern: String, prefix: Boolean): String {
 <span class="fc" id="L32">            checkPathPatternVariables(pattern)</span>

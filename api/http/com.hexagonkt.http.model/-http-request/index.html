@@ -4,10 +4,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>HttpRequest</title>
 <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
 <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../../styles/style.css" rel="Stylesheet">
 <link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
@@ -18,14 +26,15 @@ if(savedDarkMode === true){
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer></script>
-<script type="text/javascript" src="../../../scripts/prism.js" async></script></head>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
 <div class="navigation-wrapper" id="navigation-wrapper">
     <div id="leftToggler"><span class="icon-toggler"></span></div>
     <div class="library-name">
 <a href="../../../index.html">
 <span>hexagon</span>            </a>    </div>
-    <div>2.0.25
+    <div>2.0.26
     </div>
     <div class="pull-right d-flex">
         <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
@@ -38,10 +47,10 @@ if(savedDarkMode === true){
     </div>
     <div id="main">
 <div class="main-content" id="content" pageids="http::com.hexagonkt.http.model/HttpRequest///PointingToDeclaration//-1329037440">
-  <div class="breadcrumbs"><a href="../../index.html">http</a><span class="delimiter">/</span><a href="../index.html">com.hexagonkt.http.model</a><span class="delimiter">/</span><a href="index.html">HttpRequest</a></div>
+  <div class="breadcrumbs"><a href="../../index.html">http</a><span class="delimiter">/</span><a href="../index.html">com.hexagonkt.http.model</a><span class="delimiter">/</span><span class="current">HttpRequest</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Http</span><wbr><span><span>Request</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">HttpRequest</a> : <a href="../-http-message/index.html">HttpMessage</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">HttpRequest</a> : <a href="../-http-message/index.html">HttpMessage</a></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
@@ -57,7 +66,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="authorization.html"><span class="token function">authorization</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-http-authorization/index.html">HttpAuthorization</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="authorization.html"><span class="token function">authorization</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-http-authorization/index.html">HttpAuthorization</a><span class="token operator">?</span></div></div></div>
               </div>
             </div>
           </div>
@@ -72,7 +81,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-http-base/body-string.html"><span class="token function">bodyString</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-http-base/body-string.html"><span class="token function">bodyString</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div></div></div>
               </div>
             </div>
           </div>
@@ -87,7 +96,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-http-message/cookies-map.html"><span class="token function">cookiesMap</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/Map///PointingToDeclaration/">Map</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../-http-cookie/index.html">HttpCookie</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-http-message/cookies-map.html"><span class="token function">cookiesMap</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/Map///PointingToDeclaration/">Map</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../-http-cookie/index.html">HttpCookie</a><span class="token operator">&gt;</span></div></div></div>
               </div>
             </div>
           </div>
@@ -102,7 +111,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="origin.html"><span class="token function">origin</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="origin.html"><span class="token function">origin</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div></div></div>
               </div>
             </div>
           </div>
@@ -117,7 +126,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="parts-map.html"><span class="token function">partsMap</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/Map///PointingToDeclaration/">Map</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../-http-part/index.html">HttpPart</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="parts-map.html"><span class="token function">partsMap</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/Map///PointingToDeclaration/">Map</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../-http-part/index.html">HttpPart</a><span class="token operator">&gt;</span></div></div></div>
               </div>
             </div>
           </div>
@@ -132,7 +141,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="referer.html"><span class="token function">referer</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="referer.html"><span class="token function">referer</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div></div></div>
               </div>
             </div>
           </div>
@@ -147,7 +156,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="url.html"><span class="token function">url</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.net/URL///PointingToDeclaration/">URL</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="url.html"><span class="token function">url</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.net/URL///PointingToDeclaration/">URL</span></div></div></div>
               </div>
             </div>
           </div>
@@ -162,7 +171,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="user-agent.html"><span class="token function">userAgent</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="user-agent.html"><span class="token function">userAgent</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div></div></div>
               </div>
             </div>
           </div>
@@ -179,7 +188,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-2131327117%2FProperties%2F-1329037440" anchor-label="accept" id="-2131327117%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="accept.html">accept</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-content-type/index.html">ContentType</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-2131327117%2FProperties%2F-1329037440" anchor-label="accept" id="-2131327117%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="accept.html">accept</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-content-type/index.html">ContentType</a><span class="token operator">&gt;</span></div></div></div>
               </div>
             </div>
           </div>
@@ -194,7 +203,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="1999772646%2FProperties%2F-1329037440" anchor-label="authorization" id="1999772646%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="authorization.html">authorization</a><span class="token operator">: </span><a href="../-http-authorization/index.html">HttpAuthorization</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="1999772646%2FProperties%2F-1329037440" anchor-label="authorization" id="1999772646%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="authorization.html">authorization</a><span class="token operator">: </span><a href="../-http-authorization/index.html">HttpAuthorization</a><span class="token operator">?</span></div></div></div>
               </div>
             </div>
           </div>
@@ -209,7 +218,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-1610486881%2FProperties%2F-1329037440" anchor-label="body" id="-1610486881%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-http-base/body.html">body</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-1610486881%2FProperties%2F-1329037440" anchor-label="body" id="-1610486881%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-http-base/body.html">body</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></div></div></div>
               </div>
             </div>
           </div>
@@ -224,7 +233,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="2138368006%2FProperties%2F-1329037440" anchor-label="contentType" id="2138368006%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-http-base/content-type.html">contentType</a><span class="token operator">: </span><a href="../-content-type/index.html">ContentType</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="2138368006%2FProperties%2F-1329037440" anchor-label="contentType" id="2138368006%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-http-base/content-type.html">contentType</a><span class="token operator">: </span><a href="../-content-type/index.html">ContentType</a><span class="token operator">?</span></div></div></div>
               </div>
             </div>
           </div>
@@ -239,7 +248,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-994236008%2FProperties%2F-1329037440" anchor-label="cookies" id="-994236008%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-http-message/cookies.html">cookies</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-http-cookie/index.html">HttpCookie</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-994236008%2FProperties%2F-1329037440" anchor-label="cookies" id="-994236008%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-http-message/cookies.html">cookies</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-http-cookie/index.html">HttpCookie</a><span class="token operator">&gt;</span></div></div></div>
               </div>
             </div>
           </div>
@@ -254,7 +263,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="1615225709%2FProperties%2F-1329037440" anchor-label="formParameters" id="1615225709%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="form-parameters.html">formParameters</a><span class="token operator">: </span><a href="../-http-fields/index.html">HttpFields</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-form-parameter/index.html">FormParameter</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="1615225709%2FProperties%2F-1329037440" anchor-label="formParameters" id="1615225709%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="form-parameters.html">formParameters</a><span class="token operator">: </span><a href="../-http-fields/index.html">HttpFields</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-form-parameter/index.html">FormParameter</a><span class="token operator">&gt;</span></div></div></div>
               </div>
             </div>
           </div>
@@ -269,7 +278,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-205366989%2FProperties%2F-1329037440" anchor-label="headers" id="-205366989%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-http-base/headers.html">headers</a><span class="token operator">: </span><a href="../-http-fields/index.html">HttpFields</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-header/index.html">Header</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-205366989%2FProperties%2F-1329037440" anchor-label="headers" id="-205366989%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-http-base/headers.html">headers</a><span class="token operator">: </span><a href="../-http-fields/index.html">HttpFields</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-header/index.html">Header</a><span class="token operator">&gt;</span></div></div></div>
               </div>
             </div>
           </div>
@@ -284,7 +293,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-912649645%2FProperties%2F-1329037440" anchor-label="host" id="-912649645%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="host.html">host</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-912649645%2FProperties%2F-1329037440" anchor-label="host" id="-912649645%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="host.html">host</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div></div></div>
               </div>
             </div>
           </div>
@@ -299,7 +308,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-1223409222%2FProperties%2F-1329037440" anchor-label="method" id="-1223409222%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="method.html">method</a><span class="token operator">: </span><a href="../-http-method/index.html">HttpMethod</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-1223409222%2FProperties%2F-1329037440" anchor-label="method" id="-1223409222%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="method.html">method</a><span class="token operator">: </span><a href="../-http-method/index.html">HttpMethod</a></div></div></div>
               </div>
             </div>
           </div>
@@ -314,7 +323,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-1724304033%2FProperties%2F-1329037440" anchor-label="parts" id="-1724304033%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="parts.html">parts</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-http-part/index.html">HttpPart</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-1724304033%2FProperties%2F-1329037440" anchor-label="parts" id="-1724304033%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="parts.html">parts</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-http-part/index.html">HttpPart</a><span class="token operator">&gt;</span></div></div></div>
               </div>
             </div>
           </div>
@@ -329,7 +338,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="197917302%2FProperties%2F-1329037440" anchor-label="path" id="197917302%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="path.html">path</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="197917302%2FProperties%2F-1329037440" anchor-label="path" id="197917302%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="path.html">path</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div></div></div>
               </div>
             </div>
           </div>
@@ -344,7 +353,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-624417382%2FProperties%2F-1329037440" anchor-label="port" id="-624417382%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="port.html">port</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="-624417382%2FProperties%2F-1329037440" anchor-label="port" id="-624417382%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="port.html">port</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></div></div></div>
               </div>
             </div>
           </div>
@@ -359,7 +368,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="250583139%2FProperties%2F-1329037440" anchor-label="protocol" id="250583139%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="protocol.html">protocol</a><span class="token operator">: </span><a href="../-http-protocol/index.html">HttpProtocol</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="250583139%2FProperties%2F-1329037440" anchor-label="protocol" id="250583139%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="protocol.html">protocol</a><span class="token operator">: </span><a href="../-http-protocol/index.html">HttpProtocol</a></div></div></div>
               </div>
             </div>
           </div>
@@ -374,7 +383,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="870149421%2FProperties%2F-1329037440" anchor-label="queryParameters" id="870149421%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="query-parameters.html">queryParameters</a><span class="token operator">: </span><a href="../-http-fields/index.html">HttpFields</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-query-parameter/index.html">QueryParameter</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:dokkaHtmlPartial/main"><a data-name="870149421%2FProperties%2F-1329037440" anchor-label="queryParameters" id="870149421%2FProperties%2F-1329037440" data-filterable-set=":http:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="query-parameters.html">queryParameters</a><span class="token operator">: </span><a href="../-http-fields/index.html">HttpFields</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-query-parameter/index.html">QueryParameter</a><span class="token operator">&gt;</span></div></div></div>
               </div>
             </div>
           </div>

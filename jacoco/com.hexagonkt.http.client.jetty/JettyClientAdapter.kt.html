@@ -104,7 +104,7 @@ import org.eclipse.jetty.client.HttpClient as JettyHttpClient
 <span class="fc" id="L104">            headers</span>
 <span class="fc" id="L105">                .fieldNamesCollection</span>
 <span class="fc" id="L106">                .map { it.lowercase() }</span>
-<span class="fc bfc" id="L107" title="All 4 branches covered.">                .filter { it !in checkedHeaders }</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">                .filter { it !in checkedHeaders }</span>
 <span class="fc" id="L108">                .map { Header(it, headers.getValuesList(it)) }</span>
 <span class="fc" id="L109">        )</span>
 

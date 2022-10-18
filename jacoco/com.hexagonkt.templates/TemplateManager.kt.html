@@ -43,7 +43,7 @@ object TemplateManager {
     private fun findAdapter(url: URL): TemplatePort =
 <span class="fc bfc" id="L44" title="All 4 branches covered.">        defaultAdapter</span>
 <span class="fc" id="L45">            ?: adapters</span>
-<span class="fc bfc" id="L46" title="All 2 branches covered.">                .filter { it.key.matches(url.toString()) }</span>
+<span class="fc" id="L46">                .filter { it.key.matches(url.toString()) }</span>
 <span class="pc bpc" id="L47" title="1 of 4 branches missed.">                .firstNotNullOfOrNull { it.value  }</span>
 <span class="fc" id="L48">                ?: error(&quot;No adapter found for resource: $url&quot;)</span>
 }

@@ -112,7 +112,7 @@ fun &lt;T&gt; retry(times: Int, delay: Long, block: () -&gt; T): T {
 <span class="nc" id="L112">    fail: Boolean = false,</span>
 ): String {
 
-<span class="fc bfc" id="L115" title="All 4 branches covered.">    val command = filter { it.isNotBlank() }.toTypedArray()</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">    val command = filter { it.isNotBlank() }.toTypedArray()</span>
 
 <span class="fc bfc" id="L117" title="All 6 branches covered.">    require(command.isNotEmpty()) { &quot;Command is empty&quot; }</span>
 <span class="fc bfc" id="L118" title="All 4 branches covered.">    require(timeout &gt; 0) { &quot;Process timeout should be greater than zero: $timeout&quot; }</span>
@@ -174,7 +174,7 @@ val fail: Nothing
  */
 <span class="nc" id="L175">fun check(message: String = &quot;Multiple exceptions&quot;, vararg blocks: () -&gt; Unit) {</span>
 <span class="fc" id="L176">    val exceptions: List&lt;Exception&gt; = blocks.mapNotNull {</span>
-<span class="fc bfc" id="L177" title="All 2 branches covered.">        try {</span>
+<span class="fc" id="L177">        try {</span>
 <span class="fc" id="L178">            it()</span>
 <span class="fc" id="L179">            null</span>
         }
@@ -198,7 +198,7 @@ fun Throwable.filterStackTrace(prefix: String): Array&lt;out StackTraceElement&g
 <span class="fc bfc" id="L198" title="All 4 branches covered.">    if (prefix.isEmpty())</span>
 <span class="fc" id="L199">        this.stackTrace</span>
     else
-<span class="fc bfc" id="L201" title="All 2 branches covered.">        this.stackTrace.filter { it.className.startsWith(prefix) }.toTypedArray()</span>
+<span class="fc" id="L201">        this.stackTrace.filter { it.className.startsWith(prefix) }.toTypedArray()</span>
 
 /**
  * Return this throwable as a text.

@@ -29,7 +29,7 @@ import com.hexagonkt.core.require
 
 <span class="fc" id="L30">    val values: Map&lt;String, String&gt; by lazy {</span>
 <span class="fc" id="L31">        httpFields</span>
-<span class="fc bfc" id="L32" title="All 4 branches covered.">            .filterValues { it.values.isNotEmpty() }</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            .filterValues { it.values.isNotEmpty() }</span>
 <span class="fc" id="L33">            .mapValues { it.value.values.first() }</span>
     }
 

@@ -62,7 +62,7 @@ import kotlin.system.measureNanoTime
 
     private fun HttpFields&lt;*&gt;.format(): String =
 <span class="fc" id="L64">        httpFields</span>
-<span class="fc bfc" id="L65" title="All 6 branches covered.">            .filter { (_, v) -&gt; v.values.any { it.isNotBlank() } }</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            .filter { (_, v) -&gt; v.values.any { it.isNotBlank() } }</span>
 <span class="fc" id="L66">            .map { (k, v) -&gt; &quot;$k: ${v.values.joinToString(&quot;, &quot;)}&quot; }</span>
 <span class="fc" id="L67">            .joinToString(&quot;\n&quot;, prefix = &quot;\n\n&quot;)</span>
 <span class="fc" id="L68">}</span>

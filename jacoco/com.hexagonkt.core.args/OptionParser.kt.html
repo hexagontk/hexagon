@@ -43,7 +43,7 @@ object OptionParser {
     }
 
     private fun hasUnsupportedParameters(options: List&lt;Option&lt;*&gt;&gt;): Boolean {
-<span class="pc bpc" id="L46" title="2 of 4 branches missed.">        return options.any { !SUPPORTED_TYPES.contains(it.type) }</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        return options.any { !SUPPORTED_TYPES.contains(it.type) }</span>
     }
 
 <span class="pc bpc" id="L49" title="3 of 4 branches missed.">    private fun isOption(arg: String) = arg.startsWith(&quot;-&quot;) || arg.startsWith(&quot;--&quot;)</span>

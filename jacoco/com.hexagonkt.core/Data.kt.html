@@ -78,7 +78,7 @@ fun &lt;T : Any&gt; fieldsMapOf(vararg fields: Pair&lt;KProperty1&lt;T, *&gt;, *
  * @return .
  */
 fun &lt;T : Any&gt; fieldsMapOfNotNull(vararg fields: Pair&lt;KProperty1&lt;T, *&gt;, *&gt;): Map&lt;String, *&gt; =
-<span class="fc bfc" id="L81" title="All 4 branches covered.">    fieldsMapOf(*fields).filterValues { it != null }</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">    fieldsMapOf(*fields).filterValues { it != null }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -97,7 +97,7 @@ fun &lt;K, V&gt; Map&lt;K, V&gt;.require(name: K): V =
  * @return .
  */
 fun &lt;K, V&gt; Map&lt;K, V?&gt;.filterEmpty(): Map&lt;K, V&gt; =
-<span class="pc bpc" id="L100" title="1 of 4 branches missed.">    this.filterValues(::notEmpty).mapValues { (_, v) -&gt; v ?: fail }</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">    this.filterValues(::notEmpty).mapValues { (_, v) -&gt; v ?: fail }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -106,7 +106,7 @@ fun &lt;K, V&gt; Map&lt;K, V?&gt;.filterEmpty(): Map&lt;K, V&gt; =
  * @return .
  */
 fun &lt;V&gt; List&lt;V?&gt;.filterEmpty(): List&lt;V&gt; =
-<span class="pc bpc" id="L109" title="1 of 4 branches missed.">    this.filter(::notEmpty).map { it ?: fail }</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">    this.filter(::notEmpty).map { it ?: fail }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).

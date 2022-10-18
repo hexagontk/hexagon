@@ -10,7 +10,7 @@ import kotlin.collections.Map.Entry
 
 <span class="fc" id="L11">    constructor(mapData: List&lt;Pair&lt;K, V&gt;&gt;) : this(mapData.groupBy({ it.first }) { it.second } )</span>
 
-<span class="fc bfc" id="L13" title="All 4 branches covered.">    val allValues: Map&lt;K, List&lt;V&gt;&gt; = mapData.filterValues { it.isNotEmpty() }</span>
+<span class="fc bfc" id="L13" title="All 2 branches covered.">    val allValues: Map&lt;K, List&lt;V&gt;&gt; = mapData.filterValues { it.isNotEmpty() }</span>
 <span class="fc" id="L14">    val allPairs: List&lt;Pair&lt;K, V&gt;&gt; by lazy { allValues.flatMap { (k, v) -&gt; v.map { k to it } } }</span>
 
     override val entries: Set&lt;Entry&lt;K, V&gt;&gt;
@@ -29,7 +29,7 @@ import kotlin.collections.Map.Entry
 <span class="fc" id="L29">        allValues.containsKey(key)</span>
 
     override fun containsValue(value: V): Boolean =
-<span class="fc bfc" id="L32" title="All 2 branches covered.">        allValues.any { it.value.contains(value) }</span>
+<span class="fc" id="L32">        allValues.any { it.value.contains(value) }</span>
 
     override fun get(key: K): V? =
 <span class="fc bfc" id="L35" title="All 2 branches covered.">        allValues[key]?.first()</span>

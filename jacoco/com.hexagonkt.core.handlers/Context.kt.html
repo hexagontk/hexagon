@@ -14,7 +14,7 @@
 ) {
 
     fun next(): Context&lt;T&gt; {
-<span class="fc bfc" id="L17" title="All 4 branches covered.">        val matchingHandlers = nextHandlers.dropWhile { !it.predicate(this) }</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        val matchingHandlers = nextHandlers.dropWhile { !it.predicate(this) }</span>
 <span class="fc" id="L18">        val nextHandler = matchingHandlers.firstOrNull()</span>
 <span class="pc bpc" id="L19" title="1 of 2 branches missed.">        return nextHandler</span>
 <span class="fc bfc" id="L20" title="All 2 branches covered.">            ?.process(</span>

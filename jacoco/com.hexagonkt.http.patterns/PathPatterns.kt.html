@@ -17,7 +17,7 @@ fun createPathPattern(pattern: String, prefix: Boolean): PathPattern =
 <span class="fc bfc" id="L17" title="All 2 branches covered.">        require(</span>
 <span class="fc bfc" id="L18" title="All 4 branches covered.">            pattern.isEmpty()</span>
 <span class="fc bfc" id="L19" title="All 2 branches covered.">            || pattern.startsWith('/')</span>
-<span class="fc bfc" id="L20" title="All 2 branches covered.">            || allowedPrefixes.any { pattern.startsWith(it) }) {</span>
+<span class="fc" id="L20">            || allowedPrefixes.any { pattern.startsWith(it) }) {</span>
 
 <span class="fc" id="L22">            &quot;'$pattern' must be empty or start with '/'&quot;</span>
         }

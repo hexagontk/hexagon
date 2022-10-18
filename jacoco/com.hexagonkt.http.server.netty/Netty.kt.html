@@ -28,6 +28,6 @@ import com.hexagonkt.http.server.handlers.ServerHandler
 <span class="nc" id="L28">fun serve(</span>
 <span class="nc" id="L29">    settings: HttpServerSettings = HttpServerSettings(), block: ServerBuilder.() -&gt; Unit</span>
 ): HttpServer =
-<span class="nc" id="L31">    HttpServer(NettyServerAdapter(), ServerBuilder().apply {block()}.handlers, settings)</span>
-<span class="nc" id="L32">        .apply { start() }</span>
+<span class="fc" id="L31">    HttpServer(NettyServerAdapter(), ServerBuilder().apply {block()}.handlers, settings)</span>
+<span class="fc" id="L32">        .apply { start() }</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

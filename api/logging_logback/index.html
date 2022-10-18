@@ -4,10 +4,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>logging_logback</title>
 <link href="../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
 <script type="text/javascript" src="../scripts/sourceset_dependencies.js" async></script>
 <link href="../styles/style.css" rel="Stylesheet">
 <link href="../styles/jetbrains-mono.css" rel="Stylesheet">
@@ -18,14 +26,15 @@ if(savedDarkMode === true){
 <script type="text/javascript" src="../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../scripts/main.js" defer></script>
-<script type="text/javascript" src="../scripts/prism.js" async></script></head>
+<script type="text/javascript" src="../scripts/prism.js" async></script>
+<script type="text/javascript" src="../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
 <div class="navigation-wrapper" id="navigation-wrapper">
     <div id="leftToggler"><span class="icon-toggler"></span></div>
     <div class="library-name">
 <a href="../index.html">
 <span>hexagon</span>            </a>    </div>
-    <div>2.0.25
+    <div>2.0.26
     </div>
     <div class="pull-right d-flex">
         <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
@@ -41,38 +50,38 @@ if(savedDarkMode === true){
   <div class="breadcrumbs"></div>
   <div class="cover ">
     <h1 class="cover"><span><span>logging_logback</span></span></h1>
-    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":logging_logback:dokkaHtmlPartial/main"><p class="paragraph">Contains the logger adapter for the <a href="http://logback.qos.ch">Logback</a> logging library.</p><h3 class=""> Install the Dependency</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    ```groovy
-    implementation("com.hexagonkt:logging_logback:$hexagonVersion")
-    ```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    ```xml
-    
-    
-    
-      com.hexagonkt
-      logging_logback
-      $hexagonVersion
-    
-    ```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">!!! Info     The above adapter bridge other logging libraries that may be used by other third party     libraries you use (if you want to disable this behaviour, you need to explicitly exclude     bridging libraries).</p><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    ```groovy
-    // Bridges
-    runtimeOnly("org.slf4j:jcl-over-slf4j:1.7.30")
-    runtimeOnly("org.slf4j:log4j-over-slf4j:1.7.30")
-    runtimeOnly("org.slf4j:jul-to-slf4j:1.7.30")
-    ```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    ```xml
-    
-      org.slf4j
-      jcl-over-slf4j
-      1.7.30
-    
-    
-      org.slf4j
-      log4j-over-slf4j
-      1.7.30
-    
-    
-      org.slf4j
-      jul-to-slf4j
-      1.7.30
-    
-    ```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":logging_logback:dokkaHtmlPartial/main"><p class="paragraph">Contains the logger adapter for the <a href="http://logback.qos.ch">Logback</a> logging library.</p><h3 class=""> Install the Dependency</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
+implementation("com.hexagonkt:logging_logback:$hexagonVersion")
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```xml
+
+
+
+  com.hexagonkt
+  logging_logback
+  $hexagonVersion
+
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">!!! Info     The above adapter bridge other logging libraries that may be used by other third party     libraries you use (if you want to disable this behaviour, you need to explicitly exclude     bridging libraries).</p><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
+// Bridges
+runtimeOnly("org.slf4j:jcl-over-slf4j:1.7.30")
+runtimeOnly("org.slf4j:log4j-over-slf4j:1.7.30")
+runtimeOnly("org.slf4j:jul-to-slf4j:1.7.30")
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```xml
+
+  org.slf4j
+  jcl-over-slf4j
+  1.7.30
+
+
+  org.slf4j
+  log4j-over-slf4j
+  1.7.30
+
+
+  org.slf4j
+  jul-to-slf4j
+  1.7.30
+
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
   <h2 class="">Packages</h2>
   <div class="table"><a data-name="-2005320596%2FPackages%2F1111968687" anchor-label="com.hexagonkt.logging.logback" id="-2005320596%2FPackages%2F1111968687" data-filterable-set=":logging_logback:dokkaHtmlPartial/main"></a>

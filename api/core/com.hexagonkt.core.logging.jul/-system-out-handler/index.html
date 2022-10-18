@@ -4,10 +4,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>SystemOutHandler</title>
 <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
 <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../../styles/style.css" rel="Stylesheet">
 <link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
@@ -18,14 +26,15 @@ if(savedDarkMode === true){
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer></script>
-<script type="text/javascript" src="../../../scripts/prism.js" async></script></head>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
 <div class="navigation-wrapper" id="navigation-wrapper">
     <div id="leftToggler"><span class="icon-toggler"></span></div>
     <div class="library-name">
 <a href="../../../index.html">
 <span>hexagon</span>            </a>    </div>
-    <div>2.0.25
+    <div>2.0.26
     </div>
     <div class="pull-right d-flex">
         <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
@@ -38,17 +47,17 @@ if(savedDarkMode === true){
     </div>
     <div id="main">
 <div class="main-content" id="content" pageids="core::com.hexagonkt.core.logging.jul/SystemOutHandler///PointingToDeclaration//537371977">
-  <div class="breadcrumbs"><a href="../../index.html">core</a><span class="delimiter">/</span><a href="../index.html">com.hexagonkt.core.logging.jul</a><span class="delimiter">/</span><a href="index.html">SystemOutHandler</a></div>
+  <div class="breadcrumbs"><a href="../../index.html">core</a><span class="delimiter">/</span><a href="../index.html">com.hexagonkt.core.logging.jul</a><span class="delimiter">/</span><span class="current">SystemOutHandler</span></div>
   <div class="cover ">
     <h1 class="cover"><span>System</span><wbr><span>Out</span><wbr><span><span>Handler</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">SystemOutHandler</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">handlerFormatter<span class="token operator">: </span><span data-unresolved-link="java.util.logging/Formatter///PointingToDeclaration/">Formatter</span></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="java.util.logging/StreamHandler///PointingToDeclaration/">StreamHandler</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Create a StreamHandler with a given <span data-unresolved-link="java.util.logging/Formatter///PointingToDeclaration/">Formatter</span>.</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">SystemOutHandler</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">handlerFormatter<span class="token operator">: </span><span data-unresolved-link="java.util.logging/Formatter///PointingToDeclaration/">Formatter</span></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="java.util.logging/StreamHandler///PointingToDeclaration/">StreamHandler</span></div><p class="paragraph">Create a StreamHandler with a given <span data-unresolved-link="java.util.logging/Formatter///PointingToDeclaration/">Formatter</span>.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Parameters">Parameters</button></div>
     <div class="tabs-section-body">
-      <h2 class="">Parameters</h2>
+      <h4 class="">Parameters</h4>
       <div data-togglable="Parameters">
-        <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span>handler</span><wbr><span><span>Formatter</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Formatter used by the log handler.</p></div></div></div></div></div></div></div></div></div>
+        <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span>handler</span><wbr><span><span>Formatter</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Formatter used by the log handler.</p></div></div></div></div></div></div></div></div></div>
       </div>
       <h2 class="tabbedcontent">Constructors</h2>
       <div class="table" data-togglable="Constructors"><a data-name="210972351%2FConstructors%2F537371977" anchor-label="SystemOutHandler" id="210972351%2FConstructors%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
@@ -61,7 +70,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-system-out-handler.html"><span class="token function">SystemOutHandler</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">handlerFormatter<span class="token operator">: </span><span data-unresolved-link="java.util.logging/Formatter///PointingToDeclaration/">Formatter</span></span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-system-out-handler.html"><span class="token function">SystemOutHandler</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">handlerFormatter<span class="token operator">: </span><span data-unresolved-link="java.util.logging/Formatter///PointingToDeclaration/">Formatter</span></span></span><span class="token punctuation">)</span></div></div></div>
               </div>
             </div>
           </div>
@@ -78,7 +87,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-1425691078%2FFunctions%2F537371977"><span class="token function">close</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-1425691078%2FFunctions%2F537371977"><span class="token function">close</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
               </div>
             </div>
           </div>
@@ -93,7 +102,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#1467864750%2FFunctions%2F537371977"><span class="token function">flush</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#1467864750%2FFunctions%2F537371977"><span class="token function">flush</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
               </div>
             </div>
           </div>
@@ -108,7 +117,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-285646918%2FFunctions%2F537371977"><span class="token function">getLevel</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.util.logging/Level///PointingToDeclaration/">Level</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-285646918%2FFunctions%2F537371977"><span class="token function">getLevel</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.util.logging/Level///PointingToDeclaration/">Level</span></div></div></div>
               </div>
             </div>
           </div>
@@ -123,7 +132,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#371399611%2FFunctions%2F537371977"><span class="token function">isLoggable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="java.util.logging/LogRecord///PointingToDeclaration/">LogRecord</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#371399611%2FFunctions%2F537371977"><span class="token function">isLoggable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="java.util.logging/LogRecord///PointingToDeclaration/">LogRecord</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div></div></div>
               </div>
             </div>
           </div>
@@ -138,7 +147,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="publish.html"><span class="token function">publish</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">record<span class="token operator">: </span><span data-unresolved-link="java.util.logging/LogRecord///PointingToDeclaration/">LogRecord</span></span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="publish.html"><span class="token function">publish</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">record<span class="token operator">: </span><span data-unresolved-link="java.util.logging/LogRecord///PointingToDeclaration/">LogRecord</span></span></span><span class="token punctuation">)</span></div></div></div>
               </div>
             </div>
           </div>
@@ -153,7 +162,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-651021657%2FFunctions%2F537371977"><span class="token function">setLevel</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="java.util.logging/Level///PointingToDeclaration/">Level</span></span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-651021657%2FFunctions%2F537371977"><span class="token function">setLevel</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="java.util.logging/Level///PointingToDeclaration/">Level</span></span></span><span class="token punctuation">)</span></div></div></div>
               </div>
             </div>
           </div>
@@ -170,7 +179,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><a data-name="131072981%2FProperties%2F537371977" anchor-label="encoding" id="131072981%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="index.html#131072981%2FProperties%2F537371977">encoding</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><a data-name="131072981%2FProperties%2F537371977" anchor-label="encoding" id="131072981%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="index.html#131072981%2FProperties%2F537371977">encoding</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div></div></div>
               </div>
             </div>
           </div>
@@ -185,7 +194,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><a data-name="1513116515%2FProperties%2F537371977" anchor-label="errorManager" id="1513116515%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="index.html#1513116515%2FProperties%2F537371977">errorManager</a><span class="token operator">: </span><span data-unresolved-link="java.util.logging/ErrorManager///PointingToDeclaration/">ErrorManager</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><a data-name="1513116515%2FProperties%2F537371977" anchor-label="errorManager" id="1513116515%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="index.html#1513116515%2FProperties%2F537371977">errorManager</a><span class="token operator">: </span><span data-unresolved-link="java.util.logging/ErrorManager///PointingToDeclaration/">ErrorManager</span></div></div></div>
               </div>
             </div>
           </div>
@@ -200,7 +209,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><a data-name="1679437840%2FProperties%2F537371977" anchor-label="filter" id="1679437840%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="index.html#1679437840%2FProperties%2F537371977">filter</a><span class="token operator">: </span><span data-unresolved-link="java.util.logging/Filter///PointingToDeclaration/">Filter</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><a data-name="1679437840%2FProperties%2F537371977" anchor-label="filter" id="1679437840%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="index.html#1679437840%2FProperties%2F537371977">filter</a><span class="token operator">: </span><span data-unresolved-link="java.util.logging/Filter///PointingToDeclaration/">Filter</span></div></div></div>
               </div>
             </div>
           </div>
@@ -215,7 +224,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><a data-name="-799485560%2FProperties%2F537371977" anchor-label="formatter" id="-799485560%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="index.html#-799485560%2FProperties%2F537371977">formatter</a><span class="token operator">: </span><span data-unresolved-link="java.util.logging/Formatter///PointingToDeclaration/">Formatter</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><a data-name="-799485560%2FProperties%2F537371977" anchor-label="formatter" id="-799485560%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="index.html#-799485560%2FProperties%2F537371977">formatter</a><span class="token operator">: </span><span data-unresolved-link="java.util.logging/Formatter///PointingToDeclaration/">Formatter</span></div></div></div>
               </div>
             </div>
           </div>

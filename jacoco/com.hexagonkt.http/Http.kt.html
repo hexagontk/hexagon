@@ -26,12 +26,12 @@ fun checkHeaders(headers: HttpFields&lt;Header&gt;) {
 <span class="fc" id="L26">        return</span>
 
 <span class="fc" id="L28">    val headersKeys = headers.httpFields.keys</span>
-<span class="fc bfc" id="L29" title="All 12 branches covered.">    check(headersKeys.all { key -&gt; key.all { it.isLowerCase() || it.isDigit() || it == '-' } }) {</span>
+<span class="fc bfc" id="L29" title="All 8 branches covered.">    check(headersKeys.all { key -&gt; key.all { it.isLowerCase() || it.isDigit() || it == '-' } }) {</span>
 <span class="fc" id="L30">        val invalidHeaders = headersKeys.joinToString(&quot;,&quot;) { &quot;'$it'&quot; }</span>
 <span class="fc" id="L31">        &quot;Header names must be lower-case and contain only letters, digits or '-': $invalidHeaders&quot;</span>
     }
 
-<span class="fc bfc" id="L34" title="All 2 branches covered.">    val invalidHeaders = checkedHeaders.filter { headers.httpFields.containsKey(it) }</span>
+<span class="fc" id="L34">    val invalidHeaders = checkedHeaders.filter { headers.httpFields.containsKey(it) }</span>
 
 <span class="fc bfc" id="L36" title="All 2 branches covered.">    check(invalidHeaders.isEmpty()) {</span>
 <span class="fc" id="L37">        val invalidHeadersText = invalidHeaders.joinToString(&quot;,&quot;) { &quot;'$it'&quot; }</span>
@@ -68,7 +68,7 @@ fun parseQueryString(query: String): HttpFields&lt;QueryParameter&gt; =
 <span class="fc bfc" id="L68" title="All 2 branches covered.">                    val value = if (keyValue.size == 2) keyValue[1] else &quot;&quot;</span>
 <span class="fc" id="L69">                    key.urlDecode() to value.urlDecode()</span>
                 }
-<span class="fc bfc" id="L71" title="All 4 branches covered.">                .filter { it.first.isNotBlank() }</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">                .filter { it.first.isNotBlank() }</span>
 <span class="fc" id="L72">                .groupBy { it.first }</span>
 <span class="fc" id="L73">                .mapValues { pair -&gt; pair.value.map { it.second } }</span>
 <span class="fc" id="L74">                .map { (k, v) -&gt; QueryParameter(k, v) }</span>
@@ -76,7 +76,7 @@ fun parseQueryString(query: String): HttpFields&lt;QueryParameter&gt; =
 
 fun formatQueryString(parameters: HttpFields&lt;QueryParameter&gt;): String =
 <span class="fc" id="L78">    parameters.allPairs</span>
-<span class="pc bpc" id="L79" title="2 of 4 branches missed.">        .filter { it.first.isNotBlank() }</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        .filter { it.first.isNotBlank() }</span>
 <span class="fc" id="L80">        .joinToString(&quot;&amp;&quot;) { (k, v) -&gt;</span>
 <span class="fc bfc" id="L81" title="All 2 branches covered.">            if (v.isBlank()) k.urlEncode()</span>
 <span class="fc" id="L82">            else &quot;${k.urlEncode()}=${v.urlEncode()}&quot;</span>

@@ -20,7 +20,7 @@ import jakarta.servlet.http.Part
 <span class="fc" id="L20">    override val formParameters: HttpFields&lt;FormParameter&gt; by lazy {</span>
 <span class="fc" id="L21">        req.setAttribute(&quot;org.eclipse.jetty.multipartConfig&quot;, multipartConfig)</span>
 <span class="fc" id="L22">        val fields = parameters</span>
-<span class="fc bfc" id="L23" title="All 4 branches covered.">            .filter { it.key !in queryParameters.httpFields.keys }</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">            .filter { it.key !in queryParameters.httpFields.keys }</span>
 <span class="fc" id="L24">            .map { (k, v) -&gt; FormParameter(k, v) }</span>
 
 <span class="fc" id="L26">        HttpFields(fields)</span>

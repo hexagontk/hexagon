@@ -97,7 +97,7 @@ import java.lang.System.nanoTime
         }
 
 <span class="fc" id="L99">        val supportedFeatures = adapter.supportedFeatures()</span>
-<span class="fc bfc" id="L100" title="All 4 branches covered.">        check(settings.features.all { it in supportedFeatures }) {</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        check(settings.features.all { it in supportedFeatures }) {</span>
 <span class="fc" id="L101">            val supportedFeaturesText = supportedFeatures.joinToString(&quot;, &quot;)</span>
 <span class="fc" id="L102">            &quot;Requesting unsupported feature. Adapter's features: $supportedFeaturesText&quot;</span>
         }

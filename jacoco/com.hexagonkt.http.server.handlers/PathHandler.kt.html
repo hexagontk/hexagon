@@ -76,7 +76,7 @@ import com.hexagonkt.http.server.model.HttpServerResponse
 <span class="fc" id="L76">            serverPredicate = serverPredicate.clearMethods(),</span>
 <span class="fc" id="L77">            handlers = handlers</span>
 <span class="fc" id="L78">                .filter {</span>
-<span class="fc bfc" id="L79" title="All 6 branches covered.">                    method in it.serverPredicate.methods || it.serverPredicate.methods.isEmpty()</span>
+<span class="fc bfc" id="L79" title="All 4 branches covered.">                    method in it.serverPredicate.methods || it.serverPredicate.methods.isEmpty()</span>
                 }
 <span class="fc" id="L81">                .map {</span>
 <span class="fc" id="L82">                    when (it) {</span>

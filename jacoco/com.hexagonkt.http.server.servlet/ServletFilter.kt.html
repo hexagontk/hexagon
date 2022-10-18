@@ -67,7 +67,7 @@ import java.nio.ByteBuffer
 <span class="fc" id="L67">                    bytes = bytes.copyOf(size + length)</span>
 <span class="fc" id="L68">                    buffer.copyInto(bytes, size, 0, length)</span>
                 }
-<span class="pc bpc" id="L70" title="1 of 2 branches missed.">                while(inputStream.isReady)</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">                while(inputStream.isReady)</span>
 <span class="fc" id="L71">            }</span>
 
             override fun onAllDataRead() {
