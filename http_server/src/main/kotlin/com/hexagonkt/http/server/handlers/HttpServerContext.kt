@@ -21,10 +21,8 @@ import java.security.cert.X509Certificate
 import java.util.concurrent.SubmissionPublisher
 
 // TODO Add exception parameter to 'send*' methods
-data class HttpServerContext(
-    val context: Context<HttpServerCall>,
+data class HttpServerContext(val context: Context<HttpServerCall>) {
     val attributes: Map<*, *> = context.attributes
-) {
     val request: HttpServerRequestPort = context.event.request
     val response: HttpServerResponse = context.event.response
     val exception: Exception? = context.exception
@@ -73,7 +71,7 @@ data class HttpServerContext(
         response: HttpServerResponse = HttpServerResponse(),
         predicate: HttpServerPredicate = HttpServerPredicate(),
         attributes: Map<*, *> = emptyMap<Any, Any>(),
-    ) : this(Context(HttpServerCall(request, response), predicate), attributes)
+    ) : this(Context(HttpServerCall(request, response), predicate, attributes = attributes))
 
     fun next(): HttpServerContext =
         HttpServerContext(context.next())
