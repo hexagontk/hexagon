@@ -1,6 +1,7 @@
 package com.hexagonkt.http.patterns
 
 import com.hexagonkt.core.disableChecks
+import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.VARIABLE_PATTERN as VP
 import org.junit.jupiter.api.Test
 import kotlin.test.*
 
@@ -87,30 +88,29 @@ internal class RegexPathPatternTest {
 
     @Test fun `Extract parameter from a non matching url fails`() {
         assertFailsWith<IllegalArgumentException> {
-            val regex = Regex("/alpha/(?<param>.*?)/tango$")
+            val regex = Regex("/alpha/(?<param>$VP?)/tango$")
             RegexPathPattern(regex).extractParameters("zulu/alpha/abc/tango")
         }
     }
 
     @Test fun `A path with parameters have regex and params table`() {
-        val regexPathPattern = Regex("/alpha/(?<param>.*?)/tango$")
+        val regexPathPattern = Regex("/alpha/(?<param>$VP?)/tango$")
         assert(!RegexPathPattern(regexPathPattern).matches("/alpha/a/tango/zulu"))
 
-        val pathWith1Parameter = RegexPathPattern(Regex("/alpha/(?<param>.*?)/tango.*$"))
+        val pathWith1Parameter = RegexPathPattern(Regex("/alpha/(?<param>$VP?)/tango.*$"))
         assertEquals(listOf("param"), pathWith1Parameter.parameters)
 
         assert(pathWith1Parameter.matches("/alpha/a/tango"))
         assert(pathWith1Parameter.matches("/alpha/abc/tango"))
-        assert(pathWith1Parameter.matches("/alpha//tango"))
+        assert(!pathWith1Parameter.matches("/alpha//tango"))
         assert(!pathWith1Parameter.matches("/alpha/tango"))
         assert(pathWith1Parameter.matches("/alpha/a/tango/zulu"))
-        assert(pathWith1Parameter.extractParameters("/alpha//tango")["param"]?.isEmpty() ?: false)
-        assert(pathWith1Parameter.extractParameters("/alpha//tango")["0"]?.isEmpty() ?: false)
 
         val params = pathWith1Parameter.extractParameters("/alpha/abc/tango")
         assertEquals(mapOf("param" to "abc", "0" to "abc"), params)
 
-        val pathWith2Parameters = RegexPathPattern(Regex("/alpha/(?<param>.*?)/tango/(?<arg>.*?)$"))
+        val regex = Regex("/alpha/(?<param>$VP?)/tango/(?<arg>$VP?)$")
+        val pathWith2Parameters = RegexPathPattern(regex)
         assertEquals(listOf("param", "arg"), pathWith2Parameters.parameters)
 
         val params2 = pathWith2Parameters.extractParameters("/alpha/abc/tango/def")
@@ -118,21 +118,21 @@ internal class RegexPathPatternTest {
     }
 
     @Test fun `Path with a wildcard resolve parameters properly`() {
-        val regex1 = Regex("/alpha/.*/(?<param>.*?)/tango$")
+        val regex1 = Regex("/alpha/$VP/(?<param>$VP?)/tango$")
         assertEquals(listOf("param"), RegexPathPattern(regex1).parameters)
-        val regex2 = Regex("/alpha/(?<param>.*?)/tango/(?<arg>.*?)/.*")
+        val regex2 = Regex("/alpha/(?<param>$VP?)/tango/(?<arg>$VP?)/$VP")
         assertEquals(listOf("param", "arg"), RegexPathPattern(regex2).parameters)
     }
 
     @Test fun `Path without parameters does not return any parameter`() {
-        assertEquals(emptyList(), RegexPathPattern(Regex("/.*/alpha/.*/tango")).parameters)
+        assertEquals(emptyList(), RegexPathPattern(Regex("/$VP/alpha/$VP/tango")).parameters)
         assertEquals(emptyList(), RegexPathPattern(Regex("/alpha/tango")).parameters)
     }
 
     @Test fun `Path with many wildcards resolve parameters properly`() {
-        val regex1 = Regex("/.*/alpha/.*/(?<param>.*?)/tango")
+        val regex1 = Regex("/$VP/alpha/$VP/(?<param>$VP?)/tango")
         assertEquals(listOf("param"), RegexPathPattern(regex1).parameters)
-        val regex2 = Regex("/alpha/.*/(?<param>.*?)/tango/(?<arg>.*?)/.*")
+        val regex2 = Regex("/alpha/$VP/(?<param>$VP?)/tango/(?<arg>$VP?)/$VP")
         assertEquals(listOf("param", "arg"), RegexPathPattern(regex2).parameters)
     }
 
