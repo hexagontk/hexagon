@@ -21,6 +21,7 @@ data class TemplatePathPattern(
 
         private val REGEX_CHARACTERS = listOf('(', ')', '|', '?', '+', '[', ']')
 
+        const val VARIABLE_PATTERN = "[^/]+"
         val WILDCARD_REGEX = Regex("\\$WILDCARD")
         val PARAMETER_REGEX = Regex(PARAMETER)
         val PLACEHOLDER_REGEX = Regex("\\$WILDCARD|$PARAMETER")
@@ -44,7 +45,7 @@ data class TemplatePathPattern(
         private fun String.replaceParameters(parameters: List<String>): String =
             parameters
                 .fold(this) { accumulator, item ->
-                    accumulator.replace("$PARAMETER_PREFIX$item$PARAMETER_SUFFIX", "(?<$item>.*?)")
+                    accumulator.replace("$PARAMETER_PREFIX$item$PARAMETER_SUFFIX", "(?<$item>$VARIABLE_PATTERN?)")
                 }
     }
 

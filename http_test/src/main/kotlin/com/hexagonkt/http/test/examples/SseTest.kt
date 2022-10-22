@@ -10,7 +10,7 @@ import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.model.HttpServerEvent
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import java.util.concurrent.Flow
@@ -35,7 +35,7 @@ abstract class SseTest(
     }
     // sse
 
-    override val handler: ServerHandler = path
+    override val handler: HttpHandler = path
 
     @Suppress("UNCHECKED_CAST") // For testing purposes only
     @Test fun `Request with invalid user returns 403`() {

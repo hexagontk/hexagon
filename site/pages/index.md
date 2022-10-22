@@ -159,3 +159,16 @@ Ports with their provided implementations (Adapters).
 [YAML]: /api/serialization_jackson_yaml/com.hexagonkt.serialization.jackson.yaml/-yaml
 [CSV]: /api/serialization_jackson_csv/com.hexagonkt.serialization.jackson.csv/-csv
 [XML]: /api/serialization_jackson_xml/com.hexagonkt.serialization.jackson.xml/-xml
+
+# Module Dependencies
+Module dependencies (including extra modules):
+
+```mermaid
+graph LR
+  http_server -->|uses| http
+  http_client -->|uses| http
+  web -->|uses| http_server
+  web -->|uses| templates
+  rest -->|uses| http_server
+  rest -->|uses| serialization
+```

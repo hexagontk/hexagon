@@ -9,7 +9,7 @@ import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
@@ -63,7 +63,7 @@ abstract class ErrorsTest(
     }
     // errors
 
-    override val handler: ServerHandler = path
+    override val handler: HttpHandler = path
 
     @Test fun `Invalid body returns 500 status code`() {
         val response = client.get("/invalidBody")
