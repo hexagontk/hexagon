@@ -44,5 +44,5 @@ private void setUpDokka(final Object dokkaTask) {
 dependencies {
     final String mermaidDokkaVersion = findProperty("mermaidDokkaVersion") ?: "0.4.0"
 
-    dokkaPlugin("com.glureau:html-mermaid-dokka-plugin:$mermaidDokkaVersion")
+    dokkaHtmlPartialPlugin("com.glureau:html-mermaid-dokka-plugin:$mermaidDokkaVersion")
 }
