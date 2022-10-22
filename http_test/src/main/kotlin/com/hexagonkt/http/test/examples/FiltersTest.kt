@@ -13,7 +13,7 @@ import com.hexagonkt.http.model.SuccessStatus.*
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
@@ -87,7 +87,7 @@ abstract class FiltersTest(
     }
     // filters
 
-    override val handler: ServerHandler = path
+    override val handler: HttpHandler = path
 
     @Test fun `After handlers can be chained`() {
         assertEquals(ACCEPTED, client.get("/after").status)

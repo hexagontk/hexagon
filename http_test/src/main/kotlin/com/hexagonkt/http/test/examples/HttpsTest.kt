@@ -12,7 +12,7 @@ import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
@@ -59,7 +59,7 @@ abstract class HttpsTest(
         }
     }
 
-    override val handler: ServerHandler = router
+    override val handler: HttpHandler = router
 
     @Test fun `Serve HTTPS example`() {
 

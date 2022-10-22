@@ -11,7 +11,7 @@ import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
 import java.security.cert.X509Certificate
 
-sealed interface HttpHandler : ServerHandler, Handler<HttpServerCall> {
+sealed interface HttpHandler : Handler<HttpServerCall> {
     val serverPredicate: HttpServerPredicate
 
     fun addPrefix(prefix: String): HttpHandler

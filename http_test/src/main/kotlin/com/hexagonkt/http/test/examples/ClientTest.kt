@@ -17,7 +17,7 @@ import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.handlers.HttpCallback
-import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import com.hexagonkt.serialization.SerializationFormat
@@ -41,7 +41,7 @@ abstract class ClientTest(
 
     private var callback: HttpCallback = { this }
 
-    override val handler: ServerHandler = path {
+    override val handler: HttpHandler = path {
         post("/*") { callback() }
         get("/*") { callback() }
         head("/*") { callback() }

@@ -16,7 +16,7 @@ import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.callbacks.FileCallback
 import com.hexagonkt.http.server.callbacks.UrlCallback
 import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
@@ -95,7 +95,7 @@ abstract class FilesTest(
     }
     // files
 
-    override val handler: ServerHandler = path
+    override val handler: HttpHandler = path
 
     @Test fun `Parameters are separated from each other`() {
         val parts = listOf(HttpPart("name", "value"))

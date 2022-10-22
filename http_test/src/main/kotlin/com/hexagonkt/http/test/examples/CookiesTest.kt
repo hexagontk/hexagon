@@ -7,7 +7,7 @@ import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.*
@@ -50,7 +50,7 @@ abstract class CookiesTest(
     }
     // cookies
 
-    override val handler: ServerHandler = path
+    override val handler: HttpHandler = path
 
     @BeforeEach fun clearCookies() {
         client.cookies = emptyList()

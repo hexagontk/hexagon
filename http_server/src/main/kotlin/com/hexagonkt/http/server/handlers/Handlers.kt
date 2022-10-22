@@ -69,9 +69,8 @@ fun path(pattern: String = "", block: ServerBuilder.() -> Unit): PathHandler {
 }
 
 // TODO Add first filter with error handling and 'bodyToBytes' checks
-fun path(contextPath: String = "", handlers: List<ServerHandler>): PathHandler =
+fun path(contextPath: String = "", handlers: List<HttpHandler>): PathHandler =
     handlers
-        .filterIsInstance<HttpHandler>()
         .let {
             if (it.size == 1 && it[0] is PathHandler)
                 (it[0] as PathHandler).addPrefix(contextPath) as PathHandler
