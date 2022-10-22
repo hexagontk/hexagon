@@ -23,8 +23,8 @@ import com.hexagonkt.core.Ansi.MAGENTA
 import com.hexagonkt.core.Ansi.RESET
 import com.hexagonkt.core.Ansi.UNDERLINE
 import com.hexagonkt.core.prependIndent
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.ServerBuilder
-import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
 import java.io.Closeable
 import java.lang.System.nanoTime
@@ -34,7 +34,7 @@ import java.lang.System.nanoTime
  */
 <span class="pc" id="L35">data class HttpServer(</span>
 <span class="fc" id="L36">    private val adapter: HttpServerPort,</span>
-<span class="fc" id="L37">    val handlers: List&lt;ServerHandler&gt;,</span>
+<span class="fc" id="L37">    val handlers: List&lt;HttpHandler&gt;,</span>
 <span class="pc" id="L38">    val settings: HttpServerSettings = HttpServerSettings()</span>
 ) : Closeable {
 
@@ -81,7 +81,7 @@ import java.lang.System.nanoTime
      */
 <span class="nc" id="L82">    constructor(</span>
         adapter: HttpServerPort,
-        handler: ServerHandler,
+        handler: HttpHandler,
 <span class="nc" id="L85">        settings: HttpServerSettings = HttpServerSettings(),</span>
 <span class="pc" id="L86">    ) : this(adapter, listOf(handler), settings)</span>
 

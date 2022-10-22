@@ -2,18 +2,18 @@
 
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.handlers.ServerBuilder
-import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 
 /**
  * Create a Netty server and start it. It is a shortcut to avoid passing the adapter.
  *
  * @param settings Server settings info .
- * @param handlers List of [ServerHandler] handlers used in this server instance.
+ * @param handlers List of [HttpHandler] handlers used in this server instance.
  *
  * @return The started [HttpServer] instance.
  */
 <span class="nc" id="L15">fun serve(</span>
-<span class="nc" id="L16">    settings: HttpServerSettings = HttpServerSettings(), handlers: List&lt;ServerHandler&gt;</span>
+<span class="nc" id="L16">    settings: HttpServerSettings = HttpServerSettings(), handlers: List&lt;HttpHandler&gt;</span>
 ): HttpServer =
 <span class="nc" id="L18">    HttpServer(NettyServerAdapter(), handlers, settings).apply { start() }</span>
 
@@ -21,7 +21,7 @@ import com.hexagonkt.http.server.handlers.ServerHandler
  * Create a Netty server and start it. It is a shortcut to avoid passing the adapter.
  *
  * @param settings Server settings info.
- * @param block Lambda to be used to create the list of [ServerHandler] handlers used in the server.
+ * @param block Lambda to be used to create the list of [HttpHandler] handlers used in the server.
  *
  * @return The started [HttpServer] instance.
  */

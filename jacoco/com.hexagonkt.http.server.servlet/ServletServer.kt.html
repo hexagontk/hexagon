@@ -13,7 +13,7 @@ import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerFeature.ASYNC
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import jakarta.servlet.*
 import java.lang.management.ManagementFactory
@@ -24,7 +24,7 @@ import java.util.*
  * started/stopped (not passed to an [HttpServer]).
  */
 <span class="pc" id="L26">abstract class ServletServer(</span>
-<span class="nc" id="L27">    handlers: List&lt;ServerHandler&gt; = emptyList(),</span>
+<span class="nc" id="L27">    handlers: List&lt;HttpHandler&gt; = emptyList(),</span>
 <span class="pc" id="L28">    private val settings: HttpServerSettings = HttpServerSettings(),</span>
 ) : ServletContextListener {
 
@@ -39,7 +39,7 @@ import java.util.*
      * @param settings Settings used by this server.
      */
 <span class="fc" id="L41">    constructor(</span>
-        handler: ServerHandler,
+        handler: HttpHandler,
 <span class="fc" id="L43">        settings: HttpServerSettings = HttpServerSettings(),</span>
 <span class="fc" id="L44">    ) : this(listOf(handler), settings)</span>
 
