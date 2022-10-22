@@ -4,7 +4,7 @@ import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpStatus
 import kotlin.reflect.KClass
 
-class ServerBuilder(var handlers: List<ServerHandler> = emptyList()) {
+class ServerBuilder(var handlers: List<HttpHandler> = emptyList()) {
 
     fun use(handler: HttpHandler) {
         this.handlers += handler

@@ -67,6 +67,7 @@ task("mkDocs") {
 
         overwrite("assets/img/logo.svg", "$contentTarget/api/images/logo-icon.svg")
         overwrite("assets/img/logo_white_text.svg", "$contentTarget/api/images/docs_logo.svg")
+        overwrite("$contentTarget/api/core/dokka-mermaid.js", "$contentTarget/api/dokka-mermaid.js")
         project.file("build/content/api/styles/main.css")
             .appendText(project.file("assets/css/dokka.css").readText())
 

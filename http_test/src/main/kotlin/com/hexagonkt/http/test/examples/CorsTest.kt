@@ -11,7 +11,7 @@ import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.callbacks.CorsCallback
 import com.hexagonkt.http.server.handlers.ServerBuilder
 import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
@@ -53,7 +53,7 @@ abstract class CorsTest(
     }
     // cors
 
-    override val handler: ServerHandler = path
+    override val handler: HttpHandler = path
 
     @Test fun `Request without origin continues as non CORS`() {
         listOf(

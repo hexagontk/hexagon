@@ -21,11 +21,9 @@ internal class TemplatePathPatternTest {
         assertFalse(regexPathParamsPrefix.matches("/prefix/alpha/a/bravo"))
     }
 
-    @Test fun `URLs with blank parameters are matched`() {
+    @Test fun `URLs with blank parameters are not matched`() {
         val regexPath = TemplatePathPattern("/alpha/{param}/bravo")
-        assert(regexPath.matches("/alpha//bravo"))
-        assertTrue(regexPath.extractParameters("/alpha//bravo")["param"]?.isEmpty() ?: false)
-        assertTrue(regexPath.extractParameters("/alpha//bravo")["0"]?.isEmpty() ?: false)
+        assertFalse(regexPath.matches("/alpha//bravo"))
     }
 
     @Test fun `Prefixes can be appended to patterns`() {
@@ -176,11 +174,9 @@ internal class TemplatePathPatternTest {
 
         assert(pathWith1Parameter.matches("/alpha/a/tango"))
         assert(pathWith1Parameter.matches("/alpha/abc/tango"))
-        assert(pathWith1Parameter.matches("/alpha//tango"))
+        assert(!pathWith1Parameter.matches("/alpha//tango"))
         assert(!pathWith1Parameter.matches("/alpha/tango"))
         assert(pathWith1Parameter.matches("/alpha/a/tango/zulu"))
-        assert(pathWith1Parameter.extractParameters("/alpha//tango")["param"]?.isEmpty() ?: false)
-        assert(pathWith1Parameter.extractParameters("/alpha//tango")["0"]?.isEmpty() ?: false)
 
         val pathWith2Parameters = TemplatePathPattern("/alpha/{param}/tango/{arg}")
         assertEquals("/alpha/{param}/tango/{arg}", pathWith2Parameters.pattern)

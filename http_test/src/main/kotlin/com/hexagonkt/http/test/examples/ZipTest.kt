@@ -6,7 +6,7 @@ import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
-import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
@@ -21,7 +21,7 @@ abstract class ZipTest(
     final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
-    override val handler: ServerHandler = path {}
+    override val handler: HttpHandler = path {}
 
     @Test fun `Use ZIP encoding example`() {
 
