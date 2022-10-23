@@ -106,6 +106,7 @@ internal class MediaTypeTest {
         assertEquals("image/svg+xml", MediaType["svg"].fullType)
         assertEquals("image/vnd.microsoft.icon", MediaType["ico"].fullType)
         assertEquals("image/webp", MediaType["webp"].fullType)
+        assertEquals("image/avif", MediaType["avif"].fullType)
 
         assertEquals("text/csv", MediaType["csv"].fullType)
         assertEquals("text/x-java-properties", MediaType["properties"].fullType)
