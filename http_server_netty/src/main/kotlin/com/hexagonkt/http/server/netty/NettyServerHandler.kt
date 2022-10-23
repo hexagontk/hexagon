@@ -5,11 +5,13 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.model.HttpServerResponse
 import io.netty.buffer.Unpooled
+import io.netty.channel.Channel
 import io.netty.channel.ChannelFutureListener.CLOSE
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
 import io.netty.handler.codec.http.*
 import io.netty.handler.codec.http.HttpHeaderNames.*
+import io.netty.handler.codec.http.HttpHeaderValues.CHUNKED
 import io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE
 import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.HttpResponseStatus.*
@@ -19,9 +21,9 @@ import io.netty.handler.codec.http.cookie.ServerCookieEncoder.STRICT
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory
 import io.netty.handler.ssl.SslHandler
 import io.netty.handler.ssl.SslHandshakeCompletionEvent
-import java.lang.IllegalStateException
 import java.net.InetSocketAddress
 import java.security.cert.X509Certificate
+import java.util.concurrent.Flow.*
 
 internal class NettyServerHandler(
     private val handlers: Map<HttpMethod, PathHandler>,
@@ -31,43 +33,108 @@ internal class NettyServerHandler(
     private var certificates: List<X509Certificate> = emptyList()
 
     override fun channelRead(context: ChannelHandlerContext, nettyRequest: Any) {
-        if (nettyRequest is FullHttpRequest) {
-            val result = nettyRequest.decoderResult()
+        if (nettyRequest !is FullHttpRequest)
+            return
 
-            if (result.isFailure)
-                throw IllegalStateException(result.cause())
+        val result = nettyRequest.decoderResult()
 
-            val channel = context.channel()
-            val address = channel.remoteAddress() as InetSocketAddress
-            val method = nettyRequest.method()
-            val headers = nettyRequest.headers()
-            val request = NettyRequestAdapter(method, nettyRequest, certificates, address, headers)
-            val response = handlers[method]?.process(request) ?: HttpServerResponse()
+        if (result.isFailure)
+            throw IllegalStateException(result.cause())
 
-            val connection = headers[CONNECTION]?.lowercase()
-            val upgrade = headers[UPGRADE]?.lowercase()
+        val channel = context.channel()
+        val address = channel.remoteAddress() as InetSocketAddress
+        val method = nettyRequest.method()
+        val headers = nettyRequest.headers()
+        val request = NettyRequestAdapter(method, nettyRequest, certificates, address, headers)
+        val response = handlers[method]?.process(request) ?: HttpServerResponse()
 
-            if (connection == "upgrade" && upgrade == "websocket") {
+        val body = response.body
+        val connection = headers[CONNECTION]?.lowercase()
+        val upgrade = headers[UPGRADE]?.lowercase()
 
-                // Adding new handler to the existing pipeline to handle WebSocket Messages
-                context.pipeline().replace(this, "webSocketHandler", NettyWebSocketHandler())
+        val isSse = body is Publisher<*>
+        val isWebSocket = connection == "upgrade" && upgrade == "websocket"
 
-                // Do the Handshake to upgrade connection from HTTP to WebSocket protocol
-                val host = headers["host"]
-                val uri = nettyRequest.uri()
-                val url = "ws://$host$uri"
-                val wsFactory = WebSocketServerHandshakerFactory(url, null, true)
-                val handShaker = wsFactory.newHandshaker(nettyRequest)
-
-                if (handShaker == null)
-                    WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(channel)
-                else
-                    handShaker.handshake(channel, nettyRequest)
-            }
-            else {
-                writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))
-            }
+        when {
+            isSse -> handleSse(context, response, body)
+            isWebSocket -> handleWebSocket(context, request, response, nettyRequest, channel)
+            else -> writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))
         }
+    }
+
+    @Suppress("UNCHECKED_CAST") // Body not cast to Publisher<HttpServerEvent> due to type erasure
+    private fun handleSse(context: ChannelHandlerContext, response: HttpServerResponse, body: Any) {
+        val status = nettyStatus(response.status)
+        val nettyResponse = DefaultHttpResponse(HTTP_1_1, status)
+        val headers = nettyResponse.headers()
+
+        val hexagonHeaders = response.headers
+        if (hexagonHeaders.httpFields.isNotEmpty())
+            hexagonHeaders.allValues.map { (k, v) -> headers.add(k, v) }
+
+        val hexagonCookies = response.cookies
+        if (hexagonCookies.isNotEmpty())
+            headers[SET_COOKIE] = STRICT.encode(nettyCookies(hexagonCookies))
+
+        val contentType = response.contentType
+        if (contentType != null)
+            headers[CONTENT_TYPE] = contentType.text
+
+        headers[TRANSFER_ENCODING] = CHUNKED
+        headers[CONNECTION] = KEEP_ALIVE
+        context.writeAndFlush(nettyResponse)
+
+        // TODO Close when publisher is done
+        val publisher = body as Publisher<HttpServerEvent>
+        publisher.subscribe(object : Subscriber<HttpServerEvent> {
+            override fun onError(throwable: Throwable) {}
+
+            override fun onComplete() {}
+
+            override fun onSubscribe(subscription: Subscription) {
+                subscription.request(Long.MAX_VALUE)
+            }
+
+            override fun onNext(item: HttpServerEvent) {
+                val eventData = Unpooled.copiedBuffer(item.eventData.toByteArray())
+                context.writeAndFlush(DefaultHttpContent(eventData))
+            }
+        })
+    }
+
+    private fun handleWebSocket(
+        context: ChannelHandlerContext,
+        request: NettyRequestAdapter,
+        response: HttpServerResponse,
+        nettyRequest: FullHttpRequest,
+        channel: Channel
+    ) {
+        val session = NettyWsSession(context, request)
+        val nettyWebSocketHandler = NettyWebSocketHandler(
+            session,
+            response.onBinary,
+            response.onText,
+            response.onPing,
+            response.onPong,
+            response.onClose,
+        )
+
+        context.pipeline().replace(this, "webSocketHandler", nettyWebSocketHandler)
+        wsHandshake(nettyRequest, channel)
+        session.(response.onConnect)()
+    }
+
+    private fun wsHandshake(nettyRequest: FullHttpRequest, channel: Channel) {
+        val host = nettyRequest.headers()["host"]
+        val uri = nettyRequest.uri()
+        val url = "ws://$host$uri"
+        val wsFactory = WebSocketServerHandshakerFactory(url, null, true)
+        val handShaker = wsFactory.newHandshaker(nettyRequest)
+
+        if (handShaker == null)
+            WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(channel)
+        else
+            handShaker.handshake(channel, nettyRequest)
     }
 
     override fun userEventTriggered(ctx: ChannelHandlerContext, evt: Any) {

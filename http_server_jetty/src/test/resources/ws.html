@@ -6,7 +6,13 @@
 <title>WS</title>
 
 <script type="text/javascript">
-  var ws = new WebSocket("ws://localhost:8080/ws");
+  const sse = new EventSource("http://localhost:2010/sse");
+  const ws = new WebSocket("ws://localhost:2010/ws");
+
+  sse.onmessage = (event) => {
+    var messageFromServer = event.data;
+    document.getElementById("output").append(`sse: ${messageFromServer}`);
+  }
 
   ws.onmessage = (event) => {
     var messageFromServer = event.data;
