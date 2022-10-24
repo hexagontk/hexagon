@@ -51,6 +51,15 @@ internal class LoggingManagerTest {
         assertTrue(chc.isLoggerLevelEnabled(TRACE))
     }
 
+    @Test fun `'defaultLoggerName' can be changed`() {
+        val dln = LoggingManager.defaultLoggerName
+
+        LoggingManager.defaultLoggerName = "com.example"
+        assertEquals("com.example", LoggingManager.defaultLoggerName)
+
+        LoggingManager.defaultLoggerName = dln
+    }
+
     @Test fun `'defaultLoggerName' cannot be set to empty string`() {
         val e = assertFailsWith<IllegalArgumentException> {
             LoggingManager.defaultLoggerName = ""

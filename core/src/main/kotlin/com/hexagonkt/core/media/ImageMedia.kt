@@ -16,4 +16,5 @@ enum class ImageMedia(
     SVG(MediaTypeGroup.IMAGE, "svg+xml"),
     ICO(MediaTypeGroup.IMAGE, "vnd.microsoft.icon"),
     WEBP(MediaTypeGroup.IMAGE, "webp"),
+    AVIF(MediaTypeGroup.IMAGE, "avif"),
 }

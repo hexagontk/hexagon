@@ -1,7 +1,5 @@
 package com.hexagonkt.http.server.netty.poc
 
-import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.netty.serve
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.*
 import io.netty.channel.nio.NioEventLoopGroup
@@ -26,24 +24,21 @@ import kotlin.test.assertEquals
 internal class WebSocketTest {
 
     @Test fun `WS connections`() {
-        val server = serve(HttpServerSettings(bindPort = 8080)) {
-            get("/ws") { ok() }
-        }
+        main()
 
-        val uri = URI("ws://localhost:8080/ws")
+        val uri = URI("ws://localhost:${server.runtimePort}/ws")
         val handShaker = newHandshaker(uri, V13, null, true, DefaultHttpHeaders())
         val clientHandler = WebSocketClientHandler(handShaker)
         val bootstrap = client(clientHandler, uri)
         val channel = bootstrap.connect(uri.host, uri.port).sync().channel()
-        clientHandler.handshakeSync()
 
+        clientHandler.handshakeSync()
         channel.writeAndFlush(TextWebSocketFrame("msg"))
 
         Thread.sleep(300)
         assertEquals("msg", clientHandler.result)
 
         channel.close().sync()
-
         bootstrap.config().group().shutdownGracefully()
         server.stop()
     }
@@ -51,10 +46,8 @@ internal class WebSocketTest {
     private fun client(clientHandler: WebSocketClientHandler, uri: URI): Bootstrap {
         val scheme = uri.scheme.lowercase()
 
-        if (scheme !in setOf("ws", "wss")) {
-            System.err.println("Only WS(S) is supported.")
-            error("")
-        }
+        if (scheme !in setOf("ws", "wss"))
+            error("Only WS(S) is supported")
 
         val channelInitializer = object : ChannelInitializer<SocketChannel>() {
             override fun initChannel(channel: SocketChannel) {
@@ -98,48 +91,39 @@ private class WebSocketClientHandler(
 
     override fun channelActive(context: ChannelHandlerContext) {
         handShaker.handshake(context.channel())
-        println("Handshake!!!")
     }
 
-    override fun channelInactive(ctx: ChannelHandlerContext) {
-        println("WebSocket Client disconnected!")
-    }
+    override fun channelInactive(context: ChannelHandlerContext) {}
 
-    override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-        val ch = ctx.channel()
+    override fun channelRead(context: ChannelHandlerContext, message: Any) {
+        val channel = context.channel()
 
         if (!handShaker.isHandshakeComplete) {
             try {
-                handShaker.finishHandshake(ch, msg as FullHttpResponse)
+                handShaker.finishHandshake(channel, message as FullHttpResponse)
                 handshakeFuture.setSuccess()
-                println("WebSocket Client connected!")
             }
             catch (e: WebSocketHandshakeException) {
                 handshakeFuture.setFailure(e)
-                println("WebSocket Client failed to connect")
             }
             return
         }
 
-        when (msg) {
+        when (message) {
             is FullHttpResponse -> {
-                val status = msg.status()
-                val content = msg.content().toString(CharsetUtil.UTF_8)
+                val status = message.status()
+                val content = message.content().toString(CharsetUtil.UTF_8)
                 error("Unexpected FullHttpResponse (getStatus=$status, content=$content)")
             }
 
             is TextWebSocketFrame -> {
-                println("WebSocket Client received message: " + msg.text())
-                result = msg.text()
+                result = message.text()
             }
 
-            is PongWebSocketFrame -> {
-                println("WebSocket Client received pong")
-            }
+            is PongWebSocketFrame -> {}
 
             is CloseWebSocketFrame -> {
-                println("WebSocket Client received closing")
-                ch.close()
+                channel.close()
             }
         }
     }

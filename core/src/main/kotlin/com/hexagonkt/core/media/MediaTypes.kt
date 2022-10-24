@@ -109,6 +109,7 @@ internal val extensions: Map<String, MediaType> = mapOf(
     "svg" to ImageMedia.SVG,
     "ico" to ImageMedia.ICO,
     "webp" to ImageMedia.WEBP,
+    "avif" to ImageMedia.AVIF,
     "csv" to TextMedia.CSV,
     "properties" to TextMedia.X_JAVA_PROPERTIES,
     "js" to TextMedia.JAVASCRIPT,

@@ -88,4 +88,8 @@ internal class JvmTest {
         assert(Jvm.charset.isRegistered)
         assert(Jvm.charset.canEncode())
     }
+
+    @Test fun `JVM version is retrieved`() {
+        assert(Jvm.version.isNotBlank())
+    }
 }

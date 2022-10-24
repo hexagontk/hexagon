@@ -1,43 +1,31 @@
 package com.hexagonkt.http.server.netty
 
+import com.hexagonkt.http.model.WsSession
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
 import io.netty.handler.codec.http.websocketx.*
 
-internal class NettyWebSocketHandler : ChannelInboundHandlerAdapter() {
+internal class NettyWebSocketHandler(
+    private val session: WsSession,
+    private val onBinary: WsSession.(data: ByteArray) -> Unit = {},
+    private val onText: WsSession.(text: String) -> Unit = {},
+    private val onPing: WsSession.(data: ByteArray) -> Unit = {},
+    private val onPong: WsSession.(data: ByteArray) -> Unit = {},
+    private val onClose: WsSession.(statusCode: Int, reason: String) -> Unit = { _, _ -> },
+) : ChannelInboundHandlerAdapter() {
 
     override fun channelRead(context: ChannelHandlerContext, message: Any) {
-        if (message is WebSocketFrame) {
-            when (message) {
-                is BinaryWebSocketFrame -> {
-                    println("BinaryWebSocketFrame Received : " + message.content())
-                }
+        if (message !is WebSocketFrame)
+            return
 
-                is TextWebSocketFrame -> {
-                    val text = message.text()
-                    val textWebSocketFrame = TextWebSocketFrame(text)
-                    context.channel().writeAndFlush(textWebSocketFrame)
-                    println("TextWebSocketFrame Received : $text")
-                }
-
-                is PingWebSocketFrame -> {
-                    println("PingWebSocketFrame Received : " + message.content())
-                }
-
-                is PongWebSocketFrame -> {
-                    println("PongWebSocketFrame Received : " + message.content())
-                }
-
-                is CloseWebSocketFrame -> {
-                    println("CloseWebSocketFrame Received : ")
-                    println("ReasonText :" + message.reasonText())
-                    println("StatusCode : " + message.statusCode())
-                }
-
-                else -> {
-                    println("Unsupported WebSocketFrame")
-                }
-            }
+        val content = message.content()
+        when (message) {
+            is BinaryWebSocketFrame -> session.onBinary(content.retain().array())
+            is TextWebSocketFrame -> session.onText(message.text())
+            is PingWebSocketFrame -> session.onPing(content.retain().array())
+            is PongWebSocketFrame -> session.onPong(content.retain().array())
+            is CloseWebSocketFrame -> session.onClose(message.statusCode(), message.reasonText())
+            else -> error("Unsupported WebSocketFrame")
         }
     }
 }

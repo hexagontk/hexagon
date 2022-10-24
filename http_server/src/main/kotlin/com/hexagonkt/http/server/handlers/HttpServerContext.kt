@@ -10,15 +10,11 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.model.HttpServerEvent
-import com.hexagonkt.http.model.SuccessStatus.CREATED
-import com.hexagonkt.http.model.SuccessStatus.OK
-import com.hexagonkt.http.server.model.HttpServerCall
-import com.hexagonkt.http.server.model.HttpServerRequest
-import com.hexagonkt.http.server.model.HttpServerRequestPort
-import com.hexagonkt.http.server.model.HttpServerResponse
+import com.hexagonkt.http.model.SuccessStatus.*
+import com.hexagonkt.http.server.model.*
 import java.net.URL
 import java.security.cert.X509Certificate
-import java.util.concurrent.SubmissionPublisher
+import java.util.concurrent.Flow.Publisher
 
 // TODO Add exception parameter to 'send*' methods
 data class HttpServerContext(val context: Context<HttpServerCall>) {
@@ -173,7 +169,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
     ): HttpServerContext =
         success(OK, body, headers, contentType, cookies, attributes)
 
-    fun sse(body: SubmissionPublisher<HttpServerEvent>): HttpServerContext =
+    fun sse(body: Publisher<HttpServerEvent>): HttpServerContext =
         ok(
             body = body,
             headers = response.headers + Header("cache-control", "no-cache"),
@@ -207,6 +203,26 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
     ): HttpServerContext =
         success(CREATED, body, headers, contentType, cookies, attributes)
 
+    fun accepted(
+        onConnect: WsSession.() -> Unit = {},
+        onBinary: WsSession.(data: ByteArray) -> Unit = {},
+        onText: WsSession.(text: String) -> Unit = {},
+        onPing: WsSession.(data: ByteArray) -> Unit = {},
+        onPong: WsSession.(data: ByteArray) -> Unit = {},
+        onClose: WsSession.(statusCode: Int, reason: String) -> Unit = { _, _ -> },
+    ): HttpServerContext =
+        send(
+            context.event.response.copy(
+                status = ACCEPTED,
+                onConnect = onConnect,
+                onBinary = onBinary,
+                onText = onText,
+                onPing = onPing,
+                onPong = onPong,
+                onClose = onClose,
+            )
+        )
+
     fun send(
         status: HttpStatus = response.status,
         body: Any = response.body,
@@ -227,7 +243,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         )
 
     fun send(
-        response: HttpServerResponse, attributes: Map<*, *> = emptyMap<Any, Any>()
+        response: HttpServerResponse, attributes: Map<*, *> = context.attributes
     ): HttpServerContext =
         HttpServerContext(
             context.copy(

@@ -58,39 +58,4 @@ fun main() {
     server.handler = context
     server.stopAtShutdown = true
     server.start()
-
-//        .get("/hello") {
-//            it.requestPath
-//            it.requestReceiver.receiveFullBytes { _, _ -> } // Read body (async)
-//            it.responseHeaders.put(Headers.CONTENT_TYPE, "text/plain")
-//            it.queryString.info()
-//            it.requestPath.info()
-//            it.relativePath.info()
-//            it.resolvedPath.info()
-//            it.responseSender.send("Hello World")
-//        }
-//
-//        .get("/bye") {
-//            it.responseHeaders.put(Headers.CONTENT_TYPE, "text/plain")
-//            it.responseSender.send("Cruel World")
-//        }
-//
-//        .addPrefixPath("/ws", websocket { exchange, channel ->
-//            exchange.requestURI.info()
-//            run {
-//                channel.receiveSetter.set(object : AbstractReceiveListener() {
-//                    override fun onFullTextMessage(
-//                        channel: WebSocketChannel,
-//                        message: BufferedTextMessage
-//                    ) {
-//                        val messageData = message.data
-//                        for (session in channel.peerConnections) {
-//                            WebSockets.sendText(messageData, session, null)
-//                        }
-//                        WebSockets.sendText("$messageData!!!", channel, null)
-//                    }
-//                })
-//                channel.resumeReceives()
-//            }
-//        })
 }
