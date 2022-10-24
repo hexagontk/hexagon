@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.netty
 
-import com.hexagonkt.http.server.model.HttpServerRequestPort
-import com.hexagonkt.http.server.model.WsSession
+import com.hexagonkt.http.model.HttpRequest
+import com.hexagonkt.http.model.WsSession
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame
@@ -9,10 +9,10 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame
 
 internal class NettyWsSession(
     private val context: ChannelHandlerContext,
-    request: NettyRequestAdapter,
+    request: HttpRequest,
 ) : WsSession {
 
-    override val httpRequest: HttpServerRequestPort = request
+    override val httpRequest: HttpRequest = request
 
     override fun send(data: ByteArray) {
         val webSocketFrame = BinaryWebSocketFrame(Unpooled.wrappedBuffer(data))

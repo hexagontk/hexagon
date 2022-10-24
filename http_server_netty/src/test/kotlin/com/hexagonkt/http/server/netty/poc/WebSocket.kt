@@ -4,7 +4,7 @@ import com.hexagonkt.core.logging.logger
 import com.hexagonkt.http.model.HttpServerEvent
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.callbacks.UrlCallback
-import com.hexagonkt.http.server.model.WsSession
+import com.hexagonkt.http.model.WsSession
 import com.hexagonkt.http.server.netty.serve
 import java.net.URL
 import java.util.concurrent.*
@@ -64,8 +64,8 @@ fun main () {
             sse(body)
         }
 
-        get("/ws") {
-            ws(
+        ws("/ws") {
+            accepted(
                 onConnect = {
                     sessions = sessions + this
                 },

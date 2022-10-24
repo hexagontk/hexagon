@@ -1,8 +1,8 @@
-package com.hexagonkt.http.server.model
+package com.hexagonkt.http.model
 
 interface WsSession {
     fun send(data: ByteArray)
     fun send(text: String)
 
-    val httpRequest: HttpServerRequestPort
+    val httpRequest: HttpRequest
 }

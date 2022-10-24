@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.netty
 
-import com.hexagonkt.http.server.model.WsSession
+import com.hexagonkt.http.model.WsSession
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
 import io.netty.handler.codec.http.websocketx.*

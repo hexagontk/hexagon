@@ -14,6 +14,7 @@ import io.netty.handler.codec.http.HttpHeaderNames.*
 import io.netty.handler.codec.http.HttpHeaderValues.CHUNKED
 import io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE
 import io.netty.handler.codec.http.HttpMethod
+import io.netty.handler.codec.http.HttpMethod.GET
 import io.netty.handler.codec.http.HttpResponseStatus.*
 import io.netty.handler.codec.http.HttpVersion.HTTP_1_1
 import io.netty.handler.codec.http.cookie.DefaultCookie
@@ -53,7 +54,11 @@ internal class NettyServerHandler(
         val upgrade = headers[UPGRADE]?.lowercase()
 
         val isSse = body is Publisher<*>
-        val isWebSocket = connection == "upgrade" && upgrade == "websocket"
+        val status = response.status
+        val isWebSocket = connection == "upgrade"
+            && upgrade == "websocket"
+            && method == GET
+            && status == SuccessStatus.ACCEPTED
 
         when {
             isSse -> handleSse(context, response, body)
@@ -201,7 +206,7 @@ internal class NettyServerHandler(
 
             SuccessStatus.OK -> OK
             SuccessStatus.CREATED -> CREATED
-            SuccessStatus.ACCEPTED -> ACCEPTED
+            ACCEPTED -> ACCEPTED
             SuccessStatus.NON_AUTHORITATIVE_INFORMATION -> NON_AUTHORITATIVE_INFORMATION
             SuccessStatus.NO_CONTENT -> NO_CONTENT
             SuccessStatus.RESET_CONTENT -> RESET_CONTENT
