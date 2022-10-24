@@ -1,20 +1,25 @@
 package com.hexagonkt.core
 
 import org.junit.jupiter.api.Test
+import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 
 internal class MultipleExceptionTest {
 
     @Test fun `'MultipleException' contains a list of causes`() {
         val causes = (0..9).map { RuntimeException (it.toString()) }
         val exception = MultipleException("Coded exception", *causes.toTypedArray())
+        val exception2 = MultipleException(causes, "Coded exception")
 
-        assert (exception.causes.size == 10)
-        assert (exception.message == "Coded exception")
-        exception.causes.forEachIndexed { ii, e -> assert(e.message == ii.toString()) }
+        assertEquals(exception.message, exception2.message)
+        assertContentEquals(exception.causes, exception2.causes)
+        assertEquals(10, exception.causes.size)
+        assertEquals("Coded exception", exception.message)
+        exception.causes.forEachIndexed { ii, e -> assertEquals(e.message, ii.toString()) }
 
         val exceptionVararg = MultipleException(*causes.toTypedArray())
 
-        assert (exceptionVararg.causes.size == 10)
-        exceptionVararg.causes.forEachIndexed { ii, e -> assert(e.message == ii.toString()) }
+        assertEquals(10, exceptionVararg.causes.size)
+        exceptionVararg.causes.forEachIndexed { ii, e -> assertEquals(ii.toString(), e.message) }
     }
 }
