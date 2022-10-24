@@ -162,6 +162,9 @@ internal fun <T : Exception> Exception?.castException(exception: KClass<T>?) =
 fun get(pattern: String = "", callback: HttpCallback): OnHandler =
     on(GET, pattern, callback)
 
+fun ws(pattern: String = "", callback: HttpCallback): OnHandler =
+    get(pattern, callback)
+
 fun head(pattern: String = "", callback: HttpCallback): OnHandler =
     on(HEAD, pattern, callback)
 

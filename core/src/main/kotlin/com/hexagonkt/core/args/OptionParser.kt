@@ -9,31 +9,32 @@ object OptionParser {
 
     fun parse(options: List<Option<*>>, args: Array<String>): Result<Map<Option<*>, *>> {
 
-        if (hasUnsupportedParameters(options)) return Result.failure(UnsupportedArgumentTypeException)
+        if (hasUnsupportedParameters(options))
+            error("UnsupportedArgumentTypeException")
 
         val result = mutableMapOf<Option<*>, Any>()
 
         for (arg in args) {
             if (!isOption(arg)) continue
 
-            if (!hasValidSyntax(arg)) return Result.failure(InvalidOptionSyntaxException)
+            if (!hasValidSyntax(arg)) error("InvalidOptionSyntaxException")
             val isLong = arg.startsWith("--")
             val optionWithoutPrefixedDashes = removePrefixedDashes(arg)
 
             if (isLong) {
                 val split = optionWithoutPrefixedDashes.split("=")
                 val option = options.find { split.first() == it.longName }
-                    ?: return Result.failure(InvalidOptionException)
+                    ?: error("InvalidOptionException")
 
                 result[option] = when {
                     split.size > 1 -> resolveParamValue(split[1], option)
                     option.type.qualifiedName == BOOLEAN -> true
-                    else -> return Result.failure(OptionNeedsAValueException)
+                    else -> error("OptionNeedsAValueException")
                 }
             } else {
                 optionWithoutPrefixedDashes.forEach { shortName ->
                     val option = options.find { it.shortName == shortName }
-                        ?: return Result.failure(InvalidOptionSyntaxException)
+                        ?: error("InvalidOptionSyntaxException")
                     result[option] = true
                 }
             }
@@ -70,4 +71,3 @@ object OptionParser {
         }
     }
 }
-

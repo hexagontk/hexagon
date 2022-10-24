@@ -122,6 +122,10 @@ class ServerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         use(com.hexagonkt.http.server.handlers.get(pattern, callback))
     }
 
+    fun ws(pattern: String = "", callback: HttpCallback) {
+        use(com.hexagonkt.http.server.handlers.ws(pattern, callback))
+    }
+
     fun head(pattern: String = "", callback: HttpCallback) {
         use(com.hexagonkt.http.server.handlers.head(pattern, callback))
     }
