@@ -2,7 +2,9 @@ package com.hexagonkt.core.args
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.lang.IllegalStateException
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class OptionParserTest {
 
@@ -60,10 +62,11 @@ class OptionParserTest {
 
         val someArg = Option('s', "some-arg", String::class)
 
-        val actual = optionParser.parse(listOf(someArg), arrayOf("---some-arg=value"))
-        val expected: Result<Map<Option<*>, *>> = Result.failure(InvalidOptionSyntaxException)
+        val e = assertFailsWith<IllegalStateException> {
+            optionParser.parse(listOf(someArg), arrayOf("---some-arg=value"))
+        }
 
-        assertEquals(expected, actual)
+        assertEquals("InvalidOptionSyntaxException", e.message)
     }
 
     @Test fun `Parse should fail if a short named arg is invalid`() {
@@ -71,10 +74,11 @@ class OptionParserTest {
         val someArg = Option('s', "some-arg", Boolean::class)
         val another = Option('a', "another-arg", Boolean::class)
 
-        val actual = optionParser.parse(listOf(someArg, another), arrayOf("-s-a"))
-        val expected: Result<Map<Option<*>, *>> = Result.failure(InvalidOptionSyntaxException)
+        val e = assertFailsWith<IllegalStateException> {
+            optionParser.parse(listOf(someArg, another), arrayOf("-s-a"))
+        }
 
-        assertEquals(expected, actual)
+        assertEquals("InvalidOptionSyntaxException", e.message)
     }
 
     @Test fun `Parse both long and short named options`() {
