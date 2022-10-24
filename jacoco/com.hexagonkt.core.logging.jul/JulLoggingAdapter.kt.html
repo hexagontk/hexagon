@@ -54,8 +54,8 @@ import java.util.logging.Logger as JulLogger
 <span class="fc" id="L54">            }</span>
 
             private fun color(message: String): String =
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                if (LoggingManager.useColor) message</span>
-<span class="pc" id="L58">                else message.stripAnsi()</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">                if (LoggingManager.useColor) message</span>
+<span class="fc" id="L58">                else message.stripAnsi()</span>
 <span class="fc" id="L59">        }</span>
 
     override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =

@@ -25,8 +25,8 @@ import com.hexagonkt.http.server.handlers.HttpHandler
  *
  * @return The started [HttpServer] instance.
  */
-<span class="nc" id="L28">fun serve(</span>
-<span class="nc" id="L29">    settings: HttpServerSettings = HttpServerSettings(), block: ServerBuilder.() -&gt; Unit</span>
+<span class="fc" id="L28">fun serve(</span>
+<span class="fc" id="L29">    settings: HttpServerSettings = HttpServerSettings(), block: ServerBuilder.() -&gt; Unit</span>
 ): HttpServer =
 <span class="fc" id="L31">    HttpServer(NettyServerAdapter(), ServerBuilder().apply {block()}.handlers, settings)</span>
 <span class="fc" id="L32">        .apply { start() }</span>

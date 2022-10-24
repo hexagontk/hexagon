@@ -162,24 +162,27 @@ internal fun &lt;T : Exception&gt; Exception?.castException(exception: KClass&lt
 <span class="nc" id="L162">fun get(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
 <span class="fc" id="L163">    on(GET, pattern, callback)</span>
 
-<span class="nc" id="L165">fun head(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L166">    on(HEAD, pattern, callback)</span>
+<span class="nc" id="L165">fun ws(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L166">    get(pattern, callback)</span>
 
-<span class="nc" id="L168">fun post(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L169">    on(POST, pattern, callback)</span>
+<span class="nc" id="L168">fun head(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L169">    on(HEAD, pattern, callback)</span>
 
-<span class="nc" id="L171">fun put(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L172">    on(PUT, pattern, callback)</span>
+<span class="nc" id="L171">fun post(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L172">    on(POST, pattern, callback)</span>
 
-<span class="nc" id="L174">fun delete(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L175">    on(DELETE, pattern, callback)</span>
+<span class="nc" id="L174">fun put(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L175">    on(PUT, pattern, callback)</span>
 
-<span class="nc" id="L177">fun trace(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L178">    on(TRACE, pattern, callback)</span>
+<span class="nc" id="L177">fun delete(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L178">    on(DELETE, pattern, callback)</span>
 
-<span class="nc" id="L180">fun options(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L181">    on(OPTIONS, pattern, callback)</span>
+<span class="nc" id="L180">fun trace(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L181">    on(TRACE, pattern, callback)</span>
 
-<span class="nc" id="L183">fun patch(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L184">    on(PATCH, pattern, callback)</span>
+<span class="nc" id="L183">fun options(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L184">    on(OPTIONS, pattern, callback)</span>
+
+<span class="nc" id="L186">fun patch(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L187">    on(PATCH, pattern, callback)</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

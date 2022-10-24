@@ -1,44 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NettyWebSocketHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.netty</a> &gt; <span class="el_source">NettyWebSocketHandler.kt</span></div><h1>NettyWebSocketHandler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.netty
 
+import com.hexagonkt.http.model.WsSession
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
 import io.netty.handler.codec.http.websocketx.*
 
-<span class="fc" id="L7">internal class NettyWebSocketHandler : ChannelInboundHandlerAdapter() {</span>
+<span class="pc" id="L8">internal class NettyWebSocketHandler(</span>
+<span class="fc" id="L9">    private val session: WsSession,</span>
+<span class="pc" id="L10">    private val onBinary: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L11">    private val onText: WsSession.(text: String) -&gt; Unit = {},</span>
+<span class="pc" id="L12">    private val onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L13">    private val onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L14">    private val onClose: WsSession.(statusCode: Int, reason: String) -&gt; Unit = { _, _ -&gt; },</span>
+<span class="fc" id="L15">) : ChannelInboundHandlerAdapter() {</span>
 
     override fun channelRead(context: ChannelHandlerContext, message: Any) {
-<span class="pc bpc" id="L10" title="1 of 2 branches missed.">        if (message is WebSocketFrame) {</span>
-<span class="fc" id="L11">            when (message) {</span>
-<span class="pc bpc" id="L12" title="1 of 2 branches missed.">                is BinaryWebSocketFrame -&gt; {</span>
-<span class="nc" id="L13">                    println(&quot;BinaryWebSocketFrame Received : &quot; + message.content())</span>
-                }
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        if (message !is WebSocketFrame)</span>
+<span class="nc" id="L19">            return</span>
 
-<span class="pc bpc" id="L16" title="1 of 2 branches missed.">                is TextWebSocketFrame -&gt; {</span>
-<span class="fc" id="L17">                    val text = message.text()</span>
-<span class="fc" id="L18">                    val textWebSocketFrame = TextWebSocketFrame(text)</span>
-<span class="fc" id="L19">                    context.channel().writeAndFlush(textWebSocketFrame)</span>
-<span class="fc" id="L20">                    println(&quot;TextWebSocketFrame Received : $text&quot;)</span>
-                }
-
-<span class="nc bnc" id="L23" title="All 2 branches missed.">                is PingWebSocketFrame -&gt; {</span>
-<span class="nc" id="L24">                    println(&quot;PingWebSocketFrame Received : &quot; + message.content())</span>
-                }
-
-<span class="nc bnc" id="L27" title="All 2 branches missed.">                is PongWebSocketFrame -&gt; {</span>
-<span class="nc" id="L28">                    println(&quot;PongWebSocketFrame Received : &quot; + message.content())</span>
-                }
-
-<span class="nc bnc" id="L31" title="All 2 branches missed.">                is CloseWebSocketFrame -&gt; {</span>
-<span class="nc" id="L32">                    println(&quot;CloseWebSocketFrame Received : &quot;)</span>
-<span class="nc" id="L33">                    println(&quot;ReasonText :&quot; + message.reasonText())</span>
-<span class="nc" id="L34">                    println(&quot;StatusCode : &quot; + message.statusCode())</span>
-                }
-
-                else -&gt; {
-<span class="nc" id="L38">                    println(&quot;Unsupported WebSocketFrame&quot;)</span>
-                }
-            }
+<span class="fc" id="L21">        val content = message.content()</span>
+<span class="fc" id="L22">        when (message) {</span>
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">            is BinaryWebSocketFrame -&gt; session.onBinary(content.retain().array())</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">            is TextWebSocketFrame -&gt; session.onText(message.text())</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">            is PingWebSocketFrame -&gt; session.onPing(content.retain().array())</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">            is PongWebSocketFrame -&gt; session.onPong(content.retain().array())</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">            is CloseWebSocketFrame -&gt; session.onClose(message.statusCode(), message.reasonText())</span>
+<span class="nc" id="L28">            else -&gt; error(&quot;Unsupported WebSocketFrame&quot;)</span>
         }
-<span class="fc" id="L42">    }</span>
-}
+<span class="fc" id="L30">    }</span>
+<span class="nc" id="L31">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
