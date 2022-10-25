@@ -4,13 +4,10 @@ import com.hexagonkt.core.media.TextMedia.CSS
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.model.HttpClientRequest
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpField
-import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.HttpMethod.POST
-import com.hexagonkt.http.model.HttpPart
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
@@ -60,11 +57,11 @@ abstract class FilesTest(
         get("/pub/*", FileCallback(File(directory))) // Serve `test` folder on `/pub/*`
 
         post("/multipart") {
-            val headers: HttpFields<Header> = parts.first().let { p ->
+            val headers = parts.first().let { p ->
                 val name = p.name
                 val bodyString = p.bodyString()
                 val size = p.size.toString()
-                HttpFields(
+                Headers(
                     Header("name", name),
                     Header("body", bodyString),
                     Header("size", size),
@@ -82,14 +79,14 @@ abstract class FilesTest(
         }
 
         post("/form") {
-            fun <T : HttpField> serializeMap(map: HttpFields<T>): List<String> = listOf(
-                map.values.joinToString("\n") { "${it.name}:${it.values.joinToString(",")}" }
+            fun <T : HttpField> serializeMap(map: Collection<T>): List<String> = listOf(
+                map.joinToString("\n") { "${it.name}:${it.values.joinToString(",")}" }
             )
 
-            val queryParams = serializeMap(queryParameters)
-            val formParams = serializeMap(formParameters)
+            val queryParams = serializeMap(queryParameters.values)
+            val formParams = serializeMap(formParameters.values)
             val headers =
-                HttpFields(Header("query-params", queryParams), Header("form-params", formParams))
+                Headers(Header("query-params", queryParams), Header("form-params", formParams))
 
             ok(headers = response.headers + headers)
         }
@@ -145,7 +142,7 @@ abstract class FilesTest(
         val parts = listOf(HttpPart("name", "value"))
         val response = client.send(HttpClientRequest(POST, path = "/multipart", parts = parts))
         // clientForm
-        val expectedHeaders = HttpFields(
+        val expectedHeaders = Headers(
             Header("name", "name"),
             Header("body", "value"),
             Header("size", "5"),

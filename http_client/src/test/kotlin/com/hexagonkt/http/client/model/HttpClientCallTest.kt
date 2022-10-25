@@ -23,7 +23,7 @@ internal class HttpClientCallTest {
     private fun httpClientResponseData(): HttpClientResponse =
         HttpClientResponse(
             body = "response",
-            headers = HttpFields(Header("hr1", "hr1v1", "hr1v2")),
+            headers = Headers(Header("hr1", "hr1v1", "hr1v2")),
             contentType = ContentType(HTML),
             cookies = listOf(HttpCookie("cn", "cv")),
             status = NOT_FOUND,
@@ -36,10 +36,10 @@ internal class HttpClientCallTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path",
-            headers = HttpFields(Header("h1", "h1v1", "h1v2")),
+            headers = Headers(Header("h1", "h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
-            formParameters = HttpFields(FormParameter("fp1", "fp1v1", "fp1v2")),
+            formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
             cookies = listOf(HttpCookie("cn", "cv")),
             contentType = ContentType(PLAIN),
             accept = listOf(ContentType(HTML)),

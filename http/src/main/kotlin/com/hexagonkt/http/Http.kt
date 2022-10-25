@@ -3,10 +3,7 @@ package com.hexagonkt.http
 import com.hexagonkt.core.disableChecks
 import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpFields
-import com.hexagonkt.http.model.QueryParameter
+import com.hexagonkt.http.model.*
 import java.math.BigInteger
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -21,7 +18,7 @@ val gmtZone: ZoneId = ZoneId.of("GMT")
 
 val httpDateFormatter: DateTimeFormatter = RFC_1123_DATE_TIME.withZone(ZoneOffset.UTC)
 
-fun checkHeaders(headers: HttpFields<Header>) {
+fun checkHeaders(headers: Headers) {
     if (disableChecks)
         return
 
@@ -43,18 +40,18 @@ fun checkHeaders(headers: HttpFields<Header>) {
  * separated by '&' where *key* is the param name before '=' as String and *value* is the string
  * after '=' as a list of String (as a query parameter may have many values).
  *
- * Note: Missing the '=' sign, or missing value after '=' (e.g `foo=` or `foo`) will result into an
+ * Note: Missing the '=' sign, or missing value after '=' (e.g. `foo=` or `foo`) will result into an
  * empty string value.
  *
  * @param query URL query string. E.g.: `param=value&foo=bar`.
  * @return Map with query parameter keys bound to a list with their values.
  *
  */
-fun parseQueryString(query: String): HttpFields<QueryParameter> =
+fun parseQueryString(query: String): QueryParameters =
     if (query.isBlank())
-        HttpFields()
+        QueryParameters()
     else
-        HttpFields(
+        QueryParameters(
             query
                 .split("&".toRegex())
                 .map {
@@ -69,7 +66,7 @@ fun parseQueryString(query: String): HttpFields<QueryParameter> =
                 .map { (k, v) -> QueryParameter(k, v) }
         )
 
-fun formatQueryString(parameters: HttpFields<QueryParameter>): String =
+fun formatQueryString(parameters: QueryParameters): String =
     parameters
         .flatMap { (k, v) -> v.values.map { k to it } }
         .filter { it.first.isNotBlank() }

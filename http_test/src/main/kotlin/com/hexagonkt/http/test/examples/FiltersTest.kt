@@ -7,7 +7,7 @@ import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
 import com.hexagonkt.http.model.ClientErrorStatus.UNAUTHORIZED
 import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpFields
+import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.SuccessStatus.*
 import com.hexagonkt.http.server.HttpServerPort
@@ -131,7 +131,7 @@ abstract class FiltersTest(
     }
 
     private fun authorizedClient(user: String, password: String): HttpClient {
-        val headers = HttpFields(Header("authorization", basicAuth(user, password)))
+        val headers = Headers(Header("authorization", basicAuth(user, password)))
         return HttpClient(
             clientAdapter(),
             URL("http://localhost:${server.runtimePort}"),

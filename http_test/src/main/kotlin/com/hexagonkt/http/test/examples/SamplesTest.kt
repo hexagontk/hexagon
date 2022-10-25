@@ -544,7 +544,7 @@ abstract class SamplesTest(
         // You can test callbacks with fake data
         val resultContext = callback.process(
             attributes = mapOf("fake" to "attribute"),
-            headers = HttpFields(Header("fake", "header"))
+            headers = Headers(Header("fake", "header"))
         )
 
         assertEquals("Callback result attribute header", resultContext.response.bodyString())
@@ -575,7 +575,7 @@ abstract class SamplesTest(
                 it.start()
 
                 val acceptHeader = Header("accept", "text/plain, text/html")
-                val acceptResponse = it.get("/accept", headers = HttpFields(acceptHeader))
+                val acceptResponse = it.get("/accept", headers = Headers(acceptHeader))
                 assertEquals("text/plain:text/html", acceptResponse.bodyString())
             }
 

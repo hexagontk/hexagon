@@ -17,13 +17,13 @@ internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletReque
         req.parts.map { servletPartAdapter(it) }
     }
 
-    override val formParameters: HttpFields<FormParameter> by lazy {
+    override val formParameters: FormParameters by lazy {
         req.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfig)
         val fields = parameters
             .filter { it.key !in queryParameters.httpFields.keys }
             .map { (k, v) -> FormParameter(k, v) }
 
-        HttpFields(fields)
+        FormParameters(fields)
     }
 
     private val multipartConfig: MultipartConfigElement by lazy { MultipartConfigElement("/tmp") }
@@ -37,7 +37,7 @@ internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletReque
         return HttpPart(
             name = part.name,
             body = part.inputStream.readAllBytes(),
-            headers = HttpFields(headerNames.map { Header(it, part.getHeaders(it).toList()) }),
+            headers = Headers(headerNames.map { Header(it, part.getHeaders(it).toList()) }),
             contentType = part.contentType?.let { parseContentType(it) },
             size = part.size,
             submittedFileName = part.submittedFileName,

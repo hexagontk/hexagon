@@ -366,11 +366,11 @@ private val path: PathHandler = path {
     get("/pub/*", FileCallback(File(directory))) // Serve `test` folder on `/pub/*`
 
     post("/multipart") {
-        val headers: HttpFields<Header> = parts.first().let { p ->
+        val headers = parts.first().let { p ->
             val name = p.name
             val bodyString = p.bodyString()
             val size = p.size.toString()
-            HttpFields(
+            Headers(
                 Header("name", name),
                 Header("body", bodyString),
                 Header("size", size),
@@ -388,14 +388,14 @@ private val path: PathHandler = path {
     }
 
     post("/form") {
-        fun <T : HttpField> serializeMap(map: HttpFields<T>): List<String> = listOf(
-            map.values.joinToString("\n") { "${it.name}:${it.values.joinToString(",")}" }
+        fun <T : HttpField> serializeMap(map: Collection<T>): List<String> = listOf(
+            map.joinToString("\n") { "${it.name}:${it.values.joinToString(",")}" }
         )
 
-        val queryParams = serializeMap(queryParameters)
-        val formParams = serializeMap(formParameters)
+        val queryParams = serializeMap(queryParameters.values)
+        val formParams = serializeMap(formParameters.values)
         val headers =
-            HttpFields(Header("query-params", queryParams), Header("form-params", formParams))
+            Headers(Header("query-params", queryParams), Header("form-params", formParams))
 
         ok(headers = response.headers + headers)
     }

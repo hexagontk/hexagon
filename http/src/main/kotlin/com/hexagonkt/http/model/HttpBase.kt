@@ -3,7 +3,7 @@ package com.hexagonkt.http.model
 interface HttpBase {
     // TODO Allow get by chunks with 'channel/flow'
     val body: Any
-    val headers: HttpFields<Header>  // ["H"] // value of "H" header
+    val headers: Headers  // ["H"] // value of "H" header
     val contentType: ContentType?    // media type of request.body
 
     fun bodyString(): String =

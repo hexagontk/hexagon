@@ -11,6 +11,7 @@ import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpCookie
+import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.parseContentType
 import org.eclipse.jetty.client.HttpResponseException
@@ -28,7 +29,6 @@ import org.eclipse.jetty.io.ClientConnector
 import java.net.CookieStore
 import java.net.URI
 import java.util.concurrent.ExecutionException
-import com.hexagonkt.http.model.HttpFields as HxHttpFields
 import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFactory
 import org.eclipse.jetty.client.HttpClient as JettyHttpClient
 
@@ -99,8 +99,8 @@ class JettyClientAdapter : HttpClientPort {
         )
     }
 
-    private fun convertHeaders(headers: HttpFields): HxHttpFields<Header> =
-        HxHttpFields(
+    private fun convertHeaders(headers: HttpFields): Headers =
+        Headers(
             headers
                 .fieldNamesCollection
                 .map { it.lowercase() }

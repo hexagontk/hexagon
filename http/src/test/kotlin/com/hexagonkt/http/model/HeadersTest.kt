@@ -4,10 +4,11 @@ import com.hexagonkt.core.require
 import org.junit.jupiter.api.Test
 import kotlin.test.*
 
-internal class HttpFieldsTest {
+internal class HeadersTest {
 
-    @Test fun `HTTP fields works correctly`() {
-        val fields = HttpFields(
+    @Test
+    fun `HTTP headers works correctly`() {
+        val fields = Headers(
             Header("a", "b", 1, true),
             Header("b", "c", 0, false),
         )
@@ -26,15 +27,16 @@ internal class HttpFieldsTest {
         assertEquals("0", (fields + Header("c", 0)).require("c").value)
 
         assertEquals(
-            fields + HttpFields(Header("c", 0), Header("d", 1)),
+            fields + Headers(Header("c", 0), Header("d", 1)),
             fields + Header("c", 0) + Header("d", 1)
         )
 
         assertEquals(fields, (fields + Header("c", 0)) - "c")
     }
 
-    @Test fun `HTTP fields works correctly with empty fields`() {
-        val fields = HttpFields(
+    @Test
+    fun `HTTP fields works correctly with empty fields`() {
+        val fields = Headers(
             Header("a"),
             Header("b"),
         )
@@ -44,5 +46,13 @@ internal class HttpFieldsTest {
 
         assertNull(fields.require("a").value)
         assertFailsWith<IllegalStateException> { fields.require("z") }
+    }
+
+    @Test
+    fun `Headers can be retrieved in a case insensitive way`() {
+        val hs = Headers(Header("X-Accept", "a"), Header("x-ACCEPT", "b"))
+        assertEquals("b", hs["X-Accept"]?.value)
+        assertEquals("b", hs["x-accept"]?.value)
+        assertEquals("b", hs["X-ACCEPT"]?.value)
     }
 }

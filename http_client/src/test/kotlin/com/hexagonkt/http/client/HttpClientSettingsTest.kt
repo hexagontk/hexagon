@@ -1,6 +1,6 @@
 package com.hexagonkt.http.client
 
-import com.hexagonkt.http.model.HttpFields
+import com.hexagonkt.http.model.Headers
 import org.junit.jupiter.api.Test
 import java.net.URL
 import kotlin.test.assertEquals
@@ -15,7 +15,7 @@ internal class HttpClientSettingsTest {
             assertEquals(URL("http://localhost:2010"), it.baseUrl)
             assertNull(it.contentType)
             assertTrue(it.useCookies)
-            assertEquals(HttpFields(), it.headers)
+            assertEquals(Headers(), it.headers)
             assertFalse(it.insecure)
             assertNull(it.sslSettings)
         }

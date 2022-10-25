@@ -35,7 +35,7 @@ data class Http(
     val response: HttpClientResponse
         get() = responseOrNull ?: fail
 
-    private fun toMultiMap(map: Map<String, *>): HttpFields<Header> = HttpFields(
+    private fun toMultiMap(map: Map<String, *>): Headers = Headers(
         map.mapValues { (k, v) ->
             Header(
                 k,
@@ -62,7 +62,7 @@ data class Http(
             path = path,
             body = body,
             headers = toMultiMap(headers),
-            formParameters = HttpFields(formParameters),
+            formParameters = FormParameters(formParameters),
             parts = parts,
             contentType = contentType,
         )

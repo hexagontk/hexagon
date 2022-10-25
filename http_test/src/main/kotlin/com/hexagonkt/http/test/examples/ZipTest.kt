@@ -3,7 +3,7 @@ package com.hexagonkt.http.test.examples
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpFields
+import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
@@ -40,7 +40,7 @@ abstract class ZipTest(
         val client = HttpClient(clientAdapter(), URL("http://localhost:${server.runtimePort}"))
         client.start()
 
-        client.get("/hello", HttpFields(Header("accept-encoding", "gzip"))).apply {
+        client.get("/hello", Headers(Header("accept-encoding", "gzip"))).apply {
             assertEquals(body, "Hello World!")
             assert(headers["content-encoding"]?.value?.contains("gzip") ?: false)
         }
@@ -68,7 +68,7 @@ abstract class ZipTest(
         val client = HttpClient(clientAdapter(), URL("http://localhost:${server.runtimePort}"))
         client.start()
 
-        client.get("/hello", HttpFields(Header("accept-encoding", "gzip"))).apply {
+        client.get("/hello", Headers(Header("accept-encoding", "gzip"))).apply {
             assertEquals(body, "Hello World!")
             assertNull(headers["content-encoding"])
             assertNull(headers["Content-Encoding"])

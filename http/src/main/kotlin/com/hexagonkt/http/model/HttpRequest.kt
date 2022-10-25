@@ -11,9 +11,9 @@ interface HttpRequest : HttpMessage {
     val host: String                              // "example.com"
     val port: Int                                 // 80
     val path: String                              // "/foo" servlet path + path info
-    val queryParameters: HttpFields<QueryParameter>
+    val queryParameters: QueryParameters
     val parts: List<HttpPart>                     // hash of multipart parts
-    val formParameters: HttpFields<FormParameter>
+    val formParameters: FormParameters
     val accept: List<ContentType>
     val authorization: HttpAuthorization?
 

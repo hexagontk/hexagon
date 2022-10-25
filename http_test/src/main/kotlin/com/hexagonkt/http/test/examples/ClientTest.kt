@@ -84,7 +84,7 @@ abstract class ClientTest(
 
     @Test fun `Form parameters are sent correctly`() {
         callback = {
-            val headers = HttpFields(
+            val headers = Headers(
                 formParameters.httpFields.map { (k, v) -> Header(k, v.values) }
             )
             ok(headers = headers)
@@ -92,14 +92,14 @@ abstract class ClientTest(
 
         val response = client.send(
             HttpClientRequest(
-                formParameters = HttpFields(
+                formParameters = FormParameters(
                     FormParameter("p1", "v11"),
                     FormParameter("p2", "v21", "v22"),
                 )
             )
         )
 
-        val expectedHeaders = HttpFields(Header("p1", "v11"), Header("p2", "v21", "v22"))
+        val expectedHeaders = Headers(Header("p1", "v11"), Header("p2", "v21", "v22"))
         val actualHeaders = response.headers - "transfer-encoding" - "content-length" - "connection"
         assertEquals(expectedHeaders, actualHeaders)
     }
@@ -152,7 +152,7 @@ abstract class ClientTest(
             baseUrl = URL("http://host:1234/base"),
             contentType = ContentType(JSON),
             useCookies = true,
-            headers = HttpFields(Header("x-api-Key", "cafebabe")), // Headers used in all requests
+            headers = Headers(Header("x-api-Key", "cafebabe")), // Headers used in all requests
             insecure = false,               // If true, the client doesn't check server certificates
             sslSettings = SslSettings()     // Key stores settings (check TLS section for details)
         ))
@@ -178,8 +178,8 @@ abstract class ClientTest(
             method = GET,
             path = "/",
             body = mapOf("body" to "payload").serialize(),
-            headers = HttpFields(Header("x-header", "value")),
-            queryParameters = HttpFields(QueryParameter("qp", "qpValue")),
+            headers = Headers(Header("x-header", "value")),
+            queryParameters = QueryParameters(QueryParameter("qp", "qpValue")),
             contentType = ContentType(JSON)
         )
 
@@ -265,7 +265,7 @@ abstract class ClientTest(
 
     @Test fun `Parameters are set properly` () {
         val endpoint = URL("http://localhost:${server.runtimePort}")
-        val h = HttpFields(Header("header1", "val1", "val2"))
+        val h = Headers(Header("header1", "val1", "val2"))
         val settings = HttpClientSettings(
             contentType = ContentType(JSON),
             useCookies = false,

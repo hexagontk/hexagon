@@ -14,12 +14,12 @@ internal class HttpRequestTest {
         var testHost: String = "localhost"
         var testPort: Int = 80
         var testPath: String = "path"
-        var testHeaders: HttpFields<Header> = HttpFields(
+        var testHeaders: Headers = Headers(
             Header("user-agent", "User Agent"),
             Header("referer", "Referer"),
             Header("origin", "Origin"),
         )
-        var testQueryParameters: HttpFields<QueryParameter> = HttpFields(
+        var testQueryParameters: QueryParameters = QueryParameters(
             QueryParameter("qp1", "value1", "value2")
         )
     }
@@ -30,10 +30,10 @@ internal class HttpRequestTest {
         override val host: String get() = testHost
         override val port: Int get() = testPort
         override val path: String get() = testPath
-        override val queryParameters: HttpFields<QueryParameter> get() = testQueryParameters
-        override val formParameters: HttpFields<FormParameter> get() = fail
+        override val queryParameters: QueryParameters get() = testQueryParameters
+        override val formParameters: FormParameters get() = fail
         override val body: Any get() = fail
-        override val headers: HttpFields<Header> get() = testHeaders
+        override val headers: Headers get() = testHeaders
         override val contentType: ContentType get() = fail
         override val accept: List<ContentType> get() = fail
         override val authorization: HttpAuthorization get() = fail
@@ -66,7 +66,7 @@ internal class HttpRequestTest {
     @Test fun `URL is generated correctly`() {
         assertEquals(URL("http://localhost:80/path?qp1=value1&qp1=value2"), TestRequest.url())
         testPort = 9999
-        testQueryParameters = HttpFields()
+        testQueryParameters = QueryParameters()
         assertEquals(URL("http://localhost:9999/path"), TestRequest.url())
     }
 }

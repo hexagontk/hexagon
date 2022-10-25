@@ -4,7 +4,6 @@ import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.HttpMethod.*
@@ -20,7 +19,6 @@ import com.hexagonkt.http.server.model.HttpServerResponse
 import org.junit.jupiter.api.Test
 import java.lang.RuntimeException
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
@@ -33,11 +31,11 @@ internal class HttpServerContextTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path/v1",
-            queryParameters = HttpFields(QueryParameter("k", "v")),
-            headers = HttpFields(Header("h1", "h1v1", "h1v2")),
+            queryParameters = QueryParameters(QueryParameter("k", "v")),
+            headers = Headers(Header("h1", "h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
-            formParameters = HttpFields(FormParameter("fp1", "fp1v1", "fp1v2")),
+            formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
             cookies = listOf(HttpCookie("cn", "cv")),
             contentType = ContentType(PLAIN),
             certificateChain = emptyList(),

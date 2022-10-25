@@ -3,7 +3,7 @@ package com.hexagonkt.http.model
 data class HttpPart (
     val name: String,
     override val body: Any,
-    override val headers: HttpFields<Header> = HttpFields(),
+    override val headers: Headers = Headers(),
     override val contentType: ContentType? = null,
     val size: Long = -1L,
     val submittedFileName: String? = null

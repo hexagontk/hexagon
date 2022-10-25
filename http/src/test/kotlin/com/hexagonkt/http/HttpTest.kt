@@ -2,7 +2,8 @@ package com.hexagonkt.http
 
 import com.hexagonkt.core.disableChecks
 import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpFields
+import com.hexagonkt.http.model.QueryParameters
+import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.QueryParameter
 import org.junit.jupiter.api.Test
 import java.math.BigInteger
@@ -43,7 +44,7 @@ internal class HttpTest {
 
     @Test fun `Check headers fails when using reserved headers when not in production mode` () {
         val forbiddenHeaders = listOf("content-type", "accept", "set-cookie")
-            .map { HttpFields(Header(it, "value")) }
+            .map { Headers(Header(it, "value")) }
 
         forbiddenHeaders.forEach {
             val e = assertFailsWith<IllegalStateException> { checkHeaders(it) }
@@ -57,7 +58,7 @@ internal class HttpTest {
     }
 
     @Test fun `Check headers list all invalid headers on error` () {
-        val headers = HttpFields(
+        val headers = Headers(
             Header("content-type", "1"),
             Header("accept", "1"),
             Header("set-cookie", "1"),
@@ -71,12 +72,12 @@ internal class HttpTest {
 
     @Test fun `Check headers succeed on regular headers` () {
         listOf("referrer", "origin")
-            .map { HttpFields(Header(it, "value")) }
+            .map { Headers(Header(it, "value")) }
             .forEach { checkHeaders(it) }
     }
 
     @Test fun `Parse handles encoded characters` () {
-        val expected = HttpFields(
+        val expected = QueryParameters(
             QueryParameter("a ", "1"),
             QueryParameter("b ", ""),
             QueryParameter(" c ", ""),
@@ -88,7 +89,7 @@ internal class HttpTest {
     }
 
     @Test fun `Parse strips spaces` () {
-        assertEquals(HttpFields(
+        assertEquals(QueryParameters(
             QueryParameter("a", "1"),
             QueryParameter("b", ""),
             QueryParameter("c", ""),
@@ -97,7 +98,7 @@ internal class HttpTest {
     }
 
     @Test fun `Parse key only query parameters return correct data` () {
-        assertEquals(HttpFields(
+        assertEquals(QueryParameters(
             QueryParameter("a", "1"),
             QueryParameter("b", ""),
             QueryParameter("c", ""),
@@ -106,7 +107,7 @@ internal class HttpTest {
     }
 
     @Test fun `Parse multiple keys return list of values` () {
-        assertEquals(HttpFields(
+        assertEquals(QueryParameters(
             QueryParameter("a", "1", "2"),
             QueryParameter("b", "", "c"),
             QueryParameter("c", ""),
@@ -115,13 +116,13 @@ internal class HttpTest {
     }
 
     @Test fun `Parse multiple empty values` () {
-        assertEquals(HttpFields(QueryParameter("a", "")), parseQueryString("a="))
-        assertEquals(HttpFields(QueryParameter("c", "", "")), parseQueryString("c=&c"))
-        assertEquals(HttpFields(
+        assertEquals(QueryParameters(QueryParameter("a", "")), parseQueryString("a="))
+        assertEquals(QueryParameters(QueryParameter("c", "", "")), parseQueryString("c=&c"))
+        assertEquals(QueryParameters(
             QueryParameter("a", ""),
             QueryParameter("b", "")
         ), parseQueryString("a=&b="))
-        assertEquals(HttpFields(
+        assertEquals(QueryParameters(
             QueryParameter("a", ""),
             QueryParameter("b", ""),
             QueryParameter("c", ""),
@@ -129,7 +130,7 @@ internal class HttpTest {
     }
 
     @Test fun `Parse key only` () {
-        assertEquals(HttpFields(QueryParameter("ab", "")), parseQueryString("ab"))
+        assertEquals(QueryParameters(QueryParameter("ab", "")), parseQueryString("ab"))
     }
 
     @Test fun `Parse value only` () {
