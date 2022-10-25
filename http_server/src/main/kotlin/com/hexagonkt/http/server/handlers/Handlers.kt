@@ -33,7 +33,7 @@ fun HttpCallback.process(
     body: Any = "",
     parts: List<HttpPart> = emptyList(),
     formParameters: FormParameters = FormParameters(),
-    cookies: List<HttpCookie> = emptyList(),
+    cookies: List<Cookie> = emptyList(),
     contentType: ContentType? = null,
     certificateChain: List<X509Certificate> = emptyList(),
     accept: List<ContentType> = emptyList(),

@@ -68,7 +68,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(status, body, headers, contentType, cookies, attributes)
@@ -78,7 +78,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(status, body, headers, contentType, cookies, attributes)
@@ -88,7 +88,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(status, body, headers, contentType, cookies, attributes)
@@ -97,7 +97,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(UNAUTHORIZED, body, headers, contentType, cookies, attributes)
@@ -106,7 +106,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(FORBIDDEN, body, headers, contentType, cookies, attributes)
@@ -116,7 +116,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(status, body, headers, contentType, cookies, attributes)
@@ -125,7 +125,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(INTERNAL_SERVER_ERROR, body, headers, contentType, cookies, attributes)
@@ -155,7 +155,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         success(OK, body, headers, contentType, cookies, attributes)
@@ -171,7 +171,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         clientError(BAD_REQUEST, body, headers, contentType, cookies, attributes)
@@ -180,7 +180,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         clientError(NOT_FOUND, body, headers, contentType, cookies, attributes)
@@ -189,7 +189,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         success(CREATED, body, headers, contentType, cookies, attributes)
@@ -219,7 +219,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
-        cookies: List<HttpCookie> = response.cookies,
+        cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(

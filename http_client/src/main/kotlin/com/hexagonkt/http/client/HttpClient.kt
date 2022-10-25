@@ -24,13 +24,13 @@ class HttpClient(
     ) :
         this(adapter, settings.copy(baseUrl = baseUrl))
 
-    var cookies: List<HttpCookie> = emptyList()
+    var cookies: List<Cookie> = emptyList()
 
     override fun close() {
         stop()
     }
 
-    fun cookiesMap(): Map<String, HttpCookie> =
+    fun cookiesMap(): Map<String, Cookie> =
         cookies.associateBy { it.name }
 
     fun start() {

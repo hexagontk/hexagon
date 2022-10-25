@@ -44,9 +44,9 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpSer
     override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }
     override val authorization: Authorization? by lazy { authorization() }
 
-    override val cookies: List<HttpCookie> by lazy {
+    override val cookies: List<Cookie> by lazy {
         req.cookies
-            ?.map { HttpCookie(it.name, it.value, it.maxAge.toLong(), it.secure) }
+            ?.map { Cookie(it.name, it.value, it.maxAge.toLong(), it.secure) }
             ?: emptyList()
     }
 

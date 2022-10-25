@@ -107,12 +107,12 @@ abstract class ClientTest(
     @Test fun `Cookies are sent correctly`() {
         callback = {
             val cookiesMap = request.cookiesMap()
-            assertEquals(HttpCookie("c1", "v1"), cookiesMap["c1"])
-            assertEquals(HttpCookie("c2", "v2", -1), cookiesMap["c2"])
+            assertEquals(Cookie("c1", "v1"), cookiesMap["c1"])
+            assertEquals(Cookie("c2", "v2", -1), cookiesMap["c2"])
             assertNull(cookiesMap["c3"]) // Secure headers only sent through HTTPS
             ok(cookies = listOf(
-                HttpCookie("c4", "v4", 60),
-                HttpCookie("c5", "v5", secure = true),
+                Cookie("c4", "v4", 60),
+                Cookie("c5", "v5", secure = true),
             ))
         }
 
@@ -120,9 +120,9 @@ abstract class ClientTest(
         val response = client.send(
             HttpClientRequest(
                 cookies = listOf(
-                    HttpCookie("c1", "v1"),
-                    HttpCookie("c2", "v2", 1),
-                    HttpCookie("c3", "v3", secure = true),
+                    Cookie("c1", "v1"),
+                    Cookie("c2", "v2", 1),
+                    Cookie("c3", "v3", secure = true),
                 )
             )
         )
@@ -130,12 +130,12 @@ abstract class ClientTest(
         val responseC4 = response.cookiesMap().require("c4")
         assertEquals("v4", responseC4.value)
         assertTrue(responseC4.maxAge in 59..60)
-        assertEquals(HttpCookie("c5", "v5", secure = true), response.cookiesMap()["c5"])
+        assertEquals(Cookie("c5", "v5", secure = true), response.cookiesMap()["c5"])
 
         val clientC4 = client.cookiesMap().require("c4")
         assertEquals("v4", clientC4.value)
         assertTrue(clientC4.maxAge in 59..60)
-        assertEquals(HttpCookie("c5", "v5", secure = true), client.cookiesMap()["c5"])
+        assertEquals(Cookie("c5", "v5", secure = true), client.cookiesMap()["c5"])
     }
 
     @Test fun `Create HTTP clients`() {

@@ -38,8 +38,8 @@ internal class HttpRequestTest {
         override val accept: List<ContentType> get() = fail
         override val authorization: Authorization get() = fail
 
-        override val cookies: List<HttpCookie> =
-            listOf(HttpCookie("name1", "value1"), HttpCookie("name2", "value2"))
+        override val cookies: List<Cookie> =
+            listOf(Cookie("name1", "value1"), Cookie("name2", "value2"))
 
         override val parts: List<HttpPart> =
             listOf(HttpPart("name1", "value1"), HttpPart("name2", "value2"))
@@ -52,8 +52,8 @@ internal class HttpRequestTest {
     }
 
     @Test fun `Cookies map works properly`() {
-        assertEquals(HttpCookie("name1", "value1"), TestRequest.cookiesMap()["name1"])
-        assertEquals(HttpCookie("name2", "value2"), TestRequest.cookiesMap()["name2"])
+        assertEquals(Cookie("name1", "value1"), TestRequest.cookiesMap()["name1"])
+        assertEquals(Cookie("name2", "value2"), TestRequest.cookiesMap()["name2"])
         assertNull(TestRequest.cookiesMap()["name3"])
     }
 

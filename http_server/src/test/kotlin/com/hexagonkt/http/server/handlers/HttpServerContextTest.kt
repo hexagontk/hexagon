@@ -36,7 +36,7 @@ internal class HttpServerContextTest {
             body = "request",
             parts = listOf(HttpPart("n", "b")),
             formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
-            cookies = listOf(HttpCookie("cn", "cv")),
+            cookies = listOf(Cookie("cn", "cv")),
             contentType = ContentType(PLAIN),
             certificateChain = emptyList(),
             accept = listOf(ContentType(HTML)),

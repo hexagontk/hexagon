@@ -25,7 +25,7 @@ internal class HttpClientCallTest {
             body = "response",
             headers = Headers(Header("hr1", "hr1v1", "hr1v2")),
             contentType = ContentType(HTML),
-            cookies = listOf(HttpCookie("cn", "cv")),
+            cookies = listOf(Cookie("cn", "cv")),
             status = NOT_FOUND,
         )
 
@@ -40,7 +40,7 @@ internal class HttpClientCallTest {
             body = "request",
             parts = listOf(HttpPart("n", "b")),
             formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
-            cookies = listOf(HttpCookie("cn", "cv")),
+            cookies = listOf(Cookie("cn", "cv")),
             contentType = ContentType(PLAIN),
             accept = listOf(ContentType(HTML)),
         )

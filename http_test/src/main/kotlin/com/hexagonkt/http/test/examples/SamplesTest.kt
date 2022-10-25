@@ -306,7 +306,7 @@ abstract class SamplesTest(
                 request.cookies                     // Get map of all request cookies
                 request.cookiesMap()["foo"]         // Access request cookie by name
 
-                val cookie = HttpCookie("new_foo", "bar")
+                val cookie = Cookie("new_foo", "bar")
                 ok(
                     cookies = listOf(
                         cookie,                     // Set cookie with a value
@@ -331,7 +331,7 @@ abstract class SamplesTest(
         server.use { s ->
             s.start()
             HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
-                it.cookies += HttpCookie("foo", "bar")
+                it.cookies += Cookie("foo", "bar")
                 it.start()
 
                 val callResponse = it.get("/call")

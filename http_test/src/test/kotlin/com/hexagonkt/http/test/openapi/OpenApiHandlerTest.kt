@@ -4,7 +4,7 @@ import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpCookie
+import com.hexagonkt.http.model.Cookie
 import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.model.SuccessStatus.OK
@@ -149,13 +149,13 @@ internal class OpenApiHandlerTest {
     }
 
     @Test fun `Required cookies are verified correctly`() {
-        client.cookies += HttpCookie("cookieParam", "aValidValue")
+        client.cookies += Cookie("cookieParam", "aValidValue")
         val response1 = client.get("/check-cookie-param")
         assertEquals(OK, response1.status)
         assertEquals("success", response1.body)
         client.cookies = emptyList()
 
-        client.cookies += HttpCookie("cookieParam", "anInvalidValue")
+        client.cookies += Cookie("cookieParam", "anInvalidValue")
         val response2 = client.get("/check-cookie-param")
         assertEquals(BAD_REQUEST, response2.status)
         assertEquals("invalid or missing cookie param", response2.body)
@@ -167,13 +167,13 @@ internal class OpenApiHandlerTest {
     }
 
     @Test fun `Optional cookies are verified correctly`() {
-        client.cookies += HttpCookie("cookieParam", "aValidValue")
+        client.cookies += Cookie("cookieParam", "aValidValue")
         val response1 = client.get("/check-optional-cookie-param")
         assertEquals(OK, response1.status)
         assertEquals("success", response1.body)
         client.cookies = emptyList()
 
-        client.cookies += HttpCookie("cookieParam", "anInvalidValue")
+        client.cookies += Cookie("cookieParam", "anInvalidValue")
         val response2 = client.get("/check-optional-cookie-param")
         assertEquals(BAD_REQUEST, response2.status)
         assertEquals("invalid or missing cookie param", response2.body)
@@ -259,7 +259,7 @@ internal class OpenApiHandlerTest {
         assertEquals(UNAUTHORIZED, response1.status)
         assertEquals("Invalid authorization credentials", response1.body)
 
-        client.cookies += HttpCookie("api-key", "abcdefg")
+        client.cookies += Cookie("api-key", "abcdefg")
         val response2 = client.get("/check-cookie-api-auth")
         assertEquals(OK, response2.status)
         assertEquals("success", response2.body)
@@ -277,7 +277,7 @@ internal class OpenApiHandlerTest {
         assertEquals(UNAUTHORIZED, response1.status)
         assertEquals("Invalid authorization credentials", response1.body)
 
-        client.cookies += HttpCookie("api-key", "abcdefg")
+        client.cookies += Cookie("api-key", "abcdefg")
         val response2 = client.get("/check-multiple-mechanisms")
         assertEquals(OK, response2.status)
         assertEquals("success", response2.body)
@@ -294,7 +294,7 @@ internal class OpenApiHandlerTest {
         assertEquals(UNAUTHORIZED, response1.status)
         assertEquals("Invalid authorization credentials", response1.body)
 
-        client.cookies += HttpCookie("api-key", "abcdefg")
+        client.cookies += Cookie("api-key", "abcdefg")
         val response2 = client.get("/check-multiple-schemes")
         assertEquals(UNAUTHORIZED, response2.status)
         assertEquals("Invalid authorization credentials", response2.body)
@@ -305,7 +305,7 @@ internal class OpenApiHandlerTest {
         assertEquals(UNAUTHORIZED, response3.status)
         assertEquals("Invalid authorization credentials", response3.body)
 
-        client.cookies += HttpCookie("api-key", "abcdefg")
+        client.cookies += Cookie("api-key", "abcdefg")
         val response4 = client.get("/check-multiple-schemes", headers = headers)
         assertEquals(OK, response4.status)
         assertEquals("success", response4.body)

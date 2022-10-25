@@ -3,7 +3,7 @@ package com.hexagonkt.http.model
 import java.time.Instant
 
 // TODO Handle 'path', 'httpOnly', 'sameSite' and 'expires'
-data class HttpCookie(
+data class Cookie(
     val name: String,
     val value: String,
     val maxAge: Long = -1,
@@ -18,6 +18,6 @@ data class HttpCookie(
         require(name.isNotBlank()) { "Cookie name can not be blank: $name" }
     }
 
-    fun delete(): HttpCookie =
+    fun delete(): Cookie =
         copy(value = "", maxAge = 0)
 }

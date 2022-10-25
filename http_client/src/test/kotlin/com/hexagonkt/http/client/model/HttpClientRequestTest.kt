@@ -27,7 +27,7 @@ internal class HttpClientRequestTest {
             body = "request",
             parts = listOf(HttpPart("n", "b")),
             formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
-            cookies = listOf(HttpCookie("cn", "cv")),
+            cookies = listOf(Cookie("cn", "cv")),
             contentType = ContentType(PLAIN),
             accept = listOf(ContentType(HTML)),
         )
@@ -42,7 +42,7 @@ internal class HttpClientRequestTest {
         val headers = Headers(Header("h1", "v1"))
         val parts = listOf(HttpPart("p", "v"))
         val formParameters = FormParameters(FormParameter("h1", "v1"))
-        val cookies = listOf(HttpCookie("p", "v"))
+        val cookies = listOf(Cookie("p", "v"))
         val contentType = ContentType(RICHTEXT)
         val accept = listOf(ContentType(CSS))
 

@@ -2,6 +2,7 @@ package com.hexagonkt.http.server.netty
 
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.Cookie
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.model.HttpServerResponse
 import io.netty.buffer.Unpooled
@@ -189,7 +190,7 @@ internal class NettyServerHandler(
         }
     }
 
-    private fun nettyCookies(hexagonCookies: List<HttpCookie>) =
+    private fun nettyCookies(hexagonCookies: List<Cookie>) =
         hexagonCookies.map {
             DefaultCookie(it.name, it.value).apply {
                 if (it.maxAge != -1L)

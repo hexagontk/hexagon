@@ -10,7 +10,7 @@ import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpCookie
+import com.hexagonkt.http.model.Cookie
 import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.parseContentType
@@ -86,7 +86,7 @@ class JettyClientAdapter : HttpClientPort {
 
         if (settings.useCookies)
             adapterHttpClient.cookies = adapterJettyClient.cookieStore.cookies.map {
-                HttpCookie(it.name, it.value, it.maxAge, it.secure)
+                Cookie(it.name, it.value, it.maxAge, it.secure)
             }
 
         return HttpClientResponse(
@@ -173,7 +173,7 @@ class JettyClientAdapter : HttpClientPort {
         return multiPart
     }
 
-    private fun addCookies(client: HttpClient, store: CookieStore, cookies: List<HttpCookie>) {
+    private fun addCookies(client: HttpClient, store: CookieStore, cookies: List<Cookie>) {
         val uri = client.settings.baseUrl.toURI()
 
         cookies.forEach {

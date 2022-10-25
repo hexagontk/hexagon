@@ -17,7 +17,7 @@ data class HttpServerRequest(
     override val body: Any = "",
     override val parts: List<HttpPart> = emptyList(),
     override val formParameters: FormParameters = FormParameters(),
-    override val cookies: List<HttpCookie> = emptyList(),
+    override val cookies: List<Cookie> = emptyList(),
     override val contentType: ContentType? = null,
     override val certificateChain: List<X509Certificate> = emptyList(),
     override val accept: List<ContentType> = emptyList(),

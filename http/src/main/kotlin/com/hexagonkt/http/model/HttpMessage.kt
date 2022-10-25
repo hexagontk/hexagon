@@ -1,8 +1,8 @@
 package com.hexagonkt.http.model
 
 interface HttpMessage : HttpBase {
-    val cookies: List<HttpCookie>           // hash of browser cookies
+    val cookies: List<Cookie>           // hash of browser cookies
 
-    fun cookiesMap(): Map<String, HttpCookie> =
+    fun cookiesMap(): Map<String, Cookie> =
         cookies.associateBy { it.name }
 }

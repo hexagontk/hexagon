@@ -31,9 +31,9 @@ internal class HttpClientTest {
 
     @Test fun `Cookies map works ok`() {
         val client = HttpClient(VoidAdapter)
-        client.cookies += HttpCookie("cookie", "value")
+        client.cookies += Cookie("cookie", "value")
         assertNull(client.cookiesMap()["name"])
-        assertEquals(HttpCookie("cookie", "value"), client.cookiesMap()["cookie"])
+        assertEquals(Cookie("cookie", "value"), client.cookiesMap()["cookie"])
     }
 
     @Test fun `HTTP Client is closeable`() {

@@ -19,7 +19,7 @@ internal class HttpServerResponseTest {
                 body = "response",
                 headers = Headers(Header("hr1", "hr1v1", "hr1v2")),
                 contentType = contentType,
-                cookies = listOf(HttpCookie("cn", "cv")),
+                cookies = listOf(Cookie("cn", "cv")),
                 status = NOT_FOUND,
             )
 
@@ -31,7 +31,7 @@ internal class HttpServerResponseTest {
         assertFalse(httpServerRequest.equals(""))
 
         val headers = Headers(Header("h1", "v1"))
-        val cookies = listOf(HttpCookie("p", "v"))
+        val cookies = listOf(Cookie("p", "v"))
         val contentType = ContentType(RICHTEXT)
 
         assertNotEquals(httpServerRequest, httpServerRequest.copy(body = "body"))

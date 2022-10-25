@@ -3,7 +3,7 @@ package com.hexagonkt.http.client.model
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.RICHTEXT
 import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.HttpCookie
+import com.hexagonkt.http.model.Cookie
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.Headers
@@ -22,7 +22,7 @@ internal class HttpClientResponseTest {
                 body = "response",
                 headers = Headers(Header("hr1", "hr1v1", "hr1v2")),
                 contentType = contentType,
-                cookies = listOf(HttpCookie("cn", "cv")),
+                cookies = listOf(Cookie("cn", "cv")),
                 status = NOT_FOUND,
             )
 
@@ -34,7 +34,7 @@ internal class HttpClientResponseTest {
         assertFalse(httpClientRequest.equals(""))
 
         val headers = Headers(Header("h1", "v1"))
-        val cookies = listOf(HttpCookie("p", "v"))
+        val cookies = listOf(Cookie("p", "v"))
         val contentType = ContentType(RICHTEXT)
 
         assertNotEquals(httpClientRequest, httpClientRequest.copy(body = "body"))

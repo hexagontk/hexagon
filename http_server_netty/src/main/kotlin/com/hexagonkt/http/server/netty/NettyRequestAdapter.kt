@@ -81,14 +81,14 @@ class NettyRequestAdapter(
 
     override val path: String by lazy { URI(req.uri()).path }
 
-    override val cookies: List<HttpCookie> by lazy {
+    override val cookies: List<com.hexagonkt.http.model.Cookie> by lazy {
         val cookieHeader: String = nettyHeaders.get(COOKIE)
-            ?: return@lazy emptyList<HttpCookie>()
+            ?: return@lazy emptyList<com.hexagonkt.http.model.Cookie>()
 
         val cookies: Set<Cookie> = ServerCookieDecoder.STRICT.decode(cookieHeader)
 
         cookies.map {
-            HttpCookie(
+            Cookie(
                 name = it.name(),
                 value = it.value(),
                 maxAge = if (it.maxAge() == Long.MIN_VALUE) -1 else it.maxAge(),
