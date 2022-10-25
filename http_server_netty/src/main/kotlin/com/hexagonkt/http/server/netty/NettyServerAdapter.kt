@@ -209,7 +209,7 @@ open class NettyServerAdapter(
             pipeline.addLast(HttpObjectAggregator(MAX_VALUE))
             pipeline.addLast(ChunkedWriteHandler())
 
-            if (settings.features.contains(ZIP))
+            if (settings.zip)
                 pipeline.addLast(HttpContentCompressor())
 
             if (executorGroup == null)
@@ -238,7 +238,7 @@ open class NettyServerAdapter(
             pipeline.addLast(HttpObjectAggregator(MAX_VALUE))
             pipeline.addLast(ChunkedWriteHandler())
 
-            if (settings.features.contains(ZIP))
+            if (settings.zip)
                 pipeline.addLast(HttpContentCompressor())
 
             if (executorGroup == null)

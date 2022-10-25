@@ -5,7 +5,6 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
@@ -28,7 +27,7 @@ abstract class ZipTest(
         // zip
         val serverSettings = HttpServerSettings(
             bindPort = 0,
-            features = setOf(ZIP)
+            zip = true,
         )
 
         val server = HttpServer(serverAdapter(), serverSettings) {

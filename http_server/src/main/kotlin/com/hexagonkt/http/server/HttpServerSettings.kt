@@ -14,7 +14,7 @@ import java.net.InetAddress
  * @property protocol Server's protocol.
  * @property sslSettings SSL settings info for configuring the server.
  * @property banner Server banner message.
- * @property features List of features enabled for a server.
+ * @property zip Option to compress server responses.
  */
 data class HttpServerSettings(
     val bindAddress: InetAddress = InetAddress.getLoopbackAddress(),
@@ -23,5 +23,5 @@ data class HttpServerSettings(
     val protocol: HttpProtocol = HTTP,
     val sslSettings: SslSettings? = null,
     val banner: String? = null,
-    val features: Set<HttpServerFeature> = emptySet(),
+    val zip: Boolean = false,
 )

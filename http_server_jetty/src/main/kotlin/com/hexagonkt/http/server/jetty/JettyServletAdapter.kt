@@ -121,10 +121,9 @@ class JettyServletAdapter(
 
     private fun createServerContext(settings: HttpServerSettings): ServletContextHandler {
 
-        val features = settings.features
         val context = ServletContextHandler(NO_SESSIONS)
 
-        if (features.contains(ZIP))
+        if (settings.zip)
             context.insertHandler(GzipHandler())
 
         return context
