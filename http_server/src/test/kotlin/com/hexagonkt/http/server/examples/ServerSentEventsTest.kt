@@ -7,7 +7,7 @@ import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
-import com.hexagonkt.http.model.HttpServerEvent
+import com.hexagonkt.http.model.ServerEvent
 import org.junit.jupiter.api.Test
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription
@@ -16,7 +16,7 @@ import kotlin.test.assertEquals
 
 internal class ServerSentEventsTest {
 
-    private val eventPublisher = SubmissionPublisher<HttpServerEvent>()
+    private val eventPublisher = SubmissionPublisher<ServerEvent>()
 
     private val path: PathHandler = path {
         get("/sse") {
@@ -31,24 +31,24 @@ internal class ServerSentEventsTest {
         assertEquals(TextMedia.EVENT_STREAM, response.contentType?.mediaType)
         assertEquals("no-cache", response.headers["cache-control"]?.value)
 
-        val publisher = response.body as? SubmissionPublisher<HttpServerEvent> ?: fail
-        val items: List<HttpServerEvent> = listOf(
-            HttpServerEvent(data = "d1"),
-            HttpServerEvent(data = "d2"),
-            HttpServerEvent(data = "d3"),
+        val publisher = response.body as? SubmissionPublisher<ServerEvent> ?: fail
+        val items: List<ServerEvent> = listOf(
+            ServerEvent(data = "d1"),
+            ServerEvent(data = "d2"),
+            ServerEvent(data = "d3"),
         )
-        var expectedItems: List<HttpServerEvent> = listOf(
-            HttpServerEvent(data = "d1"),
-            HttpServerEvent(data = "d2"),
-            HttpServerEvent(data = "d3"),
+        var expectedItems: List<ServerEvent> = listOf(
+            ServerEvent(data = "d1"),
+            ServerEvent(data = "d2"),
+            ServerEvent(data = "d3"),
         )
 
-        publisher.subscribe(object : Flow.Subscriber<HttpServerEvent> {
+        publisher.subscribe(object : Flow.Subscriber<ServerEvent> {
             override fun onComplete() {}
 
             override fun onError(throwable: Throwable) {}
 
-            override fun onNext(item: HttpServerEvent) {
+            override fun onNext(item: ServerEvent) {
                 val expectedItem = expectedItems[0]
                 expectedItems = expectedItems.drop(1)
                 assertEquals(expectedItem, item.info())

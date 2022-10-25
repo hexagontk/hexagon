@@ -8,7 +8,7 @@ import com.hexagonkt.core.toText
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
-import com.hexagonkt.http.model.HttpServerEvent
+import com.hexagonkt.http.model.ServerEvent
 import com.hexagonkt.http.model.SuccessStatus.*
 import com.hexagonkt.http.server.model.*
 import java.net.URL
@@ -160,7 +160,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
     ): HttpServerContext =
         success(OK, body, headers, contentType, cookies, attributes)
 
-    fun sse(body: Publisher<HttpServerEvent>): HttpServerContext =
+    fun sse(body: Publisher<ServerEvent>): HttpServerContext =
         ok(
             body = body,
             headers = response.headers + Header("cache-control", "no-cache"),

@@ -90,8 +90,8 @@ internal class NettyServerHandler(
         context.writeAndFlush(nettyResponse)
 
         // TODO Close when publisher is done
-        val publisher = body as Publisher<HttpServerEvent>
-        publisher.subscribe(object : Subscriber<HttpServerEvent> {
+        val publisher = body as Publisher<ServerEvent>
+        publisher.subscribe(object : Subscriber<ServerEvent> {
             override fun onError(throwable: Throwable) {}
 
             override fun onComplete() {}
@@ -100,7 +100,7 @@ internal class NettyServerHandler(
                 subscription.request(Long.MAX_VALUE)
             }
 
-            override fun onNext(item: HttpServerEvent) {
+            override fun onNext(item: ServerEvent) {
                 val eventData = Unpooled.copiedBuffer(item.eventData.toByteArray())
                 context.writeAndFlush(DefaultHttpContent(eventData))
             }
