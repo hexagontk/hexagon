@@ -10,7 +10,6 @@ import com.hexagonkt.core.prependIndent
 import com.hexagonkt.core.require
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.http.server.HttpServer
-import com.hexagonkt.http.server.HttpServerFeature.ASYNC
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.HttpHandler
@@ -56,7 +55,6 @@ abstract class ServletServer(
             override fun getInitParameterNames(): Enumeration<String> = params.keys()
         })
         val filter = sce.servletContext.addFilter("filters", servletFilter)
-        filter.setAsyncSupported(settings.features.contains(ASYNC))
         filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, "/*")
 
         logger.info { "Server started\n${createBanner(System.nanoTime() - startTimestamp)}" }
@@ -76,9 +74,6 @@ abstract class ServletServer(
 
         val serverAdapterValue = "$BOLD$CYAN${javaClass.simpleName}$RESET"
 
-        val features = settings.features
-            .joinToString("$RESET, $CYAN", CYAN, RESET) { "✅$it" }
-
         val hostnameValue = "$BLUE${Jvm.hostname}$RESET"
         val cpuCountValue = "$BLUE${Jvm.cpuCount}$RESET"
         val jvmMemoryValue = "$BLUE$jvmMemory$RESET"
@@ -96,7 +91,6 @@ abstract class ServletServer(
         val information = """
 
             Server Adapter: $serverAdapterValue
-            Enabled Features: $features
 
             🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB
             🛠 Using $javaVersionValue

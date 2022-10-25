@@ -6,6 +6,7 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
 import com.hexagonkt.http.model.Header
+import com.hexagonkt.http.model.HttpField
 import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.HttpMethod.POST
@@ -81,12 +82,14 @@ abstract class FilesTest(
         }
 
         post("/form") {
-            fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
-                map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
+            fun <T : HttpField> serializeMap(map: HttpFields<T>): List<String> = listOf(
+                map.httpFields.values.joinToString("\n") {
+                    "${it.name}:${it.values.joinToString(",")}"
+                }
             )
 
-            val queryParams = serializeMap(queryParameters.allValues)
-            val formParams = serializeMap(formParameters.allValues)
+            val queryParams = serializeMap(queryParameters)
+            val formParams = serializeMap(formParameters)
             val headers =
                 HttpFields(Header("query-params", queryParams), Header("form-params", formParams))
 
@@ -102,7 +105,7 @@ abstract class FilesTest(
         val response = client.send(
             HttpClientRequest(POST, path = "/form?queryName=queryValue", parts = parts)
         )
-        assert(response.headers["query-params"]?.contains("queryName:queryValue") ?: false)
+        assertEquals("queryName:queryValue", response.headers["query-params"])
         assert(!(response.headers["query-params"]?.contains("name:value") ?: true))
         assert(response.headers["form-params"]?.contains("name:value") ?: false)
         assert(!(response.headers["form-params"]?.contains("queryName:queryValue") ?: true))

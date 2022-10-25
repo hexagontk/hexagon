@@ -34,7 +34,7 @@ class NettyRequestAdapter(
 
     override val queryParameters: HttpFields<QueryParameter> by lazy {
         val queryStringDecoder = QueryStringDecoder(req.uri())
-        HttpFields(queryStringDecoder.parameters().mapValues { (k, v) -> QueryParameter(k, v) })
+        HttpFields(queryStringDecoder.parameters().map { (k, v) -> QueryParameter(k, v) })
     }
 
     override val parts: List<HttpPart> by lazy {

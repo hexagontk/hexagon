@@ -5,6 +5,7 @@ import com.hexagonkt.http.test.examples.*
 import com.hexagonkt.serialization.jackson.JacksonTextFormat
 import com.hexagonkt.serialization.jackson.json.Json
 import com.hexagonkt.serialization.jackson.yaml.Yaml
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.condition.EnabledOnOs
 import org.junit.jupiter.api.condition.OS
 
@@ -38,6 +39,6 @@ internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
 @EnabledOnOs(OS.LINUX)
 internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)
-//@Disabled
-//@EnabledOnOs(OS.LINUX)
-//internal class AdapterAsyncSseTest : SseTest(clientAdapter, serverAdapter, async)
+@Disabled
+@EnabledOnOs(OS.LINUX)
+internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)

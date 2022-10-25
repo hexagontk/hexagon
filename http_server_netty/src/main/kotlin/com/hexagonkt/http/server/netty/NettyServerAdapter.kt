@@ -8,7 +8,7 @@ import com.hexagonkt.http.model.HttpProtocol
 import com.hexagonkt.http.model.HttpProtocol.*
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerFeature
-import com.hexagonkt.http.server.HttpServerFeature.ASYNC
+import com.hexagonkt.http.server.HttpServerFeature.WEB_SOCKETS
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
@@ -182,7 +182,7 @@ open class NettyServerAdapter(
         setOf(HTTP, HTTPS, HTTP2)
 
     override fun supportedFeatures(): Set<HttpServerFeature> =
-        setOf(ZIP, ASYNC)
+        setOf(ZIP, WEB_SOCKETS)
 
     override fun options(): Map<String, *> =
         fieldsMapOf(
