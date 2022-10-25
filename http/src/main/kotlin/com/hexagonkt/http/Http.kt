@@ -26,12 +26,7 @@ fun checkHeaders(headers: HttpFields<Header>) {
         return
 
     val headersKeys = headers.httpFields.keys
-    check(headersKeys.all { key -> key.all { it.isLowerCase() || it.isDigit() || it == '-' } }) {
-        val invalidHeaders = headersKeys.joinToString(",") { "'$it'" }
-        "Header names must be lower-case and contain only letters, digits or '-': $invalidHeaders"
-    }
-
-    val invalidHeaders = checkedHeaders.filter { headers.httpFields.containsKey(it) }
+    val invalidHeaders = checkedHeaders.filter { headersKeys.contains(it) }
 
     check(invalidHeaders.isEmpty()) {
         val invalidHeadersText = invalidHeaders.joinToString(",") { "'$it'" }

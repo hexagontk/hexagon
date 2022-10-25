@@ -41,24 +41,6 @@ internal class HttpTest {
         assertFailsWith<IllegalStateException> { bodyToBytes(LocalDate.now())  }
     }
 
-    @Test fun `Invalid header names fail validation check` () {
-        val invalidHeaderError =
-            "Header names must be lower-case and contain only letters, digits or '-':"
-        val forbiddenHeaders = listOf("Content-Type", "accept_all")
-            .map { HttpFields(Header(it, "value")) }
-
-        forbiddenHeaders.forEach {
-            val e = assertFailsWith<IllegalStateException> { checkHeaders(it) }
-            val header = it.httpFields.keys.first()
-            assertTrue(e.message?.contains("'$header'") ?: false)
-            assertTrue(e.message?.contains(invalidHeaderError) ?: false)
-        }
-
-        disableChecks = true
-        forbiddenHeaders.forEach { checkHeaders(it) }
-        disableChecks = false
-    }
-
     @Test fun `Check headers fails when using reserved headers when not in production mode` () {
         val forbiddenHeaders = listOf("content-type", "accept", "set-cookie")
             .map { HttpFields(Header(it, "value")) }
