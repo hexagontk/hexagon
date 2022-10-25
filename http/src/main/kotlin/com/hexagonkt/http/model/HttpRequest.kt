@@ -15,7 +15,7 @@ interface HttpRequest : HttpMessage {
     val parts: List<HttpPart>                     // hash of multipart parts
     val formParameters: FormParameters
     val accept: List<ContentType>
-    val authorization: HttpAuthorization?
+    val authorization: Authorization?
 
     fun partsMap(): Map<String, HttpPart> =
         parts.associateBy { it.name }
@@ -35,7 +35,7 @@ interface HttpRequest : HttpMessage {
     fun origin(): String? =
         headers["origin"]?.value
 
-    fun authorization(): HttpAuthorization? =
+    fun authorization(): Authorization? =
         headers["authorization"]
             ?.value
             ?.split(" ", limit = 2)
@@ -44,6 +44,6 @@ interface HttpRequest : HttpMessage {
                 else error("Authorization header must have two words (<type> <value>): $it")
             }
             ?.let {
-                HttpAuthorization(it.first(), it.last())
+                Authorization(it.first(), it.last())
             }
 }

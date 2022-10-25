@@ -22,7 +22,7 @@ data class HttpServerRequest(
     override val certificateChain: List<X509Certificate> = emptyList(),
     override val accept: List<ContentType> = emptyList(),
     override val contentLength: Long = -1L,
-    override val authorization: HttpAuthorization? = null,
+    override val authorization: Authorization? = null,
 ) : HttpServerRequestPort {
 
     init {

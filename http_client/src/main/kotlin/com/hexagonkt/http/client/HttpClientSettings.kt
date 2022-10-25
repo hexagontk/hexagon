@@ -12,5 +12,5 @@ data class HttpClientSettings(
     val headers: Headers = Headers(),
     val insecure: Boolean = false,
     val sslSettings: SslSettings? = null,
-    val authorization: HttpAuthorization? = null,
+    val authorization: Authorization? = null,
 )

@@ -31,7 +31,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
     val parts: List<HttpPart> by lazy { request.parts }
     val formParameters: FormParameters by lazy { request.formParameters }
     val accept: List<ContentType> by lazy { request.accept }
-    val authorization: HttpAuthorization? by lazy { request.authorization }
+    val authorization: Authorization? by lazy { request.authorization }
     val certificateChain: List<X509Certificate> by lazy { request.certificateChain }
 
     val partsMap: Map<String, HttpPart> by lazy { request.partsMap() }
