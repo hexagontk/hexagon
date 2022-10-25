@@ -83,9 +83,7 @@ abstract class FilesTest(
 
         post("/form") {
             fun <T : HttpField> serializeMap(map: HttpFields<T>): List<String> = listOf(
-                map.httpFields.values.joinToString("\n") {
-                    "${it.name}:${it.values.joinToString(",")}"
-                }
+                map.values.joinToString("\n") { "${it.name}:${it.values.joinToString(",")}" }
             )
 
             val queryParams = serializeMap(queryParameters)
@@ -105,10 +103,10 @@ abstract class FilesTest(
         val response = client.send(
             HttpClientRequest(POST, path = "/form?queryName=queryValue", parts = parts)
         )
-        assertEquals("queryName:queryValue", response.headers["query-params"])
-        assert(!(response.headers["query-params"]?.contains("name:value") ?: true))
-        assert(response.headers["form-params"]?.contains("name:value") ?: false)
-        assert(!(response.headers["form-params"]?.contains("queryName:queryValue") ?: true))
+        assertEquals("queryName:queryValue", response.headers["query-params"]?.value)
+        assert(!(response.headers["query-params"]?.value?.contains("name:value") ?: true))
+        assert(response.headers["form-params"]?.value?.contains("name:value") ?: false)
+        assert(!(response.headers["form-params"]?.value?.contains("queryName:queryValue") ?: true))
     }
 
     @Test fun `Requesting a folder with an existing file name returns 404`() {
@@ -162,7 +160,7 @@ abstract class FilesTest(
         val parts = listOf(HttpPart("file", stream, "index.html"))
         val response = client.send(HttpClientRequest(POST, path = "/file", parts = parts))
         // clientFile
-        assertEquals("index.html", response.headers["submitted-file"])
+        assertEquals("index.html", response.headers["submitted-file"]?.value)
         assertResponseContains(response, OK, "<!DOCTYPE html>", "<title>Hexagon</title>", "</html>")
     }
 

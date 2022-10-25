@@ -130,12 +130,15 @@ class JettyClientAdapter : HttpClientPort {
                     it.put("content-type", contentType.text)
                 if (authorization != null)
                     it.put("authorization", authorization.text)
-                (settings.headers + request.headers).allValues.forEach { (k, v) -> it.put(k, v) }
+                (settings.headers + request.headers).values.forEach { (k, v) -> it.put(k, v) }
             }
             .body(createBody(request))
             .accept(*request.accept.map { it.text }.toTypedArray())
 
-        request.queryParameters.allPairs.forEach { (k, v) -> jettyRequest.param(k, v) }
+        request.queryParameters
+            .forEach { (k, v) ->
+                v.values.forEach { jettyRequest.param(k, it) }
+            }
 
         return jettyRequest
     }
@@ -161,10 +164,8 @@ class JettyClientAdapter : HttpClientPort {
         }
 
         request.formParameters
-            .allPairs
             .forEach { (k, v) ->
-                // TODO Add content type if present
-                multiPart.addFieldPart(k, StringRequestContent(v), EMPTY)
+                v.values.forEach { multiPart.addFieldPart(k, StringRequestContent(it), EMPTY) }
             }
 
         multiPart.close()

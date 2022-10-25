@@ -166,8 +166,8 @@ private val books: MutableMap<Int, Book> = linkedMapOf(
 private val path: PathHandler = path {
 
     post("/books") {
-        val author = queryParameters["author"] ?: return@post badRequest("Missing author")
-        val title = queryParameters["title"] ?: return@post badRequest("Missing title")
+        val author = queryParameters["author"]?.value ?: return@post badRequest("Missing author")
+        val title = queryParameters["title"]?.value ?: return@post badRequest("Missing title")
         val id = (books.keys.maxOrNull() ?: 0) + 1
         books += id to Book(author, title)
         created(id.toString())
@@ -187,8 +187,8 @@ private val path: PathHandler = path {
         val book = books[bookId]
         if (book != null) {
             books += bookId to book.copy(
-                author = queryParameters["author"] ?: book.author,
-                title = queryParameters["title"] ?: book.title
+                author = queryParameters["author"]?.value ?: book.author,
+                title = queryParameters["title"]?.value ?: book.title
             )
 
             ok("Book with id '$bookId' updated")
@@ -388,12 +388,12 @@ private val path: PathHandler = path {
     }
 
     post("/form") {
-        fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
-            map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
+        fun <T : HttpField> serializeMap(map: HttpFields<T>): List<String> = listOf(
+            map.values.joinToString("\n") { "${it.name}:${it.values.joinToString(",")}" }
         )
 
-        val queryParams = serializeMap(queryParameters.allValues)
-        val formParams = serializeMap(formParameters.allValues)
+        val queryParams = serializeMap(queryParameters)
+        val formParams = serializeMap(formParameters)
         val headers =
             HttpFields(Header("query-params", queryParams), Header("form-params", formParams))
 

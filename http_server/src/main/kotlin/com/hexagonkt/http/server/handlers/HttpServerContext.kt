@@ -54,14 +54,6 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         pattern.extractParameters(request.path)
     }
 
-    val allParameters: MultiMap<String, *> by lazy {
-        MultiMap(
-            request.formParameters.allValues
-                + request.queryParameters.allValues
-                + pathParameters.mapValues { listOf(it.value) }
-        )
-    }
-
     constructor(
         request: HttpServerRequestPort = HttpServerRequest(),
         response: HttpServerResponse = HttpServerResponse(),

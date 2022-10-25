@@ -70,7 +70,8 @@ fun parseQueryString(query: String): HttpFields<QueryParameter> =
         )
 
 fun formatQueryString(parameters: HttpFields<QueryParameter>): String =
-    parameters.allPairs
+    parameters
+        .flatMap { (k, v) -> v.values.map { k to it } }
         .filter { it.first.isNotBlank() }
         .joinToString("&") { (k, v) ->
             if (v.isBlank()) k.urlEncode()

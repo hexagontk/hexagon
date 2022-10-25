@@ -165,7 +165,7 @@ abstract class ClientTest(
 
         val response = client.post("/", requestBody, contentType = ContentType(JSON))
         assertEquals(expectedBody, response.body.toString().trim().replace("[\r\n]".toRegex(), ""))
-        assertEquals(ContentType(JSON).text, response.headers["ct"])
+        assertEquals(ContentType(JSON).text, response.headers["ct"]?.value)
 
         val body2 = client.post("/", requestBody).body
         assertEquals(expectedBody, body2.toString().trim().replace("[\r\n]".toRegex(), ""))
@@ -187,8 +187,8 @@ abstract class ClientTest(
         // genericRequest
 
         val getResponse = client.get("/queryParameters?qp=qpValue")
-        assertEquals("qp=qpValue", getResponse.headers["query-parameters"])
-        assertEquals("qp=qpValue", response.headers["query-parameters"])
+        assertEquals("qp=qpValue", getResponse.headers["query-parameters"]?.value)
+        assertEquals("qp=qpValue", response.headers["query-parameters"]?.value)
         checkResponse(response, mapOf("body" to "payload"))
     }
 
@@ -279,14 +279,14 @@ abstract class ClientTest(
         assertEquals(c.settings.headers, h)
 
         callback = {
-            val headers = Header("head1", request.headers.allValues.require("header1"))
+            val headers = Header("head1", request.headers.require("header1").values)
             ok(headers = response.headers + headers)
         }
 
         c.use {
             it.start()
             it.get("/auth").apply {
-                assertEquals(listOf("val1", "val2"), headers.allValues["head1"])
+                assertEquals(listOf("val1", "val2"), headers["head1"]?.values)
                 assertEquals(status, OK)
             }
         }
@@ -306,7 +306,7 @@ abstract class ClientTest(
         }
 
         client.post("/string", 42).apply {
-            assertEquals("42", headers.require("body"))
+            assertEquals("42", headers.require("body").value)
             assertEquals(status, OK)
             run = true
         }
@@ -318,7 +318,7 @@ abstract class ClientTest(
         var run: Boolean
 
         client.post("/string", "text").apply {
-            assert(headers["body"]?.isNotEmpty() ?: false)
+            assert(headers["body"]?.value?.isNotEmpty() ?: false)
             assertEquals(status, OK)
             run = true
         }
@@ -375,7 +375,7 @@ abstract class ClientTest(
         client.start()
         client.get("/hello").apply {
             // Assure the certificate received (and returned) by the server is correct
-            assert(headers.require("cert").startsWith("CN=hexagonkt.com"))
+            assert(headers.require("cert").value?.startsWith("CN=hexagonkt.com") ?: false)
             assertEquals(body, "Hello World!")
         }
 

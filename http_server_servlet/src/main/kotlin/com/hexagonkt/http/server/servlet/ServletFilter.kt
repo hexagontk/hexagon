@@ -70,7 +70,7 @@ class ServletFilter(
     private fun responseToServlet(
         response: HttpServerResponse, servletResponse: HttpServletResponse) {
 
-        response.headers.allValues.forEach { (k, v) ->
+        response.headers.values.forEach { (k, v) ->
             v.forEach { servletResponse.addHeader(k, it) }
         }
 

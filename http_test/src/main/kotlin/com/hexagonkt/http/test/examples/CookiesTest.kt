@@ -30,20 +30,20 @@ abstract class CookiesTest(
         }
 
         post("/addCookie") {
-            val name = queryParameters.require("cookieName")
-            val value = queryParameters.require("cookieValue")
+            val name = queryParameters.require("cookieName").value ?: return@post badRequest("No cookie name")
+            val value = queryParameters.require("cookieValue").value ?: return@post badRequest("No cookie value")
             ok(cookies = response.cookies + HttpCookie(name, value))
         }
 
         post("/assertHasCookie") {
-            val cookieName = queryParameters.require("cookieName")
-            val cookieValue = request.cookiesMap()[cookieName]?.value
-            if (queryParameters["cookieValue"] != cookieValue) internalServerError()
+            val cookieName = queryParameters.require("cookieName").value ?: return@post badRequest("No cookie name")
+            val cookieValue = request.cookiesMap()[cookieName]?.value ?: return@post badRequest("No cookie value")
+            if (queryParameters["cookieValue"]?.value != cookieValue) internalServerError()
             else ok()
         }
 
         post("/removeCookie") {
-            val cookie = request.cookiesMap()[queryParameters.require("cookieName")]
+            val cookie = request.cookiesMap()[queryParameters.require("cookieName").value]
             if (cookie == null) ok()
             else ok(cookies = response.cookies + cookie.delete())
         }

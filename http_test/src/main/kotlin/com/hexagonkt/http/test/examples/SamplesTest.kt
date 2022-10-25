@@ -210,10 +210,9 @@ abstract class SamplesTest(
                 path                             // Shortcut of `request.path`
 
                 // Headers
-                request.headers                  // The HTTP header list
-                request.headers["BAR"]           // First value of BAR header
-                request.headers.allValues        // The HTTP header list with their full values list
-                request.headers.allValues["BAR"] // List of values of BAR header
+                request.headers                  // The HTTP headers map
+                request.headers["BAR"]?.value    // First value of BAR header
+                request.headers["BAR"]?.values   // List of values of BAR header
 
                 // Common headers shortcuts
                 request.contentType              // Content type of request.body
@@ -228,15 +227,11 @@ abstract class SamplesTest(
 
                 // Parameters
                 pathParameters                    // Map with all path parameters
-                request.formParameters            // List with all form fields
-                request.formParameters.allValues  // Map with all form fields values
-                request.queryParameters           // List with all query parameters
-                request.queryParameters.allValues // Map with all query parameters values
+                request.formParameters            // Map with all form fields
+                request.queryParameters           // Map with all query parameters
 
                 queryParameters                   // Shortcut of `request.queryParameters`
-                queryParameters.allValues         // Shortcut of `request.queryParameters.allValues`
                 formParameters                    // Shortcut of `request.formParameters`
-                formParameters.allValues          // Shortcut of `request.formParameters.allValues`
 
                 // Body processing
                 request.contentLength             // Length of request body
@@ -274,10 +269,10 @@ abstract class SamplesTest(
 
             // callbackQueryParam
             get("/queryParam") {
-                request.queryParameters                       // The query param list
-                request.queryParameters["FOO"]                // Value of FOO query param
-                request.queryParameters.allValues             // The query param list
-                request.queryParameters.allValues["FOO"]      // All values of FOO query param
+                request.queryParameters                      // The query params map
+                request.queryParameters["FOO"]?.value        // Value of FOO query param
+                request.queryParameters["FOO"]?.values       // All values of FOO query param
+                request.queryParameters.values               // The query params list
 
                 ok()
             }
@@ -285,10 +280,10 @@ abstract class SamplesTest(
 
             // callbackFormParam
             get("/formParam") {
-                request.formParameters                       // The query param list
-                request.formParameters["FOO"]                // Value of FOO query param
-                request.formParameters.allValues             // The query param list
-                request.formParameters.allValues["FOO"]      // All values of FOO query param
+                request.formParameters                       // The form params map
+                request.formParameters["FOO"]?.value         // Value of FOO form param
+                request.formParameters["FOO"]?.values        // All values of FOO form param
+                request.formParameters.values                // The form params list
                 ok()
             }
             // callbackFormParam
@@ -542,7 +537,7 @@ abstract class SamplesTest(
         // Test callback (basically, a handler without a predicate)
         val callback: HttpCallback = {
             val fakeAttribute = attributes["fake"]
-            val fakeHeader = request.headers["fake"]
+            val fakeHeader = request.headers["fake"]?.value
             ok("Callback result $fakeAttribute $fakeHeader")
         }
 

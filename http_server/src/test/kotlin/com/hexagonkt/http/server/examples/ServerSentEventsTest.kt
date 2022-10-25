@@ -16,7 +16,6 @@ import kotlin.test.assertEquals
 
 internal class ServerSentEventsTest {
 
-    // sse
     private val eventPublisher = SubmissionPublisher<HttpServerEvent>()
 
     private val path: PathHandler = path {
@@ -24,14 +23,13 @@ internal class ServerSentEventsTest {
             sse(eventPublisher)
         }
     }
-    // sse
 
     @Suppress("UNCHECKED_CAST") // For testing purposes only
     @Test fun `Request with invalid user returns 403`() {
         val response = path.send(GET, "/sse")
         assertEquals(OK, response.status)
         assertEquals(TextMedia.EVENT_STREAM, response.contentType?.mediaType)
-        assertEquals("no-cache", response.headers["cache-control"])
+        assertEquals("no-cache", response.headers["cache-control"]?.value)
 
         val publisher = response.body as? SubmissionPublisher<HttpServerEvent> ?: fail
         val items: List<HttpServerEvent> = listOf(

@@ -42,7 +42,7 @@ abstract class SseTest(
         val response = client.get("/sse")
         assertEquals(OK, response.status)
         assertEquals(TextMedia.EVENT_STREAM, response.contentType?.mediaType)
-        assertEquals("no-cache", response.headers["cache-control"])
+        assertEquals("no-cache", response.headers["cache-control"]?.value)
 
         val publisher = response.body as? SubmissionPublisher<HttpServerEvent> ?: fail
         val items: List<HttpServerEvent> = listOf(

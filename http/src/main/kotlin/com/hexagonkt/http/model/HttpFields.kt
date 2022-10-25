@@ -1,10 +1,8 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.core.require
-
 data class HttpFields<T : HttpField>(
     val httpFields: Map<String, T>
-) {
+) : Map<String, T> by httpFields {
 
     constructor(fields: List<T>) : this(fields.associateBy { it.name })
 
@@ -18,27 +16,25 @@ data class HttpFields<T : HttpField>(
 
     operator fun minus(name: String): HttpFields<T> =
         copy(httpFields = httpFields - name)
-
-    val allPairs: List<Pair<String, String>> by lazy {
-        httpFields.flatMap { (k, v) -> v.values.map { k to it } }
-    }
-
-    val allValues: Map<String, List<String>> by lazy {
-        httpFields.mapValues { it.value.values }
-    }
-
-    val values: Map<String, String> by lazy {
-        httpFields
-            .filterValues { it.values.isNotEmpty() }
-            .mapValues { it.value.values.first() }
-    }
-
-    fun isEmpty(): Boolean =
-        httpFields.isEmpty()
-
-    operator fun get(key: String): String? =
-        httpFields[key]?.values?.firstOrNull()
-
-    fun require(key: String): String =
-        httpFields.require(key).values.first()
 }
+
+//data class HttpHeaders(
+//    val httpFields: Map<String, Header>
+//) : Map<String, Header> by httpFields {
+//
+//    constructor(fields: List<Header>) : this(fields.associateBy { it.name.lowercase() })
+//
+//    constructor(vararg fields: Header) : this(fields.toList())
+//
+//    operator fun plus(element: Header): HttpHeaders =
+//        copy(httpFields = httpFields + (element.name to element))
+//
+//    operator fun plus(element: HttpHeaders): HttpHeaders =
+//        copy(httpFields = httpFields + element.httpFields)
+//
+//    operator fun minus(name: String): HttpHeaders =
+//        copy(httpFields = httpFields - name.lowercase())
+//
+//    override operator fun get(key: String): Header? =
+//        httpFields[key.lowercase()]
+//}

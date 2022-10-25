@@ -82,17 +82,17 @@ abstract class CorsTest(
         ).forEach {
             assertEquals(OK, it.status)
             assertEquals("GET", it.body)
-            assertEquals("*", it.headers["access-control-allow-origin"])
-            assert(it.headers["vary"]?.contains("Origin")?.not() ?: true)
+            assertEquals("*", it.headers["access-control-allow-origin"]?.value)
+            assert(it.headers["vary"]?.value?.contains("Origin")?.not() ?: true)
         }
     }
 
     @Test fun `Simple CORS request`() {
         val result = client.get("/default", HttpFields(Header("origin", "example.org")))
         assertEquals(OK, result.status)
-        assertEquals("example.org", result.headers["access-control-allow-origin"])
-        assert(result.headers["vary"]?.contains("Origin") ?: false)
-        assertEquals("true", result.headers["access-control-allow-credentials"])
+        assertEquals("example.org", result.headers["access-control-allow-origin"]?.value)
+        assert(result.headers["vary"]?.value?.contains("Origin") ?: false)
+        assertEquals("true", result.headers["access-control-allow-credentials"]?.value)
     }
 
     @Test fun `Simple CORS request with not allowed method`() {
@@ -107,10 +107,10 @@ abstract class CorsTest(
             Header("head", "exposed header"),
         ))
         assertEquals(OK, result.status)
-        assertEquals("example.org", result.headers["access-control-allow-origin"])
-        assert(result.headers["vary"]?.contains("Origin") ?: false)
-        assertEquals("true", result.headers["access-control-allow-credentials"])
-        assertEquals("head", result.headers["access-control-expose-headers"])
+        assertEquals("example.org", result.headers["access-control-allow-origin"]?.value)
+        assert(result.headers["vary"]?.value?.contains("Origin") ?: false)
+        assertEquals("true", result.headers["access-control-allow-credentials"]?.value)
+        assertEquals("head", result.headers["access-control-expose-headers"]?.value)
     }
 
     @Test fun `CORS pre-flight with empty request method`() {
@@ -134,7 +134,7 @@ abstract class CorsTest(
             Header("origin", "example.org"),
             Header("access-control-request-method", "GET"),
         ))
-        assertEquals("example.org", result.headers["access-control-allow-origin"])
+        assertEquals("example.org", result.headers["access-control-allow-origin"]?.value)
         assertEquals(NO_CONTENT, result.status)
         assert(result.bodyString().isEmpty())
     }
@@ -190,7 +190,7 @@ abstract class CorsTest(
             Header("access-control-request-headers", "header1,header2"),
         )).apply {
             assertEquals(NO_CONTENT, status)
-            assertEquals("example.org", headers["access-control-allow-origin"])
+            assertEquals("example.org", headers["access-control-allow-origin"]?.value)
             assert(bodyString().isEmpty())
         }
         client.options("/cache", headers = HttpFields(
@@ -200,8 +200,8 @@ abstract class CorsTest(
         )).apply {
             assertEquals(NO_CONTENT, status)
             assert(bodyString().isEmpty())
-            assertEquals("example.org", headers["access-control-allow-origin"])
-            assertEquals("10", headers["access-control-max-age"])
+            assertEquals("example.org", headers["access-control-allow-origin"]?.value)
+            assertEquals("10", headers["access-control-max-age"]?.value)
         }
     }
 

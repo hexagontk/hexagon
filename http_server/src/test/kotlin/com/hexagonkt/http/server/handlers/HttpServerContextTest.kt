@@ -69,42 +69,11 @@ internal class HttpServerContextTest {
         assertSame(context.status, context.context.event.response.status)
     }
 
-    @Test fun `'allParameters' return a map with all request parameters`() {
-        val requestData = HttpServerContext(
-            request = httpServerRequest(),
-            predicate = HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}")),
-        )
-
-        assertEquals(mapOf("p1" to "v1", "0" to "v1"), requestData.pathParameters)
-
-        assertEquals(
-            multiMapOfLists(
-                "fp1" to listOf("fp1v1", "fp1v2"),
-                "k" to listOf("v"),
-                "p1" to listOf("v1"),
-                "0" to listOf("v1"),
-            ),
-            requestData.allParameters
-        )
-
-        val emptyRequest = HttpServerContext(
-            Context(
-                HttpServerCall(HttpServerRequest(), HttpServerResponse()),
-                HttpServerPredicate()
-            )
-        )
-
-        assertEquals(emptyMap(), emptyRequest.allParameters)
-        assertEquals(emptyMap(), emptyRequest.pathParameters)
-    }
-
-    @Test fun `loading path parameters fails for prefixes`() {
+    @Test fun `Loading path parameters fails for prefixes`() {
         val serverContext = HttpServerContext(
             request = httpServerRequest(),
             predicate = HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}", true)),
         )
-
-        assertFailsWith<IllegalStateException> { serverContext.allParameters }
 
         disableChecks = true
         assertEquals(mapOf("p1" to "v1", "0" to "v1"), serverContext.pathParameters)

@@ -98,7 +98,7 @@ abstract class FiltersTest(
 
     @Test fun `Request without authorization returns 401`() {
         val response = client.get("/protected/hi")
-        val time = response.headers["time"]?.toLong() ?: 0
+        val time = response.headers["time"]?.value?.toLong() ?: 0
         assertResponseEquals(response, UNAUTHORIZED, "Unauthorized")
         assert(time > 0)
     }
@@ -106,7 +106,7 @@ abstract class FiltersTest(
     @Test fun `HTTP request with valid credentials returns valid response`() {
         authorizedClient("Turing", "London").use {
             val response = it.get("/protected/hi")
-            val time = response.headers["time"]?.toLong() ?: 0
+            val time = response.headers["time"]?.value?.toLong() ?: 0
             assertResponseEquals(response, OK, "Hello Turing!")
             assert(time > 0)
         }
@@ -115,7 +115,7 @@ abstract class FiltersTest(
     @Test fun `Request with invalid password returns 403`() {
         authorizedClient("Turing", "Millis").use {
             val response = it.get("/protected/hi")
-            val time = response.headers["time"]?.toLong() ?: 0
+            val time = response.headers["time"]?.value?.toLong() ?: 0
             assertResponseEquals(response, FORBIDDEN, "Forbidden")
             assert(time > 0)
         }
@@ -124,7 +124,7 @@ abstract class FiltersTest(
     @Test fun `Request with invalid user returns 403`() {
         authorizedClient("Curry", "Millis").use {
             val response = it.get("/protected/hi")
-            val time = response.headers["time"]?.toLong() ?: 0
+            val time = response.headers["time"]?.value?.toLong() ?: 0
             assertResponseEquals(response, FORBIDDEN, "Forbidden")
             assert(time > 0)
         }
