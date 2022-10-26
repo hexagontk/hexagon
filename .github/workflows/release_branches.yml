@@ -36,8 +36,13 @@ jobs:
       - name: Check Out
         uses: actions/checkout@v3
       - name: Install Java
-        uses: actions/setup-java@v3
-        with: { java-version: 17, distribution: temurin }
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: latest
+          java-version: 17
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          components: native-image,llvm
+          cache: gradle
       - name: Install ImageMagick
         uses: ./.github/actions/image_magick
       - name: Restore Cache
@@ -67,4 +72,6 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        run: ./gradlew --info --no-daemon -x test release
+        run: |
+          ./gradlew --info --no-daemon -x test metadataCopy
+          ./gradlew --info --no-daemon -x test release

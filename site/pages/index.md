@@ -7,10 +7,10 @@ single standalone features[^1] and are referred to as ["Ports"][Ports and Adapte
 
 The main ports are:
 
-* [The HTTP server]: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
-  processing, cookies, sessions, CORS and more.
-* [The HTTP client]: which supports mutual TLS, HTTP/2, cookies, form fields and files among other
-  features.
+* [The HTTP server]: supports HTTPS, HTTP/2, WebSockets, mutual TLS, static files (serve and
+  upload), forms processing, cookies, CORS and more.
+* [The HTTP client]: which supports mutual TLS, HTTP/2, WebSockets, cookies, form fields and files
+  among other features.
 * [Template Processing]: allows template processing from URLs (local files, resources or HTTP
   content) binding name patterns to different engines.
 

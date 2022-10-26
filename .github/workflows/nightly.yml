@@ -53,9 +53,6 @@ jobs:
       - name: Check Out
         uses: actions/checkout@v3
         with: { ref: develop }
-      - name: Install Java
-        uses: actions/setup-java@v3
-        with: { java-version: 17, distribution: temurin, cache: gradle }
       - name: Install ImageMagick
         uses: ./.github/actions/image_magick
       - name: Restore Cache
@@ -68,9 +65,10 @@ jobs:
             ~/.local/lib/python*/site-packages
 
       # PROCESS
+      - name: Build Project
+        uses: ./.github/actions/gradle
       - name: Build Site
         run: |
-          ./gradlew --info build
           ./gradlew --info -x build buildSite
           ls -AlF site/build/site
 
@@ -88,7 +86,11 @@ jobs:
       - name: Check Out
         uses: actions/checkout@v3
         with: { ref: develop }
+      - name: Copy Metadata
+        uses: ./.github/actions/gradle
+        with:
+          tasks: metadataCopy -x test
       - name: Test Publishing
         uses: ./.github/actions/gradle
         with:
-          tasks: --no-daemon publishToMavenLocal -x test
+          tasks: publishToMavenLocal -x test

@@ -11,11 +11,6 @@ inputs:
     required: true
     default: "17"
 
-  java_distribution:
-    description: Java distribution used to run Gradle.
-    required: true
-    default: temurin
-
   tasks:
     description: Gradle tasks to execute.
     required: true
@@ -26,15 +21,17 @@ runs:
   steps:
 
     # SET UP
-    - uses: actions/setup-java@v3
+    - uses: graalvm/setup-graalvm@v1
       with:
+        version: latest
         java-version: ${{ inputs.java }}
-        distribution: ${{ inputs.java_distribution }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        components: native-image,llvm
         cache: gradle
 
     # PROCESS
     - run: ./gradlew ${{ inputs.tasks }}
       shell: bash
     - if: failure()
-      run: ./gradlew --info --stacktrace ${{ inputs.tasks }}
+      run: ./gradlew --info --stacktrace -Pagent ${{ inputs.tasks }}
       shell: bash
