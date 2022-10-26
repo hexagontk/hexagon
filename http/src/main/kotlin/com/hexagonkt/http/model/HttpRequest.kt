@@ -39,11 +39,5 @@ interface HttpRequest : HttpMessage {
         headers["authorization"]
             ?.value
             ?.split(" ", limit = 2)
-            ?.let {
-                if (it.size == 2) it
-                else error("Authorization header must have two words (<type> <value>): $it")
-            }
-            ?.let {
-                Authorization(it.first(), it.last())
-            }
+            ?.let { Authorization(it.first(), it.last()) }
 }

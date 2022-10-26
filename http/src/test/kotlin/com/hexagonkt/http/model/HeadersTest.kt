@@ -9,8 +9,8 @@ internal class HeadersTest {
     @Test
     fun `HTTP headers works correctly`() {
         val fields = Headers(
-            Header("a", "b", 1, true),
-            Header("b", "c", 0, false),
+            Header("a", "b", 1) + true,
+            Header("b", "c", 0) + false,
         )
 
         assertContentEquals(

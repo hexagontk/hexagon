@@ -8,8 +8,8 @@ internal class FormParametersTest {
 
     @Test fun `HTTP form parameters works correctly`() {
         val fields = FormParameters(
-            FormParameter("a", "b", 1, true),
-            FormParameter("b", "c", 0, false),
+            FormParameter("a", "b", 1) + true,
+            FormParameter("b", "c", 0) + false,
         )
 
         assertContentEquals(

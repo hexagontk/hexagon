@@ -8,8 +8,8 @@ internal class QueryParametersTest {
 
     @Test fun `HTTP query parameters works correctly`() {
         val fields = QueryParameters(
-            QueryParameter("a", "b", 1, true),
-            QueryParameter("b", "c", 0, false),
+            QueryParameter("a", "b", 1) + true,
+            QueryParameter("b", "c", 0) + false,
         )
 
         assertContentEquals(

@@ -9,9 +9,9 @@ data class Header(
 
     constructor(name: String, vararg values: Any) : this(name, values.map(Any::toString))
 
-    override operator fun plus(value: Any): HttpField =
+    override operator fun plus(value: Any): Header =
         copy(values = values + value.toString())
 
-    override operator fun minus(element: Any): HttpField =
+    override operator fun minus(element: Any): Header =
         copy(values = values - element.toString())
 }
