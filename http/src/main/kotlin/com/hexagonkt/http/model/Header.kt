@@ -5,11 +5,13 @@ data class Header(
     override val values: List<String>,
 ) : HttpField {
 
+    override val value: String? = values.firstOrNull()
+
     constructor(name: String, vararg values: Any) : this(name, values.map(Any::toString))
 
-    override operator fun plus(value: Any): HttpField =
+    override operator fun plus(value: Any): Header =
         copy(values = values + value.toString())
 
-    override operator fun minus(element: String): HttpField =
-        copy(values = values - element)
+    override operator fun minus(element: Any): Header =
+        copy(values = values - element.toString())
 }

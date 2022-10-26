@@ -348,4 +348,35 @@ internal class DataTest {
         assertEquals(emptyList(), m2.getListsOrEmpty(DataClass::o))
         assertEquals(emptyList(), m2.getMapsOrEmpty(DataClass::p))
     }
+
+    @Test fun `All pairs from a lists map is created properly`() {
+        assertEquals(
+            listOf(
+                "a" to 1,
+                "a" to 2,
+                "a" to 3,
+                "b" to 4,
+                "b" to 5,
+                "b" to 6,
+            ),
+            mapOf("a" to listOf(1, 2, 3), "b" to listOf(4, 5, 6)).pairs()
+        )
+        assertEquals(
+            listOf(
+                "a" to 1,
+                "a" to 2,
+                "a" to 3,
+            ),
+            mapOf("a" to listOf(1, 2, 3)).pairs()
+        )
+        assertEquals(
+            listOf(
+                "a" to 1,
+                "b" to 4,
+            ),
+            mapOf("a" to listOf(1), "b" to listOf(4)).pairs()
+        )
+        assertEquals(listOf(), mapOf("a" to listOf<Int>()).pairs())
+        assertEquals(listOf(), mapOf("a" to listOf<Int>(), "b" to listOf()).pairs())
+    }
 }

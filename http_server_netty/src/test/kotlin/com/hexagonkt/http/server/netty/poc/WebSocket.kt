@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.netty.poc
 
 import com.hexagonkt.core.logging.logger
-import com.hexagonkt.http.model.HttpServerEvent
+import com.hexagonkt.http.model.ServerEvent
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.callbacks.UrlCallback
 import com.hexagonkt.http.model.WsSession
@@ -47,8 +47,8 @@ internal class PeriodicPublisher<T>(
 fun event(
     executor: Executor,
     period: Long,
-    supplier: Supplier<HttpServerEvent>
-): SubmissionPublisher<HttpServerEvent> =
+    supplier: Supplier<ServerEvent>
+): SubmissionPublisher<ServerEvent> =
     PeriodicPublisher(executor, 10, period, MILLISECONDS, supplier)
 
 fun main () {
@@ -59,7 +59,7 @@ fun main () {
         get(callback = UrlCallback(URL("file:http_server_jetty/src/test/resources/ws.html")))
         get("/sse") {
             val body = event(executor, 2_000) {
-                HttpServerEvent(data = System.currentTimeMillis().toString())
+                ServerEvent(data = System.currentTimeMillis().toString())
             }
             sse(body)
         }

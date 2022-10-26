@@ -11,11 +11,11 @@ interface HttpRequest : HttpMessage {
     val host: String                              // "example.com"
     val port: Int                                 // 80
     val path: String                              // "/foo" servlet path + path info
-    val queryParameters: HttpFields<QueryParameter>
-    val parts: List<HttpPart>                 // hash of multipart parts
-    val formParameters: HttpFields<FormParameter>
+    val queryParameters: QueryParameters
+    val parts: List<HttpPart>                     // hash of multipart parts
+    val formParameters: FormParameters
     val accept: List<ContentType>
-    val authorization: HttpAuthorization?
+    val authorization: Authorization?
 
     fun partsMap(): Map<String, HttpPart> =
         parts.associateBy { it.name }
@@ -27,22 +27,17 @@ interface HttpRequest : HttpMessage {
             URL("${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}")
 
     fun userAgent(): String? =
-        headers["user-agent"]
+        headers["user-agent"]?.value
 
     fun referer(): String? =
-        headers["referer"]
+        headers["referer"]?.value
 
     fun origin(): String? =
-        headers["origin"]
+        headers["origin"]?.value
 
-    fun authorization(): HttpAuthorization? =
+    fun authorization(): Authorization? =
         headers["authorization"]
+            ?.value
             ?.split(" ", limit = 2)
-            ?.let {
-                if (it.size == 2) it
-                else error("Authorization header must have two words (<type> <value>): $it")
-            }
-            ?.let {
-                HttpAuthorization(it.first(), it.last())
-            }
+            ?.let { Authorization(it.first(), it.last()) }
 }

@@ -30,7 +30,7 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpSer
 
     override val contentLength: Long by lazy { req.contentLength.toLong() }
 
-    override val queryParameters: HttpFields<QueryParameter> by lazy {
+    override val queryParameters: QueryParameters by lazy {
         parseQueryString(req.queryString ?: "")
     }
 
@@ -42,16 +42,16 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpSer
     override val host: String by lazy { req.remoteHost }
     override val port: Int by lazy { req.serverPort }
     override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }
-    override val authorization: HttpAuthorization? by lazy { authorization() }
+    override val authorization: Authorization? by lazy { authorization() }
 
-    override val cookies: List<HttpCookie> by lazy {
+    override val cookies: List<Cookie> by lazy {
         req.cookies
-            ?.map { HttpCookie(it.name, it.value, it.maxAge.toLong(), it.secure) }
+            ?.map { Cookie(it.name, it.value, it.maxAge.toLong(), it.secure) }
             ?: emptyList()
     }
 
-    override val headers: HttpFields<Header> by lazy {
-        HttpFields(
+    override val headers: Headers by lazy {
+        Headers(
             req.headerNames
                 .toList()
                 .map { it.lowercase() }

@@ -8,8 +8,6 @@ import kotlin.system.measureNanoTime
 
 /**
  * Callback that logs server requests and responses.
- *
- * @param file Base file used to resolve paths passed on the request.
  */
 class LoggingCallback(
     private val level: LoggingLevel = LoggingLevel.INFO,
@@ -60,7 +58,7 @@ class LoggingCallback(
     private fun HttpMessage.formatBody(): String =
         if (includeBody) "\n\n${bodyString()}" else ""
 
-    private fun HttpFields<*>.format(): String =
+    private fun Headers.format(): String =
         httpFields
             .filter { (_, v) -> v.values.any { it.isNotBlank() } }
             .map { (k, v) -> "$k: ${v.values.joinToString(", ")}" }

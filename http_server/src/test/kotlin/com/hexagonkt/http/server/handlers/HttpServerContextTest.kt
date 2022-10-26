@@ -4,7 +4,6 @@ import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.HttpMethod.*
@@ -20,7 +19,6 @@ import com.hexagonkt.http.server.model.HttpServerResponse
 import org.junit.jupiter.api.Test
 import java.lang.RuntimeException
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
@@ -33,12 +31,12 @@ internal class HttpServerContextTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path/v1",
-            queryParameters = HttpFields(QueryParameter("k", "v")),
-            headers = HttpFields(Header("h1", "h1v1", "h1v2")),
+            queryParameters = QueryParameters(QueryParameter("k", "v")),
+            headers = Headers(Header("h1", "h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
-            formParameters = HttpFields(FormParameter("fp1", "fp1v1", "fp1v2")),
-            cookies = listOf(HttpCookie("cn", "cv")),
+            formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
+            cookies = listOf(Cookie("cn", "cv")),
             contentType = ContentType(PLAIN),
             certificateChain = emptyList(),
             accept = listOf(ContentType(HTML)),
@@ -69,42 +67,11 @@ internal class HttpServerContextTest {
         assertSame(context.status, context.context.event.response.status)
     }
 
-    @Test fun `'allParameters' return a map with all request parameters`() {
-        val requestData = HttpServerContext(
-            request = httpServerRequest(),
-            predicate = HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}")),
-        )
-
-        assertEquals(mapOf("p1" to "v1", "0" to "v1"), requestData.pathParameters)
-
-        assertEquals(
-            multiMapOfLists(
-                "fp1" to listOf("fp1v1", "fp1v2"),
-                "k" to listOf("v"),
-                "p1" to listOf("v1"),
-                "0" to listOf("v1"),
-            ),
-            requestData.allParameters
-        )
-
-        val emptyRequest = HttpServerContext(
-            Context(
-                HttpServerCall(HttpServerRequest(), HttpServerResponse()),
-                HttpServerPredicate()
-            )
-        )
-
-        assertEquals(emptyMap(), emptyRequest.allParameters)
-        assertEquals(emptyMap(), emptyRequest.pathParameters)
-    }
-
-    @Test fun `loading path parameters fails for prefixes`() {
+    @Test fun `Loading path parameters fails for prefixes`() {
         val serverContext = HttpServerContext(
             request = httpServerRequest(),
             predicate = HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}", true)),
         )
-
-        assertFailsWith<IllegalStateException> { serverContext.allParameters }
 
         disableChecks = true
         assertEquals(mapOf("p1" to "v1", "0" to "v1"), serverContext.pathParameters)

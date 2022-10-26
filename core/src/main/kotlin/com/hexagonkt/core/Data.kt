@@ -65,6 +65,15 @@ inline fun <reified T : Any> Map<*, *>.requireKeys(vararg name: Any): T =
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *
+ * @receiver .
+ * @return .
+ */
+fun <K, V> Map<K, List<V>>.pairs(): List<Pair<K, V>> =
+    flatMap { (k, v) -> v.map { k to it } }
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
  * @param fields .
  * @return .
  */

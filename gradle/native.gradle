@@ -1,0 +1,35 @@
+
+apply(plugin: "org.graalvm.buildtools.native")
+
+graalvmNative {
+    agent {
+        final String codeFilterFile = findProperty("codeFilterFile")
+        defaultMode = codeFilterFile == null? "standard" : "conditional"
+
+        metadataCopy {
+            inputTaskNames.add("test")
+            final String buildPath = project.buildDir.absolutePath
+            outputDirectories.add("$buildPath/resources/main/META-INF/native-image")
+        }
+
+        modes {
+            conditional {
+                if (codeFilterFile != null)
+                    userCodeFilterPath.set(rootProject.file(codeFilterFile).absolutePath)
+            }
+        }
+    }
+
+    metadataRepository {
+        enabled.set(true)
+    }
+}
+
+tasks.register("upx", Exec) {
+    dependsOn("nativeCompile")
+
+    final String source = "$buildDir/native/nativeCompile/${project.name}"
+    final String target = "$buildDir/${project.name}"
+    final String command = "upx $source -o $target"
+    commandLine(command.split(" "))
+}

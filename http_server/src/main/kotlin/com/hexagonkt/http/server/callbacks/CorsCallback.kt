@@ -100,7 +100,7 @@ class CorsCallback(
 
     private fun HttpServerContext.preFlightRequest(): HttpServerContext {
 
-        val methodHeader = request.headers[REQUEST_METHOD]
+        val methodHeader = request.headers[REQUEST_METHOD]?.value
         val requestMethod = methodHeader
             ?: return forbidden("$REQUEST_METHOD required header not found")
 
@@ -108,7 +108,7 @@ class CorsCallback(
         if (method !in allowedMethods)
             return forbidden("Not allowed method: $method")
 
-        val accessControlRequestHeaders = request.headers[REQUEST_HEADERS]
+        val accessControlRequestHeaders = request.headers[REQUEST_HEADERS]?.value
 
         var h = response.headers
 

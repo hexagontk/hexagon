@@ -12,17 +12,17 @@ data class HttpServerRequest(
     override val host: String = "localhost",
     override val port: Int = 80,
     override val path: String = "",
-    override val queryParameters: HttpFields<QueryParameter> = HttpFields(),
-    override val headers: HttpFields<Header> = HttpFields(),
+    override val queryParameters: QueryParameters = QueryParameters(),
+    override val headers: Headers = Headers(),
     override val body: Any = "",
     override val parts: List<HttpPart> = emptyList(),
-    override val formParameters: HttpFields<FormParameter> = HttpFields(),
-    override val cookies: List<HttpCookie> = emptyList(),
+    override val formParameters: FormParameters = FormParameters(),
+    override val cookies: List<Cookie> = emptyList(),
     override val contentType: ContentType? = null,
     override val certificateChain: List<X509Certificate> = emptyList(),
     override val accept: List<ContentType> = emptyList(),
     override val contentLength: Long = -1L,
-    override val authorization: HttpAuthorization? = null,
+    override val authorization: Authorization? = null,
 ) : HttpServerRequestPort {
 
     init {

@@ -6,9 +6,9 @@ import com.hexagonkt.http.model.*
 
 data class HttpClientResponse(
     override val body: Any = "",
-    override val headers: HttpFields<Header> = HttpFields(),
+    override val headers: Headers = Headers(),
     override val contentType: ContentType? = null,
-    override val cookies: List<HttpCookie> = emptyList(),
+    override val cookies: List<Cookie> = emptyList(),
     override val status: HttpStatus = NOT_FOUND,
     override val contentLength: Long = -1L
 ) : HttpClientResponsePort {

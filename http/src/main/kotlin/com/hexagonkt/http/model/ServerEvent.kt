@@ -1,6 +1,6 @@
 package com.hexagonkt.http.model
 
-data class HttpServerEvent(
+data class ServerEvent(
     val event: String? = null,
     val data: String? = null,
     val id: String? = null,

@@ -1,7 +1,6 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.http.model.HttpProtocol.HTTP
-import com.hexagonkt.http.server.HttpServerFeature.*
 import org.junit.jupiter.api.Test
 import java.net.InetAddress
 import kotlin.test.assertEquals
@@ -16,18 +15,18 @@ internal class HttpServerSettingsTest {
             assertEquals(HTTP, it.protocol)
             assertNull(it.sslSettings)
             assertNull(it.banner)
-            assertEquals(emptySet(), it.features)
+            assertEquals(false, it.zip)
         }
     }
 
     @Test fun `Custom HTTP server settings contains the proper values`() {
-        HttpServerSettings(features = setOf(ZIP, ASYNC, WEB_SOCKETS, SSE)).let {
+        HttpServerSettings(zip = true).let {
             assertEquals(InetAddress.getLoopbackAddress(), it.bindAddress)
             assertEquals(2010, it.bindPort)
             assertEquals(HTTP, it.protocol)
             assertNull(it.sslSettings)
             assertNull(it.banner)
-            assertEquals(HttpServerFeature.values().toSet(), it.features)
+            assertEquals(true, it.zip)
         }
     }
 }

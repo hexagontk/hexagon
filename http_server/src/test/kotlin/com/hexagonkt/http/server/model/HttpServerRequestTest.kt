@@ -32,12 +32,12 @@ internal class HttpServerRequestTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path",
-            queryParameters = HttpFields(QueryParameter("k", "v")),
-            headers = HttpFields(Header("h1", "h1v1", "h1v2")),
+            queryParameters = QueryParameters(QueryParameter("k", "v")),
+            headers = Headers(Header("h1", "h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
-            formParameters = HttpFields(FormParameter("fp1", "fp1v1", "fp1v2")),
-            cookies = listOf(HttpCookie("cn", "cv")),
+            formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
+            cookies = listOf(Cookie("cn", "cv")),
             contentType = ContentType(PLAIN),
             certificateChain = emptyList(),
             accept = listOf(ContentType(HTML)),
@@ -50,10 +50,10 @@ internal class HttpServerRequestTest {
         assertEquals(httpServerRequestData(), httpServerRequestData())
         assertFalse(httpServerRequest.equals(""))
 
-        val headers = HttpFields(Header("h1", "v1"))
+        val headers = Headers(Header("h1", "v1"))
         val parts = listOf(HttpPart("p", "v"))
-        val formParameters = HttpFields(FormParameter("h1", "v1"))
-        val cookies = listOf(HttpCookie("p", "v"))
+        val formParameters = FormParameters(FormParameter("h1", "v1"))
+        val cookies = listOf(Cookie("p", "v"))
         val contentType = ContentType(RICHTEXT)
         val accept = listOf(ContentType(CSS))
 
@@ -72,7 +72,7 @@ internal class HttpServerRequestTest {
         assertNotEquals(httpServerRequest, httpServerRequest.copy(accept = accept))
         assertNotEquals(
             httpServerRequest,
-            httpServerRequest.copy(queryParameters = HttpFields(QueryParameter("k", "v", "v2")))
+            httpServerRequest.copy(queryParameters = QueryParameters(QueryParameter("k", "v", "v2")))
         )
 
         assertEquals(httpServerRequest.hashCode(), httpServerRequestData().hashCode())
@@ -96,7 +96,7 @@ internal class HttpServerRequestTest {
         assertNull(requestData.origin())
 
         requestData.copy(
-            headers = HttpFields(
+            headers = Headers(
                 Header("user-agent", "ua"),
                 Header("referer", "r"),
                 Header("origin", "o"),

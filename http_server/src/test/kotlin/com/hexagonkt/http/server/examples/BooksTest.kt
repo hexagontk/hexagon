@@ -10,6 +10,7 @@ import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.SuccessStatus.CREATED
+import com.hexagonkt.http.server.handlers.HttpServerContext
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
 import org.junit.jupiter.api.Test
@@ -17,7 +18,6 @@ import kotlin.test.assertEquals
 
 internal class BooksTest {
 
-    // books
     data class Book(val author: String, val title: String)
 
     private val books: MutableMap<Int, Book> = linkedMapOf(
@@ -26,11 +26,14 @@ internal class BooksTest {
         102 to Book("Homer", "The Odyssey")
     )
 
+    private fun HttpServerContext.missingField(field: String): HttpServerContext =
+        badRequest("Missing $field")
+
     val path: PathHandler = path {
 
         post("/books") {
-            val author = queryParameters["author"] ?: return@post badRequest("Missing author")
-            val title = queryParameters["title"] ?: return@post badRequest("Missing title")
+            val author = queryParameters["author"]?.value ?: return@post missingField("author")
+            val title = queryParameters["title"]?.value ?: return@post missingField("title")
             val id = (books.keys.maxOrNull() ?: 0) + 1
             books += id to Book(author, title)
             created(id.toString())
@@ -50,8 +53,8 @@ internal class BooksTest {
             val book = books[bookId]
             if (book != null) {
                 books += bookId to book.copy(
-                    author = queryParameters["author"] ?: book.author,
-                    title = queryParameters["title"] ?: book.title
+                    author = queryParameters["author"]?.value ?: book.author,
+                    title = queryParameters["title"]?.value ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated")
@@ -80,13 +83,12 @@ internal class BooksTest {
             ok(books.keys.joinToString(" ", transform = Int::toString))
         }
     }
-    // books
 
     private val pathAlternative: PathHandler = path("/books") {
 
         post {
-            val author = queryParameters["author"] ?: return@post badRequest("Missing author")
-            val title = queryParameters["title"] ?: return@post badRequest("Missing title")
+            val author = queryParameters["author"]?.value ?: return@post missingField("author")
+            val title = queryParameters["title"]?.value ?: return@post missingField("title")
             val id = (books.keys.maxOrNull() ?: 0) + 1
             books += id to Book(author, title)
             created(id.toString())
@@ -106,8 +108,8 @@ internal class BooksTest {
             val book = books[bookId]
             if (book != null) {
                 books += bookId to book.copy(
-                    author = queryParameters["author"] ?: book.author,
-                    title = queryParameters["title"] ?: book.title
+                    author = queryParameters["author"]?.value ?: book.author,
+                    title = queryParameters["title"]?.value ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated")
@@ -140,8 +142,8 @@ internal class BooksTest {
     private val pathAlternative2: PathHandler = path("/books") {
 
         post {
-            val author = queryParameters["author"] ?: return@post badRequest("Missing author")
-            val title = queryParameters["title"] ?: return@post badRequest("Missing title")
+            val author = queryParameters["author"]?.value ?: return@post missingField("author")
+            val title = queryParameters["title"]?.value ?: return@post missingField("title")
             val id = (books.keys.maxOrNull() ?: 0) + 1
             books += id to Book(author, title)
             created(id.toString())
@@ -162,8 +164,8 @@ internal class BooksTest {
                 val book = books[bookId]
                 if (book != null) {
                     books += bookId to book.copy(
-                        author = queryParameters["author"] ?: book.author,
-                        title = queryParameters["title"] ?: book.title
+                        author = queryParameters["author"]?.value ?: book.author,
+                        title = queryParameters["title"]?.value ?: book.title
                     )
 
                     ok("Book with id '$bookId' updated")

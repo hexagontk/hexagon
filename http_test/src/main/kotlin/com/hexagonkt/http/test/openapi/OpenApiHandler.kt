@@ -1,5 +1,7 @@
 package com.hexagonkt.http.test.openapi
 
+import com.hexagonkt.core.fail
+import com.hexagonkt.core.require
 import com.hexagonkt.http.model.ClientErrorStatus.BAD_REQUEST
 import com.hexagonkt.http.model.ClientErrorStatus.UNAUTHORIZED
 import com.hexagonkt.http.model.HttpMethod
@@ -53,7 +55,7 @@ internal class OpenApiHandler(pathToSpec: String) {
                     getResponseContentForStatus(
                         operation,
                         status = 200,
-                        exampleName = request.headers["x-mock-response-example"]
+                        exampleName = request.headers["x-mock-response-example"]?.value
                     )
                 )
         }
@@ -116,9 +118,9 @@ internal class OpenApiHandler(pathToSpec: String) {
     private fun validateApiKey(securityScheme: SecurityScheme, call: HttpServerContext): Boolean =
         when (securityScheme.`in`) {
             SecurityScheme.In.QUERY ->
-                call.request.queryParameters.require(securityScheme.name).isNotBlank()
+                call.request.queryParameters[securityScheme.name]?.value?.isNotBlank() ?: fail
             SecurityScheme.In.HEADER ->
-                !call.request.headers[securityScheme.name].isNullOrBlank()
+                call.request.headers[securityScheme.name]?.value.isNullOrBlank()
             SecurityScheme.In.COOKIE ->
                 call.request.cookiesMap()[securityScheme.name] != null
             else ->
@@ -128,12 +130,12 @@ internal class OpenApiHandler(pathToSpec: String) {
     private fun validateHttpAuth(securityScheme: SecurityScheme, call: HttpServerContext): Boolean =
         when (securityScheme.scheme.lowercase()) {
             "basic" -> {
-                call.request.headers["authorization"]?.let { authString ->
+                call.request.headers["authorization"]?.value?.let { authString ->
                     authString.isNotBlank() && authString.startsWith("Basic")
                 } ?: false
             }
             "bearer" -> {
-                call.request.headers["authorization"]?.let { authString ->
+                call.request.headers["authorization"]?.value?.let { authString ->
                     authString.isNotBlank() && authString.startsWith("Bearer")
                 } ?: false
             }
@@ -151,7 +153,7 @@ internal class OpenApiHandler(pathToSpec: String) {
                             body = getResponseContentForStatus(
                                 operation,
                                 status = 400,
-                                exampleName = call.request.headers["x-mock-response-example"]
+                                exampleName = call.request.headers["x-mock-response-example"]?.value
                             )
                         )
                     }
@@ -163,7 +165,7 @@ internal class OpenApiHandler(pathToSpec: String) {
                             body = getResponseContentForStatus(
                                 operation,
                                 status = 400,
-                                exampleName = call.request.headers["x-mock-response-example"]
+                                exampleName = call.request.headers["x-mock-response-example"]?.value
                             )
                         )
                     }
@@ -175,7 +177,7 @@ internal class OpenApiHandler(pathToSpec: String) {
                             body = getResponseContentForStatus(
                                 operation,
                                 status = 400,
-                                exampleName = call.request.headers["x-mock-response-example"]
+                                exampleName = call.request.headers["x-mock-response-example"]?.value
                             )
                         )
                     }
@@ -187,7 +189,7 @@ internal class OpenApiHandler(pathToSpec: String) {
                             body = getResponseContentForStatus(
                                 operation,
                                 status = 400,
-                                exampleName = call.request.headers["x-mock-response-example"]
+                                exampleName = call.request.headers["x-mock-response-example"]?.value
                             )
                         )
                     }
@@ -207,7 +209,7 @@ internal class OpenApiHandler(pathToSpec: String) {
     }
 
     private fun verifyQueryParam(parameter: Parameter, call: HttpServerContext): Boolean {
-        if (call.request.queryParameters.require(parameter.name).isBlank()) {
+        if (call.request.queryParameters.require(parameter.name).value.isNullOrBlank()) {
             return !parameter.required
         }
         parameter.schema.enum?.let {
@@ -217,7 +219,7 @@ internal class OpenApiHandler(pathToSpec: String) {
     }
 
     private fun verifyHeaderParam(parameter: Parameter, call: HttpServerContext): Boolean {
-        if (call.request.headers[parameter.name].isNullOrBlank()) {
+        if (call.request.headers[parameter.name]?.value.isNullOrBlank()) {
             return !parameter.required
         }
         parameter.schema.enum?.let {

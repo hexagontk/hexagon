@@ -23,6 +23,7 @@ import com.hexagonkt.core.Ansi.MAGENTA
 import com.hexagonkt.core.Ansi.RESET
 import com.hexagonkt.core.Ansi.UNDERLINE
 import com.hexagonkt.core.prependIndent
+import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.ServerBuilder
 import com.hexagonkt.http.server.handlers.path
@@ -96,11 +97,11 @@ data class HttpServer(
             "Requesting unsupported protocol. Adapter's protocols: $supportedProtocolsText"
         }
 
-        val supportedFeatures = adapter.supportedFeatures()
-        check(settings.features.all { it in supportedFeatures }) {
-            val supportedFeaturesText = supportedFeatures.joinToString(", ")
-            "Requesting unsupported feature. Adapter's features: $supportedFeaturesText"
-        }
+        if (settings.zip)
+            check(adapter.supportedFeatures().contains(ZIP)) {
+                val adapterName = adapter::class.qualifiedName
+                "Requesting ZIP compression with an adapter without support: '$adapterName'"
+            }
     }
 
     /**
@@ -172,9 +173,7 @@ data class HttpServer(
             }
 
         val features = adapter.supportedFeatures()
-            .joinToString("$RESET, $CYAN", CYAN, RESET) {
-                if (settings.features.contains(it)) "✅$it" else "$it"
-            }
+            .joinToString("$RESET, $CYAN", CYAN, RESET) { it.toString() }
 
         val options = adapter.options()
             .map { (k, v) -> "$k($v)" }

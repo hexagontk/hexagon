@@ -2,6 +2,7 @@ package com.hexagonkt.http.server.netty
 
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.Cookie
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.model.HttpServerResponse
 import io.netty.buffer.Unpooled
@@ -75,7 +76,7 @@ internal class NettyServerHandler(
 
         val hexagonHeaders = response.headers
         if (hexagonHeaders.httpFields.isNotEmpty())
-            hexagonHeaders.allValues.map { (k, v) -> headers.add(k, v) }
+            hexagonHeaders.values.map { (k, v) -> headers.add(k, v) }
 
         val hexagonCookies = response.cookies
         if (hexagonCookies.isNotEmpty())
@@ -90,8 +91,8 @@ internal class NettyServerHandler(
         context.writeAndFlush(nettyResponse)
 
         // TODO Close when publisher is done
-        val publisher = body as Publisher<HttpServerEvent>
-        publisher.subscribe(object : Subscriber<HttpServerEvent> {
+        val publisher = body as Publisher<ServerEvent>
+        publisher.subscribe(object : Subscriber<ServerEvent> {
             override fun onError(throwable: Throwable) {}
 
             override fun onComplete() {}
@@ -100,7 +101,7 @@ internal class NettyServerHandler(
                 subscription.request(Long.MAX_VALUE)
             }
 
-            override fun onNext(item: HttpServerEvent) {
+            override fun onNext(item: ServerEvent) {
                 val eventData = Unpooled.copiedBuffer(item.eventData.toByteArray())
                 context.writeAndFlush(DefaultHttpContent(eventData))
             }
@@ -169,7 +170,7 @@ internal class NettyServerHandler(
 
         val hexagonHeaders = hexagonResponse.headers
         if (hexagonHeaders.httpFields.isNotEmpty())
-            hexagonHeaders.allValues.map { (k, v) -> headers.add(k, v) }
+            hexagonHeaders.values.map { (k, v) -> headers.add(k, v) }
 
         val hexagonCookies = hexagonResponse.cookies
         if (hexagonCookies.isNotEmpty())
@@ -189,7 +190,7 @@ internal class NettyServerHandler(
         }
     }
 
-    private fun nettyCookies(hexagonCookies: List<HttpCookie>) =
+    private fun nettyCookies(hexagonCookies: List<Cookie>) =
         hexagonCookies.map {
             DefaultCookie(it.name, it.value).apply {
                 if (it.maxAge != -1L)

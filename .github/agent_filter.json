@@ -1,0 +1,9 @@
+{
+  "rules": [
+    { "excludeClasses": "**" },
+    { "includeClasses": "com.hexagonkt.**" }
+  ],
+  "regexRules": [
+    { "excludeClasses": "com\\.hexagonkt\\..*Test" }
+  ]
+}
