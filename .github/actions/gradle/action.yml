@@ -16,6 +16,10 @@ inputs:
     required: true
     default: build
 
+  token:
+    description: Token used to install GraalVM.
+    required: true
+
 runs:
   using: composite
   steps:
@@ -25,7 +29,7 @@ runs:
       with:
         version: latest
         java-version: ${{ inputs.java }}
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ inputs.token }}
         components: native-image,llvm
         cache: gradle
 
