@@ -6,9 +6,9 @@ import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
 
 <span class="fc" id="L7">data class HttpServerResponse(</span>
 <span class="fc" id="L8">    override val body: Any = &quot;&quot;,</span>
-<span class="fc" id="L9">    override val headers: HttpFields&lt;Header&gt; = HttpFields(),</span>
+<span class="fc" id="L9">    override val headers: Headers = Headers(),</span>
 <span class="fc" id="L10">    override val contentType: ContentType? = null,</span>
-<span class="fc" id="L11">    override val cookies: List&lt;HttpCookie&gt; = emptyList(),</span>
+<span class="fc" id="L11">    override val cookies: List&lt;Cookie&gt; = emptyList(),</span>
 <span class="fc" id="L12">    override val status: HttpStatus = NOT_FOUND,</span>
 <span class="pc" id="L13">    val onConnect: WsSession.() -&gt; Unit = {},</span>
 <span class="pc" id="L14">    val onBinary: WsSession.(data: ByteArray) -&gt; Unit = {},</span>

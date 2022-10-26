@@ -8,7 +8,7 @@ import com.hexagonkt.http.model.HttpProtocol
 import com.hexagonkt.http.model.HttpProtocol.*
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerFeature
-import com.hexagonkt.http.server.HttpServerFeature.ASYNC
+import com.hexagonkt.http.server.HttpServerFeature.WEB_SOCKETS
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
@@ -182,7 +182,7 @@ import kotlin.Int.Companion.MAX_VALUE
 <span class="fc" id="L182">        setOf(HTTP, HTTPS, HTTP2)</span>
 
     override fun supportedFeatures(): Set&lt;HttpServerFeature&gt; =
-<span class="fc" id="L185">        setOf(ZIP, ASYNC)</span>
+<span class="fc" id="L185">        setOf(ZIP, WEB_SOCKETS)</span>
 
     override fun options(): Map&lt;String, *&gt; =
 <span class="fc" id="L188">        fieldsMapOf(</span>
@@ -209,7 +209,7 @@ import kotlin.Int.Companion.MAX_VALUE
 <span class="fc" id="L209">            pipeline.addLast(HttpObjectAggregator(MAX_VALUE))</span>
 <span class="fc" id="L210">            pipeline.addLast(ChunkedWriteHandler())</span>
 
-<span class="fc bfc" id="L212" title="All 2 branches covered.">            if (settings.features.contains(ZIP))</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">            if (settings.zip)</span>
 <span class="fc" id="L213">                pipeline.addLast(HttpContentCompressor())</span>
 
 <span class="pc bpc" id="L215" title="1 of 2 branches missed.">            if (executorGroup == null)</span>
@@ -238,7 +238,7 @@ import kotlin.Int.Companion.MAX_VALUE
 <span class="fc" id="L238">            pipeline.addLast(HttpObjectAggregator(MAX_VALUE))</span>
 <span class="fc" id="L239">            pipeline.addLast(ChunkedWriteHandler())</span>
 
-<span class="pc bpc" id="L241" title="1 of 2 branches missed.">            if (settings.features.contains(ZIP))</span>
+<span class="pc bpc" id="L241" title="1 of 2 branches missed.">            if (settings.zip)</span>
 <span class="nc" id="L242">                pipeline.addLast(HttpContentCompressor())</span>
 
 <span class="pc bpc" id="L244" title="1 of 2 branches missed.">            if (executorGroup == null)</span>

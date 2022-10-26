@@ -9,7 +9,6 @@ import com.hexagonkt.http.model.HttpProtocol.HTTPS
 import com.hexagonkt.http.server.servlet.ServletFilter
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerFeature
-import com.hexagonkt.http.server.HttpServerFeature.ASYNC
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
@@ -31,151 +30,149 @@ import org.eclipse.jetty.server.Server as JettyServer
 /**
  * Implements [HttpServerPort] using [JettyServer].
  */
-<span class="pc" id="L34">class JettyServletAdapter(</span>
-<span class="pc" id="L35">    private val maxThreads: Int = 200,</span>
-<span class="pc" id="L36">    private val minThreads: Int = 8,</span>
+<span class="pc" id="L33">class JettyServletAdapter(</span>
+<span class="pc" id="L34">    private val maxThreads: Int = 200,</span>
+<span class="pc" id="L35">    private val minThreads: Int = 8,</span>
 
-<span class="pc" id="L38">    private val acceptors: Int = -1,</span>
-<span class="pc" id="L39">    private val selectors: Int = -1,</span>
+<span class="pc" id="L37">    private val acceptors: Int = -1,</span>
+<span class="pc" id="L38">    private val selectors: Int = -1,</span>
 
-<span class="pc" id="L41">    private val sendDateHeader: Boolean = false,</span>
-<span class="pc" id="L42">    private val sendServerVersion: Boolean = false,</span>
-<span class="pc" id="L43">    private val sendXPoweredBy: Boolean = false,</span>
+<span class="pc" id="L40">    private val sendDateHeader: Boolean = false,</span>
+<span class="pc" id="L41">    private val sendServerVersion: Boolean = false,</span>
+<span class="pc" id="L42">    private val sendXPoweredBy: Boolean = false,</span>
 
 ) : HttpServerPort {
     private var jettyServer: JettyServer? = null
 
-<span class="fc" id="L48">    constructor() : this(</span>
-<span class="fc" id="L49">        maxThreads = 200,</span>
-<span class="fc" id="L50">        minThreads = 8,</span>
+<span class="fc" id="L47">    constructor() : this(</span>
+<span class="fc" id="L48">        maxThreads = 200,</span>
+<span class="fc" id="L49">        minThreads = 8,</span>
 
-<span class="fc" id="L52">        acceptors = -1,</span>
-<span class="fc" id="L53">        selectors = -1,</span>
+<span class="fc" id="L51">        acceptors = -1,</span>
+<span class="fc" id="L52">        selectors = -1,</span>
 
-<span class="fc" id="L55">        sendDateHeader = false,</span>
-<span class="fc" id="L56">        sendServerVersion = false,</span>
-<span class="fc" id="L57">        sendXPoweredBy = false,</span>
-<span class="fc" id="L58">    )</span>
+<span class="fc" id="L54">        sendDateHeader = false,</span>
+<span class="fc" id="L55">        sendServerVersion = false,</span>
+<span class="fc" id="L56">        sendXPoweredBy = false,</span>
+<span class="fc" id="L57">    )</span>
 
     override fun runtimePort(): Int =
-<span class="pc bpc" id="L61" title="2 of 6 branches missed.">        ((jettyServer?.connectors?.get(0) ?: fail) as ServerConnector).localPort</span>
+<span class="pc bpc" id="L60" title="2 of 6 branches missed.">        ((jettyServer?.connectors?.get(0) ?: fail) as ServerConnector).localPort</span>
 
     override fun started() =
-<span class="fc bfc" id="L64" title="All 2 branches covered.">        jettyServer?.isStarted ?: false</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        jettyServer?.isStarted ?: false</span>
 
     override fun startUp(server: HttpServer) {
-<span class="fc" id="L67">        val settings = server.settings</span>
-<span class="fc" id="L68">        val serverInstance = JettyServer(QueuedThreadPool(maxThreads, minThreads))</span>
-<span class="fc" id="L69">        jettyServer = serverInstance</span>
+<span class="fc" id="L66">        val settings = server.settings</span>
+<span class="fc" id="L67">        val serverInstance = JettyServer(QueuedThreadPool(maxThreads, minThreads))</span>
+<span class="fc" id="L68">        jettyServer = serverInstance</span>
 
-<span class="fc" id="L71">        val pathHandler: PathHandler = path(settings.contextPath, server.handlers)</span>
+<span class="fc" id="L70">        val pathHandler: PathHandler = path(settings.contextPath, server.handlers)</span>
 
-<span class="fc" id="L73">        val context = createServerContext(settings)</span>
-<span class="fc" id="L74">        val filter = ServletFilter(pathHandler, settings)</span>
-<span class="fc" id="L75">        val filterBind = context.servletContext.addFilter(&quot;filters&quot;, filter)</span>
-<span class="fc" id="L76">        val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)</span>
-<span class="fc" id="L77">        filterBind.setAsyncSupported(settings.features.contains(ASYNC))</span>
-<span class="fc" id="L78">        filterBind.addMappingForUrlPatterns(dispatcherTypes, true, &quot;/*&quot;)</span>
+<span class="fc" id="L72">        val context = createServerContext(settings)</span>
+<span class="fc" id="L73">        val filter = ServletFilter(pathHandler, settings)</span>
+<span class="fc" id="L74">        val filterBind = context.servletContext.addFilter(&quot;filters&quot;, filter)</span>
+<span class="fc" id="L75">        val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)</span>
+<span class="fc" id="L76">        filterBind.addMappingForUrlPatterns(dispatcherTypes, true, &quot;/*&quot;)</span>
 
-<span class="fc" id="L80">        val serverConnector =</span>
-<span class="fc bfc" id="L81" title="All 2 branches covered.">            if (settings.sslSettings != null) setupSsl(settings, serverInstance)</span>
-<span class="fc" id="L82">            else ServerConnector(serverInstance, acceptors, selectors)</span>
+<span class="fc" id="L78">        val serverConnector =</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">            if (settings.sslSettings != null) setupSsl(settings, serverInstance)</span>
+<span class="fc" id="L80">            else ServerConnector(serverInstance, acceptors, selectors)</span>
 
-<span class="fc" id="L84">        serverConnector.host = settings.bindAddress.hostName</span>
-<span class="fc" id="L85">        serverConnector.port = settings.bindPort</span>
-<span class="fc" id="L86">        serverConnector.connectionFactories</span>
-<span class="fc" id="L87">            .filterIsInstance(HttpConnectionFactory::class.java)</span>
-<span class="fc" id="L88">            .map { it.httpConfiguration }</span>
-<span class="fc" id="L89">            .map {</span>
-<span class="fc" id="L90">                it.sendDateHeader = sendDateHeader</span>
-<span class="fc" id="L91">                it.sendServerVersion = sendServerVersion</span>
-<span class="fc" id="L92">                it.sendXPoweredBy = sendXPoweredBy</span>
-<span class="fc" id="L93">            }</span>
+<span class="fc" id="L82">        serverConnector.host = settings.bindAddress.hostName</span>
+<span class="fc" id="L83">        serverConnector.port = settings.bindPort</span>
+<span class="fc" id="L84">        serverConnector.connectionFactories</span>
+<span class="fc" id="L85">            .filterIsInstance(HttpConnectionFactory::class.java)</span>
+<span class="fc" id="L86">            .map { it.httpConfiguration }</span>
+<span class="fc" id="L87">            .map {</span>
+<span class="fc" id="L88">                it.sendDateHeader = sendDateHeader</span>
+<span class="fc" id="L89">                it.sendServerVersion = sendServerVersion</span>
+<span class="fc" id="L90">                it.sendXPoweredBy = sendXPoweredBy</span>
+<span class="fc" id="L91">            }</span>
 
-<span class="fc" id="L95">        serverInstance.connectors = arrayOf(serverConnector)</span>
-<span class="fc" id="L96">        serverInstance.handler = context</span>
-<span class="fc" id="L97">        serverInstance.stopAtShutdown = true</span>
-<span class="fc" id="L98">        serverInstance.start()</span>
-<span class="fc" id="L99">    }</span>
+<span class="fc" id="L93">        serverInstance.connectors = arrayOf(serverConnector)</span>
+<span class="fc" id="L94">        serverInstance.handler = context</span>
+<span class="fc" id="L95">        serverInstance.stopAtShutdown = true</span>
+<span class="fc" id="L96">        serverInstance.start()</span>
+<span class="fc" id="L97">    }</span>
 
     override fun shutDown() {
-<span class="fc bfc" id="L102" title="All 2 branches covered.">        jettyServer?.stop()</span>
-<span class="fc" id="L103">    }</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        jettyServer?.stop()</span>
+<span class="fc" id="L101">    }</span>
 
     override fun supportedProtocols(): Set&lt;HttpProtocol&gt; =
-<span class="fc" id="L106">        setOf(HTTP, HTTPS, HTTP2)</span>
+<span class="fc" id="L104">        setOf(HTTP, HTTPS, HTTP2)</span>
 
     override fun supportedFeatures(): Set&lt;HttpServerFeature&gt; =
-<span class="fc" id="L109">        setOf(ZIP, ASYNC)</span>
+<span class="fc" id="L107">        setOf(ZIP)</span>
 
     override fun options(): Map&lt;String, *&gt; =
-<span class="fc" id="L112">        fieldsMapOf(</span>
-<span class="fc" id="L113">            JettyServletAdapter::maxThreads to maxThreads,</span>
-<span class="fc" id="L114">            JettyServletAdapter::minThreads to minThreads,</span>
-<span class="fc" id="L115">            JettyServletAdapter::acceptors to acceptors,</span>
-<span class="fc" id="L116">            JettyServletAdapter::selectors to selectors,</span>
-<span class="fc" id="L117">            JettyServletAdapter::sendDateHeader to sendDateHeader,</span>
-<span class="fc" id="L118">            JettyServletAdapter::sendServerVersion to sendServerVersion,</span>
-<span class="fc" id="L119">            JettyServletAdapter::sendXPoweredBy to sendXPoweredBy,</span>
-<span class="fc" id="L120">        )</span>
+<span class="fc" id="L110">        fieldsMapOf(</span>
+<span class="fc" id="L111">            JettyServletAdapter::maxThreads to maxThreads,</span>
+<span class="fc" id="L112">            JettyServletAdapter::minThreads to minThreads,</span>
+<span class="fc" id="L113">            JettyServletAdapter::acceptors to acceptors,</span>
+<span class="fc" id="L114">            JettyServletAdapter::selectors to selectors,</span>
+<span class="fc" id="L115">            JettyServletAdapter::sendDateHeader to sendDateHeader,</span>
+<span class="fc" id="L116">            JettyServletAdapter::sendServerVersion to sendServerVersion,</span>
+<span class="fc" id="L117">            JettyServletAdapter::sendXPoweredBy to sendXPoweredBy,</span>
+<span class="fc" id="L118">        )</span>
 
     private fun createServerContext(settings: HttpServerSettings): ServletContextHandler {
 
-<span class="fc" id="L124">        val features = settings.features</span>
-<span class="fc" id="L125">        val context = ServletContextHandler(NO_SESSIONS)</span>
+<span class="fc" id="L122">        val context = ServletContextHandler(NO_SESSIONS)</span>
 
-<span class="fc bfc" id="L127" title="All 2 branches covered.">        if (features.contains(ZIP))</span>
-<span class="fc" id="L128">            context.insertHandler(GzipHandler())</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (settings.zip)</span>
+<span class="fc" id="L125">            context.insertHandler(GzipHandler())</span>
 
-<span class="fc" id="L130">        return context</span>
+<span class="fc" id="L127">        return context</span>
     }
 
     private fun setupSsl(
         settings: HttpServerSettings, serverInstance: JettyServer): ServerConnector {
 
-<span class="fc" id="L136">        val httpConfiguration = HttpConfiguration()</span>
-<span class="fc" id="L137">        httpConfiguration.secureScheme = &quot;https&quot;</span>
-<span class="fc" id="L138">        httpConfiguration.securePort = settings.bindPort</span>
-<span class="fc" id="L139">        httpConfiguration.addCustomizer(SecureRequestCustomizer())</span>
+<span class="fc" id="L133">        val httpConfiguration = HttpConfiguration()</span>
+<span class="fc" id="L134">        httpConfiguration.secureScheme = &quot;https&quot;</span>
+<span class="fc" id="L135">        httpConfiguration.securePort = settings.bindPort</span>
+<span class="fc" id="L136">        httpConfiguration.addCustomizer(SecureRequestCustomizer())</span>
 
-<span class="fc" id="L141">        val sslContextFactory = SslContextFactory.Server()</span>
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">        val sslSettings = settings.sslSettings ?: fail</span>
-<span class="fc" id="L143">        sslContextFactory.needClientAuth = sslSettings.clientAuth</span>
+<span class="fc" id="L138">        val sslContextFactory = SslContextFactory.Server()</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">        val sslSettings = settings.sslSettings ?: fail</span>
+<span class="fc" id="L140">        sslContextFactory.needClientAuth = sslSettings.clientAuth</span>
 
-<span class="fc" id="L145">        val keyStore = sslSettings.keyStore</span>
-<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        if (keyStore != null) {</span>
-<span class="fc" id="L147">            val keyStorePassword = sslSettings.keyStorePassword</span>
-<span class="fc" id="L148">            val keyStoreStream = keyStore.openStream()</span>
-<span class="fc" id="L149">            sslContextFactory.keyStore = KeyStore.getInstance(&quot;pkcs12&quot;)</span>
-<span class="fc" id="L150">            sslContextFactory.keyStore.load(keyStoreStream, keyStorePassword.toCharArray())</span>
-<span class="fc" id="L151">            sslContextFactory.setKeyStorePassword(keyStorePassword)</span>
+<span class="fc" id="L142">        val keyStore = sslSettings.keyStore</span>
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        if (keyStore != null) {</span>
+<span class="fc" id="L144">            val keyStorePassword = sslSettings.keyStorePassword</span>
+<span class="fc" id="L145">            val keyStoreStream = keyStore.openStream()</span>
+<span class="fc" id="L146">            sslContextFactory.keyStore = KeyStore.getInstance(&quot;pkcs12&quot;)</span>
+<span class="fc" id="L147">            sslContextFactory.keyStore.load(keyStoreStream, keyStorePassword.toCharArray())</span>
+<span class="fc" id="L148">            sslContextFactory.setKeyStorePassword(keyStorePassword)</span>
         }
 
-<span class="fc" id="L154">        val trustStore = sslSettings.trustStore</span>
-<span class="fc bfc" id="L155" title="All 2 branches covered.">        if (trustStore != null) {</span>
-<span class="fc" id="L156">            val trustStorePassword = sslSettings.trustStorePassword</span>
-<span class="fc" id="L157">            val trustStoreStream = trustStore.openStream()</span>
-<span class="fc" id="L158">            sslContextFactory.trustStore = KeyStore.getInstance(&quot;pkcs12&quot;)</span>
-<span class="fc" id="L159">            sslContextFactory.trustStore.load(trustStoreStream, trustStorePassword.toCharArray())</span>
-<span class="fc" id="L160">            sslContextFactory.setTrustStorePassword(trustStorePassword)</span>
+<span class="fc" id="L151">        val trustStore = sslSettings.trustStore</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if (trustStore != null) {</span>
+<span class="fc" id="L153">            val trustStorePassword = sslSettings.trustStorePassword</span>
+<span class="fc" id="L154">            val trustStoreStream = trustStore.openStream()</span>
+<span class="fc" id="L155">            sslContextFactory.trustStore = KeyStore.getInstance(&quot;pkcs12&quot;)</span>
+<span class="fc" id="L156">            sslContextFactory.trustStore.load(trustStoreStream, trustStorePassword.toCharArray())</span>
+<span class="fc" id="L157">            sslContextFactory.setTrustStorePassword(trustStorePassword)</span>
         }
 
-<span class="fc bfc" id="L163" title="All 2 branches covered.">        return if (settings.protocol != HTTP2)</span>
-<span class="fc" id="L164">            ServerConnector(</span>
-<span class="fc" id="L165">                serverInstance,</span>
-<span class="fc" id="L166">                SslConnectionFactory(sslContextFactory, &quot;http/1.1&quot;),</span>
-<span class="fc" id="L167">                HttpConnectionFactory(httpConfiguration)</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        return if (settings.protocol != HTTP2)</span>
+<span class="fc" id="L161">            ServerConnector(</span>
+<span class="fc" id="L162">                serverInstance,</span>
+<span class="fc" id="L163">                SslConnectionFactory(sslContextFactory, &quot;http/1.1&quot;),</span>
+<span class="fc" id="L164">                HttpConnectionFactory(httpConfiguration)</span>
             )
         else {
-<span class="fc" id="L170">            val alpn = ALPNServerConnectionFactory()</span>
-<span class="fc" id="L171">            ServerConnector(</span>
-<span class="fc" id="L172">                serverInstance,</span>
-<span class="fc" id="L173">                SslConnectionFactory(sslContextFactory, alpn.protocol),</span>
-<span class="fc" id="L174">                alpn,</span>
-<span class="fc" id="L175">                HTTP2ServerConnectionFactory(httpConfiguration),</span>
-<span class="fc" id="L176">                HttpConnectionFactory(httpConfiguration)</span>
+<span class="fc" id="L167">            val alpn = ALPNServerConnectionFactory()</span>
+<span class="fc" id="L168">            ServerConnector(</span>
+<span class="fc" id="L169">                serverInstance,</span>
+<span class="fc" id="L170">                SslConnectionFactory(sslContextFactory, alpn.protocol),</span>
+<span class="fc" id="L171">                alpn,</span>
+<span class="fc" id="L172">                HTTP2ServerConnectionFactory(httpConfiguration),</span>
+<span class="fc" id="L173">                HttpConnectionFactory(httpConfiguration)</span>
             )
         }
     }
-<span class="nc" id="L180">}</span>
+<span class="nc" id="L177">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

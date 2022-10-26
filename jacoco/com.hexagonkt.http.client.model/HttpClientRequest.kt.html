@@ -11,15 +11,15 @@ import com.hexagonkt.http.model.HttpProtocol.HTTP
 <span class="fc" id="L11">    override val host: String = &quot;localhost&quot;,</span>
 <span class="fc" id="L12">    override val port: Int = 80,</span>
 <span class="fc" id="L13">    override val path: String = &quot;&quot;,</span>
-<span class="fc" id="L14">    override val queryParameters: HttpFields&lt;QueryParameter&gt; = HttpFields(),</span>
-<span class="fc" id="L15">    override val headers: HttpFields&lt;Header&gt; = HttpFields(),</span>
+<span class="fc" id="L14">    override val queryParameters: QueryParameters = QueryParameters(),</span>
+<span class="fc" id="L15">    override val headers: Headers = Headers(),</span>
 <span class="fc" id="L16">    override val body: Any = &quot;&quot;,</span>
 <span class="fc" id="L17">    override val parts: List&lt;HttpPart&gt; = emptyList(),</span>
-<span class="fc" id="L18">    override val formParameters: HttpFields&lt;FormParameter&gt; = HttpFields(),</span>
-<span class="fc" id="L19">    override val cookies: List&lt;HttpCookie&gt; = emptyList(),</span>
+<span class="fc" id="L18">    override val formParameters: FormParameters = FormParameters(),</span>
+<span class="fc" id="L19">    override val cookies: List&lt;Cookie&gt; = emptyList(),</span>
 <span class="fc" id="L20">    override val contentType: ContentType? = null,</span>
 <span class="fc" id="L21">    override val accept: List&lt;ContentType&gt; = emptyList(),</span>
-<span class="fc" id="L22">    override val authorization: HttpAuthorization? = null,</span>
+<span class="fc" id="L22">    override val authorization: Authorization? = null,</span>
 ) : HttpRequest {
 
 <span class="fc" id="L25">    init {</span>

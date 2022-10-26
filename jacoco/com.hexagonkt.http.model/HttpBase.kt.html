@@ -3,7 +3,7 @@
 interface HttpBase {
     // TODO Allow get by chunks with 'channel/flow'
     val body: Any
-    val headers: HttpFields&lt;Header&gt;  // [&quot;H&quot;] // value of &quot;H&quot; header
+    val headers: Headers  // [&quot;H&quot;] // value of &quot;H&quot; header
     val contentType: ContentType?    // media type of request.body
 
     fun bodyString(): String =

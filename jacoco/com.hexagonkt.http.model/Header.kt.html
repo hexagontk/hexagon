@@ -5,12 +5,14 @@
 <span class="fc" id="L5">    override val values: List&lt;String&gt;,</span>
 ) : HttpField {
 
-<span class="fc" id="L8">    constructor(name: String, vararg values: Any) : this(name, values.map(Any::toString))</span>
+<span class="fc" id="L8">    override val value: String? = values.firstOrNull()</span>
 
-    override operator fun plus(value: Any): HttpField =
-<span class="nc" id="L11">        copy(values = values + value.toString())</span>
+<span class="fc" id="L10">    constructor(name: String, vararg values: Any) : this(name, values.map(Any::toString))</span>
 
-    override operator fun minus(element: String): HttpField =
-<span class="fc" id="L14">        copy(values = values - element)</span>
+    override operator fun plus(value: Any): Header =
+<span class="fc" id="L13">        copy(values = values + value.toString())</span>
+
+    override operator fun minus(element: Any): Header =
+<span class="fc" id="L16">        copy(values = values - element.toString())</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

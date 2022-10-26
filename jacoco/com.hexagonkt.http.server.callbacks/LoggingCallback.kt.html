@@ -8,62 +8,60 @@ import kotlin.system.measureNanoTime
 
 /**
  * Callback that logs server requests and responses.
- *
- * @param file Base file used to resolve paths passed on the request.
  */
-<span class="fc" id="L14">class LoggingCallback(</span>
-<span class="fc" id="L15">    private val level: LoggingLevel = LoggingLevel.INFO,</span>
-<span class="fc" id="L16">    private val logger: Logger = Logger(LoggingCallback::class),</span>
-<span class="fc" id="L17">    private val includeHeaders: Boolean = false,</span>
-<span class="fc" id="L18">    private val includeBody: Boolean = true,</span>
+<span class="fc" id="L12">class LoggingCallback(</span>
+<span class="fc" id="L13">    private val level: LoggingLevel = LoggingLevel.INFO,</span>
+<span class="fc" id="L14">    private val logger: Logger = Logger(LoggingCallback::class),</span>
+<span class="fc" id="L15">    private val includeHeaders: Boolean = false,</span>
+<span class="fc" id="L16">    private val includeBody: Boolean = true,</span>
 ) : (HttpServerContext) -&gt; HttpServerContext {
 
     override fun invoke(context: HttpServerContext): HttpServerContext {
-<span class="fc" id="L22">        var result: HttpServerContext</span>
+<span class="fc" id="L20">        var result: HttpServerContext</span>
 
-<span class="fc" id="L24">        logger.log(level) { details(context.request) }</span>
-<span class="fc" id="L25">        val ns = measureNanoTime { result = context.send().next() }</span>
-<span class="fc" id="L26">        logger.log(level) { details(context.request, result.response, ns) }</span>
+<span class="fc" id="L22">        logger.log(level) { details(context.request) }</span>
+<span class="fc" id="L23">        val ns = measureNanoTime { result = context.send().next() }</span>
+<span class="fc" id="L24">        logger.log(level) { details(context.request, result.response, ns) }</span>
 
-<span class="fc" id="L28">        return result</span>
+<span class="fc" id="L26">        return result</span>
     }
 
     internal fun details(m: HttpRequest): String {
-<span class="fc bfc" id="L32" title="All 2 branches covered.">        val headers = if (includeHeaders) {</span>
-<span class="fc" id="L33">            val accept = Header(&quot;accept&quot;, m.accept.joinToString(&quot;, &quot;) { it.text })</span>
-<span class="pc bpc" id="L34" title="1 of 4 branches missed.">            val contentType = Header(&quot;content-type&quot;, m.contentType?.text ?: &quot;&quot;)</span>
-<span class="fc" id="L35">            (m.headers - &quot;accept&quot; - &quot;content-type&quot; + accept + contentType).format()</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        val headers = if (includeHeaders) {</span>
+<span class="fc" id="L31">            val accept = Header(&quot;accept&quot;, m.accept.joinToString(&quot;, &quot;) { it.text })</span>
+<span class="pc bpc" id="L32" title="1 of 4 branches missed.">            val contentType = Header(&quot;content-type&quot;, m.contentType?.text ?: &quot;&quot;)</span>
+<span class="fc" id="L33">            (m.headers - &quot;accept&quot; - &quot;content-type&quot; + accept + contentType).format()</span>
         }
         else {
-<span class="fc" id="L38">            &quot;&quot;</span>
+<span class="fc" id="L36">            &quot;&quot;</span>
         }
 
-<span class="fc" id="L41">        val body = m.formatBody()</span>
-<span class="fc" id="L42">        return &quot;Request:\n${m.method} ${m.path}$headers$body&quot;.trim()</span>
+<span class="fc" id="L39">        val body = m.formatBody()</span>
+<span class="fc" id="L40">        return &quot;Request:\n${m.method} ${m.path}$headers$body&quot;.trim()</span>
     }
 
     internal fun details(n: HttpRequest, m: HttpResponse, ns: Long): String {
-<span class="fc bfc" id="L46" title="All 2 branches covered.">        val headers = if (includeHeaders) {</span>
-<span class="pc bpc" id="L47" title="1 of 4 branches missed.">            val contentType = Header(&quot;content-type&quot;, m.contentType?.text ?: &quot;&quot;)</span>
-<span class="fc" id="L48">            (m.headers - &quot;content-type&quot; + contentType).format()</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        val headers = if (includeHeaders) {</span>
+<span class="pc bpc" id="L45" title="1 of 4 branches missed.">            val contentType = Header(&quot;content-type&quot;, m.contentType?.text ?: &quot;&quot;)</span>
+<span class="fc" id="L46">            (m.headers - &quot;content-type&quot; + contentType).format()</span>
         } else {
-<span class="fc" id="L50">            &quot;&quot;</span>
+<span class="fc" id="L48">            &quot;&quot;</span>
         }
 
-<span class="fc" id="L53">        val path = &quot;${n.method} ${n.path}&quot;</span>
-<span class="fc" id="L54">        val result = &quot;${m.status}(${m.status.code})&quot;</span>
-<span class="fc" id="L55">        val time = &quot;(${ns / 10e5} ms)&quot;</span>
-<span class="fc" id="L56">        val body = m.formatBody()</span>
-<span class="fc" id="L57">        return &quot;Response (partial headers):\n$path -&gt; $result $time$headers$body&quot;.trim()</span>
+<span class="fc" id="L51">        val path = &quot;${n.method} ${n.path}&quot;</span>
+<span class="fc" id="L52">        val result = &quot;${m.status}(${m.status.code})&quot;</span>
+<span class="fc" id="L53">        val time = &quot;(${ns / 10e5} ms)&quot;</span>
+<span class="fc" id="L54">        val body = m.formatBody()</span>
+<span class="fc" id="L55">        return &quot;Response (partial headers):\n$path -&gt; $result $time$headers$body&quot;.trim()</span>
     }
 
     private fun HttpMessage.formatBody(): String =
-<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (includeBody) &quot;\n\n${bodyString()}&quot; else &quot;&quot;</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (includeBody) &quot;\n\n${bodyString()}&quot; else &quot;&quot;</span>
 
-    private fun HttpFields&lt;*&gt;.format(): String =
-<span class="fc" id="L64">        httpFields</span>
-<span class="fc bfc" id="L65" title="All 2 branches covered.">            .filter { (_, v) -&gt; v.values.any { it.isNotBlank() } }</span>
-<span class="fc" id="L66">            .map { (k, v) -&gt; &quot;$k: ${v.values.joinToString(&quot;, &quot;)}&quot; }</span>
-<span class="fc" id="L67">            .joinToString(&quot;\n&quot;, prefix = &quot;\n\n&quot;)</span>
-<span class="fc" id="L68">}</span>
+    private fun Headers.format(): String =
+<span class="fc" id="L62">        httpFields</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">            .filter { (_, v) -&gt; v.values.any { it.isNotBlank() } }</span>
+<span class="fc" id="L64">            .map { (k, v) -&gt; &quot;$k: ${v.values.joinToString(&quot;, &quot;)}&quot; }</span>
+<span class="fc" id="L65">            .joinToString(&quot;\n&quot;, prefix = &quot;\n\n&quot;)</span>
+<span class="fc" id="L66">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

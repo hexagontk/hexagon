@@ -12,17 +12,17 @@ import java.security.cert.X509Certificate
 <span class="fc" id="L12">    override val host: String = &quot;localhost&quot;,</span>
 <span class="fc" id="L13">    override val port: Int = 80,</span>
 <span class="fc" id="L14">    override val path: String = &quot;&quot;,</span>
-<span class="fc" id="L15">    override val queryParameters: HttpFields&lt;QueryParameter&gt; = HttpFields(),</span>
-<span class="fc" id="L16">    override val headers: HttpFields&lt;Header&gt; = HttpFields(),</span>
+<span class="fc" id="L15">    override val queryParameters: QueryParameters = QueryParameters(),</span>
+<span class="fc" id="L16">    override val headers: Headers = Headers(),</span>
 <span class="fc" id="L17">    override val body: Any = &quot;&quot;,</span>
 <span class="fc" id="L18">    override val parts: List&lt;HttpPart&gt; = emptyList(),</span>
-<span class="fc" id="L19">    override val formParameters: HttpFields&lt;FormParameter&gt; = HttpFields(),</span>
-<span class="fc" id="L20">    override val cookies: List&lt;HttpCookie&gt; = emptyList(),</span>
+<span class="fc" id="L19">    override val formParameters: FormParameters = FormParameters(),</span>
+<span class="fc" id="L20">    override val cookies: List&lt;Cookie&gt; = emptyList(),</span>
 <span class="fc" id="L21">    override val contentType: ContentType? = null,</span>
 <span class="fc" id="L22">    override val certificateChain: List&lt;X509Certificate&gt; = emptyList(),</span>
 <span class="fc" id="L23">    override val accept: List&lt;ContentType&gt; = emptyList(),</span>
 <span class="fc" id="L24">    override val contentLength: Long = -1L,</span>
-<span class="fc" id="L25">    override val authorization: HttpAuthorization? = null,</span>
+<span class="fc" id="L25">    override val authorization: Authorization? = null,</span>
 ) : HttpServerRequestPort {
 
 <span class="fc" id="L28">    init {</span>

@@ -100,7 +100,7 @@ import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
 
     private fun HttpServerContext.preFlightRequest(): HttpServerContext {
 
-<span class="fc" id="L103">        val methodHeader = request.headers[REQUEST_METHOD]</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        val methodHeader = request.headers[REQUEST_METHOD]?.value</span>
 <span class="fc bfc" id="L104" title="All 2 branches covered.">        val requestMethod = methodHeader</span>
 <span class="fc" id="L105">            ?: return forbidden(&quot;$REQUEST_METHOD required header not found&quot;)</span>
 
@@ -108,7 +108,7 @@ import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
 <span class="fc bfc" id="L108" title="All 2 branches covered.">        if (method !in allowedMethods)</span>
 <span class="fc" id="L109">            return forbidden(&quot;Not allowed method: $method&quot;)</span>
 
-<span class="fc" id="L111">        val accessControlRequestHeaders = request.headers[REQUEST_HEADERS]</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        val accessControlRequestHeaders = request.headers[REQUEST_HEADERS]?.value</span>
 
 <span class="fc" id="L113">        var h = response.headers</span>
 

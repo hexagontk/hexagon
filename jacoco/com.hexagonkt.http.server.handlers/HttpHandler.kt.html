@@ -28,12 +28,12 @@ import java.security.cert.X509Certificate
 <span class="fc" id="L28">        host: String = &quot;localhost&quot;,</span>
 <span class="fc" id="L29">        port: Int = 80,</span>
 <span class="fc" id="L30">        path: String = &quot;&quot;,</span>
-<span class="fc" id="L31">        queryParameters: HttpFields&lt;QueryParameter&gt; = HttpFields(),</span>
-<span class="fc" id="L32">        headers: HttpFields&lt;Header&gt; = HttpFields(),</span>
+<span class="fc" id="L31">        queryParameters: QueryParameters = QueryParameters(),</span>
+<span class="fc" id="L32">        headers: Headers = Headers(),</span>
 <span class="fc" id="L33">        body: Any = &quot;&quot;,</span>
 <span class="fc" id="L34">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
-<span class="fc" id="L35">        formParameters: HttpFields&lt;FormParameter&gt; = HttpFields(),</span>
-<span class="fc" id="L36">        cookies: List&lt;HttpCookie&gt; = emptyList(),</span>
+<span class="fc" id="L35">        formParameters: FormParameters = FormParameters(),</span>
+<span class="fc" id="L36">        cookies: List&lt;Cookie&gt; = emptyList(),</span>
 <span class="fc" id="L37">        contentType: ContentType? = null,</span>
 <span class="fc" id="L38">        certificateChain: List&lt;X509Certificate&gt; = emptyList(),</span>
 <span class="fc" id="L39">        accept: List&lt;ContentType&gt; = emptyList(),</span>

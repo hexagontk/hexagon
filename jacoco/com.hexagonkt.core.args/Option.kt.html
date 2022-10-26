@@ -2,12 +2,14 @@
 
 import kotlin.reflect.KClass
 
-<span class="fc" id="L5">data class Option&lt;T : Any&gt;(</span>
-<span class="fc" id="L6">    val shortName: Char,</span>
-<span class="fc" id="L7">    val longName: String? = null,</span>
-<span class="fc" id="L8">    val type: KClass&lt;T&gt;,</span>
-<span class="pc" id="L9">    val description: String? = null,</span>
-<span class="pc" id="L10">    val optional: Boolean = true,</span>
-<span class="pc" id="L11">    val defaultValue: T? = null,</span>
-<span class="fc" id="L12">)</span>
+// TODO Use 'group' to group similar options:
+//   val group: String? = null,
+<span class="fc" id="L7">data class Option&lt;T : Any&gt;(</span>
+<span class="fc" id="L8">    val shortName: Char,</span>
+<span class="fc" id="L9">    val longName: String? = null,</span>
+<span class="fc" id="L10">    val type: KClass&lt;T&gt;,</span>
+<span class="pc" id="L11">    val description: String? = null,</span>
+<span class="pc" id="L12">    val optional: Boolean = true,</span>
+<span class="pc" id="L13">    val defaultValue: T? = null,</span>
+<span class="fc" id="L14">)</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

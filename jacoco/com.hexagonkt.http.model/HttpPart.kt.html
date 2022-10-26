@@ -3,7 +3,7 @@
 <span class="fc" id="L3">data class HttpPart (</span>
 <span class="fc" id="L4">    val name: String,</span>
 <span class="fc" id="L5">    override val body: Any,</span>
-<span class="fc" id="L6">    override val headers: HttpFields&lt;Header&gt; = HttpFields(),</span>
+<span class="fc" id="L6">    override val headers: Headers = Headers(),</span>
 <span class="fc" id="L7">    override val contentType: ContentType? = null,</span>
 <span class="fc" id="L8">    val size: Long = -1L,</span>
 <span class="fc" id="L9">    val submittedFileName: String? = null</span>

@@ -2,72 +2,71 @@
 
 object OptionParser {
 
-<span class="fc" id="L5">    private val LONG_NAME_REGEX = Regex(&quot;--[a-z]+-?[a-z]+=?[a-zA-Z\\d.]*&quot;)</span>
-<span class="fc" id="L6">    private val SHORT_NAME_REGEX = Regex(&quot;-[a-z]+&quot;)</span>
-<span class="fc" id="L7">    private val SUPPORTED_TYPES = listOf(String::class, Boolean::class, Double::class, Int::class)</span>
+    private const val LONG_NAME = &quot;--[a-z]+-?[a-z]+=?[a-zA-Z\\d.]*&quot;
+    private const val SHORT_NAME = &quot;-[a-z]+&quot;
+
+<span class="fc" id="L8">    private val PARAMETER_REGEX = Regex(&quot;$LONG_NAME|$SHORT_NAME&quot;)</span>
+<span class="fc" id="L9">    private val SUPPORTED_TYPES = listOf(String::class, Boolean::class, Double::class, Int::class)</span>
     private const val BOOLEAN = &quot;kotlin.Boolean&quot;
 
-    fun parse(options: List&lt;Option&lt;*&gt;&gt;, args: Array&lt;String&gt;): Result&lt;Map&lt;Option&lt;*&gt;, *&gt;&gt; {
+    fun parse(options: List&lt;Option&lt;*&gt;&gt;, args: Array&lt;String&gt;): Map&lt;Option&lt;*&gt;, *&gt; {
 
-<span class="pc bpc" id="L12" title="1 of 2 branches missed.">        if (hasUnsupportedParameters(options))</span>
-<span class="nc" id="L13">            error(&quot;UnsupportedArgumentTypeException&quot;)</span>
+<span class="pc bpc" id="L14" title="2 of 4 branches missed.">        check(!hasUnsupportedParameters(options)) { &quot;UnsupportedArgumentTypeException&quot; }</span>
 
-<span class="fc" id="L15">        val result = mutableMapOf&lt;Option&lt;*&gt;, Any&gt;()</span>
+<span class="fc" id="L16">        val result = mutableMapOf&lt;Option&lt;*&gt;, Any&gt;()</span>
 
-<span class="fc bfc" id="L17" title="All 2 branches covered.">        for (arg in args) {</span>
-<span class="pc bpc" id="L18" title="1 of 2 branches missed.">            if (!isOption(arg)) continue</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        for (arg in args) {</span>
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">            if (!isOption(arg)) continue</span>
 
-<span class="fc bfc" id="L20" title="All 2 branches covered.">            if (!hasValidSyntax(arg)) error(&quot;InvalidOptionSyntaxException&quot;)</span>
-<span class="fc" id="L21">            val isLong = arg.startsWith(&quot;--&quot;)</span>
-<span class="fc" id="L22">            val optionWithoutPrefixedDashes = removePrefixedDashes(arg)</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">            if (!PARAMETER_REGEX.matches(arg)) error(&quot;InvalidOptionSyntaxException&quot;)</span>
 
-<span class="fc bfc" id="L24" title="All 2 branches covered.">            if (isLong) {</span>
-<span class="fc" id="L25">                val split = optionWithoutPrefixedDashes.split(&quot;=&quot;)</span>
-<span class="pc bpc" id="L26" title="2 of 6 branches missed.">                val option = options.find { split.first() == it.longName }</span>
-<span class="nc" id="L27">                    ?: error(&quot;InvalidOptionException&quot;)</span>
+<span class="fc" id="L23">            val isLong = arg.startsWith(&quot;--&quot;)</span>
+<span class="fc" id="L24">            val optionWithoutPrefixedDashes = removePrefixedDashes(arg)</span>
 
-<span class="fc" id="L29">                result[option] = when {</span>
-<span class="fc bfc" id="L30" title="All 2 branches covered.">                    split.size &gt; 1 -&gt; resolveParamValue(split[1], option)</span>
-<span class="pc bpc" id="L31" title="1 of 2 branches missed.">                    option.type.qualifiedName == BOOLEAN -&gt; true</span>
-<span class="pc" id="L32">                    else -&gt; error(&quot;OptionNeedsAValueException&quot;)</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            if (isLong) {</span>
+<span class="fc" id="L27">                val split = optionWithoutPrefixedDashes.split(&quot;=&quot;)</span>
+<span class="pc bpc" id="L28" title="2 of 6 branches missed.">                val option = options.find { split.first() == it.longName }</span>
+<span class="nc" id="L29">                    ?: error(&quot;InvalidOptionException&quot;)</span>
+
+<span class="fc" id="L31">                result[option] = when {</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">                    split.size &gt; 1 -&gt; resolveParamValue(split[1], option)</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">                    option.type.qualifiedName == BOOLEAN -&gt; true</span>
+<span class="pc" id="L34">                    else -&gt; error(&quot;OptionNeedsAValueException&quot;)</span>
                 }
             } else {
-<span class="fc" id="L35">                optionWithoutPrefixedDashes.forEach { shortName -&gt;</span>
-<span class="pc bpc" id="L36" title="2 of 8 branches missed.">                    val option = options.find { it.shortName == shortName }</span>
-<span class="nc" id="L37">                        ?: error(&quot;InvalidOptionSyntaxException&quot;)</span>
-<span class="fc" id="L38">                    result[option] = true</span>
-<span class="fc" id="L39">                }</span>
+<span class="fc" id="L37">                optionWithoutPrefixedDashes.forEach { shortName -&gt;</span>
+<span class="pc bpc" id="L38" title="2 of 8 branches missed.">                    val option = options.find { it.shortName == shortName }</span>
+<span class="nc" id="L39">                        ?: error(&quot;InvalidOptionSyntaxException&quot;)</span>
+<span class="fc" id="L40">                    result[option] = true</span>
+<span class="fc" id="L41">                }</span>
             }
         }
 
-<span class="fc" id="L43">        return Result.success(result)</span>
+<span class="fc" id="L45">        return result</span>
     }
 
     private fun hasUnsupportedParameters(options: List&lt;Option&lt;*&gt;&gt;): Boolean {
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        return options.any { !SUPPORTED_TYPES.contains(it.type) }</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        return options.any { !SUPPORTED_TYPES.contains(it.type) }</span>
     }
 
-<span class="pc bpc" id="L50" title="3 of 4 branches missed.">    private fun isOption(arg: String) = arg.startsWith(&quot;-&quot;) || arg.startsWith(&quot;--&quot;)</span>
-
-    private fun hasValidSyntax(arg: String): Boolean {
-<span class="fc bfc" id="L53" title="All 4 branches covered.">        return LONG_NAME_REGEX.matches(arg) || SHORT_NAME_REGEX.matches(arg)</span>
-    }
+<span class="pc bpc" id="L52" title="3 of 4 branches missed.">    private fun isOption(arg: String) = arg.startsWith(&quot;-&quot;) || arg.startsWith(&quot;--&quot;)</span>
 
     private fun removePrefixedDashes(arg: String): String {
-<span class="fc" id="L57">        var result = arg</span>
-<span class="fc bfc" id="L58" title="All 2 branches covered.">        while (result.startsWith(&quot;-&quot;)) {</span>
-<span class="fc" id="L59">            result = result.substring(1)</span>
+<span class="fc" id="L55">        var result = arg</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        while (result.startsWith(&quot;-&quot;)) {</span>
+<span class="fc" id="L57">            result = result.substring(1)</span>
         }
 
-<span class="fc" id="L62">        return result</span>
+<span class="fc" id="L60">        return result</span>
     }
+
     private fun resolveParamValue(arg: String, option: Option&lt;*&gt;): Any {
-<span class="pc bpc" id="L65" title="2 of 7 branches missed.">        return when (option.type.qualifiedName) {</span>
-<span class="fc" id="L66">            BOOLEAN -&gt; arg.toBoolean()</span>
-<span class="fc" id="L67">            &quot;kotlin.Double&quot; -&gt; arg.toDouble()</span>
-<span class="fc" id="L68">            &quot;kotlin.Int&quot; -&gt; arg.toInt()</span>
-<span class="pc" id="L69">            &quot;kotlin.String&quot; -&gt; arg</span>
-<span class="nc" id="L70">            else -&gt; error(&quot;not supported type&quot;)</span>
+<span class="pc bpc" id="L64" title="2 of 7 branches missed.">        return when (option.type.qualifiedName) {</span>
+<span class="fc" id="L65">            BOOLEAN -&gt; arg.toBoolean()</span>
+<span class="fc" id="L66">            &quot;kotlin.Double&quot; -&gt; arg.toDouble()</span>
+<span class="fc" id="L67">            &quot;kotlin.Int&quot; -&gt; arg.toInt()</span>
+<span class="pc" id="L68">            &quot;kotlin.String&quot; -&gt; arg</span>
+<span class="nc" id="L69">            else -&gt; error(&quot;not supported type&quot;)</span>
         }
     }
 }

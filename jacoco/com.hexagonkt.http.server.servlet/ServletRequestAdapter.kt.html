@@ -30,7 +30,7 @@ import jakarta.servlet.http.HttpServletRequest
 
 <span class="fc" id="L31">    override val contentLength: Long by lazy { req.contentLength.toLong() }</span>
 
-<span class="fc" id="L33">    override val queryParameters: HttpFields&lt;QueryParameter&gt; by lazy {</span>
+<span class="fc" id="L33">    override val queryParameters: QueryParameters by lazy {</span>
 <span class="fc bfc" id="L34" title="All 2 branches covered.">        parseQueryString(req.queryString ?: &quot;&quot;)</span>
     }
 
@@ -41,17 +41,17 @@ import jakarta.servlet.http.HttpServletRequest
 <span class="fc" id="L41">    override val protocol: HttpProtocol by lazy { HttpProtocol.valueOf(req.scheme.uppercase()) }</span>
 <span class="fc" id="L42">    override val host: String by lazy { req.remoteHost }</span>
 <span class="fc" id="L43">    override val port: Int by lazy { req.serverPort }</span>
-<span class="fc bfc" id="L44" title="All 4 branches covered.">    override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }</span>
-<span class="fc" id="L45">    override val authorization: HttpAuthorization? by lazy { authorization() }</span>
+<span class="pc bpc" id="L44" title="2 of 4 branches missed.">    override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }</span>
+<span class="fc" id="L45">    override val authorization: Authorization? by lazy { authorization() }</span>
 
-<span class="fc" id="L47">    override val cookies: List&lt;HttpCookie&gt; by lazy {</span>
+<span class="fc" id="L47">    override val cookies: List&lt;Cookie&gt; by lazy {</span>
 <span class="fc" id="L48">        req.cookies</span>
-<span class="fc bfc" id="L49" title="All 2 branches covered.">            ?.map { HttpCookie(it.name, it.value, it.maxAge.toLong(), it.secure) }</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">            ?.map { Cookie(it.name, it.value, it.maxAge.toLong(), it.secure) }</span>
 <span class="fc" id="L50">            ?: emptyList()</span>
     }
 
-<span class="fc" id="L53">    override val headers: HttpFields&lt;Header&gt; by lazy {</span>
-<span class="fc" id="L54">        HttpFields(</span>
+<span class="fc" id="L53">    override val headers: Headers by lazy {</span>
+<span class="fc" id="L54">        Headers(</span>
 <span class="fc" id="L55">            req.headerNames</span>
 <span class="fc" id="L56">                .toList()</span>
 <span class="fc" id="L57">                .map { it.lowercase() }</span>

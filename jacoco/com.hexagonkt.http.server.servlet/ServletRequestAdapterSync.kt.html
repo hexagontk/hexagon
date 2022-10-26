@@ -17,13 +17,13 @@ import jakarta.servlet.http.Part
 <span class="fc" id="L17">        req.parts.map { servletPartAdapter(it) }</span>
     }
 
-<span class="fc" id="L20">    override val formParameters: HttpFields&lt;FormParameter&gt; by lazy {</span>
+<span class="fc" id="L20">    override val formParameters: FormParameters by lazy {</span>
 <span class="fc" id="L21">        req.setAttribute(&quot;org.eclipse.jetty.multipartConfig&quot;, multipartConfig)</span>
 <span class="fc" id="L22">        val fields = parameters</span>
 <span class="fc bfc" id="L23" title="All 2 branches covered.">            .filter { it.key !in queryParameters.httpFields.keys }</span>
 <span class="fc" id="L24">            .map { (k, v) -&gt; FormParameter(k, v) }</span>
 
-<span class="fc" id="L26">        HttpFields(fields)</span>
+<span class="fc" id="L26">        FormParameters(fields)</span>
     }
 
 <span class="fc" id="L29">    private val multipartConfig: MultipartConfigElement by lazy { MultipartConfigElement(&quot;/tmp&quot;) }</span>
@@ -37,7 +37,7 @@ import jakarta.servlet.http.Part
 <span class="fc" id="L37">        return HttpPart(</span>
 <span class="fc" id="L38">            name = part.name,</span>
 <span class="fc" id="L39">            body = part.inputStream.readAllBytes(),</span>
-<span class="fc" id="L40">            headers = HttpFields(headerNames.map { Header(it, part.getHeaders(it).toList()) }),</span>
+<span class="fc" id="L40">            headers = Headers(headerNames.map { Header(it, part.getHeaders(it).toList()) }),</span>
 <span class="pc bpc" id="L41" title="1 of 2 branches missed.">            contentType = part.contentType?.let { parseContentType(it) },</span>
 <span class="fc" id="L42">            size = part.size,</span>
 <span class="fc" id="L43">            submittedFileName = part.submittedFileName,</span>

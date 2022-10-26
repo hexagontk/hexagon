@@ -11,11 +11,11 @@ import java.net.URL
     val host: String                              // &quot;example.com&quot;
     val port: Int                                 // 80
     val path: String                              // &quot;/foo&quot; servlet path + path info
-    val queryParameters: HttpFields&lt;QueryParameter&gt;
-    val parts: List&lt;HttpPart&gt;                 // hash of multipart parts
-    val formParameters: HttpFields&lt;FormParameter&gt;
+    val queryParameters: QueryParameters
+    val parts: List&lt;HttpPart&gt;                     // hash of multipart parts
+    val formParameters: FormParameters
     val accept: List&lt;ContentType&gt;
-    val authorization: HttpAuthorization?
+    val authorization: Authorization?
 
     fun partsMap(): Map&lt;String, HttpPart&gt; =
 <span class="fc" id="L21">        parts.associateBy { it.name }</span>
@@ -27,23 +27,18 @@ import java.net.URL
 <span class="fc" id="L27">            URL(&quot;${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}&quot;)</span>
 
     fun userAgent(): String? =
-<span class="fc" id="L30">        headers[&quot;user-agent&quot;]</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        headers[&quot;user-agent&quot;]?.value</span>
 
     fun referer(): String? =
-<span class="fc" id="L33">        headers[&quot;referer&quot;]</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        headers[&quot;referer&quot;]?.value</span>
 
     fun origin(): String? =
-<span class="fc" id="L36">        headers[&quot;origin&quot;]</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        headers[&quot;origin&quot;]?.value</span>
 
-    fun authorization(): HttpAuthorization? =
+    fun authorization(): Authorization? =
 <span class="fc" id="L39">        headers[&quot;authorization&quot;]</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">            ?.split(&quot; &quot;, limit = 2)</span>
-<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            ?.let {</span>
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">                if (it.size == 2) it</span>
-<span class="nc" id="L43">                else error(&quot;Authorization header must have two words (&lt;type&gt; &lt;value&gt;): $it&quot;)</span>
-            }
-<span class="fc" id="L45">            ?.let {</span>
-<span class="fc" id="L46">                HttpAuthorization(it.first(), it.last())</span>
-<span class="fc" id="L47">            }</span>
-<span class="fc" id="L48">}</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            ?.value</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            ?.split(&quot; &quot;, limit = 2)</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            ?.let { Authorization(it.first(), it.last()) }</span>
+<span class="fc" id="L43">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
