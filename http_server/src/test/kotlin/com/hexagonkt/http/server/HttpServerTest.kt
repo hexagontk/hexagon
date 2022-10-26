@@ -1,8 +1,6 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.http.model.HttpProtocol.H2C
-import com.hexagonkt.http.server.HttpServerFeature.ASYNC
-import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.handlers.PathHandler
 import org.junit.jupiter.api.Test
 import kotlin.test.assertContains
@@ -55,17 +53,14 @@ internal class HttpServerTest {
         assertEquals(bannerPrefix, createdBanner.lines()[0].trimIndent())
         assertContains(createdBanner, "✅HTTP" )
         assertContains(createdBanner, "HTTPS")
-        assertContains(createdBanner, "ASYNC")
         assertFalse(createdBanner.contains("ZIP"))
         assertFalse(createdBanner.contains("✅HTTPS"))
-        assertFalse(createdBanner.contains("✅ASYNC"))
     }
 
     @Test fun `Banner creation with enabled features and custom options`() {
         val serverSettings = HttpServerSettings(
             address("localhost"),
             12345,
-            features = setOf(ASYNC),
         )
 
         val server = serve(VoidAdapter, serverSettings) {}
@@ -74,20 +69,20 @@ internal class HttpServerTest {
 
         assertContains(createdBanner, "✅HTTP" )
         assertContains(createdBanner, "HTTPS")
-        assertContains(createdBanner, "✅ASYNC")
+        assertContains(createdBanner, "SSE")
         assertContains(createdBanner, "option1(1)")
         assertContains(createdBanner, "option2(2)")
-        assertFalse(createdBanner.contains("ZIP"))
         assertFalse(createdBanner.contains("✅HTTPS"))
     }
 
-    @Test fun `Server can not be created with features or options not supported by its adapter`() {
+    @Test fun `Server can not be created with ZIP compression if not supported by its adapter`() {
         val handlers = emptyList<PathHandler>()
 
         assertFailsWith<IllegalStateException> {
-            HttpServer(VoidAdapter, handlers, HttpServerSettings(features = setOf(ZIP)))
+            HttpServer(VoidAdapter, handlers, HttpServerSettings(zip = true))
         }.let {
-            assertContains(it.message ?: "", "Requesting unsupported feature. Adapter's features:")
+            val errorMessage = "Requesting ZIP compression with an adapter without support:"
+            assertContains(it.message ?: "", errorMessage)
         }
     }
 

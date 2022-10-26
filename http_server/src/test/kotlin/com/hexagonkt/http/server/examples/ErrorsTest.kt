@@ -13,7 +13,6 @@ import kotlin.test.assertEquals
 
 internal class ErrorsTest {
 
-    // errors
     class CustomException : IllegalArgumentException()
 
     val path: PathHandler = path {
@@ -47,7 +46,6 @@ internal class ErrorsTest {
             send(HttpStatus(578), "588 -> 578")
         }
     }
-    // errors
 
     @Test fun `Halt stops request with 500 status code`() {
         val response = path.send(GET, "/halt")
@@ -61,13 +59,13 @@ internal class ErrorsTest {
 
     @Test fun `Handle exception allows to catch unhandled callback exceptions`() {
         val response = path.send(GET, "/exception")
-        assertEquals("error message", response.headers["error"])
+        assertEquals("error message", response.headers["error"]?.value)
         assertResponseContains(response, HttpStatus(599), "Unsupported")
     }
 
     @Test fun `Base error handler catch all exceptions that subclass a given one`() {
         val response = path.send(GET, "/baseException")
-        val runtimeError = response.headers["runtime-error"]
+        val runtimeError = response.headers["runtime-error"]?.value
         assertEquals(CustomException::class.java.name, runtimeError)
         assertResponseContains(response, HttpStatus(598), "Runtime")
     }

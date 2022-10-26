@@ -10,7 +10,8 @@ import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpCookie
+import com.hexagonkt.http.model.Cookie
+import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.parseContentType
 import org.eclipse.jetty.client.HttpResponseException
@@ -28,7 +29,6 @@ import org.eclipse.jetty.io.ClientConnector
 import java.net.CookieStore
 import java.net.URI
 import java.util.concurrent.ExecutionException
-import com.hexagonkt.http.model.HttpFields as HxHttpFields
 import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFactory
 import org.eclipse.jetty.client.HttpClient as JettyHttpClient
 
@@ -86,7 +86,7 @@ class JettyClientAdapter : HttpClientPort {
 
         if (settings.useCookies)
             adapterHttpClient.cookies = adapterJettyClient.cookieStore.cookies.map {
-                HttpCookie(it.name, it.value, it.maxAge, it.secure)
+                Cookie(it.name, it.value, it.maxAge, it.secure)
             }
 
         return HttpClientResponse(
@@ -99,8 +99,8 @@ class JettyClientAdapter : HttpClientPort {
         )
     }
 
-    private fun convertHeaders(headers: HttpFields): HxHttpFields<Header> =
-        HxHttpFields(
+    private fun convertHeaders(headers: HttpFields): Headers =
+        Headers(
             headers
                 .fieldNamesCollection
                 .map { it.lowercase() }
@@ -130,12 +130,15 @@ class JettyClientAdapter : HttpClientPort {
                     it.put("content-type", contentType.text)
                 if (authorization != null)
                     it.put("authorization", authorization.text)
-                (settings.headers + request.headers).allValues.forEach { (k, v) -> it.put(k, v) }
+                (settings.headers + request.headers).values.forEach { (k, v) -> it.put(k, v) }
             }
             .body(createBody(request))
             .accept(*request.accept.map { it.text }.toTypedArray())
 
-        request.queryParameters.allPairs.forEach { (k, v) -> jettyRequest.param(k, v) }
+        request.queryParameters
+            .forEach { (k, v) ->
+                v.values.forEach { jettyRequest.param(k, it) }
+            }
 
         return jettyRequest
     }
@@ -161,10 +164,8 @@ class JettyClientAdapter : HttpClientPort {
         }
 
         request.formParameters
-            .allPairs
             .forEach { (k, v) ->
-                // TODO Add content type if present
-                multiPart.addFieldPart(k, StringRequestContent(v), EMPTY)
+                v.values.forEach { multiPart.addFieldPart(k, StringRequestContent(it), EMPTY) }
             }
 
         multiPart.close()
@@ -172,7 +173,7 @@ class JettyClientAdapter : HttpClientPort {
         return multiPart
     }
 
-    private fun addCookies(client: HttpClient, store: CookieStore, cookies: List<HttpCookie>) {
+    private fun addCookies(client: HttpClient, store: CookieStore, cookies: List<Cookie>) {
         val uri = client.settings.baseUrl.toURI()
 
         cookies.forEach {

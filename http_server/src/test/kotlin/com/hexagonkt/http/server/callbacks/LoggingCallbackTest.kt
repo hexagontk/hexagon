@@ -5,7 +5,7 @@ import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpFields
+import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.server.handlers.HttpServerContext
 import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
@@ -67,7 +67,7 @@ internal class LoggingCallbackTest {
         body: Boolean = true,
         request: HttpServerRequest =
             HttpServerRequest(
-                headers = HttpFields(Header("h", 42)),
+                headers = Headers(Header("h", 42)),
                 body = "b"
             )
     ): String =
@@ -78,12 +78,12 @@ internal class LoggingCallbackTest {
         body: Boolean = true,
         request: HttpServerRequest =
             HttpServerRequest(
-                headers = HttpFields(Header("h", 42)),
+                headers = Headers(Header("h", 42)),
                 body = "b"
             ),
         response: HttpServerResponse =
             HttpServerResponse(
-                headers = HttpFields(Header("h", 42)),
+                headers = Headers(Header("h", 42)),
                 body = "b",
             ),
         t: Long = 1_000_000,

@@ -2,10 +2,7 @@ package com.hexagonkt.http.client
 
 import com.hexagonkt.core.media.TextMedia.CSV
 import com.hexagonkt.http.client.model.HttpClientResponse
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpCookie
-import com.hexagonkt.http.model.HttpFields
+import com.hexagonkt.http.model.*
 import org.junit.jupiter.api.Test
 import java.net.URL
 import kotlin.test.assertEquals
@@ -34,9 +31,9 @@ internal class HttpClientTest {
 
     @Test fun `Cookies map works ok`() {
         val client = HttpClient(VoidAdapter)
-        client.cookies += HttpCookie("cookie", "value")
+        client.cookies += Cookie("cookie", "value")
         assertNull(client.cookiesMap()["name"])
-        assertEquals(HttpCookie("cookie", "value"), client.cookiesMap()["cookie"])
+        assertEquals(Cookie("cookie", "value"), client.cookiesMap()["cookie"])
     }
 
     @Test fun `HTTP Client is closeable`() {
@@ -53,7 +50,7 @@ internal class HttpClientTest {
         fun HttpClientResponse.checkClient(
             path: String,
             body: String = "",
-            headers: HttpFields<Header> = HttpFields(),
+            headers: Headers = Headers(),
             contentType: ContentType? = null,
         ) {
             assertEquals(headers + Header("-path-", path), this.headers)
@@ -64,7 +61,7 @@ internal class HttpClientTest {
         val client = HttpClient(VoidAdapter)
         val csv = ContentType(CSV)
         val csvClient = HttpClient(VoidAdapter, HttpClientSettings(contentType = csv))
-        val headers = HttpFields(Header("h1", "v1"))
+        val headers = Headers(Header("h1", "v1"))
         val body = "body"
 
         client.get("/a").checkClient("/a")

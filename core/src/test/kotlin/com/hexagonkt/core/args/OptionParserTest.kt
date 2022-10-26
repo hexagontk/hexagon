@@ -17,7 +17,7 @@ class OptionParserTest {
     @Test fun `Parse string option`() {
         val verbose = Option('o', "option", String::class)
         val actual = optionParser.parse(listOf(verbose), arrayOf("--option=value"))
-        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(verbose to "value"))
+        val expected: Map<Option<*>, *> = mapOf(verbose to "value")
 
         assertEquals(expected, actual)
     }
@@ -25,14 +25,14 @@ class OptionParserTest {
     @Test fun `Parse boolean option without value`() {
         val verbose = Option('v', "verbose", Boolean::class)
         val actual = optionParser.parse(listOf(verbose), arrayOf("--verbose"))
-        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(verbose to true))
+        val expected: Map<Option<*>, *> = mapOf(verbose to true)
 
         assertEquals(expected, actual)
     }
     @Test fun `Parse string option with two words name`() {
         val verbose = Option('o', "long-option", String::class)
         val actual = optionParser.parse(listOf(verbose), arrayOf("--long-option=value"))
-        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(verbose to "value"))
+        val expected: Map<Option<*>, *> = mapOf(verbose to "value")
 
         assertEquals(expected, actual)
     }
@@ -43,7 +43,7 @@ class OptionParserTest {
         val flag3 = Option('c', type = Boolean::class)
 
         val actual = optionParser.parse(listOf(flag1, flag2, flag3), arrayOf("-a", "-b", "-c"))
-        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(flag1 to true, flag2 to true, flag3 to true))
+        val expected: Map<Option<*>, *> = mapOf(flag1 to true, flag2 to true, flag3 to true)
 
         assertEquals(expected, actual)
     }
@@ -54,7 +54,7 @@ class OptionParserTest {
         val flag3 = Option('c', type = Boolean::class)
 
         val actual = optionParser.parse(listOf(flag1, flag2, flag3), arrayOf("-abc"))
-        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(flag1 to true, flag2 to true, flag3 to true))
+        val expected: Map<Option<*>, *> = mapOf(flag1 to true, flag2 to true, flag3 to true)
 
         assertEquals(expected, actual)
     }
@@ -85,9 +85,11 @@ class OptionParserTest {
         val shortFlag = Option('s', type = Boolean::class)
         val longFlag = Option('l', longName = "long", type = Boolean::class)
         val longValue = Option('v', "value", String::class)
+        val options = listOf(shortFlag, longFlag, longValue)
 
-        val actual = optionParser.parse(listOf(shortFlag, longFlag, longValue), arrayOf("-s", "--long", "--value=some"))
-        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(shortFlag to true, longFlag to true, longValue to "some"))
+        val actual = optionParser.parse(options, arrayOf("-s", "--long", "--value=some"))
+        val expected: Map<Option<*>, *> =
+            mapOf(shortFlag to true, longFlag to true, longValue to "some")
 
         assertEquals(expected, actual)
     }
@@ -96,7 +98,7 @@ class OptionParserTest {
         val longFlag = Option('l', longName = "long", type = Boolean::class)
 
         val actual = optionParser.parse(listOf(longFlag), arrayOf("--long=false"))
-        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(longFlag to false))
+        val expected: Map<Option<*>, *> = mapOf(longFlag to false)
 
         assertEquals(expected, actual)
     }
@@ -104,9 +106,10 @@ class OptionParserTest {
     @Test fun `Parse options with int values`() {
         val level = Option('l',longName = "level", type = Int::class)
         val another = Option('a', "another-arg", Boolean::class)
+        val options = listOf(level, another)
 
-        val actual = optionParser.parse(listOf(level, another), arrayOf("--another-arg", "--level=3"))
-        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(level to 3, another to true))
+        val actual = optionParser.parse(options, arrayOf("--another-arg", "--level=3"))
+        val expected: Map<Option<*>, *> = mapOf(level to 3, another to true)
 
         assertEquals(expected, actual)
     }
@@ -114,9 +117,10 @@ class OptionParserTest {
     @Test fun `Parse options with double values`() {
         val time = Option('t',longName = "time", type = Double::class)
         val another = Option('a', "another-arg", Boolean::class)
+        val options = listOf(time, another)
 
-        val actual = optionParser.parse(listOf(time, another), arrayOf("--time=2.5", "--another-arg"))
-        val expected: Result<Map<Option<*>, *>> = Result.success(mapOf(time to 2.5, another to true))
+        val actual = optionParser.parse(options, arrayOf("--time=2.5", "--another-arg"))
+        val expected: Map<Option<*>, *> = mapOf(time to 2.5, another to true)
 
         assertEquals(expected, actual)
     }

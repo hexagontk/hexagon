@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server.netty
 
 import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.Headers as HxHttpHeaders
 import com.hexagonkt.http.parseContentType
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import io.netty.buffer.ByteBufUtil
@@ -32,9 +33,9 @@ class NettyRequestAdapter(
         nettyHeaders[CONTENT_LENGTH]?.toLong() ?: 0L
     }
 
-    override val queryParameters: HttpFields<QueryParameter> by lazy {
+    override val queryParameters: QueryParameters by lazy {
         val queryStringDecoder = QueryStringDecoder(req.uri())
-        HttpFields(queryStringDecoder.parameters().mapValues { (k, v) -> QueryParameter(k, v) })
+        QueryParameters(queryStringDecoder.parameters().map { (k, v) -> QueryParameter(k, v) })
     }
 
     override val parts: List<HttpPart> by lazy {
@@ -52,14 +53,14 @@ class NettyRequestAdapter(
         }
     }
 
-    override val formParameters: HttpFields<FormParameter> by lazy {
+    override val formParameters: FormParameters by lazy {
         val fields = parts
             .filter { it.submittedFileName == null }
             .groupBy { it.name }
             .mapValues { it.value.map { v -> v.bodyString() } }
             .map { (k, v) -> FormParameter(k, v) }
 
-        HttpFields(fields)
+        FormParameters(fields)
     }
 
     override val method: HttpMethod by lazy {
@@ -80,14 +81,14 @@ class NettyRequestAdapter(
 
     override val path: String by lazy { URI(req.uri()).path }
 
-    override val cookies: List<HttpCookie> by lazy {
+    override val cookies: List<com.hexagonkt.http.model.Cookie> by lazy {
         val cookieHeader: String = nettyHeaders.get(COOKIE)
-            ?: return@lazy emptyList<HttpCookie>()
+            ?: return@lazy emptyList<com.hexagonkt.http.model.Cookie>()
 
         val cookies: Set<Cookie> = ServerCookieDecoder.STRICT.decode(cookieHeader)
 
         cookies.map {
-            HttpCookie(
+            Cookie(
                 name = it.name(),
                 value = it.value(),
                 maxAge = if (it.maxAge() == Long.MIN_VALUE) -1 else it.maxAge(),
@@ -103,8 +104,8 @@ class NettyRequestAdapter(
         else byteArrayOf()
     }
 
-    override val headers: HttpFields<Header> by lazy {
-        HttpFields(
+    override val headers: HxHttpHeaders by lazy {
+        HxHttpHeaders(
             nettyHeaders.names()
                 .toList()
                 .map { it.lowercase() }
@@ -116,5 +117,5 @@ class NettyRequestAdapter(
         nettyHeaders[CONTENT_TYPE]?.let { parseContentType(it) }
     }
 
-    override val authorization: HttpAuthorization? by lazy { authorization() }
+    override val authorization: Authorization? by lazy { authorization() }
 }

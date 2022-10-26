@@ -26,11 +26,12 @@ extensions.configure<PublishingExtension> {
                 "dokka.version" to project.properties["dokkaVersion"].toString(),
                 "mockk.version" to project.properties["mockkVersion"].toString(),
                 "junit.version" to project.properties["junitVersion"].toString(),
+                "native.tools.version" to project.properties["nativeToolsVersion"].toString(),
                 "hexagon.version" to rootProject.version.toString()
             ))
 
             withXml {
-                listOf("dependencyManagement", "dependencies", "build").forEach {
+                listOf("dependencyManagement", "dependencies", "build", "profiles").forEach {
                     asElement().importElement(pomDom.firstElement(it))
                 }
             }

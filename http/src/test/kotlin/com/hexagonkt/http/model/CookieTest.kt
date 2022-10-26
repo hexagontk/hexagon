@@ -6,14 +6,14 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-internal class HttpCookieTest {
+internal class CookieTest {
 
     @Test fun `Cookie name must not be blank`() {
-        assertFailsWith<IllegalArgumentException> { HttpCookie(" ", "value") }
+        assertFailsWith<IllegalArgumentException> { Cookie(" ", "value") }
     }
 
     @Test fun `Cookie can be created`() {
-        val cookie = HttpCookie("name", "value", 5, true)
+        val cookie = Cookie("name", "value", 5, true)
         assertEquals("name", cookie.name)
         assertEquals("value", cookie.value)
         assertEquals(5, cookie.maxAge)
@@ -21,7 +21,7 @@ internal class HttpCookieTest {
     }
 
     @Test fun `Cookie can be deleted`() {
-        val cookie = HttpCookie("name", "value", 5, true).delete()
+        val cookie = Cookie("name", "value", 5, true).delete()
         assertEquals("name", cookie.name)
         assertEquals("", cookie.value)
         assertEquals(0, cookie.maxAge)

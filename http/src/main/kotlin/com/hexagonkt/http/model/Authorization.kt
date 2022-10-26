@@ -1,6 +1,6 @@
 package com.hexagonkt.http.model
 
-data class HttpAuthorization(
+data class Authorization(
     val type: String,
     val value: String,
 ) {

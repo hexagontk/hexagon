@@ -2,22 +2,24 @@ package com.hexagonkt.core.args
 
 object OptionParser {
 
-    private val LONG_NAME_REGEX = Regex("--[a-z]+-?[a-z]+=?[a-zA-Z\\d.]*")
-    private val SHORT_NAME_REGEX = Regex("-[a-z]+")
+    private const val LONG_NAME = "--[a-z]+-?[a-z]+=?[a-zA-Z\\d.]*"
+    private const val SHORT_NAME = "-[a-z]+"
+
+    private val PARAMETER_REGEX = Regex("$LONG_NAME|$SHORT_NAME")
     private val SUPPORTED_TYPES = listOf(String::class, Boolean::class, Double::class, Int::class)
     private const val BOOLEAN = "kotlin.Boolean"
 
-    fun parse(options: List<Option<*>>, args: Array<String>): Result<Map<Option<*>, *>> {
+    fun parse(options: List<Option<*>>, args: Array<String>): Map<Option<*>, *> {
 
-        if (hasUnsupportedParameters(options))
-            error("UnsupportedArgumentTypeException")
+        check(!hasUnsupportedParameters(options)) { "UnsupportedArgumentTypeException" }
 
         val result = mutableMapOf<Option<*>, Any>()
 
         for (arg in args) {
             if (!isOption(arg)) continue
 
-            if (!hasValidSyntax(arg)) error("InvalidOptionSyntaxException")
+            if (!PARAMETER_REGEX.matches(arg)) error("InvalidOptionSyntaxException")
+
             val isLong = arg.startsWith("--")
             val optionWithoutPrefixedDashes = removePrefixedDashes(arg)
 
@@ -40,7 +42,7 @@ object OptionParser {
             }
         }
 
-        return Result.success(result)
+        return result
     }
 
     private fun hasUnsupportedParameters(options: List<Option<*>>): Boolean {
@@ -48,10 +50,6 @@ object OptionParser {
     }
 
     private fun isOption(arg: String) = arg.startsWith("-") || arg.startsWith("--")
-
-    private fun hasValidSyntax(arg: String): Boolean {
-        return LONG_NAME_REGEX.matches(arg) || SHORT_NAME_REGEX.matches(arg)
-    }
 
     private fun removePrefixedDashes(arg: String): String {
         var result = arg
@@ -61,6 +59,7 @@ object OptionParser {
 
         return result
     }
+
     private fun resolveParamValue(arg: String, option: Option<*>): Any {
         return when (option.type.qualifiedName) {
             BOOLEAN -> arg.toBoolean()

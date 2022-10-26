@@ -2,7 +2,7 @@ package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.require
 import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.model.HttpCookie
+import com.hexagonkt.http.model.Cookie
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
@@ -30,20 +30,20 @@ abstract class CookiesTest(
         }
 
         post("/addCookie") {
-            val name = queryParameters.require("cookieName")
-            val value = queryParameters.require("cookieValue")
-            ok(cookies = response.cookies + HttpCookie(name, value))
+            val name = queryParameters.require("cookieName").value ?: return@post badRequest("No cookie name")
+            val value = queryParameters.require("cookieValue").value ?: return@post badRequest("No cookie value")
+            ok(cookies = response.cookies + Cookie(name, value))
         }
 
         post("/assertHasCookie") {
-            val cookieName = queryParameters.require("cookieName")
-            val cookieValue = request.cookiesMap()[cookieName]?.value
-            if (queryParameters["cookieValue"] != cookieValue) internalServerError()
+            val cookieName = queryParameters.require("cookieName").value ?: return@post badRequest("No cookie name")
+            val cookieValue = request.cookiesMap()[cookieName]?.value ?: return@post badRequest("No cookie value")
+            if (queryParameters["cookieValue"]?.value != cookieValue) internalServerError()
             else ok()
         }
 
         post("/removeCookie") {
-            val cookie = request.cookiesMap()[queryParameters.require("cookieName")]
+            val cookie = request.cookiesMap()[queryParameters.require("cookieName").value]
             if (cookie == null) ok()
             else ok(cookies = response.cookies + cookie.delete())
         }
@@ -110,7 +110,7 @@ abstract class CookiesTest(
         val cookieValue = "sampleCookieValue"
 
         // Set the cookie in the client
-        client.cookies = client.cookies + HttpCookie(cookieName, cookieValue)
+        client.cookies = client.cookies + Cookie(cookieName, cookieValue)
 
         // Assert that it is received in the server and change its value afterwards
         client.post("/assertHasCookie?cookieName=$cookieName")

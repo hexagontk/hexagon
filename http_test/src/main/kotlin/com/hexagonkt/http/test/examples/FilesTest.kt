@@ -4,12 +4,10 @@ import com.hexagonkt.core.media.TextMedia.CSS
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.model.HttpClientRequest
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpFields
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.HttpMethod.POST
-import com.hexagonkt.http.model.HttpPart
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
@@ -59,11 +57,11 @@ abstract class FilesTest(
         get("/pub/*", FileCallback(File(directory))) // Serve `test` folder on `/pub/*`
 
         post("/multipart") {
-            val headers: HttpFields<Header> = parts.first().let { p ->
+            val headers = parts.first().let { p ->
                 val name = p.name
                 val bodyString = p.bodyString()
                 val size = p.size.toString()
-                HttpFields(
+                Headers(
                     Header("name", name),
                     Header("body", bodyString),
                     Header("size", size),
@@ -81,14 +79,14 @@ abstract class FilesTest(
         }
 
         post("/form") {
-            fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
-                map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
+            fun <T : HttpField> serializeMap(map: Collection<T>): List<String> = listOf(
+                map.joinToString("\n") { "${it.name}:${it.values.joinToString(",")}" }
             )
 
-            val queryParams = serializeMap(queryParameters.allValues)
-            val formParams = serializeMap(formParameters.allValues)
+            val queryParams = serializeMap(queryParameters.values)
+            val formParams = serializeMap(formParameters.values)
             val headers =
-                HttpFields(Header("query-params", queryParams), Header("form-params", formParams))
+                Headers(Header("query-params", queryParams), Header("form-params", formParams))
 
             ok(headers = response.headers + headers)
         }
@@ -102,10 +100,10 @@ abstract class FilesTest(
         val response = client.send(
             HttpClientRequest(POST, path = "/form?queryName=queryValue", parts = parts)
         )
-        assert(response.headers["query-params"]?.contains("queryName:queryValue") ?: false)
-        assert(!(response.headers["query-params"]?.contains("name:value") ?: true))
-        assert(response.headers["form-params"]?.contains("name:value") ?: false)
-        assert(!(response.headers["form-params"]?.contains("queryName:queryValue") ?: true))
+        assertEquals("queryName:queryValue", response.headers["query-params"]?.value)
+        assert(!(response.headers["query-params"]?.value?.contains("name:value") ?: true))
+        assert(response.headers["form-params"]?.value?.contains("name:value") ?: false)
+        assert(!(response.headers["form-params"]?.value?.contains("queryName:queryValue") ?: true))
     }
 
     @Test fun `Requesting a folder with an existing file name returns 404`() {
@@ -144,7 +142,7 @@ abstract class FilesTest(
         val parts = listOf(HttpPart("name", "value"))
         val response = client.send(HttpClientRequest(POST, path = "/multipart", parts = parts))
         // clientForm
-        val expectedHeaders = HttpFields(
+        val expectedHeaders = Headers(
             Header("name", "name"),
             Header("body", "value"),
             Header("size", "5"),
@@ -159,7 +157,7 @@ abstract class FilesTest(
         val parts = listOf(HttpPart("file", stream, "index.html"))
         val response = client.send(HttpClientRequest(POST, path = "/file", parts = parts))
         // clientFile
-        assertEquals("index.html", response.headers["submitted-file"])
+        assertEquals("index.html", response.headers["submitted-file"]?.value)
         assertResponseContains(response, OK, "<!DOCTYPE html>", "<title>Hexagon</title>", "</html>")
     }
 

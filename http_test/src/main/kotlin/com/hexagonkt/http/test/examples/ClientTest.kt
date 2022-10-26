@@ -84,7 +84,7 @@ abstract class ClientTest(
 
     @Test fun `Form parameters are sent correctly`() {
         callback = {
-            val headers = HttpFields(
+            val headers = Headers(
                 formParameters.httpFields.map { (k, v) -> Header(k, v.values) }
             )
             ok(headers = headers)
@@ -92,14 +92,14 @@ abstract class ClientTest(
 
         val response = client.send(
             HttpClientRequest(
-                formParameters = HttpFields(
+                formParameters = FormParameters(
                     FormParameter("p1", "v11"),
                     FormParameter("p2", "v21", "v22"),
                 )
             )
         )
 
-        val expectedHeaders = HttpFields(Header("p1", "v11"), Header("p2", "v21", "v22"))
+        val expectedHeaders = Headers(Header("p1", "v11"), Header("p2", "v21", "v22"))
         val actualHeaders = response.headers - "transfer-encoding" - "content-length" - "connection"
         assertEquals(expectedHeaders, actualHeaders)
     }
@@ -107,12 +107,12 @@ abstract class ClientTest(
     @Test fun `Cookies are sent correctly`() {
         callback = {
             val cookiesMap = request.cookiesMap()
-            assertEquals(HttpCookie("c1", "v1"), cookiesMap["c1"])
-            assertEquals(HttpCookie("c2", "v2", -1), cookiesMap["c2"])
+            assertEquals(Cookie("c1", "v1"), cookiesMap["c1"])
+            assertEquals(Cookie("c2", "v2", -1), cookiesMap["c2"])
             assertNull(cookiesMap["c3"]) // Secure headers only sent through HTTPS
             ok(cookies = listOf(
-                HttpCookie("c4", "v4", 60),
-                HttpCookie("c5", "v5", secure = true),
+                Cookie("c4", "v4", 60),
+                Cookie("c5", "v5", secure = true),
             ))
         }
 
@@ -120,9 +120,9 @@ abstract class ClientTest(
         val response = client.send(
             HttpClientRequest(
                 cookies = listOf(
-                    HttpCookie("c1", "v1"),
-                    HttpCookie("c2", "v2", 1),
-                    HttpCookie("c3", "v3", secure = true),
+                    Cookie("c1", "v1"),
+                    Cookie("c2", "v2", 1),
+                    Cookie("c3", "v3", secure = true),
                 )
             )
         )
@@ -130,12 +130,12 @@ abstract class ClientTest(
         val responseC4 = response.cookiesMap().require("c4")
         assertEquals("v4", responseC4.value)
         assertTrue(responseC4.maxAge in 59..60)
-        assertEquals(HttpCookie("c5", "v5", secure = true), response.cookiesMap()["c5"])
+        assertEquals(Cookie("c5", "v5", secure = true), response.cookiesMap()["c5"])
 
         val clientC4 = client.cookiesMap().require("c4")
         assertEquals("v4", clientC4.value)
         assertTrue(clientC4.maxAge in 59..60)
-        assertEquals(HttpCookie("c5", "v5", secure = true), client.cookiesMap()["c5"])
+        assertEquals(Cookie("c5", "v5", secure = true), client.cookiesMap()["c5"])
     }
 
     @Test fun `Create HTTP clients`() {
@@ -152,7 +152,7 @@ abstract class ClientTest(
             baseUrl = URL("http://host:1234/base"),
             contentType = ContentType(JSON),
             useCookies = true,
-            headers = HttpFields(Header("x-api-Key", "cafebabe")), // Headers used in all requests
+            headers = Headers(Header("x-api-Key", "cafebabe")), // Headers used in all requests
             insecure = false,               // If true, the client doesn't check server certificates
             sslSettings = SslSettings()     // Key stores settings (check TLS section for details)
         ))
@@ -165,7 +165,7 @@ abstract class ClientTest(
 
         val response = client.post("/", requestBody, contentType = ContentType(JSON))
         assertEquals(expectedBody, response.body.toString().trim().replace("[\r\n]".toRegex(), ""))
-        assertEquals(ContentType(JSON).text, response.headers["ct"])
+        assertEquals(ContentType(JSON).text, response.headers["ct"]?.value)
 
         val body2 = client.post("/", requestBody).body
         assertEquals(expectedBody, body2.toString().trim().replace("[\r\n]".toRegex(), ""))
@@ -178,8 +178,8 @@ abstract class ClientTest(
             method = GET,
             path = "/",
             body = mapOf("body" to "payload").serialize(),
-            headers = HttpFields(Header("x-header", "value")),
-            queryParameters = HttpFields(QueryParameter("qp", "qpValue")),
+            headers = Headers(Header("x-header", "value")),
+            queryParameters = QueryParameters(QueryParameter("qp", "qpValue")),
             contentType = ContentType(JSON)
         )
 
@@ -187,8 +187,8 @@ abstract class ClientTest(
         // genericRequest
 
         val getResponse = client.get("/queryParameters?qp=qpValue")
-        assertEquals("qp=qpValue", getResponse.headers["query-parameters"])
-        assertEquals("qp=qpValue", response.headers["query-parameters"])
+        assertEquals("qp=qpValue", getResponse.headers["query-parameters"]?.value)
+        assertEquals("qp=qpValue", response.headers["query-parameters"]?.value)
         checkResponse(response, mapOf("body" to "payload"))
     }
 
@@ -265,7 +265,7 @@ abstract class ClientTest(
 
     @Test fun `Parameters are set properly` () {
         val endpoint = URL("http://localhost:${server.runtimePort}")
-        val h = HttpFields(Header("header1", "val1", "val2"))
+        val h = Headers(Header("header1", "val1", "val2"))
         val settings = HttpClientSettings(
             contentType = ContentType(JSON),
             useCookies = false,
@@ -279,14 +279,14 @@ abstract class ClientTest(
         assertEquals(c.settings.headers, h)
 
         callback = {
-            val headers = Header("head1", request.headers.allValues.require("header1"))
+            val headers = Header("head1", request.headers.require("header1").values)
             ok(headers = response.headers + headers)
         }
 
         c.use {
             it.start()
             it.get("/auth").apply {
-                assertEquals(listOf("val1", "val2"), headers.allValues["head1"])
+                assertEquals(listOf("val1", "val2"), headers["head1"]?.values)
                 assertEquals(status, OK)
             }
         }
@@ -306,7 +306,7 @@ abstract class ClientTest(
         }
 
         client.post("/string", 42).apply {
-            assertEquals("42", headers.require("body"))
+            assertEquals("42", headers.require("body").value)
             assertEquals(status, OK)
             run = true
         }
@@ -318,7 +318,7 @@ abstract class ClientTest(
         var run: Boolean
 
         client.post("/string", "text").apply {
-            assert(headers["body"]?.isNotEmpty() ?: false)
+            assert(headers["body"]?.value?.isNotEmpty() ?: false)
             assertEquals(status, OK)
             run = true
         }
@@ -375,7 +375,7 @@ abstract class ClientTest(
         client.start()
         client.get("/hello").apply {
             // Assure the certificate received (and returned) by the server is correct
-            assert(headers.require("cert").startsWith("CN=hexagonkt.com"))
+            assert(headers.require("cert").value?.startsWith("CN=hexagonkt.com") ?: false)
             assertEquals(body, "Hello World!")
         }
 

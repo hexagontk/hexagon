@@ -14,7 +14,6 @@ import kotlin.test.assertEquals
 
 internal class FiltersTest {
 
-    // filters
     private val users: Map<String, String> = mapOf(
         "Turing" to "London",
         "Dijkstra" to "Rotterdam"
@@ -72,7 +71,6 @@ internal class FiltersTest {
             }
         }
     }
-    // filters
 
     @Test fun `After handlers can be chained`() {
         assertEquals(ACCEPTED, path.send(GET, "/after").status)
@@ -83,28 +81,28 @@ internal class FiltersTest {
 
     @Test fun `Request without authorization returns 401`() {
         val response = path.send(GET, "/protected/hi")
-        val time = response.headers["time"]?.toLong() ?: 0
+        val time = response.headers["time"]?.value?.toLong() ?: 0
         assertResponseEquals(response, "Unauthorized", UNAUTHORIZED)
         assert(time > 0)
     }
 
     @Test fun `HTTP request with valid credentials returns valid response`() {
         val response = path.send(GET, "/protected/hi", user = "Turing", password = "London")
-        val time = response.headers["time"]?.toLong() ?: 0
+        val time = response.headers["time"]?.value?.toLong() ?: 0
         assertResponseEquals(response, "Hello Turing!", OK)
         assert(time > 0)
     }
 
     @Test fun `Request with invalid password returns 403`() {
         val response = path.send(GET, "/protected/hi", user = "Turing", password = "Millis")
-        val time = response.headers["time"]?.toLong() ?: 0
+        val time = response.headers["time"]?.value?.toLong() ?: 0
         assertResponseEquals(response, "Forbidden", FORBIDDEN)
         assert(time > 0)
     }
 
     @Test fun `Request with invalid user returns 403`() {
         val response = path.send(GET, "/protected/hi", user = "Curry", password = "Millis")
-        val time = response.headers["time"]?.toLong() ?: 0
+        val time = response.headers["time"]?.value?.toLong() ?: 0
         assertResponseEquals(response, "Forbidden", FORBIDDEN)
         assert(time > 0)
     }

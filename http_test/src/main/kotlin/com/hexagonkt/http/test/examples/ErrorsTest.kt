@@ -83,13 +83,13 @@ abstract class ErrorsTest(
 
     @Test fun `Handle exception allows to catch unhandled callback exceptions`() {
         val response = client.get("/exception")
-        assertEquals("error message", response.headers["error"])
+        assertEquals("error message", response.headers["error"]?.value)
         assertResponseContains(response, HttpStatus(599), "Unsupported")
     }
 
     @Test fun `Base error handler catch all exceptions that subclass a given one`() {
         val response = client.get("/baseException")
-        val runtimeError = response.headers["runtime-error"]
+        val runtimeError = response.headers["runtime-error"]?.value
         assertEquals(CustomException::class.java.name, runtimeError)
         assertResponseContains(response, HttpStatus(598), "Runtime")
     }

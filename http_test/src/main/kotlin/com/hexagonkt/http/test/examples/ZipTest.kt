@@ -3,9 +3,8 @@ package com.hexagonkt.http.test.examples
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpFields
+import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
@@ -28,7 +27,7 @@ abstract class ZipTest(
         // zip
         val serverSettings = HttpServerSettings(
             bindPort = 0,
-            features = setOf(ZIP)
+            zip = true,
         )
 
         val server = HttpServer(serverAdapter(), serverSettings) {
@@ -41,9 +40,9 @@ abstract class ZipTest(
         val client = HttpClient(clientAdapter(), URL("http://localhost:${server.runtimePort}"))
         client.start()
 
-        client.get("/hello", HttpFields(Header("accept-encoding", "gzip"))).apply {
+        client.get("/hello", Headers(Header("accept-encoding", "gzip"))).apply {
             assertEquals(body, "Hello World!")
-            assert(headers["content-encoding"]?.contains("gzip") ?: false)
+            assert(headers["content-encoding"]?.value?.contains("gzip") ?: false)
         }
 
         client.get("/hello").apply {
@@ -69,7 +68,7 @@ abstract class ZipTest(
         val client = HttpClient(clientAdapter(), URL("http://localhost:${server.runtimePort}"))
         client.start()
 
-        client.get("/hello", HttpFields(Header("accept-encoding", "gzip"))).apply {
+        client.get("/hello", Headers(Header("accept-encoding", "gzip"))).apply {
             assertEquals(body, "Hello World!")
             assertNull(headers["content-encoding"])
             assertNull(headers["Content-Encoding"])

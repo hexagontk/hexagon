@@ -7,7 +7,7 @@ import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
 import com.hexagonkt.http.model.ClientErrorStatus.UNAUTHORIZED
 import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpFields
+import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.SuccessStatus.*
 import com.hexagonkt.http.server.HttpServerPort
@@ -98,7 +98,7 @@ abstract class FiltersTest(
 
     @Test fun `Request without authorization returns 401`() {
         val response = client.get("/protected/hi")
-        val time = response.headers["time"]?.toLong() ?: 0
+        val time = response.headers["time"]?.value?.toLong() ?: 0
         assertResponseEquals(response, UNAUTHORIZED, "Unauthorized")
         assert(time > 0)
     }
@@ -106,7 +106,7 @@ abstract class FiltersTest(
     @Test fun `HTTP request with valid credentials returns valid response`() {
         authorizedClient("Turing", "London").use {
             val response = it.get("/protected/hi")
-            val time = response.headers["time"]?.toLong() ?: 0
+            val time = response.headers["time"]?.value?.toLong() ?: 0
             assertResponseEquals(response, OK, "Hello Turing!")
             assert(time > 0)
         }
@@ -115,7 +115,7 @@ abstract class FiltersTest(
     @Test fun `Request with invalid password returns 403`() {
         authorizedClient("Turing", "Millis").use {
             val response = it.get("/protected/hi")
-            val time = response.headers["time"]?.toLong() ?: 0
+            val time = response.headers["time"]?.value?.toLong() ?: 0
             assertResponseEquals(response, FORBIDDEN, "Forbidden")
             assert(time > 0)
         }
@@ -124,14 +124,14 @@ abstract class FiltersTest(
     @Test fun `Request with invalid user returns 403`() {
         authorizedClient("Curry", "Millis").use {
             val response = it.get("/protected/hi")
-            val time = response.headers["time"]?.toLong() ?: 0
+            val time = response.headers["time"]?.value?.toLong() ?: 0
             assertResponseEquals(response, FORBIDDEN, "Forbidden")
             assert(time > 0)
         }
     }
 
     private fun authorizedClient(user: String, password: String): HttpClient {
-        val headers = HttpFields(Header("authorization", basicAuth(user, password)))
+        val headers = Headers(Header("authorization", basicAuth(user, password)))
         return HttpClient(
             clientAdapter(),
             URL("http://localhost:${server.runtimePort}"),

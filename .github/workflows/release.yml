@@ -6,17 +6,6 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out
-        uses: actions/checkout@v3
-      - name: Build Project
-        uses: ./.github/actions/gradle
-      - name: Check Build
-        run: ls -AlF core/build
-
   sample_keystores:
     name: Sample Keystores
     runs-on: ubuntu-latest
@@ -26,20 +15,26 @@ jobs:
       - name: Create Sample Keystores
         uses: ./.github/actions/gradle
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           tasks: createCa createIdentities
 
   publish:
     name: Publish
     runs-on: ubuntu-latest
-    needs: [ build, sample_keystores ]
+    needs: [ sample_keystores ]
     steps:
 
       # SET UP
       - name: Check Out
         uses: actions/checkout@v3
       - name: Install Java
-        uses: actions/setup-java@v3
-        with: { java-version: 17, distribution: temurin }
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: latest
+          java-version: 17
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          components: native-image,llvm
+          cache: gradle
       - name: Install ImageMagick
         uses: ./.github/actions/image_magick
       - name: Restore Cache
@@ -61,7 +56,7 @@ jobs:
           git config --global user.email "juanjoaguililla@gmail.com"
           git config --global user.name "jaguililla"
           git clone "$REMOTE" --branch gh-pages build/gh-pages
-          ./gradlew --info build
+          ./gradlew --info -Pagent build
           ./gradlew --info -x build buildSite
           ls -AlF site/build/site
 
@@ -71,7 +66,9 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        run: ./gradlew --info --no-daemon -x test release
+        run: |
+          ./gradlew --info --no-daemon -x test metadataCopy
+          ./gradlew --info --no-daemon -x test release
 
       - name: Publish Site
         run: |
