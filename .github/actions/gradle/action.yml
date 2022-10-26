@@ -34,7 +34,7 @@ runs:
         cache: gradle
 
     # PROCESS
-    - run: ./gradlew ${{ inputs.tasks }}
+    - run: ./gradlew -Pagent ${{ inputs.tasks }}
       shell: bash
     - if: failure()
       run: ./gradlew --info --stacktrace -Pagent ${{ inputs.tasks }}
