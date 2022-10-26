@@ -22,6 +22,8 @@ jobs:
         with: { ref: develop }
       - name: Build Project
         uses: ./.github/actions/gradle
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Check Build
         run: ls -AlF core/build
 
@@ -42,6 +44,7 @@ jobs:
       - name: Create Sample Keystores
         uses: ./.github/actions/gradle
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           tasks: createCa createIdentities
 
   build_site:
@@ -67,6 +70,8 @@ jobs:
       # PROCESS
       - name: Build Project
         uses: ./.github/actions/gradle
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Site
         run: |
           ./gradlew --info -x build buildSite
@@ -89,8 +94,10 @@ jobs:
       - name: Copy Metadata
         uses: ./.github/actions/gradle
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           tasks: metadataCopy -x test
       - name: Test Publishing
         uses: ./.github/actions/gradle
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           tasks: publishToMavenLocal -x test
