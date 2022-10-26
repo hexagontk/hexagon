@@ -8,7 +8,7 @@ apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/detekt.gradle")
 
-description = "Jackson serialization utilities (used in several serialization formats)."
+description = "Jackson's serialization utilities (used in several serialization formats)."
 
 dependencies {
     val jacksonVersion = properties["jacksonVersion"]
