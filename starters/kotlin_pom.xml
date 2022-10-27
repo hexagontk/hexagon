@@ -393,6 +393,12 @@
               <metadataRepository>
                 <enabled>true</enabled>
               </metadataRepository>
+              <buildArgs>
+                <buildArg>--enable-http</buildArg>
+                <buildArg>--enable-https</buildArg>
+                <buildArg>--enable-url-protocols=classpath</buildArg>
+                <buildArg>--initialize-at-build-time=com.hexagonkt.core.ClasspathHandler</buildArg>
+              </buildArgs>
             </configuration>
           </plugin>
         </plugins>
