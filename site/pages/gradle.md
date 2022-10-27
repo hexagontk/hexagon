@@ -211,3 +211,45 @@ To set up this script's parameters, check the [build variables section]. These h
   be used.
 
 [Detekt]: https://detekt.github.io/detekt
+
+## Native
+This script sets up the build to add [GraalVM] configuration files for [native image] generation
+into JAR files (for library projects), and also allows to easily generate a native image for an
+application.
+
+To use it you must apply the `$gradleScripts/native.gradle` script to your `build.gradle` file. It
+must be applied after the Kotlin plugin.
+
+For the script to work you need to add the plugin to the plugins build section before importing the
+script. I.e.:
+
+```kotlin
+plugins {
+    id("org.graalvm.buildtools.native") version("VERSION")
+}
+```
+
+To add configuration metadata in your libraries. you should run these commands:
+
+```bash
+./gradlew -Pagent build
+./gradlew metadataCopy
+# After including the metadata you can publish your artifacts. I.e.:
+./gradlew publishToMavenLocal
+```
+
+And if you want to create a native image for your application you should execute:
+
+```bash
+./gradlew -Pagent nativeCompile
+# If you have `upx` installed, you can compress your executable with:
+./gradlew -Pagent upx
+```
+
+To set up this script's parameters, check the [build variables section]. These helper settings are:
+
+* codeFilterFile: file which filters the source code to include in the configuration metadata. It is
+  optional and by default it is empty (value to be used in application's native images).
+
+[GraalVM]: https://www.graalvm.org
+[native image]: https://graalvm.github.io/native-build-tools/latest/index.html
