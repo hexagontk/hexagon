@@ -5,6 +5,9 @@ on:
   push:
     branches: [ release/** ]
 
+env:
+  graalvm_metadata: false
+
 jobs:
   sample_keystores:
     name: Sample Keystores
@@ -65,5 +68,5 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
-          ./gradlew --info --no-daemon -x test metadataCopy
+          [[ $graalvm_metadata == true ]] && ./gradlew --info --no-daemon -x test metadataCopy
           ./gradlew --info --no-daemon -x test release
