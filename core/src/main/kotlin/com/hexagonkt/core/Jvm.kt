@@ -48,8 +48,8 @@ object Jvm {
     /** User locale consist of 2-letter language code, 2-letter country code and file encoding. */
     val localeCode: String by lazy {
         "%s_%s.%s".format(
-            System.getProperty("user.language"),
-            System.getProperty("user.country"),
+            System.getProperty("user.language", "xx"),
+            System.getProperty("user.country", "XX"),
             System.getProperty("file.encoding")
         )
     }
