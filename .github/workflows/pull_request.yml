@@ -52,17 +52,16 @@ jobs:
     steps:
       - name: Check Out
         uses: actions/checkout@v3
-      - name: Agent Test
-        uses: ./.github/actions/gradle
+      - name: Install Java
+        uses: graalvm/setup-graalvm@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Copy Metadata
-        uses: ./.github/actions/gradle
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tasks: metadataCopy -x test
+          version: latest
+          java-version: 17
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          components: native-image,llvm
+          cache: gradle
       - name: Test Publishing
-        uses: ./.github/actions/gradle
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tasks: publishToMavenLocal -x test
+        run: |
+          ./gradlew --info -x test -Pagent build
+          ./gradlew --info -x test metadataCopy
+          ./gradlew --info -x test publishToMavenLocal
