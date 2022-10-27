@@ -523,6 +523,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#native" class="md-nav__link">
+    Native
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -922,6 +929,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#native" class="md-nav__link">
+    Native
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1113,6 +1127,41 @@ script. I.e.:</p>
 <ul>
 <li>detektConfigPath: file with Detekt rules and settings. If not set, the default Detekt setup will
   be used.</li>
+</ul>
+<h3 id="native">Native<a class="headerlink" href="#native" title="Permanent link">&para;</a></h3>
+<p>This script sets up the build to add <a href="https://www.graalvm.org">GraalVM</a> configuration files for <a href="https://graalvm.github.io/native-build-tools/latest/index.html">native image</a> generation
+into JAR files (for library projects), and also allows to easily generate a native image for an
+application.</p>
+<p>To use it you must apply the <code>$gradleScripts/native.gradle</code> script to your <code>build.gradle</code> file. It
+must be applied after the Kotlin plugin.</p>
+<p>For the script to work you need to add the plugin to the plugins build section before importing the
+script. I.e.:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">id</span><span class="p">(</span><span class="s">&quot;org.graalvm.buildtools.native&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="p">(</span><span class="s">&quot;VERSION&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<p>To add configuration metadata in your libraries. you should run these commands:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>./gradlew -Pagent build
+./gradlew metadataCopy
+<span class="c1"># After including the metadata you can publish your artifacts. I.e.:</span>
+./gradlew publishToMavenLocal
+</code></pre></div></td></tr></table></div>
+<p>And if you want to create a native image for your application you should execute:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>./gradlew -Pagent nativeCompile
+<span class="c1"># If you have `upx` installed, you can compress your executable with:</span>
+./gradlew -Pagent upx
+</code></pre></div></td></tr></table></div>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<ul>
+<li>codeFilterFile: file which filters the source code to include in the configuration metadata. It is
+  optional and by default it is empty (value to be used in application's native images).</li>
 </ul>
 
 
