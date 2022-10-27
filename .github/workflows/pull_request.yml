@@ -63,5 +63,5 @@ jobs:
       - name: Test Publishing
         run: |
           ./gradlew --info -x test -Pagent build
-          ./gradlew --info -x test metadataCopy
+          [[ $graalvm_metadata == true ]] && ./gradlew --info -x test metadataCopy
           ./gradlew --info -x test publishToMavenLocal
