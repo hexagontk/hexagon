@@ -91,6 +91,10 @@ jobs:
       - name: Check Out
         uses: actions/checkout@v3
         with: { ref: develop }
+      - name: Agent Test
+        uses: ./.github/actions/gradle
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Copy Metadata
         uses: ./.github/actions/gradle
         with:
