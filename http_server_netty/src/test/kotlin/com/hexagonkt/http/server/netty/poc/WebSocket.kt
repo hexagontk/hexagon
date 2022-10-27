@@ -56,7 +56,7 @@ fun main () {
     var sessions = emptyList<WsSession>()
 
     server = serve {
-        get(callback = UrlCallback(URL("file:http_server_jetty/src/test/resources/ws.html")))
+        get(callback = UrlCallback(URL("classpath:ws.html")))
         get("/sse") {
             val body = event(executor, 2_000) {
                 ServerEvent(data = System.currentTimeMillis().toString())
