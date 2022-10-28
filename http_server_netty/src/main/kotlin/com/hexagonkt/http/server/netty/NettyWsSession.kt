@@ -2,7 +2,7 @@ package com.hexagonkt.http.server.netty
 
 import com.hexagonkt.http.model.HttpRequest
 import com.hexagonkt.http.model.ws.WsCloseStatus
-import com.hexagonkt.http.server.model.WsServerSession
+import com.hexagonkt.http.server.model.ws.WsServerSession
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame

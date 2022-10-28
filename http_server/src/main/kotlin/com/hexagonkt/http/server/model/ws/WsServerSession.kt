@@ -1,4 +1,4 @@
-package com.hexagonkt.http.server.model
+package com.hexagonkt.http.server.model.ws
 
 import com.hexagonkt.http.model.HttpRequest
 import com.hexagonkt.http.model.ws.WsSession

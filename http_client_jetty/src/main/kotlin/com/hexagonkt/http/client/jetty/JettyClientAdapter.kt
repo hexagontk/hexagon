@@ -48,13 +48,12 @@ class JettyClientAdapter : HttpClientPort {
     override fun startUp(client: HttpClient) {
         val clientConnector = ClientConnector()
         clientConnector.sslContextFactory = sslContext(client.settings)
-        val clientInstance = JettyHttpClient(HttpClientTransportDynamic(clientConnector))
 
-        jettyClient = clientInstance
+        jettyClient = JettyHttpClient(HttpClientTransportDynamic(clientConnector))
         httpClient = client
 
-        clientInstance.userAgentField = null // Disable default user agent header
-        clientInstance.start()
+        jettyClient.userAgentField = null // Disable default user agent header
+        jettyClient.start()
         wsClient.start()
         started = true
     }
@@ -62,6 +61,7 @@ class JettyClientAdapter : HttpClientPort {
     override fun shutDown() {
         check(started) { "HTTP client *MUST BE STARTED* before shut-down" }
         jettyClient.stop()
+        wsClient.stop()
         started = false
     }
 
@@ -96,10 +96,11 @@ class JettyClientAdapter : HttpClientPort {
         val baseUrl = httpClient.settings.baseUrl
         val scheme = if (baseUrl.protocol.lowercase() == "https") "wss" else "ws"
         val uri = URI("$scheme://${baseUrl.host}:${baseUrl.port}${baseUrl.path}$path")
-        val adapter = JettyWebSocketAdapter(onConnect, onBinary, onText, onClose)
+        val adapter =
+            JettyWebSocketAdapter(uri, onConnect, onBinary, onText, onPing, onPong, onClose)
         val session = wsClient.connect(adapter, uri).get()
 
-        return JettyClientWsSession(session)
+        return JettyClientWsSession(uri, session)
     }
 
     private fun convertJettyResponse(

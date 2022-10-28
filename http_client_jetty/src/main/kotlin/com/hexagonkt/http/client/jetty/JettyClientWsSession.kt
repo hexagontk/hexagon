@@ -1,13 +1,15 @@
 package com.hexagonkt.http.client.jetty
 
+import com.hexagonkt.http.client.model.ws.WsClientSession
 import com.hexagonkt.http.model.ws.WsCloseStatus
-import com.hexagonkt.http.model.ws.WsSession
 import org.eclipse.jetty.websocket.api.Session
+import java.net.URI
 import java.nio.ByteBuffer
 
 class JettyClientWsSession(
+    override val uri: URI,
     private val session: Session
-) : WsSession {
+) : WsClientSession {
 
     override fun send(data: ByteArray) {
         session.remote.sendBytes(ByteBuffer.wrap(data))
