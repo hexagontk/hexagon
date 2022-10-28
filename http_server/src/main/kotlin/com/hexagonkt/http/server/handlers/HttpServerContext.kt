@@ -10,6 +10,8 @@ import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.model.ServerEvent
 import com.hexagonkt.http.model.SuccessStatus.*
+import com.hexagonkt.http.model.ws.WsCloseStatus
+import com.hexagonkt.http.model.ws.WsSession
 import com.hexagonkt.http.server.model.*
 import java.net.URL
 import java.security.cert.X509Certificate
@@ -200,7 +202,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         onText: WsSession.(text: String) -> Unit = {},
         onPing: WsSession.(data: ByteArray) -> Unit = {},
         onPong: WsSession.(data: ByteArray) -> Unit = {},
-        onClose: WsSession.(statusCode: Int, reason: String) -> Unit = { _, _ -> },
+        onClose: WsSession.(status: WsCloseStatus, reason: String) -> Unit = { _, _ -> },
     ): HttpServerContext =
         send(
             context.event.response.copy(

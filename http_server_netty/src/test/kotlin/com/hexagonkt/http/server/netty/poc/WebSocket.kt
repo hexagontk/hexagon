@@ -4,7 +4,7 @@ import com.hexagonkt.core.logging.logger
 import com.hexagonkt.http.model.ServerEvent
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.callbacks.UrlCallback
-import com.hexagonkt.http.model.WsSession
+import com.hexagonkt.http.model.ws.WsSession
 import com.hexagonkt.http.server.netty.serve
 import java.net.URL
 import java.util.concurrent.*

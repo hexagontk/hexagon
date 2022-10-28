@@ -18,14 +18,15 @@ internal class HttpClientTest {
         val noCookiesSettings = HttpClientSettings(useCookies = false)
         assertFalse(HttpClient(VoidAdapter, noCookiesSettings).settings.useCookies)
 
-        val baseUrl = URL("http://example.org")
-        assertEquals(baseUrl, HttpClient(VoidAdapter, baseUrl).settings.baseUrl)
-        assertEquals(baseUrl, HttpClient(VoidAdapter, baseUrl, noCookiesSettings).settings.baseUrl)
-        assertFalse(HttpClient(VoidAdapter, baseUrl, noCookiesSettings).settings.useCookies)
+        val base = "http://example.org"
+        val baseUrl = URL(base)
+        assertEquals(baseUrl, HttpClient(VoidAdapter, base).settings.baseUrl)
+        assertEquals(baseUrl, HttpClient(VoidAdapter, base, noCookiesSettings).settings.baseUrl)
+        assertFalse(HttpClient(VoidAdapter, base, noCookiesSettings).settings.useCookies)
 
         val settingsBaseUrl = URL("http://server.com")
         val baseUrlSettings = HttpClientSettings(baseUrl = settingsBaseUrl)
-        assertEquals(baseUrl, HttpClient(VoidAdapter, baseUrl, baseUrlSettings).settings.baseUrl)
+        assertEquals(baseUrl, HttpClient(VoidAdapter, base, baseUrlSettings).settings.baseUrl)
         assertEquals(settingsBaseUrl, HttpClient(VoidAdapter, baseUrlSettings).settings.baseUrl)
     }
 
