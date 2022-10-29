@@ -20,5 +20,4 @@ dependencies {
 
     "testImplementation"(project(":http_client_jetty"))
     "testImplementation"("org.eclipse.jetty.websocket:websocket-jetty-server")
-    "testImplementation"("org.eclipse.jetty.websocket:websocket-jetty-client")
 }

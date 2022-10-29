@@ -3,6 +3,8 @@ package com.hexagonkt.http.server.model
 import com.hexagonkt.http.checkHeaders
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.ws.WsCloseStatus
+import com.hexagonkt.http.model.ws.WsSession
 
 data class HttpServerResponse(
     override val body: Any = "",
@@ -15,7 +17,7 @@ data class HttpServerResponse(
     val onText: WsSession.(text: String) -> Unit = {},
     val onPing: WsSession.(data: ByteArray) -> Unit = {},
     val onPong: WsSession.(data: ByteArray) -> Unit = {},
-    val onClose: WsSession.(statusCode: Int, reason: String) -> Unit = { _, _ -> },
+    val onClose: WsSession.(status: WsCloseStatus, reason: String) -> Unit = { _, _ -> },
 ) : HttpResponse {
 
     init {

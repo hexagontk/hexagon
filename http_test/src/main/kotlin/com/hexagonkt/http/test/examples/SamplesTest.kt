@@ -354,8 +354,6 @@ abstract class SamplesTest(
                 val parts = listOf(HttpPart("file", stream, "index.html"))
                 val response = it.send(HttpClientRequest(POST, path = "/file", parts = parts))
                 assert(response.bodyString().contains("<title>Hexagon</title>"))
-
-                it.stop()
             }
         }
     }

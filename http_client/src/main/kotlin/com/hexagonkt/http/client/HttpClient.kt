@@ -4,6 +4,8 @@ import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
+import com.hexagonkt.http.model.ws.WsCloseStatus
+import com.hexagonkt.http.model.ws.WsSession
 import java.io.Closeable
 import java.net.URL
 
@@ -19,10 +21,17 @@ class HttpClient(
 
     constructor(
         adapter: HttpClientPort,
-        baseUrl: URL = URL("http://localhost:8080"),
+        baseUrl: URL,
         settings: HttpClientSettings = HttpClientSettings()
     ) :
         this(adapter, settings.copy(baseUrl = baseUrl))
+
+    constructor(
+        adapter: HttpClientPort,
+        baseUrl: String,
+        settings: HttpClientSettings = HttpClientSettings()
+    ) :
+        this(adapter, URL(baseUrl), settings)
 
     var cookies: List<Cookie> = emptyList()
 
@@ -47,8 +56,20 @@ class HttpClient(
     fun send(request: HttpClientRequest): HttpClientResponse =
         adapter.send(request)
 
-    fun get(
+    fun ws(
         path: String,
+        onConnect: WsSession.() -> Unit = {},
+        onBinary: WsSession.(data: ByteArray) -> Unit = {},
+        onText: WsSession.(text: String) -> Unit = {},
+        onPing: WsSession.(data: ByteArray) -> Unit = {},
+        onPong: WsSession.(data: ByteArray) -> Unit = {},
+        onClose: WsSession.(status: WsCloseStatus, reason: String) -> Unit = { _, _ -> },
+    ): WsSession =
+        adapter.ws(path, onConnect, onBinary, onText, onPing, onPong, onClose)
+
+    // TODO Test without passing a path (request to baseUrl directly)
+    fun get(
+        path: String = "",
         headers: Headers = Headers(),
         body: Any? = null,
         contentType: ContentType? = settings.contentType): HttpClientResponse =
@@ -61,41 +82,39 @@ class HttpClient(
                     contentType = contentType)
             )
 
-    fun head(
-        path: String, headers: Headers = Headers()
-    ): HttpClientResponse =
+    fun head(path: String = "", headers: Headers = Headers()): HttpClientResponse =
         send(HttpClientRequest(HEAD, path = path, body = ByteArray(0), headers = headers))
 
     fun post(
-        path: String,
+        path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType
     ): HttpClientResponse =
         send(HttpClientRequest(POST, path = path, body = body ?: "", contentType = contentType))
 
     fun put(
-        path: String,
+        path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType
     ): HttpClientResponse =
         send(HttpClientRequest(PUT, path = path, body = body ?: "", contentType = contentType))
 
     fun delete(
-        path: String,
+        path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType
     ): HttpClientResponse =
         send(HttpClientRequest(DELETE, path = path, body = body ?: "", contentType = contentType))
 
     fun trace(
-        path: String,
+        path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType
     ): HttpClientResponse =
         send(HttpClientRequest(TRACE, path = path, body = body ?: "", contentType = contentType))
 
     fun options(
-        path: String,
+        path: String = "",
         body: Any? = null,
         headers: Headers = Headers(),
         contentType: ContentType? = settings.contentType
@@ -111,7 +130,7 @@ class HttpClient(
         )
 
     fun patch(
-        path: String,
+        path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType
     ): HttpClientResponse =

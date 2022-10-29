@@ -4,7 +4,7 @@ import com.hexagonkt.core.logging.logger
 import com.hexagonkt.http.model.ServerEvent
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.callbacks.UrlCallback
-import com.hexagonkt.http.model.WsSession
+import com.hexagonkt.http.model.ws.WsSession
 import com.hexagonkt.http.server.netty.serve
 import java.net.URL
 import java.util.concurrent.*
@@ -56,7 +56,7 @@ fun main () {
     var sessions = emptyList<WsSession>()
 
     server = serve {
-        get(callback = UrlCallback(URL("file:http_server_jetty/src/test/resources/ws.html")))
+        get(callback = UrlCallback(URL("classpath:ws.html")))
         get("/sse") {
             val body = event(executor, 2_000) {
                 ServerEvent(data = System.currentTimeMillis().toString())
