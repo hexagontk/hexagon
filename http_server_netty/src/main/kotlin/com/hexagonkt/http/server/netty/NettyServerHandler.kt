@@ -1,9 +1,12 @@
 package com.hexagonkt.http.server.netty
 
+import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.Cookie
+import com.hexagonkt.http.server.handlers.HttpServerContext
 import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerResponse
 import io.netty.buffer.Unpooled
 import io.netty.channel.Channel
@@ -46,9 +49,18 @@ internal class NettyServerHandler(
         val channel = context.channel()
         val address = channel.remoteAddress() as InetSocketAddress
         val method = nettyRequest.method()
+        val pathHandler = handlers[method]
+
+        if (pathHandler == null) {
+            writeResponse(context, HttpServerResponse(), HttpUtil.isKeepAlive(nettyRequest))
+            return
+        }
+
         val headers = nettyRequest.headers()
         val request = NettyRequestAdapter(method, nettyRequest, certificates, address, headers)
-        val response = handlers[method]?.process(request) ?: HttpServerResponse()
+
+        val resultContext = pathHandler.processContext(request)
+        val response = resultContext.event.response
 
         val body = response.body
         val connection = headers[CONNECTION]?.lowercase()
@@ -63,7 +75,7 @@ internal class NettyServerHandler(
 
         when {
             isSse -> handleSse(context, response, body)
-            isWebSocket -> handleWebSocket(context, request, response, nettyRequest, channel)
+            isWebSocket -> handleWebSocket(context, resultContext, response, nettyRequest, channel)
             else -> writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))
         }
     }
@@ -95,7 +107,9 @@ internal class NettyServerHandler(
         publisher.subscribe(object : Subscriber<ServerEvent> {
             override fun onError(throwable: Throwable) {}
 
-            override fun onComplete() {}
+            override fun onComplete() {
+                context.close()
+            }
 
             override fun onSubscribe(subscription: Subscription) {
                 subscription.request(Long.MAX_VALUE)
@@ -110,12 +124,12 @@ internal class NettyServerHandler(
 
     private fun handleWebSocket(
         context: ChannelHandlerContext,
-        request: NettyRequestAdapter,
+        request: Context<HttpServerCall>,
         response: HttpServerResponse,
         nettyRequest: FullHttpRequest,
         channel: Channel
     ) {
-        val session = NettyWsSession(context, request)
+        val session = NettyWsSession(context, HttpServerContext(request))
         val nettyWebSocketHandler = NettyWebSocketHandler(
             session,
             response.onBinary,

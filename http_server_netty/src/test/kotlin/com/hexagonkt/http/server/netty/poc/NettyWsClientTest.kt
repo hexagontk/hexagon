@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server.netty.poc
 
+import com.hexagonkt.http.server.netty.serve
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.*
 import io.netty.channel.nio.NioEventLoopGroup
@@ -20,11 +21,14 @@ import org.junit.jupiter.api.Test
 import java.net.URI
 import kotlin.test.assertEquals
 
-// TODO
-internal class WebSocketTest {
+internal class NettyWsClientTest {
 
     @Test fun `WS connections`() {
-        main()
+        val server = serve {
+            ws("/ws") {
+                accepted(onText = { send(it) })
+            }
+        }
 
         val uri = URI("ws://localhost:${server.runtimePort}/ws")
         val handShaker = newHandshaker(uri, V13, null, true, DefaultHttpHeaders())

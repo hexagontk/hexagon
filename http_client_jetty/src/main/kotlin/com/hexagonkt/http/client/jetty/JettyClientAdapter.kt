@@ -9,10 +9,12 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
-import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.Cookie
+import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.HttpStatus
+import com.hexagonkt.http.model.ws.WsCloseStatus
+import com.hexagonkt.http.model.ws.WsSession
 import com.hexagonkt.http.parseContentType
 import org.eclipse.jetty.client.HttpResponseException
 import org.eclipse.jetty.client.api.ContentResponse
@@ -26,47 +28,50 @@ import org.eclipse.jetty.http.HttpFields
 import org.eclipse.jetty.http.HttpFields.EMPTY
 import org.eclipse.jetty.http.HttpMethod
 import org.eclipse.jetty.io.ClientConnector
+import org.eclipse.jetty.websocket.client.WebSocketClient
 import java.net.CookieStore
 import java.net.URI
 import java.util.concurrent.ExecutionException
-import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFactory
 import org.eclipse.jetty.client.HttpClient as JettyHttpClient
+import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFactory
 
 /**
  * Client to use other REST services.
  */
 class JettyClientAdapter : HttpClientPort {
 
-    private var jettyClient: JettyHttpClient? = null
-    private var httpClient: HttpClient? = null
+    private lateinit var jettyClient: JettyHttpClient
+    private lateinit var httpClient: HttpClient
+    private lateinit var wsClient: WebSocketClient
+    private var started: Boolean = false
 
     override fun startUp(client: HttpClient) {
         val clientConnector = ClientConnector()
         clientConnector.sslContextFactory = sslContext(client.settings)
-        val clientInstance = JettyHttpClient(HttpClientTransportDynamic(clientConnector))
 
-        jettyClient = clientInstance
+        jettyClient = JettyHttpClient(HttpClientTransportDynamic(clientConnector))
         httpClient = client
 
-        clientInstance.userAgentField = null // Disable default user agent header
-        clientInstance.start()
+        jettyClient.userAgentField = null // Disable default user agent header
+        jettyClient.start()
+        wsClient = WebSocketClient(jettyClient)
+        wsClient.start()
+        started = true
     }
 
     override fun shutDown() {
-        jettyClient?.stop()
-            ?: error("'null' Jetty HTTP client: Client *MUST BE STARTED* before shut-down")
+        check(started) { "HTTP client *MUST BE STARTED* before shut-down" }
+        wsClient.stop()
+        jettyClient.stop()
+        started = false
     }
 
     override fun send(request: HttpClientRequest): HttpClientResponse {
-
-        val adapterHttpClient = httpClient
-            ?: error("'null' HTTP client: Client *MUST BE STARTED* before sending requests")
-        val adapterJettyClient = jettyClient
-            ?: error("'null' Jetty HTTP client: Client *MUST BE STARTED* before sending requests")
+        check(started) { "HTTP client *MUST BE STARTED* before sending requests" }
 
         val response =
             try {
-                createJettyRequest(adapterHttpClient, adapterJettyClient, request).send()
+                createJettyRequest(httpClient, jettyClient, request).send()
             }
             catch (e: ExecutionException) {
                 val cause = e.cause
@@ -74,7 +79,29 @@ class JettyClientAdapter : HttpClientPort {
                 else throw e
             }
 
-        return convertJettyResponse(adapterHttpClient, adapterJettyClient, response)
+        return convertJettyResponse(httpClient, jettyClient, response)
+    }
+
+    override fun ws(
+        path: String,
+        onConnect: WsSession.() -> Unit,
+        onBinary: WsSession.(data: ByteArray) -> Unit,
+        onText: WsSession.(text: String) -> Unit,
+        onPing: WsSession.(data: ByteArray) -> Unit,
+        onPong: WsSession.(data: ByteArray) -> Unit,
+        onClose: WsSession.(status: WsCloseStatus, reason: String) -> Unit,
+    ): WsSession {
+
+        check(started) { "HTTP client *MUST BE STARTED* before connecting to WS" }
+
+        val baseUrl = httpClient.settings.baseUrl
+        val scheme = if (baseUrl.protocol.lowercase() == "https") "wss" else "ws"
+        val uri = URI("$scheme://${baseUrl.host}:${baseUrl.port}${baseUrl.path}$path")
+        val adapter =
+            JettyWebSocketAdapter(uri, onConnect, onBinary, onText, onPing, onPong, onClose)
+        val session = wsClient.connect(adapter, uri).get()
+
+        return JettyClientWsSession(uri, session)
     }
 
     private fun convertJettyResponse(

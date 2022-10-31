@@ -9,5 +9,8 @@ HTTP code shared between clients and servers.
 # Package com.hexagonkt.http.model
 TODO
 
+# Package com.hexagonkt.http.model.ws
+TODO
+
 # Package com.hexagonkt.http.patterns
 TODO

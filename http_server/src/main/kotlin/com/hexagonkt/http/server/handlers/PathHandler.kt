@@ -52,17 +52,25 @@ data class PathHandler(
         this(pattern, handlers.toList())
 
     override fun process(request: HttpServerRequestPort): HttpServerResponse =
+        processContext(request).event.response
+
+    fun processContext(request: HttpServerRequestPort): Context<HttpServerCall> =
         process(Context(HttpServerCall(request = request), predicate)).let {
-            val response = it.event.response
+            val event = it.event
+            val response = event.response
             val exception = it.exception
 
             if (exception != null && response.status.type != SERVER_ERROR)
-                response.copy(
-                    body = exception.toText(),
-                    contentType = ContentType(PLAIN),
-                    status = INTERNAL_SERVER_ERROR,
+                it.copy(
+                    event = event.copy(
+                        response = response.copy(
+                            body = exception.toText(),
+                            contentType = ContentType(PLAIN),
+                            status = INTERNAL_SERVER_ERROR,
+                        )
+                    )
                 )
-            else response
+            else it
         }
 
     override fun addPrefix(prefix: String): HttpHandler =

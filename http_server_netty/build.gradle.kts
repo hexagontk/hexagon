@@ -14,8 +14,8 @@ dependencies {
 
     "api"(project(":http_server"))
     "api"(platform("io.netty:netty-bom:$nettyVersion"))
-    "api"("io.netty:netty-codec-http")
-    "api"("io.netty:netty-codec-http2")
+    "api"("io.netty:netty-codec-http") { exclude(group = "org.slf4j") }
+    "api"("io.netty:netty-codec-http2") { exclude(group = "org.slf4j") }
 
     "testImplementation"(project(":http_test"))
     "testImplementation"(project(":http_client_jetty"))
