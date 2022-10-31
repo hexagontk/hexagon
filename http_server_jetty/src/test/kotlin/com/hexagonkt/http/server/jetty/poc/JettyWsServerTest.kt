@@ -16,7 +16,7 @@ import com.hexagonkt.http.model.ws.CloseStatus.NORMAL
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-internal class JettyTest {
+internal class JettyWsServerTest {
 
     private lateinit var server: Server
 
@@ -69,7 +69,7 @@ internal class JettyTest {
         server.start()
     }
 
-    @Test fun `HTTP call works OK`() {
+    @Test fun `WS call works OK`() {
         startServer()
 
         var result = ""

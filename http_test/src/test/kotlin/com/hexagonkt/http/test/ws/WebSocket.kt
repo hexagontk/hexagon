@@ -1,4 +1,4 @@
-package com.hexagonkt.http.server.netty.poc
+package com.hexagonkt.http.test.ws
 
 import com.hexagonkt.core.logging.logger
 import com.hexagonkt.http.model.ServerEvent
