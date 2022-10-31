@@ -6,9 +6,6 @@ import com.hexagonkt.http.test.examples.*
 import com.hexagonkt.serialization.jackson.JacksonTextFormat
 import com.hexagonkt.serialization.jackson.json.Json
 import com.hexagonkt.serialization.jackson.yaml.Yaml
-import org.junit.jupiter.api.Disabled
-
-// TODO Fix disabled test
 
 val clientAdapter: () -> JettyClientAdapter = ::JettyClientAdapter
 val serverAdapter: () -> JettyServletAdapter = ::JettyServletAdapter
@@ -25,5 +22,4 @@ internal class AdapterFilesTest : FilesTest(clientAdapter, serverAdapter)
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
 internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)
-@Disabled
 internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
