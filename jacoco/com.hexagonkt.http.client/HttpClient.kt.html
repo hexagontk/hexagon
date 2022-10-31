@@ -4,6 +4,8 @@ import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
+import com.hexagonkt.http.model.ws.WsCloseStatus
+import com.hexagonkt.http.model.ws.WsSession
 import java.io.Closeable
 import java.net.URL
 
@@ -12,109 +14,126 @@ import java.net.URL
  *
  * TODO Add support for client filters. I.e.: for auth, signing, etc.
  */
-<span class="fc" id="L15">class HttpClient(</span>
-<span class="fc" id="L16">    private val adapter: HttpClientPort,</span>
-<span class="fc" id="L17">    val settings: HttpClientSettings = HttpClientSettings()</span>
+<span class="fc" id="L17">class HttpClient(</span>
+<span class="fc" id="L18">    private val adapter: HttpClientPort,</span>
+<span class="fc" id="L19">    val settings: HttpClientSettings = HttpClientSettings()</span>
 ) : Closeable {
 
-<span class="fc" id="L20">    constructor(</span>
+<span class="fc" id="L22">    constructor(</span>
         adapter: HttpClientPort,
-<span class="nc" id="L22">        baseUrl: URL = URL(&quot;http://localhost:8080&quot;),</span>
-<span class="fc" id="L23">        settings: HttpClientSettings = HttpClientSettings()</span>
+        baseUrl: URL,
+<span class="fc" id="L25">        settings: HttpClientSettings = HttpClientSettings()</span>
     ) :
-<span class="fc" id="L25">        this(adapter, settings.copy(baseUrl = baseUrl))</span>
+<span class="fc" id="L27">        this(adapter, settings.copy(baseUrl = baseUrl))</span>
 
-<span class="fc" id="L27">    var cookies: List&lt;Cookie&gt; = emptyList()</span>
+<span class="fc" id="L29">    constructor(</span>
+        adapter: HttpClientPort,
+        baseUrl: String,
+<span class="fc" id="L32">        settings: HttpClientSettings = HttpClientSettings()</span>
+    ) :
+<span class="fc" id="L34">        this(adapter, URL(baseUrl), settings)</span>
+
+<span class="fc" id="L36">    var cookies: List&lt;Cookie&gt; = emptyList()</span>
 
     override fun close() {
-<span class="fc" id="L30">        stop()</span>
-<span class="fc" id="L31">    }</span>
+<span class="fc" id="L39">        stop()</span>
+<span class="fc" id="L40">    }</span>
 
     fun cookiesMap(): Map&lt;String, Cookie&gt; =
-<span class="fc" id="L34">        cookies.associateBy { it.name }</span>
+<span class="fc" id="L43">        cookies.associateBy { it.name }</span>
 
     fun start() {
-<span class="fc" id="L37">        adapter.startUp(this)</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L46">        adapter.startUp(this)</span>
+<span class="fc" id="L47">    }</span>
 
     fun stop() {
-<span class="fc" id="L41">        adapter.shutDown()</span>
-<span class="fc" id="L42">    }</span>
+<span class="fc" id="L50">        adapter.shutDown()</span>
+<span class="fc" id="L51">    }</span>
 
     /**
      * Synchronous execution.
      */
     fun send(request: HttpClientRequest): HttpClientResponse =
-<span class="fc" id="L48">        adapter.send(request)</span>
+<span class="fc" id="L57">        adapter.send(request)</span>
 
-<span class="fc" id="L50">    fun get(</span>
+<span class="fc" id="L59">    fun ws(</span>
         path: String,
-<span class="fc" id="L52">        headers: Headers = Headers(),</span>
-<span class="fc" id="L53">        body: Any? = null,</span>
-<span class="fc" id="L54">        contentType: ContentType? = settings.contentType): HttpClientResponse =</span>
-<span class="fc" id="L55">            send(</span>
-<span class="fc" id="L56">                HttpClientRequest(</span>
-<span class="fc" id="L57">                    method = GET,</span>
-<span class="fc" id="L58">                    path = path,</span>
-<span class="fc bfc" id="L59" title="All 2 branches covered.">                    body = body ?: &quot;&quot;,</span>
-<span class="fc" id="L60">                    headers = headers,</span>
-<span class="fc" id="L61">                    contentType = contentType)</span>
-<span class="fc" id="L62">            )</span>
+<span class="fc" id="L61">        onConnect: WsSession.() -&gt; Unit = {},</span>
+<span class="pc" id="L62">        onBinary: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L63">        onText: WsSession.(text: String) -&gt; Unit = {},</span>
+<span class="pc" id="L64">        onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L65">        onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="fc" id="L66">        onClose: WsSession.(status: WsCloseStatus, reason: String) -&gt; Unit = { _, _ -&gt; },</span>
+    ): WsSession =
+<span class="fc" id="L68">        adapter.ws(path, onConnect, onBinary, onText, onPing, onPong, onClose)</span>
 
-<span class="fc" id="L64">    fun head(</span>
-<span class="fc" id="L65">        path: String, headers: Headers = Headers()</span>
-    ): HttpClientResponse =
-<span class="fc" id="L67">        send(HttpClientRequest(HEAD, path = path, body = ByteArray(0), headers = headers))</span>
+    // TODO Test without passing a path (request to baseUrl directly)
+<span class="fc" id="L71">    fun get(</span>
+<span class="nc" id="L72">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L73">        headers: Headers = Headers(),</span>
+<span class="fc" id="L74">        body: Any? = null,</span>
+<span class="fc" id="L75">        contentType: ContentType? = settings.contentType): HttpClientResponse =</span>
+<span class="fc" id="L76">            send(</span>
+<span class="fc" id="L77">                HttpClientRequest(</span>
+<span class="fc" id="L78">                    method = GET,</span>
+<span class="fc" id="L79">                    path = path,</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">                    body = body ?: &quot;&quot;,</span>
+<span class="fc" id="L81">                    headers = headers,</span>
+<span class="fc" id="L82">                    contentType = contentType)</span>
+<span class="fc" id="L83">            )</span>
 
-<span class="fc" id="L69">    fun post(</span>
-        path: String,
-<span class="fc" id="L71">        body: Any? = null,</span>
-<span class="fc" id="L72">        contentType: ContentType? = settings.contentType</span>
-    ): HttpClientResponse =
-<span class="fc bfc" id="L74" title="All 2 branches covered.">        send(HttpClientRequest(POST, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
+<span class="pc" id="L85">    fun head(path: String = &quot;&quot;, headers: Headers = Headers()): HttpClientResponse =</span>
+<span class="fc" id="L86">        send(HttpClientRequest(HEAD, path = path, body = ByteArray(0), headers = headers))</span>
 
-<span class="fc" id="L76">    fun put(</span>
-        path: String,
-<span class="fc" id="L78">        body: Any? = null,</span>
-<span class="fc" id="L79">        contentType: ContentType? = settings.contentType</span>
+<span class="fc" id="L88">    fun post(</span>
+<span class="nc" id="L89">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L90">        body: Any? = null,</span>
+<span class="fc" id="L91">        contentType: ContentType? = settings.contentType</span>
     ): HttpClientResponse =
-<span class="fc bfc" id="L81" title="All 2 branches covered.">        send(HttpClientRequest(PUT, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        send(HttpClientRequest(POST, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
 
-<span class="fc" id="L83">    fun delete(</span>
-        path: String,
-<span class="fc" id="L85">        body: Any? = null,</span>
-<span class="fc" id="L86">        contentType: ContentType? = settings.contentType</span>
+<span class="fc" id="L95">    fun put(</span>
+<span class="nc" id="L96">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L97">        body: Any? = null,</span>
+<span class="fc" id="L98">        contentType: ContentType? = settings.contentType</span>
     ): HttpClientResponse =
-<span class="fc bfc" id="L88" title="All 2 branches covered.">        send(HttpClientRequest(DELETE, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        send(HttpClientRequest(PUT, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
 
-<span class="fc" id="L90">    fun trace(</span>
-        path: String,
-<span class="fc" id="L92">        body: Any? = null,</span>
-<span class="fc" id="L93">        contentType: ContentType? = settings.contentType</span>
+<span class="fc" id="L102">    fun delete(</span>
+<span class="nc" id="L103">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L104">        body: Any? = null,</span>
+<span class="fc" id="L105">        contentType: ContentType? = settings.contentType</span>
     ): HttpClientResponse =
-<span class="fc bfc" id="L95" title="All 2 branches covered.">        send(HttpClientRequest(TRACE, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        send(HttpClientRequest(DELETE, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
 
-<span class="fc" id="L97">    fun options(</span>
-        path: String,
-<span class="fc" id="L99">        body: Any? = null,</span>
-<span class="fc" id="L100">        headers: Headers = Headers(),</span>
-<span class="fc" id="L101">        contentType: ContentType? = settings.contentType</span>
+<span class="fc" id="L109">    fun trace(</span>
+<span class="nc" id="L110">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L111">        body: Any? = null,</span>
+<span class="fc" id="L112">        contentType: ContentType? = settings.contentType</span>
     ): HttpClientResponse =
-<span class="fc" id="L103">        send(</span>
-<span class="fc" id="L104">            HttpClientRequest(</span>
-<span class="fc" id="L105">                method = OPTIONS,</span>
-<span class="fc" id="L106">                path = path,</span>
-<span class="fc bfc" id="L107" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
-<span class="fc" id="L108">                headers = headers,</span>
-<span class="fc" id="L109">                contentType = contentType</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        send(HttpClientRequest(TRACE, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
+
+<span class="fc" id="L116">    fun options(</span>
+<span class="nc" id="L117">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L118">        body: Any? = null,</span>
+<span class="fc" id="L119">        headers: Headers = Headers(),</span>
+<span class="fc" id="L120">        contentType: ContentType? = settings.contentType</span>
+    ): HttpClientResponse =
+<span class="fc" id="L122">        send(</span>
+<span class="fc" id="L123">            HttpClientRequest(</span>
+<span class="fc" id="L124">                method = OPTIONS,</span>
+<span class="fc" id="L125">                path = path,</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
+<span class="fc" id="L127">                headers = headers,</span>
+<span class="fc" id="L128">                contentType = contentType</span>
             )
-<span class="fc" id="L111">        )</span>
+<span class="fc" id="L130">        )</span>
 
-<span class="fc" id="L113">    fun patch(</span>
-        path: String,
-<span class="fc" id="L115">        body: Any? = null,</span>
-<span class="fc" id="L116">        contentType: ContentType? = settings.contentType</span>
+<span class="fc" id="L132">    fun patch(</span>
+<span class="nc" id="L133">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L134">        body: Any? = null,</span>
+<span class="fc" id="L135">        contentType: ContentType? = settings.contentType</span>
     ): HttpClientResponse =
-<span class="fc bfc" id="L118" title="All 2 branches covered.">        send(HttpClientRequest(PATCH, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
-<span class="fc" id="L119">}</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        send(HttpClientRequest(PATCH, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
+<span class="fc" id="L138">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

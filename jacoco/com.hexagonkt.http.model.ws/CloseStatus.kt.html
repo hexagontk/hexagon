@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CloseStatus.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.model.ws</a> &gt; <span class="el_source">CloseStatus.kt</span></div><h1>CloseStatus.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.model.ws
+
+<span class="fc" id="L3">enum class CloseStatus(override val code: Int) : WsCloseStatus {</span>
+    /**
+     * 1000 indicates a normal closure, meaning that the purpose for which the connection was
+     * established has been fulfilled.
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L10">    NORMAL(1000),</span>
+
+    /**
+     * 1001 indicates that an endpoint is &quot;going away&quot;, such as a server going down or a browser
+     * having navigated away from a page.
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L18">    SHUTDOWN(1001),</span>
+
+    /**
+     * 1002 indicates that an endpoint is terminating the connection due to a protocol error.
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L25">    PROTOCOL(1002),</span>
+
+    /**
+     * 1003 indicates that an endpoint is terminating the connection because it has received a type
+     * of data it cannot accept (e.g., an endpoint that understands only text data MAY send this if
+     * it receives a binary message).
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L34">    BAD_DATA(1003),</span>
+
+    /**
+     * Reserved. The specific meaning might be defined in the future.
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L41">    UNDEFINED(1004),</span>
+
+    /**
+     * 1005 is a reserved value and MUST NOT be set as a status code in a Close control frame by an
+     * endpoint. It is designated for use in applications expecting a status code to indicate that
+     * no status code was actually present.
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L50">    NO_CODE(1005),</span>
+
+    /**
+     * 1006 is a reserved value and MUST NOT be set as a status code in a Close control frame by an
+     * endpoint. It is designated for use in applications expecting a status code to indicate that
+     * the connection was closed abnormally, e.g., without sending or receiving a Close control
+     * frame.
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L60">    NO_CLOSE(1006),</span>
+
+    /**
+     * Abnormal Close is a synonym for {@link #NO_CLOSE}, used to indicate a close * condition where
+     * no close frame was processed from the remote side.
+     */
+<span class="fc" id="L66">    ABNORMAL(NO_CLOSE.code),</span>
+
+    /**
+     * 1007 indicates that an endpoint is terminating the connection because it has received data
+     * within a message that was not consistent with the type of the message (e.g., non-UTF-8
+     * [RFC3629](https://tools.ietf.org/html/rfc3629) data within a text message).
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L75">    BAD_PAYLOAD(1007),</span>
+
+    /**
+     * 1008 indicates that an endpoint is terminating the connection because it has received a
+     * message that violates its policy. This is a generic status code that can be returned when
+     * there is no other more suitable status code (e.g., 1003 or 1009) or if there is a need to
+     * hide specific details about the policy.
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L85">    POLICY_VIOLATION(1008),</span>
+
+    /**
+     * 1009 indicates that an endpoint is terminating the connection because it has received a
+     * message that is too big for it to process.
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L93">    MESSAGE_TOO_LARGE(1009),</span>
+
+    /**
+     * 1010 indicates that an endpoint (client) is terminating the connection because it has
+     * expected the server to negotiate one or more extension, but the server didn't return them in
+     * the response message of the WebSocket handshake. The list of extensions that are needed
+     * SHOULD appear in the /reason/ part of the Close frame. Note that this status code is not used
+     * by the server, because it can fail the WebSocket handshake instead.
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L104">    REQUIRED_EXTENSION(1010),</span>
+
+    /**
+     * 1011 indicates that a server is terminating the connection because it encountered an
+     * unexpected condition that prevented it from fulfilling the request.
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L112">    SERVER_ERROR(1011),</span>
+
+    /**
+     * 1012 indicates that the service is restarted. a client may reconnect, and if it chooses to
+     * do, should reconnect using a randomized delay of 5 - 30s.
+     *
+     * See [hybi Additional WebSocket Close Error Codes](https://www.ietf.org/mail-archive/web/hybi/current/msg09649.html)
+     */
+<span class="fc" id="L120">    SERVICE_RESTART(1012),</span>
+
+    /**
+     * 1013 indicates that the service is experiencing overload. a client should only connect to a
+     * different IP (when there are multiple for the target) or reconnect to the same IP upon user
+     * action.
+     *
+     * See [hybi Additional WebSocket Close Error Codes](https://www.ietf.org/mail-archive/web/hybi/current/msg09649.html)
+     */
+<span class="fc" id="L129">    TRY_AGAIN_LATER(1013),</span>
+
+    /**
+     * 1014 indicates that a gateway or proxy received and invalid upstream response.
+     *
+     * See [hybi WebSocket Subprotocol Close Code: Bad Gateway](https://www.ietf.org/mail-archive/web/hybi/current/msg10748.html)
+     */
+<span class="fc" id="L136">    INVALID_UPSTREAM_RESPONSE(1014),</span>
+
+    /**
+     * 1015 is a reserved value and MUST NOT be set as a status code in a Close control frame by an
+     * endpoint. It is designated for use in applications expecting a status code to indicate that
+     * the connection was closed due to a failure to perform a TLS handshake (e.g., the server
+     * certificate can't be verified).
+     *
+     * See [RFC 6455, Section 7.4.1 Defined Status Codes](https://tools.ietf.org/html/rfc6455#section-7.4.1).
+     */
+<span class="fc" id="L146">    FAILED_TLS_HANDSHAKE(1015);</span>
+
+    companion object {
+<span class="fc" id="L149">        private val map: Map&lt;Int, WsCloseStatus&gt; = values().associateBy { it.code }</span>
+
+        fun valueOfOrNull(code: Int): WsCloseStatus? =
+<span class="fc" id="L152">            map[code]</span>
+
+        fun valueOf(code: Int): WsCloseStatus =
+<span class="fc bfc" id="L155" title="All 2 branches covered.">            valueOfOrNull(code) ?: CustomCloseStatus(code)</span>
+
+        operator fun get(code: Int): WsCloseStatus? =
+<span class="fc" id="L158">            valueOfOrNull(code)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -3,23 +3,25 @@
 import com.hexagonkt.http.checkHeaders
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.ws.WsCloseStatus
+import com.hexagonkt.http.server.model.ws.WsServerSession
 
-<span class="fc" id="L7">data class HttpServerResponse(</span>
-<span class="fc" id="L8">    override val body: Any = &quot;&quot;,</span>
-<span class="fc" id="L9">    override val headers: Headers = Headers(),</span>
-<span class="fc" id="L10">    override val contentType: ContentType? = null,</span>
-<span class="fc" id="L11">    override val cookies: List&lt;Cookie&gt; = emptyList(),</span>
-<span class="fc" id="L12">    override val status: HttpStatus = NOT_FOUND,</span>
-<span class="pc" id="L13">    val onConnect: WsSession.() -&gt; Unit = {},</span>
-<span class="pc" id="L14">    val onBinary: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="pc" id="L15">    val onText: WsSession.(text: String) -&gt; Unit = {},</span>
-<span class="pc" id="L16">    val onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="pc" id="L17">    val onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="pc" id="L18">    val onClose: WsSession.(statusCode: Int, reason: String) -&gt; Unit = { _, _ -&gt; },</span>
+<span class="fc" id="L9">data class HttpServerResponse(</span>
+<span class="fc" id="L10">    override val body: Any = &quot;&quot;,</span>
+<span class="fc" id="L11">    override val headers: Headers = Headers(),</span>
+<span class="fc" id="L12">    override val contentType: ContentType? = null,</span>
+<span class="fc" id="L13">    override val cookies: List&lt;Cookie&gt; = emptyList(),</span>
+<span class="fc" id="L14">    override val status: HttpStatus = NOT_FOUND,</span>
+<span class="pc" id="L15">    val onConnect: WsServerSession.() -&gt; Unit = {},</span>
+<span class="pc" id="L16">    val onBinary: WsServerSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L17">    val onText: WsServerSession.(text: String) -&gt; Unit = {},</span>
+<span class="pc" id="L18">    val onPing: WsServerSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L19">    val onPong: WsServerSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L20">    val onClose: WsServerSession.(status: WsCloseStatus, reason: String) -&gt; Unit = { _, _ -&gt; },</span>
 ) : HttpResponse {
 
-<span class="fc" id="L21">    init {</span>
-<span class="fc" id="L22">        checkHeaders(headers)</span>
-<span class="fc" id="L23">    }</span>
-<span class="fc" id="L24">}</span>
+<span class="fc" id="L23">    init {</span>
+<span class="fc" id="L24">        checkHeaders(headers)</span>
+<span class="fc" id="L25">    }</span>
+<span class="fc" id="L26">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
