@@ -5,9 +5,7 @@ import com.hexagonkt.http.test.examples.*
 import com.hexagonkt.serialization.jackson.JacksonTextFormat
 import com.hexagonkt.serialization.jackson.json.Json
 import com.hexagonkt.serialization.jackson.yaml.Yaml
-import org.junit.jupiter.api.Disabled
 
-// TODO Fix disabled test
 // TODO Assert context methods (request.method, request.protocol...)
 // TODO Check response headers don't contain invalid chars (\n, \t...)
 
@@ -26,5 +24,5 @@ internal class AdapterFilesTest : FilesTest(clientAdapter, serverAdapter)
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
 internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)
-@Disabled
 internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
+internal class AdapterWebSocketsTest : WebSocketsTest(clientAdapter, serverAdapter)

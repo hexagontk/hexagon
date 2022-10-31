@@ -361,48 +361,4 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <profiles>
-    <profile>
-      <id>native</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.graalvm.buildtools</groupId>
-            <artifactId>native-maven-plugin</artifactId>
-            <version>${native.tools.version}</version>
-            <extensions>true</extensions>
-            <executions>
-              <execution>
-                <id>build-native</id>
-                <goals>
-                  <goal>build</goal>
-                </goals>
-                <phase>package</phase>
-              </execution>
-              <execution>
-                <id>test-native</id>
-                <goals>
-                  <goal>test</goal>
-                </goals>
-                <phase>test</phase>
-              </execution>
-            </executions>
-            <configuration>
-              <skipNativeTests>true</skipNativeTests>
-              <metadataRepository>
-                <enabled>true</enabled>
-              </metadataRepository>
-              <buildArgs>
-                <buildArg>--enable-http</buildArg>
-                <buildArg>--enable-https</buildArg>
-                <buildArg>--enable-url-protocols=classpath</buildArg>
-                <buildArg>--initialize-at-build-time=com.hexagonkt.core.ClasspathHandler</buildArg>
-              </buildArgs>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>

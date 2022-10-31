@@ -42,7 +42,7 @@ class JettyClientAdapter : HttpClientPort {
 
     private lateinit var jettyClient: JettyHttpClient
     private lateinit var httpClient: HttpClient
-    private val wsClient = WebSocketClient()
+    private lateinit var wsClient: WebSocketClient
     private var started: Boolean = false
 
     override fun startUp(client: HttpClient) {
@@ -54,14 +54,15 @@ class JettyClientAdapter : HttpClientPort {
 
         jettyClient.userAgentField = null // Disable default user agent header
         jettyClient.start()
+        wsClient = WebSocketClient(jettyClient)
         wsClient.start()
         started = true
     }
 
     override fun shutDown() {
         check(started) { "HTTP client *MUST BE STARTED* before shut-down" }
-        jettyClient.stop()
         wsClient.stop()
+        jettyClient.stop()
         started = false
     }
 
