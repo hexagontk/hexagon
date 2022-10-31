@@ -31,7 +31,7 @@ extensions.configure<PublishingExtension> {
             ))
 
             withXml {
-                listOf("dependencyManagement", "dependencies", "build", "profiles").forEach {
+                listOf("dependencyManagement", "dependencies", "build").forEach {
                     asElement().importElement(pomDom.firstElement(it))
                 }
             }
