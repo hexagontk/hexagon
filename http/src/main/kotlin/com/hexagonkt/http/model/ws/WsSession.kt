@@ -6,5 +6,6 @@ interface WsSession {
     fun send(data: ByteArray)
     fun send(text: String)
     fun ping(data: ByteArray)
+    fun pong(data: ByteArray)
     fun close(status: WsCloseStatus = NORMAL, reason: String = "")
 }
