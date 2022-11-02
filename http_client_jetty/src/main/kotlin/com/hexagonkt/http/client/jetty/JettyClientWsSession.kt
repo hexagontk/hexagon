@@ -23,6 +23,10 @@ class JettyClientWsSession(
         session.remote.sendPing(ByteBuffer.wrap(data))
     }
 
+    override fun pong(data: ByteArray) {
+        session.remote.sendPong(ByteBuffer.wrap(data))
+    }
+
     override fun close(status: WsCloseStatus, reason: String) {
         session.close(status.code, reason)
     }

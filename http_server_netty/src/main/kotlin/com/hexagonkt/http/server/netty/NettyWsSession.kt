@@ -6,10 +6,7 @@ import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.ws.WsServerSession
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext
-import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame
-import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame
-import io.netty.handler.codec.http.websocketx.PingWebSocketFrame
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame
+import io.netty.handler.codec.http.websocketx.*
 
 internal class NettyWsSession(
     nettyContext: ChannelHandlerContext,
@@ -35,6 +32,10 @@ internal class NettyWsSession(
 
     override fun ping(data: ByteArray) {
         channel.writeAndFlush(PingWebSocketFrame(Unpooled.wrappedBuffer(data)))
+    }
+
+    override fun pong(data: ByteArray) {
+        channel.writeAndFlush(PongWebSocketFrame(Unpooled.wrappedBuffer(data)))
     }
 
     override fun close(status: WsCloseStatus, reason: String) {
