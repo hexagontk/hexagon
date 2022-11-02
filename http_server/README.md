@@ -331,6 +331,29 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 [SslSettings.clientAuth]: /api/http/com.hexagonkt.http/-ssl-settings/client-auth.html
 [Request.certificateChain]: /api/http_server/com.hexagonkt.http.server.model/-http-server-request/certificate-chain.html
 
+# WebSockets
+A Web Socket is an HTTP(S) connection made with the GET method and the `upgrade: websocket` and
+`connection: upgrade` headers.
+
+If the server is handling HTTPS connections, the client should use
+the WSS protocol.
+
+When the server receives such a request, it is handled as any other route, and if everything is ok
+the connection is converted to a permanent full duplex socket.
+
+If the HTTP request is correct, callbacks should be supplied to handle WS events. Otherwise, if
+standard HTTP errors are returned, the connection is closed. This gives the programmer an
+opportunity to check the request format or authorization.
+
+Once the WS session is created (after checking the upgrade request is correct), the upgrade request
+data can be accessed inside the WS session.
+
+Sessions connected to the same WS endpoint can be stored to broadcast messages.
+
+Ping and pong allows to maintain connection opened.
+
+@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/WebSocketsTest.kt?ws_server
+
 # Compression
 Gzip encoding is supported on the Hexagon Toolkit, however, its implementation depends on the used
 adapter. To turn on Gzip encoding, you need to enable that feature on the server settings. Check the
@@ -372,6 +395,9 @@ Contains the HTTP handlers implementation (on top of Core's general event handle
 HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the HTTP predicate.
 
 # Package com.hexagonkt.http.server.model
+Classes to model server HTTP messages (requests and responses). Built on top of the [http] module.
+
+# Package com.hexagonkt.http.server.model.ws
 Classes to model server HTTP messages (requests and responses). Built on top of the [http] module.
 
 [http]: /http
