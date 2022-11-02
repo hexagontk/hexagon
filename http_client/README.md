@@ -75,6 +75,12 @@ or files.
 ## Files
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/FilesTest.kt?clientFile
 
+# WebSockets
+Web Sockets connections can be opened with the `ws` method on the HTTP client. It creates a WS
+session that can be used to send data and listen to events through callbacks.
+
+@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/WebSocketsTest.kt?ws_client
+
 # TLS
 The HTTP client supports server certificates (to use HTTPS and HTTP/2) and also client certificates
 (to be able to do mutual TLS). Key stores may have the JKS format (deprecated), or the newer PKCS12
@@ -111,5 +117,8 @@ This package holds the classes that define the HTTP client and its configuration
 
 # Package com.hexagonkt.http.client.model
 Classes to model client HTTP messages (requests and responses). Built on top of the [http] module.
+
+# Package com.hexagonkt.http.client.model.ws
+Model classes for client Web Sockets. Built on top of the [http] module.
 
 [http]: /http

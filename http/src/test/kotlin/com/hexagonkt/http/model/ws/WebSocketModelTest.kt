@@ -40,6 +40,7 @@ internal class WebSocketModelTest {
             override fun send(data: ByteArray) {}
             override fun send(text: String) {}
             override fun ping(data: ByteArray) {}
+            override fun pong(data: ByteArray) {}
             override fun close(status: WsCloseStatus, reason: String) {
                 assertEquals(expectedStatus, status)
                 assertEquals(expectedReason, reason)
