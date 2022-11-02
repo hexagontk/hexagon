@@ -540,6 +540,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#websockets" class="md-nav__link">
+    WebSockets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tls" class="md-nav__link">
     TLS
   </a>
@@ -583,6 +590,13 @@
         <li class="md-nav__item">
   <a href="#package-comhexagonkthttpclientmodel" class="md-nav__link">
     Package com.hexagonkt.http.client.model
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpclientmodelws" class="md-nav__link">
+    Package com.hexagonkt.http.client.model.ws
   </a>
   
 </li>
@@ -1054,6 +1068,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#websockets" class="md-nav__link">
+    WebSockets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tls" class="md-nav__link">
     TLS
   </a>
@@ -1097,6 +1118,13 @@
         <li class="md-nav__item">
   <a href="#package-comhexagonkthttpclientmodel" class="md-nav__link">
     Package com.hexagonkt.http.client.model
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpclientmodelws" class="md-nav__link">
+    Package com.hexagonkt.http.client.model.ws
   </a>
   
 </li>
@@ -1296,6 +1324,35 @@ or files.</p>
 <span class="kd">val</span><span class="w"> </span><span class="nv">parts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span><span class="n">HttpPart</span><span class="p">(</span><span class="s">&quot;file&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;index.html&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">HttpClientRequest</span><span class="p">(</span><span class="n">POST</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/file&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">parts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parts</span><span class="p">))</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
+<h2 id="websockets">WebSockets<a class="headerlink" href="#websockets" title="Permanent link">&para;</a></h2>
+<p>Web Sockets connections can be opened with the <code>ws</code> method on the HTTP client. It creates a WS
+session that can be used to send data and listen to events through callbacks.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mutableMapOf</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;&gt;</span><span class="p">()</span><span class="w"></span>
+
+<span class="kd">val</span><span class="w"> </span><span class="nv">ws</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="na">ws</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/ws/1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">onText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"></span>
+<span class="w">        </span><span class="n">synchronized</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">results</span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">results</span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="n">emptySet</span><span class="p">())</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">text</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="n">onClose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">reason</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"></span>
+<span class="w">        </span><span class="n">logger</span><span class="p">.</span><span class="na">info</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Closed with: </span><span class="si">$</span><span class="n">status</span><span class="s"> - </span><span class="si">$</span><span class="n">reason</span><span class="s">&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 <h2 id="tls">TLS<a class="headerlink" href="#tls" title="Permanent link">&para;</a></h2>
 <p>The HTTP client supports server certificates (to use HTTPS and HTTP/2) and also client certificates
 (to be able to do mutual TLS). Key stores may have the JKS format (deprecated), or the newer PKCS12
@@ -1429,6 +1486,8 @@ and client authenticated by the server). You can see a complete example below:</
 <p>This package holds the classes that define the HTTP client and its configuration settings.</p>
 <h2 id="package-comhexagonkthttpclientmodel">Package com.hexagonkt.http.client.model<a class="headerlink" href="#package-comhexagonkthttpclientmodel" title="Permanent link">&para;</a></h2>
 <p>Classes to model client HTTP messages (requests and responses). Built on top of the <a href="/http">http</a> module.</p>
+<h2 id="package-comhexagonkthttpclientmodelws">Package com.hexagonkt.http.client.model.ws<a class="headerlink" href="#package-comhexagonkthttpclientmodelws" title="Permanent link">&para;</a></h2>
+<p>Model classes for client Web Sockets. Built on top of the <a href="/http">http</a> module.</p>
 
 
   

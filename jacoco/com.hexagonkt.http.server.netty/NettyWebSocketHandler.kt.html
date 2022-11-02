@@ -28,7 +28,7 @@ import io.netty.handler.codec.http.websocketx.*
 <span class="pc bpc" id="L28" title="1 of 2 branches missed.">            is PongWebSocketFrame -&gt; session.onPong(content.retain().array())</span>
 <span class="pc bpc" id="L29" title="1 of 2 branches missed.">            is CloseWebSocketFrame -&gt; {</span>
                 // TODO Close the channel?
-<span class="nc" id="L31">                session.onClose(CloseStatus.valueOf(message.statusCode()), message.reasonText())</span>
+<span class="pc" id="L31">                session.onClose(CloseStatus.valueOf(message.statusCode()), message.reasonText())</span>
             }
 <span class="nc" id="L33">            else -&gt; error(&quot;Unsupported WebSocketFrame&quot;)</span>
         }

@@ -6,40 +6,41 @@ import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.ws.WsServerSession
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext
-import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame
-import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame
-import io.netty.handler.codec.http.websocketx.PingWebSocketFrame
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame
+import io.netty.handler.codec.http.websocketx.*
 
-<span class="fc" id="L14">internal class NettyWsSession(</span>
+<span class="fc" id="L11">internal class NettyWsSession(</span>
     nettyContext: ChannelHandlerContext,
     context: HttpServerContext,
 ) : WsServerSession {
 
-<span class="pc" id="L19">    override val attributes: Map&lt;*, *&gt; by lazy { context.attributes }</span>
-<span class="pc" id="L20">    override val request: HttpServerRequestPort by lazy { context.request }</span>
-<span class="pc" id="L21">    override val exception: Exception? by lazy { context.exception }</span>
-<span class="pc" id="L22">    override val pathParameters: Map&lt;String, String&gt; by lazy { context.pathParameters }</span>
+<span class="pc" id="L16">    override val attributes: Map&lt;*, *&gt; by lazy { context.attributes }</span>
+<span class="pc" id="L17">    override val request: HttpServerRequestPort by lazy { context.request }</span>
+<span class="pc" id="L18">    override val exception: Exception? by lazy { context.exception }</span>
+<span class="pc" id="L19">    override val pathParameters: Map&lt;String, String&gt; by lazy { context.pathParameters }</span>
 
-<span class="fc" id="L24">    private val channel = nettyContext.channel()</span>
+<span class="fc" id="L21">    private val channel = nettyContext.channel()</span>
 
     override fun send(data: ByteArray) {
-<span class="nc" id="L27">        val webSocketFrame = BinaryWebSocketFrame(Unpooled.wrappedBuffer(data))</span>
-<span class="nc" id="L28">        channel.writeAndFlush(webSocketFrame)</span>
-<span class="nc" id="L29">    }</span>
+<span class="nc" id="L24">        val webSocketFrame = BinaryWebSocketFrame(Unpooled.wrappedBuffer(data))</span>
+<span class="nc" id="L25">        channel.writeAndFlush(webSocketFrame)</span>
+<span class="nc" id="L26">    }</span>
 
     override fun send(text: String) {
-<span class="fc" id="L32">        val webSocketFrame = TextWebSocketFrame(text)</span>
-<span class="fc" id="L33">        channel.writeAndFlush(webSocketFrame)</span>
-<span class="fc" id="L34">    }</span>
+<span class="fc" id="L29">        val webSocketFrame = TextWebSocketFrame(text)</span>
+<span class="fc" id="L30">        channel.writeAndFlush(webSocketFrame)</span>
+<span class="fc" id="L31">    }</span>
 
     override fun ping(data: ByteArray) {
-<span class="nc" id="L37">        channel.writeAndFlush(PingWebSocketFrame(Unpooled.wrappedBuffer(data)))</span>
-<span class="nc" id="L38">    }</span>
+<span class="nc" id="L34">        channel.writeAndFlush(PingWebSocketFrame(Unpooled.wrappedBuffer(data)))</span>
+<span class="nc" id="L35">    }</span>
+
+    override fun pong(data: ByteArray) {
+<span class="nc" id="L38">        channel.writeAndFlush(PongWebSocketFrame(Unpooled.wrappedBuffer(data)))</span>
+<span class="nc" id="L39">    }</span>
 
     override fun close(status: WsCloseStatus, reason: String) {
-<span class="nc" id="L41">        val webSocketFrame = CloseWebSocketFrame(status.code, reason)</span>
-<span class="nc" id="L42">        channel.writeAndFlush(webSocketFrame)</span>
-<span class="nc" id="L43">    }</span>
+<span class="nc" id="L42">        val webSocketFrame = CloseWebSocketFrame(status.code, reason)</span>
+<span class="nc" id="L43">        channel.writeAndFlush(webSocketFrame)</span>
+<span class="nc" id="L44">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

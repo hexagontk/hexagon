@@ -23,8 +23,12 @@ import java.nio.ByteBuffer
 <span class="nc" id="L23">        session.remote.sendPing(ByteBuffer.wrap(data))</span>
 <span class="nc" id="L24">    }</span>
 
+    override fun pong(data: ByteArray) {
+<span class="nc" id="L27">        session.remote.sendPong(ByteBuffer.wrap(data))</span>
+<span class="nc" id="L28">    }</span>
+
     override fun close(status: WsCloseStatus, reason: String) {
-<span class="fc" id="L27">        session.close(status.code, reason)</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L31">        session.close(status.code, reason)</span>
+<span class="fc" id="L32">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

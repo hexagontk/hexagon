@@ -71,7 +71,7 @@ import java.util.concurrent.Flow.*
 <span class="fc bfc" id="L71" title="All 2 branches covered.">        val isWebSocket = connection == &quot;upgrade&quot;</span>
 <span class="pc bpc" id="L72" title="1 of 2 branches missed.">            &amp;&amp; upgrade == &quot;websocket&quot;</span>
 <span class="pc bpc" id="L73" title="1 of 2 branches missed.">            &amp;&amp; method == GET</span>
-<span class="pc bpc" id="L74" title="1 of 2 branches missed.">            &amp;&amp; status == SuccessStatus.ACCEPTED</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            &amp;&amp; status == SuccessStatus.ACCEPTED</span>
 
 <span class="fc" id="L76">        when {</span>
 <span class="fc bfc" id="L77" title="All 2 branches covered.">            isSse -&gt; handleSse(context, response, body)</span>

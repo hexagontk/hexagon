@@ -663,6 +663,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#websockets" class="md-nav__link">
+    WebSockets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#compression" class="md-nav__link">
     Compression
   </a>
@@ -720,6 +727,13 @@
         <li class="md-nav__item">
   <a href="#package-comhexagonkthttpservermodel" class="md-nav__link">
     Package com.hexagonkt.http.server.model
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpservermodelws" class="md-nav__link">
+    Package com.hexagonkt.http.server.model.ws
   </a>
   
 </li>
@@ -1342,6 +1356,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#websockets" class="md-nav__link">
+    WebSockets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#compression" class="md-nav__link">
     Compression
   </a>
@@ -1399,6 +1420,13 @@
         <li class="md-nav__item">
   <a href="#package-comhexagonkthttpservermodel" class="md-nav__link">
     Package com.hexagonkt.http.server.model
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpservermodelws" class="md-nav__link">
+    Package com.hexagonkt.http.server.model.ws
   </a>
   
 </li>
@@ -2221,6 +2249,118 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
+<h2 id="websockets">WebSockets<a class="headerlink" href="#websockets" title="Permanent link">&para;</a></h2>
+<p>A Web Socket is an HTTP(S) connection made with the GET method and the <code>upgrade: websocket</code> and
+<code>connection: upgrade</code> headers.</p>
+<p>If the server is handling HTTPS connections, the client should use
+the WSS protocol.</p>
+<p>When the server receives such a request, it is handled as any other route, and if everything is ok
+the connection is converted to a permanent full duplex socket.</p>
+<p>If the HTTP request is correct, callbacks should be supplied to handle WS events. Otherwise, if
+standard HTTP errors are returned, the connection is closed. This gives the programmer an
+opportunity to check the request format or authorization.</p>
+<p>Once the WS session is created (after checking the upgrade request is correct), the upgrade request
+data can be accessed inside the WS session.</p>
+<p>Sessions connected to the same WS endpoint can be stored to broadcast messages.</p>
+<p>Ping and pong allows to maintain connection opened.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">sessions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emptyMap</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WsSession</span><span class="o">&gt;&gt;</span><span class="p">()</span><span class="w"></span>
+
+<span class="kd">override</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">handler</span><span class="p">:</span><span class="w"> </span><span class="n">HttpHandler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">ws</span><span class="p">(</span><span class="s">&quot;/ws/{id}&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// Path parameters can also be accessed on WS handlers like `onText`</span><span class="w"></span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">idParameter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pathParameters</span><span class="p">.</span><span class="na">require</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// Request is handled like other HTTP methods, if errors, no WS connection is made</span><span class="w"></span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">idParameter</span><span class="p">.</span><span class="na">toIntOrNull</span><span class="p">()</span><span class="w"></span>
+<span class="w">            </span><span class="o">?:</span><span class="w"> </span><span class="k">return</span><span class="nd">@ws</span><span class="w"> </span><span class="n">badRequest</span><span class="p">(</span><span class="s">&quot;ID must be a number: </span><span class="si">$</span><span class="n">idParameter</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// Accepted returns the callbacks to handle WS requests</span><span class="w"></span>
+<span class="w">        </span><span class="n">accepted</span><span class="p">(</span><span class="w"></span>
+<span class="w">            </span><span class="c1">// All callbacks have their session as the receiver</span><span class="w"></span>
+<span class="w">            </span><span class="n">onConnect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sessions</span><span class="o">[</span><span class="n">id</span><span class="o">]</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="n">emptyList</span><span class="p">()</span><span class="w"></span>
+<span class="w">                </span><span class="n">sessions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sessions</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">this</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+
+<span class="w">            </span><span class="n">onBinary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bytes</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="c1">// The HTTP request data can be queried from the WS session</span><span class="w"></span>
+<span class="w">                    </span><span class="kd">val</span><span class="w"> </span><span class="nv">certificateSubject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">certificate</span><span class="p">()</span><span class="o">?.</span><span class="na">subjectX500Principal</span><span class="o">?.</span><span class="na">name</span><span class="w"></span>
+<span class="w">                    </span><span class="n">send</span><span class="p">(</span><span class="n">certificateSubject</span><span class="o">?.</span><span class="na">toByteArray</span><span class="p">()</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="n">byteArrayOf</span><span class="p">())</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+
+<span class="w">            </span><span class="n">onText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"></span>
+<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sessions</span><span class="o">[</span><span class="n">id</span><span class="o">]</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="n">emptyList</span><span class="p">()</span><span class="w"></span>
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">se</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="c1">// It is allowed to send data on previously stored sessions</span><span class="w"></span>
+<span class="w">                    </span><span class="n">s</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+
+<span class="w">            </span><span class="c1">// Ping requests helps to maintain WS sessions opened</span><span class="w"></span>
+<span class="w">            </span><span class="n">onPing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">pong</span><span class="p">(</span><span class="n">bytes</span><span class="p">)</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+
+<span class="w">            </span><span class="c1">// Pong handlers should be used to check sent pings</span><span class="w"></span>
+<span class="w">            </span><span class="n">onPong</span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">bytes</span><span class="p">)</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+
+<span class="w">            </span><span class="c1">// Callback executed when WS sessions are closed (on the server or client side)</span><span class="w"></span>
+<span class="w">            </span><span class="n">onClose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">reason</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"></span>
+<span class="w">                </span><span class="n">logger</span><span class="p">.</span><span class="na">info</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;</span><span class="si">$</span><span class="n">status</span><span class="s">: </span><span class="si">$</span><span class="n">reason</span><span class="s">&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sessions</span><span class="o">[</span><span class="n">id</span><span class="o">]</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="n">emptyList</span><span class="p">()</span><span class="w"></span>
+<span class="w">                </span><span class="n">sessions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sessions</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">this</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
 <h2 id="compression">Compression<a class="headerlink" href="#compression" title="Permanent link">&para;</a></h2>
 <p>Gzip encoding is supported on the Hexagon Toolkit, however, its implementation depends on the used
 adapter. To turn on Gzip encoding, you need to enable that feature on the server settings. Check the
@@ -2370,6 +2510,8 @@ filter, etc.).</p>
 <p>Contains the HTTP handlers implementation (on top of Core's general event handlers). It houses the
 HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the HTTP predicate.</p>
 <h2 id="package-comhexagonkthttpservermodel">Package com.hexagonkt.http.server.model<a class="headerlink" href="#package-comhexagonkthttpservermodel" title="Permanent link">&para;</a></h2>
+<p>Classes to model server HTTP messages (requests and responses). Built on top of the <a href="/http">http</a> module.</p>
+<h2 id="package-comhexagonkthttpservermodelws">Package com.hexagonkt.http.server.model.ws<a class="headerlink" href="#package-comhexagonkthttpservermodelws" title="Permanent link">&para;</a></h2>
 <p>Classes to model server HTTP messages (requests and responses). Built on top of the <a href="/http">http</a> module.</p>
 
 

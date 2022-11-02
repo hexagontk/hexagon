@@ -6,6 +6,7 @@ interface WsSession {
     fun send(data: ByteArray)
     fun send(text: String)
     fun ping(data: ByteArray)
-<span class="fc" id="L9">    fun close(status: WsCloseStatus = NORMAL, reason: String = &quot;&quot;)</span>
+    fun pong(data: ByteArray)
+<span class="fc" id="L10">    fun close(status: WsCloseStatus = NORMAL, reason: String = &quot;&quot;)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
