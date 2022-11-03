@@ -88,19 +88,8 @@ object Jvm {
      * @return Value of the searched parameter in the requested type, `null` if the parameter is not
      *   found on the JVM system properties and in OS environment variables.
      */
-    @Suppress("UNCHECKED_CAST") // All allowed types are checked at runtime
     fun <T: Any> systemSettingOrNull(type: KClass<T>, name: String): T? =
-        systemSettingRaw(name)?.let {
-            when (type) {
-                Boolean::class -> it.toBooleanStrictOrNull()
-                Int::class -> it.toIntOrNull()
-                Long::class -> it.toLongOrNull()
-                Float::class -> it.toFloatOrNull()
-                Double::class -> it.toDoubleOrNull()
-                String::class -> it
-                else -> error("Setting: '$name' has unsupported type: ${type.qualifiedName}")
-            }
-        } as? T
+        systemSettingRaw(name).let { it.toOrNull(type) }
 
     fun <T: Any> systemSetting(type: KClass<T>, name: String): T =
         systemSettingOrNull(type, name)
