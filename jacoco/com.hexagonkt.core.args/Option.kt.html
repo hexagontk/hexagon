@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Option.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.args</a> &gt; <span class="el_source">Option.kt</span></div><h1>Option.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.args
 
+import com.hexagonkt.core.allowedTargetTypes
 import kotlin.reflect.KClass
 
 // TODO Use 'group' to group similar options:
 //   val group: String? = null,
-<span class="fc" id="L7">data class Option&lt;T : Any&gt;(</span>
-<span class="fc" id="L8">    val shortName: Char,</span>
-<span class="fc" id="L9">    val longName: String? = null,</span>
+<span class="fc" id="L8">data class Option&lt;T : Any&gt;(</span>
+<span class="fc" id="L9">    val shortName: Char,</span>
 <span class="fc" id="L10">    val type: KClass&lt;T&gt;,</span>
-<span class="pc" id="L11">    val description: String? = null,</span>
-<span class="pc" id="L12">    val optional: Boolean = true,</span>
-<span class="pc" id="L13">    val defaultValue: T? = null,</span>
-<span class="fc" id="L14">)</span>
+<span class="fc" id="L11">    val longName: String? = null,</span>
+<span class="pc" id="L12">    val description: String? = null,</span>
+<span class="pc" id="L13">    val optional: Boolean = true,</span>
+<span class="pc" id="L14">    val defaultValue: T? = null,</span>
+) {
+<span class="fc" id="L16">    init {</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        require(shortName.isLetterOrDigit()) {</span>
+<span class="fc" id="L18">            &quot;Short name must be a letter or a digit: $shortName&quot;</span>
+        }
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        require(type in allowedTargetTypes) {</span>
+<span class="fc" id="L21">            &quot;Type $type not in allowed types: $allowedTargetTypes&quot;</span>
+        }
+<span class="pc bpc" id="L23" title="1 of 8 branches missed.">        require((longName?.trim()?.length ?: 2) &gt; 1) {</span>
+<span class="fc" id="L24">            &quot;Long name must be at least two characters: $longName&quot;</span>
+        }
+<span class="pc bpc" id="L26" title="1 of 6 branches missed.">        require(description?.isNotBlank() ?: true) {</span>
+<span class="fc" id="L27">            &quot;Description cannot be blank&quot;</span>
+        }
+<span class="fc" id="L29">    }</span>
+<span class="fc" id="L30">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
