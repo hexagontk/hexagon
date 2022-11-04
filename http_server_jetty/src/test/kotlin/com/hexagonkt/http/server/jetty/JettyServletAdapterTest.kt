@@ -7,11 +7,26 @@ import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.handlers.path
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.EnabledForJreRange
+import org.junit.jupiter.api.condition.JRE.JAVA_17
+import org.junit.jupiter.api.condition.JRE.JAVA_19
 import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 internal class JettyServletAdapterTest {
+
+    @Test
+    @EnabledForJreRange(min = JAVA_19)
+    fun `Virtual threads can be enabled`() {
+        JettyServletAdapter(useVirtualThreads = true)
+    }
+
+    @Test
+    @EnabledForJreRange(max = JAVA_17)
+    fun `Virtual threads are disabled`() {
+        assertFailsWith<IllegalStateException> { JettyServletAdapter(useVirtualThreads = true) }
+    }
 
     @Test fun `Stop method works if called before running`() {
         val adapter = JettyServletAdapter()
