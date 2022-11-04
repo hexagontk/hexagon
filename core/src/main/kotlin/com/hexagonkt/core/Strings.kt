@@ -3,9 +3,13 @@ package com.hexagonkt.core
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.lang.System.getProperty
+import java.net.InetAddress
+import java.net.URI
+import java.net.URL
 import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
 import java.util.*
+import kotlin.reflect.KClass
 
 private const val VARIABLE_PREFIX = "{{"
 private const val VARIABLE_SUFFIX = "}}"
@@ -15,6 +19,18 @@ private val base64Decoder: Base64.Decoder = Base64.getDecoder()
 
 /** Runtime specific end of line. */
 val eol: String by lazy { getProperty("line.separator") }
+
+internal val allowedTargetTypes: Set<KClass<*>> = setOf(
+    Boolean::class,
+    Int::class,
+    Long::class,
+    Float::class,
+    Double::class,
+    String::class,
+    InetAddress::class,
+    URL::class,
+    URI::class,
+)
 
 /**
  * Encode the content of this byteArray to base64.
@@ -91,6 +107,31 @@ fun String.filter(prefix: String, suffix: String, vararg parameters: Pair<String
     parameters.fold(this) { result, (first, second) ->
         result.replace(prefix + first + suffix, second.toString())
     }
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param T .
+ * @param type .
+ * @return .
+ */
+@Suppress("UNCHECKED_CAST") // All allowed types are checked at runtime
+fun <T : Any> String?.toOrNull(type: KClass<T>): T? =
+    this?.let {
+        when (type) {
+            Boolean::class -> this.toBooleanStrictOrNull()
+            Int::class -> this.toIntOrNull()
+            Long::class -> this.toLongOrNull()
+            Float::class -> this.toFloatOrNull()
+            Double::class -> this.toDoubleOrNull()
+            String::class -> this
+            InetAddress::class -> this.let(InetAddress::getByName)
+            URL::class -> this.let(::URL)
+            URI::class -> this.let(::URI)
+            else -> error("Unsupported type: ${type.qualifiedName}")
+        }
+    } as? T
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).

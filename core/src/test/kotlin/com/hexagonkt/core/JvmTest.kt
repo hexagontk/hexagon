@@ -3,6 +3,8 @@ package com.hexagonkt.core
 import org.junit.jupiter.api.Test
 import java.lang.IllegalArgumentException
 import java.net.Inet4Address
+import java.net.URI
+import java.net.URL
 import kotlin.test.*
 
 internal class JvmTest {
@@ -57,11 +59,17 @@ internal class JvmTest {
         System.setProperty("validLong", 456L.toString())
         System.setProperty("validFloat", 0.5F.toString())
         System.setProperty("validDouble", 1.5.toString())
+        System.setProperty("validInetAddress", loopbackInterface.hostName)
+        System.setProperty("validURL", URL("http://localhost:1234/path").toString())
+        System.setProperty("validURI", URI("ws://localhost:1234/path").toString())
         System.setProperty("invalidBoolean", "_")
         System.setProperty("invalidInt", "_")
         System.setProperty("invalidLong", "_")
         System.setProperty("invalidFloat", "_")
         System.setProperty("invalidDouble", "_")
+        System.setProperty("invalidInetAddress", "_")
+        System.setProperty("invalidURL", "_")
+        System.setProperty("invalidURI", "_")
         System.setProperty("string", "text")
         System.setProperty("error", "value")
 
@@ -70,18 +78,27 @@ internal class JvmTest {
         assertEquals(456L, Jvm.systemSetting("validLong"))
         assertEquals(0.5F, Jvm.systemSetting("validFloat"))
         assertEquals(1.5, Jvm.systemSetting("validDouble"))
+        assertEquals(loopbackInterface, Jvm.systemSetting("validInetAddress"))
+        assertEquals(URL("http://localhost:1234/path"), Jvm.systemSetting("validURL"))
+        assertEquals(URI("ws://localhost:1234/path"), Jvm.systemSetting("validURI"))
 
         assertNull(Jvm.systemSettingOrNull<Int>("invalidInt"))
         assertNull(Jvm.systemSettingOrNull<Long>("invalidLong"))
         assertNull(Jvm.systemSettingOrNull<Float>("invalidFloat"))
         assertNull(Jvm.systemSettingOrNull<Double>("invalidDouble"))
         assertNull(Jvm.systemSettingOrNull<Boolean>("invalidBoolean"))
+        assertNull(Jvm.systemSettingOrNull<Boolean>("invalidInetAddress"))
+        assertNull(Jvm.systemSettingOrNull<Boolean>("invalidURL"))
+        assertNull(Jvm.systemSettingOrNull<Boolean>("invalidURI"))
 
         assertEquals("text", Jvm.systemSetting("string"))
 
+        assertEquals(true, Jvm.systemSetting(Boolean::class, "validBoolean"))
+        assertNull(Jvm.systemSettingOrNull(Boolean::class, "invalidBoolean"))
+
         val type = System::class
         val e = assertFailsWith<IllegalStateException> { Jvm.systemSettingOrNull<System>("error") }
-        assertEquals("Setting: 'error' has unsupported type: ${type.qualifiedName}", e.message)
+        assertEquals("Unsupported type: ${type.qualifiedName}", e.message)
     }
 
     @Test fun `Default charset is fetched correctly`() {
