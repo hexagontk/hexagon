@@ -3,12 +3,29 @@ package com.hexagonkt.core
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
-import kotlin.test.assertContentEquals
-import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
+import java.lang.IllegalArgumentException
+import kotlin.test.*
 import kotlin.text.prependIndent
 
 internal class StringsTest {
+
+    enum class Size { S, M, L, X_L }
+
+    @Test fun `Strings can be converted to enum values`() {
+        assertEquals(Size.S, "s".toEnum(Size::valueOf))
+        assertEquals(Size.S, "S".toEnum(Size::valueOf))
+        assertEquals(Size.X_L, "x l".toEnum(Size::valueOf))
+        assertEquals(Size.X_L, "X L".toEnum(Size::valueOf))
+        assertEquals(Size.X_L, "X_L".toEnum(Size::valueOf))
+
+        val e = assertFailsWith<IllegalArgumentException> {
+            assertEquals(Size.M, "z".toEnum(Size::valueOf))
+        }
+        assertEquals("No enum constant com.hexagonkt.core.StringsTest.Size.Z", e.message)
+
+        assertEquals(Size.S, "s".toEnumOrNull(Size::valueOf))
+        assertNull("z".toEnumOrNull(Size::valueOf))
+    }
 
     @Test fun `Find groups takes care of 'nulls'`() {
         val reEmpty = mockk<Regex>()

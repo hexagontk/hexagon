@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server.jetty
 
+import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.fieldsMapOf
 import com.hexagonkt.http.model.HttpProtocol
@@ -25,6 +26,7 @@ import org.eclipse.jetty.util.thread.QueuedThreadPool
 import java.security.KeyStore
 import java.util.EnumSet
 import jakarta.servlet.DispatcherType
+import org.eclipse.jetty.util.VirtualThreads
 import org.eclipse.jetty.server.Server as JettyServer
 
 /**
@@ -40,8 +42,9 @@ class JettyServletAdapter(
     private val sendDateHeader: Boolean = false,
     private val sendServerVersion: Boolean = false,
     private val sendXPoweredBy: Boolean = false,
-
+    private val useVirtualThreads: Boolean = false,
 ) : HttpServerPort {
+
     private var jettyServer: JettyServer? = null
 
     constructor() : this(
@@ -54,7 +57,16 @@ class JettyServletAdapter(
         sendDateHeader = false,
         sendServerVersion = false,
         sendXPoweredBy = false,
+        useVirtualThreads = false,
     )
+
+    init {
+        if (useVirtualThreads)
+            check(VirtualThreads.areSupported()) {
+                val jvm = "JVM: ${Jvm.version}"
+                "Virtual threads not supported or not enabled (--enable-preview) $jvm"
+            }
+    }
 
     override fun runtimePort(): Int =
         ((jettyServer?.connectors?.get(0) ?: fail) as ServerConnector).localPort
@@ -64,7 +76,9 @@ class JettyServletAdapter(
 
     override fun startUp(server: HttpServer) {
         val settings = server.settings
-        val serverInstance = JettyServer(QueuedThreadPool(maxThreads, minThreads))
+        val threadPool = QueuedThreadPool(maxThreads, minThreads)
+        threadPool.isUseVirtualThreads = useVirtualThreads
+        val serverInstance = JettyServer(threadPool)
         jettyServer = serverInstance
 
         val pathHandler: PathHandler = path(settings.contextPath, server.handlers)
@@ -115,6 +129,7 @@ class JettyServletAdapter(
             JettyServletAdapter::sendDateHeader to sendDateHeader,
             JettyServletAdapter::sendServerVersion to sendServerVersion,
             JettyServletAdapter::sendXPoweredBy to sendXPoweredBy,
+            JettyServletAdapter::useVirtualThreads to useVirtualThreads,
         )
 
     private fun createServerContext(settings: HttpServerSettings): ServletContextHandler {
@@ -145,7 +160,7 @@ class JettyServletAdapter(
             val keyStoreStream = keyStore.openStream()
             sslContextFactory.keyStore = KeyStore.getInstance("pkcs12")
             sslContextFactory.keyStore.load(keyStoreStream, keyStorePassword.toCharArray())
-            sslContextFactory.setKeyStorePassword(keyStorePassword)
+            sslContextFactory.keyStorePassword = keyStorePassword
         }
 
         val trustStore = sslSettings.trustStore
