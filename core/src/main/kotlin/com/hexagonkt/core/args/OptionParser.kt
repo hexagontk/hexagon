@@ -1,17 +1,15 @@
 package com.hexagonkt.core.args
 
+import com.hexagonkt.core.toOrNull
+
 object OptionParser {
 
     private const val LONG_NAME = "--[a-z]+-?[a-z]+=?[a-zA-Z\\d.]*"
     private const val SHORT_NAME = "-[a-z]+"
 
     private val PARAMETER_REGEX = Regex("$LONG_NAME|$SHORT_NAME")
-    private val SUPPORTED_TYPES = listOf(String::class, Boolean::class, Double::class, Int::class)
-    private const val BOOLEAN = "kotlin.Boolean"
 
     fun parse(options: List<Option<*>>, args: Array<String>): Map<Option<*>, *> {
-
-        check(!hasUnsupportedParameters(options)) { "UnsupportedArgumentTypeException" }
 
         val result = mutableMapOf<Option<*>, Any>()
 
@@ -29,8 +27,8 @@ object OptionParser {
                     ?: error("InvalidOptionException")
 
                 result[option] = when {
-                    split.size > 1 -> resolveParamValue(split[1], option)
-                    option.type.qualifiedName == BOOLEAN -> true
+                    split.size > 1 -> split[1].toOrNull(option.type) ?: error("Null not allowed")
+                    option.type == Boolean::class -> true
                     else -> error("OptionNeedsAValueException")
                 }
             } else {
@@ -45,11 +43,8 @@ object OptionParser {
         return result
     }
 
-    private fun hasUnsupportedParameters(options: List<Option<*>>): Boolean {
-        return options.any { !SUPPORTED_TYPES.contains(it.type) }
-    }
-
-    private fun isOption(arg: String) = arg.startsWith("-") || arg.startsWith("--")
+    private fun isOption(arg: String) =
+        arg.startsWith("-") || arg.startsWith("--")
 
     private fun removePrefixedDashes(arg: String): String {
         var result = arg
@@ -58,15 +53,5 @@ object OptionParser {
         }
 
         return result
-    }
-
-    private fun resolveParamValue(arg: String, option: Option<*>): Any {
-        return when (option.type.qualifiedName) {
-            BOOLEAN -> arg.toBoolean()
-            "kotlin.Double" -> arg.toDouble()
-            "kotlin.Int" -> arg.toInt()
-            "kotlin.String" -> arg
-            else -> error("not supported type")
-        }
     }
 }
