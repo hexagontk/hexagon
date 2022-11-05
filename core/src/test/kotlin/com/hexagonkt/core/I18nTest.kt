@@ -58,7 +58,9 @@ internal class I18nTest {
     @Test fun `Locales are parsed correctly`() {
         assertEquals(localeOf("es", "ES"), parseLocale("es_ES"))
         assertEquals(languageOf("fr"), parseLocale("fr"))
+        assertEquals(languageOf("fr"), parseLocale("fr_"))
         assertEquals(countryOf("US"), parseLocale("_US"))
+        assertEquals(countryOf("US"), parseLocale("US"))
 
         assertFailsWith<IllegalArgumentException> { parseLocale("") }
         assertFailsWith<IllegalArgumentException> { parseLocale("_") }
@@ -67,10 +69,13 @@ internal class I18nTest {
         assertFailsWith<IllegalArgumentException> { parseLocale("es _ES") }
         assertFailsWith<IllegalArgumentException> { parseLocale("es_ ES") }
         assertFailsWith<IllegalArgumentException> { parseLocale(" fr_FR ") }
+        assertFailsWith<IllegalArgumentException> { parseLocale("en_fr_FR ") }
 
         assertEquals(localeOf("en", "GB"), parseLocaleOrNull("en_GB"))
         assertEquals(languageOf("it"), parseLocaleOrNull("it"))
+        assertEquals(languageOf("it"), parseLocaleOrNull("it_"))
         assertEquals(countryOf("DE"), parseLocaleOrNull("_DE"))
+        assertEquals(countryOf("DE"), parseLocaleOrNull("DE"))
 
         assertNull(parseLocaleOrNull(""))
         assertNull(parseLocaleOrNull("_"))
