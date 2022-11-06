@@ -1,12 +1,11 @@
 package com.hexagonkt.core
 
 import org.junit.jupiter.api.Test
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.*
+import java.time.Month.*
 import java.util.Calendar
 import java.util.Calendar.MILLISECOND
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import java.time.LocalDateTime.of as dateTime
 
@@ -51,5 +50,23 @@ internal class DatesTest {
         assertFailsWith<IllegalArgumentException> { (-1L).toLocalDateTime() }
         assertFailsWith<IllegalArgumentException> { (-1).toLocalDate() }
         assertFailsWith<IllegalArgumentException> { (-1).toLocalTime() }
+    }
+
+    @Test fun `Parse periods work with not standard input`() {
+        assertEquals(Period.parse("P1Y1W1D"), parsePeriod("P1Y1W1D"))
+        assertEquals(Period.parse("P1Y1W1D"), parsePeriod("p1y1w1d"))
+        assertEquals(Period.parse("P1Y1W1D"), parsePeriod("1y1w1d"))
+        assertEquals(Period.parse("P1Y1W1D"), parsePeriod("1y 1w 1d"))
+        assertEquals(Period.parse("P1Y1W1D"), parsePeriod("1y,1w,1d"))
+        assertEquals(Period.parse("P1Y1W1D"), parsePeriod("1y-1w-1d"))
+        assertEquals(Period.parse("P1Y1W1D"), parsePeriod("1y, 1w, 1d"))
+    }
+
+    @Test fun `parseLocalDate can handle years and years months assuming some defaults`() {
+        assertEquals(LocalDate.of(1995, JANUARY, 1), parseLocalDate("1995"))
+        assertEquals(LocalDate.of(1995, JANUARY, 1), parseLocalDate("1995-01"))
+        assertEquals(LocalDate.of(1995, JANUARY, 1), parseLocalDate("1995-01-01"))
+        assertEquals(LocalDate.of(1996, FEBRUARY, 1), parseLocalDate("1996-02"))
+        assertEquals(LocalDate.of(1996, MARCH, 4), parseLocalDate("1996-03-04"))
     }
 }
