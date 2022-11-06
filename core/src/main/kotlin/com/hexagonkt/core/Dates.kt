@@ -142,3 +142,32 @@ fun Date.toLocalDateTime(): LocalDateTime =
  */
 fun Date.toLocalDate(): LocalDate =
     this.toLocalDateTime().toLocalDate()
+
+/**
+ * Parse a time period allowing a more relaxed format: with spaces, hyphens or commas, lowercase
+ * characters and not forcing the text to start with 'P'.
+ *
+ * @param text Text to be parsed to a time period.
+ * @return Time period parsed from the supplied text.
+ */
+fun parsePeriod(text: String): Period =
+    text.replace(",", "").replace("-", "").replace(" ", "").uppercase().let {
+        Period.parse(
+            if (it.startsWith("P")) it
+            else "P$it"
+        )
+    }
+
+/**
+ * Parse a local date allowing only to specify the year or the year and the month. Missing month and
+ * day will be defaulted to january and one respectively.
+ *
+ * @param text Text to be parsed to a local date.
+ * @return Local date parsed from the supplied text.
+ */
+fun parseLocalDate(text: String): LocalDate =
+    when (text.length) {
+        4 -> Year.parse(text).atMonth(1).atDay(1)
+        7 -> YearMonth.parse(text).atDay(1)
+        else -> LocalDate.parse(text)
+    }
