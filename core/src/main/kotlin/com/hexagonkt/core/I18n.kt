@@ -95,7 +95,14 @@ fun countryOfOrNull(country: String): Locale? =
 fun parseLocale(languageCountry: String): Locale =
     languageCountry
         .split("_")
-        .let { localeOf(it.getOrElse(0) { "" }, it.getOrElse(1) { "" }) }
+        .let {
+            when {
+                it.size == 1 && it[0].all { c -> c.isUpperCase() } -> countryOf(it[0])
+                it.size == 1 -> languageOf(it[0])
+                it.size == 2 -> localeOf(it[0], it[1])
+                else -> throw IllegalArgumentException("Invalid locale format: $languageCountry")
+            }
+        }
 
 fun parseLocaleOrNull(languageCountry: String): Locale? =
     try {
