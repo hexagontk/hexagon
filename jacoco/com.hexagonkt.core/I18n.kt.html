@@ -95,13 +95,20 @@ fun countryOfOrNull(country: String): Locale? =
 fun parseLocale(languageCountry: String): Locale =
 <span class="fc" id="L96">    languageCountry</span>
 <span class="fc" id="L97">        .split(&quot;_&quot;)</span>
-<span class="pc bpc" id="L98" title="1 of 4 branches missed.">        .let { localeOf(it.getOrElse(0) { &quot;&quot; }, it.getOrElse(1) { &quot;&quot; }) }</span>
+<span class="fc" id="L98">        .let {</span>
+<span class="fc" id="L99">            when {</span>
+<span class="fc bfc" id="L100" title="All 4 branches covered.">                it.size == 1 &amp;&amp; it[0].all { c -&gt; c.isUpperCase() } -&gt; countryOf(it[0])</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">                it.size == 1 -&gt; languageOf(it[0])</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">                it.size == 2 -&gt; localeOf(it[0], it[1])</span>
+<span class="fc" id="L103">                else -&gt; throw IllegalArgumentException(&quot;Invalid locale format: $languageCountry&quot;)</span>
+            }
+<span class="fc" id="L105">        }</span>
 
 fun parseLocaleOrNull(languageCountry: String): Locale? =
-<span class="fc" id="L101">    try {</span>
-<span class="fc" id="L102">        parseLocale(languageCountry)</span>
+<span class="fc" id="L108">    try {</span>
+<span class="fc" id="L109">        parseLocale(languageCountry)</span>
     }
-<span class="fc" id="L104">    catch (_: IllegalArgumentException) {</span>
-<span class="fc" id="L105">        null</span>
-<span class="fc" id="L106">    }</span>
+<span class="fc" id="L111">    catch (_: IllegalArgumentException) {</span>
+<span class="fc" id="L112">        null</span>
+<span class="fc" id="L113">    }</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

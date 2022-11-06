@@ -142,4 +142,33 @@ fun Date.toLocalDateTime(): LocalDateTime =
  */
 fun Date.toLocalDate(): LocalDate =
 <span class="fc" id="L144">    this.toLocalDateTime().toLocalDate()</span>
+
+/**
+ * Parse a time period allowing a more relaxed format: with spaces, hyphens or commas, lowercase
+ * characters and not forcing the text to start with 'P'.
+ *
+ * @param text Text to be parsed to a time period.
+ * @return Time period parsed from the supplied text.
+ */
+fun parsePeriod(text: String): Period =
+<span class="fc" id="L154">    text.replace(&quot;,&quot;, &quot;&quot;).replace(&quot;-&quot;, &quot;&quot;).replace(&quot; &quot;, &quot;&quot;).uppercase().let {</span>
+<span class="fc" id="L155">        Period.parse(</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">            if (it.startsWith(&quot;P&quot;)) it</span>
+<span class="fc" id="L157">            else &quot;P$it&quot;</span>
+        )
+<span class="fc" id="L159">    }</span>
+
+/**
+ * Parse a local date allowing only to specify the year or the year and the month. Missing month and
+ * day will be defaulted to january and one respectively.
+ *
+ * @param text Text to be parsed to a local date.
+ * @return Local date parsed from the supplied text.
+ */
+fun parseLocalDate(text: String): LocalDate =
+<span class="fc bfc" id="L169" title="All 3 branches covered.">    when (text.length) {</span>
+<span class="fc" id="L170">        4 -&gt; Year.parse(text).atMonth(1).atDay(1)</span>
+<span class="fc" id="L171">        7 -&gt; YearMonth.parse(text).atDay(1)</span>
+<span class="fc" id="L172">        else -&gt; LocalDate.parse(text)</span>
+<span class="fc" id="L173">    }</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

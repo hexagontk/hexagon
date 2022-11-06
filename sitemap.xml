@@ -2,147 +2,147 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://hexagonkt.com/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/core/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/gradle/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/help/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/http/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/http_client/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/http_client_jetty/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/http_server/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/http_server_jetty/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/http_server_netty/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/http_server_netty_epoll/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/http_server_servlet/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/http_test/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/logging_logback/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/logging_slf4j_jul/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/maven/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/planning/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/quick_start/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/serialization/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/site/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/starters/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/templates/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/templates_freemarker/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/templates_pebble/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/examples/example_projects/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/examples/http_client_examples/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/examples/http_server_examples/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/examples/templates_examples/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hexagonkt.com/guides/mtls/</loc>
-         <lastmod>2022-11-04</lastmod>
+         <lastmod>2022-11-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
