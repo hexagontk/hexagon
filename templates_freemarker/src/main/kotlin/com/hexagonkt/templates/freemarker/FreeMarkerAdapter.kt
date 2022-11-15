@@ -12,7 +12,7 @@ import java.io.StringWriter
 import java.net.URL
 import java.util.*
 
-object FreeMarkerAdapter : TemplatePort {
+class FreeMarkerAdapter : TemplatePort {
 
     override fun render(url: URL, context: Map<String, *>, locale: Locale): String {
         val configuration = Configuration(Version("2.3.31")).apply {
