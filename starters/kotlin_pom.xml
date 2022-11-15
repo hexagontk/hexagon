@@ -385,6 +385,12 @@
             <metadataRepository>
               <enabled>true</enabled>
             </metadataRepository>
+            <agent>
+              <enabled>true</enabled>
+            </agent>
+            <configFiles>
+              <configFile>${project.build.directory}/native/agent-output/test</configFile>
+            </configFiles>
             <buildArgs>
               <buildArg>--enable-http</buildArg>
               <buildArg>--enable-https</buildArg>

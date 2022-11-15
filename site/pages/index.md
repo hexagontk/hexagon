@@ -128,9 +128,10 @@ toolkit.
 # Architecture
 How Hexagon fits in your architecture in a picture.
 
-!!! Note
-    Using this toolkit won't make your application compliant with Hexagonal Architecture (by its
-    nature, no tool can do that), you have to provide a layer of abstraction by yourself.
+> ✏️ **Note**
+>
+> <sup>Using this toolkit won't make your application compliant with Hexagonal Architecture (by its
+> nature, no tool can do that), you have to provide a layer of abstraction by yourself.</sup>
 
 ![architecture](/img/architecture.svg)
 

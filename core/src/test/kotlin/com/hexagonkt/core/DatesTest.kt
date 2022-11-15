@@ -58,8 +58,26 @@ internal class DatesTest {
         assertEquals(Period.parse("P1Y1W1D"), parsePeriod("1y1w1d"))
         assertEquals(Period.parse("P1Y1W1D"), parsePeriod("1y 1w 1d"))
         assertEquals(Period.parse("P1Y1W1D"), parsePeriod("1y,1w,1d"))
-        assertEquals(Period.parse("P1Y1W1D"), parsePeriod("1y-1w-1d"))
+        assertEquals(Period.parse("P1Y-1W-1D"), parsePeriod("1y-1w-1d"))
         assertEquals(Period.parse("P1Y1W1D"), parsePeriod("1y, 1w, 1d"))
+    }
+
+    @Test fun `Parse durations work with not standard input`() {
+        assertEquals(Duration.parse("P1D"), parseDuration("P1D"))
+        assertEquals(Duration.parse("P2D"), parseDuration("p2d"))
+        assertEquals(Duration.parse("P3D"), parseDuration("3d"))
+        assertEquals(Duration.parse("P-4D"), parseDuration("-4d"))
+
+        assertEquals(Duration.parse("P1DT2H"), parseDuration("P1DT2H"))
+        assertEquals(Duration.parse("P1DT2H"), parseDuration("p1dt2h"))
+        assertEquals(Duration.parse("P1DT2H"), parseDuration("1dt2h"))
+        assertEquals(Duration.parse("P1DT2H"), parseDuration("1d t 2h"))
+
+        assertEquals(Duration.parse("P1DT3M"), parseDuration("1d t 3M"))
+        assertEquals(Duration.parse("P1DT3M"), parseDuration("1d T 3m"))
+        assertEquals(Duration.parse("P-1DT4.5S"), parseDuration("-1dT4.5S"))
+        assertEquals(Duration.parse("P1DT6H7M8S"), parseDuration("1d t 6h7m8s"))
+        assertEquals(Duration.parse("PT6H7M8S"), parseDuration("T 6H 7m,8S"))
     }
 
     @Test fun `parseLocalDate can handle years and years months assuming some defaults`() {
