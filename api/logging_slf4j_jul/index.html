@@ -35,7 +35,7 @@
     <div class="library-name">
 <a href="../index.html">
 <span>hexagon</span>            </a>    </div>
-    <div>2.2.3
+    <div>2.2.4
     </div>
     <div class="pull-right d-flex">
         <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
@@ -61,7 +61,7 @@ implementation("com.hexagonkt:logging_slf4j_jul:$hexagonVersion")
   logging_slf4j_jul
   $hexagonVersion
 
-```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">!!! Info     The above adapter bridge other logging libraries that may be used by other third party     libraries you use (if you want to disable this behaviour, you need to explicitly exclude     bridging libraries).</p><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><blockquote class="quotation"><p class="paragraph">ℹ️ <strong>Info</strong></p><p class="paragraph"><sup>The above adapter bridge other logging libraries that may be used by other third party libraries you use (if you want to disable this behaviour, you need to explicitly exclude bridging libraries).</sup></p></blockquote><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
 // Bridges
 runtimeOnly("org.slf4j:jcl-over-slf4j:1.7.30")
 runtimeOnly("org.slf4j:log4j-over-slf4j:1.7.30")
