@@ -35,9 +35,10 @@ a project from scratch following these steps:
 
 5. Run the service and view the results at: [http://localhost:2010/hello][Endpoint]
 
-!!! Tip
-    If you use Gradle, you can use the [Application Helper] and run the application watching for
-    changes with the command: `./gradlew watch -t`
+> 🔥 **Tip**
+>
+> <sup>If you use Gradle, you can use the [Application Helper] and run the application watching for
+> changes with the command: `./gradlew watch -t`</sup>
 
 [Application Helper]: /gradle/#application
 

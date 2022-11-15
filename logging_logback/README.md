@@ -26,10 +26,11 @@ Contains the logger adapter for the [Logback] logging library.
     </dependency>
     ```
 
-!!! Info
-    The above adapter bridge other logging libraries that may be used by other third party
-    libraries you use (if you want to disable this behaviour, you need to explicitly exclude
-    bridging libraries).
+> ℹ️ **Info**
+>
+> <sup>The above adapter bridge other logging libraries that may be used by other third party
+> libraries you use (if you want to disable this behaviour, you need to explicitly exclude bridging
+> libraries).</sup>
 
 === "build.gradle"
 
