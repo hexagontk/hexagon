@@ -11,19 +11,8 @@ import java.util.Locale
 object TemplateManager {
 
     var adapters: Map<Regex, TemplatePort> = emptyMap()
-        set(value) {
-            field = value
-            defaultAdapter =
-                if (value.size == 1) {
-                    val first = value.entries.first()
-                    if (first.key.pattern == ".*") first.value else null
-                }
-                else {
-                    null
-                }
-        }
 
-    private var defaultAdapter: TemplatePort? = null
+    var defaultAdapter: TemplatePort? = null
 
     /**
      * Render a template with a registered template engine.
@@ -41,9 +30,9 @@ object TemplateManager {
     }
 
     private fun findAdapter(url: URL): TemplatePort =
-        defaultAdapter
-            ?: adapters
-                .filter { it.key.matches(url.toString()) }
-                .firstNotNullOfOrNull { it.value  }
-                ?: error("No adapter found for resource: $url")
+        adapters
+            .filter { it.key.matches(url.toString()) }
+            .firstNotNullOfOrNull { it.value  }
+            ?: defaultAdapter
+            ?: error("No adapter found for resource: $url")
 }
