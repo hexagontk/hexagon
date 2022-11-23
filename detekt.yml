@@ -132,7 +132,7 @@ potential-bugs:
     active: true
   IgnoredReturnValue:
     active: true
-    restrictToAnnotatedMethods: true
+    restrictToConfig: true
   ImplicitUnitReturnType:
     active: true
     allowExplicitReturnType: true
@@ -172,7 +172,7 @@ style:
   FunctionOnlyReturningConstant:
     active: true
     ignoreOverridableFunction: true
-    excludedFunctions: 'describeContents'
+    excludedFunctions: ['describeContents']
     ignoreAnnotated: ['dagger.Provides']
   MagicNumber:
     active: true
@@ -208,7 +208,7 @@ style:
   ReturnCount:
     active: true
     max: 2
-    excludedFunctions: 'equals'
+    excludedFunctions: ['equals']
     excludeLabeled: false
     excludeReturnFromLambda: true
     excludeGuardClauses: false

@@ -13,6 +13,7 @@ runs:
     - name: Install ImageMagick
       shell: bash
       run: |
+        sudo apt-get install fuse
         sudo apt-get install librsvg2-bin
         mkdir -p ~/.local/bin
         export MAGICK="https://download.imagemagick.org/ImageMagick/download/binaries/magick"
