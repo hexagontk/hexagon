@@ -11,6 +11,8 @@ interface HttpClientPort {
 
     fun shutDown()
 
+    fun started(): Boolean
+
     fun send(request: HttpClientRequest): HttpClientResponse
 
     fun ws(

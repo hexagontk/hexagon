@@ -1,6 +1,5 @@
 package com.hexagonkt.http.test
 
-import com.hexagonkt.core.fail
 import com.hexagonkt.core.media.ApplicationMedia.JSON
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.client.HttpClient
@@ -18,24 +17,28 @@ data class Http(
     val contentType: ContentType? = ContentType(JSON),
     val headers: Map<String, *> = emptyMap<String, Any>(),
     val sslSettings: SslSettings? = SslSettings(),
+    val block: (Http.() -> Unit)? = null,
 ) {
 
     private val settings =
         HttpClientSettings(
             contentType = contentType,
             useCookies = true,
-            headers = toMultiMap(headers),
+            headers = toHeaders(headers),
             insecure = true,
             sslSettings = sslSettings,
         )
 
-    private val http = HttpClient(adapter, URL(url), settings).apply { start() }
+    private val http = HttpClient(adapter, URL(url), settings)//.apply { start() }
 
-    var responseOrNull: HttpClientResponse? = null
-    val response: HttpClientResponse
-        get() = responseOrNull ?: fail
+    lateinit var response: HttpClientResponse
 
-    private fun toMultiMap(map: Map<String, *>): Headers = Headers(
+    init {
+        if (block != null)
+            http.use { block.invoke(this@Http) }
+    }
+
+    private fun toHeaders(map: Map<String, *>): Headers = Headers(
         map.mapValues { (k, v) ->
             Header(
                 k,
@@ -56,17 +59,23 @@ data class Http(
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = this.contentType,
     ): HttpClientResponse =
-        http.send(
-            HttpClientRequest(
-            method = method,
-            path = path,
-            body = body,
-            headers = toMultiMap(headers),
-            formParameters = FormParameters(formParameters),
-            parts = parts,
-            contentType = contentType,
-        )
-        ).apply { responseOrNull = this }
+        http
+            .apply {
+                if (!started())
+                    start()
+            }
+            .send(
+                HttpClientRequest(
+                    method = method,
+                    path = path,
+                    body = body,
+                    headers = toHeaders(headers),
+                    formParameters = FormParameters(formParameters),
+                    parts = parts,
+                    contentType = contentType,
+                )
+            )
+            .apply { response = this }
 
     fun get(
         path: String = "/",

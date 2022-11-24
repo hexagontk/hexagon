@@ -122,7 +122,8 @@ data class HttpServer(
      *
      * @return True if the server has started, else false.
      */
-    fun started(): Boolean = adapter.started()
+    fun started(): Boolean =
+        adapter.started()
 
     /**
      * Start the server with the adapter instance and adds a shutdown hook for stopping the server.
