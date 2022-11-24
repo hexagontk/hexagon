@@ -50,6 +50,9 @@ class HttpClient(
         adapter.shutDown()
     }
 
+    fun started(): Boolean =
+        adapter.started()
+
     /**
      * Synchronous execution.
      */
