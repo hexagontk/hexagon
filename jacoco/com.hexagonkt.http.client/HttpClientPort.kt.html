@@ -11,15 +11,17 @@ interface HttpClientPort {
 
     fun shutDown()
 
+    fun started(): Boolean
+
     fun send(request: HttpClientRequest): HttpClientResponse
 
-<span class="nc" id="L16">    fun ws(</span>
+<span class="nc" id="L18">    fun ws(</span>
         path: String,
         onConnect: WsSession.() -&gt; Unit,
         onBinary: WsSession.(data: ByteArray) -&gt; Unit,
         onText: WsSession.(text: String) -&gt; Unit,
-<span class="nc" id="L21">        onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="nc" id="L22">        onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="nc" id="L23">        onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="nc" id="L24">        onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
         onClose: WsSession.(status: WsCloseStatus, reason: String) -&gt; Unit,
     ): WsSession
 }
