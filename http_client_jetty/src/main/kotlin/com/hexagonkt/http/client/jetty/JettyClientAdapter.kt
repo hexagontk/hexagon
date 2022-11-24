@@ -66,6 +66,9 @@ class JettyClientAdapter : HttpClientPort {
         started = false
     }
 
+    override fun started() =
+        started
+
     override fun send(request: HttpClientRequest): HttpClientResponse {
         check(started) { "HTTP client *MUST BE STARTED* before sending requests" }
 

@@ -17,6 +17,9 @@ object VoidAdapter : HttpClientPort {
         started = false
     }
 
+    override fun started() =
+        started
+
     override fun send(request: HttpClientRequest): HttpClientResponse =
         HttpClientResponse(
             headers = request.headers + Header("-path-", request.path),

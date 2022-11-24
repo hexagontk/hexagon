@@ -36,9 +36,10 @@ class MockServerTest {
             }
         }
 
-        val http = Http("http://localhost:${mockServer.server.runtimePort}", JettyClientAdapter())
-        http.get("/hello/mike")
-        assertEquals(OK, http.response.status)
+        Http("http://localhost:${mockServer.server.runtimePort}", JettyClientAdapter()) {
+            get("/hello/mike")
+            assertEquals(OK, response.status)
+        }
     }
 
     @Test fun `Mock HTTP response`() {
@@ -48,20 +49,21 @@ class MockServerTest {
             }
         }
 
-        val http = Http("http://localhost:${mockServer.server.runtimePort}", JettyClientAdapter())
-        http.get("/foo")
-        assertEquals(OK, http.responseOrNull?.status)
-        assertEquals("dynamic", http.responseOrNull?.body)
-        mockServer.path = path {
-            get("/foo") {
-                ok("changed")
+        Http("http://localhost:${mockServer.server.runtimePort}", JettyClientAdapter()) {
+            get("/foo")
+            assertEquals(OK, response.status)
+            assertEquals("dynamic", response.body)
+            mockServer.path = path {
+                get("/foo") {
+                    ok("changed")
+                }
             }
+            get("/foo")
+            assertEquals(OK, response.status)
+            assertEquals(OK, response.status)
+            assertEquals("changed", response.body)
+            assertEquals("changed", response.body)
         }
-        http.get("/foo")
-        assertEquals(OK, http.responseOrNull?.status)
-        assertEquals(OK, http.response.status)
-        assertEquals("changed", http.responseOrNull?.body)
-        assertEquals("changed", http.response.body)
     }
 
     @Test fun `Check all HTTP methods`() {
