@@ -21,18 +21,6 @@ private val base64Decoder: Base64.Decoder = Base64.getDecoder()
 /** Runtime specific end of line. */
 val eol: String by lazy { getProperty("line.separator") }
 
-internal val allowedTargetTypes: Set<KClass<*>> = setOf(
-    Boolean::class,
-    Int::class,
-    Long::class,
-    Float::class,
-    Double::class,
-    String::class,
-    InetAddress::class,
-    URL::class,
-    URI::class,
-)
-
 /**
  * Encode the content of this byteArray to base64.
  *

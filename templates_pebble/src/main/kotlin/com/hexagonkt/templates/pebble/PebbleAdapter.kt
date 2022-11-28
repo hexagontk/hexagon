@@ -1,7 +1,7 @@
 package com.hexagonkt.templates.pebble
 
 import com.hexagonkt.templates.TemplatePort
-import com.mitchellbosecke.pebble.PebbleEngine
+import io.pebbletemplates.pebble.PebbleEngine
 import java.io.StringWriter
 import java.net.URL
 import java.util.*

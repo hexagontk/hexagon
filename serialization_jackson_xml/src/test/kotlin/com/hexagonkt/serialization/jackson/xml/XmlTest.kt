@@ -1,9 +1,6 @@
 package com.hexagonkt.serialization.jackson.xml
 
 import com.hexagonkt.core.requireKeys
-import com.hexagonkt.core.converters.ConvertersManager
-import com.hexagonkt.core.converters.convert
-import com.hexagonkt.core.converters.convertObjects
 import com.hexagonkt.core.keys
 import com.hexagonkt.core.invoke
 import com.hexagonkt.core.require
@@ -26,30 +23,28 @@ internal class XmlTest {
 
     @BeforeAll fun setUpSerializationManager() {
         SerializationManager.formats = linkedSetOf(Xml)
-
-        ConvertersManager.register(Player::class to Map::class) {
-            mapOf(
-                Player::name.name to it.name,
-                Player::number.name to it.number,
-                Player::category.name to mapOf(
-                    ClosedRange<*>::start.name to it.category.start,
-                    ClosedRange<*>::endInclusive.name to it.category.endInclusive,
-                )
-            )
-        }
-
-        ConvertersManager.register(Map::class to Player::class) {
-            Player(
-                name = it.requireKeys(Player::name.name),
-                number = it.requireKeys<String>(Player::number.name).toInt(),
-                category = it.requireKeys<Map<String, String>>(Player::category.name).let { map ->
-                    val start = map.require(ClosedRange<*>::start.name).toInt()
-                    val endInclusive = map.require(ClosedRange<*>::endInclusive.name).toInt()
-                    start..endInclusive
-                }
-            )
-        }
     }
+
+    private fun Player.convert(): Map<*, *> =
+        mapOf(
+            Player::name.name to name,
+            Player::number.name to number,
+            Player::category.name to mapOf(
+                ClosedRange<*>::start.name to category.start,
+                ClosedRange<*>::endInclusive.name to category.endInclusive,
+            )
+        )
+
+    private fun Map<*, *>.convert(): Player =
+        Player(
+            name = requireKeys(Player::name.name),
+            number = requireKeys<String>(Player::number.name).toInt(),
+            category = requireKeys<Map<String, String>>(Player::category.name).let { map ->
+                val start = map.require(ClosedRange<*>::start.name).toInt()
+                val endInclusive = map.require(ClosedRange<*>::endInclusive.name).toInt()
+                start..endInclusive
+            }
+        )
 
     @Test fun `XML can be parsed to collections` () {
         val xml =
@@ -154,7 +149,7 @@ internal class XmlTest {
     @Test fun `XML is serialized properly` () {
         val player = Player("Michael", 23, 18..65)
         val serializedPlayer = player.serialize(Xml)
-        val deserializedPlayer = serializedPlayer.parse(Xml).convert<Player>()
+        val deserializedPlayer = serializedPlayer.parseMap(Xml).convert()
 
         assertEquals(deserializedPlayer.name, player.name)
         assertEquals(deserializedPlayer.number, player.number)
@@ -169,7 +164,7 @@ internal class XmlTest {
         )
         val serializedPlayers = players.serialize(Xml)
         val parse = serializedPlayers.parse(Xml) as Map<*, List<Any>>
-        val deserializedPlayers = parse.entries.first().value.convertObjects<Player>()
+        val deserializedPlayers = parse.entries.first().value.map { (it as Map<*, *>).convert() }
 
         val first = deserializedPlayers.first()
         val last = deserializedPlayers.last()

@@ -41,11 +41,6 @@ add the Classpath handler manually with the `--enable-url-protocols=classpath` p
   Do not enable it in application development and turn it on only when the application is
   extensively tested.
 
-# Package com.hexagonkt.core.converters
-Registry of functions to convert from one type to another.
-
-@code core/src/test/kotlin/com/hexagonkt/core/converters/ConvertersManagerTest.kt?converters
-
 # Package com.hexagonkt.core.handlers
 Provide general utilities to attach many handlers to be applied on events processing. Events can be
 of any type.
