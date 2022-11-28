@@ -21,18 +21,6 @@ private const val VARIABLE_SUFFIX = &quot;}}&quot;
 /** Runtime specific end of line. */
 <span class="fc" id="L22">val eol: String by lazy { getProperty(&quot;line.separator&quot;) }</span>
 
-<span class="fc" id="L24">internal val allowedTargetTypes: Set&lt;KClass&lt;*&gt;&gt; = setOf(</span>
-<span class="fc" id="L25">    Boolean::class,</span>
-    Int::class,
-    Long::class,
-    Float::class,
-    Double::class,
-    String::class,
-    InetAddress::class,
-    URL::class,
-    URI::class,
-)
-
 /**
  * Encode the content of this byteArray to base64.
  *
@@ -40,7 +28,7 @@ private const val VARIABLE_SUFFIX = &quot;}}&quot;
  * @return The base64 encoded string.
  */
 fun ByteArray.encodeToBase64(): String =
-<span class="fc" id="L43">    base64Encoder.encodeToString(this)</span>
+<span class="fc" id="L31">    base64Encoder.encodeToString(this)</span>
 
 /**
  * Encode this string to base64.
@@ -49,7 +37,7 @@ fun ByteArray.encodeToBase64(): String =
  * @return The base64 encoded string.
  */
 fun String.encodeToBase64(): String =
-<span class="fc" id="L52">    toByteArray().encodeToBase64()</span>
+<span class="fc" id="L40">    toByteArray().encodeToBase64()</span>
 
 /**
  * Decode this base64 encoded string.
@@ -58,7 +46,7 @@ fun String.encodeToBase64(): String =
  * @return The ByteArray result of decoding the base64 string.
  */
 fun String.decodeBase64(): ByteArray =
-<span class="fc" id="L61">    base64Decoder.decode(this)</span>
+<span class="fc" id="L49">    base64Decoder.decode(this)</span>
 
 /**
  * Filter the target string substituting each key by its value. The keys format resembles Mustache's
@@ -71,14 +59,14 @@ fun String.decodeBase64(): ByteArray =
  * @sample com.hexagonkt.core.StringsSamplesTest.filterVarsExample
  */
 fun String.filterVars(parameters: Map&lt;*, *&gt;): String =
-<span class="fc" id="L74">    this.filter(</span>
-<span class="fc" id="L75">        VARIABLE_PREFIX,</span>
-<span class="fc" id="L76">        VARIABLE_SUFFIX,</span>
-<span class="fc" id="L77">        *parameters</span>
-<span class="fc bfc" id="L78" title="All 2 branches covered.">            .filterKeys { it != null }</span>
-<span class="fc" id="L79">            .map { (k, v) -&gt; k.toString() to v.toString() }</span>
-<span class="fc" id="L80">            .toTypedArray()</span>
-<span class="fc" id="L81">    )</span>
+<span class="fc" id="L62">    this.filter(</span>
+<span class="fc" id="L63">        VARIABLE_PREFIX,</span>
+<span class="fc" id="L64">        VARIABLE_SUFFIX,</span>
+<span class="fc" id="L65">        *parameters</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            .filterKeys { it != null }</span>
+<span class="fc" id="L67">            .map { (k, v) -&gt; k.toString() to v.toString() }</span>
+<span class="fc" id="L68">            .toTypedArray()</span>
+<span class="fc" id="L69">    )</span>
 
 /**
  * Filter the target string substituting each key by its value. The keys format resembles Mustache's
@@ -93,7 +81,7 @@ fun String.filterVars(parameters: Map&lt;*, *&gt;): String =
  * @see filterVars
  */
 fun String.filterVars(vararg parameters: Pair&lt;*, *&gt;) =
-<span class="fc" id="L96">    this.filterVars(mapOf(*parameters))</span>
+<span class="fc" id="L84">    this.filterVars(mapOf(*parameters))</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -105,9 +93,9 @@ fun String.filterVars(vararg parameters: Pair&lt;*, *&gt;) =
  * @return .
  */
 fun String.filter(prefix: String, suffix: String, vararg parameters: Pair&lt;String, *&gt;): String =
-<span class="fc" id="L108">    parameters.fold(this) { result, (first, second) -&gt;</span>
-<span class="fc" id="L109">        result.replace(prefix + first + suffix, second.toString())</span>
-<span class="fc" id="L110">    }</span>
+<span class="fc" id="L96">    parameters.fold(this) { result, (first, second) -&gt;</span>
+<span class="fc" id="L97">        result.replace(prefix + first + suffix, second.toString())</span>
+<span class="fc" id="L98">    }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -118,7 +106,7 @@ fun String.filter(prefix: String, suffix: String, vararg parameters: Pair&lt;Str
  * @return .
  */
 fun &lt;T : Enum&lt;*&gt;&gt; String.toEnum(converter: (String) -&gt; T): T =
-<span class="fc" id="L121">    uppercase().replace(&quot; &quot;, &quot;_&quot;).let(converter)</span>
+<span class="fc" id="L109">    uppercase().replace(&quot; &quot;, &quot;_&quot;).let(converter)</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -129,12 +117,12 @@ fun &lt;T : Enum&lt;*&gt;&gt; String.toEnum(converter: (String) -&gt; T): T =
  * @return .
  */
 fun &lt;T : Enum&lt;*&gt;&gt; String.toEnumOrNull(converter: (String) -&gt; T): T? =
-<span class="fc" id="L132">    try {</span>
-<span class="fc" id="L133">        toEnum(converter)</span>
+<span class="fc" id="L120">    try {</span>
+<span class="fc" id="L121">        toEnum(converter)</span>
     }
-<span class="fc" id="L135">    catch (e: IllegalArgumentException) {</span>
-<span class="fc" id="L136">        null</span>
-<span class="fc" id="L137">    }</span>
+<span class="fc" id="L123">    catch (e: IllegalArgumentException) {</span>
+<span class="fc" id="L124">        null</span>
+<span class="fc" id="L125">    }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -146,20 +134,20 @@ fun &lt;T : Enum&lt;*&gt;&gt; String.toEnumOrNull(converter: (String) -&gt; T): 
  */
 @Suppress(&quot;UNCHECKED_CAST&quot;) // All allowed types are checked at runtime
 fun &lt;T : Any&gt; String?.toOrNull(type: KClass&lt;T&gt;): T? =
-<span class="fc bfc" id="L149" title="All 4 branches covered.">    this?.let {</span>
-<span class="fc" id="L150">        when (type) {</span>
-<span class="fc bfc" id="L151" title="All 2 branches covered.">            Boolean::class -&gt; this.toBooleanStrictOrNull()</span>
-<span class="fc bfc" id="L152" title="All 2 branches covered.">            Int::class -&gt; this.toIntOrNull()</span>
-<span class="fc bfc" id="L153" title="All 2 branches covered.">            Long::class -&gt; this.toLongOrNull()</span>
-<span class="fc bfc" id="L154" title="All 2 branches covered.">            Float::class -&gt; this.toFloatOrNull()</span>
-<span class="fc bfc" id="L155" title="All 2 branches covered.">            Double::class -&gt; this.toDoubleOrNull()</span>
-<span class="fc bfc" id="L156" title="All 2 branches covered.">            String::class -&gt; this</span>
-<span class="fc bfc" id="L157" title="All 2 branches covered.">            InetAddress::class -&gt; this.let(InetAddress::getByName)</span>
-<span class="fc bfc" id="L158" title="All 2 branches covered.">            URL::class -&gt; this.let(::URL)</span>
-<span class="fc bfc" id="L159" title="All 2 branches covered.">            URI::class -&gt; this.let(::URI)</span>
-<span class="fc" id="L160">            else -&gt; error(&quot;Unsupported type: ${type.qualifiedName}&quot;)</span>
+<span class="fc bfc" id="L137" title="All 4 branches covered.">    this?.let {</span>
+<span class="fc" id="L138">        when (type) {</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">            Boolean::class -&gt; this.toBooleanStrictOrNull()</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            Int::class -&gt; this.toIntOrNull()</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">            Long::class -&gt; this.toLongOrNull()</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">            Float::class -&gt; this.toFloatOrNull()</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">            Double::class -&gt; this.toDoubleOrNull()</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">            String::class -&gt; this</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">            InetAddress::class -&gt; this.let(InetAddress::getByName)</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">            URL::class -&gt; this.let(::URL)</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">            URI::class -&gt; this.let(::URI)</span>
+<span class="fc" id="L148">            else -&gt; error(&quot;Unsupported type: ${type.qualifiedName}&quot;)</span>
         }
-<span class="fc" id="L162">    } as? T</span>
+<span class="fc" id="L150">    } as? T</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -169,33 +157,33 @@ fun &lt;T : Any&gt; String?.toOrNull(type: KClass&lt;T&gt;): T? =
  * @return .
  */
 fun Regex.findGroups(text: String): List&lt;MatchGroup&gt; =
-<span class="pc bpc" id="L172" title="1 of 4 branches missed.">    (this.find(text)?.groups ?: emptyList&lt;MatchGroup&gt;())</span>
-<span class="fc" id="L173">        .filterNotNull()</span>
-<span class="fc" id="L174">        .drop(1)</span>
+<span class="pc bpc" id="L160" title="1 of 4 branches missed.">    (this.find(text)?.groups ?: emptyList&lt;MatchGroup&gt;())</span>
+<span class="fc" id="L161">        .filterNotNull()</span>
+<span class="fc" id="L162">        .drop(1)</span>
 
 /**
  * Transform the target string from snake case to camel case.
  */
 fun String.snakeToCamel(): String =
-<span class="fc" id="L180">    snakeToWords().wordsToCamel()</span>
+<span class="fc" id="L168">    snakeToWords().wordsToCamel()</span>
 
 fun String.snakeToWords(): List&lt;String&gt; =
-<span class="fc bfc" id="L183" title="All 2 branches covered.">    this.split(&quot;_&quot;).filter(String::isNotEmpty).map(String::lowercase)</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">    this.split(&quot;_&quot;).filter(String::isNotEmpty).map(String::lowercase)</span>
 
 fun List&lt;String&gt;.wordsToSnake(): String =
-<span class="pc bpc" id="L186" title="2 of 4 branches missed.">    joinToString(&quot;_&quot;).replaceFirstChar(Char::lowercase)</span>
+<span class="pc bpc" id="L174" title="2 of 4 branches missed.">    joinToString(&quot;_&quot;).replaceFirstChar(Char::lowercase)</span>
 
 fun String.camelToWords(): List&lt;String&gt; =
-<span class="fc" id="L189">    split(&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex()).map(String::lowercase)</span>
+<span class="fc" id="L177">    split(&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex()).map(String::lowercase)</span>
 
 fun List&lt;String&gt;.wordsToCamel(): String =
-<span class="pc bpc" id="L192" title="2 of 8 branches missed.">    joinToString(&quot;&quot;) { it.replaceFirstChar(Char::uppercase) }.replaceFirstChar(Char::lowercase)</span>
+<span class="pc bpc" id="L180" title="2 of 8 branches missed.">    joinToString(&quot;&quot;) { it.replaceFirstChar(Char::uppercase) }.replaceFirstChar(Char::lowercase)</span>
 
 /**
  * Transform the target string from camel case to snake case.
  */
 fun String.camelToSnake(): String =
-<span class="fc" id="L198">    camelToWords().wordsToSnake()</span>
+<span class="fc" id="L186">    camelToWords().wordsToSnake()</span>
 
 /**
  * Format the string as a banner with a delimiter above and below text. The character used to
@@ -203,18 +191,18 @@ fun String.camelToSnake(): String =
  *
  * @param bannerDelimiter Delimiter char for banners.
  */
-<span class="fc" id="L206">fun String.banner(bannerDelimiter: String = &quot;*&quot;): String =</span>
-<span class="fc" id="L207">    bannerDelimiter</span>
-<span class="fc" id="L208">        .repeat(this</span>
-<span class="fc" id="L209">            .lines()</span>
-<span class="fc" id="L210">            .asSequence()</span>
-<span class="fc" id="L211">            .map { it.length }</span>
-<span class="fc" id="L212">            .maxOrElse(0)</span>
+<span class="fc" id="L194">fun String.banner(bannerDelimiter: String = &quot;*&quot;): String =</span>
+<span class="fc" id="L195">    bannerDelimiter</span>
+<span class="fc" id="L196">        .repeat(this</span>
+<span class="fc" id="L197">            .lines()</span>
+<span class="fc" id="L198">            .asSequence()</span>
+<span class="fc" id="L199">            .map { it.length }</span>
+<span class="fc" id="L200">            .maxOrElse(0)</span>
         )
-<span class="fc" id="L214">        .let { &quot;$it$eol$this$eol$it&quot; }</span>
+<span class="fc" id="L202">        .let { &quot;$it$eol$this$eol$it&quot; }</span>
 
 fun String.stripAnsi(): String =
-<span class="fc" id="L217">    replace(Ansi.regex, &quot;&quot;)</span>
+<span class="fc" id="L205">    replace(Ansi.regex, &quot;&quot;)</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -223,7 +211,7 @@ fun String.stripAnsi(): String =
  * @return .
  */
 fun String.stripAccents(): String =
-<span class="fc" id="L226">    normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
+<span class="fc" id="L214">    normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -232,7 +220,7 @@ fun String.stripAccents(): String =
  * @return .
  */
 fun String.toStream(): InputStream =
-<span class="fc" id="L235">    ByteArrayInputStream(this.toByteArray())</span>
+<span class="fc" id="L223">    ByteArrayInputStream(this.toByteArray())</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -241,7 +229,7 @@ fun String.toStream(): InputStream =
  * @return .
  */
 fun utf8(vararg bytes: Int): String =
-<span class="fc" id="L244">    String(bytes.map(Int::toByte).toByteArray())</span>
+<span class="fc" id="L232">    String(bytes.map(Int::toByte).toByteArray())</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -251,12 +239,12 @@ fun utf8(vararg bytes: Int): String =
  * @param pad .
  * @return .
  */
-<span class="fc" id="L254">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;): String =</span>
-<span class="fc" id="L255">    this.prependIndent(pad.repeat(count))</span>
+<span class="fc" id="L242">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;): String =</span>
+<span class="fc" id="L243">    this.prependIndent(pad.repeat(count))</span>
 
 fun String.toEnumValue(): String =
-<span class="fc" id="L258">    trim().uppercase().replace(&quot; &quot;, &quot;_&quot;)</span>
+<span class="fc" id="L246">    trim().uppercase().replace(&quot; &quot;, &quot;_&quot;)</span>
 
 internal fun Sequence&lt;Int&gt;.maxOrElse(fallback: Int): Int =
-<span class="fc bfc" id="L261" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
+<span class="fc bfc" id="L249" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

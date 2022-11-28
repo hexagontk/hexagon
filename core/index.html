@@ -446,13 +446,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonktcoreconverters" class="md-nav__link">
-    Package com.hexagonkt.core.converters
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#package-comhexagonktcorehandlers" class="md-nav__link">
     Package com.hexagonkt.core.handlers
   </a>
@@ -914,13 +907,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonktcoreconverters" class="md-nav__link">
-    Package com.hexagonkt.core.converters
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#package-comhexagonktcorehandlers" class="md-nav__link">
     Package com.hexagonkt.core.handlers
   </a>
@@ -1019,46 +1005,6 @@ add the Classpath handler manually with the <code>--enable-url-protocols=classpa
   Do not enable it in application development and turn it on only when the application is
   extensively tested.</li>
 </ul>
-<h2 id="package-comhexagonktcoreconverters">Package com.hexagonkt.core.converters<a class="headerlink" href="#package-comhexagonktcoreconverters" title="Permanent link">&para;</a></h2>
-<p>Registry of functions to convert from one type to another.</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Define a mapper from a source type to a target type</span><span class="w"></span>
-<span class="n">ConvertersManager</span><span class="p">.</span><span class="na">register</span><span class="p">(</span><span class="n">Date</span><span class="o">::</span><span class="kd">class</span><span class="w"> </span><span class="nc">to</span><span class="w"> </span><span class="kt">String</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-
-<span class="c1">// Conversions can be done with different utility methods</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">directConversion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ConvertersManager</span><span class="p">.</span><span class="na">convert</span><span class="p">(</span><span class="n">Date</span><span class="p">(),</span><span class="w"> </span><span class="kt">String</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">utilityConversion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Date</span><span class="p">().</span><span class="na">convert</span><span class="p">(</span><span class="kt">String</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">reifiedUtilityConversion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Date</span><span class="p">().</span><span class="na">convert</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">()</span><span class="w"></span>
-
-<span class="n">assertEquals</span><span class="p">(</span><span class="n">directConversion</span><span class="p">,</span><span class="w"> </span><span class="n">utilityConversion</span><span class="p">)</span><span class="w"></span>
-<span class="n">assertEquals</span><span class="p">(</span><span class="n">utilityConversion</span><span class="p">,</span><span class="w"> </span><span class="n">reifiedUtilityConversion</span><span class="p">)</span><span class="w"></span>
-
-<span class="c1">// Conversion mappers can be deleted</span><span class="w"></span>
-<span class="n">ConvertersManager</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">Date</span><span class="o">::</span><span class="kd">class</span><span class="w"> </span><span class="nc">to</span><span class="w"> </span><span class="kt">String</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="w"></span>
-
-<span class="c1">// Trying to perform a conversion that has not a registered mapper fails with an error</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">assertFailsWith</span><span class="o">&lt;</span><span class="n">IllegalStateException</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Date</span><span class="p">().</span><span class="na">convert</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Date</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">simpleName</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">String</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">simpleName</span><span class="w"></span>
-<span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;No converter for </span><span class="si">$</span><span class="n">source</span><span class="s"> -&gt; </span><span class="si">$</span><span class="n">target</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">message</span><span class="p">)</span><span class="w"></span>
-</code></pre></div></td></tr></table></div>
 <h2 id="package-comhexagonktcorehandlers">Package com.hexagonkt.core.handlers<a class="headerlink" href="#package-comhexagonktcorehandlers" title="Permanent link">&para;</a></h2>
 <p>Provide general utilities to attach many handlers to be applied on events processing. Events can be
 of any type.</p>
