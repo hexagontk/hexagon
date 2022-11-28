@@ -1,7 +1,5 @@
 package com.hexagonkt.serialization.jackson.yaml
 
-import com.hexagonkt.core.converters.ConvertersManager
-import com.hexagonkt.core.converters.convert
 import com.hexagonkt.core.require
 import com.hexagonkt.core.requireKeys
 import com.hexagonkt.serialization.*
@@ -25,24 +23,23 @@ internal class YamlTest : SerializationTest() {
 
     @BeforeAll fun setUpSerializationManager() {
         SerializationManager.formats = linkedSetOf(Yaml)
-
-        ConvertersManager.register(Map::class to Player::class) {
-            Player(
-                name = it.requireKeys(Player::name.name),
-                number = it.requireKeys(Player::number.name),
-                category = it.requireKeys<Map<String, Int>>(Player::category.name).let { map ->
-                    val start = map.require(ClosedRange<*>::start.name)
-                    val endInclusive = map.require(ClosedRange<*>::endInclusive.name)
-                    start..endInclusive
-                }
-            )
-        }
     }
+
+    private fun Map<*, *>.convert(): Player =
+        Player(
+            name = requireKeys(Player::name.name),
+            number = requireKeys(Player::number.name),
+            category = requireKeys<Map<String, Int>>(Player::category.name).let { map ->
+                val start = map.require(ClosedRange<*>::start.name)
+                val endInclusive = map.require(ClosedRange<*>::endInclusive.name)
+                start..endInclusive
+            }
+        )
 
     @Test fun `YAML is serialized properly` () {
         val player = Player("Michael", 23, 18..65)
         val serializedPlayer = player.serialize(Yaml)
-        val deserializedPlayer = serializedPlayer.parse(Yaml).convert<Player>()
+        val deserializedPlayer = serializedPlayer.parseMap(Yaml).convert()
 
         assertEquals(deserializedPlayer.name, player.name)
         assertEquals(deserializedPlayer.number, player.number)

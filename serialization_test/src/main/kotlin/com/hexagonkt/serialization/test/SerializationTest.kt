@@ -1,12 +1,7 @@
 package com.hexagonkt.serialization.test
 
-import com.hexagonkt.core.converters.ConvertersManager
-import com.hexagonkt.core.converters.convert
 import com.hexagonkt.core.requireKeys
-import com.hexagonkt.serialization.SerializationFormat
-import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.parse
-import com.hexagonkt.serialization.serialize
+import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.Test
 import java.net.URL
 import java.time.LocalDate
@@ -34,31 +29,29 @@ abstract class SerializationTest {
     }
 
     @Test fun serializationUsage() {
-        ConvertersManager.register(Person::class to Map::class) {
-            mapOf(
-                "givenName" to it.givenName,
-                "familyName" to it.familyName,
-                "birthDate" to it.birthDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
-            )
-        }
-
-        ConvertersManager.register(LinkedHashMap::class to Person::class) {
-            Person(
-                givenName = it.requireKeys("givenName"),
-                familyName = it.requireKeys("familyName"),
-                birthDate = LocalDate.parse(it.requireKeys("birthDate"))
-            )
-        }
-
         // serializationUsage
         SerializationManager.formats = setOf(format) // Loads the serialization format
         val jason = Person("Jason", "Jackson", LocalDate.of(1989, 12, 31))
 
-        val jasonJson = jason.convert<Map<*, *>>().serialize(format)
-        val parsedJason = jasonJson.parse(format).convert<Person>()
+        val jasonJson = personToMap(jason).serialize(format)
+        val parsedJason = mapToPerson(jasonJson.parseMap(format))
 
         assertEquals(parsedJason, jason)
         assert(jason !== parsedJason)
         // serializationUsage
     }
+
+    private fun personToMap(person: Person): Map<*, *> =
+        mapOf(
+            "givenName" to person.givenName,
+            "familyName" to person.familyName,
+            "birthDate" to person.birthDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        )
+
+    private fun mapToPerson(map: Map<*, *>) =
+        Person(
+            givenName = map.requireKeys("givenName"),
+            familyName = map.requireKeys("familyName"),
+            birthDate = LocalDate.parse(map.requireKeys("birthDate"))
+        )
 }
