@@ -399,6 +399,31 @@
             </buildArgs>
           </configuration>
         </plugin>
+
+        <plugin>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>3.1.0</version>
+          <executions>
+            <execution>
+              <id>build_properties</id>
+              <phase>compile</phase>
+              <configuration>
+                <target>
+                  <propertyfile file="${project.build.outputDirectory}/META-INF/build.properties">
+                    <entry key="project" value="${project.parent.artifactId}"/>
+                    <entry key="module" value="${project.artifactId}"/>
+                    <entry key="version" value="${project.version}"/>
+                    <entry key="group" value="${project.groupId}"/>
+                    <entry key="description" value="${project.description}"/>
+                  </propertyfile>
+                </target>
+              </configuration>
+              <goals>
+                <goal>run</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
