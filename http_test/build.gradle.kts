@@ -19,7 +19,7 @@ tasks.named<JavaCompile>("jmhCompileGeneratedClasses") {
 }
 
 tasks.withType<JMHTask> {
-    val jhmVersion = properties["jhmVersion"] as? String ?: "1.34"
+    val jhmVersion = properties["jhmVersion"] as? String ?: "1.36"
 
     jmhVersion.set(jhmVersion)
     benchmarkMode.set(listOf("thrpt"))
@@ -37,7 +37,6 @@ tasks.withType<JMHTask> {
 
 dependencies {
     val junitVersion = properties["junitVersion"]
-    val swaggerParserVersion = properties["swaggerParserVersion"]
     val gatlingVersion = properties["gatlingVersion"]
 
     "api"(project(":logging_slf4j_jul"))
@@ -45,7 +44,6 @@ dependencies {
     "api"(project(":http_client"))
     "api"(project(":http_server"))
     "api"("org.jetbrains.kotlin:kotlin-test")
-    "api"("io.swagger.parser.v3:swagger-parser:$swaggerParserVersion")
     "api"("org.junit.jupiter:junit-jupiter:$junitVersion")
     "api"("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 
