@@ -24,6 +24,29 @@ internal class DataTest {
         0 to 1
     )
 
+    @Test fun `Maps are merged correctly`() {
+        assertEquals(mapOf("a" to true), merge(mapOf("a" to true), emptyMap<String, Boolean>()))
+        assertEquals(mapOf("a" to true), merge(emptyMap<String, Boolean>(), mapOf("a" to true)))
+        assertEquals(mapOf("a" to true), merge(mapOf("a" to false), mapOf("a" to true)))
+        assertEquals(mapOf("a" to true), merge(mapOf("a" to 1), mapOf("a" to true)))
+        assertEquals(mapOf("a" to 1, "b" to true), merge(mapOf("a" to 1), mapOf("b" to true)))
+        assertEquals(
+            mapOf("a" to listOf(1, 2, 3, 4)),
+            merge(mapOf("a" to listOf(1, 2)), mapOf("a" to listOf(3, 4)))
+        )
+        assertEquals(
+            mapOf("a" to listOf(1, 2, 3, 4, 3, 4)),
+            merge(mapOf("a" to listOf(1, 2, 3, 4)), mapOf("a" to listOf(3, 4)))
+        )
+        assertEquals(
+            mapOf("a" to mapOf("a" to 5, "b" to 6, "c" to 3, "d" to 4, "e" to 7, "f" to 8)),
+            merge(
+                mapOf("a" to mapOf("a" to 1, "b" to 2, "c" to 3, "d" to 4)),
+                mapOf("a" to mapOf("a" to 5, "b" to 6, "e" to 7, "f" to 8))
+            )
+        )
+    }
+
     @Test fun `Get nested keys inside a map returns the proper value`() {
         assert(m.keys<String>("nested", "zulu") == "charlie")
         assert(m.keys<Any>("nested", "zulu", "tango") == null)
@@ -100,7 +123,14 @@ internal class DataTest {
     }
 
     @Test fun `Filtered maps do not contain empty elements`() {
-        assert(
+        assertEquals(
+            mapOf(
+                "a" to "b",
+                "c" to 1,
+                "d" to listOf(1, 2),
+                "f" to mapOf(0 to 1),
+                "h" to mapOf("a" to true),
+            ),
             mapOf(
                 "a" to "b",
                 "b" to null,
@@ -109,21 +139,20 @@ internal class DataTest {
                 "e" to listOf<String>(),
                 "f" to mapOf(0 to 1),
                 "g" to mapOf<String, Int>(),
-                "h" to mapOf("a" to true, "b" to null).filterEmpty(),
-                "i" to mapOf("a" to listOf<Int>()).filterEmpty()
-            ).filterEmpty() ==
-            mapOf(
-                "a" to "b",
-                "c" to 1,
-                "d" to listOf(1, 2),
-                "f" to mapOf(0 to 1),
-                "h" to mapOf("a" to true)
-            )
+                "h" to mapOf("a" to true, "b" to null).filterNotEmpty(),
+                "i" to mapOf("a" to listOf<Int>()).filterNotEmpty()
+            ).filterNotEmpty()
         )
     }
 
     @Test fun `Filtered lists do not contain empty elements`() {
-        assert(
+        assertEquals(
+            listOf(
+                "a",
+                listOf(1, 2),
+                mapOf(0 to 1),
+                mapOf("a" to true)
+            ),
             listOf(
                 "a",
                 null,
@@ -131,15 +160,9 @@ internal class DataTest {
                 listOf<String>(),
                 mapOf(0 to 1),
                 mapOf<String, Int>(),
-                mapOf("a" to true, "b" to null).filterEmpty(),
-                mapOf("a" to listOf<Int>()).filterEmpty()
-            ).filterEmpty() ==
-            listOf(
-                "a",
-                listOf(1, 2),
-                mapOf(0 to 1),
-                mapOf("a" to true)
-            )
+                mapOf("a" to true, "b" to null).filterNotEmpty(),
+                mapOf("a" to listOf<Int>()).filterNotEmpty()
+            ).filterNotEmpty()
         )
     }
 
@@ -163,8 +186,8 @@ internal class DataTest {
                 "e" to listOf<String>(),
                 "f" to mapOf(0 to 1),
                 "g" to mapOf<String, Int>(),
-                "h" to mapOf("a" to true, "b" to null).filterEmpty(),
-                "i" to mapOf("a" to listOf<Int>()).filterEmpty(),
+                "h" to mapOf("a" to true, "b" to null).filterNotEmpty(),
+                "i" to mapOf("a" to listOf<Int>()).filterNotEmpty(),
                 "j" to listOf(null, null),
                 "k" to mapOf("a" to null, "b" to null),
                 "l" to listOf(
@@ -177,7 +200,7 @@ internal class DataTest {
                     mapOf("a" to 1, "b" to "c", "z" to null),
                     null,
                 ),
-            ).filterEmptyRecursive()
+            ).filterNotEmptyRecursive()
         )
     }
 
@@ -202,7 +225,23 @@ internal class DataTest {
         assert(list.ensureSize(0..4) == list)
     }
 
-    @Test fun `Utilities to map data objects works correctly`() {
+    @Test fun `Utilities to map not null values work correctly`() {
+        assertEquals(
+            mapOf(
+                "a" to 1,
+                "b" to true,
+                "c" to 'c',
+            ),
+            mapOfNotNull(
+                "a" to 1,
+                "b" to true,
+                "c" to 'c',
+                "d" to null,
+            )
+        )
+    }
+
+    @Test fun `Utilities to map data objects work correctly`() {
         data class DataClass(
             val a: Int,
             val b: Long,

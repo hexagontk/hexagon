@@ -5,6 +5,27 @@ import kotlin.reflect.KProperty1
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *
+ * @param mapA .
+ * @param mapB .
+ * @return .
+ */
+fun merge(mapA: Map<*, *>, mapB: Map<*, *>): Map<*, *> =
+    (mapA.entries + mapB.entries)
+        .groupBy { it.key }
+        .mapValues { (_, v) -> v.map { it.value } }
+        .mapValues { (_, v) ->
+            val isList = v.all { it is Collection<*> }
+            val isMap = v.all { it is Map<*, *> }
+            when {
+                isList -> v.map { it as Collection<*> }.reduce { a, b -> a + b }
+                isMap -> v.map { it as Map<*, *> }.reduce { a, b -> merge(a, b) }
+                else -> v.last()
+            }
+        }
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
  * @receiver .
  * @param count .
  * @return .
@@ -92,6 +113,15 @@ fun <T : Any> fieldsMapOfNotNull(vararg fields: Pair<KProperty1<T, *>, *>): Map<
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *
+ * @param pairs .
+ * @return .
+ */
+fun <K : Any> mapOfNotNull(vararg pairs: Pair<K, *>): Map<K, *> =
+    mapOf(*pairs).filterValues { it != null }
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
  * @receiver .
  * @param name .
  * @return .
@@ -105,7 +135,7 @@ fun <K, V> Map<K, V>.require(name: K): V =
  * @receiver .
  * @return .
  */
-fun <K, V> Map<K, V?>.filterEmpty(): Map<K, V> =
+fun <K, V> Map<K, V?>.filterNotEmpty(): Map<K, V> =
     this.filterValues(::notEmpty).mapValues { (_, v) -> v ?: fail }
 
 /**
@@ -114,7 +144,7 @@ fun <K, V> Map<K, V?>.filterEmpty(): Map<K, V> =
  * @receiver .
  * @return .
  */
-fun <V> List<V?>.filterEmpty(): List<V> =
+fun <V> List<V?>.filterNotEmpty(): List<V> =
     this.filter(::notEmpty).map { it ?: fail }
 
 /**
@@ -123,15 +153,15 @@ fun <V> List<V?>.filterEmpty(): List<V> =
  * @receiver .
  * @return .
  */
-fun Map<*, *>.filterEmptyRecursive(): Map<*, *> =
+fun Map<*, *>.filterNotEmptyRecursive(): Map<*, *> =
     mapValues { (_, v) ->
         when (v) {
-            is List<*> -> v.filterEmptyRecursive()
-            is Map<*, *> -> v.filterEmptyRecursive()
+            is List<*> -> v.filterNotEmptyRecursive()
+            is Map<*, *> -> v.filterNotEmptyRecursive()
             else -> v
         }
     }
-        .filterEmpty()
+    .filterNotEmpty()
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -139,15 +169,15 @@ fun Map<*, *>.filterEmptyRecursive(): Map<*, *> =
  * @receiver .
  * @return .
  */
-fun List<*>.filterEmptyRecursive(): List<*> =
+fun List<*>.filterNotEmptyRecursive(): List<*> =
     map {
         when (it) {
-            is List<*> -> it.filterEmptyRecursive()
-            is Map<*, *> -> it.filterEmptyRecursive()
+            is List<*> -> it.filterNotEmptyRecursive()
+            is Map<*, *> -> it.filterNotEmptyRecursive()
             else -> it
         }
     }
-        .filterEmpty()
+    .filterNotEmpty()
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -185,64 +215,64 @@ fun Map<*, *>.getBoolean(key: KProperty1<*, *>): Boolean? =
 fun Map<*, *>.getString(key: KProperty1<*, *>): String? =
     getKey(key)
 
-fun Map<*, *>.getList(key: KProperty1<*, *>): List<*>? =
+fun Map<*, *>.getList(key: KProperty1<*, *>): Collection<*>? =
     getKey(key)
 
 fun Map<*, *>.getMap(key: KProperty1<*, *>): Map<String, *>? =
     getKey(key)
 
-fun Map<*, *>.getInts(key: KProperty1<*, *>): List<Int>? =
+fun Map<*, *>.getInts(key: KProperty1<*, *>): Collection<Int>? =
     getKey(key)
 
-fun Map<*, *>.getLongs(key: KProperty1<*, *>): List<Long>? =
+fun Map<*, *>.getLongs(key: KProperty1<*, *>): Collection<Long>? =
     getKey(key)
 
-fun Map<*, *>.getFloats(key: KProperty1<*, *>): List<Float>? =
+fun Map<*, *>.getFloats(key: KProperty1<*, *>): Collection<Float>? =
     getKey(key)
 
-fun Map<*, *>.getDoubles(key: KProperty1<*, *>): List<Double>? =
+fun Map<*, *>.getDoubles(key: KProperty1<*, *>): Collection<Double>? =
     getKey(key)
 
-fun Map<*, *>.getBooleans(key: KProperty1<*, *>): List<Boolean>? =
+fun Map<*, *>.getBooleans(key: KProperty1<*, *>): Collection<Boolean>? =
     getKey(key)
 
-fun Map<*, *>.getStrings(key: KProperty1<*, *>): List<String>? =
+fun Map<*, *>.getStrings(key: KProperty1<*, *>): Collection<String>? =
     getKey(key)
 
-fun Map<*, *>.getLists(key: KProperty1<*, *>): List<List<*>>? =
+fun Map<*, *>.getLists(key: KProperty1<*, *>): Collection<List<*>>? =
     getKey(key)
 
-fun Map<*, *>.getMaps(key: KProperty1<*, *>): List<Map<String, *>>? =
+fun Map<*, *>.getMaps(key: KProperty1<*, *>): Collection<Map<String, *>>? =
     getKey(key)
 
-fun Map<*, *>.getListOrEmpty(key: KProperty1<*, *>): List<*> =
+fun Map<*, *>.getListOrEmpty(key: KProperty1<*, *>): Collection<*> =
     getList(key) ?: emptyList<Any>()
 
 fun Map<*, *>.getMapOrEmpty(key: KProperty1<*, *>): Map<String, *> =
     getMap(key) ?: emptyMap<String, Any>()
 
-fun Map<*, *>.getIntsOrEmpty(key: KProperty1<*, *>): List<Int> =
+fun Map<*, *>.getIntsOrEmpty(key: KProperty1<*, *>): Collection<Int> =
     getInts(key) ?: emptyList()
 
-fun Map<*, *>.getLongsOrEmpty(key: KProperty1<*, *>): List<Long> =
+fun Map<*, *>.getLongsOrEmpty(key: KProperty1<*, *>): Collection<Long> =
     getLongs(key) ?: emptyList()
 
-fun Map<*, *>.getFloatsOrEmpty(key: KProperty1<*, *>): List<Float> =
+fun Map<*, *>.getFloatsOrEmpty(key: KProperty1<*, *>): Collection<Float> =
     getFloats(key) ?: emptyList()
 
-fun Map<*, *>.getDoublesOrEmpty(key: KProperty1<*, *>): List<Double> =
+fun Map<*, *>.getDoublesOrEmpty(key: KProperty1<*, *>): Collection<Double> =
     getDoubles(key) ?: emptyList()
 
-fun Map<*, *>.getBooleansOrEmpty(key: KProperty1<*, *>): List<Boolean> =
+fun Map<*, *>.getBooleansOrEmpty(key: KProperty1<*, *>): Collection<Boolean> =
     getBooleans(key) ?: emptyList()
 
-fun Map<*, *>.getStringsOrEmpty(key: KProperty1<*, *>): List<String> =
+fun Map<*, *>.getStringsOrEmpty(key: KProperty1<*, *>): Collection<String> =
     getStrings(key) ?: emptyList()
 
-fun Map<*, *>.getListsOrEmpty(key: KProperty1<*, *>): List<List<*>> =
+fun Map<*, *>.getListsOrEmpty(key: KProperty1<*, *>): Collection<Collection<*>> =
     getLists(key) ?: emptyList()
 
-fun Map<*, *>.getMapsOrEmpty(key: KProperty1<*, *>): List<Map<String, *>> =
+fun Map<*, *>.getMapsOrEmpty(key: KProperty1<*, *>): Collection<Map<String, *>> =
     getMaps(key) ?: emptyList()
 
 inline fun <reified T : Any> Map<*, *>.requireKey(key: KProperty1<*, *>): T =
@@ -267,7 +297,7 @@ fun Map<*, *>.requireBoolean(key: KProperty1<*, *>): Boolean =
 fun Map<*, *>.requireString(key: KProperty1<*, *>): String =
     requireKey(key)
 
-fun Map<*, *>.requireList(key: KProperty1<*, *>): List<*> =
+fun Map<*, *>.requireList(key: KProperty1<*, *>): Collection<*> =
     requireKey(key)
 
 fun Map<*, *>.requireMap(key: KProperty1<*, *>): Map<String, *> =
@@ -276,23 +306,23 @@ fun Map<*, *>.requireMap(key: KProperty1<*, *>): Map<String, *> =
 fun Map<*, *>.requireInts(key: KProperty1<*, *>): List<Int> =
     requireKey(key)
 
-fun Map<*, *>.requireLongs(key: KProperty1<*, *>): List<Long> =
+fun Map<*, *>.requireLongs(key: KProperty1<*, *>): Collection<Long> =
     requireKey(key)
 
-fun Map<*, *>.requireFloats(key: KProperty1<*, *>): List<Float> =
+fun Map<*, *>.requireFloats(key: KProperty1<*, *>): Collection<Float> =
     requireKey(key)
 
-fun Map<*, *>.requireDoubles(key: KProperty1<*, *>): List<Double> =
+fun Map<*, *>.requireDoubles(key: KProperty1<*, *>): Collection<Double> =
     requireKey(key)
 
-fun Map<*, *>.requireBooleans(key: KProperty1<*, *>): List<Boolean> =
+fun Map<*, *>.requireBooleans(key: KProperty1<*, *>): Collection<Boolean> =
     requireKey(key)
 
-fun Map<*, *>.requireStrings(key: KProperty1<*, *>): List<String> =
+fun Map<*, *>.requireStrings(key: KProperty1<*, *>): Collection<String> =
     requireKey(key)
 
-fun Map<*, *>.requireLists(key: KProperty1<*, *>): List<List<*>> =
+fun Map<*, *>.requireLists(key: KProperty1<*, *>): Collection<Collection<*>> =
     requireKey(key)
 
-fun Map<*, *>.requireMaps(key: KProperty1<*, *>): List<Map<String, *>> =
+fun Map<*, *>.requireMaps(key: KProperty1<*, *>): Collection<Map<String, *>> =
     requireKey(key)
