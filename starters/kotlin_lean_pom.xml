@@ -16,8 +16,8 @@
       <resource>
         <directory>${basedir}/main</directory>
         <excludes>
-          <exclude>*.kt</exclude>
-          <exclude>*.java</exclude>
+          <exclude>**/*.kt</exclude>
+          <exclude>**/*.java</exclude>
         </excludes>
       </resource>
     </resources>
@@ -25,8 +25,8 @@
       <testResource>
         <directory>${basedir}/test</directory>
         <excludes>
-          <exclude>*.kt</exclude>
-          <exclude>*.java</exclude>
+          <exclude>**/*.kt</exclude>
+          <exclude>**/*.java</exclude>
         </excludes>
       </testResource>
     </testResources>
