@@ -7,6 +7,8 @@ import java.io.InputStreamReader
 import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
+import java.net.URL
+import java.util.*
 import java.util.concurrent.TimeUnit.SECONDS
 
 /**
@@ -33,6 +35,20 @@ private val logger: Logger by lazy { Logger("com.hexagonkt.core.Helpers") }
  */
 fun <T> T.println(prefix: String = ""): T =
     apply { kotlin.io.println("$prefix$this") }
+
+/**
+ * Load a '*.properties' file from a URL transforming the content into a plain map. If the resource
+ * can not be found, a [ResourceNotFoundException] is thrown.
+ *
+ * @param url URL pointing to the file to load.
+ * @return Map containing the properties file data.
+ */
+fun properties(url: URL): Map<String, String> =
+    Properties()
+        .apply { url.openStream().use { load(it.reader()) } }
+        .toMap()
+        .mapKeys { it.key as String }
+        .mapValues { it.value as String }
 
 // NETWORK /////////////////////////////////////////////////////////////////////////////////////////
 /** Internet address used to bind services to all local network interfaces. */
