@@ -1,5 +1,6 @@
 package com.hexagonkt.core
 
+import com.hexagonkt.core.StringsTest.Size.X_L
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
@@ -10,6 +11,13 @@ import kotlin.text.prependIndent
 internal class StringsTest {
 
     enum class Size { S, M, L, X_L }
+
+    @Test fun `String case can changed`() {
+        val words = listOf("these", "are", "a", "few", "words")
+        assertEquals("These Are A Few Words", words.wordsToTitle())
+        assertEquals("These are a few words", words.wordsToSentence())
+        assertEquals("x l", X_L.toWords())
+    }
 
     @Test fun `Strings can be converted to enum values`() {
         assertEquals(Size.S, "s".toEnum(Size::valueOf))

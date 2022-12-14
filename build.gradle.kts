@@ -18,7 +18,7 @@ import com.github.jk1.license.render.ReportRenderer
  */
 
 plugins {
-    kotlin("jvm") version("1.7.22") apply(false)
+    kotlin("jvm") version("1.8.0-RC") apply(false)
 
     id("idea")
     id("eclipse")
