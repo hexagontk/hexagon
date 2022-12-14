@@ -130,6 +130,7 @@ internal class DataTest {
                 "d" to listOf(1, 2),
                 "f" to mapOf(0 to 1),
                 "h" to mapOf("a" to true),
+                "k" to setOf(1, true),
             ),
             mapOf(
                 "a" to "b",
@@ -140,7 +141,9 @@ internal class DataTest {
                 "f" to mapOf(0 to 1),
                 "g" to mapOf<String, Int>(),
                 "h" to mapOf("a" to true, "b" to null).filterNotEmpty(),
-                "i" to mapOf("a" to listOf<Int>()).filterNotEmpty()
+                "i" to mapOf("a" to listOf<Int>()).filterNotEmpty(),
+                "j" to emptySet<Int>(),
+                "k" to setOf(1, true),
             ).filterNotEmpty()
         )
     }
@@ -176,6 +179,8 @@ internal class DataTest {
                 "h" to mapOf("a" to true),
                 "m" to listOf(
                     mapOf("a" to 1, "b" to "c"),
+                    listOf(1, 2),
+                    listOf("a"),
                 ),
             ),
             mapOf(
@@ -199,6 +204,8 @@ internal class DataTest {
                     null,
                     mapOf("a" to 1, "b" to "c", "z" to null),
                     null,
+                    setOf(1, 2),
+                    setOf("a", emptySet<Int>()),
                 ),
             ).filterNotEmptyRecursive()
         )
