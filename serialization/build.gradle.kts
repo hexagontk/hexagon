@@ -13,4 +13,6 @@ description = "Hexagon serialization module."
 
 dependencies {
     "api"(project(":core"))
+
+    "testImplementation"(project(":serialization_jackson_json"))
 }

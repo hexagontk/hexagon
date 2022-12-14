@@ -21,6 +21,9 @@ fun Any.serialize(format: SerializationFormat = requireDefaultFormat()): String 
 fun Any.serialize(mediaType: MediaType): String =
     this.serialize(formatOf(mediaType))
 
+fun Any.serialize(file: File): String =
+    this.serialize(mediaTypeOf(file)).apply(file::writeText)
+
 fun InputStream.parse(format: SerializationFormat = requireDefaultFormat()): Any =
     format.parse(this)
 
