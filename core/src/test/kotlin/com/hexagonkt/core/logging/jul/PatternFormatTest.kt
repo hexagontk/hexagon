@@ -45,4 +45,20 @@ internal class PatternFormatTest {
         Assertions.assertTrue(plainMessage.contains(RuntimeException::class.qualifiedName ?: fail))
         Assertions.assertTrue(plainMessage.contains(this::class.qualifiedName ?: fail))
     }
+
+    @Test fun `Formatting messages without logging fields works correctly`() {
+        val message = "Message with '%'"
+
+        val colorFormat = PatternFormat(useColor = true, messageOnly = true)
+        val colorMessage = colorFormat.format(LogRecord(INFO, message))
+        Assertions.assertTrue(colorMessage.contains(message))
+        Assertions.assertFalse(colorMessage.contains("INFO"))
+        Assertions.assertFalse(colorMessage.contains(Ansi.BLUE))
+
+        val plainFormat = PatternFormat(useColor = false, messageOnly = true)
+        val plainMessage = plainFormat.format(LogRecord(INFO, message))
+        Assertions.assertTrue(plainMessage.contains(message))
+        Assertions.assertFalse(colorMessage.contains("INFO"))
+        Assertions.assertFalse(plainMessage.contains(Ansi.BLUE))
+    }
 }

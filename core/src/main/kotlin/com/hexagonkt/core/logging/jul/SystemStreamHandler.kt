@@ -1,5 +1,6 @@
 package com.hexagonkt.core.logging.jul
 
+import java.io.PrintStream
 import java.util.logging.Formatter
 import java.util.logging.Level
 import java.util.logging.LogRecord
@@ -10,7 +11,10 @@ import java.util.logging.StreamHandler
  *
  * @param handlerFormatter Formatter used by the log handler.
  */
-class SystemOutHandler(handlerFormatter: Formatter) : StreamHandler() {
+internal class SystemStreamHandler(
+    handlerFormatter: Formatter,
+    stream: PrintStream = System.out
+) : StreamHandler() {
 
     override fun publish(record: LogRecord) {
         super.publish(record)
@@ -18,7 +22,7 @@ class SystemOutHandler(handlerFormatter: Formatter) : StreamHandler() {
     }
 
     init {
-        setOutputStream(System.out)
+        setOutputStream(stream)
         formatter = handlerFormatter
         level = Level.ALL
     }

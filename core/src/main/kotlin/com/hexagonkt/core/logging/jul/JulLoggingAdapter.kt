@@ -8,16 +8,20 @@ import com.hexagonkt.core.logging.LoggingLevel.INFO
 import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import com.hexagonkt.core.logging.LoggingLevel.WARN
 import com.hexagonkt.core.logging.LoggingLevel.OFF
-import com.hexagonkt.core.logging.LoggingManager
+import com.hexagonkt.core.logging.LoggingManager.useColor
 import com.hexagonkt.core.logging.LoggingPort
 import com.hexagonkt.core.stripAnsi
+import java.io.PrintStream
 import java.util.logging.Level
 import java.util.logging.Logger as JulLogger
 
 /**
  * Implements [LoggingPort] using [Logger][JulLogger].
  */
-class JulLoggingAdapter : LoggingPort {
+class JulLoggingAdapter(
+    messageOnly: Boolean = false,
+    stream: PrintStream = System.out
+) : LoggingPort {
 
     init {
         val root = JulLogger.getLogger("")
@@ -25,7 +29,9 @@ class JulLoggingAdapter : LoggingPort {
         for (hnd in root.handlers)
             root.removeHandler(hnd)
 
-        root.addHandler(SystemOutHandler(PatternFormat(LoggingManager.useColor)))
+        val handlerFormatter = PatternFormat(useColor, messageOnly)
+        val systemStreamHandler = SystemStreamHandler(handlerFormatter, stream)
+        root.addHandler(systemStreamHandler)
         root.level = Level.INFO
     }
 
@@ -54,7 +60,7 @@ class JulLoggingAdapter : LoggingPort {
             }
 
             private fun color(message: String): String =
-                if (LoggingManager.useColor) message
+                if (useColor) message
                 else message.stripAnsi()
         }
 
