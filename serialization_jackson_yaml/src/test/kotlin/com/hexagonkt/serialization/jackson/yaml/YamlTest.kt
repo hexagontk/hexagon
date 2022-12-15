@@ -95,10 +95,12 @@ internal class YamlTest : SerializationTest() {
             Yaml.raw.serialize(map).trim()
         )
 
-        assertEquals("""key: "123"""", Yaml.serialize(mapOf("key" to "123")).trim())
-        assertEquals("""key: "123"""", Yaml.raw.serialize(mapOf("key" to "123")).trim())
+        val testMap = mapOf("key" to "123")
 
-        assertEquals("key: 123", Yaml.serialize(mapOf("key" to 123)).trim())
+        assertEquals("""key: "123"""", Yaml.serialize(testMap).replace("\r", "").trim())
+        assertEquals("""key: "123"""", Yaml.raw.serialize(testMap).trim())
+
+        assertEquals("key: 123", Yaml.serialize(mapOf("key" to 123)).replace("\r", "").trim())
         assertEquals("key: 123", Yaml.raw.serialize(mapOf("key" to 123)).trim())
     }
 }
