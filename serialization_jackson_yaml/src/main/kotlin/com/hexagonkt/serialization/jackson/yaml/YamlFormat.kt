@@ -18,7 +18,6 @@ open class YamlFormat(
                 configure(ALWAYS_QUOTE_NUMBERS_AS_STRINGS, true)
                 configure(MINIMIZE_QUOTES, prettyPrint)
                 configure(INDENT_ARRAYS_WITH_INDICATOR, prettyPrint)
-                configure(USE_PLATFORM_LINE_BREAKS, prettyPrint)
             }
     }
 
