@@ -5,6 +5,12 @@ import kotlin.reflect.KProperty1
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *
+ * Mermaid test:
+ * ```mermaid
+ * graph LR
+ *   A --> B
+ * ```
+ *
  * @param mapA .
  * @param mapB .
  * @return .
@@ -22,6 +28,15 @@ fun merge(mapA: Map<*, *>, mapB: Map<*, *>): Map<*, *> =
                 else -> v.last()
             }
         }
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param maps .
+ * @return .
+ */
+fun merge(maps: Collection<Map<*, *>>): Map<*, *> =
+    maps.reduce { a, b -> merge(a, b) }
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).

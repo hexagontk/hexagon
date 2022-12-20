@@ -47,6 +47,27 @@ internal class DataTest {
         )
     }
 
+    @Test fun `Multiple maps are merged correctly`() {
+        val m1 = mapOf("a" to mapOf("a" to 1, "b" to 2, "c" to 3, "d" to 4))
+        val m2 = mapOf("a" to mapOf("a" to 5, "b" to 6, "e" to 7, "f" to 8))
+        val m3 = mapOf("b" to true)
+        val m4 = mapOf("a" to mapOf("b" to listOf(8)))
+        val m5 = mapOf("a" to mapOf("b" to listOf(7, 6)))
+        val r = mapOf(
+            "a" to mapOf(
+                "a" to 5,
+                "b" to listOf(8, 7, 6),
+                "c" to 3,
+                "d" to 4,
+                "e" to 7,
+                "f" to 8
+            ),
+            "b" to true,
+        )
+
+        assertEquals(r, merge(listOf(m1, m2, m3, m4, m5)))
+    }
+
     @Test fun `Get nested keys inside a map returns the proper value`() {
         assert(m.keys<String>("nested", "zulu") == "charlie")
         assert(m.keys<Any>("nested", "zulu", "tango") == null)
