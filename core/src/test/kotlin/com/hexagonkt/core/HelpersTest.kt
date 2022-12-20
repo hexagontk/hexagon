@@ -4,12 +4,14 @@ import java.net.ServerSocket
 import org.junit.jupiter.api.Test
 import java.net.InetAddress
 import java.net.URL
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
-import kotlin.test.assertNull
+import kotlin.test.*
 
 internal class HelpersTest {
+
+    @Test fun `URL check works properly`() {
+        assertTrue { URL("http://example.com").responseSuccessful() }
+        assertFalse { URL("http://invalid-domain.z").responseSuccessful() }
+    }
 
     @Test fun `Properties can be loaded from URLs`() {
         val properties = properties(URL("classpath:build.properties"))
