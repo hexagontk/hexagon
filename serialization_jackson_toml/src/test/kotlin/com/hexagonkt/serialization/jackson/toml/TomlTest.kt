@@ -56,9 +56,11 @@ internal class TomlTest : SerializationTest() {
             b = "c"
             [[_]]
             c = "d"
+            d = 1.5
         """.parseMap(Toml) as Map<String, *>
         val parse = map.require("_") as List<Map<Any, *>>
         assertEquals("b", parse.first()["a"])
+        assertEquals(1.5, parse.last()["d"])
     }
 
     @Test fun `Pretty print TOML`() {
