@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.callbacks
 
-import com.hexagonkt.core.handlers.Context
+import com.hexagonkt.handlers.Context
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.http.model.ClientErrorStatus
 import com.hexagonkt.http.model.ContentType

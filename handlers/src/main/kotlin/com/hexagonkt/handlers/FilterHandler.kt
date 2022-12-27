@@ -1,4 +1,4 @@
-package com.hexagonkt.core.handlers
+package com.hexagonkt.handlers
 
 data class FilterHandler<T : Any>(
     override val predicate: Predicate<T> = { true },

@@ -9,7 +9,8 @@ apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/detekt.gradle")
 apply(from = "../gradle/native.gradle")
 
+description = "Handlers to be applied on events processing"
+
 dependencies {
-    "api"(project(":http"))
-    "api"(project(":handlers"))
+    "api"(project(":core"))
 }

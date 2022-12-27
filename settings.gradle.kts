@@ -8,6 +8,7 @@ include(
 
     // Internal modules
     "core",
+    "handlers",
     "http",
 
     // Ports
