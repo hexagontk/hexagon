@@ -97,6 +97,9 @@ fun URL.responseCode(): Int =
 fun URL.responseSuccessful(): Boolean =
     responseCode() in 200 until 300
 
+fun URL.responseFound(): Boolean =
+    responseCode().let { it in 200 until 500 && it != 404 }
+
 // PROCESSES ///////////////////////////////////////////////////////////////////////////////////////
 /**
  * Execute a lambda until no exception is thrown or a number of times is reached.

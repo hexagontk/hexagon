@@ -11,6 +11,8 @@ internal class HelpersTest {
     @Test fun `URL check works properly`() {
         assertTrue { URL("http://example.com").responseSuccessful() }
         assertFalse { URL("http://invalid-domain.z").responseSuccessful() }
+        assertTrue { URL("http://example.com").responseFound() }
+        assertFalse { URL("http://example.com/nothing").responseFound() }
     }
 
     @Test fun `Properties can be loaded from URLs`() {
