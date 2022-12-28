@@ -3,11 +3,12 @@ $dokka.linkExtension:html
 
 module:core
 com.hexagonkt.core
-com.hexagonkt.core.handlers
 com.hexagonkt.core.logging
 com.hexagonkt.core.logging.jul
 com.hexagonkt.core.media
 com.hexagonkt.core.security
+module:handlers
+com.hexagonkt.handlers
 module:http
 com.hexagonkt.http
 com.hexagonkt.http.model
@@ -50,6 +51,8 @@ module:serialization_jackson_csv
 com.hexagonkt.serialization.jackson.csv
 module:serialization_jackson_json
 com.hexagonkt.serialization.jackson.json
+module:serialization_jackson_toml
+com.hexagonkt.serialization.jackson.toml
 module:serialization_jackson_xml
 com.hexagonkt.serialization.jackson.xml
 module:serialization_jackson_yaml

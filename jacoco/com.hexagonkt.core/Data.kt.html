@@ -5,23 +5,38 @@ import kotlin.reflect.KProperty1
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *
+ * Mermaid test:
+ * ```mermaid
+ * graph LR
+ *   A --&gt; B
+ * ```
+ *
  * @param mapA .
  * @param mapB .
  * @return .
  */
 fun merge(mapA: Map&lt;*, *&gt;, mapB: Map&lt;*, *&gt;): Map&lt;*, *&gt; =
-<span class="fc" id="L13">    (mapA.entries + mapB.entries)</span>
-<span class="fc" id="L14">        .groupBy { it.key }</span>
-<span class="fc" id="L15">        .mapValues { (_, v) -&gt; v.map { it.value } }</span>
-<span class="fc" id="L16">        .mapValues { (_, v) -&gt;</span>
-<span class="fc" id="L17">            val isList = v.all { it is Collection&lt;*&gt; }</span>
-<span class="fc" id="L18">            val isMap = v.all { it is Map&lt;*, *&gt; }</span>
-<span class="fc" id="L19">            when {</span>
-<span class="fc bfc" id="L20" title="All 2 branches covered.">                isList -&gt; v.map { it as Collection&lt;*&gt; }.reduce { a, b -&gt; a + b }</span>
-<span class="fc bfc" id="L21" title="All 2 branches covered.">                isMap -&gt; v.map { it as Map&lt;*, *&gt; }.reduce { a, b -&gt; merge(a, b) }</span>
-<span class="fc" id="L22">                else -&gt; v.last()</span>
+<span class="fc" id="L19">    (mapA.entries + mapB.entries)</span>
+<span class="fc" id="L20">        .groupBy { it.key }</span>
+<span class="fc" id="L21">        .mapValues { (_, v) -&gt; v.map { it.value } }</span>
+<span class="fc" id="L22">        .mapValues { (_, v) -&gt;</span>
+<span class="fc" id="L23">            val isCollection = v.all { it is Collection&lt;*&gt; }</span>
+<span class="fc" id="L24">            val isMap = v.all { it is Map&lt;*, *&gt; }</span>
+<span class="fc" id="L25">            when {</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">                isCollection -&gt; v.map { it as Collection&lt;*&gt; }.reduce { a, b -&gt; a + b }</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">                isMap -&gt; v.map { it as Map&lt;*, *&gt; }.reduce { a, b -&gt; merge(a, b) }</span>
+<span class="fc" id="L28">                else -&gt; v.last()</span>
             }
-<span class="fc" id="L24">        }</span>
+<span class="fc" id="L30">        }</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param maps .
+ * @return .
+ */
+fun merge(maps: Collection&lt;Map&lt;*, *&gt;&gt;): Map&lt;*, *&gt; =
+<span class="fc" id="L39">    maps.reduce { a, b -&gt; merge(a, b) }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -30,9 +45,9 @@ fun merge(mapA: Map&lt;*, *&gt;, mapB: Map&lt;*, *&gt;): Map&lt;*, *&gt; =
  * @param count .
  * @return .
  */
-<span class="fc" id="L33">fun &lt;Z&gt; Collection&lt;Z&gt;.ensureSize(count: IntRange): Collection&lt;Z&gt; = this.apply {</span>
-<span class="fc bfc" id="L34" title="All 6 branches covered.">    if (size !in count) error(&quot;$size items while expecting only $count element&quot;)</span>
-<span class="fc" id="L35">}</span>
+<span class="fc" id="L48">fun &lt;Z&gt; Collection&lt;Z&gt;.ensureSize(count: IntRange): Collection&lt;Z&gt; = this.apply {</span>
+<span class="fc bfc" id="L49" title="All 6 branches covered.">    if (size !in count) error(&quot;$size items while expecting only $count element&quot;)</span>
+<span class="fc" id="L50">}</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -57,7 +72,7 @@ inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.keys(vararg keys: Any): T? {
             val r = result as Map&lt;Any, Any&gt;
             when (val value = r[element]) {
                 is Map&lt;*, *&gt; -&gt; value
-                is List&lt;*&gt; -&gt; value.mapIndexed { ii, item -&gt; ii to item }.toMap()
+                is Collection&lt;*&gt; -&gt; value.mapIndexed { ii, item -&gt; ii to item }.toMap()
                 else -&gt; emptyMap&lt;Any, Any&gt;()
             }
         }[mappedKeys.last()] as? T
@@ -89,8 +104,8 @@ inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.requireKeys(vararg name: Any)
  * @receiver .
  * @return .
  */
-fun &lt;K, V&gt; Map&lt;K, List&lt;V&gt;&gt;.pairs(): List&lt;Pair&lt;K, V&gt;&gt; =
-<span class="fc" id="L93">    flatMap { (k, v) -&gt; v.map { k to it } }</span>
+fun &lt;K, V&gt; Map&lt;K, Collection&lt;V&gt;&gt;.pairs(): Collection&lt;Pair&lt;K, V&gt;&gt; =
+<span class="fc" id="L108">    flatMap { (k, v) -&gt; v.map { k to it } }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -99,7 +114,7 @@ fun &lt;K, V&gt; Map&lt;K, List&lt;V&gt;&gt;.pairs(): List&lt;Pair&lt;K, V&gt;&g
  * @return .
  */
 fun &lt;T : Any&gt; fieldsMapOf(vararg fields: Pair&lt;KProperty1&lt;T, *&gt;, *&gt;): Map&lt;String, *&gt; =
-<span class="fc" id="L102">    fields.associate { it.first.name to it.second }</span>
+<span class="fc" id="L117">    fields.associate { it.first.name to it.second }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -108,7 +123,7 @@ fun &lt;T : Any&gt; fieldsMapOf(vararg fields: Pair&lt;KProperty1&lt;T, *&gt;, *
  * @return .
  */
 fun &lt;T : Any&gt; fieldsMapOfNotNull(vararg fields: Pair&lt;KProperty1&lt;T, *&gt;, *&gt;): Map&lt;String, *&gt; =
-<span class="fc bfc" id="L111" title="All 2 branches covered.">    fieldsMapOf(*fields).filterValues { it != null }</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">    fieldsMapOf(*fields).filterValues { it != null }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -117,7 +132,7 @@ fun &lt;T : Any&gt; fieldsMapOfNotNull(vararg fields: Pair&lt;KProperty1&lt;T, *
  * @return .
  */
 fun &lt;K : Any&gt; mapOfNotNull(vararg pairs: Pair&lt;K, *&gt;): Map&lt;K, *&gt; =
-<span class="fc bfc" id="L120" title="All 2 branches covered.">    mapOf(*pairs).filterValues { it != null }</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">    mapOf(*pairs).filterValues { it != null }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -127,7 +142,7 @@ fun &lt;K : Any&gt; mapOfNotNull(vararg pairs: Pair&lt;K, *&gt;): Map&lt;K, *&gt
  * @return .
  */
 fun &lt;K, V&gt; Map&lt;K, V&gt;.require(name: K): V =
-<span class="fc bfc" id="L130" title="All 2 branches covered.">    this[name] ?: error(&quot;$name required key not found&quot;)</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">    this[name] ?: error(&quot;$name required key not found&quot;)</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -136,7 +151,7 @@ fun &lt;K, V&gt; Map&lt;K, V&gt;.require(name: K): V =
  * @return .
  */
 fun &lt;K, V&gt; Map&lt;K, V?&gt;.filterNotEmpty(): Map&lt;K, V&gt; =
-<span class="pc bpc" id="L139" title="1 of 2 branches missed.">    this.filterValues(::notEmpty).mapValues { (_, v) -&gt; v ?: fail }</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">    this.filterValues(::notEmpty).mapValues { (_, v) -&gt; v ?: fail }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -144,8 +159,8 @@ fun &lt;K, V&gt; Map&lt;K, V?&gt;.filterNotEmpty(): Map&lt;K, V&gt; =
  * @receiver .
  * @return .
  */
-fun &lt;V&gt; List&lt;V?&gt;.filterNotEmpty(): List&lt;V&gt; =
-<span class="pc bpc" id="L148" title="1 of 2 branches missed.">    this.filter(::notEmpty).map { it ?: fail }</span>
+fun &lt;V&gt; Collection&lt;V?&gt;.filterNotEmpty(): Collection&lt;V&gt; =
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">    this.filter(::notEmpty).map { it ?: fail }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -154,14 +169,14 @@ fun &lt;V&gt; List&lt;V?&gt;.filterNotEmpty(): List&lt;V&gt; =
  * @return .
  */
 fun Map&lt;*, *&gt;.filterNotEmptyRecursive(): Map&lt;*, *&gt; =
-<span class="fc" id="L157">    mapValues { (_, v) -&gt;</span>
-<span class="fc" id="L158">        when (v) {</span>
-<span class="fc bfc" id="L159" title="All 2 branches covered.">            is List&lt;*&gt; -&gt; v.filterNotEmptyRecursive()</span>
-<span class="fc bfc" id="L160" title="All 2 branches covered.">            is Map&lt;*, *&gt; -&gt; v.filterNotEmptyRecursive()</span>
-<span class="fc" id="L161">            else -&gt; v</span>
+<span class="fc" id="L172">    mapValues { (_, v) -&gt;</span>
+<span class="fc" id="L173">        when (v) {</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">            is Collection&lt;*&gt; -&gt; v.filterNotEmptyRecursive()</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">            is Map&lt;*, *&gt; -&gt; v.filterNotEmptyRecursive()</span>
+<span class="fc" id="L176">            else -&gt; v</span>
         }
     }
-<span class="fc" id="L164">    .filterNotEmpty()</span>
+<span class="fc" id="L179">    .filterNotEmpty()</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -169,15 +184,15 @@ fun Map&lt;*, *&gt;.filterNotEmptyRecursive(): Map&lt;*, *&gt; =
  * @receiver .
  * @return .
  */
-fun List&lt;*&gt;.filterNotEmptyRecursive(): List&lt;*&gt; =
-<span class="fc" id="L173">    map {</span>
-<span class="fc" id="L174">        when (it) {</span>
-<span class="fc bfc" id="L175" title="All 2 branches covered.">            is List&lt;*&gt; -&gt; it.filterNotEmptyRecursive()</span>
-<span class="fc bfc" id="L176" title="All 2 branches covered.">            is Map&lt;*, *&gt; -&gt; it.filterNotEmptyRecursive()</span>
-<span class="fc" id="L177">            else -&gt; it</span>
+fun Collection&lt;*&gt;.filterNotEmptyRecursive(): Collection&lt;*&gt; =
+<span class="fc" id="L188">    map {</span>
+<span class="fc" id="L189">        when (it) {</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">            is Collection&lt;*&gt; -&gt; it.filterNotEmptyRecursive()</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">            is Map&lt;*, *&gt; -&gt; it.filterNotEmptyRecursive()</span>
+<span class="fc" id="L192">            else -&gt; it</span>
         }
     }
-<span class="fc" id="L180">    .filterNotEmpty()</span>
+<span class="fc" id="L195">    .filterNotEmpty()</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -186,11 +201,11 @@ fun List&lt;*&gt;.filterNotEmptyRecursive(): List&lt;*&gt; =
  * @return .
  */
 fun &lt;V&gt; notEmpty(value: V?): Boolean {
-<span class="fc" id="L189">    return when (value) {</span>
-<span class="fc bfc" id="L190" title="All 2 branches covered.">        null -&gt; false</span>
-<span class="fc bfc" id="L191" title="All 4 branches covered.">        is List&lt;*&gt; -&gt; value.isNotEmpty()</span>
-<span class="fc bfc" id="L192" title="All 4 branches covered.">        is Map&lt;*, *&gt; -&gt; value.isNotEmpty()</span>
-<span class="fc" id="L193">        else -&gt; true</span>
+<span class="fc" id="L204">    return when (value) {</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">        null -&gt; false</span>
+<span class="fc bfc" id="L206" title="All 4 branches covered.">        is Collection&lt;*&gt; -&gt; value.isNotEmpty()</span>
+<span class="fc bfc" id="L207" title="All 4 branches covered.">        is Map&lt;*, *&gt; -&gt; value.isNotEmpty()</span>
+<span class="fc" id="L208">        else -&gt; true</span>
     }
 }
 
@@ -198,132 +213,132 @@ inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.getKey(key: KProperty1&lt;*, 
     this[key.name] as? T
 
 fun Map&lt;*, *&gt;.getInt(key: KProperty1&lt;*, *&gt;): Int? =
-<span class="fc" id="L201">    getKey(key)</span>
-
-fun Map&lt;*, *&gt;.getLong(key: KProperty1&lt;*, *&gt;): Long? =
-<span class="fc" id="L204">    getKey(key)</span>
-
-fun Map&lt;*, *&gt;.getFloat(key: KProperty1&lt;*, *&gt;): Float? =
-<span class="fc" id="L207">    getKey(key)</span>
-
-fun Map&lt;*, *&gt;.getDouble(key: KProperty1&lt;*, *&gt;): Double? =
-<span class="fc" id="L210">    getKey(key)</span>
-
-fun Map&lt;*, *&gt;.getBoolean(key: KProperty1&lt;*, *&gt;): Boolean? =
-<span class="fc" id="L213">    getKey(key)</span>
-
-fun Map&lt;*, *&gt;.getString(key: KProperty1&lt;*, *&gt;): String? =
 <span class="fc" id="L216">    getKey(key)</span>
 
-fun Map&lt;*, *&gt;.getList(key: KProperty1&lt;*, *&gt;): Collection&lt;*&gt;? =
+fun Map&lt;*, *&gt;.getLong(key: KProperty1&lt;*, *&gt;): Long? =
 <span class="fc" id="L219">    getKey(key)</span>
 
-fun Map&lt;*, *&gt;.getMap(key: KProperty1&lt;*, *&gt;): Map&lt;String, *&gt;? =
+fun Map&lt;*, *&gt;.getFloat(key: KProperty1&lt;*, *&gt;): Float? =
 <span class="fc" id="L222">    getKey(key)</span>
 
-fun Map&lt;*, *&gt;.getInts(key: KProperty1&lt;*, *&gt;): Collection&lt;Int&gt;? =
+fun Map&lt;*, *&gt;.getDouble(key: KProperty1&lt;*, *&gt;): Double? =
 <span class="fc" id="L225">    getKey(key)</span>
 
-fun Map&lt;*, *&gt;.getLongs(key: KProperty1&lt;*, *&gt;): Collection&lt;Long&gt;? =
+fun Map&lt;*, *&gt;.getBoolean(key: KProperty1&lt;*, *&gt;): Boolean? =
 <span class="fc" id="L228">    getKey(key)</span>
 
-fun Map&lt;*, *&gt;.getFloats(key: KProperty1&lt;*, *&gt;): Collection&lt;Float&gt;? =
+fun Map&lt;*, *&gt;.getString(key: KProperty1&lt;*, *&gt;): String? =
 <span class="fc" id="L231">    getKey(key)</span>
 
-fun Map&lt;*, *&gt;.getDoubles(key: KProperty1&lt;*, *&gt;): Collection&lt;Double&gt;? =
+fun Map&lt;*, *&gt;.getList(key: KProperty1&lt;*, *&gt;): Collection&lt;*&gt;? =
 <span class="fc" id="L234">    getKey(key)</span>
 
-fun Map&lt;*, *&gt;.getBooleans(key: KProperty1&lt;*, *&gt;): Collection&lt;Boolean&gt;? =
+fun Map&lt;*, *&gt;.getMap(key: KProperty1&lt;*, *&gt;): Map&lt;String, *&gt;? =
 <span class="fc" id="L237">    getKey(key)</span>
 
-fun Map&lt;*, *&gt;.getStrings(key: KProperty1&lt;*, *&gt;): Collection&lt;String&gt;? =
+fun Map&lt;*, *&gt;.getInts(key: KProperty1&lt;*, *&gt;): Collection&lt;Int&gt;? =
 <span class="fc" id="L240">    getKey(key)</span>
 
-fun Map&lt;*, *&gt;.getLists(key: KProperty1&lt;*, *&gt;): Collection&lt;List&lt;*&gt;&gt;? =
+fun Map&lt;*, *&gt;.getLongs(key: KProperty1&lt;*, *&gt;): Collection&lt;Long&gt;? =
 <span class="fc" id="L243">    getKey(key)</span>
 
-fun Map&lt;*, *&gt;.getMaps(key: KProperty1&lt;*, *&gt;): Collection&lt;Map&lt;String, *&gt;&gt;? =
+fun Map&lt;*, *&gt;.getFloats(key: KProperty1&lt;*, *&gt;): Collection&lt;Float&gt;? =
 <span class="fc" id="L246">    getKey(key)</span>
 
+fun Map&lt;*, *&gt;.getDoubles(key: KProperty1&lt;*, *&gt;): Collection&lt;Double&gt;? =
+<span class="fc" id="L249">    getKey(key)</span>
+
+fun Map&lt;*, *&gt;.getBooleans(key: KProperty1&lt;*, *&gt;): Collection&lt;Boolean&gt;? =
+<span class="fc" id="L252">    getKey(key)</span>
+
+fun Map&lt;*, *&gt;.getStrings(key: KProperty1&lt;*, *&gt;): Collection&lt;String&gt;? =
+<span class="fc" id="L255">    getKey(key)</span>
+
+fun Map&lt;*, *&gt;.getLists(key: KProperty1&lt;*, *&gt;): Collection&lt;List&lt;*&gt;&gt;? =
+<span class="fc" id="L258">    getKey(key)</span>
+
+fun Map&lt;*, *&gt;.getMaps(key: KProperty1&lt;*, *&gt;): Collection&lt;Map&lt;String, *&gt;&gt;? =
+<span class="fc" id="L261">    getKey(key)</span>
+
 fun Map&lt;*, *&gt;.getListOrEmpty(key: KProperty1&lt;*, *&gt;): Collection&lt;*&gt; =
-<span class="fc bfc" id="L249" title="All 2 branches covered.">    getList(key) ?: emptyList&lt;Any&gt;()</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">    getList(key) ?: emptyList&lt;Any&gt;()</span>
 
 fun Map&lt;*, *&gt;.getMapOrEmpty(key: KProperty1&lt;*, *&gt;): Map&lt;String, *&gt; =
-<span class="fc bfc" id="L252" title="All 2 branches covered.">    getMap(key) ?: emptyMap&lt;String, Any&gt;()</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">    getMap(key) ?: emptyMap&lt;String, Any&gt;()</span>
 
 fun Map&lt;*, *&gt;.getIntsOrEmpty(key: KProperty1&lt;*, *&gt;): Collection&lt;Int&gt; =
-<span class="fc bfc" id="L255" title="All 2 branches covered.">    getInts(key) ?: emptyList()</span>
+<span class="fc bfc" id="L270" title="All 2 branches covered.">    getInts(key) ?: emptyList()</span>
 
 fun Map&lt;*, *&gt;.getLongsOrEmpty(key: KProperty1&lt;*, *&gt;): Collection&lt;Long&gt; =
-<span class="fc bfc" id="L258" title="All 2 branches covered.">    getLongs(key) ?: emptyList()</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">    getLongs(key) ?: emptyList()</span>
 
 fun Map&lt;*, *&gt;.getFloatsOrEmpty(key: KProperty1&lt;*, *&gt;): Collection&lt;Float&gt; =
-<span class="fc bfc" id="L261" title="All 2 branches covered.">    getFloats(key) ?: emptyList()</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">    getFloats(key) ?: emptyList()</span>
 
 fun Map&lt;*, *&gt;.getDoublesOrEmpty(key: KProperty1&lt;*, *&gt;): Collection&lt;Double&gt; =
-<span class="fc bfc" id="L264" title="All 2 branches covered.">    getDoubles(key) ?: emptyList()</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">    getDoubles(key) ?: emptyList()</span>
 
 fun Map&lt;*, *&gt;.getBooleansOrEmpty(key: KProperty1&lt;*, *&gt;): Collection&lt;Boolean&gt; =
-<span class="fc bfc" id="L267" title="All 2 branches covered.">    getBooleans(key) ?: emptyList()</span>
+<span class="fc bfc" id="L282" title="All 2 branches covered.">    getBooleans(key) ?: emptyList()</span>
 
 fun Map&lt;*, *&gt;.getStringsOrEmpty(key: KProperty1&lt;*, *&gt;): Collection&lt;String&gt; =
-<span class="fc bfc" id="L270" title="All 2 branches covered.">    getStrings(key) ?: emptyList()</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">    getStrings(key) ?: emptyList()</span>
 
 fun Map&lt;*, *&gt;.getListsOrEmpty(key: KProperty1&lt;*, *&gt;): Collection&lt;Collection&lt;*&gt;&gt; =
-<span class="fc bfc" id="L273" title="All 2 branches covered.">    getLists(key) ?: emptyList()</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">    getLists(key) ?: emptyList()</span>
 
 fun Map&lt;*, *&gt;.getMapsOrEmpty(key: KProperty1&lt;*, *&gt;): Collection&lt;Map&lt;String, *&gt;&gt; =
-<span class="fc bfc" id="L276" title="All 2 branches covered.">    getMaps(key) ?: emptyList()</span>
+<span class="fc bfc" id="L291" title="All 2 branches covered.">    getMaps(key) ?: emptyList()</span>
 
 inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.requireKey(key: KProperty1&lt;*, *&gt;): T =
     getKey(key)
         ?: error(&quot;'${key.name}' key not found, or wrong type (must be ${T::class.qualifiedName})&quot;)
 
 fun Map&lt;*, *&gt;.requireInt(key: KProperty1&lt;*, *&gt;): Int =
-<span class="fc" id="L283">    requireKey(key)</span>
-
-fun Map&lt;*, *&gt;.requireLong(key: KProperty1&lt;*, *&gt;): Long =
-<span class="fc" id="L286">    requireKey(key)</span>
-
-fun Map&lt;*, *&gt;.requireFloat(key: KProperty1&lt;*, *&gt;): Float =
-<span class="fc" id="L289">    requireKey(key)</span>
-
-fun Map&lt;*, *&gt;.requireDouble(key: KProperty1&lt;*, *&gt;): Double =
-<span class="fc" id="L292">    requireKey(key)</span>
-
-fun Map&lt;*, *&gt;.requireBoolean(key: KProperty1&lt;*, *&gt;): Boolean =
-<span class="fc" id="L295">    requireKey(key)</span>
-
-fun Map&lt;*, *&gt;.requireString(key: KProperty1&lt;*, *&gt;): String =
 <span class="fc" id="L298">    requireKey(key)</span>
 
-fun Map&lt;*, *&gt;.requireList(key: KProperty1&lt;*, *&gt;): Collection&lt;*&gt; =
+fun Map&lt;*, *&gt;.requireLong(key: KProperty1&lt;*, *&gt;): Long =
 <span class="fc" id="L301">    requireKey(key)</span>
 
-fun Map&lt;*, *&gt;.requireMap(key: KProperty1&lt;*, *&gt;): Map&lt;String, *&gt; =
+fun Map&lt;*, *&gt;.requireFloat(key: KProperty1&lt;*, *&gt;): Float =
 <span class="fc" id="L304">    requireKey(key)</span>
 
-fun Map&lt;*, *&gt;.requireInts(key: KProperty1&lt;*, *&gt;): List&lt;Int&gt; =
+fun Map&lt;*, *&gt;.requireDouble(key: KProperty1&lt;*, *&gt;): Double =
 <span class="fc" id="L307">    requireKey(key)</span>
 
-fun Map&lt;*, *&gt;.requireLongs(key: KProperty1&lt;*, *&gt;): Collection&lt;Long&gt; =
+fun Map&lt;*, *&gt;.requireBoolean(key: KProperty1&lt;*, *&gt;): Boolean =
 <span class="fc" id="L310">    requireKey(key)</span>
 
-fun Map&lt;*, *&gt;.requireFloats(key: KProperty1&lt;*, *&gt;): Collection&lt;Float&gt; =
+fun Map&lt;*, *&gt;.requireString(key: KProperty1&lt;*, *&gt;): String =
 <span class="fc" id="L313">    requireKey(key)</span>
 
-fun Map&lt;*, *&gt;.requireDoubles(key: KProperty1&lt;*, *&gt;): Collection&lt;Double&gt; =
+fun Map&lt;*, *&gt;.requireList(key: KProperty1&lt;*, *&gt;): Collection&lt;*&gt; =
 <span class="fc" id="L316">    requireKey(key)</span>
 
-fun Map&lt;*, *&gt;.requireBooleans(key: KProperty1&lt;*, *&gt;): Collection&lt;Boolean&gt; =
+fun Map&lt;*, *&gt;.requireMap(key: KProperty1&lt;*, *&gt;): Map&lt;String, *&gt; =
 <span class="fc" id="L319">    requireKey(key)</span>
 
-fun Map&lt;*, *&gt;.requireStrings(key: KProperty1&lt;*, *&gt;): Collection&lt;String&gt; =
+fun Map&lt;*, *&gt;.requireInts(key: KProperty1&lt;*, *&gt;): List&lt;Int&gt; =
 <span class="fc" id="L322">    requireKey(key)</span>
 
-fun Map&lt;*, *&gt;.requireLists(key: KProperty1&lt;*, *&gt;): Collection&lt;Collection&lt;*&gt;&gt; =
+fun Map&lt;*, *&gt;.requireLongs(key: KProperty1&lt;*, *&gt;): Collection&lt;Long&gt; =
 <span class="fc" id="L325">    requireKey(key)</span>
 
-fun Map&lt;*, *&gt;.requireMaps(key: KProperty1&lt;*, *&gt;): Collection&lt;Map&lt;String, *&gt;&gt; =
+fun Map&lt;*, *&gt;.requireFloats(key: KProperty1&lt;*, *&gt;): Collection&lt;Float&gt; =
 <span class="fc" id="L328">    requireKey(key)</span>
+
+fun Map&lt;*, *&gt;.requireDoubles(key: KProperty1&lt;*, *&gt;): Collection&lt;Double&gt; =
+<span class="fc" id="L331">    requireKey(key)</span>
+
+fun Map&lt;*, *&gt;.requireBooleans(key: KProperty1&lt;*, *&gt;): Collection&lt;Boolean&gt; =
+<span class="fc" id="L334">    requireKey(key)</span>
+
+fun Map&lt;*, *&gt;.requireStrings(key: KProperty1&lt;*, *&gt;): Collection&lt;String&gt; =
+<span class="fc" id="L337">    requireKey(key)</span>
+
+fun Map&lt;*, *&gt;.requireLists(key: KProperty1&lt;*, *&gt;): Collection&lt;Collection&lt;*&gt;&gt; =
+<span class="fc" id="L340">    requireKey(key)</span>
+
+fun Map&lt;*, *&gt;.requireMaps(key: KProperty1&lt;*, *&gt;): Collection&lt;Map&lt;String, *&gt;&gt; =
+<span class="fc" id="L343">    requireKey(key)</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

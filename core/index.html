@@ -446,13 +446,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonktcorehandlers" class="md-nav__link">
-    Package com.hexagonkt.core.handlers
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#package-comhexagonktcorelogging" class="md-nav__link">
     Package com.hexagonkt.core.logging
   </a>
@@ -907,13 +900,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonktcorehandlers" class="md-nav__link">
-    Package com.hexagonkt.core.handlers
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#package-comhexagonktcorelogging" class="md-nav__link">
     Package com.hexagonkt.core.logging
   </a>
@@ -1005,64 +991,6 @@ add the Classpath handler manually with the <code>--enable-url-protocols=classpa
   Do not enable it in application development and turn it on only when the application is
   extensively tested.</li>
 </ul>
-<h2 id="package-comhexagonktcorehandlers">Package com.hexagonkt.core.handlers<a class="headerlink" href="#package-comhexagonktcorehandlers" title="Permanent link">&para;</a></h2>
-<p>Provide general utilities to attach many handlers to be applied on events processing. Events can be
-of any type.</p>
-<p>Handlers may or may not be applied to certain events at runtime based on rules provided as a
-predicate (function).</p>
-<p>If an event doesn't match a handler's predicate, that handler is ignored, and the next one will be
-processed.</p>
-<p>When a handler's predicate returns true, its callback will be called. That block will process the
-event, and return a modified copy with the changes.</p>
-<p>The callback block will decide if subsequent handler's will be evaluated by calling the next handler
-explicitly (if <code>next</code> method is not called, the handlers defined later won't be evaluated).</p>
-<p>There are types of handlers like 'After' y 'Before' that call <code>next</code> as part as their operation
-discharging the user of doing so.</p>
-<p>The events are passed to handlers' callbacks wrapped in a 'context'. The context can also pass
-information among handlers in the <code>attributes</code> field. And store an exception if it is thrown in a
-previous handler processing.</p>
-<p>Concepts:</p>
-<ul>
-<li>Events<ul>
-<li>Context</li>
-</ul>
-</li>
-<li>Handlers<ul>
-<li>Predicates</li>
-<li>Callbacks</li>
-</ul>
-</li>
-</ul>
-<p>Types of handlers:</p>
-<ul>
-<li>On Handler: the callback is executed before calling the remaining handlers. <code>next</code> is called after
-  the callback.</li>
-<li>After Handler: the predicate is evaluated after the remaining handlers return, and the callback is
-  executed after. <code>next</code> is called before the callback</li>
-<li>Filter Handler: <code>next</code> is not called by this handler, its callback is responsible for doing so if
-  needed.</li>
-<li>Chain Handler: this handler contains a list of handlers inside.</li>
-</ul>
-<p>IMPORTANT: the order is NOT the order, it is the depth. Handlers are not linked, they are NESTED.
-The <code>next()</code> method passes control to the next level.</p>
-<p>This definition:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>H1
-H2
-H3
-</code></pre></div></td></tr></table></div>
-<p>Is really this execution:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>H1 (on)
-  H2 (on)
-    H3 (on)
-  H2 (after)
-H1 (after)
-</code></pre></div></td></tr></table></div>
 <h2 id="package-comhexagonktcorelogging">Package com.hexagonkt.core.logging<a class="headerlink" href="#package-comhexagonktcorelogging" title="Permanent link">&para;</a></h2>
 <p>Provides a logging management capabilities abstracting the application from logging libraries.</p>
 <p>The following code block shows the most common use cases for the <a href="/api/core/com.hexagonkt.core.logging/-logger">Logger</a> class:</p>
