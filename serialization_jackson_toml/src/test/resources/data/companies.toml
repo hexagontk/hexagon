@@ -1,0 +1,37 @@
+[[_]]
+id = "id"
+foundation = 20140125
+closeTime = 114200000
+web = "http://example.org"
+clients = [ "http://c1.example.org", "http://c2.example.org" ]
+departments = [ "DESIGN", "DEVELOPMENT" ]
+creationDate = 20160101000000000
+logo = "AAEC"
+notes = "notes"
+
+[_.openTime]
+start = 83000000
+endInclusive = 145100000
+
+[[_.people]]
+name = "John"
+
+[[_.people]]
+name = "Mike"
+
+[[_]]
+id = "id1"
+foundation = 20140125
+closeTime = 114200000
+web = "http://example.org"
+creationDate = 20160825171704210
+
+[_.openTime]
+start = 83000000
+endInclusive = 143600000
+
+[[_.people]]
+name = "John"
+
+[[_.people]]
+name = "Mike"

@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.core.handlers.Context
-import com.hexagonkt.core.handlers.Handler
+import com.hexagonkt.handlers.Context
+import com.hexagonkt.handlers.Handler
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.HttpProtocol.HTTP

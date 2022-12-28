@@ -179,6 +179,15 @@ fun String.camelToWords(): List<String> =
 fun List<String>.wordsToCamel(): String =
     joinToString("") { it.replaceFirstChar(Char::uppercase) }.replaceFirstChar(Char::lowercase)
 
+fun List<String>.wordsToTitle(): String =
+    joinToString(" ") { it.replaceFirstChar(Char::uppercase) }
+
+fun List<String>.wordsToSentence(): String =
+    joinToString(" ").replaceFirstChar(Char::uppercase)
+
+fun Enum<*>.toWords(): String =
+    toString().lowercase().replace("_", " ")
+
 /**
  * Transform the target string from camel case to snake case.
  */

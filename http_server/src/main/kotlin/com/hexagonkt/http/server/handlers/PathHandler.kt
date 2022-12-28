@@ -1,8 +1,8 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.core.handlers.ChainHandler
-import com.hexagonkt.core.handlers.Context
-import com.hexagonkt.core.handlers.Handler
+import com.hexagonkt.handlers.ChainHandler
+import com.hexagonkt.handlers.Context
+import com.hexagonkt.handlers.Handler
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.toText
 import com.hexagonkt.http.model.ContentType

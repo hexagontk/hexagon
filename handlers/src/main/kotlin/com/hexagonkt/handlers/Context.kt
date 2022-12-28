@@ -1,4 +1,4 @@
-package com.hexagonkt.core.handlers
+package com.hexagonkt.handlers
 
 /**
  * Context for an event.

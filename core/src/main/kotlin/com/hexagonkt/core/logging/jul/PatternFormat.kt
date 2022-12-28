@@ -22,9 +22,12 @@ import java.util.logging.LogRecord
  *
  * @property useColor Use colors in log messages.
  */
-class PatternFormat(private val useColor: Boolean) : Formatter() {
+class PatternFormat(
+    private val useColor: Boolean,
+    private val messageOnly: Boolean = false,
+) : Formatter() {
 
-    private companion object {
+    companion object {
         const val TIMESTAMP = "%tH:%<tM:%<tS,%<tL"
         const val LEVEL = "%-5s"
         const val THREAD = "[%-15s]"
@@ -53,6 +56,9 @@ class PatternFormat(private val useColor: Boolean) : Formatter() {
     )
 
     override fun format(record: LogRecord): String {
+        if (messageOnly)
+            return record.message + "\n"
+
         val instant = Instant.ofEpochMilli(record.millis)
         val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
         val thrown = record.thrown

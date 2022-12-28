@@ -2,6 +2,7 @@ package com.hexagonkt.serialization
 
 import com.hexagonkt.core.media.ApplicationMedia.PHP
 import com.hexagonkt.core.media.ApplicationMedia.AVRO
+import com.hexagonkt.serialization.jackson.json.Json
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.lang.IllegalStateException
@@ -11,6 +12,16 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 internal class SerializationTest {
+
+    @Test fun `Data serialization to file work properly`() {
+        SerializationManager.defaultFormat = Json
+
+        val map = mapOf("a" to "b")
+        val file = File("build/a.json")
+
+        map.serialize(file)
+        assertEquals(map, file.parse())
+    }
 
     @Test fun `Data serialization helpers work properly`() {
         SerializationManager.formats = setOf(BinaryTestFormat)

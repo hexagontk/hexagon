@@ -5,6 +5,12 @@ import kotlin.reflect.KProperty1
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *
+ * Mermaid test:
+ * ```mermaid
+ * graph LR
+ *   A --> B
+ * ```
+ *
  * @param mapA .
  * @param mapB .
  * @return .
@@ -14,14 +20,23 @@ fun merge(mapA: Map<*, *>, mapB: Map<*, *>): Map<*, *> =
         .groupBy { it.key }
         .mapValues { (_, v) -> v.map { it.value } }
         .mapValues { (_, v) ->
-            val isList = v.all { it is Collection<*> }
+            val isCollection = v.all { it is Collection<*> }
             val isMap = v.all { it is Map<*, *> }
             when {
-                isList -> v.map { it as Collection<*> }.reduce { a, b -> a + b }
+                isCollection -> v.map { it as Collection<*> }.reduce { a, b -> a + b }
                 isMap -> v.map { it as Map<*, *> }.reduce { a, b -> merge(a, b) }
                 else -> v.last()
             }
         }
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param maps .
+ * @return .
+ */
+fun merge(maps: Collection<Map<*, *>>): Map<*, *> =
+    maps.reduce { a, b -> merge(a, b) }
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -57,7 +72,7 @@ inline fun <reified T : Any> Map<*, *>.keys(vararg keys: Any): T? {
             val r = result as Map<Any, Any>
             when (val value = r[element]) {
                 is Map<*, *> -> value
-                is List<*> -> value.mapIndexed { ii, item -> ii to item }.toMap()
+                is Collection<*> -> value.mapIndexed { ii, item -> ii to item }.toMap()
                 else -> emptyMap<Any, Any>()
             }
         }[mappedKeys.last()] as? T
@@ -89,7 +104,7 @@ inline fun <reified T : Any> Map<*, *>.requireKeys(vararg name: Any): T =
  * @receiver .
  * @return .
  */
-fun <K, V> Map<K, List<V>>.pairs(): List<Pair<K, V>> =
+fun <K, V> Map<K, Collection<V>>.pairs(): Collection<Pair<K, V>> =
     flatMap { (k, v) -> v.map { k to it } }
 
 /**
@@ -144,7 +159,7 @@ fun <K, V> Map<K, V?>.filterNotEmpty(): Map<K, V> =
  * @receiver .
  * @return .
  */
-fun <V> List<V?>.filterNotEmpty(): List<V> =
+fun <V> Collection<V?>.filterNotEmpty(): Collection<V> =
     this.filter(::notEmpty).map { it ?: fail }
 
 /**
@@ -156,7 +171,7 @@ fun <V> List<V?>.filterNotEmpty(): List<V> =
 fun Map<*, *>.filterNotEmptyRecursive(): Map<*, *> =
     mapValues { (_, v) ->
         when (v) {
-            is List<*> -> v.filterNotEmptyRecursive()
+            is Collection<*> -> v.filterNotEmptyRecursive()
             is Map<*, *> -> v.filterNotEmptyRecursive()
             else -> v
         }
@@ -169,10 +184,10 @@ fun Map<*, *>.filterNotEmptyRecursive(): Map<*, *> =
  * @receiver .
  * @return .
  */
-fun List<*>.filterNotEmptyRecursive(): List<*> =
+fun Collection<*>.filterNotEmptyRecursive(): Collection<*> =
     map {
         when (it) {
-            is List<*> -> it.filterNotEmptyRecursive()
+            is Collection<*> -> it.filterNotEmptyRecursive()
             is Map<*, *> -> it.filterNotEmptyRecursive()
             else -> it
         }
@@ -188,7 +203,7 @@ fun List<*>.filterNotEmptyRecursive(): List<*> =
 fun <V> notEmpty(value: V?): Boolean {
     return when (value) {
         null -> false
-        is List<*> -> value.isNotEmpty()
+        is Collection<*> -> value.isNotEmpty()
         is Map<*, *> -> value.isNotEmpty()
         else -> true
     }

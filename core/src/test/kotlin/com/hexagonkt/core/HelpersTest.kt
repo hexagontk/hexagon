@@ -3,12 +3,32 @@ package com.hexagonkt.core
 import java.net.ServerSocket
 import org.junit.jupiter.api.Test
 import java.net.InetAddress
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
-import kotlin.test.assertNull
+import java.net.URL
+import kotlin.test.*
 
 internal class HelpersTest {
+
+    @Test fun `URL check works properly`() {
+        assertTrue { URL("http://example.com").responseSuccessful() }
+        assertFalse { URL("http://invalid-domain.z").responseSuccessful() }
+        assertTrue { URL("http://example.com").responseFound() }
+        assertFalse { URL("http://example.com/nothing").responseFound() }
+    }
+
+    @Test fun `Properties can be loaded from URLs`() {
+        val properties = properties(URL("classpath:build.properties"))
+        assertEquals("hexagon", properties["project"])
+        assertEquals("core", properties["module"])
+        assertEquals("1.0.0", properties["version"])
+        assertEquals("com.hexagonkt", properties["group"])
+        assertEquals("Hexagon Toolkit", properties["description"])
+        assertEquals("1", properties["number"])
+        assertNull(properties["invalid"])
+
+        assertFailsWith<ResourceNotFoundException> {
+            properties(URL("classpath:invalid.properties"))
+        }
+    }
 
     @Test fun `Internet address helper works correctly`() {
         assertEquals(InetAddress.getByAddress(byteArrayOf(0, 0, 0, 0)), allInterfaces)

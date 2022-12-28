@@ -56,4 +56,51 @@ internal class YamlTest : SerializationTest() {
         """.parse(Yaml) as List<Map<Any, *>>
         assertEquals("b", parse.first()["a"])
     }
+
+    @Test fun `Pretty print YAML`() {
+        val map = mapOf(
+            "key" to listOf(
+                mapOf(
+                    "a" to "str",
+                    "b" to listOf(1, 2),
+                ),
+                1,
+                2,
+            )
+        )
+
+        assertEquals(
+            """
+            key:
+              - a: str
+                b:
+                  - 1
+                  - 2
+              - 1
+              - 2
+            """.trimIndent(),
+            Yaml.serialize(map).trim()
+        )
+
+        assertEquals(
+            """
+            key:
+            - a: "str"
+              b:
+              - 1
+              - 2
+            - 1
+            - 2
+            """.trimIndent(),
+            Yaml.raw.serialize(map).trim()
+        )
+
+        val testMap = mapOf("key" to "123")
+
+        assertEquals("""key: "123"""", Yaml.serialize(testMap).trim())
+        assertEquals("""key: "123"""", Yaml.raw.serialize(testMap).trim())
+
+        assertEquals("key: 123", Yaml.serialize(mapOf("key" to 123)).trim())
+        assertEquals("key: 123", Yaml.raw.serialize(mapOf("key" to 123)).trim())
+    }
 }

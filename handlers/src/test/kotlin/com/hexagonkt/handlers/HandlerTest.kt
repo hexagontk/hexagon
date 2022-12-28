@@ -1,4 +1,4 @@
-package com.hexagonkt.core.handlers
+package com.hexagonkt.handlers
 
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingLevel.TRACE

@@ -7,11 +7,15 @@ import com.hexagonkt.core.logging.LoggingPort
 import com.hexagonkt.core.logging.jul.JulLoggingAdapter
 import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
+import java.io.PrintStream
 import org.slf4j.Logger as Slf4jLogger
 
-class Slf4jJulLoggingAdapter : LoggingPort {
+class Slf4jJulLoggingAdapter(
+    messageOnly: Boolean = false,
+    stream: PrintStream = System.out
+) : LoggingPort {
 
-    private val julLoggingAdapter = JulLoggingAdapter()
+    private val julLoggingAdapter = JulLoggingAdapter(messageOnly, stream)
 
     override fun createLogger(name: String): LoggerPort =
         object : LoggerPort {
