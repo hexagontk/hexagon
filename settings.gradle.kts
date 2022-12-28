@@ -8,6 +8,7 @@ include(
 
     // Internal modules
     "core",
+    "handlers",
     "http",
 
     // Ports
@@ -23,6 +24,7 @@ include(
     "serialization_jackson",
     "serialization_jackson_json",
     "serialization_jackson_csv",
+    "serialization_jackson_toml",
     "serialization_jackson_yaml",
     "serialization_jackson_xml",
     "http_client_jetty",

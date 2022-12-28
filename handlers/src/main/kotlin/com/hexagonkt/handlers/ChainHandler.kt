@@ -1,4 +1,4 @@
-package com.hexagonkt.core.handlers
+package com.hexagonkt.handlers
 
 data class ChainHandler<T : Any>(
     val handlers: List<Handler<T>>,

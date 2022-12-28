@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.core.handlers.Context
+import com.hexagonkt.handlers.Context
 import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.core.disableChecks
 import com.hexagonkt.core.media.TextMedia.PLAIN

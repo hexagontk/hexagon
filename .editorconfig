@@ -38,6 +38,12 @@ ij_json_spaces_within_braces = true
 ij_json_spaces_within_brackets = true
 ij_json_wrap_long_lines = true
 
+# IntelliJ YAML specific rules
+[*.{yaml,yml}]
+ij_yaml_spaces_within_brackets = true
+ij_yaml_spaces_within_braces = true
+ij_yaml_keep_line_breaks = true
+
 # IntelliJ HTML formatting
 [*.{html,htm}]
 ij_html_do_not_indent_children_of_tags = html

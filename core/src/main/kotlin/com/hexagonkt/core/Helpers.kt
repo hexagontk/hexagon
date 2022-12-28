@@ -4,10 +4,7 @@ import com.hexagonkt.core.logging.Logger
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
-import java.net.InetAddress
-import java.net.ServerSocket
-import java.net.Socket
-import java.net.URL
+import java.net.*
 import java.util.*
 import java.util.concurrent.TimeUnit.SECONDS
 
@@ -88,6 +85,20 @@ fun isPortOpened(port: Int): Boolean =
         logger.debug { "Checked port: $port is already open" }
         false
     }
+
+fun URL.responseCode(): Int =
+    try {
+        (openConnection() as HttpURLConnection).responseCode
+    }
+    catch (e: java.lang.Exception) {
+        400
+    }
+
+fun URL.responseSuccessful(): Boolean =
+    responseCode() in 200 until 300
+
+fun URL.responseFound(): Boolean =
+    responseCode().let { it in 200 until 500 && it != 404 }
 
 // PROCESSES ///////////////////////////////////////////////////////////////////////////////////////
 /**

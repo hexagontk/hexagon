@@ -11,4 +11,5 @@ apply(from = "../gradle/native.gradle")
 
 dependencies {
     "api"(project(":http"))
+    "api"(project(":handlers"))
 }

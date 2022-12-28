@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.core.handlers.Callback
+import com.hexagonkt.handlers.Callback
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpProtocol.HTTP

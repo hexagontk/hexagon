@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.core.handlers.Context
-import com.hexagonkt.core.handlers.Predicate
+import com.hexagonkt.handlers.Context
+import com.hexagonkt.handlers.Predicate
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.http.patterns.LiteralPathPattern
 import com.hexagonkt.http.model.HttpMethod
