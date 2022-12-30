@@ -27,7 +27,6 @@ plugins {
     id("com.github.jk1.dependency-license-report") version("2.1")
     id("io.gitlab.arturbosch.detekt") version("1.22.0") apply(false)
     id("me.champeau.jmh") version("0.6.8") apply(false)
-    id("org.graalvm.buildtools.native") version("0.9.19") apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")

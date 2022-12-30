@@ -26,14 +26,6 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v3
-      - name: Install Java
-        uses: graalvm/setup-graalvm@v1
-        with:
-          version: latest
-          java-version: 17
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          components: native-image,llvm
-          cache: gradle
       - name: Install ImageMagick
         uses: ./.github/actions/image_magick
       - name: Restore Cache
