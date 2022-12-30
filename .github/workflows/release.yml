@@ -5,9 +5,6 @@ on:
   push:
     branches: [ master ]
 
-env:
-  graalvm_metadata: false
-
 jobs:
   sample_keystores:
     name: Sample Keystores
@@ -18,7 +15,6 @@ jobs:
       - name: Create Sample Keystores
         uses: ./.github/actions/gradle
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           tasks: createCa createIdentities
 
   publish:
@@ -59,7 +55,7 @@ jobs:
           git config --global user.email "juanjoaguililla@gmail.com"
           git config --global user.name "jaguililla"
           git clone "$REMOTE" --branch gh-pages build/gh-pages
-          ./gradlew --info -Pagent build
+          ./gradlew --info build
           ./gradlew --info -x build buildSite
           ls -AlF site/build/site
 
@@ -70,7 +66,6 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
-          [[ $graalvm_metadata == true ]] && ./gradlew --info --no-daemon -x test metadataCopy
           ./gradlew --info --no-daemon -x test release
 
       - name: Publish Site

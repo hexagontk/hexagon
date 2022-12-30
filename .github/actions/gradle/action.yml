@@ -11,31 +11,30 @@ inputs:
     required: true
     default: "17"
 
+  java_distribution:
+    description: Java distribution used to run Gradle.
+    required: true
+    default: temurin
+
   tasks:
     description: Gradle tasks to execute.
     required: true
     default: build
-
-  token:
-    description: Token used to install GraalVM.
-    required: true
 
 runs:
   using: composite
   steps:
 
     # SET UP
-    - uses: graalvm/setup-graalvm@v1
+    - uses: actions/setup-java@v3
       with:
-        version: latest
         java-version: ${{ inputs.java }}
-        github-token: ${{ inputs.token }}
-        components: native-image,llvm
+        distribution: ${{ inputs.java_distribution }}
         cache: gradle
 
     # PROCESS
-    - run: ./gradlew -Pagent ${{ inputs.tasks }}
+    - run: ./gradlew ${{ inputs.tasks }}
       shell: bash
     - if: failure()
-      run: ./gradlew --info --stacktrace -Pagent ${{ inputs.tasks }}
+      run: ./gradlew --info --stacktrace ${{ inputs.tasks }}
       shell: bash

@@ -6,23 +6,6 @@ on:
     - cron: "59 23 * * *"
 
 jobs:
-  stale:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/stale@v6
-        with:
-          exempt-issue-labels: pinned
-          include-only-assigned: true
-          days-before-stale: 90
-          days-before-close: 14
-          days-before-pr-close: -1
-          stale-pr-message: This PR is stale because it has been open 45 days with no activity.
-          stale-issue-message:
-            "This issue is stale because it has been open 90 days with no activity. Remove stale
-            label or comment or this will be closed in 14 days."
-          close-issue-message:
-            "This issue was closed because it has been stalled for 14 days with no activity."
-
   build:
     defaults:
       run: { shell: bash }
@@ -39,8 +22,6 @@ jobs:
         with: { ref: develop }
       - name: Build Project
         uses: ./.github/actions/gradle
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Check Build
         run: ls -AlF core/build
 
@@ -61,7 +42,6 @@ jobs:
       - name: Create Sample Keystores
         uses: ./.github/actions/gradle
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           tasks: createCa createIdentities
 
   build_site:
@@ -87,8 +67,6 @@ jobs:
       # PROCESS
       - name: Build Project
         uses: ./.github/actions/gradle
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Site
         run: |
           ./gradlew --info -x build buildSite
@@ -108,17 +86,7 @@ jobs:
       - name: Check Out
         uses: actions/checkout@v3
         with: { ref: develop }
-      - name: Install Java
-        uses: graalvm/setup-graalvm@v1
-        with:
-          version: latest
-          java-version: 17
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          components: native-image,llvm
-          cache: gradle
-
       - name: Test Publishing
-        run: |
-          ./gradlew --info -x test -Pagent build
-          [[ $graalvm_metadata == true ]] && ./gradlew --info -x test metadataCopy
-          ./gradlew --info -x test publishToMavenLocal
+        uses: ./.github/actions/gradle
+        with:
+          tasks: publishToMavenLocal -x test

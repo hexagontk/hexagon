@@ -5,9 +5,6 @@ on:
   push:
     branches: [ release/** ]
 
-env:
-  graalvm_metadata: false
-
 jobs:
   sample_keystores:
     name: Sample Keystores
@@ -18,7 +15,6 @@ jobs:
       - name: Create Sample Keystores
         uses: ./.github/actions/gradle
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           tasks: createCa createIdentities
 
   publish:
@@ -58,7 +54,7 @@ jobs:
           git remote set-url origin "$REMOTE"
           git config --global user.email "juanjoaguililla@gmail.com"
           git config --global user.name "jaguililla"
-          ./gradlew --info -Pagent build
+          ./gradlew --info build
           ./gradlew --info -x build buildSite
 
       - name: Publish Packages
@@ -68,5 +64,4 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
-          [[ $graalvm_metadata == true ]] && ./gradlew --info --no-daemon -x test metadataCopy
           ./gradlew --info --no-daemon -x test release
