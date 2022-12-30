@@ -121,6 +121,7 @@ Gradle's script for a service or application. It adds these extra tasks:
 * jarAll: creates a single JAR with all dependencies, and the application main class set up. This
   task is an alternative to the Gradle `installDist` task.
 * jre: create an application distribution based on a jlink generated JRE.
+* jpackage: create a jpackage distribution including a JVM with a subset of the modules.
 
 To use it, apply `$gradleScripts/application.gradle` to your `build.gradle`.
 
@@ -128,6 +129,8 @@ To set up this script's parameters, check the [build variables section]. These h
 
 * modules: comma separated list of modules to include in the generated JRE. By default:
   `java.logging,java.management`.
+* options: JVM options passed to the jpackage generated launcher.
+* icon: icon to be used in the jpackage distribution.
 * applicationClass (REQUIRED): fully qualified name of the main class of the application.
 
 To set up this script you need to add the main class name to your `build.gradle` file with the

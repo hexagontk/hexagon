@@ -7,7 +7,6 @@ apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/detekt.gradle")
-apply(from = "../gradle/native.gradle")
 
 description = "Hexagon SLF4J logging adapter (using JUL as SLF4J engine)."
 
