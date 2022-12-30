@@ -13,8 +13,6 @@ import com.hexagonkt.http.model.HttpProtocol.HTTP2
 import com.hexagonkt.http.model.HttpProtocol.HTTP
 
 import java.lang.Runtime.getRuntime
-import java.lang.management.ManagementFactory.getMemoryMXBean
-import java.lang.management.ManagementFactory.getRuntimeMXBean
 import com.hexagonkt.core.Ansi.BLUE
 import com.hexagonkt.core.Ansi.BOLD
 import com.hexagonkt.core.Ansi.CYAN
@@ -22,6 +20,9 @@ import com.hexagonkt.core.Ansi.DEFAULT
 import com.hexagonkt.core.Ansi.MAGENTA
 import com.hexagonkt.core.Ansi.RESET
 import com.hexagonkt.core.Ansi.UNDERLINE
+import com.hexagonkt.core.Jvm.initialMemory
+import com.hexagonkt.core.Jvm.uptime
+import com.hexagonkt.core.Jvm.usedMemory
 import com.hexagonkt.core.prependIndent
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.handlers.HttpHandler
@@ -155,10 +156,6 @@ data class HttpServer(
 
     internal fun createBanner(startUpTimestamp: Long): String {
 
-        val heap = getMemoryMXBean().heapMemoryUsage
-        val jvmMemory = "%,d".format(heap.init / 1024)
-        val usedMemory = "%,d".format(heap.used / 1024)
-        val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
         val startUpTime = "%,.0f".format(startUpTimestamp / 1e6)
         val bindAddress = settings.bindAddress
         val protocol = settings.protocol
@@ -182,7 +179,7 @@ data class HttpServer(
 
         val hostnameValue = "$BLUE$hostname$RESET"
         val cpuCountValue = "$BLUE$cpuCount$RESET"
-        val jvmMemoryValue = "$BLUE$jvmMemory$RESET"
+        val jvmMemoryValue = "$BLUE${initialMemory()}$RESET"
 
         val javaVersionValue = "$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]"
 
@@ -190,9 +187,9 @@ data class HttpServer(
         val timezoneValue = "$BLUE$timezone$RESET"
         val charsetValue = "$BLUE$charset$RESET"
 
-        val bootTimeValue = "$BOLD$MAGENTA$bootTime s$RESET"
+        val bootTimeValue = "$BOLD$MAGENTA${uptime()} s$RESET"
         val startUpTimeValue = "$BOLD$MAGENTA$startUpTime ms$RESET"
-        val usedMemoryValue = "$BOLD$MAGENTA$usedMemory KB$RESET"
+        val usedMemoryValue = "$BOLD$MAGENTA${usedMemory()} KB$RESET"
         val bindingValue = "$BLUE$UNDERLINE$binding$RESET"
 
         val information = """
