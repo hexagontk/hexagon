@@ -49,6 +49,48 @@ tasks.register("jarAll", Jar) {
     }
 }
 
+tasks.register("jpackage") {
+    group = "distribution"
+    description = "Create a jpackage distribution including a JVM with a subset of the modules."
+    dependsOn("jarAll")
+
+    doLast {
+        final java.nio.file.Path buildDir = project.buildDir.toPath()
+        final String name = project.name
+        final String version = project.version
+        final File tmp = buildDir.resolve("tmp").toFile()
+
+        final String options = findProperty("options")
+        final String icon = findProperty("icon")
+        final String modules = findProperty("modules") ?: "java.logging,java.management"
+
+        List<String> command = [
+            "${System.getenv("JAVA_HOME")}/bin/jpackage",
+            "--type", "app-image",
+            "--app-version", version,
+            "--description", project.description,
+            "--name", name,
+            "--input", tmp.absolutePath,
+            "--add-modules", modules,
+            "--main-jar", buildDir.resolve("libs/$name-all-${version}.jar").toFile().absolutePath
+        ]
+
+        if (options != null)
+            command += [ "--java-options", options ]
+
+        if (icon != null)
+            command += [ "--icon", icon ]
+
+        tmp.mkdirs()
+        buildDir.resolve(name).toFile().deleteDir()
+
+        exec {
+            workingDir(buildDir.toFile())
+            commandLine(command)
+        }
+    }
+}
+
 tasks.register("jre", Exec) {
     group = "distribution"
     description = "Create an application distribution based on a jlink generated JRE."
