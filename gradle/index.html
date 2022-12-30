@@ -1051,12 +1051,15 @@ development machine.</p>
 <li>jarAll: creates a single JAR with all dependencies, and the application main class set up. This
   task is an alternative to the Gradle <code>installDist</code> task.</li>
 <li>jre: create an application distribution based on a jlink generated JRE.</li>
+<li>jpackage: create a jpackage distribution including a JVM with a subset of the modules.</li>
 </ul>
 <p>To use it, apply <code>$gradleScripts/application.gradle</code> to your <code>build.gradle</code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>modules: comma separated list of modules to include in the generated JRE. By default:
   <code>java.logging,java.management</code>.</li>
+<li>options: JVM options passed to the jpackage generated launcher.</li>
+<li>icon: icon to be used in the jpackage distribution.</li>
 <li>applicationClass (REQUIRED): fully qualified name of the main class of the application.</li>
 </ul>
 <p>To set up this script you need to add the main class name to your <code>build.gradle</code> file with the
