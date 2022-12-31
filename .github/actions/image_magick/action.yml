@@ -17,6 +17,6 @@ runs:
         sudo apt-get install librsvg2-bin
         mkdir -p ~/.local/bin
         export MAGICK="https://download.imagemagick.org/ImageMagick/download/binaries/magick"
-        [[ ! -f ~/.local/bin/magick ]] && sudo curl "$MAGICK" -o ~/.local/bin/magick
+        [[ ! -f ~/.local/bin/magick ]] && sudo curl "$MAGICK" -Lo ~/.local/bin/magick
         sudo chmod +x ~/.local/bin/magick
         magick --version

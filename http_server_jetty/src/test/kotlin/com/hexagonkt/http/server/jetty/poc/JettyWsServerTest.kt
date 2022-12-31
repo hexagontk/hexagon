@@ -87,10 +87,10 @@ internal class JettyWsServerTest {
         )
 
         ws.send("Hello")
-        Thread.sleep(300)
+        Thread.sleep(500)
         assertEquals("Hello_", result)
         ws.send("Goodbye")
-        Thread.sleep(300)
+        Thread.sleep(500)
         ws.close()
         assertEquals("Goodbye_", result)
 
