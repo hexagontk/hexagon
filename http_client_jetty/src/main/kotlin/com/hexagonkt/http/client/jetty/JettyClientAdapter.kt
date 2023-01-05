@@ -9,10 +9,7 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
-import com.hexagonkt.http.model.Cookie
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.Headers
-import com.hexagonkt.http.model.HttpStatus
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.model.ws.WsSession
 import com.hexagonkt.http.parseContentType
@@ -32,6 +29,7 @@ import org.eclipse.jetty.websocket.client.WebSocketClient
 import java.net.CookieStore
 import java.net.URI
 import java.util.concurrent.ExecutionException
+import java.util.concurrent.Flow.Publisher
 import org.eclipse.jetty.client.HttpClient as JettyHttpClient
 import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFactory
 
@@ -105,6 +103,10 @@ class JettyClientAdapter : HttpClientPort {
         val session = wsClient.connect(adapter, uri).get()
 
         return JettyClientWsSession(uri, session)
+    }
+
+    override fun sse(path: String): Publisher<ServerEvent> {
+        TODO()
     }
 
     private fun convertJettyResponse(
