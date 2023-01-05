@@ -3,7 +3,7 @@ package com.hexagonkt.http.server.servlet
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
-import com.hexagonkt.core.logging.jul.JulLoggingAdapter
+import com.hexagonkt.logging.jul.JulLoggingAdapter
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND

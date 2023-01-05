@@ -1,4 +1,4 @@
-package com.hexagonkt.core.logging.jul
+package com.hexagonkt.logging.jul
 
 import java.io.PrintStream
 import java.util.logging.Formatter
