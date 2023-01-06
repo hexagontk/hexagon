@@ -8,6 +8,7 @@ import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.model.ws.WsSession
 import java.io.Closeable
 import java.net.URL
+import java.util.concurrent.Flow.Publisher
 
 /**
  * Client to use other REST services.
@@ -58,6 +59,9 @@ class HttpClient(
      */
     fun send(request: HttpClientRequest): HttpClientResponse =
         adapter.send(request)
+
+    fun sse(path: String): Publisher<ServerEvent> =
+        adapter.sse(path)
 
     fun ws(
         path: String,

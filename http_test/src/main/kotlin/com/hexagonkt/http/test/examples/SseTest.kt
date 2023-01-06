@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription
 import java.util.concurrent.SubmissionPublisher
-import kotlin.concurrent.thread
 import kotlin.test.assertEquals
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
@@ -36,23 +35,21 @@ abstract class SseTest(
     override val handler: HttpHandler = path
 
     @Test fun `Request with invalid user returns 403`() {
-        thread(true) { client.get("/sse") }
 
-        var items: List<ServerEvent> = listOf(
+        var events: List<ServerEvent> = listOf(
             ServerEvent(data = "d1"),
             ServerEvent(data = "d2"),
             ServerEvent(data = "d3"),
         )
 
-        // TODO The subscription must be done on HTTP response, this is testing nothing!
-        eventPublisher.subscribe(object : Flow.Subscriber<ServerEvent> {
+        val clientPublisher = client.sse("/sse")
+        clientPublisher.subscribe(object : Flow.Subscriber<ServerEvent> {
             override fun onComplete() {}
-
             override fun onError(throwable: Throwable) {}
 
             override fun onNext(item: ServerEvent) {
-                val expectedItem = items[0]
-                items = items.drop(1)
+                val expectedItem = events[0]
+                events = events.drop(1)
                 assertEquals(expectedItem, item.info())
             }
 
@@ -61,11 +58,12 @@ abstract class SseTest(
             }
         })
 
-        for (item in items)
+        Thread.sleep(200)
+        for (item in events)
             eventPublisher.submit(item)
 
+        Thread.sleep(200)
         eventPublisher.close()
-        Thread.sleep(50)
-        assertEquals(0, items.size)
+        assertEquals(0, events.size)
     }
 }
