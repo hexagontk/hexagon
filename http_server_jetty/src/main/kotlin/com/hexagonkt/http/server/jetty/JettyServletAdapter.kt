@@ -27,6 +27,10 @@ import java.security.KeyStore
 import java.util.EnumSet
 import jakarta.servlet.DispatcherType
 import org.eclipse.jetty.util.VirtualThreads
+import org.eclipse.jetty.util.VirtualThreads.getDefaultVirtualThreadsExecutor
+import org.eclipse.jetty.util.thread.ExecutorThreadPool
+import org.eclipse.jetty.util.thread.ThreadPool
+import java.util.concurrent.ThreadPoolExecutor
 import org.eclipse.jetty.server.Server as JettyServer
 
 /**
@@ -74,12 +78,20 @@ class JettyServletAdapter(
     override fun started() =
         jettyServer?.isStarted ?: false
 
+    private fun createThreadPool(): ThreadPool =
+        if (useVirtualThreads) {
+            val virtualThreadPool = getDefaultVirtualThreadsExecutor() as ThreadPoolExecutor
+            val threadPool = ExecutorThreadPool(virtualThreadPool, minThreads)
+            threadPool.virtualThreadsExecutor = virtualThreadPool
+            threadPool
+        }
+        else {
+            QueuedThreadPool(maxThreads, minThreads)
+        }
+
     override fun startUp(server: HttpServer) {
         val settings = server.settings
-        val threadPool =
-            if (useVirtualThreads) VirtualThreadPool()
-            else QueuedThreadPool(maxThreads, minThreads)
-        val serverInstance = JettyServer(threadPool)
+        val serverInstance = JettyServer(createThreadPool())
         jettyServer = serverInstance
 
         val pathHandler: PathHandler = path(settings.contextPath, server.handlers)
