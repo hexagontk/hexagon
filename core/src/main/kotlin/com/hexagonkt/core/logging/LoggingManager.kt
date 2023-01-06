@@ -1,14 +1,13 @@
 package com.hexagonkt.core.logging
 
-import com.hexagonkt.core.logging.jul.JulLoggingAdapter
 import kotlin.reflect.KClass
 
 /**
- * Manages Logs using [JulLoggingAdapter]
+ * Manages Logs using [PrintLoggingAdapter]
  */
 object LoggingManager {
     var useColor: Boolean = true
-    var adapter: LoggingPort = JulLoggingAdapter()
+    var adapter: LoggingPort = PrintLoggingAdapter()
     var defaultLoggerName: String = "com.hexagonkt.core.logging"
         set(value) {
             require(value.isNotEmpty()) { "Default logger name cannot be empty string" }

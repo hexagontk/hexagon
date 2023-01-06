@@ -46,15 +46,23 @@ internal class HttpServerTest {
             banner = bannerPrefix,
         )
 
-        val server = serve(VoidAdapter, serverSettings) {}
-        val createdBanner = server.createBanner(System.currentTimeMillis())
-        server.stop()
-
-        assertEquals(bannerPrefix, createdBanner.lines()[0].trimIndent())
-        assertContains(createdBanner, "✅HTTP" )
-        assertContains(createdBanner, "HTTPS")
-        assertFalse(createdBanner.contains("ZIP"))
-        assertFalse(createdBanner.contains("✅HTTPS"))
+        val banners = listOf(
+            serve(VoidAdapter, serverSettings) {},
+            serve(VoidAdapter, serverSettings.copy(vmInformation = true)) {}
+        )
+        .map {
+            it.createBanner(System.currentTimeMillis())
+        }
+        .map {
+            assertEquals(bannerPrefix, it.lines()[0].trimIndent())
+            assertContains(it, "✅HTTP" )
+            assertContains(it, "HTTPS")
+            assertFalse(it.contains("ZIP"))
+            assertFalse(it.contains("✅HTTPS"))
+            it
+        }
+        assertContains(banners.first(), "(excluding VM)")
+        assertFalse(banners.last().contains("(excluding VM)"))
     }
 
     @Test fun `Banner creation with enabled features and custom options`() {

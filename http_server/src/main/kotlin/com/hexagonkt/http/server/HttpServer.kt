@@ -179,7 +179,6 @@ data class HttpServer(
 
         val hostnameValue = "$BLUE$hostname$RESET"
         val cpuCountValue = "$BLUE$cpuCount$RESET"
-        val jvmMemoryValue = "$BLUE${initialMemory()}$RESET"
 
         val javaVersionValue = "$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]"
 
@@ -187,12 +186,15 @@ data class HttpServer(
         val timezoneValue = "$BLUE$timezone$RESET"
         val charsetValue = "$BLUE$charset$RESET"
 
-        val bootTimeValue = "$BOLD$MAGENTA${uptime()} s$RESET"
         val startUpTimeValue = "$BOLD$MAGENTA$startUpTime ms$RESET"
-        val usedMemoryValue = "$BOLD$MAGENTA${usedMemory()} KB$RESET"
         val bindingValue = "$BLUE$UNDERLINE$binding$RESET"
 
-        val information = """
+        val information = if (settings.vmInformation) {
+            val jvmMemoryValue = "$BLUE${initialMemory()}$RESET"
+            val bootTimeValue = "$BOLD$MAGENTA${uptime()} s$RESET"
+            val usedMemoryValue = "$BOLD$MAGENTA${usedMemory()} KB$RESET"
+
+            """
 
             Server Adapter: $serverAdapterValue ($protocols)
             Supported Features: $features
@@ -205,9 +207,26 @@ data class HttpServer(
             ⏱️ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue
             🚀 Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else "" }
 
-        """.trimIndent()
+            """
+        }
+        else {
+            """
 
-        val banner = (settings.banner?.let { "$it\n" } ?: banner) + information
+            Server Adapter: $serverAdapterValue ($protocols)
+            Supported Features: $features
+            Configuration Options: $options
+
+            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs
+            🛠 Using $javaVersionValue
+            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue
+
+            ⏱️ Started in $startUpTimeValue (excluding VM)
+            🚀 Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else "" }
+
+            """
+        }
+
+        val banner = (settings.banner?.let { "$it\n" } ?: banner) + information.trimIndent()
         return banner.prependIndent()
     }
 }

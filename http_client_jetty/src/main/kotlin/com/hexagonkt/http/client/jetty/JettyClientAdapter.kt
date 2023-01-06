@@ -9,10 +9,7 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
-import com.hexagonkt.http.model.Cookie
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.Headers
-import com.hexagonkt.http.model.HttpStatus
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.model.ws.WsSession
 import com.hexagonkt.http.parseContentType
@@ -29,9 +26,12 @@ import org.eclipse.jetty.http.HttpFields.EMPTY
 import org.eclipse.jetty.http.HttpMethod
 import org.eclipse.jetty.io.ClientConnector
 import org.eclipse.jetty.websocket.client.WebSocketClient
+import java.lang.StringBuilder
 import java.net.CookieStore
 import java.net.URI
 import java.util.concurrent.ExecutionException
+import java.util.concurrent.Flow.Publisher
+import java.util.concurrent.SubmissionPublisher
 import org.eclipse.jetty.client.HttpClient as JettyHttpClient
 import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFactory
 
@@ -105,6 +105,35 @@ class JettyClientAdapter : HttpClientPort {
         val session = wsClient.connect(adapter, uri).get()
 
         return JettyClientWsSession(uri, session)
+    }
+
+    override fun sse(path: String): Publisher<ServerEvent> {
+        check(started) { "HTTP client *MUST BE STARTED* before sending requests" }
+
+        val clientPublisher = SubmissionPublisher<ServerEvent>()
+
+        createJettyRequest(httpClient, jettyClient, HttpClientRequest(path = path))
+            .onResponseBegin {
+                if (it.status !in 200 until 300)
+                    error("Invalid response: ${it.status}")
+            }
+            .onResponseContent { _, content ->
+                val sb = StringBuilder()
+                while (content.hasRemaining())
+                    sb.append(Char(content.get().toInt()))
+
+                val evt = sb
+                    .trim()
+                    .lines()
+                    .map { it.split(":") }
+                    .associate { it.first().trim().lowercase() to it.last().trim() }
+                    .let { ServerEvent(it["event"], it["data"], it["id"], it["retry"]?.toLong()) }
+
+                clientPublisher.submit(evt)
+            }
+            .send {}
+
+        return clientPublisher
     }
 
     private fun convertJettyResponse(

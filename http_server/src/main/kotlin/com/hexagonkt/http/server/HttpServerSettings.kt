@@ -15,6 +15,8 @@ import java.net.InetAddress
  * @property sslSettings SSL settings info for configuring the server.
  * @property banner Server banner message.
  * @property zip Option to compress server responses.
+ * @property vmInformation If true, show JVM information on start banner. If enabled, it forces
+ *  the `java.management` module to be included.
  */
 data class HttpServerSettings(
     val bindAddress: InetAddress = InetAddress.getLoopbackAddress(),
@@ -24,4 +26,5 @@ data class HttpServerSettings(
     val sslSettings: SslSettings? = null,
     val banner: String? = null,
     val zip: Boolean = false,
+    val vmInformation: Boolean = false,
 )

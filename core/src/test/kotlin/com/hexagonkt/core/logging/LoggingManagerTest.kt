@@ -1,12 +1,11 @@
 package com.hexagonkt.core.logging
 
 import com.hexagonkt.core.logging.LoggingLevel.*
-import com.hexagonkt.core.logging.jul.JulLoggingAdapter
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 import kotlin.reflect.KClass
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -17,7 +16,7 @@ internal class LoggingManagerTest {
     // TODO Repeat this test on other logging adapters
     @Test fun `Loggers are enabled and disabled at runtime`() {
 
-        LoggingManager.adapter = JulLoggingAdapter()
+        LoggingManager.adapter = PrintLoggingAdapter()
         val allLevels = LoggingLevel.values()
 
         val ch = Logger("com.hx")
@@ -25,6 +24,8 @@ internal class LoggingManagerTest {
         val chl = Logger("com.hx.logging")
 
         LoggingManager.setLoggerLevel("com.hx", TRACE)
+        assertTrue(Logger("z").isLoggerLevelEnabled(INFO))
+        assertFalse(Logger("z").isLoggerLevelEnabled(DEBUG))
         assertTrue(
             allLevels.all {
                 ch.isLoggerLevelEnabled(it)

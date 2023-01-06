@@ -4,7 +4,7 @@ import com.hexagonkt.core.logging.LoggerPort
 import com.hexagonkt.core.logging.LoggingLevel
 import com.hexagonkt.core.logging.LoggingLevel.*
 import com.hexagonkt.core.logging.LoggingPort
-import com.hexagonkt.core.logging.jul.JulLoggingAdapter
+import com.hexagonkt.logging.jul.JulLoggingAdapter
 import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
 import java.io.PrintStream

@@ -18,6 +18,7 @@ include(
     "templates",
 
     // Adapters
+    "logging_jul",
     "logging_logback",
     "logging_slf4j_jul",
     "serialization_dsl_json",
