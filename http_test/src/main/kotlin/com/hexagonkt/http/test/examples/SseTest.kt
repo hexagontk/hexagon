@@ -36,21 +36,21 @@ abstract class SseTest(
 
     @Test fun `SSE requests get published events on the server`() {
 
-        var events: List<ServerEvent> = listOf(
+        val events = listOf(
             ServerEvent(data = "d1"),
             ServerEvent(data = "d2"),
             ServerEvent(data = "d3"),
         )
 
+        val pendingEvents = events.toMutableList()
         val clientPublisher = client.sse("/sse")
         clientPublisher.subscribe(object : Flow.Subscriber<ServerEvent> {
             override fun onComplete() {}
             override fun onError(throwable: Throwable) {}
 
             override fun onNext(item: ServerEvent) {
-                val expectedItem = events[0]
-                events = events.drop(1)
-                assertEquals(expectedItem, item.info())
+                assertEquals(pendingEvents.first(), item.info())
+                pendingEvents.removeFirst()
             }
 
             override fun onSubscribe(subscription: Subscription) {
@@ -58,12 +58,13 @@ abstract class SseTest(
             }
         })
 
-        Thread.sleep(500)
-        for (item in events)
+        Thread.sleep(300)
+        for (item in events) {
+            Thread.sleep(10)
             eventPublisher.submit(item)
+        }
 
-        Thread.sleep(500)
-        eventPublisher.close()
-        assertEquals(0, events.size)
+        Thread.sleep(200)
+        assertEquals(0, pendingEvents.size)
     }
 }
