@@ -122,6 +122,7 @@ Gradle's script for a service or application. It adds these extra tasks:
   task is an alternative to the Gradle `installDist` task.
 * jre: create an application distribution based on a jlink generated JRE.
 * jpackage: create a jpackage distribution including a JVM with a subset of the modules.
+* tarJpackage: compress Jpackage distribution in a single file.
 
 To use it, apply `$gradleScripts/application.gradle` to your `build.gradle`.
 
