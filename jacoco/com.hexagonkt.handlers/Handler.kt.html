@@ -21,7 +21,7 @@ interface Handler&lt;T : Any&gt; {
 <span class="fc" id="L21">            callback(context)</span>
         }
 <span class="fc" id="L23">        catch (e: Exception) {</span>
-<span class="pc" id="L24">            logger.info { &quot;Exception processing handler callback: ${e.message}&quot; }</span>
+<span class="fc" id="L24">            logger.info { &quot;Exception processing handler callback: ${e.message}&quot; }</span>
 <span class="fc" id="L25">            context.copy(exception = e)</span>
 <span class="fc" id="L26">        }</span>
 

@@ -108,17 +108,17 @@ import java.util.concurrent.Flow.*
 <span class="nc" id="L108">            override fun onError(throwable: Throwable) {}</span>
 
             override fun onComplete() {
-<span class="fc" id="L111">                context.close()</span>
-<span class="fc" id="L112">            }</span>
+<span class="nc" id="L111">                context.close()</span>
+<span class="nc" id="L112">            }</span>
 
             override fun onSubscribe(subscription: Subscription) {
 <span class="fc" id="L115">                subscription.request(Long.MAX_VALUE)</span>
 <span class="fc" id="L116">            }</span>
 
             override fun onNext(item: ServerEvent) {
-<span class="nc" id="L119">                val eventData = Unpooled.copiedBuffer(item.eventData.toByteArray())</span>
-<span class="nc" id="L120">                context.writeAndFlush(DefaultHttpContent(eventData))</span>
-<span class="nc" id="L121">            }</span>
+<span class="fc" id="L119">                val eventData = Unpooled.copiedBuffer(item.eventData.toByteArray())</span>
+<span class="fc" id="L120">                context.writeAndFlush(DefaultHttpContent(eventData))</span>
+<span class="fc" id="L121">            }</span>
         })
 <span class="fc" id="L123">    }</span>
 

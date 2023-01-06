@@ -14,8 +14,14 @@
       
         <link rel="canonical" href="https://hexagonkt.com/templates/">
       
+      
+        <link rel="prev" href="../http_client/">
+      
+      
+        <link rel="next" href="../gradle/">
+      
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
     
     
       
@@ -23,11 +29,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.f56500e0.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
-        
       
       
 
@@ -150,8 +155,6 @@
       <form class="md-header__option" data-md-component="palette">
         
           
-          
-          
           <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
           
             <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
@@ -159,8 +162,6 @@
             </label>
           
         
-          
-          
           
           <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
           
@@ -874,6 +875,7 @@
                   
 
 
+
   <h1>Templates</h1>
 
 <h2 id="module-templates">Module templates<a class="headerlink" href="#module-templates" title="Permanent link">&para;</a></h2>
@@ -890,11 +892,11 @@ the same time.</p>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">TemplateManager</span><span class="p">.</span><span class="na">adapters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="w"></span>
-<span class="w">    </span><span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*\\.html&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;html&quot;</span><span class="p">),</span><span class="w"></span>
-<span class="w">    </span><span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*\\.txt&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">),</span><span class="w"></span>
-<span class="w">    </span><span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;others&quot;</span><span class="p">),</span><span class="w"></span>
-<span class="p">)</span><span class="w"></span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">TemplateManager</span><span class="p">.</span><span class="na">adapters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*\\.html&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;html&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*\\.txt&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;others&quot;</span><span class="p">),</span>
+<span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <p>The template adapter is selected from top to bottom, picking the first matched one.</p>
 <p>You can use Glob syntax to bind patterns to template adapters if you prefer:</p>
@@ -902,19 +904,19 @@ the same time.</p>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">TemplateManager</span><span class="p">.</span><span class="na">adapters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="w"></span>
-<span class="w">    </span><span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*.html&quot;</span><span class="p">).</span><span class="na">regex</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;html&quot;</span><span class="p">),</span><span class="w"></span>
-<span class="w">    </span><span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*.txt&quot;</span><span class="p">).</span><span class="na">regex</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">),</span><span class="w"></span>
-<span class="w">    </span><span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">).</span><span class="na">regex</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;others&quot;</span><span class="p">),</span><span class="w"></span>
-<span class="p">)</span><span class="w"></span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">TemplateManager</span><span class="p">.</span><span class="na">adapters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*.html&quot;</span><span class="p">).</span><span class="na">regex</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;html&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*.txt&quot;</span><span class="p">).</span><span class="na">regex</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Glob</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">).</span><span class="na">regex</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">SampleTemplateAdapter</span><span class="p">(</span><span class="s">&quot;others&quot;</span><span class="p">),</span>
+<span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
 <p>To render a template, you have to use the <a href="/api/templates/com.hexagonkt.templates/-template-manager/index.html">TemplateManager</a> object. The data to be used inside the
 template must be supplied in a map (context), the template URL and current time-stamp (<code>_template_</code>
 and <code>_now_</code> variables) are added to the context automatically. Check the code below for an example:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;key1&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;value1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;key2&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;value2&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">rendered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TemplateManager</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:template.txt&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"></span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;key1&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;value1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;key2&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;value2&quot;</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">rendered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TemplateManager</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:template.txt&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">context</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <h2 id="package-comhexagonkttemplates">Package com.hexagonkt.templates<a class="headerlink" href="#package-comhexagonkttemplates" title="Permanent link">&para;</a></h2>
 <p>Feature implementation code.</p>
@@ -937,7 +939,7 @@ and <code>_now_</code> variables) are added to the context automatically. Check 
 <footer class="md-footer">
 
   
-  <nav class="md-footer__inner md-grid" aria-label="Footer">
+  <nav class="md-footer__inner md-grid" aria-label="">
 
     
     <a
@@ -1091,16 +1093,15 @@ and <code>_now_</code> variables) are added to the context automatically. Check 
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      <script src="../assets/javascripts/bundle.5cf534bf.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       
         <script src="https://platform.twitter.com/widgets.js"></script>
       
-    
     
   </body>
 </html>

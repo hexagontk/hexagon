@@ -14,8 +14,14 @@
       
         <link rel="canonical" href="https://hexagonkt.com/core/">
       
+      
+        <link rel="prev" href="../quick_start/">
+      
+      
+        <link rel="next" href="../http_server/">
+      
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
     
     
       
@@ -23,11 +29,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.f56500e0.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
-        
       
       
 
@@ -150,8 +155,6 @@
       <form class="md-header__option" data-md-component="palette">
         
           
-          
-          
           <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
           
             <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
@@ -159,8 +162,6 @@
             </label>
           
         
-          
-          
           
           <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
           
@@ -942,6 +943,7 @@
                   
 
 
+
   <h1>Core</h1>
 
 <h2 id="module-core">Module core<a class="headerlink" href="#module-core" title="Permanent link">&para;</a></h2>
@@ -959,11 +961,11 @@ application), you can import it with the following code:</p>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">repositories</span><span class="w"> </span><span class="o">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">mavenCentral</span><span class="o">()</span><span class="w"></span>
-<span class="o">}</span><span class="w"></span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">repositories</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">mavenCentral</span><span class="o">()</span>
+<span class="o">}</span>
 
-<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:core:$hexagonVersion&quot;</span><span class="o">)</span><span class="w"></span>
+<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:core:$hexagonVersion&quot;</span><span class="o">)</span>
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -972,9 +974,9 @@ application), you can import it with the following code:</p>
 <span class="normal">3</span>
 <span class="normal">4</span>
 <span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
-  <span class="nt">&lt;groupId&gt;</span>com.hexagonkt<span class="nt">&lt;/groupId&gt;</span>
-  <span class="nt">&lt;artifactId&gt;</span>core<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>$hexagonVersion<span class="nt">&lt;/version&gt;</span>
+<span class="w">  </span><span class="nt">&lt;groupId&gt;</span>com.hexagonkt<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">  </span><span class="nt">&lt;artifactId&gt;</span>core<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">  </span><span class="nt">&lt;version&gt;</span>$hexagonVersion<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div></td></tr></table></div>
 </div>
@@ -1026,39 +1028,39 @@ add the Classpath handler manually with the <code>--enable-url-protocols=classpa
 <span class="normal">30</span>
 <span class="normal">31</span>
 <span class="normal">32</span>
-<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">classLogger</span><span class="p">:</span><span class="w"> </span><span class="n">Logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Logger</span><span class="p">(</span><span class="n">Runtime</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="w"> </span><span class="c1">// Logger for the `Runtime` class</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">instanceLogger</span><span class="p">:</span><span class="w"> </span><span class="n">Logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Logger</span><span class="p">(</span><span class="k">this</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="w"> </span><span class="c1">// Logger for this instance&#39;s class</span><span class="w"></span>
+<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">classLogger</span><span class="p">:</span><span class="w"> </span><span class="n">Logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Logger</span><span class="p">(</span><span class="n">Runtime</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="w"> </span><span class="c1">// Logger for the `Runtime` class</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">instanceLogger</span><span class="p">:</span><span class="w"> </span><span class="n">Logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Logger</span><span class="p">(</span><span class="k">this</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="w"> </span><span class="c1">// Logger for this instance&#39;s class</span>
 
-<span class="n">logger</span><span class="p">.</span><span class="na">info</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="n">logger</span><span class="p">.</span><span class="na">info</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="s">&quot;&quot;&quot;</span>
 <span class="s">    You can add a quick log without declaring a Logger with &#39;com.hexagonkt.helpers.logger&#39;.</span>
 <span class="s">    It is a default logger created for the System class (same as `Logger(System::class)`).</span>
-<span class="s">    &quot;&quot;&quot;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="p">}</span>
 
-<span class="n">classLogger</span><span class="p">.</span><span class="na">trace</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Message only evaluated if trace enabled at </span><span class="si">${</span><span class="n">Jvm</span><span class="p">.</span><span class="na">id</span><span class="si">}</span><span class="s">&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="n">classLogger</span><span class="p">.</span><span class="na">debug</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Message only evaluated if debug enabled at </span><span class="si">${</span><span class="n">Jvm</span><span class="p">.</span><span class="na">id</span><span class="si">}</span><span class="s">&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="n">classLogger</span><span class="p">.</span><span class="na">warn</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Message only evaluated if warn enabled at </span><span class="si">${</span><span class="n">Jvm</span><span class="p">.</span><span class="na">id</span><span class="si">}</span><span class="s">&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="n">classLogger</span><span class="p">.</span><span class="na">info</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Message only evaluated if info enabled at </span><span class="si">${</span><span class="n">Jvm</span><span class="p">.</span><span class="na">id</span><span class="si">}</span><span class="s">&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">trace</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Message only evaluated if trace enabled at </span><span class="si">${</span><span class="n">Jvm</span><span class="p">.</span><span class="na">id</span><span class="si">}</span><span class="s">&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">debug</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Message only evaluated if debug enabled at </span><span class="si">${</span><span class="n">Jvm</span><span class="p">.</span><span class="na">id</span><span class="si">}</span><span class="s">&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">warn</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Message only evaluated if warn enabled at </span><span class="si">${</span><span class="n">Jvm</span><span class="p">.</span><span class="na">id</span><span class="si">}</span><span class="s">&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">info</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Message only evaluated if info enabled at </span><span class="si">${</span><span class="n">Jvm</span><span class="p">.</span><span class="na">id</span><span class="si">}</span><span class="s">&quot;</span><span class="w"> </span><span class="p">}</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="nv">exception</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IllegalStateException</span><span class="p">(</span><span class="s">&quot;Exception&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">classLogger</span><span class="p">.</span><span class="na">warn</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Warning with exception&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="n">classLogger</span><span class="p">.</span><span class="na">error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Error message with exception&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="n">classLogger</span><span class="p">.</span><span class="na">warn</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span><span class="w"></span>
-<span class="n">classLogger</span><span class="p">.</span><span class="na">error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span><span class="w"></span>
-<span class="n">classLogger</span><span class="p">.</span><span class="na">error</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Error without an exception&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">exception</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IllegalStateException</span><span class="p">(</span><span class="s">&quot;Exception&quot;</span><span class="p">)</span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">warn</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Warning with exception&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Error message with exception&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">warn</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">error</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Error without an exception&quot;</span><span class="w"> </span><span class="p">}</span>
 
-<span class="n">classLogger</span><span class="p">.</span><span class="na">time</span><span class="p">(</span><span class="s">&quot;Logs the time used to run the following block of code&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Block of code to be timed&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="na">isNotBlank</span><span class="p">())</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">time</span><span class="p">(</span><span class="s">&quot;Logs the time used to run the following block of code&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Block of code to be timed&quot;</span>
+<span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="na">isNotBlank</span><span class="p">())</span>
+<span class="p">}</span>
 
-<span class="n">instanceLogger</span><span class="p">.</span><span class="na">flare</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Prints a log that stands out for ease searching&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="n">instanceLogger</span><span class="p">.</span><span class="na">flare</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Prints a log that stands out for ease searching&quot;</span><span class="w"> </span><span class="p">}</span>
 
-<span class="c1">// Logging level can be changed programmatically</span><span class="w"></span>
-<span class="n">LoggingManager</span><span class="p">.</span><span class="na">setLoggerLevel</span><span class="p">(</span><span class="n">ERROR</span><span class="p">)</span><span class="w"></span>
-<span class="n">LoggingManager</span><span class="p">.</span><span class="na">setLoggerLevel</span><span class="p">(</span><span class="n">classLogger</span><span class="p">,</span><span class="w"> </span><span class="n">DEBUG</span><span class="p">)</span><span class="w"></span>
-<span class="n">LoggingManager</span><span class="p">.</span><span class="na">setLoggerLevel</span><span class="p">(</span><span class="s">&quot;com.hexagonkt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">INFO</span><span class="p">)</span><span class="w"></span>
+<span class="c1">// Logging level can be changed programmatically</span>
+<span class="n">LoggingManager</span><span class="p">.</span><span class="na">setLoggerLevel</span><span class="p">(</span><span class="n">ERROR</span><span class="p">)</span>
+<span class="n">LoggingManager</span><span class="p">.</span><span class="na">setLoggerLevel</span><span class="p">(</span><span class="n">classLogger</span><span class="p">,</span><span class="w"> </span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">LoggingManager</span><span class="p">.</span><span class="na">setLoggerLevel</span><span class="p">(</span><span class="s">&quot;com.hexagonkt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">INFO</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <p>By default, Hexagon uses the <a href="https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html">Java Util Logging</a> logging library, you can use any of its
 implementations by just adding another logging adapter as a dependency. Below you can see some
@@ -1092,7 +1094,7 @@ alternatives:</p>
 <footer class="md-footer">
 
   
-  <nav class="md-footer__inner md-grid" aria-label="Footer">
+  <nav class="md-footer__inner md-grid" aria-label="">
 
     
     <a
@@ -1246,16 +1248,15 @@ alternatives:</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      <script src="../assets/javascripts/bundle.5cf534bf.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       
         <script src="https://platform.twitter.com/widgets.js"></script>
       
-    
     
   </body>
 </html>

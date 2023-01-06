@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PatternFormat.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.logging.jul</a> &gt; <span class="el_source">PatternFormat.kt</span></div><h1>PatternFormat.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.logging.jul
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PatternFormat.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.logging.jul</a> &gt; <span class="el_source">PatternFormat.kt</span></div><h1>PatternFormat.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.logging.jul
 
-import com.hexagonkt.helpers.Ansi
-import com.hexagonkt.helpers.Ansi.BLUE
-import com.hexagonkt.helpers.Ansi.BRIGHT_BLACK
-import com.hexagonkt.helpers.Ansi.CYAN
-import com.hexagonkt.helpers.Ansi.MAGENTA
-import com.hexagonkt.helpers.Ansi.RED
-import com.hexagonkt.helpers.Ansi.RESET
-import com.hexagonkt.helpers.eol
-import com.hexagonkt.helpers.fail
-import com.hexagonkt.helpers.toText
+import com.hexagonkt.core.Ansi
+import com.hexagonkt.core.Ansi.BLUE
+import com.hexagonkt.core.Ansi.BRIGHT_BLACK
+import com.hexagonkt.core.Ansi.CYAN
+import com.hexagonkt.core.Ansi.MAGENTA
+import com.hexagonkt.core.Ansi.RED
+import com.hexagonkt.core.Ansi.RESET
+import com.hexagonkt.core.eol
+import com.hexagonkt.core.fail
+import com.hexagonkt.core.toText
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -20,11 +20,14 @@ import java.util.logging.LogRecord
 /**
  * A Formatter implements [Formatter] provides support for formatting Logs.
  *
- * @property useColor use a color to log messages.
+ * @property useColor Use colors in log messages.
  */
-<span class="fc" id="L25">class PatternFormat(private val useColor: Boolean = true) : Formatter() {</span>
+<span class="fc" id="L25">class PatternFormat(</span>
+<span class="fc" id="L26">    private val useColor: Boolean,</span>
+<span class="fc" id="L27">    private val messageOnly: Boolean = false,</span>
+<span class="fc" id="L28">) : Formatter() {</span>
 
-    private companion object {
+    companion object {
         const val TIMESTAMP = &quot;%tH:%&lt;tM:%&lt;tS,%&lt;tL&quot;
         const val LEVEL = &quot;%-5s&quot;
         const val THREAD = &quot;[%-15s]&quot;
@@ -34,48 +37,47 @@ import java.util.logging.LogRecord
             &quot;$BRIGHT_BLACK$TIMESTAMP %s$LEVEL$RESET $MAGENTA$THREAD $CYAN$LOGGER$RESET | %s%n&quot;
     }
 
-<span class="pc bpc" id="L37" title="1 of 2 branches missed.">    private val pattern: String = if (useColor) COLOR_PATTERN else PATTERN</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">    private val pattern: String = if (useColor) COLOR_PATTERN else PATTERN</span>
 
-<span class="fc" id="L39">    private val levelColors: Map&lt;Level, String&gt; = mapOf(</span>
-<span class="fc" id="L40">        Level.FINER to Ansi.DEFAULT,</span>
-<span class="fc" id="L41">        Level.FINE to Ansi.DEFAULT,</span>
-<span class="fc" id="L42">        Level.INFO to BLUE,</span>
-<span class="fc" id="L43">        Level.WARNING to Ansi.YELLOW,</span>
-<span class="fc" id="L44">        Level.SEVERE to RED + Ansi.BOLD</span>
+<span class="fc" id="L42">    private val levelColors: Map&lt;Level, String&gt; = mapOf(</span>
+<span class="fc" id="L43">        Level.FINER to Ansi.DEFAULT,</span>
+<span class="fc" id="L44">        Level.FINE to Ansi.DEFAULT,</span>
+<span class="fc" id="L45">        Level.INFO to BLUE,</span>
+<span class="fc" id="L46">        Level.WARNING to Ansi.YELLOW,</span>
+<span class="fc" id="L47">        Level.SEVERE to RED + Ansi.BOLD</span>
     )
 
-<span class="fc" id="L47">    private val levelNames: Map&lt;Level, String&gt; = mapOf(</span>
-<span class="fc" id="L48">        Level.FINER to &quot;TRACE&quot;,</span>
-<span class="fc" id="L49">        Level.FINE to &quot;DEBUG&quot;,</span>
-<span class="fc" id="L50">        Level.INFO to &quot;INFO&quot;,</span>
-<span class="fc" id="L51">        Level.WARNING to &quot;WARN&quot;,</span>
-<span class="fc" id="L52">        Level.SEVERE to &quot;ERROR&quot;</span>
+<span class="fc" id="L50">    private val levelNames: Map&lt;Level, String&gt; = mapOf(</span>
+<span class="fc" id="L51">        Level.FINER to &quot;TRACE&quot;,</span>
+<span class="fc" id="L52">        Level.FINE to &quot;DEBUG&quot;,</span>
+<span class="fc" id="L53">        Level.INFO to &quot;INFO&quot;,</span>
+<span class="fc" id="L54">        Level.WARNING to &quot;WARN&quot;,</span>
+<span class="fc" id="L55">        Level.SEVERE to &quot;ERROR&quot;</span>
     )
 
     override fun format(record: LogRecord): String {
-<span class="fc" id="L56">        val instant = Instant.ofEpochMilli(record.millis)</span>
-<span class="fc" id="L57">        val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())</span>
-<span class="fc" id="L58">        val thrown = record.thrown</span>
-<span class="fc" id="L59">        val trace = when {</span>
-<span class="fc bfc" id="L60" title="All 2 branches covered.">            thrown == null -&gt; &quot;&quot;</span>
-<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            useColor -&gt; &quot;$eol${thrown.toText()}&quot;.replace(&quot;\n&quot;, &quot;\n$RED&quot;)</span>
-<span class="nc" id="L62">            else -&gt; &quot;$eol${thrown.toText()}&quot;</span>
-        }
-<span class="fc" id="L64">        val level = record.level</span>
-<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        val levelName = levelNames[level] ?: fail</span>
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">        val levelColor = levelColors[level] ?: BLUE</span>
-<span class="fc" id="L67">        val message = record.message</span>
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        val parameters = record.parameters ?: emptyArray()</span>
-<span class="fc" id="L69">        val loggerName = record.loggerName</span>
-<span class="fc" id="L70">        val threadName = Thread.currentThread().name</span>
-<span class="fc" id="L71">        val msg =</span>
-<span class="pc bpc" id="L72" title="2 of 4 branches missed.">            if (parameters.isEmpty()) message</span>
-<span class="nc" id="L73">            else String.format(message, *parameters) + trace</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (messageOnly)</span>
+<span class="fc" id="L60">            return record.message + &quot;\n&quot;</span>
 
-<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        return if (useColor)</span>
-<span class="fc" id="L76">            pattern.format(dateTime, levelColor, levelName, threadName, loggerName, msg)</span>
+<span class="fc" id="L62">        val instant = Instant.ofEpochMilli(record.millis)</span>
+<span class="fc" id="L63">        val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())</span>
+<span class="fc" id="L64">        val thrown = record.thrown</span>
+<span class="fc" id="L65">        val trace = when {</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            thrown == null -&gt; &quot;&quot;</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            useColor -&gt; &quot;$eol${thrown.toText()}&quot;.replace(&quot;\n&quot;, &quot;\n$RED&quot;)</span>
+<span class="fc" id="L68">            else -&gt; &quot;$eol${thrown.toText()}&quot;</span>
+        }
+<span class="fc" id="L70">        val level = record.level</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        val levelName = levelNames[level] ?: fail</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        val levelColor = levelColors[level] ?: BLUE</span>
+<span class="fc" id="L73">        val message = record.message</span>
+<span class="fc" id="L74">        val loggerName = record.loggerName</span>
+<span class="fc" id="L75">        val threadName = Thread.currentThread().name</span>
+
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        return if (useColor)</span>
+<span class="fc" id="L78">            pattern.format(dateTime, levelColor, levelName, threadName, loggerName, message + trace)</span>
         else
-<span class="nc" id="L78">            pattern.format(dateTime, levelName, threadName, loggerName, msg)</span>
+<span class="fc" id="L80">            pattern.format(dateTime, levelName, threadName, loggerName, message + trace)</span>
     }
-<span class="fc" id="L80">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+<span class="fc" id="L82">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

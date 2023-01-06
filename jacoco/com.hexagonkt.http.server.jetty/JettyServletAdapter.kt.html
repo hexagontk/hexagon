@@ -76,9 +76,9 @@ import org.eclipse.jetty.server.Server as JettyServer
 
     override fun startUp(server: HttpServer) {
 <span class="fc" id="L78">        val settings = server.settings</span>
-<span class="fc" id="L79">        val threadPool = QueuedThreadPool(maxThreads, minThreads)</span>
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (useVirtualThreads)</span>
-<span class="nc" id="L81">            threadPool.virtualThreadsExecutor = VirtualThreads.getDefaultVirtualThreadsExecutor()</span>
+<span class="fc" id="L79">        val threadPool =</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">            if (useVirtualThreads) VirtualThreadPool()</span>
+<span class="fc" id="L81">            else QueuedThreadPool(maxThreads, minThreads)</span>
 <span class="fc" id="L82">        val serverInstance = JettyServer(threadPool)</span>
 <span class="fc" id="L83">        jettyServer = serverInstance</span>
 

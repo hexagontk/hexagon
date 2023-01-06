@@ -2,8 +2,10 @@
 
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.model.ServerEvent
 import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.model.ws.WsSession
+import java.util.concurrent.Flow.Publisher
 
 interface HttpClientPort {
 
@@ -15,13 +17,15 @@ interface HttpClientPort {
 
     fun send(request: HttpClientRequest): HttpClientResponse
 
-<span class="nc" id="L18">    fun ws(</span>
+    fun sse(path: String): Publisher&lt;ServerEvent&gt;
+
+<span class="nc" id="L22">    fun ws(</span>
         path: String,
         onConnect: WsSession.() -&gt; Unit,
         onBinary: WsSession.(data: ByteArray) -&gt; Unit,
         onText: WsSession.(text: String) -&gt; Unit,
-<span class="nc" id="L23">        onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="nc" id="L24">        onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="nc" id="L27">        onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="nc" id="L28">        onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
         onClose: WsSession.(status: WsCloseStatus, reason: String) -&gt; Unit,
     ): WsSession
 }

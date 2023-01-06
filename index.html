@@ -14,8 +14,12 @@
       
         <link rel="canonical" href="https://hexagonkt.com/">
       
+      
+      
+        <link rel="next" href="quick_start/">
+      
       <link rel="icon" href="favicon.ico">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
     
     
       
@@ -23,11 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.975780f9.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.f56500e0.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.2505c338.min.css">
-        
       
       
 
@@ -150,8 +153,6 @@
       <form class="md-header__option" data-md-component="palette">
         
           
-          
-          
           <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
           
             <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
@@ -159,8 +160,6 @@
             </label>
           
         
-          
-          
           
           <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
           
@@ -1006,6 +1005,7 @@
                   
 
 
+
   <h1>Home</h1>
 
 <p>The Hexagon Toolkit provides several libraries to build server applications. These libraries provide
@@ -1040,21 +1040,21 @@ principles also fit into this architecture.</p>
 <span class="normal">12</span>
 <span class="normal">13</span>
 <span class="normal">14</span>
-<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">com.hexagonkt.http.server.jetty.serve</span><span class="w"></span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">com.hexagonkt.http.server.jetty.serve</span>
 
-<span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">server</span><span class="p">:</span><span class="w"> </span><span class="n">HttpServer</span><span class="w"></span>
+<span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">server</span><span class="p">:</span><span class="w"> </span><span class="n">HttpServer</span>
 
 <span class="cm">/**</span>
 <span class="cm"> * Start a Hello World server, serving at path &quot;/hello&quot;.</span>
-<span class="cm"> */</span><span class="w"></span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serve</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello/{name}&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pathParameters</span><span class="o">[</span><span class="s">&quot;name&quot;</span><span class="o">]</span><span class="w"></span>
-<span class="w">            </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello </span><span class="si">$</span><span class="n">name</span><span class="s">!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">PLAIN</span><span class="p">))</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="cm"> */</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serve</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello/{name}&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pathParameters</span><span class="o">[</span><span class="s">&quot;name&quot;</span><span class="o">]</span>
+<span class="w">            </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello </span><span class="si">$</span><span class="n">name</span><span class="s">!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">PLAIN</span><span class="p">))</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <p>You can check the <a href="/examples/http_server_examples/">code examples</a> and <a href="/examples/example_projects/">demo projects</a> for more complex use cases.</p>
 <h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
@@ -1156,7 +1156,7 @@ nature, no tool can do that), you have to provide a layer of abstraction by your
 </tr>
 <tr>
 <td><a href="/core/#serialization">Serialization Formats</a></td>
-<td><a href="/api/serialization_jackson_json/com.hexagonkt.serialization.jackson.json/-json">JSON</a>, <a href="/api/serialization_jackson_yaml/com.hexagonkt.serialization.jackson.yaml/-yaml">YAML</a>, <a href="/api/serialization_jackson_csv/com.hexagonkt.serialization.jackson.csv/-csv">CSV</a>, <a href="/api/serialization_jackson_xml/com.hexagonkt.serialization.jackson.xml/-xml">XML</a></td>
+<td><a href="/api/serialization_jackson_json/com.hexagonkt.serialization.jackson.json/-json">JSON</a>, <a href="/api/serialization_jackson_yaml/com.hexagonkt.serialization.jackson.yaml/-yaml">YAML</a>, <a href="/api/serialization_jackson_csv/com.hexagonkt.serialization.jackson.csv/-csv">CSV</a>, <a href="/api/serialization_jackson_xml/com.hexagonkt.serialization.jackson.xml/-xml">XML</a>, <a href="/api/serialization_jackson_toml/com.hexagonkt.serialization.jackson.toml/-toml">TOML</a></td>
 </tr>
 </tbody>
 </table>
@@ -1197,7 +1197,7 @@ capacities can be replaced by other third party libraries.&#160;<a class="footno
 <footer class="md-footer">
 
   
-  <nav class="md-footer__inner md-grid" aria-label="Footer">
+  <nav class="md-footer__inner md-grid" aria-label="">
 
     
 
@@ -1337,16 +1337,15 @@ capacities can be replaced by other third party libraries.&#160;<a class="footno
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.instant"], "search": "assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.instant"], "search": "assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      <script src="assets/javascripts/bundle.5cf534bf.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       
         <script src="https://platform.twitter.com/widgets.js"></script>
       
-    
     
   </body>
 </html>

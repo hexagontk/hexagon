@@ -9,10 +9,7 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
-import com.hexagonkt.http.model.Cookie
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.Headers
-import com.hexagonkt.http.model.HttpStatus
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.model.ws.WsSession
 import com.hexagonkt.http.parseContentType
@@ -29,9 +26,12 @@ import org.eclipse.jetty.http.HttpFields.EMPTY
 import org.eclipse.jetty.http.HttpMethod
 import org.eclipse.jetty.io.ClientConnector
 import org.eclipse.jetty.websocket.client.WebSocketClient
+import java.lang.StringBuilder
 import java.net.CookieStore
 import java.net.URI
 import java.util.concurrent.ExecutionException
+import java.util.concurrent.Flow.Publisher
+import java.util.concurrent.SubmissionPublisher
 import org.eclipse.jetty.client.HttpClient as JettyHttpClient
 import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFactory
 
@@ -107,36 +107,65 @@ import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFa
 <span class="fc" id="L107">        return JettyClientWsSession(uri, session)</span>
     }
 
+    override fun sse(path: String): Publisher&lt;ServerEvent&gt; {
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        check(started) { &quot;HTTP client *MUST BE STARTED* before sending requests&quot; }</span>
+
+<span class="fc" id="L113">        val clientPublisher = SubmissionPublisher&lt;ServerEvent&gt;()</span>
+
+<span class="pc bpc" id="L115" title="2 of 4 branches missed.">        createJettyRequest(httpClient, jettyClient, HttpClientRequest(path = path))</span>
+<span class="fc" id="L116">            .onResponseBegin {</span>
+<span class="pc bpc" id="L117" title="3 of 6 branches missed.">                if (it.status !in 200 until 300)</span>
+<span class="nc" id="L118">                    error(&quot;Invalid response: ${it.status}&quot;)</span>
+<span class="fc" id="L119">            }</span>
+<span class="fc" id="L120">            .onResponseContent { _, content -&gt;</span>
+<span class="fc" id="L121">                val sb = StringBuilder()</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">                while (content.hasRemaining())</span>
+<span class="pc bpc" id="L123" title="2 of 4 branches missed.">                    sb.append(Char(content.get().toInt()))</span>
+
+<span class="fc" id="L125">                val evt = sb</span>
+<span class="fc" id="L126">                    .trim()</span>
+<span class="fc" id="L127">                    .lines()</span>
+<span class="fc" id="L128">                    .map { it.split(&quot;:&quot;) }</span>
+<span class="fc" id="L129">                    .associate { it.first().trim().lowercase() to it.last().trim() }</span>
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">                    .let { ServerEvent(it[&quot;event&quot;], it[&quot;data&quot;], it[&quot;id&quot;], it[&quot;retry&quot;]?.toLong()) }</span>
+
+<span class="fc" id="L132">                clientPublisher.submit(evt)</span>
+<span class="fc" id="L133">            }</span>
+<span class="fc" id="L134">            .send {}</span>
+
+<span class="fc" id="L136">        return clientPublisher</span>
+    }
+
     private fun convertJettyResponse(
         adapterHttpClient: HttpClient, adapterJettyClient: JettyHttpClient, response: Response
     ): HttpClientResponse {
 
-<span class="fc bfc" id="L114" title="All 2 branches covered.">        val bodyString = if (response is ContentResponse) response.contentAsString else &quot;&quot;</span>
-<span class="fc" id="L115">        val settings = adapterHttpClient.settings</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        val bodyString = if (response is ContentResponse) response.contentAsString else &quot;&quot;</span>
+<span class="fc" id="L144">        val settings = adapterHttpClient.settings</span>
 
-<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (settings.useCookies)</span>
-<span class="fc" id="L118">            adapterHttpClient.cookies = adapterJettyClient.cookieStore.cookies.map {</span>
-<span class="fc" id="L119">                Cookie(it.name, it.value, it.maxAge, it.secure)</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (settings.useCookies)</span>
+<span class="fc" id="L147">            adapterHttpClient.cookies = adapterJettyClient.cookieStore.cookies.map {</span>
+<span class="fc" id="L148">                Cookie(it.name, it.value, it.maxAge, it.secure)</span>
             }
 
-<span class="fc" id="L122">        return HttpClientResponse(</span>
-<span class="fc" id="L123">            body = bodyString,</span>
-<span class="fc" id="L124">            headers = convertHeaders(response.headers),</span>
-<span class="fc bfc" id="L125" title="All 2 branches covered.">            contentType = response.headers[&quot;content-type&quot;]?.let { parseContentType(it) },</span>
-<span class="fc" id="L126">            cookies = adapterHttpClient.cookies,</span>
-<span class="fc" id="L127">            status = HttpStatus(response.status),</span>
-<span class="fc" id="L128">            contentLength = bodyString.length.toLong(),</span>
+<span class="fc" id="L151">        return HttpClientResponse(</span>
+<span class="fc" id="L152">            body = bodyString,</span>
+<span class="fc" id="L153">            headers = convertHeaders(response.headers),</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">            contentType = response.headers[&quot;content-type&quot;]?.let { parseContentType(it) },</span>
+<span class="fc" id="L155">            cookies = adapterHttpClient.cookies,</span>
+<span class="fc" id="L156">            status = HttpStatus(response.status),</span>
+<span class="fc" id="L157">            contentLength = bodyString.length.toLong(),</span>
         )
     }
 
     private fun convertHeaders(headers: HttpFields): Headers =
-<span class="fc" id="L133">        Headers(</span>
-<span class="fc" id="L134">            headers</span>
-<span class="fc" id="L135">                .fieldNamesCollection</span>
-<span class="fc" id="L136">                .map { it.lowercase() }</span>
-<span class="fc bfc" id="L137" title="All 2 branches covered.">                .filter { it !in checkedHeaders }</span>
-<span class="fc" id="L138">                .map { Header(it, headers.getValuesList(it)) }</span>
-<span class="fc" id="L139">        )</span>
+<span class="fc" id="L162">        Headers(</span>
+<span class="fc" id="L163">            headers</span>
+<span class="fc" id="L164">                .fieldNamesCollection</span>
+<span class="fc" id="L165">                .map { it.lowercase() }</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">                .filter { it !in checkedHeaders }</span>
+<span class="fc" id="L167">                .map { Header(it, headers.getValuesList(it)) }</span>
+<span class="fc" id="L168">        )</span>
 
     private fun createJettyRequest(
         adapterHttpClient: HttpClient,
@@ -144,104 +173,104 @@ import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFa
         request: HttpClientRequest
     ): Request {
 
-<span class="fc" id="L147">        val settings = adapterHttpClient.settings</span>
-<span class="fc bfc" id="L148" title="All 2 branches covered.">        val contentType = request.contentType ?: settings.contentType</span>
-<span class="fc bfc" id="L149" title="All 2 branches covered.">        val authorization = request.authorization ?: settings.authorization</span>
+<span class="fc" id="L176">        val settings = adapterHttpClient.settings</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">        val contentType = request.contentType ?: settings.contentType</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        val authorization = request.authorization ?: settings.authorization</span>
 
-<span class="fc bfc" id="L151" title="All 2 branches covered.">        if (settings.useCookies)</span>
-<span class="fc" id="L152">            addCookies(adapterHttpClient, adapterJettyClient.cookieStore, request.cookies)</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">        if (settings.useCookies)</span>
+<span class="fc" id="L181">            addCookies(adapterHttpClient, adapterJettyClient.cookieStore, request.cookies)</span>
 
-<span class="fc" id="L154">        val jettyRequest = adapterJettyClient</span>
-<span class="fc" id="L155">            .newRequest(URI(settings.baseUrl.toString() + request.path))</span>
-<span class="fc" id="L156">            .method(HttpMethod.valueOf(request.method.toString()))</span>
-<span class="fc" id="L157">            .headers {</span>
-<span class="fc" id="L158">                it.remove(&quot;accept-encoding&quot;) // Don't send encoding by default</span>
-<span class="fc bfc" id="L159" title="All 2 branches covered.">                if (contentType != null)</span>
-<span class="fc" id="L160">                    it.put(&quot;content-type&quot;, contentType.text)</span>
-<span class="fc bfc" id="L161" title="All 2 branches covered.">                if (authorization != null)</span>
-<span class="fc" id="L162">                    it.put(&quot;authorization&quot;, authorization.text)</span>
-<span class="fc" id="L163">                (settings.headers + request.headers).values.forEach { (k, v) -&gt; it.put(k, v) }</span>
-<span class="fc" id="L164">            }</span>
-<span class="fc" id="L165">            .body(createBody(request))</span>
-<span class="pc" id="L166">            .accept(*request.accept.map { it.text }.toTypedArray())</span>
+<span class="fc" id="L183">        val jettyRequest = adapterJettyClient</span>
+<span class="fc" id="L184">            .newRequest(URI(settings.baseUrl.toString() + request.path))</span>
+<span class="fc" id="L185">            .method(HttpMethod.valueOf(request.method.toString()))</span>
+<span class="fc" id="L186">            .headers {</span>
+<span class="fc" id="L187">                it.remove(&quot;accept-encoding&quot;) // Don't send encoding by default</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">                if (contentType != null)</span>
+<span class="fc" id="L189">                    it.put(&quot;content-type&quot;, contentType.text)</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">                if (authorization != null)</span>
+<span class="fc" id="L191">                    it.put(&quot;authorization&quot;, authorization.text)</span>
+<span class="fc" id="L192">                (settings.headers + request.headers).values.forEach { (k, v) -&gt; it.put(k, v) }</span>
+<span class="fc" id="L193">            }</span>
+<span class="fc" id="L194">            .body(createBody(request))</span>
+<span class="pc" id="L195">            .accept(*request.accept.map { it.text }.toTypedArray())</span>
 
-<span class="fc" id="L168">        request.queryParameters</span>
-<span class="fc" id="L169">            .forEach { (k, v) -&gt;</span>
-<span class="fc" id="L170">                v.values.forEach { jettyRequest.param(k, it) }</span>
-<span class="fc" id="L171">            }</span>
+<span class="fc" id="L197">        request.queryParameters</span>
+<span class="fc" id="L198">            .forEach { (k, v) -&gt;</span>
+<span class="fc" id="L199">                v.values.forEach { jettyRequest.param(k, it) }</span>
+<span class="fc" id="L200">            }</span>
 
-<span class="fc" id="L173">        return jettyRequest</span>
+<span class="fc" id="L202">        return jettyRequest</span>
     }
 
     private fun createBody(request: HttpClientRequest): Request.Content {
 
-<span class="fc bfc" id="L178" title="All 4 branches covered.">        if (request.parts.isEmpty() &amp;&amp; request.formParameters.isEmpty())</span>
-<span class="fc" id="L179">            return BytesRequestContent(bodyToBytes(request.body))</span>
+<span class="fc bfc" id="L207" title="All 4 branches covered.">        if (request.parts.isEmpty() &amp;&amp; request.formParameters.isEmpty())</span>
+<span class="fc" id="L208">            return BytesRequestContent(bodyToBytes(request.body))</span>
 
-<span class="fc" id="L181">        val multiPart = MultiPartRequestContent()</span>
+<span class="fc" id="L210">        val multiPart = MultiPartRequestContent()</span>
 
-<span class="fc" id="L183">        request.parts.forEach { p -&gt;</span>
-<span class="fc bfc" id="L184" title="All 2 branches covered.">            if (p.submittedFileName == null)</span>
+<span class="fc" id="L212">        request.parts.forEach { p -&gt;</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">            if (p.submittedFileName == null)</span>
                 // TODO Add content type if present
-<span class="fc" id="L186">                multiPart.addFieldPart(p.name, StringRequestContent(p.bodyString()), EMPTY)</span>
+<span class="fc" id="L215">                multiPart.addFieldPart(p.name, StringRequestContent(p.bodyString()), EMPTY)</span>
             else
-<span class="fc" id="L188">                multiPart.addFilePart(</span>
-<span class="fc" id="L189">                    p.name,</span>
-<span class="fc" id="L190">                    p.submittedFileName,</span>
-<span class="fc" id="L191">                    BytesRequestContent(bodyToBytes(p.body)),</span>
-<span class="fc" id="L192">                    EMPTY</span>
+<span class="fc" id="L217">                multiPart.addFilePart(</span>
+<span class="fc" id="L218">                    p.name,</span>
+<span class="fc" id="L219">                    p.submittedFileName,</span>
+<span class="fc" id="L220">                    BytesRequestContent(bodyToBytes(p.body)),</span>
+<span class="fc" id="L221">                    EMPTY</span>
                 )
-<span class="fc" id="L194">        }</span>
+<span class="fc" id="L223">        }</span>
 
-<span class="fc" id="L196">        request.formParameters</span>
-<span class="fc" id="L197">            .forEach { (k, v) -&gt;</span>
-<span class="fc" id="L198">                v.values.forEach { multiPart.addFieldPart(k, StringRequestContent(it), EMPTY) }</span>
-<span class="fc" id="L199">            }</span>
+<span class="fc" id="L225">        request.formParameters</span>
+<span class="fc" id="L226">            .forEach { (k, v) -&gt;</span>
+<span class="fc" id="L227">                v.values.forEach { multiPart.addFieldPart(k, StringRequestContent(it), EMPTY) }</span>
+<span class="fc" id="L228">            }</span>
 
-<span class="fc" id="L201">        multiPart.close()</span>
+<span class="fc" id="L230">        multiPart.close()</span>
 
-<span class="fc" id="L203">        return multiPart</span>
+<span class="fc" id="L232">        return multiPart</span>
     }
 
     private fun addCookies(client: HttpClient, store: CookieStore, cookies: List&lt;Cookie&gt;) {
-<span class="fc" id="L207">        val uri = client.settings.baseUrl.toURI()</span>
+<span class="fc" id="L236">        val uri = client.settings.baseUrl.toURI()</span>
 
-<span class="fc" id="L209">        cookies.forEach {</span>
-<span class="fc" id="L210">            val httpCookie = java.net.HttpCookie(it.name, it.value)</span>
-<span class="fc" id="L211">            httpCookie.secure = it.secure</span>
-<span class="fc" id="L212">            httpCookie.maxAge = it.maxAge</span>
-<span class="fc" id="L213">            store.add(uri, httpCookie)</span>
-<span class="fc" id="L214">        }</span>
-<span class="fc" id="L215">    }</span>
+<span class="fc" id="L238">        cookies.forEach {</span>
+<span class="fc" id="L239">            val httpCookie = java.net.HttpCookie(it.name, it.value)</span>
+<span class="fc" id="L240">            httpCookie.secure = it.secure</span>
+<span class="fc" id="L241">            httpCookie.maxAge = it.maxAge</span>
+<span class="fc" id="L242">            store.add(uri, httpCookie)</span>
+<span class="fc" id="L243">        }</span>
+<span class="fc" id="L244">    }</span>
 
     private fun sslContext(settings: HttpClientSettings): ClientSslContextFactory =
-<span class="fc" id="L218">        when {</span>
-<span class="fc bfc" id="L219" title="All 2 branches covered.">            settings.insecure -&gt;</span>
-<span class="fc" id="L220">                ClientSslContextFactory().apply { isTrustAll = true }</span>
+<span class="fc" id="L247">        when {</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">            settings.insecure -&gt;</span>
+<span class="fc" id="L249">                ClientSslContextFactory().apply { isTrustAll = true }</span>
 
-<span class="fc bfc" id="L222" title="All 2 branches covered.">            settings.sslSettings != null -&gt; {</span>
-<span class="pc bpc" id="L223" title="1 of 2 branches missed.">                val sslSettings = settings.sslSettings ?: fail</span>
-<span class="fc" id="L224">                val keyStore = sslSettings.keyStore</span>
-<span class="fc" id="L225">                val trustStore = sslSettings.trustStore</span>
-<span class="fc" id="L226">                val sslContextBuilder = ClientSslContextFactory()</span>
+<span class="fc bfc" id="L251" title="All 2 branches covered.">            settings.sslSettings != null -&gt; {</span>
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">                val sslSettings = settings.sslSettings ?: fail</span>
+<span class="fc" id="L253">                val keyStore = sslSettings.keyStore</span>
+<span class="fc" id="L254">                val trustStore = sslSettings.trustStore</span>
+<span class="fc" id="L255">                val sslContextBuilder = ClientSslContextFactory()</span>
 
-<span class="fc bfc" id="L228" title="All 2 branches covered.">                if (keyStore != null) {</span>
-<span class="fc" id="L229">                    val store = loadKeyStore(keyStore, sslSettings.keyStorePassword)</span>
-<span class="fc" id="L230">                    sslContextBuilder.keyStore = store</span>
-<span class="fc" id="L231">                    sslContextBuilder.keyStorePassword = sslSettings.keyStorePassword</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">                if (keyStore != null) {</span>
+<span class="fc" id="L258">                    val store = loadKeyStore(keyStore, sslSettings.keyStorePassword)</span>
+<span class="fc" id="L259">                    sslContextBuilder.keyStore = store</span>
+<span class="fc" id="L260">                    sslContextBuilder.keyStorePassword = sslSettings.keyStorePassword</span>
                 }
 
-<span class="fc bfc" id="L234" title="All 2 branches covered.">                if (trustStore != null) {</span>
-<span class="fc" id="L235">                    val store = loadKeyStore(trustStore, sslSettings.trustStorePassword)</span>
-<span class="fc" id="L236">                    sslContextBuilder.trustStore = store</span>
-<span class="fc" id="L237">                    sslContextBuilder.setTrustStorePassword(sslSettings.trustStorePassword)</span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">                if (trustStore != null) {</span>
+<span class="fc" id="L264">                    val store = loadKeyStore(trustStore, sslSettings.trustStorePassword)</span>
+<span class="fc" id="L265">                    sslContextBuilder.trustStore = store</span>
+<span class="fc" id="L266">                    sslContextBuilder.setTrustStorePassword(sslSettings.trustStorePassword)</span>
                 }
 
-<span class="fc" id="L240">                sslContextBuilder</span>
+<span class="fc" id="L269">                sslContextBuilder</span>
             }
 
             else -&gt;
-<span class="fc" id="L244">                ClientSslContextFactory()</span>
-<span class="fc" id="L245">        }</span>
+<span class="fc" id="L273">                ClientSslContextFactory()</span>
+<span class="fc" id="L274">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

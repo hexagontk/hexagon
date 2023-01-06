@@ -2,18 +2,15 @@
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.dataformat.toml.TomlFactory
-import com.fasterxml.jackson.dataformat.toml.TomlReadFeature.PARSE_JAVA_TIME
 import com.hexagonkt.core.media.ApplicationMedia
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.serialization.jackson.JacksonTextFormat
 
-<span class="fc" id="L10">object Toml : JacksonTextFormat({ Toml.createTomlFactory() }) {</span>
+<span class="fc" id="L9">object Toml : JacksonTextFormat({ Toml.createTomlFactory() }) {</span>
 
     private fun createTomlFactory(): JsonFactory =
-<span class="fc" id="L13">        with(TomlFactory()) {</span>
-<span class="fc" id="L14">            configure(PARSE_JAVA_TIME, true)</span>
-<span class="fc" id="L15">        }</span>
+<span class="fc" id="L12">        TomlFactory()</span>
 
-<span class="fc" id="L17">    override val mediaType: MediaType = ApplicationMedia.TOML</span>
+<span class="fc" id="L14">    override val mediaType: MediaType = ApplicationMedia.TOML</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

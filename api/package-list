@@ -4,7 +4,6 @@ $dokka.linkExtension:html
 module:core
 com.hexagonkt.core
 com.hexagonkt.core.logging
-com.hexagonkt.core.logging.jul
 com.hexagonkt.core.media
 com.hexagonkt.core.security
 module:handlers
@@ -37,6 +36,8 @@ com.hexagonkt.http.server.servlet
 module:http_test
 com.hexagonkt.http.test
 com.hexagonkt.http.test.examples
+module:logging_jul
+com.hexagonkt.logging.jul
 module:logging_logback
 com.hexagonkt.logging.logback
 module:logging_slf4j_jul

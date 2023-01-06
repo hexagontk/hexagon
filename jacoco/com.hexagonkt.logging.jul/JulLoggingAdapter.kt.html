@@ -1,64 +1,79 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JulLoggingAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.logging.jul</a> &gt; <span class="el_source">JulLoggingAdapter.kt</span></div><h1>JulLoggingAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.logging.jul
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JulLoggingAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.logging.jul</a> &gt; <span class="el_source">JulLoggingAdapter.kt</span></div><h1>JulLoggingAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.logging.jul
 
-import com.hexagonkt.logging.LoggerPort
-import com.hexagonkt.logging.LoggingLevel
-import com.hexagonkt.logging.LoggingLevel.DEBUG
-import com.hexagonkt.logging.LoggingLevel.ERROR
-import com.hexagonkt.logging.LoggingLevel.INFO
-import com.hexagonkt.logging.LoggingLevel.TRACE
-import com.hexagonkt.logging.LoggingLevel.WARN
-import com.hexagonkt.logging.LoggingLevel.OFF
-import com.hexagonkt.logging.LoggingPort
+import com.hexagonkt.core.logging.LoggerPort
+import com.hexagonkt.core.logging.LoggingLevel
+import com.hexagonkt.core.logging.LoggingLevel.DEBUG
+import com.hexagonkt.core.logging.LoggingLevel.ERROR
+import com.hexagonkt.core.logging.LoggingLevel.INFO
+import com.hexagonkt.core.logging.LoggingLevel.TRACE
+import com.hexagonkt.core.logging.LoggingLevel.WARN
+import com.hexagonkt.core.logging.LoggingLevel.OFF
+import com.hexagonkt.core.logging.LoggingManager.useColor
+import com.hexagonkt.core.logging.LoggingPort
+import com.hexagonkt.core.stripAnsi
+import java.io.PrintStream
 import java.util.logging.Level
 import java.util.logging.Logger as JulLogger
 
 /**
  * Implements [LoggingPort] using [Logger][JulLogger].
  */
-object JulLoggingAdapter : LoggingPort {
+<span class="fc" id="L21">class JulLoggingAdapter(</span>
+<span class="fc" id="L22">    messageOnly: Boolean = false,</span>
+<span class="fc" id="L23">    stream: PrintStream = System.out</span>
+) : LoggingPort {
 
-<span class="fc" id="L20">    init {</span>
-<span class="fc" id="L21">        val root = JulLogger.getLogger(&quot;&quot;)</span>
+<span class="fc" id="L26">    init {</span>
+<span class="fc" id="L27">        val root = JulLogger.getLogger(&quot;&quot;)</span>
 
-<span class="fc bfc" id="L23" title="All 2 branches covered.">        for (hnd in root.handlers)</span>
-<span class="fc" id="L24">            root.removeHandler(hnd)</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        for (hnd in root.handlers)</span>
+<span class="fc" id="L30">            root.removeHandler(hnd)</span>
 
-<span class="fc" id="L26">        root.addHandler(SystemOutHandler())</span>
-<span class="fc" id="L27">        root.level = Level.INFO</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L32">        val handlerFormatter = PatternFormat(useColor, messageOnly)</span>
+<span class="fc" id="L33">        val systemStreamHandler = SystemStreamHandler(handlerFormatter, stream)</span>
+<span class="fc" id="L34">        root.addHandler(systemStreamHandler)</span>
+<span class="fc" id="L35">        root.level = Level.INFO</span>
+<span class="fc" id="L36">    }</span>
 
     override fun setLoggerLevel(name: String, level: LoggingLevel) {
-<span class="fc" id="L31">        JulLogger.getLogger(name).level = mapLevel(level)</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L39">        JulLogger.getLogger(name).level = mapLevel(level)</span>
+<span class="fc" id="L40">    }</span>
 
     override fun createLogger(name: String): LoggerPort =
-<span class="fc" id="L35">        object : LoggerPort {</span>
-<span class="pc" id="L36">            val log: JulLogger = JulLogger.getLogger(name)</span>
+<span class="fc" id="L43">        object : LoggerPort {</span>
+<span class="pc" id="L44">            val log: JulLogger = JulLogger.getLogger(name)</span>
 
             override fun log(level: LoggingLevel, message: () -&gt; Any?) {
-<span class="fc" id="L39">                val julLevel = mapLevel(level)</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">                if (log.isLoggable(julLevel))</span>
-<span class="fc" id="L41">                    log.log(julLevel, message().toString())</span>
-<span class="fc" id="L42">            }</span>
+<span class="fc" id="L47">                val julLevel = mapLevel(level)</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">                if (log.isLoggable(julLevel))</span>
+<span class="fc" id="L49">                    log.log(julLevel, color(message().toString()))</span>
+<span class="fc" id="L50">            }</span>
 
             override fun &lt;E : Throwable&gt; log(
                 level: LoggingLevel,
                 exception: E,
                 message: (E) -&gt; Any?,
             ) {
-<span class="fc" id="L49">                val julLevel = mapLevel(level)</span>
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">                if (log.isLoggable(julLevel))</span>
-<span class="fc" id="L51">                    log.log(julLevel, message(exception).toString(), exception)</span>
-<span class="fc" id="L52">            }</span>
-<span class="fc" id="L53">        }</span>
+<span class="fc" id="L57">                val julLevel = mapLevel(level)</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">                if (log.isLoggable(julLevel))</span>
+<span class="fc" id="L59">                    log.log(julLevel, color(message(exception).toString()), exception)</span>
+<span class="fc" id="L60">            }</span>
 
-<span class="fc bfc" id="L55" title="All 6 branches covered.">    private fun mapLevel(level: LoggingLevel): Level = when (level) {</span>
-<span class="fc" id="L56">        TRACE -&gt; Level.FINER</span>
-<span class="fc" id="L57">        DEBUG -&gt; Level.FINE</span>
-<span class="fc" id="L58">        INFO -&gt; Level.INFO</span>
-<span class="fc" id="L59">        WARN -&gt; Level.WARNING</span>
-<span class="fc" id="L60">        ERROR -&gt; Level.SEVERE</span>
-<span class="fc" id="L61">        OFF -&gt; Level.OFF</span>
-<span class="fc" id="L62">    }</span>
-}
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+            private fun color(message: String): String =
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">                if (useColor) message</span>
+<span class="pc" id="L64">                else message.stripAnsi()</span>
+<span class="fc" id="L65">        }</span>
+
+    override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =
+<span class="fc" id="L68">        JulLogger.getLogger(name).isLoggable(mapLevel(level))</span>
+
+<span class="fc bfc" id="L70" title="All 6 branches covered.">    internal fun mapLevel(level: LoggingLevel): Level = when (level) {</span>
+<span class="fc" id="L71">        TRACE -&gt; Level.FINER</span>
+<span class="fc" id="L72">        DEBUG -&gt; Level.FINE</span>
+<span class="fc" id="L73">        INFO -&gt; Level.INFO</span>
+<span class="fc" id="L74">        WARN -&gt; Level.WARNING</span>
+<span class="fc" id="L75">        ERROR -&gt; Level.SEVERE</span>
+<span class="fc" id="L76">        OFF -&gt; Level.OFF</span>
+<span class="fc" id="L77">    }</span>
+<span class="fc" id="L78">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

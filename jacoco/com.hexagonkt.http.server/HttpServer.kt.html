@@ -179,36 +179,55 @@ import java.lang.System.nanoTime
 
 <span class="fc" id="L180">        val hostnameValue = &quot;$BLUE$hostname$RESET&quot;</span>
 <span class="fc" id="L181">        val cpuCountValue = &quot;$BLUE$cpuCount$RESET&quot;</span>
-<span class="fc" id="L182">        val jvmMemoryValue = &quot;$BLUE${initialMemory()}$RESET&quot;</span>
 
-<span class="fc" id="L184">        val javaVersionValue = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
+<span class="fc" id="L183">        val javaVersionValue = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
 
-<span class="fc" id="L186">        val localeValue = &quot;$BLUE$localeCode$RESET&quot;</span>
-<span class="fc" id="L187">        val timezoneValue = &quot;$BLUE$timezone$RESET&quot;</span>
-<span class="fc" id="L188">        val charsetValue = &quot;$BLUE$charset$RESET&quot;</span>
+<span class="fc" id="L185">        val localeValue = &quot;$BLUE$localeCode$RESET&quot;</span>
+<span class="fc" id="L186">        val timezoneValue = &quot;$BLUE$timezone$RESET&quot;</span>
+<span class="fc" id="L187">        val charsetValue = &quot;$BLUE$charset$RESET&quot;</span>
 
-<span class="fc" id="L190">        val bootTimeValue = &quot;$BOLD$MAGENTA${uptime()} s$RESET&quot;</span>
-<span class="fc" id="L191">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
-<span class="fc" id="L192">        val usedMemoryValue = &quot;$BOLD$MAGENTA${usedMemory()} KB$RESET&quot;</span>
-<span class="fc" id="L193">        val bindingValue = &quot;$BLUE$UNDERLINE$binding$RESET&quot;</span>
+<span class="fc" id="L189">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
+<span class="fc" id="L190">        val bindingValue = &quot;$BLUE$UNDERLINE$binding$RESET&quot;</span>
 
-<span class="fc" id="L195">        val information = &quot;&quot;&quot;</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">        val information = if (settings.vmInformation) {</span>
+<span class="fc" id="L193">            val jvmMemoryValue = &quot;$BLUE${initialMemory()}$RESET&quot;</span>
+<span class="fc" id="L194">            val bootTimeValue = &quot;$BOLD$MAGENTA${uptime()} s$RESET&quot;</span>
+<span class="fc" id="L195">            val usedMemoryValue = &quot;$BOLD$MAGENTA${usedMemory()} KB$RESET&quot;</span>
 
-<span class="fc" id="L197">            Server Adapter: $serverAdapterValue ($protocols)</span>
-<span class="fc" id="L198">            Supported Features: $features</span>
-<span class="fc" id="L199">            Configuration Options: $options</span>
+            &quot;&quot;&quot;
 
-<span class="fc" id="L201">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
-<span class="fc" id="L202">            🛠 Using $javaVersionValue</span>
-<span class="fc" id="L203">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
+<span class="fc" id="L199">            Server Adapter: $serverAdapterValue ($protocols)</span>
+<span class="fc" id="L200">            Supported Features: $features</span>
+<span class="fc" id="L201">            Configuration Options: $options</span>
 
-<span class="fc" id="L205">            ⏱️ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
-<span class="fc bfc" id="L206" title="All 2 branches covered.">            🚀 Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot; }</span>
+<span class="fc" id="L203">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
+<span class="fc" id="L204">            🛠 Using $javaVersionValue</span>
+<span class="fc" id="L205">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
 
-<span class="fc" id="L208">        &quot;&quot;&quot;.trimIndent()</span>
+<span class="fc" id="L207">            ⏱️ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">            🚀 Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot; }</span>
 
-<span class="pc bpc" id="L210" title="1 of 4 branches missed.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: banner) + information</span>
-<span class="fc" id="L211">        return banner.prependIndent()</span>
+            &quot;&quot;&quot;
+        }
+        else {
+            &quot;&quot;&quot;
+
+<span class="fc" id="L215">            Server Adapter: $serverAdapterValue ($protocols)</span>
+<span class="fc" id="L216">            Supported Features: $features</span>
+<span class="fc" id="L217">            Configuration Options: $options</span>
+
+<span class="fc" id="L219">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs</span>
+<span class="fc" id="L220">            🛠 Using $javaVersionValue</span>
+<span class="fc" id="L221">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
+
+<span class="fc" id="L223">            ⏱️ Started in $startUpTimeValue (excluding VM)</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">            🚀 Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot; }</span>
+
+            &quot;&quot;&quot;
+        }
+
+<span class="pc bpc" id="L229" title="1 of 4 branches missed.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: banner) + information.trimIndent()</span>
+<span class="fc" id="L230">        return banner.prependIndent()</span>
     }
-<span class="nc" id="L213">}</span>
+<span class="nc" id="L232">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

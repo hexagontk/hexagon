@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VirtualThreadPool.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.jetty</a> &gt; <span class="el_source">VirtualThreadPool.kt</span></div><h1>VirtualThreadPool.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.jetty
+
+import org.eclipse.jetty.util.VirtualThreads.getDefaultVirtualThreadsExecutor
+import org.eclipse.jetty.util.thread.ThreadPool
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.TimeUnit.NANOSECONDS
+import kotlin.Long.Companion.MAX_VALUE
+
+<span class="nc" id="L9">internal class VirtualThreadPool : ThreadPool {</span>
+    private var executorService: ExecutorService =
+<span class="nc" id="L11">        getDefaultVirtualThreadsExecutor() as ExecutorService</span>
+
+    override fun execute(command: Runnable) {
+<span class="nc" id="L14">        executorService.submit(command)</span>
+<span class="nc" id="L15">    }</span>
+
+    override fun join() {
+<span class="nc" id="L18">        executorService.awaitTermination(MAX_VALUE, NANOSECONDS)</span>
+<span class="nc" id="L19">    }</span>
+
+<span class="nc" id="L21">    override fun getThreads(): Int = 1</span>
+<span class="nc" id="L22">    override fun getIdleThreads(): Int = 1</span>
+<span class="nc" id="L23">    override fun isLowOnThreads(): Boolean = false</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

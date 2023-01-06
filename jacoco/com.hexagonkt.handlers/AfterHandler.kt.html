@@ -28,7 +28,7 @@ import com.hexagonkt.core.logging.Logger
 <span class="fc" id="L28">            else next</span>
         }
 <span class="fc" id="L30">        catch (e: Exception) {</span>
-<span class="pc" id="L31">            logger.info { &quot;Exception processing after handler callback: ${e.message}&quot; }</span>
+<span class="fc" id="L31">            logger.info { &quot;Exception processing after handler callback: ${e.message}&quot; }</span>
 <span class="fc" id="L32">            next.copy(exception = e)</span>
         }
     }
