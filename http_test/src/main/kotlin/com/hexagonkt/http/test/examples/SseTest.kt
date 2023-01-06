@@ -34,7 +34,7 @@ abstract class SseTest(
 
     override val handler: HttpHandler = path
 
-    @Test fun `Request with invalid user returns 403`() {
+    @Test fun `SSE requests get published events on the server`() {
 
         var events: List<ServerEvent> = listOf(
             ServerEvent(data = "d1"),
@@ -58,11 +58,11 @@ abstract class SseTest(
             }
         })
 
-        Thread.sleep(200)
+        Thread.sleep(500)
         for (item in events)
             eventPublisher.submit(item)
 
-        Thread.sleep(200)
+        Thread.sleep(500)
         eventPublisher.close()
         assertEquals(0, events.size)
     }
