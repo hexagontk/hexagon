@@ -1,4 +1,4 @@
-package com.hexagonkt.core.logging.jul
+package com.hexagonkt.logging.jul
 
 import com.hexagonkt.core.Ansi
 import com.hexagonkt.core.Ansi.BLUE

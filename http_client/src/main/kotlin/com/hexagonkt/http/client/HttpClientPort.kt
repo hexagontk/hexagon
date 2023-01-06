@@ -2,8 +2,10 @@ package com.hexagonkt.http.client
 
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.model.ServerEvent
 import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.model.ws.WsSession
+import java.util.concurrent.Flow.Publisher
 
 interface HttpClientPort {
 
@@ -14,6 +16,8 @@ interface HttpClientPort {
     fun started(): Boolean
 
     fun send(request: HttpClientRequest): HttpClientResponse
+
+    fun sse(path: String): Publisher<ServerEvent>
 
     fun ws(
         path: String,

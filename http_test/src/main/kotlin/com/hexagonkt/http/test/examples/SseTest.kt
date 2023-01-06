@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription
 import java.util.concurrent.SubmissionPublisher
-import kotlin.concurrent.thread
 import kotlin.test.assertEquals
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
@@ -35,25 +34,23 @@ abstract class SseTest(
 
     override val handler: HttpHandler = path
 
-    @Test fun `Request with invalid user returns 403`() {
-        thread(true) { client.get("/sse") }
+    @Test fun `SSE requests get published events on the server`() {
 
-        var items: List<ServerEvent> = listOf(
+        val events = listOf(
             ServerEvent(data = "d1"),
             ServerEvent(data = "d2"),
             ServerEvent(data = "d3"),
         )
 
-        // TODO The subscription must be done on HTTP response, this is testing nothing!
-        eventPublisher.subscribe(object : Flow.Subscriber<ServerEvent> {
+        val pendingEvents = events.toMutableList()
+        val clientPublisher = client.sse("/sse")
+        clientPublisher.subscribe(object : Flow.Subscriber<ServerEvent> {
             override fun onComplete() {}
-
             override fun onError(throwable: Throwable) {}
 
             override fun onNext(item: ServerEvent) {
-                val expectedItem = items[0]
-                items = items.drop(1)
-                assertEquals(expectedItem, item.info())
+                assertEquals(pendingEvents.first(), item.info())
+                pendingEvents.removeFirst()
             }
 
             override fun onSubscribe(subscription: Subscription) {
@@ -61,11 +58,13 @@ abstract class SseTest(
             }
         })
 
-        for (item in items)
+        Thread.sleep(300)
+        for (item in events) {
+            Thread.sleep(10)
             eventPublisher.submit(item)
+        }
 
-        eventPublisher.close()
-        Thread.sleep(50)
-        assertEquals(0, items.size)
+        Thread.sleep(200)
+        assertEquals(0, pendingEvents.size)
     }
 }

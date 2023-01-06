@@ -76,9 +76,9 @@ class JettyServletAdapter(
 
     override fun startUp(server: HttpServer) {
         val settings = server.settings
-        val threadPool = QueuedThreadPool(maxThreads, minThreads)
-        if (useVirtualThreads)
-            threadPool.virtualThreadsExecutor = VirtualThreads.getDefaultVirtualThreadsExecutor()
+        val threadPool =
+            if (useVirtualThreads) VirtualThreadPool()
+            else QueuedThreadPool(maxThreads, minThreads)
         val serverInstance = JettyServer(threadPool)
         jettyServer = serverInstance
 

@@ -143,7 +143,7 @@ Ports with their provided implementations (Adapters).
 | [HTTP Server]           | [Netty], [Netty Epoll], [Jetty], [Servlet] |
 | [HTTP Client]           | [Jetty][Jetty Client]                      |
 | [Templates]             | [Pebble], [FreeMarker]                     |
-| [Serialization Formats] | [JSON], [YAML], [CSV], [XML]               |
+| [Serialization Formats] | [JSON], [YAML], [CSV], [XML], [TOML]       |
 
 [HTTP Server]: /http_server
 [Netty]: /http_server_netty
@@ -160,6 +160,7 @@ Ports with their provided implementations (Adapters).
 [YAML]: /api/serialization_jackson_yaml/com.hexagonkt.serialization.jackson.yaml/-yaml
 [CSV]: /api/serialization_jackson_csv/com.hexagonkt.serialization.jackson.csv/-csv
 [XML]: /api/serialization_jackson_xml/com.hexagonkt.serialization.jackson.xml/-xml
+[TOML]: /api/serialization_jackson_toml/com.hexagonkt.serialization.jackson.toml/-toml
 
 # Module Dependencies
 Module dependencies (including extra modules):

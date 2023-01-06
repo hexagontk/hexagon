@@ -3,8 +3,10 @@ package com.hexagonkt.http.client
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.Header
+import com.hexagonkt.http.model.ServerEvent
 import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.model.ws.WsSession
+import java.util.concurrent.Flow.Publisher
 
 object VoidAdapter : HttpClientPort {
     var started: Boolean = false
@@ -26,6 +28,9 @@ object VoidAdapter : HttpClientPort {
             body = request.body,
             contentType = request.contentType,
         )
+
+    override fun sse(path: String): Publisher<ServerEvent> =
+        error("Unsupported operation")
 
     override fun ws(
         path: String,
