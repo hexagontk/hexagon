@@ -27,9 +27,9 @@ import java.security.KeyStore
 import java.util.EnumSet
 import jakarta.servlet.DispatcherType
 import org.eclipse.jetty.util.VirtualThreads
+import org.eclipse.jetty.util.VirtualThreads.getDefaultVirtualThreadsExecutor
 import org.eclipse.jetty.util.thread.ExecutorThreadPool
 import org.eclipse.jetty.util.thread.ThreadPool
-import java.util.concurrent.Executors.newFixedThreadPool
 import java.util.concurrent.ThreadPoolExecutor
 import org.eclipse.jetty.server.Server as JettyServer
 
@@ -80,10 +80,9 @@ class JettyServletAdapter(
 
     private fun createThreadPool(): ThreadPool =
         if (useVirtualThreads) {
-            val factory = Thread.ofVirtual().factory()
-            val newFixedThreadPool = newFixedThreadPool(maxThreads, factory) as ThreadPoolExecutor
-            val threadPool = ExecutorThreadPool(newFixedThreadPool, minThreads)
-            threadPool.virtualThreadsExecutor = VirtualThreads.getDefaultVirtualThreadsExecutor()
+            val virtualThreadPool = getDefaultVirtualThreadsExecutor() as ThreadPoolExecutor
+            val threadPool = ExecutorThreadPool(virtualThreadPool, minThreads)
+            threadPool.virtualThreadsExecutor = virtualThreadPool
             threadPool
         }
         else {
