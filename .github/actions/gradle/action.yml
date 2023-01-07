@@ -9,7 +9,7 @@ inputs:
   java:
     description: Java version used to run Gradle.
     required: true
-    default: "17"
+    default: "19"
 
   java_distribution:
     description: Java distribution used to run Gradle.
