@@ -33,6 +33,7 @@ include(
     "http_server_jetty",
     "http_server_netty",
     "http_server_netty_epoll",
+    "http_server_nima",
     "templates_pebble",
     "templates_freemarker",
 

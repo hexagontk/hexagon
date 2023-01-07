@@ -18,7 +18,12 @@ internal class SystemStreamHandler(
 
     override fun publish(record: LogRecord) {
         super.publish(record)
-        flush()
+        try {
+            flush()
+        }
+        catch (_: Exception) {
+            // TODO This is done because of a weird error starting Nima (try removing with JDK 21)
+        }
     }
 
     init {
