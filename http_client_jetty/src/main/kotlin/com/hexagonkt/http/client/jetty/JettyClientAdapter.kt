@@ -1,6 +1,7 @@
 package com.hexagonkt.http.client.jetty
 
 import com.hexagonkt.core.fail
+import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.checkedHeaders
@@ -30,6 +31,7 @@ import java.lang.StringBuilder
 import java.net.CookieStore
 import java.net.URI
 import java.util.concurrent.ExecutionException
+import java.util.concurrent.Executors
 import java.util.concurrent.Flow.Publisher
 import java.util.concurrent.SubmissionPublisher
 import org.eclipse.jetty.client.HttpClient as JettyHttpClient
@@ -44,6 +46,7 @@ class JettyClientAdapter : HttpClientPort {
     private lateinit var httpClient: HttpClient
     private lateinit var wsClient: WebSocketClient
     private var started: Boolean = false
+    private val publisherExecutor = Executors.newSingleThreadExecutor()
 
     override fun startUp(client: HttpClient) {
         val clientConnector = ClientConnector()
@@ -107,12 +110,17 @@ class JettyClientAdapter : HttpClientPort {
         return JettyClientWsSession(uri, session)
     }
 
-    override fun sse(path: String): Publisher<ServerEvent> {
+    override fun sse(request: HttpClientRequest): Publisher<ServerEvent> {
         check(started) { "HTTP client *MUST BE STARTED* before sending requests" }
 
-        val clientPublisher = SubmissionPublisher<ServerEvent>()
+        val clientPublisher = SubmissionPublisher<ServerEvent>(publisherExecutor, Int.MAX_VALUE)
 
-        createJettyRequest(httpClient, jettyClient, HttpClientRequest(path = path))
+        val sseRequest = request.copy(
+            accept = listOf(ContentType(TextMedia.EVENT_STREAM)),
+            headers = request.headers + Header("connection", "keep-alive")
+        )
+
+        createJettyRequest(httpClient, jettyClient, sseRequest)
             .onResponseBegin {
                 if (it.status !in 200 until 300)
                     error("Invalid response: ${it.status}")
@@ -131,7 +139,9 @@ class JettyClientAdapter : HttpClientPort {
 
                 clientPublisher.submit(evt)
             }
-            .send {}
+            .send {
+                clientPublisher.close()
+            }
 
         return clientPublisher
     }

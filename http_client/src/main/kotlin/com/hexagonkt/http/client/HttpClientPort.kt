@@ -17,7 +17,7 @@ interface HttpClientPort {
 
     fun send(request: HttpClientRequest): HttpClientResponse
 
-    fun sse(path: String): Publisher<ServerEvent>
+    fun sse(request: HttpClientRequest): Publisher<ServerEvent>
 
     fun ws(
         path: String,

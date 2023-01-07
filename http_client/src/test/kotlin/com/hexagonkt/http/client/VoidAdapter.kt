@@ -29,7 +29,7 @@ object VoidAdapter : HttpClientPort {
             contentType = request.contentType,
         )
 
-    override fun sse(path: String): Publisher<ServerEvent> =
+    override fun sse(request: HttpClientRequest): Publisher<ServerEvent> =
         error("Unsupported operation")
 
     override fun ws(

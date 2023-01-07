@@ -60,8 +60,11 @@ class HttpClient(
     fun send(request: HttpClientRequest): HttpClientResponse =
         adapter.send(request)
 
+    fun sse(request: HttpClientRequest): Publisher<ServerEvent> =
+        adapter.sse(request)
+
     fun sse(path: String): Publisher<ServerEvent> =
-        adapter.sse(path)
+        sse(HttpClientRequest(path = path))
 
     fun ws(
         path: String,

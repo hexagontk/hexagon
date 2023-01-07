@@ -2,6 +2,7 @@ package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.logging.info
 import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.model.ServerEvent
@@ -11,6 +12,7 @@ import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import java.util.concurrent.Flow
+import java.util.concurrent.Flow.Publisher
 import java.util.concurrent.Flow.Subscription
 import java.util.concurrent.SubmissionPublisher
 import kotlin.test.assertEquals
@@ -35,7 +37,11 @@ abstract class SseTest(
     override val handler: HttpHandler = path
 
     @Test fun `SSE requests get published events on the server`() {
+        checkRequest { client.sse("/sse") }
+        checkRequest { client.sse(HttpClientRequest(path = "/sse")) }
+    }
 
+    private fun checkRequest(publisher: () -> Publisher<ServerEvent>) {
         val events = listOf(
             ServerEvent(data = "d1"),
             ServerEvent(data = "d2"),
@@ -43,7 +49,7 @@ abstract class SseTest(
         )
 
         val pendingEvents = events.toMutableList()
-        val clientPublisher = client.sse("/sse")
+        val clientPublisher = publisher()
         clientPublisher.subscribe(object : Flow.Subscriber<ServerEvent> {
             override fun onComplete() {}
             override fun onError(throwable: Throwable) {}
