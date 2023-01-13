@@ -29,6 +29,7 @@ object TemplateManager {
         return findAdapter(url).render(url, context + defaultProperties, locale)
     }
 
+    // TODO Use locale to find template
     private fun findAdapter(url: URL): TemplatePort =
         adapters
             .filter { it.key.matches(url.toString()) }
