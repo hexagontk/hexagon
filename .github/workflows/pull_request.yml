@@ -10,6 +10,7 @@ jobs:
     permissions: read-all
     uses: hexagonkt/.github/.github/workflows/gradle.yml@master
     with:
+      check_directory: core/build
       tasks: createCa createIdentities
 
   build_site:
@@ -44,4 +45,5 @@ jobs:
     permissions: read-all
     uses: hexagonkt/.github/.github/workflows/gradle.yml@master
     with:
+      check_directory: core/build
       tasks: publishToMavenLocal -x test

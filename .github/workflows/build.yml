@@ -9,3 +9,5 @@ jobs:
     name: Build
     permissions: read-all
     uses: hexagonkt/.github/.github/workflows/gradle.yml@master
+    with:
+      check_directory: core/build
