@@ -7,14 +7,10 @@ on:
 jobs:
   sample_keystores:
     name: Sample Keystores
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out
-        uses: actions/checkout@v3
-      - name: Create Sample Keystores
-        uses: ./.github/actions/gradle
-        with:
-          tasks: createCa createIdentities
+    permissions: read-all
+    uses: hexagonkt/.github/.github/workflows/gradle.yml@master
+    with:
+      tasks: createCa createIdentities
 
   build_site:
     name: Build Site
@@ -24,8 +20,6 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v3
-      - name: Install ImageMagick
-        uses: ./.github/actions/image_magick
       - name: Restore Cache
         uses: actions/cache@v3
         with:
@@ -34,6 +28,8 @@ jobs:
           path: |
             ~/.local/bin
             ~/.local/lib/python*/site-packages
+      - name: Install ImageMagick
+        uses: ./.github/actions/image_magick
 
       # PROCESS
       - name: Build Project
@@ -45,11 +41,7 @@ jobs:
 
   test_publishing:
     name: Test Publishing
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out
-        uses: actions/checkout@v3
-      - name: Test Publishing
-        uses: ./.github/actions/gradle
-        with:
-          tasks: publishToMavenLocal -x test
+    permissions: read-all
+    uses: hexagonkt/.github/.github/workflows/gradle.yml@master
+    with:
+      tasks: publishToMavenLocal -x test
