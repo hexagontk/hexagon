@@ -4,6 +4,11 @@ name: Site
 on:
   workflow_call:
     inputs:
+      ref:
+        type: string
+        description: Branch to check out.
+        default: ''
+
       java:
         type: string
         description: Java version used to run Gradle.
@@ -34,12 +39,14 @@ jobs:
           path: |
             ~/.local/bin
             ~/.local/lib/python*/site-packages
+
       - name: Restore ImageMagick Cache
         uses: actions/cache@v3
         with:
           key: ${{ runner.os }}-imagemagick-${{ hashFiles('assets/*.gradle*') }}
           restore-keys: ${{ runner.os }}-imagemagick-
           path: ~/.local/bin/magick
+
       - name: Install ImageMagick
         run: |
           sudo apt-get install fuse
@@ -49,24 +56,33 @@ jobs:
           [[ ! -f ~/.local/bin/magick ]] && sudo curl "$MAGICK" -Lo ~/.local/bin/magick
           sudo chmod +x ~/.local/bin/magick
           magick --version
+
       - name: Check Out
         uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.ref }}
+
       - name: Set Up Java
         uses: actions/setup-java@v3
         with:
           java-version: ${{ inputs.java }}
           distribution: ${{ inputs.java_distribution }}
           cache: gradle
+
       - name: Build Project
         run: ./gradlew build
+
       - name: Diagnose Build
         if: failure()
         run: ./gradlew --info --stacktrace build
+
       - name: Build Site
         run: ./gradlew -x build buildSite
+
       - name: Diagnose Site
         if: failure()
         run: ./gradlew --info --stacktrace -x build buildSite
+
       - name: Check Build
         if: ${{ inputs.check_directory != '' }}
         run: ls -AlF "${{ inputs.check_directory }}"
