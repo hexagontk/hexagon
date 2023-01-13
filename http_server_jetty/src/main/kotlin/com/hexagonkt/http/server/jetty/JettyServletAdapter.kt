@@ -30,8 +30,6 @@ import org.eclipse.jetty.util.VirtualThreads
 import org.eclipse.jetty.util.VirtualThreads.getDefaultVirtualThreadsExecutor
 import org.eclipse.jetty.util.thread.ExecutorThreadPool
 import org.eclipse.jetty.util.thread.ThreadPool
-import java.util.concurrent.Executor
-import java.util.concurrent.ThreadPoolExecutor
 import org.eclipse.jetty.server.Server as JettyServer
 
 /**

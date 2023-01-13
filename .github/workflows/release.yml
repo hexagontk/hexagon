@@ -6,29 +6,28 @@ on:
     branches: [ master ]
 
 jobs:
-  sample_keystores:
-    name: Sample Keystores
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out
-        uses: actions/checkout@v3
-      - name: Create Sample Keystores
-        uses: ./.github/actions/gradle
-        with:
-          tasks: createCa createIdentities
-
   publish:
     name: Publish
     runs-on: ubuntu-latest
-    needs: [ sample_keystores ]
     steps:
+      - name: Restore ImageMagick Cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-imagemagick-${{ hashFiles('assets/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-imagemagick-
+          path: ~/.local/bin/magick
 
-      # SET UP
-      - name: Check Out
-        uses: actions/checkout@v3
       - name: Install ImageMagick
-        uses: ./.github/actions/image_magick
-      - name: Restore Cache
+        run: |
+          sudo apt-get install fuse
+          sudo apt-get install librsvg2-bin
+          mkdir -p ~/.local/bin
+          export MAGICK="https://download.imagemagick.org/ImageMagick/download/binaries/magick"
+          [[ ! -f ~/.local/bin/magick ]] && sudo curl "$MAGICK" -Lo ~/.local/bin/magick
+          sudo chmod +x ~/.local/bin/magick
+          magick --version
+
+      - name: Restore MkDocs Cache
         uses: actions/cache@v3
         with:
           key: ${{ runner.os }}-mkdocs-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
@@ -37,7 +36,11 @@ jobs:
             ~/.local/bin
             ~/.local/lib/python*/site-packages
 
-      # PROCESS
+      - name: Check Out
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Update Site
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

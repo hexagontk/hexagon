@@ -69,7 +69,7 @@ tasks.register("jpackage") {
             "${System.getenv("JAVA_HOME")}/bin/jpackage",
             "--type", "app-image",
             "--app-version", version,
-            "--description", project.description,
+            "--description", project.description ?: name,
             "--name", name,
             "--input", tmp.absolutePath,
             "--add-modules", modules,
