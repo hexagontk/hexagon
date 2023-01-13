@@ -15,7 +15,7 @@ jobs:
   build_site:
     name: Build Site
     permissions: read-all
-    uses: hexagonkt/hexagon/.github/workflows/site.yml@develop
+    uses: hexagonkt/hexagon/.github/workflows/site.yml@master
 
   test_publishing:
     name: Test Publishing
