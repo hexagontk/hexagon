@@ -39,11 +39,6 @@ jobs:
     name: Build Site
     runs-on: ubuntu-latest
     steps:
-
-      # SET UP
-      - name: Check Out
-        uses: actions/checkout@v3
-        with: { ref: develop }
       - name: Restore Cache
         uses: actions/cache@v3
         with:
@@ -54,8 +49,10 @@ jobs:
             ~/.local/lib/python*/site-packages
       - name: Install ImageMagick
         uses: ./.github/actions/image_magick
+      - name: Check Out
+        uses: actions/checkout@v3
+        with: { ref: develop }
 
-      # PROCESS
       - name: Build Project
         uses: ./.github/actions/gradle
       - name: Build Site
