@@ -5,7 +5,7 @@ import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.test.SerializationTest
 import kotlin.test.Test
 import java.io.ByteArrayOutputStream
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

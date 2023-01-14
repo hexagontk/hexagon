@@ -1,7 +1,7 @@
 package com.hexagonkt.http.model
 
 import kotlin.test.Test
-import java.lang.IllegalArgumentException
+import kotlin.IllegalArgumentException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue

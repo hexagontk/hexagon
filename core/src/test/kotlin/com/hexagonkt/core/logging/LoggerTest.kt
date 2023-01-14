@@ -5,7 +5,7 @@ import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.Test
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 import kotlin.reflect.KClass
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

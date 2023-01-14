@@ -1,7 +1,7 @@
 package com.hexagonkt.core
 
 import kotlin.test.Test
-import java.lang.IllegalArgumentException
+import kotlin.IllegalArgumentException
 import java.net.Inet4Address
 import java.net.URI
 import java.net.URL

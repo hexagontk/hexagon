@@ -11,7 +11,7 @@ import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
 import kotlin.test.Test
 import java.io.File
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNull

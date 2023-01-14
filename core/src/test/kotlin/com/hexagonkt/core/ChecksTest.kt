@@ -1,7 +1,7 @@
 package com.hexagonkt.core
 
 import kotlin.test.Test
-import java.lang.IllegalArgumentException
+import kotlin.IllegalArgumentException
 import java.net.URL
 import java.time.LocalDate
 import kotlin.test.assertEquals

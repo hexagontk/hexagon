@@ -2,7 +2,7 @@ package com.hexagonkt.http.model
 
 import com.hexagonkt.core.disableChecks
 import com.hexagonkt.http.model.HttpStatusType.*
-import java.lang.IllegalArgumentException
+import kotlin.IllegalArgumentException
 
 data class CustomStatus(
     override val code: Int,

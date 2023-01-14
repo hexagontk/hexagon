@@ -5,7 +5,7 @@ import com.hexagonkt.core.media.ApplicationMedia.AVRO
 import com.hexagonkt.serialization.jackson.json.Json
 import kotlin.test.Test
 import java.io.File
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 import java.net.URL
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals

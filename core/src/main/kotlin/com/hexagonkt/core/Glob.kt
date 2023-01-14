@@ -1,6 +1,6 @@
 package com.hexagonkt.core
 
-import java.lang.IllegalArgumentException
+import kotlin.IllegalArgumentException
 import java.util.regex.PatternSyntaxException
 
 /**

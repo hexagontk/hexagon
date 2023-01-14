@@ -6,7 +6,7 @@ import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import com.hexagonkt.core.logging.LoggingManager
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 import kotlin.system.measureNanoTime
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

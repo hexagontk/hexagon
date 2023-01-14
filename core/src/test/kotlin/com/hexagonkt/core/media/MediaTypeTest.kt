@@ -3,7 +3,7 @@ package com.hexagonkt.core.media
 import com.hexagonkt.core.media.MediaTypeGroup.*
 import com.hexagonkt.core.disableChecks
 import kotlin.test.Test
-import java.lang.IllegalArgumentException
+import kotlin.IllegalArgumentException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertSame

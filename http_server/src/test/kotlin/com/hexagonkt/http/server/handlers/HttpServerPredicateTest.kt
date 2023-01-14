@@ -12,7 +12,7 @@ import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
 import kotlin.test.Test
 import java.io.IOException
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

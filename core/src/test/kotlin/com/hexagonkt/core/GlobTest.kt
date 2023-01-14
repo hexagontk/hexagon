@@ -1,7 +1,7 @@
 package com.hexagonkt.core
 
 import kotlin.test.Test
-import java.lang.IllegalArgumentException
+import kotlin.IllegalArgumentException
 import java.util.regex.PatternSyntaxException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
