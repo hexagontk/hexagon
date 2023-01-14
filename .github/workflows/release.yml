@@ -47,8 +47,7 @@ jobs:
         run: |
           export REMOTE="https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           git remote set-url origin "$REMOTE"
-          git config --global user.email "juanjoaguililla@gmail.com"
-          git config --global user.name "jaguililla"
+          git config --global user.name "$GITHUB_ACTOR"
           git clone "$REMOTE" --branch gh-pages build/gh-pages
           ./gradlew --info build
           ./gradlew --info -x build buildSite
@@ -60,8 +59,7 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        run: |
-          ./gradlew --info --no-daemon -x test release
+        run: ./gradlew --info --no-daemon -x test release
 
       - name: Publish Site
         run: |

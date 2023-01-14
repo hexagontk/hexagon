@@ -6,6 +6,21 @@ on:
     - cron: "59 23 * * *"
 
 jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v6
+        with:
+          exempt-issue-labels: pinned
+          include-only-assigned: true
+          days-before-pr-close: -1
+          stale-pr-message: This PR is stale because it has been open 60 days with no activity.
+          stale-issue-message:
+            "This issue is stale because it has been open 60 days with no activity. Remove stale
+            label or comment or this will be closed in 7 days."
+          close-issue-message:
+            "This issue was closed because it has been stalled for 7 days with no activity."
+
   build:
     strategy:
       fail-fast: false

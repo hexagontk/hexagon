@@ -4,10 +4,10 @@ import com.hexagonkt.core.media.ApplicationMedia.*
 import com.hexagonkt.core.media.MediaTypeGroup.*
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.io.File
-import java.lang.IllegalArgumentException
-import java.lang.IllegalStateException
+import kotlin.IllegalArgumentException
+import kotlin.IllegalStateException
 import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

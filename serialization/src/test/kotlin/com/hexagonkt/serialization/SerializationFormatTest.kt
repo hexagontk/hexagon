@@ -1,6 +1,6 @@
 package com.hexagonkt.serialization
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 

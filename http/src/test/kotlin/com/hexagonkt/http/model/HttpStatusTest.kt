@@ -6,7 +6,7 @@ import com.hexagonkt.http.model.RedirectionStatus.*
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.ServerErrorStatus.*
 import com.hexagonkt.http.model.HttpStatusType.*
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class HttpStatusTest {

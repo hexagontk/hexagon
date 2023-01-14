@@ -11,8 +11,8 @@ import com.hexagonkt.http.server.handlers.HttpServerPredicate
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
-import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
+import kotlin.test.Test
+import kotlin.IllegalStateException
 import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

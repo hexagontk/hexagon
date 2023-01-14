@@ -2,7 +2,7 @@ package com.hexagonkt.http.model
 
 import com.hexagonkt.core.fail
 import com.hexagonkt.http.model.HttpProtocol.HTTP
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertNull

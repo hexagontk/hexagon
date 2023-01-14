@@ -2,7 +2,7 @@ package com.hexagonkt.http.patterns
 
 import com.hexagonkt.core.disableChecks
 import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.VARIABLE_PATTERN as VP
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.*
 
 internal class RegexPathPatternTest {

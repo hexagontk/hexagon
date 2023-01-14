@@ -2,7 +2,7 @@ package com.hexagonkt.templates
 
 import com.hexagonkt.core.Glob
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import org.junit.jupiter.api.assertThrows
 import java.net.URL
 import kotlin.test.assertFailsWith

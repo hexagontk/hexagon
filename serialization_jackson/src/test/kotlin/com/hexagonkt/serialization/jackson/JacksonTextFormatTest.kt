@@ -1,8 +1,8 @@
 package com.hexagonkt.serialization.jackson
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import org.junit.jupiter.api.TestInstance
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 

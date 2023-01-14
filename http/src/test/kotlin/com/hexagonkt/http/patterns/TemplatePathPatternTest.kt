@@ -1,7 +1,7 @@
 package com.hexagonkt.http.patterns
 
 import com.hexagonkt.core.disableChecks
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.*
 
 internal class TemplatePathPatternTest {

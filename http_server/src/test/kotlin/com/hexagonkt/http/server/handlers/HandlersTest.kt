@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.handlers
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.reflect.KClass

@@ -16,7 +16,7 @@ import com.hexagonkt.http.patterns.TemplatePathPattern
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.lang.RuntimeException
 import kotlin.test.assertEquals
 import kotlin.test.assertSame

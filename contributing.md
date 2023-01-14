@@ -4,7 +4,7 @@ You can contribute code or documentation to the toolkit. This document will guid
 process or picking a task and building the code.
 
 ## Make a Question
-You can use the repository's [Discussions tab] to ask questions or resolve problems.
+You can use the repository's [Discussions tab][discussion] to ask questions or resolve problems.
 
 You can also ask any question, make suggestions or complaints at the project's
 [Slack channel][Slack]. You can also be up-to-date of project's news following [@hexagon_kt] on
@@ -30,7 +30,7 @@ Create a new issue using the [enhancement template] to file an improvement.
 2. Claim an issue you want to work in with a comment, after that I can assign it to you and move it
    to the `Working` column. If you want to contribute to a non tagged (or a not existing) tasks:
    write a comment, and we'll discuss the scope of the feature.
-3. New features should be discussed within a post in the [GitHub ideas discussions][discussion]
+3. New features should be discussed within a post in the [GitHub ideas discussions][ideas]
    before actual coding. You may do a PR directly, but you take the risk of it being not suitable
    and discarded.
 4. For code, file names, tags and branches use either camel case or snake case only. I.e.: avoid `-`
@@ -41,20 +41,16 @@ Create a new issue using the [enhancement template] to file an improvement.
    you.
 6. Packages must have the same folder structure as in Java (to avoid problems with tools and Java
    module definition).
-7. Follow the commit rules defined at the [commit template].
-8. Bug format: when filing bugs please comply with the [bug template] requirements.
-9. A feature requests should follow the [enhancement template] rules.
+7. Follow the commit rules defined at the [commit guidelines].
 
 [Organization Board]: https://github.com/orgs/hexagonkt/projects/2
 [help wanted]: https://github.com/hexagonkt/hexagon/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
-[pull request template]: https://github.com/hexagonkt/hexagon/blob/master/.github/pull_request_template.md
+[pull request template]: https://github.com/hexagonkt/.github/blob/master/pull_request_template.md
 [IntelliJ]: https://www.jetbrains.com/idea
 [Editor Config]: https://editorconfig.org
 [Kotlin Coding Conventions]: https://kotlinlang.org/docs/reference/coding-conventions.html
-[commit template]: https://github.com/hexagonkt/hexagon/blob/master/.github/commit_template.txt
-[bug template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/bug.md
-[enhancement template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/enhancement.md
-[discussion]: https://github.com/hexagonkt/hexagon/discussions/categories/ideas
+[commit guidelines]: https://github.com/hexagonkt/.github/blob/master/commits.md
+[ideas]: https://github.com/hexagonkt/hexagon/discussions/categories/ideas
 
 ## Project Structure
 The Hexagon project is composed of several modules. Most of the modules publish libraries for their
@@ -85,27 +81,21 @@ cd hexagon
 The binaries are located in the `/build` directory of each module. The documentation site is in
 `/site/build`.
 
-To work more comfortable, you can define some useful aliases like:
+Other useful Gradle commands are:
 
-```bash
-alias gw='./gradlew'
-```
-
-Other useful Gradle commands (assuming `alias gw='./gradlew'`) are:
-
-* Help: `gw help`
-* Tasks: `gw tasks`
-* Module Tasks: `gw [module:]tasks [--all]`
-* Task details: `gw help --task <task>`
-* Package: `gw clean assemble`
-* Build: `gw build`
-* Rebuild: `gw clean build`
-* Documentation: `gw javadoc`
-* Test: `gw test`
-* Run: `gw ${MODULE}:run`
-* Profile Build: `gw ${TASK} --profile`
-* Project Dependencies: `gw dependencyReport` or `gw htmlDependencyReport`
-* Project Tasks: `gw taskReport`
+* Help: `./gradlew help`
+* Tasks: `./gradlew tasks`
+* Module Tasks: `./gradlew [module:]tasks [--all]`
+* Task details: `./gradlew help --task <task>`
+* Package: `./gradlew clean assemble`
+* Build: `./gradlew build`
+* Rebuild: `./gradlew clean build`
+* Documentation: `./gradlew javadoc`
+* Test: `./gradlew test`
+* Run: `./gradlew ${MODULE}:run`
+* Profile Build: `./gradlew ${TASK} --profile`
+* Project Dependencies: `./gradlew dependencyReport` or `./gradlew htmlDependencyReport`
+* Project Tasks: `./gradlew taskReport`
 
 It is recommended that you create a Git pre-push script to check the code before pushing it. As
 this command will be executed before pushing code to the repository (saving you time fixing
@@ -128,19 +118,17 @@ If you want to generate the documentation site, check the Hexagon's site module 
 8. Update example projects inside the organization
 9. Create a changelog to announce the release
 10. Publish changelog on:
-    * Dev.to
-    * Kotlin Slack
-    * Reddit
-    * Twitter
-    * Kotlin Weekly Newsletter
-    * LinkedIn
+  * Dev.to
+  * Kotlin Slack
+  * Reddit
+  * Twitter
+  * Kotlin Weekly Newsletter
+  * LinkedIn
 
 [Nexus Repository Manager]: https://oss.sonatype.org
 
 ### Changelog commands
-Commit messages can be filtered by types (check [commit_template.txt]) for details.
-
-[commit_template.txt]: /.github/commit_template.txt
+Commit messages can be filtered by types (check the [commit guidelines]) for details.
 
 ```bash
 git log 1.2.0...1.3.0 \

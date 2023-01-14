@@ -2,8 +2,8 @@ package com.hexagonkt.http.client.jetty
 
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.model.HttpClientRequest
-import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
+import kotlin.test.Test
+import kotlin.IllegalStateException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 

@@ -1,6 +1,6 @@
 package com.hexagonkt.templates.pebble
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.Locale

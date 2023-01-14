@@ -13,7 +13,7 @@ import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.ws.CloseStatus
 import com.hexagonkt.http.model.ws.CloseStatus.NORMAL
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
 import kotlin.test.assertEquals

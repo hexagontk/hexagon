@@ -8,7 +8,7 @@ import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.model.ServerEvent
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription
 import java.util.concurrent.SubmissionPublisher

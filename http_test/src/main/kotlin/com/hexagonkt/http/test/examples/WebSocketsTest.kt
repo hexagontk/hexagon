@@ -14,7 +14,7 @@ import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
