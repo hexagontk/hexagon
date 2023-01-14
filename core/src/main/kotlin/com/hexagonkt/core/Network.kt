@@ -1,7 +1,9 @@
 package com.hexagonkt.core
 
 import com.hexagonkt.core.logging.Logger
+import java.io.File
 import java.net.*
+import java.util.*
 
 private val logger: Logger by lazy { Logger("com.hexagonkt.core.Helpers") }
 
@@ -57,21 +59,31 @@ fun URL.responseSuccessful(): Boolean =
 fun URL.responseFound(): Boolean =
     responseCode().let { it in 200 until 500 && it != 404 }
 
-fun URL.check(vararg suffixes: String): URL {
-    val extension = toString().substringBeforeLast('.')
-    val file = extension.removeSuffix(".$extension")
+// TODO Review the next functions, not all cases are covered
+fun URL.exists(): Boolean =
+    when (protocol) {
+        "http" -> responseSuccessful()
+        "https" -> responseSuccessful()
+        "file" -> File(file).let { it.exists() && !it.isDirectory }
+        "classpath" -> try { openConnection(); true } catch (_: Exception) { false }
+        else -> false
+    }
+
+fun URL.firstVariant(vararg suffixes: String): URL {
+    val extension = file.substringAfter('.').println()
+    val fileName = file.removeSuffix(".$extension").println()
+
     suffixes.forEach {
-        val u = URL("$file$it.$extension")
-        try {
-            u.openConnection()
+        val u = URL("$protocol:$fileName$it.$extension".println())
+        if (u.exists())
             return u
-        }
-        catch (_: Exception) {
-            // continue
-        }
     }
 
     return this
 }
-// TODO Find existing URL given a set of suffixes
-// TODO Use the above to resolve a URL with locale information: foo_en_US.txt, foo_en.txt, foo.txt
+
+fun URL.localized(locale: Locale): URL {
+    val language = locale.language
+    val country = locale.country
+    return firstVariant("_${language}_$country", "_${language}")
+}
