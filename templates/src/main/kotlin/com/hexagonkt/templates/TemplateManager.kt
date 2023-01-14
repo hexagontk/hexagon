@@ -1,6 +1,7 @@
 package com.hexagonkt.templates
 
 import com.hexagonkt.core.Jvm
+import com.hexagonkt.core.localized
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.Locale
@@ -26,10 +27,9 @@ object TemplateManager {
     fun render(url: URL, context: Map<String, *>, locale: Locale = Jvm.locale): String {
         val now = LocalDateTime.now()
         val defaultProperties = mapOf("_template_" to url, "_now_" to now)
-        return findAdapter(url).render(url, context + defaultProperties, locale)
+        return findAdapter(url.localized(locale)).render(url, context + defaultProperties, locale)
     }
 
-    // TODO Use locale to find template
     private fun findAdapter(url: URL): TemplatePort =
         adapters
             .filter { it.key.matches(url.toString()) }
