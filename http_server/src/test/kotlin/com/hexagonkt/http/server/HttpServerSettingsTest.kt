@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.http.model.HttpProtocol.HTTP
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.net.InetAddress
 import kotlin.test.assertEquals
 import kotlin.test.assertNull

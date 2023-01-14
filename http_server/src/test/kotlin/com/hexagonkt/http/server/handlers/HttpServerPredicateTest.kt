@@ -10,7 +10,7 @@ import com.hexagonkt.http.patterns.LiteralPathPattern
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.io.IOException
 import java.lang.IllegalStateException
 import kotlin.test.assertEquals

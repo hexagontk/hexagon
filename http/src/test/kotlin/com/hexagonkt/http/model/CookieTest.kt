@@ -1,6 +1,6 @@
 package com.hexagonkt.http.model
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.lang.IllegalArgumentException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

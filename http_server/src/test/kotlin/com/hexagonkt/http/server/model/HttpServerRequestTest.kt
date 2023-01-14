@@ -9,7 +9,7 @@ import com.hexagonkt.http.model.HttpProtocol.HTTP2
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
 import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.http.model.*
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.net.URL
 import java.security.cert.X509Certificate
 import kotlin.test.assertEquals
