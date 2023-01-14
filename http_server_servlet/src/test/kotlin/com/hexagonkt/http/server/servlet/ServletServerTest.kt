@@ -11,7 +11,7 @@ import com.hexagonkt.http.server.handlers.path
 import org.eclipse.jetty.webapp.WebAppContext
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.InetSocketAddress

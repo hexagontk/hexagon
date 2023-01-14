@@ -5,7 +5,7 @@ import com.hexagonkt.core.requireKeys
 import com.hexagonkt.serialization.*
 import com.hexagonkt.serialization.test.SerializationTest
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import org.junit.jupiter.api.TestInstance
 import java.net.URL
 import kotlin.test.assertEquals

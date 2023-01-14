@@ -7,7 +7,7 @@ import com.hexagonkt.core.require
 import com.hexagonkt.core.toStream
 import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

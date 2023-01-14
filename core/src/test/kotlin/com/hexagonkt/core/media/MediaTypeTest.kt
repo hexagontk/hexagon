@@ -2,7 +2,7 @@ package com.hexagonkt.core.media
 
 import com.hexagonkt.core.media.MediaTypeGroup.*
 import com.hexagonkt.core.disableChecks
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.lang.IllegalArgumentException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

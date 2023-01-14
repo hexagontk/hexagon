@@ -3,7 +3,7 @@ package com.hexagonkt.serialization.dsl.json
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.test.SerializationTest
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.io.ByteArrayOutputStream
 import java.lang.IllegalStateException
 import java.net.URL

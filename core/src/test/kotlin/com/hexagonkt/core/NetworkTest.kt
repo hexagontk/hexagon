@@ -1,7 +1,7 @@
 package com.hexagonkt.core
 
 import java.net.ServerSocket
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.net.InetAddress
 import java.net.URL
 import kotlin.test.*

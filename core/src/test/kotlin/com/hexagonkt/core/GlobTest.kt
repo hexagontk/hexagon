@@ -1,6 +1,6 @@
 package com.hexagonkt.core
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.lang.IllegalArgumentException
 import java.util.regex.PatternSyntaxException
 import kotlin.test.assertEquals

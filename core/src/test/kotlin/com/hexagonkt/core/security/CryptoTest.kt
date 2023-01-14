@@ -1,6 +1,6 @@
 package com.hexagonkt.core.security
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
