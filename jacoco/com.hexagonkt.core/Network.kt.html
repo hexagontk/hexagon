@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Network.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core</a> &gt; <span class="el_source">Network.kt</span></div><h1>Network.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core
+
+import com.hexagonkt.core.logging.Logger
+import java.io.File
+import java.net.*
+import java.util.*
+
+<span class="fc" id="L8">private val logger: Logger by lazy { Logger(&quot;com.hexagonkt.core.Helpers&quot;) }</span>
+
+/** Internet address used to bind services to all local network interfaces. */
+<span class="fc" id="L11">val allInterfaces: InetAddress = inetAddress(0, 0, 0, 0)</span>
+
+/** Internet address used to bind services to the loopback interface. */
+<span class="fc" id="L14">val loopbackInterface: InetAddress = inetAddress(127, 0, 0, 1)</span>
+
+/**
+ * Syntactic sugar to create an Internet address.
+ *
+ * @param bytes Bytes used in the address.
+ * @return The Internet address corresponding with the supplied bytes.
+ */
+fun inetAddress(vararg bytes: Byte): InetAddress =
+<span class="fc" id="L23">    InetAddress.getByAddress(bytes)</span>
+
+/**
+ * Return a random free port (not used by any other local process).
+ *
+ * @return Random free port number.
+ */
+fun freePort(): Int =
+<span class="pc" id="L31">    ServerSocket(0).use { it.localPort }</span>
+
+/**
+ * Check if a port is already opened.
+ *
+ * @param port Port number to check.
+ * @return True if the port is open, false otherwise.
+ */
+fun isPortOpened(port: Int): Boolean =
+<span class="fc" id="L40">    try {</span>
+<span class="pc" id="L41">        Socket(&quot;localhost&quot;, port).use { it.isConnected }</span>
+    }
+<span class="fc" id="L43">    catch (e: Exception) {</span>
+<span class="fc" id="L44">        logger.debug { &quot;Checked port: $port is already open&quot; }</span>
+<span class="fc" id="L45">        false</span>
+<span class="fc" id="L46">    }</span>
+
+fun URL.responseCode(): Int =
+<span class="fc" id="L49">    try {</span>
+<span class="fc" id="L50">        (openConnection() as HttpURLConnection).responseCode</span>
+    }
+<span class="fc" id="L52">    catch (e: java.lang.Exception) {</span>
+<span class="fc" id="L53">        400</span>
+<span class="fc" id="L54">    }</span>
+
+fun URL.responseSuccessful(): Boolean =
+<span class="pc bpc" id="L57" title="1 of 4 branches missed.">    responseCode() in 200 until 300</span>
+
+fun URL.responseFound(): Boolean =
+<span class="pc bpc" id="L60" title="3 of 8 branches missed.">    responseCode().let { it in 200 until 500 &amp;&amp; it != 404 }</span>
+
+// TODO Review the next functions, not all cases are covered
+fun URL.exists(): Boolean =
+<span class="pc bpc" id="L64" title="2 of 7 branches missed.">    when (protocol) {</span>
+<span class="fc" id="L65">        &quot;http&quot; -&gt; responseSuccessful()</span>
+<span class="fc" id="L66">        &quot;https&quot; -&gt; responseSuccessful()</span>
+<span class="fc bfc" id="L67" title="All 4 branches covered.">        &quot;file&quot; -&gt; File(file).let { it.exists() &amp;&amp; !it.isDirectory }</span>
+<span class="fc" id="L68">        &quot;classpath&quot; -&gt; try { openConnection(); true } catch (_: Exception) { false }</span>
+<span class="nc" id="L69">        else -&gt; false</span>
+<span class="fc" id="L70">    }</span>
+
+fun URL.firstVariant(vararg suffixes: String): URL {
+<span class="fc" id="L73">    val extension = file.substringAfter('.').println()</span>
+<span class="fc" id="L74">    val fileName = file.removeSuffix(&quot;.$extension&quot;).println()</span>
+
+<span class="fc" id="L76">    suffixes.forEach {</span>
+<span class="fc" id="L77">        val u = URL(&quot;$protocol:$fileName$it.$extension&quot;.println())</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (u.exists())</span>
+<span class="fc" id="L79">            return u</span>
+<span class="fc" id="L80">    }</span>
+
+<span class="fc" id="L82">    return this</span>
+}
+
+fun URL.localized(locale: Locale): URL {
+<span class="fc" id="L86">    val language = locale.language</span>
+<span class="fc" id="L87">    val country = locale.country</span>
+<span class="fc" id="L88">    return firstVariant(&quot;_${language}_$country&quot;, &quot;_${language}&quot;)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
