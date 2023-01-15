@@ -9,7 +9,7 @@ import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.server.handlers.HttpServerContext
 import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class LoggingCallbackTest {

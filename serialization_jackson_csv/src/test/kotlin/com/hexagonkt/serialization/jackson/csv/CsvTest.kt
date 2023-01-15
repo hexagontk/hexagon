@@ -2,7 +2,7 @@ package com.hexagonkt.serialization.jackson.csv
 
 import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import kotlin.test.assertEquals

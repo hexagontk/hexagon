@@ -6,7 +6,7 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 

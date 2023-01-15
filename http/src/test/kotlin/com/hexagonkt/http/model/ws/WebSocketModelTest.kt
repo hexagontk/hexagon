@@ -2,7 +2,7 @@ package com.hexagonkt.http.model.ws
 
 import com.hexagonkt.http.model.ws.CloseStatus.BAD_DATA
 import com.hexagonkt.http.model.ws.CloseStatus.NORMAL
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 

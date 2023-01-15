@@ -4,7 +4,7 @@ import com.hexagonkt.core.Ansi
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.println
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.lang.RuntimeException
 import java.util.logging.Level.INFO
 import java.util.logging.Level.SEVERE

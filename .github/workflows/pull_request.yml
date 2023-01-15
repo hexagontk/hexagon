@@ -7,49 +7,20 @@ on:
 jobs:
   sample_keystores:
     name: Sample Keystores
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out
-        uses: actions/checkout@v3
-      - name: Create Sample Keystores
-        uses: ./.github/actions/gradle
-        with:
-          tasks: createCa createIdentities
+    permissions: read-all
+    uses: hexagonkt/.github/.github/workflows/gradle.yml@master
+    with:
+      tasks: createCa createIdentities
 
   build_site:
     name: Build Site
-    runs-on: ubuntu-latest
-    steps:
-
-      # SET UP
-      - name: Check Out
-        uses: actions/checkout@v3
-      - name: Install ImageMagick
-        uses: ./.github/actions/image_magick
-      - name: Restore Cache
-        uses: actions/cache@v3
-        with:
-          key: ${{ runner.os }}-mkdocs-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
-          restore-keys: ${{ runner.os }}-mkdocs-
-          path: |
-            ~/.local/bin
-            ~/.local/lib/python*/site-packages
-
-      # PROCESS
-      - name: Build Project
-        uses: ./.github/actions/gradle
-      - name: Build Site
-        run: |
-          ./gradlew --info -x build buildSite
-          ls -AlF site/build/site
+    permissions: read-all
+    uses: hexagonkt/hexagon/.github/workflows/site.yml@master
 
   test_publishing:
     name: Test Publishing
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out
-        uses: actions/checkout@v3
-      - name: Test Publishing
-        uses: ./.github/actions/gradle
-        with:
-          tasks: publishToMavenLocal -x test
+    permissions: read-all
+    uses: hexagonkt/.github/.github/workflows/gradle.yml@master
+    with:
+      check_directory: core/build
+      tasks: publishToMavenLocal -x test

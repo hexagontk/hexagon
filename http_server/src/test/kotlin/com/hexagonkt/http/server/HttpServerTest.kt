@@ -2,7 +2,7 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.http.model.HttpProtocol.H2C
 import com.hexagonkt.http.server.handlers.PathHandler
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

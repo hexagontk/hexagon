@@ -8,7 +8,7 @@ import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.SuccessStatus.OK
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals

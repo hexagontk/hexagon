@@ -13,7 +13,7 @@ import com.hexagonkt.http.model.SuccessStatus.CREATED
 import com.hexagonkt.http.server.handlers.HttpServerContext
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class BooksTest {

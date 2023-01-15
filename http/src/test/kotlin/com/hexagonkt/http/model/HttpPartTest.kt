@@ -3,7 +3,7 @@ package com.hexagonkt.http.model
 import com.hexagonkt.core.media.MediaTypeGroup.TEXT
 import com.hexagonkt.core.media.CustomMedia
 import com.hexagonkt.core.media.TextMedia.HTML
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals

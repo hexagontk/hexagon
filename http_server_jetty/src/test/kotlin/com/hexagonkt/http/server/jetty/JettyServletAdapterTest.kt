@@ -6,7 +6,7 @@ import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.handlers.path
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import org.junit.jupiter.api.condition.EnabledForJreRange
 import org.junit.jupiter.api.condition.JRE.JAVA_17
 import org.junit.jupiter.api.condition.JRE.JAVA_19

@@ -1,6 +1,6 @@
 package com.hexagonkt.core
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.time.*
 import java.time.Month.*
 import java.util.Calendar

@@ -1,6 +1,5 @@
 package com.hexagonkt.core
 
-import com.hexagonkt.core.logging.Logger
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -20,8 +19,6 @@ import java.util.concurrent.TimeUnit.SECONDS
  *  not advised and should be done carefully.
  */
 var disableChecks: Boolean = Jvm.systemFlag("DISABLE_CHECKS")
-
-private val logger: Logger by lazy { Logger("com.hexagonkt.core.Helpers") }
 
 /**
  * Print receiver to stdout. Convenient utility to debug variables quickly.
@@ -46,59 +43,6 @@ fun properties(url: URL): Map<String, String> =
         .toMap()
         .mapKeys { it.key as String }
         .mapValues { it.value as String }
-
-// NETWORK /////////////////////////////////////////////////////////////////////////////////////////
-/** Internet address used to bind services to all local network interfaces. */
-val allInterfaces: InetAddress = inetAddress(0, 0, 0, 0)
-
-/** Internet address used to bind services to the loopback interface. */
-val loopbackInterface: InetAddress = inetAddress(127, 0, 0, 1)
-
-/**
- * Syntactic sugar to create an Internet address.
- *
- * @param bytes Bytes used in the address.
- * @return The Internet address corresponding with the supplied bytes.
- */
-fun inetAddress(vararg bytes: Byte): InetAddress =
-    InetAddress.getByAddress(bytes)
-
-/**
- * Return a random free port (not used by any other local process).
- *
- * @return Random free port number.
- */
-fun freePort(): Int =
-    ServerSocket(0).use { it.localPort }
-
-/**
- * Check if a port is already opened.
- *
- * @param port Port number to check.
- * @return True if the port is open, false otherwise.
- */
-fun isPortOpened(port: Int): Boolean =
-    try {
-        Socket("localhost", port).use { it.isConnected }
-    }
-    catch (e: Exception) {
-        logger.debug { "Checked port: $port is already open" }
-        false
-    }
-
-fun URL.responseCode(): Int =
-    try {
-        (openConnection() as HttpURLConnection).responseCode
-    }
-    catch (e: java.lang.Exception) {
-        400
-    }
-
-fun URL.responseSuccessful(): Boolean =
-    responseCode() in 200 until 300
-
-fun URL.responseFound(): Boolean =
-    responseCode().let { it in 200 until 500 && it != 404 }
 
 // PROCESSES ///////////////////////////////////////////////////////////////////////////////////////
 /**

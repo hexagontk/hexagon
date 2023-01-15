@@ -1,7 +1,7 @@
 package com.hexagonkt.core
 
-import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
+import kotlin.test.Test
+import kotlin.IllegalArgumentException
 import java.util.regex.PatternSyntaxException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

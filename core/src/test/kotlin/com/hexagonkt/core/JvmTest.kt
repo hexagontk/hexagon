@@ -1,7 +1,7 @@
 package com.hexagonkt.core
 
-import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
+import kotlin.test.Test
+import kotlin.IllegalArgumentException
 import java.net.Inet4Address
 import java.net.URI
 import java.net.URL

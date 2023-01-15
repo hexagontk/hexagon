@@ -2,7 +2,7 @@ package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.*
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

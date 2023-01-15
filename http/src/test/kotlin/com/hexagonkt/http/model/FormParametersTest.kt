@@ -1,7 +1,7 @@
 package com.hexagonkt.http.model
 
 import com.hexagonkt.core.require
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.*
 
 internal class FormParametersTest {

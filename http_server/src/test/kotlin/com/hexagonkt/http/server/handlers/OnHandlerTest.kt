@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.http.model.HttpMethod.GET
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class OnHandlerTest {

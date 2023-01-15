@@ -9,7 +9,7 @@ import com.hexagonkt.serialization.SerializationManager.formatOfOrNull
 import com.hexagonkt.serialization.SerializationManager.formats
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.io.File
 import java.net.URL
 import kotlin.test.assertEquals

@@ -3,8 +3,8 @@ package com.hexagonkt.core
 import com.hexagonkt.core.StringsTest.Size.X_L
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
+import kotlin.test.Test
+import kotlin.IllegalArgumentException
 import kotlin.test.*
 import kotlin.text.prependIndent
 

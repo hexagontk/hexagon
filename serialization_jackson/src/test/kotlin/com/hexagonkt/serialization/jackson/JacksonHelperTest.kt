@@ -8,7 +8,7 @@ import com.hexagonkt.serialization.jackson.Department.DEVELOPMENT
 import com.hexagonkt.serialization.jackson.JacksonHelper.mapNode
 import com.hexagonkt.serialization.jackson.JacksonHelper.nodeToCollection
 import com.hexagonkt.serialization.jackson.TextFormat.serialize
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import org.junit.jupiter.api.TestInstance
 import java.math.BigInteger
 import kotlin.test.assertContentEquals

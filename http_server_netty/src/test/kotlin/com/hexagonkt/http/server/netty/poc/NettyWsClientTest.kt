@@ -17,7 +17,7 @@ import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketCl
 import io.netty.handler.ssl.SslContextBuilder
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE
 import io.netty.util.CharsetUtil
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.net.URI
 import kotlin.test.assertEquals
 

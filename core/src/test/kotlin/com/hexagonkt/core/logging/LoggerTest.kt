@@ -4,8 +4,8 @@ import com.hexagonkt.core.logging.LoggingLevel.ERROR
 import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
+import kotlin.test.Test
+import kotlin.IllegalStateException
 import kotlin.reflect.KClass
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

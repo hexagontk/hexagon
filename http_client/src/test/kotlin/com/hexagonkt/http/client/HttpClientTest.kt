@@ -3,7 +3,7 @@ package com.hexagonkt.http.client
 import com.hexagonkt.core.media.TextMedia.CSV
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.*
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

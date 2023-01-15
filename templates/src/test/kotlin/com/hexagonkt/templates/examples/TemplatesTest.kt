@@ -4,7 +4,7 @@ import com.hexagonkt.core.Glob
 import com.hexagonkt.templates.SampleTemplateAdapter
 import com.hexagonkt.templates.TemplateManager
 import com.hexagonkt.templates.TemplatePort
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import java.net.URL
 import java.util.*
 import kotlin.test.assertEquals
