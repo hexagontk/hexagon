@@ -21,7 +21,7 @@
         <link rel="next" href="../maven/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.4">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.5">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.9c788c91.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.558e4712.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
@@ -1144,6 +1144,11 @@ script. I.e.:</p>
 <p>This script sets up the build to add <a href="https://www.graalvm.org">GraalVM</a> configuration files for <a href="https://graalvm.github.io/native-build-tools/latest/index.html">native image</a> generation
 into JAR files (for library projects), and also allows to easily generate a native image for an
 application.</p>
+<p>The defined tasks are:</p>
+<ul>
+<li>upx: compress the native executable using 'upx'.</li>
+<li>zipNative: compress native executable in a ZIP file.</li>
+</ul>
 <p>To use it you must apply the <code>$gradleScripts/native.gradle</code> script to your <code>build.gradle</code> file. It
 must be applied after the Kotlin plugin.</p>
 <p>For the script to work you need to add the plugin to the plugins build section before importing the
@@ -1351,7 +1356,7 @@ script. I.e.:</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.ba449ae6.min.js"></script>
+      <script src="../assets/javascripts/bundle.51d95adb.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       
