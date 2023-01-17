@@ -33,8 +33,8 @@ include(
     "http_server_jetty",
     "http_server_netty",
     "http_server_netty_epoll",
-    "templates_pebble",
     "templates_freemarker",
+    "templates_pebble",
 
     // Testing
     "http_test",
