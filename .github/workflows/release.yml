@@ -41,13 +41,19 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set Up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: temurin
+          cache: gradle
+
       - name: Update Site
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export REMOTE="https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           git remote set-url origin "$REMOTE"
-          git config --global user.name "$GITHUB_ACTOR"
           git clone "$REMOTE" --branch gh-pages build/gh-pages
           ./gradlew --info build
           ./gradlew --info -x build buildSite

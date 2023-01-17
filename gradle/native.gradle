@@ -26,10 +26,29 @@ graalvmNative {
 }
 
 tasks.register("upx", Exec) {
+    group = "distribution"
+    description = "Compress the native executable using 'upx'."
     dependsOn("nativeCompile")
 
     final String source = "$buildDir/native/nativeCompile/${project.name}"
-    final String target = "$buildDir/${project.name}"
+    final String target = "$buildDir/native/${project.name}"
     final String command = "upx $source -o $target"
     commandLine(command.split(" "))
+
+    doFirst {
+        file(target).delete()
+    }
+}
+
+tasks.register("zipNative", Zip) {
+    group = "distribution"
+    description = "Compress native executable in a ZIP file."
+    dependsOn("upx")
+
+    final String os = System.getProperty("os.name").toLowerCase()
+    final String arch = System.getProperty("os.arch").toLowerCase()
+    from("$buildDir/native")
+    include(project.name)
+    archiveFileName.set("${project.name}-${project.version}-${os}-${arch}.zip")
+    destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
 }

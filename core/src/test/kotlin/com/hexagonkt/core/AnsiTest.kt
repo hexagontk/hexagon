@@ -13,6 +13,7 @@ internal class AnsiTest {
             logger.info { "${message}${Ansi.RESET} | normal text" }
         }
 
+        test("${Ansi.CSI}30m black")
         test("${Ansi.BLACK}black")
         test("${Ansi.RED}red")
         test("${Ansi.GREEN}green")
