@@ -221,6 +221,11 @@ This script sets up the build to add [GraalVM] configuration files for [native i
 into JAR files (for library projects), and also allows to easily generate a native image for an
 application.
 
+The defined tasks are:
+
+* upx: compress the native executable using 'upx'.
+* zipNative: compress native executable in a ZIP file.
+
 To use it you must apply the `$gradleScripts/native.gradle` script to your `build.gradle` file. It
 must be applied after the Kotlin plugin.
 
