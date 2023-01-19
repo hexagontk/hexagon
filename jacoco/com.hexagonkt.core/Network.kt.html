@@ -70,11 +70,11 @@ fun URL.exists(): Boolean =
 <span class="fc" id="L70">    }</span>
 
 fun URL.firstVariant(vararg suffixes: String): URL {
-<span class="fc" id="L73">    val extension = file.substringAfter('.').println()</span>
-<span class="fc" id="L74">    val fileName = file.removeSuffix(&quot;.$extension&quot;).println()</span>
+<span class="fc" id="L73">    val extension = file.substringAfter('.')</span>
+<span class="fc" id="L74">    val fileName = file.removeSuffix(&quot;.$extension&quot;)</span>
 
 <span class="fc" id="L76">    suffixes.forEach {</span>
-<span class="fc" id="L77">        val u = URL(&quot;$protocol:$fileName$it.$extension&quot;.println())</span>
+<span class="fc" id="L77">        val u = URL(&quot;$protocol:$fileName$it.$extension&quot;)</span>
 <span class="fc bfc" id="L78" title="All 2 branches covered.">        if (u.exists())</span>
 <span class="fc" id="L79">            return u</span>
 <span class="fc" id="L80">    }</span>

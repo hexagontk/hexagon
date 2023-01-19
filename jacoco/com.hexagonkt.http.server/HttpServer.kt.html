@@ -135,8 +135,8 @@ import java.lang.System.nanoTime
 <span class="fc" id="L135">        getRuntime().addShutdownHook(</span>
 <span class="fc" id="L136">            Thread(</span>
                 {
-<span class="fc bfc" id="L138" title="All 2 branches covered.">                    if (started())</span>
-<span class="fc" id="L139">                        adapter.shutDown()</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">                    if (started())</span>
+<span class="nc" id="L139">                        adapter.shutDown()</span>
 <span class="fc" id="L140">                },</span>
 <span class="fc" id="L141">                &quot;shutdown-${settings.bindAddress.hostName}-${settings.bindPort}&quot;</span>
             )
