@@ -32,7 +32,9 @@ tasks.register("upx", Exec) {
 
     final String source = "$buildDir/native/nativeCompile/${project.name}"
     final String target = "$buildDir/native/${project.name}"
-    final String command = "upx $source -o $target"
+    final String os = System.getProperty("os.name").toLowerCase()
+    final String command =
+        os.contains("windows")? "upx ${source}.exe -o ${target}.exe" : "upx $source -o $target"
     commandLine(command.split(" "))
 
     doFirst {
@@ -47,8 +49,9 @@ tasks.register("zipNative", Zip) {
 
     final String os = System.getProperty("os.name").toLowerCase()
     final String arch = System.getProperty("os.arch").toLowerCase()
+    final String source = os.contains("windows")? "${project.name}.exe" : project.name
     from("$buildDir/native")
-    include(project.name)
+    include(source)
     archiveFileName.set("${project.name}-${project.version}-${os}-${arch}.zip")
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
 }
