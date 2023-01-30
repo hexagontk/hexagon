@@ -38,8 +38,6 @@ internal class JulLoggerTest {
         logger.warn(RuntimeException()) { 'c' }
         logger.error(RuntimeException()) { 0..100 }
         logger.flare { "message" }
-        logger.time("message") {}
-        logger.time {}
     }
 
     private fun checkLoggerLevel(logger: Logger, level: LoggingLevel) {
