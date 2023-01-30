@@ -14,7 +14,7 @@ apply(from = "../gradle/detekt.gradle")
 description = "Test cases for HTTP client and server adapters."
 
 tasks.named<JavaCompile>("jmhCompileGeneratedClasses") {
-    targetCompatibility = "17"
+    targetCompatibility = "11"
 }
 
 tasks.withType<JMHTask> {
@@ -23,7 +23,7 @@ tasks.withType<JMHTask> {
     jmhVersion.set(jhmVersion)
     benchmarkMode.set(listOf("thrpt"))
 
-    iterations.set(5)
+    iterations.set(10)
     batchSize.set(1)
     fork.set(1)
     operationsPerInvocation.set(5)

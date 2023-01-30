@@ -63,7 +63,7 @@ tasks.register("jpackage") {
 
         final String options = findProperty("options")
         final String icon = findProperty("icon")
-        final String modules = findProperty("modules") ?: "java.logging,java.management"
+        final String modules = findProperty("modules") ?: "java.logging"
 
         List<String> command = [
             "${System.getenv("JAVA_HOME")}/bin/jpackage",
@@ -142,6 +142,17 @@ tasks.register("jre", Exec) {
         """.stripIndent())
         launcher.setExecutable(true)
     }
+}
+
+tasks.register("tarJre", Tar) {
+    group = "distribution"
+    description = "Compress JRE distribution in a single file."
+    dependsOn("jre")
+
+    from(buildDir.toPath().resolve(project.name).toFile())
+    compression = Compression.BZIP2
+    archiveFileName.set("${project.name}-${project.version}.tbz2")
+    destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
 }
 
 tasks.register("watch") {

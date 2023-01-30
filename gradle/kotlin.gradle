@@ -35,10 +35,10 @@ repositories {
 }
 
 dependencies {
-    final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.13.3"
+    final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.13.4"
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.9.2"
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter:$scriptJunitVersion")
@@ -121,7 +121,7 @@ tasks.withType(Test) { testTask ->
     testTask.useJUnitPlatform()
     testTask.systemProperties(project.getProperties().findAll { it.value instanceof String })
     testTask.systemProperty("file.encoding", "utf-8")
-    testTask.jvmArgs('--enable-preview')
+    testTask.jvmArgs('--enable-preview', '-Xshare:off')
 
     testTask.testLogging {
         if (logger.isInfoEnabled())
