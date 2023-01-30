@@ -15,21 +15,3 @@ dependencies {
 
     "testImplementation"("org.jetbrains.kotlin:kotlin-reflect")
 }
-
-task("hexagonInfo") {
-    group = "build"
-    description = "Add `META-INF/hexagon.properties` file (with toolkit variables) to the package."
-
-    doLast {
-        file("$buildDir/resources/main/META-INF").mkdirs()
-        file("$buildDir/resources/main/META-INF/hexagon.properties").writeText("""
-            project=${rootProject.name}
-            module=${project.name}
-            version=${project.version}
-            group=${project.group}
-            description=${project.description}
-        """.trimIndent ())
-    }
-}
-
-tasks.getByName("classes").dependsOn("hexagonInfo")
