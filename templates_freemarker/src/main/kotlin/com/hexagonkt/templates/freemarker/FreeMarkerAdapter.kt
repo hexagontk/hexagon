@@ -15,7 +15,7 @@ import java.util.*
 class FreeMarkerAdapter : TemplatePort {
 
     override fun render(url: URL, context: Map<String, *>, locale: Locale): String {
-        val configuration = Configuration(Version("2.3.31")).apply {
+        val configuration = Configuration(Version("2.3.32")).apply {
             defaultEncoding = "UTF-8"
             templateLookupStrategy = object : TemplateLookupStrategy() {
                 override fun lookup(ctx: TemplateLookupContext): TemplateLookupResult =

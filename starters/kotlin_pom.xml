@@ -157,6 +157,11 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
+        <artifactId>templates_rocker</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
         <artifactId>templates_test</artifactId>
         <version>${hexagon.version}</version>
       </dependency>

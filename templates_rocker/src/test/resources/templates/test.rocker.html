@@ -1,0 +1,17 @@
+@args(java.util.Map<String, Object> context)
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Fortunes</title>
+</head>
+<body>
+  <p>This is a test template</p>
+  <p>@context.get("key1")?:"key1"</p>
+  <p>@context.get("key2")?:"key2"</p>
+  <p>@context.get("a")?:"a"</p>
+  <p>@context.get("localDate")?:"localDate"</p>
+  <p>@context.get("_template_")?:""</p>
+  <p>@context.get("_now_")?:""</p>
+</body>
+</html>
