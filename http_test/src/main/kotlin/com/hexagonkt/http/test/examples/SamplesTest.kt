@@ -1,7 +1,6 @@
 package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.CodedException
-import com.hexagonkt.core.disableChecks
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
@@ -10,7 +9,6 @@ import com.hexagonkt.core.media.ApplicationMedia.XML
 import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.*
@@ -557,43 +555,5 @@ abstract class SamplesTest(
         assertEquals(OK, ok.status)
         assertEquals("Callback result null null", ok.bodyString())
         // mockRequest
-    }
-
-    @Test fun customHeaders() {
-        disableChecks = true
-
-        val server = serve(serverAdapter()) {
-            get("/accept") { ok(accept.joinToString(":") { it.text }) }
-            get("/authorization") { ok(authorization?.let { "${it.type}:${it.value}" } ?: "empty") }
-        }
-
-        server.use { s ->
-            val baseUrl = URL("http://localhost:${s.runtimePort}")
-            HttpClient(clientAdapter(), baseUrl).use {
-                it.start()
-
-                val acceptHeader = Header("accept", "text/plain, text/html")
-                val acceptResponse = it.get("/accept", headers = Headers(acceptHeader))
-                assertEquals("text/plain:text/html", acceptResponse.bodyString())
-            }
-
-            val settings = HttpClientSettings(authorization = Authorization("basic", "value"))
-            HttpClient(clientAdapter(), baseUrl, settings).use {
-                it.start()
-
-                val acceptResponse = it.get("/authorization")
-                assertEquals("basic:value", acceptResponse.bodyString())
-
-                val request = HttpClientRequest(
-                    method = GET,
-                    path = "/authorization",
-                    authorization = Authorization("basic", "data")
-                )
-                val response = it.send(request)
-                assertEquals("basic:data", response.bodyString())
-            }
-        }
-
-        disableChecks = false
     }
 }

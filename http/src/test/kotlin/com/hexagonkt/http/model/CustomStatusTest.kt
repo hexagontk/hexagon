@@ -1,6 +1,5 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.core.disableChecks
 import com.hexagonkt.http.model.HttpStatusType.*
 import kotlin.test.Test
 import kotlin.IllegalArgumentException
@@ -68,12 +67,5 @@ internal class CustomStatusTest {
         assertFailsWith<IllegalArgumentException> { CustomStatus(600, INFORMATION)  }
         assertFailsWith<IllegalArgumentException> { CustomStatus(99)  }
         assertFailsWith<IllegalArgumentException> { CustomStatus(600)  }
-    }
-
-    @Test fun `Checks are skipped in production mode`() {
-        disableChecks = true
-        CustomStatus(99, INFORMATION)
-        CustomStatus(600, INFORMATION)
-        disableChecks = false
     }
 }

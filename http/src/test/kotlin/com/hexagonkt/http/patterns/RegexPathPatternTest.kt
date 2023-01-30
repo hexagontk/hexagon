@@ -1,6 +1,5 @@
 package com.hexagonkt.http.patterns
 
-import com.hexagonkt.core.disableChecks
 import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.VARIABLE_PATTERN as VP
 import kotlin.test.Test
 import kotlin.test.*
@@ -59,12 +58,6 @@ internal class RegexPathPatternTest {
             mapOf("0" to "charlie"),
             pathWithoutParams.extractParameters("/alpha/charlie/tango")
         )
-    }
-
-    @Test fun `Path parameters not checked in production mode`() {
-        disableChecks = true
-        RegexPathPattern(Regex("alpha/bravo$"))
-        disableChecks = false
     }
 
     @Test fun `Empty and wildcard path patterns are allowed`() {

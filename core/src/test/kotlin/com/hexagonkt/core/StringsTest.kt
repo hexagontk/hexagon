@@ -1,8 +1,13 @@
 package com.hexagonkt.core
 
+import com.hexagonkt.core.StringsTest.Size.S
 import com.hexagonkt.core.StringsTest.Size.X_L
 import io.mockk.every
 import io.mockk.mockk
+import java.io.File
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import kotlin.test.Test
 import kotlin.IllegalArgumentException
 import kotlin.test.*
@@ -12,6 +17,16 @@ internal class StringsTest {
 
     enum class Size { S, M, L, X_L }
 
+    @Test fun `String transformations work properly`() {
+        assertEquals(File("dir/f.txt"), "dir/f.txt".toOrNull(File::class))
+        assertEquals(LocalDate.parse("2020-02-28"), "2020-02-28".toOrNull(LocalDate::class))
+        assertEquals(LocalTime.parse("21:20:10"), "21:20:10".toOrNull(LocalTime::class))
+        assertEquals(
+            LocalDateTime.parse("2020-02-28T21:20:10"),
+            "2020-02-28T21:20:10".toOrNull(LocalDateTime::class)
+        )
+    }
+
     @Test fun `String case can changed`() {
         val words = listOf("these", "are", "a", "few", "words")
         assertEquals("These Are A Few Words", words.wordsToTitle())
@@ -20,18 +35,18 @@ internal class StringsTest {
     }
 
     @Test fun `Strings can be converted to enum values`() {
-        assertEquals(Size.S, "s".toEnum(Size::valueOf))
-        assertEquals(Size.S, "S".toEnum(Size::valueOf))
-        assertEquals(Size.X_L, "x l".toEnum(Size::valueOf))
-        assertEquals(Size.X_L, "X L".toEnum(Size::valueOf))
-        assertEquals(Size.X_L, "X_L".toEnum(Size::valueOf))
+        assertEquals(S, "s".toEnum(Size::valueOf))
+        assertEquals(S, "S".toEnum(Size::valueOf))
+        assertEquals(X_L, "x l".toEnum(Size::valueOf))
+        assertEquals(X_L, "X L".toEnum(Size::valueOf))
+        assertEquals(X_L, "X_L".toEnum(Size::valueOf))
 
         val e = assertFailsWith<IllegalArgumentException> {
             assertEquals(Size.M, "z".toEnum(Size::valueOf))
         }
         assertEquals("No enum constant com.hexagonkt.core.StringsTest.Size.Z", e.message)
 
-        assertEquals(Size.S, "s".toEnumOrNull(Size::valueOf))
+        assertEquals(S, "s".toEnumOrNull(Size::valueOf))
         assertNull("z".toEnumOrNull(Size::valueOf))
     }
 

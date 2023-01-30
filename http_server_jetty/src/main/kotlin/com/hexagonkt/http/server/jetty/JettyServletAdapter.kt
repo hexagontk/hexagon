@@ -1,7 +1,6 @@
 package com.hexagonkt.http.server.jetty
 
 import com.hexagonkt.core.Jvm
-import com.hexagonkt.core.fail
 import com.hexagonkt.core.fieldsMapOf
 import com.hexagonkt.http.model.HttpProtocol
 import com.hexagonkt.http.model.HttpProtocol.HTTP
@@ -72,10 +71,13 @@ class JettyServletAdapter(
     }
 
     override fun runtimePort(): Int =
-        ((jettyServer?.connectors?.get(0) ?: fail) as ServerConnector).localPort
+        jettyConnector().localPort
 
     override fun started() =
         jettyServer?.isStarted ?: false
+
+    private fun jettyConnector(): ServerConnector =
+        jettyServer?.connectors?.get(0) as? ServerConnector ?: error("Jetty must have a connector")
 
     private fun createThreadPool(): ThreadPool =
         if (useVirtualThreads) {
@@ -163,7 +165,7 @@ class JettyServletAdapter(
         httpConfiguration.addCustomizer(SecureRequestCustomizer())
 
         val sslContextFactory = SslContextFactory.Server()
-        val sslSettings = settings.sslSettings ?: fail
+        val sslSettings = settings.sslSettings ?: error("SSL settings cannot be 'null'")
         sslContextFactory.needClientAuth = sslSettings.clientAuth
 
         val keyStore = sslSettings.keyStore

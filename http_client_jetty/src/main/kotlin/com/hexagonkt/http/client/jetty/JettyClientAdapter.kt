@@ -1,6 +1,5 @@
 package com.hexagonkt.http.client.jetty
 
-import com.hexagonkt.core.fail
 import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.http.bodyToBytes
@@ -259,7 +258,7 @@ class JettyClientAdapter : HttpClientPort {
                 ClientSslContextFactory().apply { isTrustAll = true }
 
             settings.sslSettings != null -> {
-                val sslSettings = settings.sslSettings ?: fail
+                val sslSettings = settings.sslSettings ?: error("SSL settings cannot be 'null'")
                 val keyStore = sslSettings.keyStore
                 val trustStore = sslSettings.trustStore
                 val sslContextBuilder = ClientSslContextFactory()

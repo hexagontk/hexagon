@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.handlers.Context
+import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.handlers.Handler
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.GET
@@ -17,7 +17,7 @@ sealed interface HttpHandler : Handler<HttpServerCall> {
     fun addPrefix(prefix: String): HttpHandler
 
     fun process(request: HttpServerRequestPort): HttpServerResponse =
-        Context(HttpServerCall(request = request), predicate).let { context ->
+        EventContext(HttpServerCall(request = request), predicate).let { context ->
             if (serverPredicate(context)) process(context).event.response
             else context.event.response
         }

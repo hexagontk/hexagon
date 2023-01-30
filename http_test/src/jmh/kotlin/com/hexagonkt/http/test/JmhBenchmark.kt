@@ -9,6 +9,9 @@ import org.openjdk.jmh.infra.Blackhole
 @State(Scope.Benchmark)
 open class JmhBenchmark {
 
+    private fun <T : Any> Handler<T>.process(event: T): T =
+        process(EventContext(event, predicate)).event
+
     private val chains = listOf(
         ChainHandler<String>(
             AfterHandler({ it.hasLetters('a', 'e') }) { it.appendText("<A1>") },
@@ -35,9 +38,9 @@ open class JmhBenchmark {
         OnHandler { it.appendText("<B1>")},
         FilterHandler({ it.hasLetters('a', 'b') }) {
             if (it.event.startsWith("a"))
-                it.copy(event = it.event + "<PASS>").next()
+                it.with(event = it.event + "<PASS>").next()
             else
-                it.copy(event = it.event + "<HALT>")
+                it.with(event = it.event + "<HALT>")
         },
         OnHandler { it.appendText("<B2>")},
     )
@@ -104,5 +107,5 @@ open class JmhBenchmark {
         letters.any { event.contains(it) }
 
     private fun Context<String>.appendText(text: String): Context<String> =
-        copy(event = event + text)
+        with(event = event + text)
 }

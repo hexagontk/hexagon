@@ -1,8 +1,9 @@
 package com.hexagonkt.http
 
-import com.hexagonkt.core.disableChecks
+import com.hexagonkt.core.assertEnabled
 import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.core.withZone
 import com.hexagonkt.http.model.*
 import java.math.BigInteger
 import java.net.URLDecoder
@@ -19,7 +20,7 @@ val gmtZone: ZoneId = ZoneId.of("GMT")
 val httpDateFormatter: DateTimeFormatter = RFC_1123_DATE_TIME.withZone(ZoneOffset.UTC)
 
 fun checkHeaders(headers: Headers) {
-    if (disableChecks)
+    if (!assertEnabled)
         return
 
     val headersKeys = headers.httpFields.keys
@@ -76,13 +77,13 @@ fun formatQueryString(parameters: QueryParameters): String =
         }
 
 fun String.urlDecode(): String =
-    URLDecoder.decode(this, Jvm.charset.name())
+    URLDecoder.decode(this, Jvm.charset)
 
 fun String.urlEncode(): String =
-    URLEncoder.encode(this, Jvm.charset.name())
+    URLEncoder.encode(this, Jvm.charset)
 
 fun LocalDateTime.toHttpFormat(): String =
-    RFC_1123_DATE_TIME.format(ZonedDateTime.of(this, gmtZone))
+    httpDateFormatter.format(this.withZone().withZoneSameInstant(gmtZone))
 
 fun Instant.toHttpFormat(): String =
     httpDateFormatter.format(this)

@@ -1,6 +1,5 @@
 package com.hexagonkt.http.patterns
 
-import com.hexagonkt.core.disableChecks
 import kotlin.test.Test
 import kotlin.test.*
 
@@ -114,15 +113,6 @@ internal class TemplatePathPatternTest {
         assert(pathWithoutParams.matches("/alpha/charlie/tango"))
         assert(!pathWithoutParams.matches("/alpha/charlie/tango/zulu"))
         assert(!pathWithoutParams.matches("/zulu/alpha/charlie/tango"))
-    }
-
-    @Test fun `Path parameters not checked in production mode`() {
-        disableChecks = true
-
-        TemplatePathPattern("alpha/bravo")
-        TemplatePathPattern("/alpha/bravo/:id")
-
-        disableChecks = false
     }
 
     @Test fun `Empty and wildcard path patterns are allowed`() {

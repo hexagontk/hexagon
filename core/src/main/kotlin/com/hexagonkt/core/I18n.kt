@@ -52,7 +52,7 @@ fun localeOf(language: String = "", country: String = ""): Locale {
     }
     require(language.isEmpty() || language in languageCodes) { "Language: '$language' not allowed" }
     require(country.isEmpty() || country in countryCodes) { "Country: '$country' not allowed" }
-    return Locale(language, country)
+    return Locale.Builder().setLanguage(language).setRegion(country).build()
 }
 
 /**

@@ -31,8 +31,6 @@ internal class LoggerTest {
         logger.warn(null) { assertNull(it) }
         logger.error(null) { assertNull(it) }
         logger.flare { "message" }
-        logger.time("message") {}
-        logger.time {}
         logger.log(TRACE) { "message" }
         logger.log(ERROR, RuntimeException()) { 0..100 }
     }

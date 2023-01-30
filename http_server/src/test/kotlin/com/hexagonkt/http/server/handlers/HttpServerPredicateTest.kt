@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.handlers.Context
+import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
@@ -22,13 +22,13 @@ internal class HttpServerPredicateTest {
     @Test fun `Predicates with empty pattern matches exact path or root`() {
         val predicate = HttpServerPredicate()
         val call = HttpServerCall(HttpServerRequest(), HttpServerResponse())
-        val context = Context(call, predicate)
+        val context = EventContext(call, predicate)
         assertTrue(predicate(context))
         val call1 = HttpServerCall(HttpServerRequest(path = "/"), HttpServerResponse())
-        val context1 = Context(call1, predicate)
+        val context1 = EventContext(call1, predicate)
         assertTrue(predicate(context1))
         val call2 = HttpServerCall(HttpServerRequest(path = "/a"), HttpServerResponse())
-        val context2 = Context(call2, predicate)
+        val context2 = EventContext(call2, predicate)
         assertFalse(predicate(context2))
     }
 
@@ -197,7 +197,7 @@ internal class HttpServerPredicateTest {
         status: HttpStatus,
         exception: Exception? = null,
     ) =
-        Context(
+        EventContext(
             HttpServerCall(
                 HttpServerRequest(method = method, path = path),
                 HttpServerResponse(status = status)

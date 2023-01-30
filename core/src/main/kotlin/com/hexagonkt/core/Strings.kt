@@ -1,6 +1,7 @@
 package com.hexagonkt.core
 
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.io.InputStream
 import kotlin.IllegalArgumentException
 import java.lang.System.getProperty
@@ -9,6 +10,9 @@ import java.net.URI
 import java.net.URL
 import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -145,6 +149,10 @@ fun <T : Any> String?.toOrNull(type: KClass<T>): T? =
             InetAddress::class -> this.let(InetAddress::getByName)
             URL::class -> this.let(::URL)
             URI::class -> this.let(::URI)
+            File::class -> this.let(::File)
+            LocalDate::class -> LocalDate.parse(this)
+            LocalTime::class -> LocalTime.parse(this)
+            LocalDateTime::class -> LocalDateTime.parse(this)
             else -> error("Unsupported type: ${type.qualifiedName}")
         }
     } as? T
@@ -174,7 +182,7 @@ fun List<String>.wordsToSnake(): String =
     joinToString("_").replaceFirstChar(Char::lowercase)
 
 fun String.camelToWords(): List<String> =
-    split("(?=\\p{Upper}\\p{Lower})".toRegex()).map(String::lowercase)
+    split("(?=\\p{Upper}\\p{Lower})".toRegex()).filter(String::isNotEmpty).map(String::lowercase)
 
 fun List<String>.wordsToCamel(): String =
     joinToString("") { it.replaceFirstChar(Char::uppercase) }.replaceFirstChar(Char::lowercase)
