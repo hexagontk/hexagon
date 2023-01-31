@@ -100,7 +100,14 @@ tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOpt
 
 clean {
     ["", "$rootDir/" ].forEach {
-        delete("${it}build", "${it}log", "${it}out", "${it}.vertx", "${it}file-uploads")
+        delete(
+            "${it}build",
+            "${it}log",
+            "${it}out",
+            "${it}.vertx",
+            "${it}file-uploads",
+            "${it}kotlin-js-store"
+        )
     }
 
     delete(
