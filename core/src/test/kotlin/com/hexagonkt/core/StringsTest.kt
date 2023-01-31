@@ -188,6 +188,15 @@ internal class StringsTest {
         assertEquals("alfaBeta", "alfa___beta".snakeToCamel())
     }
 
+    @Test fun `Converting valid kebab works properly`() {
+        assertEquals(listOf("alfa", "beta"), "alfa-beta".kebabToWords())
+        assertEquals(listOf("alfa", "beta"), "alfa--beta".kebabToWords())
+        assertEquals(listOf("alfa", "beta"), "alfa---beta".kebabToWords())
+
+        assertEquals("alfa-beta", listOf("alfa", "beta").wordsToKebab())
+        assertEquals("alfa", listOf("alfa").wordsToKebab())
+    }
+
     @Test fun `Converting valid camel case texts to snake case succeed`() {
         assertEquals("alfa_beta", "alfaBeta".camelToSnake())
     }

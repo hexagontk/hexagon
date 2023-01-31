@@ -186,29 +186,41 @@ fun Regex.findGroups(text: String): List<MatchGroup> =
         .filterNotNull()
         .drop(1)
 
-/**
- * Transform the target string from snake case to camel case.
- */
-fun String.snakeToCamel(): String =
-    snakeToWords().wordsToCamel()
+fun String.camelToWords(): List<String> =
+    split("(?=\\p{Upper}\\p{Lower})".toRegex()).toWords()
 
 fun String.snakeToWords(): List<String> =
-    this.split("_").filter(String::isNotEmpty).map(String::lowercase)
+    split("_").toWords()
 
-fun List<String>.wordsToSnake(): String =
-    joinToString("_").replaceFirstChar(Char::lowercase)
+fun String.kebabToWords(): List<String> =
+    split("-").toWords()
 
-fun String.camelToWords(): List<String> =
-    split("(?=\\p{Upper}\\p{Lower})".toRegex()).filter(String::isNotEmpty).map(String::lowercase)
+fun List<String>.toWords(): List<String> =
+    filter(String::isNotEmpty).map(String::lowercase)
 
 fun List<String>.wordsToCamel(): String =
-    joinToString("") { it.replaceFirstChar(Char::uppercase) }.replaceFirstChar(Char::lowercase)
+    wordsToPascal().replaceFirstChar(Char::lowercase)
+
+fun List<String>.wordsToPascal(): String =
+    joinToString("") { it.replaceFirstChar(Char::uppercase) }
+
+fun List<String>.wordsToSnake(): String =
+    joinToString("_")
+
+fun List<String>.wordsToKebab(): String =
+    joinToString("-")
 
 fun List<String>.wordsToTitle(): String =
     joinToString(" ") { it.replaceFirstChar(Char::uppercase) }
 
 fun List<String>.wordsToSentence(): String =
     joinToString(" ").replaceFirstChar(Char::uppercase)
+
+/**
+ * Transform the target string from snake case to camel case.
+ */
+fun String.snakeToCamel(): String =
+    snakeToWords().wordsToCamel()
 
 fun Enum<*>.toWords(): String =
     toString().lowercase().replace("_", " ")
