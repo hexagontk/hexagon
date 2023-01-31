@@ -47,7 +47,7 @@ data class HttpServerContext(
     val status: HttpStatus = response.status
 
     val pathParameters: Map<String, String> by lazy {
-        val httpHandler = context.currentFilter as HttpServerPredicate
+        val httpHandler = context.predicate as HttpServerPredicate
         val pattern = httpHandler.pathPattern
 
         if (assertEnabled)

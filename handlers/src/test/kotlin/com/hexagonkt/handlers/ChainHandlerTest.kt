@@ -70,19 +70,19 @@ internal class ChainHandlerTest {
         val chainHandler =
             ChainHandler(
                 AfterHandler(filterAE) {
-                    assertEquals(filterAE, it.currentFilter)
+                    assertEquals(filterAE, it.predicate)
                     it.appendText("<A1>")
                 },
                 AfterHandler(filterBF) {
-                    assertEquals(filterBF, it.currentFilter)
+                    assertEquals(filterBF, it.predicate)
                     it.appendText("<A2>")
                 },
                 OnHandler(filterCG) {
-                    assertEquals(filterCG, it.currentFilter)
+                    assertEquals(filterCG, it.predicate)
                     it.appendText("<B1>")
                 },
                 OnHandler(filterDH) {
-                    assertEquals(filterDH, it.currentFilter)
+                    assertEquals(filterDH, it.predicate)
                     it.appendText("<B2>")
                 },
             )

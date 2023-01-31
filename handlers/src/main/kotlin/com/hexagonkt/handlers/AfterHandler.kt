@@ -16,7 +16,7 @@ data class AfterHandler<T : Any>(
     override val predicate: Predicate<T> = { true }
 
     override val callback: Callback<T> = {
-        val next = it.next().with(currentFilter = afterFilter)
+        val next = it.next().with(predicate = afterFilter)
         try {
             if (afterFilter.invoke(next)) afterCallback(next)
             else next

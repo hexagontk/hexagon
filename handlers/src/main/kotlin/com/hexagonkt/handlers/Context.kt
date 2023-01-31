@@ -7,7 +7,7 @@ package com.hexagonkt.handlers
  */
 interface Context<T : Any> {
     val event: T
-    val currentFilter: Predicate<T>
+    val predicate: Predicate<T>
     val nextHandlers: List<Handler<T>>
     val nextHandler: Int
     val exception: Exception?
@@ -15,7 +15,7 @@ interface Context<T : Any> {
 
     fun with(
         event: T = this.event,
-        currentFilter: Predicate<T> = this.currentFilter,
+        predicate: Predicate<T> = this.predicate,
         nextHandlers: List<Handler<T>> = this.nextHandlers,
         nextHandler: Int = this.nextHandler,
         exception: Exception? = this.exception,

@@ -16,7 +16,7 @@ data class ChainHandler<T : Any>(
         val nestedContext = it.with(event = it.event, nextHandlers = handlers, nextHandler = 0)
         val nestedResult = nestedContext.next()
         val followUpContext = nestedResult.with(
-            currentFilter = predicate,
+            predicate = predicate,
             nextHandlers = it.nextHandlers,
             nextHandler = it.nextHandler
         )

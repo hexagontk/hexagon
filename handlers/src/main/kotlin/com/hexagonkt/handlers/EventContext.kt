@@ -7,7 +7,7 @@ package com.hexagonkt.handlers
  */
 data class EventContext<T : Any>(
     override val event: T,
-    override val currentFilter: Predicate<T>,
+    override val predicate: Predicate<T>,
     override val nextHandlers: List<Handler<T>> = emptyList(),
     override val nextHandler: Int = 0,
     override val exception: Exception? = null,
@@ -16,7 +16,7 @@ data class EventContext<T : Any>(
 
     override fun with(
         event: T,
-        currentFilter: Predicate<T>,
+        predicate: Predicate<T>,
         nextHandlers: List<Handler<T>>,
         nextHandler: Int,
         exception: Exception?,
@@ -24,7 +24,7 @@ data class EventContext<T : Any>(
     ): EventContext<T> =
         copy(
             event = event,
-            currentFilter = currentFilter,
+            predicate = predicate,
             nextHandlers = nextHandlers,
             nextHandler = nextHandler,
             exception = exception,
@@ -36,7 +36,7 @@ data class EventContext<T : Any>(
             val handler = nextHandlers[index]
             if (handler.predicate(this))
                 return handler.process(
-                    with(currentFilter = handler.predicate, nextHandler = index + 1)
+                    with(predicate = handler.predicate, nextHandler = index + 1)
                 )
         }
 
