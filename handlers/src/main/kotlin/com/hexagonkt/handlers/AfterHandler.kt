@@ -9,16 +9,16 @@ package com.hexagonkt.handlers
  * Their filter is evaluated after the `next` call, not before.
  */
 data class AfterHandler<T : Any>(
-    val afterFilter: Predicate<T> = { true },
+    val afterPredicate: Predicate<T> = { true },
     val afterCallback: Callback<T>,
 ) : Handler<T> {
 
     override val predicate: Predicate<T> = { true }
 
     override val callback: Callback<T> = {
-        val next = it.next().with(predicate = afterFilter)
+        val next = it.next().with(predicate = afterPredicate)
         try {
-            if (afterFilter.invoke(next)) afterCallback(next)
+            if (afterPredicate.invoke(next)) afterCallback(next)
             else next
         }
         catch (e: Exception) {
