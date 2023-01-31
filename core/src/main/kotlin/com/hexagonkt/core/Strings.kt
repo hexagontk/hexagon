@@ -25,6 +25,23 @@ private val base64Decoder: Base64.Decoder = Base64.getDecoder()
 /** Runtime specific end of line. */
 val eol: String by lazy { getProperty("line.separator") }
 
+/** Supported types for the [parseOrNull] function. */
+val parsedClasses: Set<KClass<*>> = setOf(
+    Boolean::class,
+    Int::class,
+    Long::class,
+    Float::class,
+    Double::class,
+    String::class,
+    InetAddress::class,
+    URL::class,
+    URI::class,
+    File::class,
+    LocalDate::class,
+    LocalTime::class,
+    LocalDateTime::class,
+)
+
 /**
  * Encode the content of this byteArray to base64.
  *
@@ -137,7 +154,7 @@ fun <T : Enum<*>> String.toEnumOrNull(converter: (String) -> T): T? =
  * @return .
  */
 @Suppress("UNCHECKED_CAST") // All allowed types are checked at runtime
-fun <T : Any> String?.toOrNull(type: KClass<T>): T? =
+fun <T : Any> String?.parseOrNull(type: KClass<T>): T? =
     this?.let {
         when (type) {
             Boolean::class -> this.toBooleanStrictOrNull()

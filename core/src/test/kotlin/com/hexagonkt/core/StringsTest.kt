@@ -5,6 +5,9 @@ import com.hexagonkt.core.StringsTest.Size.X_L
 import io.mockk.every
 import io.mockk.mockk
 import java.io.File
+import java.net.InetAddress
+import java.net.URI
+import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -17,13 +20,34 @@ internal class StringsTest {
 
     enum class Size { S, M, L, X_L }
 
+    @Test fun `Parsed classes are the ones supported by parseOrNull`() {
+        val tests = mapOf(
+            Boolean::class to "true",
+            Int::class to "1",
+            Long::class to "2",
+            Float::class to "3.2",
+            Double::class to "4.3",
+            String::class to "text",
+            InetAddress::class to "127.0.0.1",
+            URL::class to "http://example.com",
+            URI::class to "schema://host:0/file",
+            File::class to "/absolute/file.txt",
+            LocalDate::class to "2020-12-31",
+            LocalTime::class to "23:59",
+            LocalDateTime::class to "2021-11-21T22:45:30",
+        )
+
+        assertEquals(parsedClasses, tests.keys)
+        tests.forEach { (k, v) -> assertNotNull(v.parseOrNull(k)) }
+    }
+
     @Test fun `String transformations work properly`() {
-        assertEquals(File("dir/f.txt"), "dir/f.txt".toOrNull(File::class))
-        assertEquals(LocalDate.parse("2020-02-28"), "2020-02-28".toOrNull(LocalDate::class))
-        assertEquals(LocalTime.parse("21:20:10"), "21:20:10".toOrNull(LocalTime::class))
+        assertEquals(File("dir/f.txt"), "dir/f.txt".parseOrNull(File::class))
+        assertEquals(LocalDate.parse("2020-02-28"), "2020-02-28".parseOrNull(LocalDate::class))
+        assertEquals(LocalTime.parse("21:20:10"), "21:20:10".parseOrNull(LocalTime::class))
         assertEquals(
             LocalDateTime.parse("2020-02-28T21:20:10"),
-            "2020-02-28T21:20:10".toOrNull(LocalDateTime::class)
+            "2020-02-28T21:20:10".parseOrNull(LocalDateTime::class)
         )
     }
 
