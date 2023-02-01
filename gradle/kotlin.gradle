@@ -99,17 +99,15 @@ tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOpti
 tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
 
 clean {
-//    ["", "$rootDir/" ].forEach {
-//        delete(
-//            "${it}build",
-//            "${it}log",
-//            "${it}out",
-//            "${it}.vertx",
-//            "${it}file-uploads",
-//            "${it}kotlin-js-store"
-//        )
-//    }
-    delete("build", "log", "out", ".vertx", "file-uploads", "kotlin-js-store")
+    delete("log", "out", ".vertx", "file-uploads", "kotlin-js-store")
+    delete(
+        "$rootDir/build",
+        "$rootDir/log",
+        "$rootDir/out",
+        "$rootDir/.vertx",
+        "$rootDir/file-uploads",
+        "$rootDir/kotlin-js-store"
+    )
 
     delete(
         fileTree(rootDir) { include("**/*.log") },
