@@ -5,22 +5,23 @@
  *
  * @param T Event type.
  */
-<span class="fc" id="L8">data class Context&lt;T : Any&gt;(</span>
-<span class="fc" id="L9">    val event: T,</span>
-<span class="fc" id="L10">    val currentFilter: Predicate&lt;T&gt;,</span>
-<span class="fc" id="L11">    val nextHandlers: List&lt;Handler&lt;T&gt;&gt; = emptyList(),</span>
-<span class="fc" id="L12">    val exception: Exception? = null,</span>
-<span class="fc" id="L13">    val attributes: Map&lt;*, *&gt; = emptyMap&lt;Any, Any&gt;(),</span>
-) {
+interface Context&lt;T : Any&gt; {
+    val event: T
+    val predicate: Predicate&lt;T&gt;
+    val nextHandlers: List&lt;Handler&lt;T&gt;&gt;
+    val nextHandler: Int
+    val exception: Exception?
+    val attributes: Map&lt;*, *&gt;
 
-    fun next(): Context&lt;T&gt; {
-<span class="fc bfc" id="L17" title="All 2 branches covered.">        val matchingHandlers = nextHandlers.dropWhile { !it.predicate(this) }</span>
-<span class="fc" id="L18">        val nextHandler = matchingHandlers.firstOrNull()</span>
-<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        return nextHandler</span>
-<span class="fc bfc" id="L20" title="All 2 branches covered.">            ?.process(</span>
-<span class="fc" id="L21">                copy(currentFilter = nextHandler.predicate, nextHandlers = matchingHandlers.drop(1))</span>
-            )
-<span class="fc" id="L23">            ?: this</span>
-    }
-<span class="fc" id="L25">}</span>
+<span class="fc" id="L16">    fun with(</span>
+<span class="fc" id="L17">        event: T = this.event,</span>
+<span class="fc" id="L18">        predicate: Predicate&lt;T&gt; = this.predicate,</span>
+<span class="fc" id="L19">        nextHandlers: List&lt;Handler&lt;T&gt;&gt; = this.nextHandlers,</span>
+<span class="fc" id="L20">        nextHandler: Int = this.nextHandler,</span>
+<span class="fc" id="L21">        exception: Exception? = this.exception,</span>
+<span class="fc" id="L22">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
+    ): Context&lt;T&gt;
+
+    fun next(): Context&lt;T&gt;
+}
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

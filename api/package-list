@@ -66,5 +66,7 @@ module:templates_freemarker
 com.hexagonkt.templates.freemarker
 module:templates_pebble
 com.hexagonkt.templates.pebble
+module:templates_rocker
+com.hexagonkt.templates.rocker
 module:templates_test
 com.hexagonkt.templates.test

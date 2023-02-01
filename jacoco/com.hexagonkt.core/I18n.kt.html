@@ -52,7 +52,7 @@ import kotlin.reflect.KClass
     }
 <span class="fc bfc" id="L53" title="All 8 branches covered.">    require(language.isEmpty() || language in languageCodes) { &quot;Language: '$language' not allowed&quot; }</span>
 <span class="fc bfc" id="L54" title="All 8 branches covered.">    require(country.isEmpty() || country in countryCodes) { &quot;Country: '$country' not allowed&quot; }</span>
-<span class="fc" id="L55">    return Locale(language, country)</span>
+<span class="fc" id="L55">    return Locale.Builder().setLanguage(language).setRegion(country).build()</span>
 }
 
 /**

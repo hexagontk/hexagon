@@ -8,17 +8,17 @@ import java.util.*
 import java.util.concurrent.TimeUnit.SECONDS
 
 /**
- *  Disable heavy and optional checks in runtime. This flag can be enabled to get a small
- *  performance boost. Do *NOT* do this on development (it could mask problems) and enable it on
- *  production only if you have tested your application extensively.
- *
- *  It's initial value is taken from the `DISABLE_CHECKS` flag. See [Jvm.systemFlag] for details on
- *  how flags are checked on a JVM.
- *
- *  This variable can be changed on code to affect only certain parts of the code, however this is
- *  not advised and should be done carefully.
+ * This flag is true when assertions are enabled in the JVM (`-ea` flag). Assertions are disabled by
+ * default in the JVM, but they are enabled (and should be that way) on the tests.
  */
-<span class="fc" id="L21">var disableChecks: Boolean = Jvm.systemFlag(&quot;DISABLE_CHECKS&quot;)</span>
+<span class="fc" id="L14">val assertEnabled: Boolean by lazy {</span>
+<span class="fc" id="L15">    try {</span>
+<span class="pc bpc" id="L16" title="1 of 2 branches missed.">        assert(false)</span>
+<span class="nc" id="L17">        false</span>
+<span class="fc" id="L18">    } catch (_: AssertionError) {</span>
+<span class="fc" id="L19">        true</span>
+    }
+}
 
 /**
  * Print receiver to stdout. Convenient utility to debug variables quickly.
@@ -27,8 +27,18 @@ import java.util.concurrent.TimeUnit.SECONDS
  * @param prefix String to print before the actual object information. Empty string by default.
  * @return Receiver's reference. Returned to allow method call chaining.
  */
-<span class="fc" id="L30">fun &lt;T&gt; T.println(prefix: String = &quot;&quot;): T =</span>
-<span class="fc" id="L31">    apply { kotlin.io.println(&quot;$prefix$this&quot;) }</span>
+<span class="fc" id="L30">fun &lt;T&gt; T.out(prefix: String = &quot;&quot;): T =</span>
+<span class="fc" id="L31">    apply { println(&quot;$prefix$this&quot;) }</span>
+
+/**
+ * Print receiver to stderr. Convenient utility to debug variables quickly.
+ *
+ * @receiver Reference to the object to print. Can be `null`.
+ * @param prefix String to print before the actual object information. Empty string by default.
+ * @return Receiver's reference. Returned to allow method call chaining.
+ */
+<span class="fc" id="L40">fun &lt;T&gt; T.err(prefix: String = &quot;&quot;): T =</span>
+<span class="fc" id="L41">    apply { System.err.println(&quot;$prefix$this&quot;) }</span>
 
 /**
  * Load a '*.properties' file from a URL transforming the content into a plain map. If the resource
@@ -38,11 +48,11 @@ import java.util.concurrent.TimeUnit.SECONDS
  * @return Map containing the properties file data.
  */
 fun properties(url: URL): Map&lt;String, String&gt; =
-<span class="fc" id="L41">    Properties()</span>
-<span class="pc" id="L42">        .apply { url.openStream().use { load(it.reader()) } }</span>
-<span class="fc" id="L43">        .toMap()</span>
-<span class="fc" id="L44">        .mapKeys { it.key as String }</span>
-<span class="fc" id="L45">        .mapValues { it.value as String }</span>
+<span class="fc" id="L51">    Properties()</span>
+<span class="pc" id="L52">        .apply { url.openStream().use { load(it.reader()) } }</span>
+<span class="fc" id="L53">        .toMap()</span>
+<span class="fc" id="L54">        .mapKeys { it.key as String }</span>
+<span class="fc" id="L55">        .mapValues { it.value as String }</span>
 
 // PROCESSES ///////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -55,21 +65,21 @@ fun properties(url: URL): Map&lt;String, String&gt; =
  * @throws [MultipleException] if the callback didn't succeed in the given times.
  */
 fun &lt;T&gt; retry(times: Int, delay: Long, block: () -&gt; T): T {
-<span class="fc bfc" id="L58" title="All 4 branches covered.">    require(times &gt; 0)</span>
-<span class="fc bfc" id="L59" title="All 4 branches covered.">    require(delay &gt;= 0)</span>
+<span class="fc bfc" id="L68" title="All 4 branches covered.">    require(times &gt; 0)</span>
+<span class="fc bfc" id="L69" title="All 4 branches covered.">    require(delay &gt;= 0)</span>
 
-<span class="fc" id="L61">    val exceptions = mutableListOf&lt;Exception&gt;()</span>
-<span class="pc bpc" id="L62" title="1 of 4 branches missed.">    for (ii in 1 .. times) {</span>
-<span class="fc" id="L63">        try {</span>
-<span class="fc" id="L64">            return block()</span>
+<span class="fc" id="L71">    val exceptions = mutableListOf&lt;Exception&gt;()</span>
+<span class="pc bpc" id="L72" title="1 of 4 branches missed.">    for (ii in 1 .. times) {</span>
+<span class="fc" id="L73">        try {</span>
+<span class="fc" id="L74">            return block()</span>
         }
-<span class="fc" id="L66">        catch (e: Exception) {</span>
-<span class="fc" id="L67">            exceptions.add(e)</span>
-<span class="fc" id="L68">            Thread.sleep(delay)</span>
+<span class="fc" id="L76">        catch (e: Exception) {</span>
+<span class="fc" id="L77">            exceptions.add(e)</span>
+<span class="fc" id="L78">            Thread.sleep(delay)</span>
         }
     }
 
-<span class="fc" id="L72">    throw MultipleException(&quot;Error retrying $times times ($delay ms)&quot;, exceptions)</span>
+<span class="fc" id="L82">    throw MultipleException(&quot;Error retrying $times times ($delay ms)&quot;, exceptions)</span>
 }
 
 /**
@@ -77,31 +87,31 @@ fun &lt;T&gt; retry(times: Int, delay: Long, block: () -&gt; T): T {
  *
  * TODO Assure JVM closes properly after process execution (dispose process resources, etc.)
  */
-<span class="nc" id="L80">fun List&lt;String&gt;.exec(</span>
-<span class="nc" id="L81">    workingDirectory: File = File(System.getProperty(&quot;user.dir&quot;)),</span>
-<span class="nc" id="L82">    timeout: Long = Long.MAX_VALUE,</span>
-<span class="nc" id="L83">    fail: Boolean = false,</span>
+<span class="nc" id="L90">fun List&lt;String&gt;.exec(</span>
+<span class="nc" id="L91">    workingDirectory: File = File(System.getProperty(&quot;user.dir&quot;)),</span>
+<span class="nc" id="L92">    timeout: Long = Long.MAX_VALUE,</span>
+<span class="nc" id="L93">    fail: Boolean = false,</span>
 ): String {
 
-<span class="fc bfc" id="L86" title="All 2 branches covered.">    val command = filter { it.isNotBlank() }.toTypedArray()</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">    val command = filter { it.isNotBlank() }.toTypedArray()</span>
 
-<span class="fc bfc" id="L88" title="All 6 branches covered.">    require(command.isNotEmpty()) { &quot;Command is empty&quot; }</span>
-<span class="fc bfc" id="L89" title="All 4 branches covered.">    require(timeout &gt; 0) { &quot;Process timeout should be greater than zero: $timeout&quot; }</span>
+<span class="fc bfc" id="L98" title="All 6 branches covered.">    require(command.isNotEmpty()) { &quot;Command is empty&quot; }</span>
+<span class="fc bfc" id="L99" title="All 4 branches covered.">    require(timeout &gt; 0) { &quot;Process timeout should be greater than zero: $timeout&quot; }</span>
 
-<span class="fc" id="L91">    val process = ProcessBuilder(*command).directory(workingDirectory).start()</span>
+<span class="fc" id="L101">    val process = ProcessBuilder(*command).directory(workingDirectory).start()</span>
 
-<span class="fc bfc" id="L93" title="All 2 branches covered.">    if (!process.waitFor(timeout, SECONDS)) {</span>
-<span class="fc" id="L94">        process.destroy()</span>
-<span class="fc" id="L95">        error(&quot;Command timed out: $this&quot;)</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">    if (!process.waitFor(timeout, SECONDS)) {</span>
+<span class="fc" id="L104">        process.destroy()</span>
+<span class="fc" id="L105">        error(&quot;Command timed out: $this&quot;)</span>
     }
 
-<span class="fc" id="L98">    val exitValue = process.exitValue()</span>
-<span class="fc" id="L99">    val output = BufferedReader(InputStreamReader(process.inputStream)).readText()</span>
+<span class="fc" id="L108">    val exitValue = process.exitValue()</span>
+<span class="fc" id="L109">    val output = BufferedReader(InputStreamReader(process.inputStream)).readText()</span>
 
-<span class="pc bpc" id="L101" title="1 of 4 branches missed.">    if (fail &amp;&amp; exitValue != 0)</span>
-<span class="fc" id="L102">        throw CodedException(exitValue, output)</span>
+<span class="pc bpc" id="L111" title="1 of 4 branches missed.">    if (fail &amp;&amp; exitValue != 0)</span>
+<span class="fc" id="L112">        throw CodedException(exitValue, output)</span>
 
-<span class="fc" id="L104">    return output</span>
+<span class="fc" id="L114">    return output</span>
 }
 
 /**
@@ -124,39 +134,39 @@ fun &lt;T&gt; retry(times: Int, delay: Long, block: () -&gt; T): T {
  *  string is blank, an exception will be thrown.
  * @return The output of the command.
  */
-<span class="fc" id="L127">fun String.exec(</span>
-<span class="fc" id="L128">    workingDirectory: File = File(System.getProperty(&quot;user.dir&quot;)),</span>
-<span class="fc" id="L129">    timeout: Long = Long.MAX_VALUE,</span>
-<span class="fc" id="L130">    fail: Boolean = false,</span>
+<span class="fc" id="L137">fun String.exec(</span>
+<span class="fc" id="L138">    workingDirectory: File = File(System.getProperty(&quot;user.dir&quot;)),</span>
+<span class="fc" id="L139">    timeout: Long = Long.MAX_VALUE,</span>
+<span class="fc" id="L140">    fail: Boolean = false,</span>
 ): String =
-<span class="fc" id="L132">    replace(&quot;&quot;&quot;(\s+\\\s*)?\n&quot;&quot;&quot;.toRegex(), &quot;&quot;)</span>
-<span class="fc" id="L133">        .split(&quot; &quot;)</span>
-<span class="fc" id="L134">        .map { it.trim() }</span>
-<span class="fc" id="L135">        .toList()</span>
-<span class="fc" id="L136">        .exec(workingDirectory, timeout, fail)</span>
+<span class="fc" id="L142">    replace(&quot;&quot;&quot;(\s+\\\s*)?\n&quot;&quot;&quot;.toRegex(), &quot;&quot;)</span>
+<span class="fc" id="L143">        .split(&quot; &quot;)</span>
+<span class="fc" id="L144">        .map { it.trim() }</span>
+<span class="fc" id="L145">        .toList()</span>
+<span class="fc" id="L146">        .exec(workingDirectory, timeout, fail)</span>
 
 // ERROR HANDLING //////////////////////////////////////////////////////////////////////////////////
 /** Syntax sugar to throw errors. */
 val fail: Nothing
-<span class="fc" id="L141">    get() = error(&quot;Invalid state&quot;)</span>
+<span class="fc" id="L151">    get() = error(&quot;Invalid state&quot;)</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  */
-<span class="nc" id="L146">fun check(message: String = &quot;Multiple exceptions&quot;, vararg blocks: () -&gt; Unit) {</span>
-<span class="fc" id="L147">    val exceptions: List&lt;Exception&gt; = blocks.mapNotNull {</span>
-<span class="fc" id="L148">        try {</span>
-<span class="fc" id="L149">            it()</span>
-<span class="fc" id="L150">            null</span>
+<span class="nc" id="L156">fun check(message: String = &quot;Multiple exceptions&quot;, vararg blocks: () -&gt; Unit) {</span>
+<span class="fc" id="L157">    val exceptions: List&lt;Exception&gt; = blocks.mapNotNull {</span>
+<span class="fc" id="L158">        try {</span>
+<span class="fc" id="L159">            it()</span>
+<span class="fc" id="L160">            null</span>
         }
-<span class="fc" id="L152">        catch(e: Exception) {</span>
-<span class="fc" id="L153">            e</span>
+<span class="fc" id="L162">        catch(e: Exception) {</span>
+<span class="fc" id="L163">            e</span>
         }
     }
 
-<span class="fc bfc" id="L157" title="All 4 branches covered.">    if (exceptions.isNotEmpty())</span>
-<span class="fc" id="L158">        throw MultipleException(message, exceptions)</span>
-<span class="fc" id="L159">}</span>
+<span class="fc bfc" id="L167" title="All 4 branches covered.">    if (exceptions.isNotEmpty())</span>
+<span class="fc" id="L168">        throw MultipleException(message, exceptions)</span>
+<span class="fc" id="L169">}</span>
 
 /**
  * Return the stack trace array of the frames that starts with the given prefix.
@@ -166,10 +176,10 @@ val fail: Nothing
  * @return Array with the frames of the throwable whose classes start with the given prefix.
  */
 fun Throwable.filterStackTrace(prefix: String): Array&lt;out StackTraceElement&gt; =
-<span class="fc bfc" id="L169" title="All 4 branches covered.">    if (prefix.isEmpty())</span>
-<span class="fc" id="L170">        this.stackTrace</span>
+<span class="fc bfc" id="L179" title="All 4 branches covered.">    if (prefix.isEmpty())</span>
+<span class="fc" id="L180">        this.stackTrace</span>
     else
-<span class="fc" id="L172">        this.stackTrace.filter { it.className.startsWith(prefix) }.toTypedArray()</span>
+<span class="fc" id="L182">        this.stackTrace.filter { it.className.startsWith(prefix) }.toTypedArray()</span>
 
 /**
  * Return this throwable as a text.
@@ -178,11 +188,11 @@ fun Throwable.filterStackTrace(prefix: String): Array&lt;out StackTraceElement&g
  * @param prefix Optional prefix to filter stack trace elements.
  * @return The filtered (if filter is provided) Throwable as a string.
  */
-<span class="fc" id="L181">fun Throwable.toText(prefix: String = &quot;&quot;): String =</span>
-<span class="fc" id="L182">    &quot;${this.javaClass.name}: ${this.message}&quot; +</span>
-<span class="fc" id="L183">        this.filterStackTrace(prefix).joinToString(eol, eol) { &quot;\tat $it&quot; } +</span>
-<span class="fc bfc" id="L184" title="All 2 branches covered.">        if (this.cause == null)</span>
-<span class="fc" id="L185">            &quot;&quot;</span>
+<span class="fc" id="L191">fun Throwable.toText(prefix: String = &quot;&quot;): String =</span>
+<span class="fc" id="L192">    &quot;${this.javaClass.name}: ${this.message}&quot; +</span>
+<span class="fc" id="L193">        this.filterStackTrace(prefix).joinToString(eol, eol) { &quot;\tat $it&quot; } +</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">        if (this.cause == null)</span>
+<span class="fc" id="L195">            &quot;&quot;</span>
         else
-<span class="fc" id="L187">            &quot;${eol}Caused by: &quot; + (this.cause as Throwable).toText(prefix)</span>
+<span class="fc" id="L197">            &quot;${eol}Caused by: &quot; + (this.cause as Throwable).toText(prefix)</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

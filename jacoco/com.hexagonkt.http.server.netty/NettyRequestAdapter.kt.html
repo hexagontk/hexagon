@@ -26,7 +26,7 @@ import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 ) : HttpServerRequestPort {
 
 <span class="fc" id="L28">    override val accept: List&lt;ContentType&gt; by lazy {</span>
-<span class="fc" id="L29">        nettyHeaders.getAll(ACCEPT).flatMap { it.split(&quot;,&quot;) }.map { parseContentType(it) }</span>
+<span class="pc" id="L29">        nettyHeaders.getAll(ACCEPT).flatMap { it.split(&quot;,&quot;) }.map { parseContentType(it) }</span>
     }
 
 <span class="fc" id="L32">    override val contentLength: Long by lazy {</span>

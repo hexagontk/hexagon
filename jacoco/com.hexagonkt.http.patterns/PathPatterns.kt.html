@@ -4,7 +4,7 @@
  * TODO Move http_server handlers here and generalize to allow them to be used by server and client
  */
 
-import com.hexagonkt.core.disableChecks
+import com.hexagonkt.core.assertEnabled
 
 fun createPathPattern(pattern: String, prefix: Boolean): PathPattern =
 <span class="fc" id="L10">    when {</span>
@@ -13,7 +13,7 @@ fun createPathPattern(pattern: String, prefix: Boolean): PathPattern =
 <span class="fc" id="L13">    }</span>
 
 <span class="fc" id="L15">internal fun checkPathPatternPrefix(pattern: String, allowedPrefixes: List&lt;String&gt; = emptyList()) {</span>
-<span class="fc bfc" id="L16" title="All 2 branches covered.">    if (!disableChecks)</span>
+<span class="pc bpc" id="L16" title="1 of 2 branches missed.">    if (assertEnabled)</span>
 <span class="fc bfc" id="L17" title="All 2 branches covered.">        require(</span>
 <span class="fc bfc" id="L18" title="All 4 branches covered.">            pattern.isEmpty()</span>
 <span class="fc bfc" id="L19" title="All 2 branches covered.">            || pattern.startsWith('/')</span>
@@ -24,7 +24,7 @@ fun createPathPattern(pattern: String, prefix: Boolean): PathPattern =
 <span class="fc" id="L24">}</span>
 
 internal fun checkPathPatternVariables(pattern: String) {
-<span class="fc bfc" id="L27" title="All 2 branches covered.">    if (!disableChecks) {</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">    if (assertEnabled) {</span>
 <span class="fc bfc" id="L28" title="All 4 branches covered.">        require(!pattern.contains(&quot;:&quot;)) {</span>
 <span class="fc" id="L29">            &quot;Variables have {var} format. Path cannot have ':' $pattern&quot;</span>
         }

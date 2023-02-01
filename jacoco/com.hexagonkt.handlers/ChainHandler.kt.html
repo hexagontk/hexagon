@@ -13,8 +13,14 @@
 <span class="fc" id="L13">    constructor(vararg handlers: Handler&lt;T&gt;) : this(handlers.toList(), { true })</span>
 
 <span class="fc" id="L15">    override val callback: Callback&lt;T&gt; = {</span>
-<span class="fc" id="L16">        val nestedResult = it.copy(event = it.event, nextHandlers = handlers).next()</span>
-<span class="fc" id="L17">        nestedResult.copy(currentFilter = predicate, nextHandlers = it.nextHandlers).next()</span>
+<span class="fc" id="L16">        val nestedContext = it.with(event = it.event, nextHandlers = handlers, nextHandler = 0)</span>
+<span class="fc" id="L17">        val nestedResult = nestedContext.next()</span>
+<span class="fc" id="L18">        val followUpContext = nestedResult.with(</span>
+<span class="fc" id="L19">            predicate = predicate,</span>
+<span class="fc" id="L20">            nextHandlers = it.nextHandlers,</span>
+<span class="fc" id="L21">            nextHandler = it.nextHandler</span>
+        )
+<span class="fc" id="L23">        followUpContext.next()</span>
     }
-<span class="fc" id="L19">}</span>
+<span class="fc" id="L25">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

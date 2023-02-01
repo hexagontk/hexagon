@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpServletRequest
 <span class="fc" id="L24">        req.getHeaders(&quot;accept&quot;)</span>
 <span class="pc bpc" id="L25" title="1 of 2 branches missed.">            ?.toList()</span>
 <span class="pc bpc" id="L26" title="1 of 2 branches missed.">            ?.flatMap { it.split(&quot;,&quot;) }</span>
-<span class="fc" id="L27">            ?.map { parseContentType(it) }</span>
+<span class="pc" id="L27">            ?.map { parseContentType(it) }</span>
 <span class="nc" id="L28">            ?: emptyList()</span>
     }
 
