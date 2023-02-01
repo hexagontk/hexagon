@@ -1,6 +1,6 @@
 package com.hexagonkt.core.media
 
-import com.hexagonkt.core.disableChecks
+import com.hexagonkt.core.assertEnabled
 import com.hexagonkt.core.media.MediaTypeGroup.ANY
 
 /**
@@ -14,10 +14,7 @@ data class CustomMedia(
     override val fullType: String = if (group == ANY) "*/$type" else "${group.text}/$type"
 
     init {
-        if (!disableChecks) {
-            require(type.matches(mediaTypeFormat)) {
-                "Type must match '$mediaTypeFormat': $type"
-            }
-        }
+        if (assertEnabled)
+            require(type.matches(mediaTypeFormat)) { "Type must match '$mediaTypeFormat': $type" }
     }
 }

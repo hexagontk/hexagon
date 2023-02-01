@@ -13,7 +13,13 @@ data class ChainHandler<T : Any>(
     constructor(vararg handlers: Handler<T>) : this(handlers.toList(), { true })
 
     override val callback: Callback<T> = {
-        val nestedResult = it.copy(event = it.event, nextHandlers = handlers).next()
-        nestedResult.copy(currentFilter = predicate, nextHandlers = it.nextHandlers).next()
+        val nestedContext = it.with(event = it.event, nextHandlers = handlers, nextHandler = 0)
+        val nestedResult = nestedContext.next()
+        val followUpContext = nestedResult.with(
+            predicate = predicate,
+            nextHandlers = it.nextHandlers,
+            nextHandler = it.nextHandler
+        )
+        followUpContext.next()
     }
 }

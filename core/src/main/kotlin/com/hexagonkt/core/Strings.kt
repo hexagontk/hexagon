@@ -1,6 +1,7 @@
 package com.hexagonkt.core
 
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.io.InputStream
 import kotlin.IllegalArgumentException
 import java.lang.System.getProperty
@@ -9,6 +10,9 @@ import java.net.URI
 import java.net.URL
 import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -20,6 +24,23 @@ private val base64Decoder: Base64.Decoder = Base64.getDecoder()
 
 /** Runtime specific end of line. */
 val eol: String by lazy { getProperty("line.separator") }
+
+/** Supported types for the [parseOrNull] function. */
+val parsedClasses: Set<KClass<*>> = setOf(
+    Boolean::class,
+    Int::class,
+    Long::class,
+    Float::class,
+    Double::class,
+    String::class,
+    InetAddress::class,
+    URL::class,
+    URI::class,
+    File::class,
+    LocalDate::class,
+    LocalTime::class,
+    LocalDateTime::class,
+)
 
 /**
  * Encode the content of this byteArray to base64.
@@ -133,7 +154,7 @@ fun <T : Enum<*>> String.toEnumOrNull(converter: (String) -> T): T? =
  * @return .
  */
 @Suppress("UNCHECKED_CAST") // All allowed types are checked at runtime
-fun <T : Any> String?.toOrNull(type: KClass<T>): T? =
+fun <T : Any> String?.parseOrNull(type: KClass<T>): T? =
     this?.let {
         when (type) {
             Boolean::class -> this.toBooleanStrictOrNull()
@@ -145,6 +166,10 @@ fun <T : Any> String?.toOrNull(type: KClass<T>): T? =
             InetAddress::class -> this.let(InetAddress::getByName)
             URL::class -> this.let(::URL)
             URI::class -> this.let(::URI)
+            File::class -> this.let(::File)
+            LocalDate::class -> LocalDate.parse(this)
+            LocalTime::class -> LocalTime.parse(this)
+            LocalDateTime::class -> LocalDateTime.parse(this)
             else -> error("Unsupported type: ${type.qualifiedName}")
         }
     } as? T
@@ -161,29 +186,41 @@ fun Regex.findGroups(text: String): List<MatchGroup> =
         .filterNotNull()
         .drop(1)
 
-/**
- * Transform the target string from snake case to camel case.
- */
-fun String.snakeToCamel(): String =
-    snakeToWords().wordsToCamel()
+fun String.camelToWords(): List<String> =
+    split("(?=\\p{Upper}\\p{Lower})".toRegex()).toWords()
 
 fun String.snakeToWords(): List<String> =
-    this.split("_").filter(String::isNotEmpty).map(String::lowercase)
+    split("_").toWords()
 
-fun List<String>.wordsToSnake(): String =
-    joinToString("_").replaceFirstChar(Char::lowercase)
+fun String.kebabToWords(): List<String> =
+    split("-").toWords()
 
-fun String.camelToWords(): List<String> =
-    split("(?=\\p{Upper}\\p{Lower})".toRegex()).map(String::lowercase)
+fun List<String>.toWords(): List<String> =
+    filter(String::isNotEmpty).map(String::lowercase)
 
 fun List<String>.wordsToCamel(): String =
-    joinToString("") { it.replaceFirstChar(Char::uppercase) }.replaceFirstChar(Char::lowercase)
+    wordsToPascal().replaceFirstChar(Char::lowercase)
+
+fun List<String>.wordsToPascal(): String =
+    joinToString("") { it.replaceFirstChar(Char::uppercase) }
+
+fun List<String>.wordsToSnake(): String =
+    joinToString("_")
+
+fun List<String>.wordsToKebab(): String =
+    joinToString("-")
 
 fun List<String>.wordsToTitle(): String =
     joinToString(" ") { it.replaceFirstChar(Char::uppercase) }
 
 fun List<String>.wordsToSentence(): String =
     joinToString(" ").replaceFirstChar(Char::uppercase)
+
+/**
+ * Transform the target string from snake case to camel case.
+ */
+fun String.snakeToCamel(): String =
+    snakeToWords().wordsToCamel()
 
 fun Enum<*>.toWords(): String =
     toString().lowercase().replace("_", " ")

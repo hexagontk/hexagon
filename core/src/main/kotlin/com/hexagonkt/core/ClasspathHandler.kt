@@ -1,14 +1,10 @@
 package com.hexagonkt.core
 
-import com.hexagonkt.core.logging.Logger
 import java.net.URL
 import java.net.URLConnection
 import java.net.URLStreamHandler
 
 object ClasspathHandler : URLStreamHandler() {
-
-    // Logger needs to be lazy due to GraalVM native image generation constraints
-    private val logger: Logger by lazy { Logger(this::class) }
     private val classLoader: ClassLoader = Thread.currentThread().contextClassLoader
     private val protocolHandlers: Map<String, URLStreamHandler> = mapOf("classpath" to this)
 
@@ -23,7 +19,7 @@ object ClasspathHandler : URLStreamHandler() {
             }
         }
         catch (e: Error) {
-            logger.debug { "Classpath URL handler already registered" }
+            e.printStackTrace()
         }
     }
 

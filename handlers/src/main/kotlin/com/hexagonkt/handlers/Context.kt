@@ -5,21 +5,22 @@ package com.hexagonkt.handlers
  *
  * @param T Event type.
  */
-data class Context<T : Any>(
-    val event: T,
-    val currentFilter: Predicate<T>,
-    val nextHandlers: List<Handler<T>> = emptyList(),
-    val exception: Exception? = null,
-    val attributes: Map<*, *> = emptyMap<Any, Any>(),
-) {
+interface Context<T : Any> {
+    val event: T
+    val predicate: Predicate<T>
+    val nextHandlers: List<Handler<T>>
+    val nextHandler: Int
+    val exception: Exception?
+    val attributes: Map<*, *>
 
-    fun next(): Context<T> {
-        val matchingHandlers = nextHandlers.dropWhile { !it.predicate(this) }
-        val nextHandler = matchingHandlers.firstOrNull()
-        return nextHandler
-            ?.process(
-                copy(currentFilter = nextHandler.predicate, nextHandlers = matchingHandlers.drop(1))
-            )
-            ?: this
-    }
+    fun with(
+        event: T = this.event,
+        predicate: Predicate<T> = this.predicate,
+        nextHandlers: List<Handler<T>> = this.nextHandlers,
+        nextHandler: Int = this.nextHandler,
+        exception: Exception? = this.exception,
+        attributes: Map<*, *> = this.attributes,
+    ): Context<T>
+
+    fun next(): Context<T>
 }

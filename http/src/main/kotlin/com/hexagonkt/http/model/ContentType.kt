@@ -1,7 +1,7 @@
 package com.hexagonkt.http.model
 
 import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.core.disableChecks
+import com.hexagonkt.core.assertEnabled
 import java.nio.charset.Charset
 
 data class ContentType(
@@ -22,7 +22,7 @@ data class ContentType(
     }
 
     init {
-        if (!disableChecks) {
+        if (assertEnabled) {
             val a = if (boundary == null) 0 else 1
             val b = if (charset == null) 0 else 1
             val c = if (q == null) 0 else 1

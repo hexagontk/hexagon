@@ -35,10 +35,10 @@ repositories {
 }
 
 dependencies {
-    final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.13.3"
+    final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.13.4"
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.9.2"
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter:$scriptJunitVersion")
@@ -50,15 +50,23 @@ dependencies {
 // Replace build variables in resource files
 processResources {
     [ "properties", "ini", "cfg", "txt", "html", "xml", "json", "yaml", "svg" ].each { String ext ->
-        final Map<String, ?> stringProperties = project.getProperties()
+        final Map<String, ?> projectStringProperties = project.getProperties()
+            .findAll { it.value instanceof String }
+        final Map<String, ?> rootStringProperties = rootProject.getProperties()
             .findAll { it.value instanceof String }
 
         filesMatching("**/*.$ext") {
             filter {
                 String content = it
 
-                stringProperties.entrySet().forEach { entry ->
+                projectStringProperties.entrySet().forEach { entry ->
                     content = content.replace("\${project.${entry.key}}", entry.value.toString())
+                }
+
+                rootStringProperties.entrySet().forEach { entry ->
+                    final String k = entry.key
+                    final String v = entry.value.toString()
+                    content = content.replace("\${rootProject.$k}", v.toString())
                 }
 
                 content
@@ -91,7 +99,15 @@ tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOpti
 tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
 
 clean {
-    delete("build", "log", "out", ".vertx", "file-uploads")
+    delete("log", "out", ".vertx", "file-uploads", "kotlin-js-store")
+    delete(
+        "$rootDir/build",
+        "$rootDir/log",
+        "$rootDir/out",
+        "$rootDir/.vertx",
+        "$rootDir/file-uploads",
+        "$rootDir/kotlin-js-store"
+    )
 
     delete(
         fileTree(rootDir) { include("**/*.log") },
@@ -121,7 +137,7 @@ tasks.withType(Test) { testTask ->
     testTask.useJUnitPlatform()
     testTask.systemProperties(project.getProperties().findAll { it.value instanceof String })
     testTask.systemProperty("file.encoding", "utf-8")
-    testTask.jvmArgs('--enable-preview')
+    testTask.jvmArgs('--enable-preview', '-Xshare:off')
 
     testTask.testLogging {
         if (logger.isInfoEnabled())

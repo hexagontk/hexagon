@@ -21,8 +21,8 @@ internal class HelpersTest {
         }
     }
 
-    @Test fun `Production mode is disabled by default`() {
-        assertFalse(disableChecks)
+    @Test fun `Assure asserts are enabled in tests`() {
+        assertEquals(true, assertEnabled)
     }
 
     @Test fun `Check multiple errors`() {
@@ -30,7 +30,7 @@ internal class HelpersTest {
             check(
                 "Test multiple exceptions",
                 { require(false) { "Sample error" } },
-                { println("Good block")},
+                { out("Good block") },
                 { error("Bad state") },
             )
         }
@@ -42,16 +42,23 @@ internal class HelpersTest {
 
         check(
             "No exception thrown",
-            { println("Good block")},
-            { println("Shouldn't throw an exception")},
+            { out("Good block") },
+            { out("Shouldn't throw an exception") },
         )
     }
 
-    @Test fun `Print helper`() {
-        assertEquals("text\n", "echo text".exec().println("command output: "))
-        assertEquals("text\n", "echo text".exec().println())
-        assertEquals(null, null.println())
-        assertEquals("text", "text".println())
+    @Test fun `Print stdout helper`() {
+        assertEquals("text\n", "echo text".exec().out("command output: "))
+        assertEquals("text\n", "echo text".exec().out())
+        assertEquals(null, null.out())
+        assertEquals("text", "text".out())
+    }
+
+    @Test fun `Print stderr helper`() {
+        assertEquals("text\n", "echo text".exec().err("command output: "))
+        assertEquals("text\n", "echo text".exec().err())
+        assertEquals(null, null.err())
+        assertEquals("text", "text".err())
     }
 
     @Test fun `Process execution works as expected`() {
@@ -66,7 +73,7 @@ internal class HelpersTest {
         assertEquals("str\n", "echo str".exec())
     }
 
-    @Test fun `System setting works ok` () {
+    @Test fun `System setting works ok`() {
         System.setProperty("system_property", "value")
 
         assert(Jvm.systemSetting<String>("system_property") == "value")
@@ -78,15 +85,15 @@ internal class HelpersTest {
         assert(Jvm.systemSetting<String>("PATH") == "path override")
     }
 
-    @Test fun `Filtering an exception with an empty string do not change the stack` () {
-        val t = RuntimeException ()
-        assert (t.stackTrace?.contentEquals(t.filterStackTrace ("")) ?: false)
+    @Test fun `Filtering an exception with an empty string do not change the stack`() {
+        val t = RuntimeException()
+        assert(t.stackTrace?.contentEquals(t.filterStackTrace("")) ?: false)
     }
 
-    @Test fun `Filtering an exception with a package only returns frames of that package` () {
-        val t = RuntimeException ()
-        t.filterStackTrace ("com.hexagonkt.core").forEach {
-            assert (it.className.startsWith ("com.hexagonkt.core"))
+    @Test fun `Filtering an exception with a package only returns frames of that package`() {
+        val t = RuntimeException()
+        t.filterStackTrace("com.hexagonkt.core").forEach {
+            assert(it.className.startsWith("com.hexagonkt.core"))
         }
     }
 
@@ -96,31 +103,43 @@ internal class HelpersTest {
         }
     }
 
-    @Test fun `Printing an exception returns its stack trace in the string` () {
-        val e = RuntimeException ("Runtime error")
-        val trace = e.toText ()
-        assert (trace.startsWith ("java.lang.RuntimeException"))
-        assert (trace.contains ("\tat ${HelpersTest::class.java.name}"))
+    @Test fun `Printing an exception returns its stack trace in the string`() {
+        val e = RuntimeException("Runtime error")
+        val trace = e.toText()
+        assert(trace.startsWith("java.lang.RuntimeException"))
+        assert(trace.contains("\tat ${HelpersTest::class.java.name}"))
+        assert(trace.contains("\tat org.junit.platform"))
+        val filteredTrace = e.toText("com.hexagonkt")
+        assert(filteredTrace.startsWith("java.lang.RuntimeException"))
+        assert(filteredTrace.contains("\tat ${HelpersTest::class.java.name}"))
+        assertFalse(filteredTrace.contains("\tat org.junit.platform"))
     }
 
-    @Test fun `Printing an exception with a cause returns its stack trace in the string` () {
-        val e = RuntimeException ("Runtime error", IllegalStateException ("invalid state"))
-        val trace = e.toText ()
-        assert (trace.startsWith ("java.lang.RuntimeException"))
-        assert (trace.contains ("\tat ${HelpersTest::class.java.name}"))
+    @Test fun `Printing an exception with a cause returns its stack trace in the string`() {
+        val e = RuntimeException("Runtime error", IllegalStateException("invalid state"))
+        val trace = e.toText()
+        assert(trace.startsWith("java.lang.RuntimeException"))
+        assert(trace.contains("invalid state"))
+        assert(trace.contains("\tat ${HelpersTest::class.java.name}"))
+        assert(trace.contains("\tat org.junit.platform"))
+        val filteredTrace = e.toText("com.hexagonkt")
+        assert(filteredTrace.startsWith("java.lang.RuntimeException"))
+        assert(filteredTrace.contains("invalid state"))
+        assert(filteredTrace.contains("\tat ${HelpersTest::class.java.name}"))
+        assertFalse(filteredTrace.contains("\tat org.junit.platform"))
     }
 
-    @Test fun `Multiple retry errors throw an exception` () {
+    @Test fun `Multiple retry errors throw an exception`() {
         val retries = 3
         try {
-            retry(retries, 1) { throw RuntimeException ("Retry error") }
+            retry(retries, 1) { throw RuntimeException("Retry error") }
         }
         catch (e: MultipleException) {
-            assert (e.causes.size == retries)
+            assertEquals(retries, e.causes.size)
         }
     }
 
-    @Test fun `Retry does not allow invalid parameters` () {
+    @Test fun `Retry does not allow invalid parameters`() {
         assertFailsWith<IllegalArgumentException> { retry(0, 1) {} }
         assertFailsWith<IllegalArgumentException> { retry(1, -1) {} }
         retry(1, 0) {} // Ok case

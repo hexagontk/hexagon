@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.callbacks
 
-import com.hexagonkt.handlers.Context
+import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.http.model.ClientErrorStatus
 import com.hexagonkt.http.model.ContentType
@@ -78,7 +78,7 @@ internal class UrlCallbackTest {
     ): HttpServerResponse =
         UrlCallback(URL(url))(
             HttpServerContext(
-                Context(
+                EventContext(
                     HttpServerCall(HttpServerRequest(path = requestPath)),
                     HttpServerPredicate(pathPattern = TemplatePathPattern(pathPattern))
                 )

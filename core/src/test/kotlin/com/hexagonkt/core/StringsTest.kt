@@ -1,8 +1,16 @@
 package com.hexagonkt.core
 
+import com.hexagonkt.core.StringsTest.Size.S
 import com.hexagonkt.core.StringsTest.Size.X_L
 import io.mockk.every
 import io.mockk.mockk
+import java.io.File
+import java.net.InetAddress
+import java.net.URI
+import java.net.URL
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import kotlin.test.Test
 import kotlin.IllegalArgumentException
 import kotlin.test.*
@@ -12,6 +20,37 @@ internal class StringsTest {
 
     enum class Size { S, M, L, X_L }
 
+    @Test fun `Parsed classes are the ones supported by parseOrNull`() {
+        val tests = mapOf(
+            Boolean::class to "true",
+            Int::class to "1",
+            Long::class to "2",
+            Float::class to "3.2",
+            Double::class to "4.3",
+            String::class to "text",
+            InetAddress::class to "127.0.0.1",
+            URL::class to "http://example.com",
+            URI::class to "schema://host:0/file",
+            File::class to "/absolute/file.txt",
+            LocalDate::class to "2020-12-31",
+            LocalTime::class to "23:59",
+            LocalDateTime::class to "2021-11-21T22:45:30",
+        )
+
+        assertEquals(parsedClasses, tests.keys)
+        tests.forEach { (k, v) -> assertNotNull(v.parseOrNull(k)) }
+    }
+
+    @Test fun `String transformations work properly`() {
+        assertEquals(File("dir/f.txt"), "dir/f.txt".parseOrNull(File::class))
+        assertEquals(LocalDate.parse("2020-02-28"), "2020-02-28".parseOrNull(LocalDate::class))
+        assertEquals(LocalTime.parse("21:20:10"), "21:20:10".parseOrNull(LocalTime::class))
+        assertEquals(
+            LocalDateTime.parse("2020-02-28T21:20:10"),
+            "2020-02-28T21:20:10".parseOrNull(LocalDateTime::class)
+        )
+    }
+
     @Test fun `String case can changed`() {
         val words = listOf("these", "are", "a", "few", "words")
         assertEquals("These Are A Few Words", words.wordsToTitle())
@@ -20,18 +59,18 @@ internal class StringsTest {
     }
 
     @Test fun `Strings can be converted to enum values`() {
-        assertEquals(Size.S, "s".toEnum(Size::valueOf))
-        assertEquals(Size.S, "S".toEnum(Size::valueOf))
-        assertEquals(Size.X_L, "x l".toEnum(Size::valueOf))
-        assertEquals(Size.X_L, "X L".toEnum(Size::valueOf))
-        assertEquals(Size.X_L, "X_L".toEnum(Size::valueOf))
+        assertEquals(S, "s".toEnum(Size::valueOf))
+        assertEquals(S, "S".toEnum(Size::valueOf))
+        assertEquals(X_L, "x l".toEnum(Size::valueOf))
+        assertEquals(X_L, "X L".toEnum(Size::valueOf))
+        assertEquals(X_L, "X_L".toEnum(Size::valueOf))
 
         val e = assertFailsWith<IllegalArgumentException> {
             assertEquals(Size.M, "z".toEnum(Size::valueOf))
         }
         assertEquals("No enum constant com.hexagonkt.core.StringsTest.Size.Z", e.message)
 
-        assertEquals(Size.S, "s".toEnumOrNull(Size::valueOf))
+        assertEquals(S, "s".toEnumOrNull(Size::valueOf))
         assertNull("z".toEnumOrNull(Size::valueOf))
     }
 
@@ -147,6 +186,15 @@ internal class StringsTest {
         assertEquals("alfaBeta", "alfa_beta".snakeToCamel())
         assertEquals("alfaBeta", "alfa__beta".snakeToCamel())
         assertEquals("alfaBeta", "alfa___beta".snakeToCamel())
+    }
+
+    @Test fun `Converting valid kebab works properly`() {
+        assertEquals(listOf("alfa", "beta"), "alfa-beta".kebabToWords())
+        assertEquals(listOf("alfa", "beta"), "alfa--beta".kebabToWords())
+        assertEquals(listOf("alfa", "beta"), "alfa---beta".kebabToWords())
+
+        assertEquals("alfa-beta", listOf("alfa", "beta").wordsToKebab())
+        assertEquals("alfa", listOf("alfa").wordsToKebab())
     }
 
     @Test fun `Converting valid camel case texts to snake case succeed`() {

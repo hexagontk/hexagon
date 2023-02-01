@@ -1,21 +1,13 @@
 package com.hexagonkt.handlers
 
-import com.hexagonkt.core.fail
-import com.hexagonkt.core.logging.LoggingLevel.OFF
-import com.hexagonkt.core.logging.LoggingLevel.TRACE
-import com.hexagonkt.core.logging.LoggingManager
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import kotlin.IllegalStateException
 import kotlin.system.measureNanoTime
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
+import com.hexagonkt.handlers.HandlerTest.Companion.process
 
-/*
- * IMPORTANT: Using `runBlockingTest` skip test delays (be aware if timing seems odd)
- */
-@TestInstance(PER_CLASS)
 internal class ChainHandlerTest {
 
     private val testChain = ChainHandler(
@@ -34,23 +26,14 @@ internal class ChainHandlerTest {
         )
     )
 
-    @BeforeAll fun enableLogging() {
-        LoggingManager.setLoggerLevel(OFF)
-        LoggingManager.setLoggerLevel("com.hexagonkt.core", TRACE)
-    }
-
-    @AfterAll fun disableLogging() {
-        LoggingManager.setLoggerLevel(OFF)
-    }
-
     @Test fun `Build a nested chain of handlers`() {
         var flags = listOf(true, true, true, true)
 
         val chain = ChainHandler(
-            OnHandler({ flags[0] }) { it.copy(event = "a") },
-            OnHandler({ flags[1] }) { it.copy(event = "b") },
-            OnHandler({ flags[2] }) { it.copy(event = "c") },
-            OnHandler({ flags[3] }) { it.copy(event = "d") },
+            OnHandler({ flags[0] }) { it.with(event = "a") },
+            OnHandler({ flags[1] }) { it.with(event = "b") },
+            OnHandler({ flags[2] }) { it.with(event = "c") },
+            OnHandler({ flags[3] }) { it.with(event = "d") },
         )
 
         assertEquals("d", chain.process("_"))
@@ -87,19 +70,19 @@ internal class ChainHandlerTest {
         val chainHandler =
             ChainHandler(
                 AfterHandler(filterAE) {
-                    assertEquals(filterAE, it.currentFilter)
+                    assertEquals(filterAE, it.predicate)
                     it.appendText("<A1>")
                 },
                 AfterHandler(filterBF) {
-                    assertEquals(filterBF, it.currentFilter)
+                    assertEquals(filterBF, it.predicate)
                     it.appendText("<A2>")
                 },
                 OnHandler(filterCG) {
-                    assertEquals(filterCG, it.currentFilter)
+                    assertEquals(filterCG, it.predicate)
                     it.appendText("<B1>")
                 },
                 OnHandler(filterDH) {
-                    assertEquals(filterDH, it.currentFilter)
+                    assertEquals(filterDH, it.predicate)
                     it.appendText("<B2>")
                 },
             )
@@ -216,9 +199,9 @@ internal class ChainHandlerTest {
             OnHandler { it.appendText("<B1>")},
             FilterHandler({ it.hasLetters('a', 'b') }) {
                 if (it.event.startsWith("a"))
-                    it.copy(event = it.event + "<PASS>").next()
+                    it.with(event = it.event + "<PASS>").next()
                 else
-                    it.copy(event = it.event + "<HALT>")
+                    it.with(event = it.event + "<HALT>")
             },
             OnHandler { it.appendText("<B2>")},
         )
@@ -240,9 +223,9 @@ internal class ChainHandlerTest {
                 AfterHandler { it.appendText("<A1>") },
                 FilterHandler({ it.hasLetters('a', 'b') }) {
                     if (it.event.startsWith("a"))
-                        it.copy(event = it.event + "<PASS>").next()
+                        it.with(event = it.event + "<PASS>").next()
                     else
-                        it.copy(event = it.event + "<HALT>")
+                        it.with(event = it.event + "<HALT>")
                 },
                 OnHandler { it.appendText("<B2>")},
             ),
@@ -291,9 +274,9 @@ internal class ChainHandlerTest {
                 OnHandler { it.appendText("<B1>")},
                 FilterHandler({ it.hasLetters('a', 'b') }) {
                     if (it.event.startsWith("a"))
-                        it.copy(event = it.event + "<PASS>").next()
+                        it.with(event = it.event + "<PASS>").next()
                     else
-                        it.copy(event = it.event + "<HALT>")
+                        it.with(event = it.event + "<HALT>")
                 },
                 OnHandler { it.appendText("<B2>")},
                 OnHandler { it.appendText("<A1>") },
@@ -314,7 +297,7 @@ internal class ChainHandlerTest {
 
     @Test fun `Exceptions don't prevent handlers execution`() {
         val chain = ChainHandler<String>(
-            OnHandler { fail },
+            OnHandler { error("Fail") },
             AfterHandler { it.appendText("<A0>") },
             ChainHandler(
                 { it.hasLetters('a', 'b', 'c') },
@@ -325,9 +308,9 @@ internal class ChainHandlerTest {
                 },
                 FilterHandler({ it.hasLetters('a', 'b') }) {
                     if (it.event.startsWith("a"))
-                        it.copy(event = it.event + "<PASS>").next()
+                        it.with(event = it.event + "<PASS>").next()
                     else
-                        it.copy(event = it.event + "<HALT>")
+                        it.with(event = it.event + "<HALT>")
                 },
                 OnHandler { it.appendText("<B2>") },
             ),
@@ -346,7 +329,7 @@ internal class ChainHandlerTest {
 
     @Test fun `Exceptions don't prevent handlers execution in after`() {
         val chain1 = ChainHandler<String>(
-            AfterHandler { fail },
+            AfterHandler { error("Fail") },
             AfterHandler { it.appendText("<A0>") },
         )
 
@@ -357,7 +340,7 @@ internal class ChainHandlerTest {
                 assertTrue(it.exception is IllegalStateException)
                 it.appendText("<A0>")
             },
-            AfterHandler { fail },
+            AfterHandler { error("Fail") },
         )
 
         assertEquals("a<A0>", chain2.process("a"))
@@ -365,61 +348,61 @@ internal class ChainHandlerTest {
 
     @Test fun `Exceptions don't prevent handlers execution in filters`() {
         val chain = ChainHandler<String>(
-            FilterHandler { fail },
+            FilterHandler { error("Fail") },
             OnHandler { it.appendText("<B0>") },
         )
 
-        val actual = chain.process(Context("a", chain.predicate))
+        val actual = chain.process(EventContext("a", chain.predicate))
         assertIs<IllegalStateException>(actual.exception)
         assertEquals("a", actual.event)
     }
 
     @Test fun `Context attributes are passed correctly`() {
         val chain = ChainHandler<String>(
-            OnHandler { fail },
-            AfterHandler { it.copy(attributes = it.attributes + ("A0" to "A0")) },
+            OnHandler { error("Fail") },
+            AfterHandler { it.with(attributes = it.attributes + ("A0" to "A0")) },
             ChainHandler(
                 { it.hasLetters('a', 'b', 'c') },
-                OnHandler { it.copy(attributes = it.attributes + ("B1" to "B1")) },
+                OnHandler { it.with(attributes = it.attributes + ("B1" to "B1")) },
                 AfterHandler {
                     assertTrue(it.exception is IllegalStateException)
-                    it.copy(attributes = it.attributes + ("A1" to "A1"))
+                    it.with(attributes = it.attributes + ("A1" to "A1"))
                 },
                 FilterHandler({ it.hasLetters('a', 'b') }) {
                     if (it.event.startsWith("a"))
-                        it.copy(
+                        it.with(
                             event = it.event + "<PASS>",
                             attributes = it.attributes + ("passed" to true)
                         ).next()
                     else
-                        it.copy(event = it.event + "<HALT>")
+                        it.with(event = it.event + "<HALT>")
                 },
                 OnHandler {
                     if (it.event.startsWith("a"))
                         assertEquals(true, it.attributes["passed"])
-                    it.copy(attributes = it.attributes + ("B2" to "B2") - "passed")
+                    it.with(attributes = it.attributes + ("B2" to "B2") - "passed")
                 },
             ),
         )
 
         // Chained filter
-        val actual1 = chain.process(Context("a", chain.predicate))
+        val actual1 = chain.process(EventContext("a", chain.predicate))
         assertEquals("a<PASS>", actual1.event)
         val expected1 = mapOf<Any, Any>("B1" to "B1", "B2" to "B2", "A1" to "A1", "A0" to "A0")
         assertEquals(expected1, actual1.attributes)
         // Filter halting
-        val actual2 = chain.process(Context("b", chain.predicate))
+        val actual2 = chain.process(EventContext("b", chain.predicate))
         assertEquals("b<HALT>", actual2.event)
         val expected2 = mapOf<Any, Any>("B1" to "B1", "A1" to "A1", "A0" to "A0")
         assertEquals(expected2, actual2.attributes)
         // Filter not matched
-        val actual3 = chain.process(Context("c", chain.predicate))
+        val actual3 = chain.process(EventContext("c", chain.predicate))
         assertEquals("c", actual3.event)
         val expected3 = mapOf<Any, Any>("B1" to "B1", "B2" to "B2", "A1" to "A1", "A0" to "A0")
         assertEquals(expected3, actual3.attributes)
 
         // Nested chain unmatched
-        val actual4 = chain.process(Context("d", chain.predicate))
+        val actual4 = chain.process(EventContext("d", chain.predicate))
         assertEquals("d", actual4.event)
         val expected4 = mapOf<Any, Any>("A0" to "A0")
         assertEquals(expected4, actual4.attributes)
@@ -429,7 +412,7 @@ internal class ChainHandlerTest {
         letters.any { event.contains(it) }
 
     private fun Context<String>.appendText(text: String): Context<String> =
-        copy(event = event + text)
+        with(event = event + text)
 
     private fun time(times: Int, block: () -> Unit): Double =
         (0 until times).minOf {

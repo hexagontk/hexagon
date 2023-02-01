@@ -1,34 +1,22 @@
 package com.hexagonkt.handlers
 
-import com.hexagonkt.core.logging.LoggingLevel.OFF
-import com.hexagonkt.core.logging.LoggingLevel.TRACE
-import com.hexagonkt.core.logging.LoggingManager
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import kotlin.test.Test
-import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
-@TestInstance(PER_CLASS)
 internal class HandlerTest {
 
-    @BeforeAll fun enableLogging() {
-        LoggingManager.setLoggerLevel(OFF)
-        LoggingManager.setLoggerLevel("com.hexagonkt.core", TRACE)
-    }
-
-    @AfterAll fun disableLogging() {
-        LoggingManager.setLoggerLevel(OFF)
+    internal companion object {
+        fun <T : Any> Handler<T>.process(event: T): T =
+            process(EventContext(event, predicate)).event
     }
 
     @Test fun `Calling next in the last handler returns the last context`() {
 
         val chain = ChainHandler<String>(
-            OnHandler { it.copy(event = it.event + "_") },
+            OnHandler { it.with(event = it.event + "_") },
             FilterHandler {
                 it.next().next()
             },
@@ -40,11 +28,11 @@ internal class HandlerTest {
 
     @Test fun `Error in a filter returns proper exception in context`() {
         val filter = FilterHandler<String> { error("failure") }
-        assertEquals("failure", filter.process(Context("a", filter.predicate)).exception?.message)
+        assertEquals("failure", filter.process(EventContext("a", filter.predicate)).exception?.message)
     }
 
     @Test fun `When a callback completes, then the result is returned`() {
-        val filter = FilterHandler<String> { it.copy(it.event + ":OK") }
+        val filter = FilterHandler<String> { it.with(it.event + ":OK") }
         assertEquals("Message:OK", filter.process("Message"))
     }
 
@@ -55,7 +43,7 @@ internal class HandlerTest {
             AfterHandler { error("After Failure") },
         )
         .forEach {
-            val exception = it.process(Context(Unit, it.predicate)).exception
+            val exception = it.process(EventContext(Unit, it.predicate)).exception
             val message = exception?.message ?: fail("Exception message missing")
             assertIs<IllegalStateException>(exception)
             assertTrue(message.matches("(Filter|Before|After) Failure".toRegex()))

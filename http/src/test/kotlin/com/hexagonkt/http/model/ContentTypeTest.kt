@@ -1,7 +1,6 @@
 package com.hexagonkt.http.model
 
 import com.hexagonkt.core.media.TextMedia.PLAIN
-import com.hexagonkt.core.disableChecks
 import com.hexagonkt.http.parseContentType
 import kotlin.test.Test
 import kotlin.IllegalStateException
@@ -90,23 +89,6 @@ internal class ContentTypeTest {
         assertFailsWith<IllegalArgumentException> { ContentType(PLAIN, " ") }
         assertFailsWith<IllegalArgumentException> { ContentType(PLAIN, q = -0.1) }
         assertFailsWith<IllegalArgumentException> { ContentType(PLAIN, q = 1.1) }
-    }
-
-    @Test fun `Checks are ignored in production mode`() {
-        disableChecks = true
-
-        val charset = Charset.defaultCharset()
-        ContentType(PLAIN, "abc", charset, 0.1)
-        ContentType(PLAIN, "abc", charset)
-        ContentType(PLAIN, null, charset, 0.1)
-        ContentType(PLAIN, "abc", null, 0.1)
-
-        ContentType(PLAIN, "")
-        ContentType(PLAIN, " ")
-        ContentType(PLAIN, q = -0.1)
-        ContentType(PLAIN, q = 1.1)
-
-        disableChecks = false
     }
 
     @Test fun `HttpPart hashcode behaves as expected`() {

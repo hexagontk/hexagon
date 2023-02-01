@@ -4,7 +4,7 @@ package com.hexagonkt.http.patterns
  * TODO Move http_server handlers here and generalize to allow them to be used by server and client
  */
 
-import com.hexagonkt.core.disableChecks
+import com.hexagonkt.core.assertEnabled
 
 fun createPathPattern(pattern: String, prefix: Boolean): PathPattern =
     when {
@@ -13,7 +13,7 @@ fun createPathPattern(pattern: String, prefix: Boolean): PathPattern =
     }
 
 internal fun checkPathPatternPrefix(pattern: String, allowedPrefixes: List<String> = emptyList()) {
-    if (!disableChecks)
+    if (assertEnabled)
         require(
             pattern.isEmpty()
             || pattern.startsWith('/')
@@ -24,7 +24,7 @@ internal fun checkPathPatternPrefix(pattern: String, allowedPrefixes: List<Strin
 }
 
 internal fun checkPathPatternVariables(pattern: String) {
-    if (!disableChecks) {
+    if (assertEnabled) {
         require(!pattern.contains(":")) {
             "Variables have {var} format. Path cannot have ':' $pattern"
         }

@@ -2,9 +2,10 @@ package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.handlers.Context
 import com.hexagonkt.core.media.TextMedia
-import com.hexagonkt.core.disableChecks
+import com.hexagonkt.core.assertEnabled
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.toText
+import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
@@ -18,11 +19,11 @@ import java.security.cert.X509Certificate
 import java.util.concurrent.Flow.Publisher
 
 // TODO Add exception parameter to 'send*' methods
-data class HttpServerContext(val context: Context<HttpServerCall>) {
-    val attributes: Map<*, *> = context.attributes
+data class HttpServerContext(
+    val context: Context<HttpServerCall>
+): Context<HttpServerCall> by context {
     val request: HttpServerRequestPort = context.event.request
     val response: HttpServerResponse = context.event.response
-    val exception: Exception? = context.exception
 
     val method: HttpMethod by lazy { request.method }
     val protocol: HttpProtocol by lazy { request.protocol }
@@ -46,10 +47,10 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
     val status: HttpStatus = response.status
 
     val pathParameters: Map<String, String> by lazy {
-        val httpHandler = context.currentFilter as HttpServerPredicate
+        val httpHandler = context.predicate as HttpServerPredicate
         val pattern = httpHandler.pathPattern
 
-        if (!disableChecks)
+        if (assertEnabled)
             check(!(pattern.prefix)) { "Loading path parameters not allowed for paths" }
 
         pattern.extractParameters(request.path)
@@ -60,9 +61,9 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         response: HttpServerResponse = HttpServerResponse(),
         predicate: HttpServerPredicate = HttpServerPredicate(),
         attributes: Map<*, *> = emptyMap<Any, Any>(),
-    ) : this(Context(HttpServerCall(request, response), predicate, attributes = attributes))
+    ) : this(EventContext(HttpServerCall(request, response), predicate, attributes = attributes))
 
-    fun next(): HttpServerContext =
+    override fun next(): HttpServerContext =
         HttpServerContext(context.next())
 
     fun success(
@@ -239,7 +240,7 @@ data class HttpServerContext(val context: Context<HttpServerCall>) {
         response: HttpServerResponse, attributes: Map<*, *> = context.attributes
     ): HttpServerContext =
         HttpServerContext(
-            context.copy(
+            context.with(
                 event = context.event.copy(response = response),
                 attributes = attributes
             )

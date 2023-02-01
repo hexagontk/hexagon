@@ -1,10 +1,11 @@
 package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.handlers.ChainHandler
-import com.hexagonkt.handlers.Context
+import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.handlers.Handler
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.toText
+import com.hexagonkt.handlers.Context
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
@@ -55,13 +56,13 @@ data class PathHandler(
         processContext(request).event.response
 
     fun processContext(request: HttpServerRequestPort): Context<HttpServerCall> =
-        process(Context(HttpServerCall(request = request), predicate)).let {
+        process(EventContext(HttpServerCall(request = request), predicate)).let {
             val event = it.event
             val response = event.response
             val exception = it.exception
 
             if (exception != null && response.status.type != SERVER_ERROR)
-                it.copy(
+                it.with(
                     event = event.copy(
                         response = response.copy(
                             body = exception.toText(),

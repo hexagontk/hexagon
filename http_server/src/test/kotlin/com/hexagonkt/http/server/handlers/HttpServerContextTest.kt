@@ -1,9 +1,8 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.handlers.Context
+import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
-import com.hexagonkt.core.disableChecks
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.HttpMethod.*
@@ -67,17 +66,6 @@ internal class HttpServerContextTest {
         assertSame(context.status, context.context.event.response.status)
     }
 
-    @Test fun `Loading path parameters fails for prefixes`() {
-        val serverContext = HttpServerContext(
-            request = httpServerRequest(),
-            predicate = HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}", true)),
-        )
-
-        disableChecks = true
-        assertEquals(mapOf("p1" to "v1", "0" to "v1"), serverContext.pathParameters)
-        disableChecks = false
-    }
-
     @Test fun `Send without parameters return the same response`() {
         val serverContext = HttpServerContext(
             request = httpServerRequest(),
@@ -134,7 +122,7 @@ internal class HttpServerContextTest {
 
     @Test fun `'next' executes the next handler in the chain`() {
         val context = HttpServerContext(
-            Context(
+            EventContext(
                 HttpServerCall(httpServerRequest(), HttpServerResponse()),
                 HttpServerPredicate(),
                 listOf(

@@ -8,8 +8,4 @@ apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/detekt.gradle")
 
-description = "Handlers to be applied on events processing"
-
-dependencies {
-    "api"(project(":core"))
-}
+description = "Handlers to be applied on events processing."

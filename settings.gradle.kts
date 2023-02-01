@@ -6,7 +6,7 @@ include(
     "site",
     "starters",
 
-    // Internal modules
+    // Utility modules
     "core",
     "handlers",
     "http",
@@ -35,6 +35,7 @@ include(
     "http_server_netty_epoll",
     "templates_freemarker",
     "templates_pebble",
+    "templates_rocker",
 
     // Testing
     "http_test",

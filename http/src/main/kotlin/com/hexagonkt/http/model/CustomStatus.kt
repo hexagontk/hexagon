@@ -1,6 +1,6 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.core.disableChecks
+import com.hexagonkt.core.assertEnabled
 import com.hexagonkt.http.model.HttpStatusType.*
 import kotlin.IllegalArgumentException
 
@@ -22,7 +22,7 @@ data class CustomStatus(
     }
 
     init {
-        if (!disableChecks)
+        if (assertEnabled)
             require(code in 100..599) { INVALID_CODE_ERROR_MESSAGE + code }
     }
 }

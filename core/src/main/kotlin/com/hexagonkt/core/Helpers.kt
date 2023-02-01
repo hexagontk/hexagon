@@ -8,17 +8,17 @@ import java.util.*
 import java.util.concurrent.TimeUnit.SECONDS
 
 /**
- *  Disable heavy and optional checks in runtime. This flag can be enabled to get a small
- *  performance boost. Do *NOT* do this on development (it could mask problems) and enable it on
- *  production only if you have tested your application extensively.
- *
- *  It's initial value is taken from the `DISABLE_CHECKS` flag. See [Jvm.systemFlag] for details on
- *  how flags are checked on a JVM.
- *
- *  This variable can be changed on code to affect only certain parts of the code, however this is
- *  not advised and should be done carefully.
+ * This flag is true when assertions are enabled in the JVM (`-ea` flag). Assertions are disabled by
+ * default in the JVM, but they are enabled (and should be that way) on the tests.
  */
-var disableChecks: Boolean = Jvm.systemFlag("DISABLE_CHECKS")
+val assertEnabled: Boolean by lazy {
+    try {
+        assert(false)
+        false
+    } catch (_: AssertionError) {
+        true
+    }
+}
 
 /**
  * Print receiver to stdout. Convenient utility to debug variables quickly.
@@ -27,8 +27,18 @@ var disableChecks: Boolean = Jvm.systemFlag("DISABLE_CHECKS")
  * @param prefix String to print before the actual object information. Empty string by default.
  * @return Receiver's reference. Returned to allow method call chaining.
  */
-fun <T> T.println(prefix: String = ""): T =
-    apply { kotlin.io.println("$prefix$this") }
+fun <T> T.out(prefix: String = ""): T =
+    apply { println("$prefix$this") }
+
+/**
+ * Print receiver to stderr. Convenient utility to debug variables quickly.
+ *
+ * @receiver Reference to the object to print. Can be `null`.
+ * @param prefix String to print before the actual object information. Empty string by default.
+ * @return Receiver's reference. Returned to allow method call chaining.
+ */
+fun <T> T.err(prefix: String = ""): T =
+    apply { System.err.println("$prefix$this") }
 
 /**
  * Load a '*.properties' file from a URL transforming the content into a plain map. If the resource

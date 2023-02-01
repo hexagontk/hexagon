@@ -1,7 +1,6 @@
 package com.hexagonkt.core
 
 import kotlin.test.Test
-import java.util.*
 import kotlin.test.assertEquals
 
 internal class MapResourceBundleTest {
@@ -20,19 +19,19 @@ internal class MapResourceBundleTest {
 
     @Test fun `UrlResourceBundle loads parameters from classpath`() {
 
-        resourceBundle<SampleBundle>(Locale("es", "ES")).let {
+        resourceBundle<SampleBundle>(localeOf("es", "ES")).let {
             assertEquals("Nombre", it.getObject("name"))
             assertEquals("Dirección", it.getObject("address"))
             assertEquals("Age", it.getObject("age"))
         }
 
-        resourceBundle<SampleBundle>(Locale("es")).let {
+        resourceBundle<SampleBundle>(localeOf("es")).let {
             assertEquals("Nombre", it.getObject("name"))
             assertEquals("Dirección", it.getObject("address"))
             assertEquals("Age", it.getObject("age"))
         }
 
-        resourceBundle<SampleBundle>(Locale("en", "US")).let {
+        resourceBundle<SampleBundle>(localeOf("en", "US")).let {
             assertEquals("Name", it.getObject("name"))
             assertEquals("Address", it.getObject("address"))
             assertEquals("Age", it.getObject("age"))

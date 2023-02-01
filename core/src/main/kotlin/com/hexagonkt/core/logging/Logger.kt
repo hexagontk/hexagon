@@ -1,6 +1,5 @@
 package com.hexagonkt.core.logging
 
-import java.lang.System.nanoTime
 import kotlin.reflect.KClass
 import com.hexagonkt.core.Ansi.BLINK
 import com.hexagonkt.core.Ansi.BOLD
@@ -124,35 +123,6 @@ class Logger(val name: String) {
     }
 
     /**
-     * Log a message using [TRACE] level with the logging time.
-     *
-     * @param startNanos The start logging time in nanoseconds.
-     * @param message The required message to log.
-     */
-    fun time(startNanos: Long, message: () -> Any? = { "" }) {
-        log.log(TRACE) { "${message() ?: "TIME"} : ${formatNanos(nanoTime() - startNanos)}" }
-    }
-
-    /**
-     * Execute a lambda block and log a message using [TRACE] level with the logging time.
-     *
-     * @param message The required message to log.
-     * @param block The lambda block to execute.
-     */
-    fun <T> time(message: () -> Any? = { null }, block: () -> T): T {
-        val start = nanoTime()
-        return block().also { time(start, message) }
-    }
-
-    /**
-     * Execute a lambda block and log a message using [TRACE] level with the logging time.
-     *
-     * @param message The required message to log.
-     * @param block The lambda block to execute.
-     */
-    fun <T> time(message: Any?, block: () -> T): T = this.time({ message }, block)
-
-    /**
      * Set a logging level for this logger.
      *
      * @param level One of the logging levels identifiers, e.g., TRACE
@@ -209,6 +179,4 @@ class Logger(val name: String) {
      */
     fun isErrorEnabled(): Boolean =
         isLoggerLevelEnabled(ERROR)
-
-    private fun formatNanos (nanoseconds: Long): String = "%1.3f ms".format (nanoseconds / 1e6)
 }

@@ -1,6 +1,5 @@
 package com.hexagonkt.http.patterns
 
-import com.hexagonkt.core.disableChecks
 import kotlin.test.Test
 import kotlin.test.*
 
@@ -33,12 +32,6 @@ internal class LiteralPathPatternTest {
         assert(!pathWithoutData.matches("/zulu/alpha/bravo/tango"))
 
         assert(pathWithoutData.extractParameters("/alpha/bravo/tango").isEmpty())
-    }
-
-    @Test fun `Path parameters not checked in production mode`() {
-        disableChecks = true
-        LiteralPathPattern("alpha/bravo")
-        disableChecks = false
     }
 
     @Test fun `Empty path patterns are allowed`() {

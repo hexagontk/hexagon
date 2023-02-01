@@ -61,7 +61,6 @@ fun HttpCallback.process(
         attributes,
     )
 
-// TODO Create PathBuilder to leave outside WS. ServerBuilder would use PathBuilder and WsBuilder
 fun path(pattern: String = "", block: ServerBuilder.() -> Unit): PathHandler {
     val builder = ServerBuilder()
     builder.block()

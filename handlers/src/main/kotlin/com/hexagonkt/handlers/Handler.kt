@@ -1,18 +1,11 @@
 package com.hexagonkt.handlers
 
-import com.hexagonkt.core.logging.Logger
-
 /**
  * Handler for an event.
  *
  * @param T Event type.
  */
 interface Handler<T : Any> {
-
-    companion object {
-        private val logger: Logger = Logger(Handler::class)
-    }
-
     val predicate: Predicate<T>
     val callback: Callback<T>
 
@@ -21,10 +14,6 @@ interface Handler<T : Any> {
             callback(context)
         }
         catch (e: Exception) {
-            logger.info { "Exception processing handler callback: ${e.message}" }
-            context.copy(exception = e)
+            context.with(exception = e)
         }
-
-    fun process(event: T): T =
-        process(Context(event, predicate)).event
 }

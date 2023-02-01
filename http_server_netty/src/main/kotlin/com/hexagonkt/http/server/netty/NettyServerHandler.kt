@@ -67,11 +67,10 @@ internal class NettyServerHandler(
         val upgrade = headers[UPGRADE]?.lowercase()
 
         val isSse = body is Publisher<*>
-        val status = response.status
         val isWebSocket = connection == "upgrade"
             && upgrade == "websocket"
             && method == GET
-            && status == SuccessStatus.ACCEPTED
+            && response.status == SuccessStatus.ACCEPTED
 
         when {
             isSse -> handleSse(context, response, body)
@@ -176,7 +175,6 @@ internal class NettyServerHandler(
         hexagonResponse: HttpServerResponse,
         keepAlive: Boolean,
     ) {
-
         val buffer = Unpooled.copiedBuffer(bodyToBytes(hexagonResponse.body))
         val status = nettyStatus(hexagonResponse.status)
         val response = DefaultFullHttpResponse(HTTP_1_1, status, buffer)

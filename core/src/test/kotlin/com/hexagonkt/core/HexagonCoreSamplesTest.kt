@@ -33,11 +33,6 @@ internal class HexagonCoreSamplesTest {
         classLogger.error(exception)
         classLogger.error { "Error without an exception" }
 
-        classLogger.time("Logs the time used to run the following block of code") {
-            val message = "Block of code to be timed"
-            assert(message.isNotBlank())
-        }
-
         instanceLogger.flare { "Prints a log that stands out for ease searching" }
 
         // Logging level can be changed programmatically

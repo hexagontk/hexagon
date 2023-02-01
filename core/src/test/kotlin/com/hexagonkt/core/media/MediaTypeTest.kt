@@ -1,7 +1,6 @@
 package com.hexagonkt.core.media
 
 import com.hexagonkt.core.media.MediaTypeGroup.*
-import com.hexagonkt.core.disableChecks
 import kotlin.test.Test
 import kotlin.IllegalArgumentException
 import kotlin.test.assertEquals
@@ -11,9 +10,6 @@ import kotlin.test.assertSame
 internal class MediaTypeTest {
 
     @Test fun `MediaType init checks are disabled in production mode`() {
-        disableChecks = true
-        assertEquals("text/&plain", CustomMedia(TEXT, "&plain").fullType)
-        disableChecks = false
         assertFailsWith<IllegalArgumentException> { CustomMedia(TEXT, "&plain") }
     }
 

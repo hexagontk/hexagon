@@ -31,21 +31,10 @@ plugins {
 
 apply(from = "gradle/certificates.gradle")
 
+defaultTasks("build")
+
 repositories {
     mavenCentral()
-}
-
-tasks.register<Delete>("clean") {
-    group = "build"
-    description = "Delete root project's generated artifacts, logs and error dumps."
-
-    delete("build", "log", "out", ".vertx", "file-uploads", "config")
-    delete(
-        fileTree(rootDir) { include("**/*.log") },
-        fileTree(rootDir) { include("**/*.hprof") },
-        fileTree(rootDir) { include("**/.attach_pid*") },
-        fileTree(rootDir) { include("**/hs_err_pid*") }
-    )
 }
 
 task("setUp") {
