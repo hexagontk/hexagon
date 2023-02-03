@@ -45,12 +45,12 @@ tasks.register("upx", Exec) {
 tasks.register("zipNative", Zip) {
     group = "distribution"
     description = "Compress native executable in a ZIP file."
-    dependsOn("upx")
+    dependsOn("nativeCompile")
 
     final String os = System.getProperty("os.name").toLowerCase()
     final String arch = System.getProperty("os.arch").toLowerCase()
     final String source = os.contains("windows")? "${project.name}.exe" : project.name
-    from("$buildDir/native")
+    from("$buildDir/native/nativeCompile")
     include(source)
     archiveFileName.set("${project.name}-${project.version}-${os}-${arch}.zip")
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
