@@ -15,19 +15,19 @@ import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
 import io.netty.bootstrap.ServerBootstrap
-import io.netty.channel.Channel
-import io.netty.channel.ChannelInitializer
-import io.netty.channel.ChannelOption
-import io.netty.channel.MultithreadEventLoopGroup
+import io.netty.channel.*
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.codec.http.*
+import io.netty.handler.codec.http.HttpServerUpgradeHandler.UpgradeCodecFactory
+import io.netty.handler.codec.http2.*
 import io.netty.handler.ssl.ClientAuth.OPTIONAL
 import io.netty.handler.ssl.ClientAuth.REQUIRE
 import io.netty.handler.ssl.SslContext
 import io.netty.handler.ssl.SslContextBuilder
 import io.netty.handler.stream.ChunkedWriteHandler
+import io.netty.util.AsciiString
 import io.netty.util.concurrent.DefaultEventExecutorGroup
 import io.netty.util.concurrent.EventExecutorGroup
 import java.net.InetSocketAddress
@@ -128,9 +128,7 @@ open class NettyServerAdapter(
         group: DefaultEventExecutorGroup?,
         settings: HttpServerSettings
     ) =
-        if (sslSettings == null) {
-            HttpChannelInitializer(handlers, group, settings)
-        } else {
+        if (sslSettings != null) {
             val keyManager = createKeyManagerFactory(sslSettings)
 
             val sslContextBuilder = SslContextBuilder
@@ -144,6 +142,10 @@ open class NettyServerAdapter(
                 else sslContextBuilder.trustManager(trustManager).build()
 
             HttpsChannelInitializer(handlers, sslContext, sslSettings, group, settings)
+        } else if (settings.protocol.equals(H2C)) {
+            H2CChannelInitializer()
+        } else {
+            HttpChannelInitializer(handlers, group, settings)
         }
 
     private fun createTrustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
@@ -179,7 +181,7 @@ open class NettyServerAdapter(
     }
 
     override fun supportedProtocols(): Set<HttpProtocol> =
-        setOf(HTTP, HTTPS, HTTP2)
+        setOf(HTTP, HTTPS, HTTP2, H2C)
 
     override fun supportedFeatures(): Set<HttpServerFeature> =
         setOf(ZIP, WEB_SOCKETS)
@@ -245,6 +247,58 @@ open class NettyServerAdapter(
                 pipeline.addLast(NettyServerHandler(handlers, handlerSsl))
             else
                 pipeline.addLast(executorGroup, NettyServerHandler(handlers, handlerSsl))
+        }
+    }
+
+    class H2CChannelInitializer : ChannelInitializer<SocketChannel>() {
+        class HttpHandler : SimpleChannelInboundHandler<HttpMessage>() {
+            override fun channelRead0(ctx: ChannelHandlerContext?, msg: HttpMessage) {
+                System.err.println(
+                    "Directly talking: " + msg.protocolVersion()
+                        .toString() + " (no upgrade was attempted)"
+                )
+            }
+        }
+
+        override fun initChannel(channel: SocketChannel) {
+            val pipeline = channel.pipeline()
+            val sourceCodec = HttpServerCodec()
+            val connection = DefaultHttp2Connection(true)
+
+            val listener = InboundHttp2ToHttpAdapterBuilder(connection)
+                .propagateSettings(true)
+                .maxContentLength(MAX_VALUE)
+                .build()
+
+            val http2Handler = HttpToHttp2ConnectionHandlerBuilder()
+                .connection(connection)
+                .frameListener(
+                    listener
+                )
+                .build()
+
+            val upgradeCodecFactory =
+                UpgradeCodecFactory { protocol ->
+                    if (AsciiString.contentEquals(
+                            Http2CodecUtil.HTTP_UPGRADE_PROTOCOL_NAME,
+                            protocol
+                        )
+                    ) {
+                        Http2ServerUpgradeCodec(http2Handler)
+                    } else {
+                        null
+                    }
+                }
+
+            val upgradeHandler = HttpServerUpgradeHandler(sourceCodec, upgradeCodecFactory)
+
+            val cleartextHttp2ServerUpgradeHandler = CleartextHttp2ServerUpgradeHandler(
+                sourceCodec, upgradeHandler,
+                http2Handler
+            )
+
+            pipeline.addLast(cleartextHttp2ServerUpgradeHandler)
+            pipeline.addLast(HttpHandler())
         }
     }
 }
