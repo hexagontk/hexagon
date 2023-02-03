@@ -223,7 +223,7 @@ application.
 
 The defined tasks are:
 
-* upx: compress the native executable using 'upx'.
+* upx: compress the native executable using 'upx'. NOTE: Makes binaries use more RAM!!!
 * zipNative: compress native executable in a ZIP file.
 
 To use it you must apply the `$gradleScripts/native.gradle` script to your `build.gradle` file. It
@@ -251,8 +251,6 @@ And if you want to create a native image for your application you should execute
 
 ```bash
 ./gradlew -Pagent nativeCompile
-# If you have `upx` installed, you can compress your executable with:
-./gradlew -Pagent upx
 ```
 
 To set up this script's parameters, check the [build variables section]. These helper settings are:
