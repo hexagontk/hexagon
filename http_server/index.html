@@ -21,7 +21,7 @@
         <link rel="next" href="../http_client/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.11">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.12">
     
     
       
@@ -1601,7 +1601,7 @@ full list of methods. This sample code illustrates the usage:</p>
 <span class="w">    </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Response body&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// Returns a 200 status</span>
 <span class="w">    </span><span class="c1">// return any status (previous return value is ignored here)</span>
 <span class="w">    </span><span class="n">send</span><span class="p">(</span>
-<span class="w">        </span><span class="n">BAD_REQUEST</span><span class="p">,</span>
+<span class="w">        </span><span class="n">BAD_REQUEST_400</span><span class="p">,</span>
 <span class="w">        </span><span class="s">&quot;Invalid request&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="n">attributes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attributes</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;V&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// Sets value of attribute A to V</span>
 <span class="w">    </span><span class="p">)</span>
@@ -1649,7 +1649,7 @@ H1 (after)
 
 <span class="n">on</span><span class="p">(</span><span class="n">ALL</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">GET</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">PUT</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">POST</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/hello&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Fallback if HTTP verb was not used before&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 
-<span class="n">on</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/&#39; if no route matched before&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="n">on</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND_404</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/&#39; if no route matched before&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <!-- TODO Start document review -->
 
@@ -1950,9 +1950,9 @@ object:</p>
 <span class="w">    </span><span class="n">status</span><span class="w">                              </span><span class="c1">// Shortcut of `response.status`</span>
 
 <span class="w">    </span><span class="n">send</span><span class="p">(</span>
-<span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UNAUTHORIZED</span><span class="p">,</span><span class="w">          </span><span class="c1">// Set status code to 401</span>
-<span class="w">        </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Sets content to Hello</span>
-<span class="w">        </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">XML</span><span class="p">),</span><span class="w"> </span><span class="c1">// Set content type to application/xml</span>
+<span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UNAUTHORIZED_401</span><span class="p">,</span><span class="w">                  </span><span class="c1">// Set status code to 401</span>
+<span class="w">        </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w">                             </span><span class="c1">// Sets content to Hello</span>
+<span class="w">        </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">APPLICATION_XML</span><span class="p">),</span><span class="w"> </span><span class="c1">// Set application/xml content type</span>
 <span class="w">        </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span>
 <span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// Sets header FOO with single value bar</span>
 <span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// Sets header FOO values with [ bar ]</span>
@@ -1966,10 +1966,10 @@ object:</p>
 <span class="normal">4</span>
 <span class="normal">5</span>
 <span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/halt&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">)</span><span class="w">             </span><span class="c1">// Halt with status</span>
-<span class="w">    </span><span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Go away!&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// Halt with status and message</span>
-<span class="w">    </span><span class="n">internalServerError</span><span class="p">(</span><span class="s">&quot;Body Message&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// Halt with message (status 500)</span>
-<span class="w">    </span><span class="n">internalServerError</span><span class="p">()</span><span class="w">                 </span><span class="c1">// Halt with status 500</span>
+<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">UNAUTHORIZED_401</span><span class="p">)</span><span class="w">              </span><span class="c1">// Halt with status</span>
+<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">UNAUTHORIZED_401</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Go away!&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// Halt with status and message</span>
+<span class="w">    </span><span class="n">internalServerError</span><span class="p">(</span><span class="s">&quot;Body Message&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// Halt with message (status 500)</span>
+<span class="w">    </span><span class="n">internalServerError</span><span class="p">()</span><span class="w">               </span><span class="c1">// Halt with status 500</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <h3 id="redirects">Redirects<a class="headerlink" href="#redirects" title="Permanent link">&para;</a></h3>
@@ -1977,7 +1977,7 @@ object:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/redirect&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">redirect</span><span class="p">(</span><span class="n">FOUND</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/call&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// browser redirect to /call</span>
+<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">FOUND_302</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/call&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// browser redirect to /call</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <h3 id="cookies">Cookies<a class="headerlink" href="#cookies" title="Permanent link">&para;</a></h3>
@@ -2028,14 +2028,14 @@ handlers returning error codes.</p>
 <span class="normal">5</span>
 <span class="normal">6</span>
 <span class="normal">7</span>
-<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">exception</span><span class="o">&lt;</span><span class="n">Exception</span><span class="o">&gt;</span><span class="p">(</span><span class="n">NOT_FOUND</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">exception</span><span class="o">&lt;</span><span class="n">Exception</span><span class="o">&gt;</span><span class="p">(</span><span class="n">NOT_FOUND_404</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">internalServerError</span><span class="p">(</span><span class="s">&quot;Root handler&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="c1">// Register handler for routes halted with 512 code</span>
 <span class="k">get</span><span class="p">(</span><span class="s">&quot;/errors&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">512</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
 
-<span class="n">on</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">512</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">INTERNAL_SERVER_ERROR</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ouch&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="n">on</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">512</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">INTERNAL_SERVER_ERROR_500</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ouch&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <h3 id="exception-mapping">Exception Mapping<a class="headerlink" href="#exception-mapping" title="Permanent link">&para;</a></h3>
 <p>You can handle previously thrown exceptions of a given type (or subtype). The handler allows you to
@@ -2057,7 +2057,7 @@ refer to the thrown exception. Look at the following code for a detailed example
 <span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">599</span><span class="p">))</span>
 <span class="p">}</span>
 <span class="n">on</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IllegalStateException</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">HTTP_VERSION_NOT_SUPPORTED</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="o">?.</span><span class="na">message</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">&quot;empty&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">HTTP_VERSION_NOT_SUPPORTED_505</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="o">?.</span><span class="na">message</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">&quot;empty&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <h2 id="static-files">Static Files<a class="headerlink" href="#static-files" title="Permanent link">&para;</a></h2>
@@ -2080,14 +2080,14 @@ have a parameter to provide the file to be fetched inside the folder.</p>
 
 <span class="c1">// Expose resources on the &#39;/public&#39; resource folder over the &#39;/web&#39; HTTP path</span>
 <span class="n">on</span><span class="p">(</span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND_404</span><span class="p">,</span>
 <span class="w">    </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/web/*&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UrlCallback</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:public&quot;</span><span class="p">))</span>
 <span class="p">)</span>
 
 <span class="c1">// Maps resources on &#39;assets&#39; on the server root (assets/f.css -&gt; /f.css)</span>
 <span class="c1">// &#39;/public/css/style.css&#39; resource would be: &#39;http://{host}:{port}/css/style.css&#39;</span>
-<span class="n">on</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UrlCallback</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">)))</span>
+<span class="n">on</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND_404</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UrlCallback</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">)))</span>
 </code></pre></div></td></tr></table></div>
 <h3 id="media-types">Media Types<a class="headerlink" href="#media-types" title="Permanent link">&para;</a></h3>
 <p>The media types of static files are computed from the file extension using the utility methods of
@@ -2505,8 +2505,8 @@ relying on mocking libraries.</p>
 <span class="kd">val</span><span class="w"> </span><span class="nv">notFound</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">()</span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/path&quot;</span><span class="p">)</span>
 
-<span class="n">assertEquals</span><span class="p">(</span><span class="n">NOT_FOUND</span><span class="p">,</span><span class="w"> </span><span class="n">notFound</span><span class="p">.</span><span class="na">status</span><span class="p">)</span>
-<span class="n">assertEquals</span><span class="p">(</span><span class="n">OK</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">.</span><span class="na">status</span><span class="p">)</span>
+<span class="n">assertEquals</span><span class="p">(</span><span class="n">NOT_FOUND_404</span><span class="p">,</span><span class="w"> </span><span class="n">notFound</span><span class="p">.</span><span class="na">status</span><span class="p">)</span>
+<span class="n">assertEquals</span><span class="p">(</span><span class="n">OK_200</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">.</span><span class="na">status</span><span class="p">)</span>
 <span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Callback result null null&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">.</span><span class="na">bodyString</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
 <h2 id="package-comhexagonkthttpserver">Package com.hexagonkt.http.server<a class="headerlink" href="#package-comhexagonkthttpserver" title="Permanent link">&para;</a></h2>
@@ -2705,7 +2705,7 @@ HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the H
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.db81ec45.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.6df46069.min.js"></script>
+      <script src="../assets/javascripts/bundle.4b2c34cd.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

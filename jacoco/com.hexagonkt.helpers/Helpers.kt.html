@@ -1,14 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Helpers.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.helpers</a> &gt; <span class="el_source">Helpers.kt</span></div><h1>Helpers.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.helpers
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Helpers.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.helpers</a> &gt; <span class="el_source">Helpers.kt</span></div><h1>Helpers.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.helpers
 
-import com.hexagonkt.logging.logger
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
-import java.net.ServerSocket
-import java.net.Socket
+import java.net.*
 import java.util.*
 import java.util.concurrent.TimeUnit.SECONDS
-import kotlin.reflect.KClass
 
 /**
  * Print receiver to stdout. Convenient utility to debug variables quickly.
@@ -17,53 +14,32 @@ import kotlin.reflect.KClass
  * @param prefix String to print before the actual object information. Empty string by default.
  * @return Receiver's reference. Returned to allow method call chaining.
  */
-<span class="fc" id="L20">fun &lt;T&gt; T.println(prefix: String = &quot;&quot;): T =</span>
-<span class="fc" id="L21">    apply { kotlin.io.println(&quot;$prefix$this&quot;) }</span>
+<span class="fc" id="L17">fun &lt;T&gt; T.out(prefix: String = &quot;&quot;): T =</span>
+<span class="fc" id="L18">    apply { println(&quot;$prefix$this&quot;) }</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Print receiver to stderr. Convenient utility to debug variables quickly.
  *
- * @param locale .
- * @return .
+ * @receiver Reference to the object to print. Can be `null`.
+ * @param prefix String to print before the actual object information. Empty string by default.
+ * @return Receiver's reference. Returned to allow method call chaining.
  */
-<span class="nc" id="L29">inline fun &lt;reified T : ResourceBundle&gt; resourceBundle(</span>
-<span class="nc" id="L30">    locale: Locale = Locale.getDefault()): ResourceBundle =</span>
-<span class="nc" id="L31">        resourceBundle(T::class, locale)</span>
+<span class="fc" id="L27">fun &lt;T&gt; T.err(prefix: String = &quot;&quot;): T =</span>
+<span class="fc" id="L28">    apply { System.err.println(&quot;$prefix$this&quot;) }</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Load a '*.properties' file from a URL transforming the content into a plain map. If the resource
+ * can not be found, a [ResourceNotFoundException] is thrown.
  *
- * @param type .
- * @param locale .
- * @return .
+ * @param url URL pointing to the file to load.
+ * @return Map containing the properties file data.
  */
-<span class="nc" id="L40">fun &lt;T : ResourceBundle&gt; resourceBundle(</span>
-<span class="nc" id="L41">    type: KClass&lt;T&gt;, locale: Locale = Locale.getDefault()): ResourceBundle =</span>
-<span class="fc" id="L42">        ResourceBundle.getBundle(type.java.name, locale)</span>
-
-// NETWORK /////////////////////////////////////////////////////////////////////////////////////////
-/**
- * Return a random free port (not used by any other local process).
- *
- * @return Random free port number.
- */
-fun freePort(): Int =
-<span class="pc" id="L51">    ServerSocket(0).use { it.localPort }</span>
-
-/**
- * Check if a port is already opened.
- *
- * @param port Port number to check.
- * @return True if the port is open, false otherwise.
- */
-fun isPortOpened(port: Int): Boolean =
-<span class="fc" id="L60">    try {</span>
-<span class="pc" id="L61">        Socket(&quot;localhost&quot;, port).use { it.isConnected }</span>
-    }
-<span class="fc" id="L63">    catch (e: Exception) {</span>
-<span class="fc" id="L64">        logger.debug { &quot;Checked port: $port is already open&quot; }</span>
-<span class="fc" id="L65">        false</span>
-<span class="fc" id="L66">    }</span>
+fun properties(url: URL): Map&lt;String, String&gt; =
+<span class="fc" id="L38">    Properties()</span>
+<span class="pc" id="L39">        .apply { url.openStream().use { load(it.reader()) } }</span>
+<span class="fc" id="L40">        .toMap()</span>
+<span class="fc" id="L41">        .mapKeys { it.key as String }</span>
+<span class="fc" id="L42">        .mapValues { it.value as String }</span>
 
 // PROCESSES ///////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -72,25 +48,25 @@ fun isPortOpened(port: Int): Boolean =
  * @param times Number of times to try to execute the callback. Must be greater than 0.
  * @param delay Milliseconds to wait to next execution if there was an error. Must be 0 or greater.
  * @param block Code to be executed.
- * @return Callback's result if succeed.
+ * @return Callback's result if succeeded.
  * @throws [MultipleException] if the callback didn't succeed in the given times.
  */
 fun &lt;T&gt; retry(times: Int, delay: Long, block: () -&gt; T): T {
-<span class="fc bfc" id="L79" title="All 4 branches covered.">    require(times &gt; 0)</span>
-<span class="fc bfc" id="L80" title="All 4 branches covered.">    require(delay &gt;= 0)</span>
+<span class="fc bfc" id="L55" title="All 4 branches covered.">    require(times &gt; 0)</span>
+<span class="fc bfc" id="L56" title="All 4 branches covered.">    require(delay &gt;= 0)</span>
 
-<span class="fc" id="L82">    val exceptions = mutableListOf&lt;Exception&gt;()</span>
-<span class="pc bpc" id="L83" title="1 of 4 branches missed.">    for (ii in 1 .. times) {</span>
-<span class="fc" id="L84">        try {</span>
-<span class="fc" id="L85">            return block()</span>
+<span class="fc" id="L58">    val exceptions = mutableListOf&lt;Exception&gt;()</span>
+<span class="pc bpc" id="L59" title="1 of 4 branches missed.">    for (ii in 1 .. times) {</span>
+<span class="fc" id="L60">        try {</span>
+<span class="fc" id="L61">            return block()</span>
         }
-<span class="fc" id="L87">        catch (e: Exception) {</span>
-<span class="fc" id="L88">            exceptions.add(e)</span>
-<span class="fc" id="L89">            Thread.sleep(delay)</span>
+<span class="fc" id="L63">        catch (e: Exception) {</span>
+<span class="fc" id="L64">            exceptions.add(e)</span>
+<span class="fc" id="L65">            Thread.sleep(delay)</span>
         }
     }
 
-<span class="fc" id="L93">    throw MultipleException(&quot;Error retrying $times times ($delay ms)&quot;, exceptions)</span>
+<span class="fc" id="L69">    throw MultipleException(&quot;Error retrying $times times ($delay ms)&quot;, exceptions)</span>
 }
 
 /**
@@ -98,31 +74,31 @@ fun &lt;T&gt; retry(times: Int, delay: Long, block: () -&gt; T): T {
  *
  * TODO Assure JVM closes properly after process execution (dispose process resources, etc.)
  */
-<span class="nc" id="L101">fun List&lt;String&gt;.exec(</span>
-<span class="nc" id="L102">    workingDirectory: File = File(System.getProperty(&quot;user.dir&quot;)),</span>
-<span class="nc" id="L103">    timeout: Long = Long.MAX_VALUE,</span>
-<span class="nc" id="L104">    fail: Boolean = false,</span>
+<span class="nc" id="L77">fun List&lt;String&gt;.exec(</span>
+<span class="nc" id="L78">    workingDirectory: File = File(System.getProperty(&quot;user.dir&quot;)),</span>
+<span class="nc" id="L79">    timeout: Long = Long.MAX_VALUE,</span>
+<span class="nc" id="L80">    fail: Boolean = false,</span>
 ): String {
 
-<span class="fc bfc" id="L107" title="All 4 branches covered.">    val command = filter { it.isNotBlank() }.toTypedArray()</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">    val command = filter { it.isNotBlank() }.toTypedArray()</span>
 
-<span class="fc bfc" id="L109" title="All 6 branches covered.">    require(command.isNotEmpty()) { &quot;Command is empty&quot; }</span>
-<span class="fc bfc" id="L110" title="All 4 branches covered.">    require(timeout &gt; 0) { &quot;Process timeout should be greater than zero: $timeout&quot; }</span>
+<span class="fc bfc" id="L85" title="All 6 branches covered.">    require(command.isNotEmpty()) { &quot;Command is empty&quot; }</span>
+<span class="fc bfc" id="L86" title="All 4 branches covered.">    require(timeout &gt; 0) { &quot;Process timeout should be greater than zero: $timeout&quot; }</span>
 
-<span class="fc" id="L112">    val process = ProcessBuilder(*command).directory(workingDirectory).start()</span>
+<span class="fc" id="L88">    val process = ProcessBuilder(*command).directory(workingDirectory).start()</span>
 
-<span class="fc bfc" id="L114" title="All 2 branches covered.">    if (!process.waitFor(timeout, SECONDS)) {</span>
-<span class="fc" id="L115">        process.destroy()</span>
-<span class="fc" id="L116">        error(&quot;Command timed out: $this&quot;)</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">    if (!process.waitFor(timeout, SECONDS)) {</span>
+<span class="fc" id="L91">        process.destroy()</span>
+<span class="fc" id="L92">        error(&quot;Command timed out: $this&quot;)</span>
     }
 
-<span class="fc" id="L119">    val exitValue = process.exitValue()</span>
-<span class="fc" id="L120">    val output = BufferedReader(InputStreamReader(process.inputStream)).readText()</span>
+<span class="fc" id="L95">    val exitValue = process.exitValue()</span>
+<span class="fc" id="L96">    val output = BufferedReader(InputStreamReader(process.inputStream)).readText()</span>
 
-<span class="pc bpc" id="L122" title="1 of 4 branches missed.">    if (fail &amp;&amp; exitValue != 0)</span>
-<span class="fc" id="L123">        throw CodedException(exitValue, output)</span>
+<span class="pc bpc" id="L98" title="1 of 4 branches missed.">    if (fail &amp;&amp; exitValue != 0)</span>
+<span class="fc" id="L99">        throw CodedException(exitValue, output)</span>
 
-<span class="fc" id="L125">    return output</span>
+<span class="fc" id="L101">    return output</span>
 }
 
 /**
@@ -137,162 +113,41 @@ fun &lt;T&gt; retry(times: Int, delay: Long, block: () -&gt; T): T {
  *  directory.
  * @param timeout Maximum number of seconds allowed for process execution. Defaults to the maximum
  *  long value. It must be greater than zero.
- * @param fail If true Raise an exception if the result code is different than zero. The default
+ * @param fail If true Raise an exception if the result code is different from zero. The default
  *  value is `false`.
  * @throws CodedException Thrown if the process return an error code (the actual code is passed
- *  inside [CodedException.code] and the command output is set at [CodedException.message].
+ *  inside [CodedException.code] and the command output is set at [CodedException.message]).
  * @throws IllegalStateException If the command doesn't end within the allowed time or the command
  *  string is blank, an exception will be thrown.
  * @return The output of the command.
  */
-<span class="fc" id="L148">fun String.exec(</span>
-<span class="fc" id="L149">    workingDirectory: File = File(System.getProperty(&quot;user.dir&quot;)),</span>
-<span class="fc" id="L150">    timeout: Long = Long.MAX_VALUE,</span>
-<span class="fc" id="L151">    fail: Boolean = false,</span>
+<span class="fc" id="L124">fun String.exec(</span>
+<span class="fc" id="L125">    workingDirectory: File = File(System.getProperty(&quot;user.dir&quot;)),</span>
+<span class="fc" id="L126">    timeout: Long = Long.MAX_VALUE,</span>
+<span class="fc" id="L127">    fail: Boolean = false,</span>
 ): String =
-<span class="fc" id="L153">    replace(&quot;&quot;&quot;(\s+\\\s*)?\n&quot;&quot;&quot;.toRegex(), &quot;&quot;)</span>
-<span class="fc" id="L154">        .split(&quot; &quot;)</span>
-<span class="fc" id="L155">        .map { it.trim() }</span>
-<span class="fc" id="L156">        .toList()</span>
-<span class="fc" id="L157">        .exec(workingDirectory, timeout, fail)</span>
+<span class="fc" id="L129">    replace(&quot;&quot;&quot;(\s+\\\s*)?\n&quot;&quot;&quot;.toRegex(), &quot;&quot;)</span>
+<span class="fc" id="L130">        .split(&quot; &quot;)</span>
+<span class="fc" id="L131">        .map { it.trim() }</span>
+<span class="fc" id="L132">        .toList()</span>
+<span class="fc" id="L133">        .exec(workingDirectory, timeout, fail)</span>
 
 // ERROR HANDLING //////////////////////////////////////////////////////////////////////////////////
-/** Syntax sugar to throw errors. */
-val fail: Nothing
-<span class="fc" id="L162">    get() = error(&quot;Invalid state&quot;)</span>
-
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  */
-<span class="nc" id="L167">fun check(message: String = &quot;Multiple exceptions&quot;, vararg blocks: () -&gt; Unit) {</span>
-<span class="fc" id="L168">    val exceptions: List&lt;Exception&gt; = blocks.mapNotNull {</span>
-<span class="fc bfc" id="L169" title="All 2 branches covered.">        try {</span>
-<span class="fc" id="L170">            it()</span>
-<span class="fc" id="L171">            null</span>
+<span class="nc" id="L139">fun check(message: String = &quot;Multiple exceptions&quot;, vararg blocks: () -&gt; Unit) {</span>
+<span class="fc" id="L140">    val exceptions: List&lt;Exception&gt; = blocks.mapNotNull {</span>
+<span class="fc" id="L141">        try {</span>
+<span class="fc" id="L142">            it()</span>
+<span class="fc" id="L143">            null</span>
         }
-<span class="fc" id="L173">        catch(e: Exception) {</span>
-<span class="fc" id="L174">            e</span>
+<span class="fc" id="L145">        catch(e: Exception) {</span>
+<span class="fc" id="L146">            e</span>
         }
     }
 
-<span class="fc bfc" id="L178" title="All 4 branches covered.">    if (exceptions.isNotEmpty())</span>
-<span class="fc" id="L179">        throw MultipleException(message, exceptions)</span>
-<span class="fc" id="L180">}</span>
-
-/**
- * Return the stack trace array of the frames that starts with the given prefix.
- *
- * @receiver Throwable which stack trace will be filtered.
- * @param prefix Prefix used to filter stack trace elements (applied to class names).
- * @return Array with the frames of the throwable whose classes start with the given prefix.
- */
-fun Throwable.filterStackTrace(prefix: String): Array&lt;out StackTraceElement&gt; =
-<span class="fc bfc" id="L190" title="All 4 branches covered.">    if (prefix.isEmpty())</span>
-<span class="fc" id="L191">        this.stackTrace</span>
-    else
-<span class="fc bfc" id="L193" title="All 2 branches covered.">        this.stackTrace.filter { it.className.startsWith(prefix) }.toTypedArray()</span>
-
-/**
- * Return this throwable as a text.
- *
- * @receiver Throwable to be printed to a string.
- * @param prefix Optional prefix to filter stack trace elements.
- * @return The filtered (if filter is provided) Throwable as a string.
- */
-<span class="fc" id="L202">fun Throwable.toText(prefix: String = &quot;&quot;): String =</span>
-<span class="fc" id="L203">    &quot;${this.javaClass.name}: ${this.message}&quot; +</span>
-<span class="fc" id="L204">        this.filterStackTrace(prefix).joinToString(eol, eol) { &quot;\tat $it&quot; } +</span>
-<span class="fc bfc" id="L205" title="All 2 branches covered.">        if (this.cause == null)</span>
-<span class="fc" id="L206">            &quot;&quot;</span>
-        else
-<span class="fc" id="L208">            &quot;${eol}Caused by: &quot; + (this.cause as Throwable).toText(prefix)</span>
-
-// COLLECTIONS /////////////////////////////////////////////////////////////////////////////////////
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @param count .
- * @return .
- */
-<span class="fc" id="L218">fun &lt;Z&gt; Collection&lt;Z&gt;.ensureSize(count: IntRange): Collection&lt;Z&gt; = this.apply {</span>
-<span class="fc bfc" id="L219" title="All 6 branches covered.">    if (size !in count) error(&quot;$size items while expecting only $count element&quot;)</span>
-<span class="fc" id="L220">}</span>
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @param keys .
- * @return .
- */
-@Suppress(&quot;UNCHECKED_CAST&quot;)
-operator fun Map&lt;*, *&gt;.get(vararg keys: Any): Any? =
-<span class="fc bfc" id="L231" title="All 2 branches covered.">    if (keys.size &gt; 1)</span>
-<span class="fc" id="L232">        keys</span>
-<span class="fc" id="L233">            .dropLast(1)</span>
-<span class="fc" id="L234">            .fold(this) { result, element -&gt;</span>
-<span class="fc" id="L235">                val r = result as Map&lt;Any, Any&gt;</span>
-<span class="fc" id="L236">                when (val value = r[element]) {</span>
-<span class="fc bfc" id="L237" title="All 2 branches covered.">                    is Map&lt;*, *&gt; -&gt; value</span>
-<span class="fc bfc" id="L238" title="All 2 branches covered.">                    is List&lt;*&gt; -&gt; value.mapIndexed { ii, item -&gt; ii to item }.toMap()</span>
-<span class="fc" id="L239">                    else -&gt; emptyMap&lt;Any, Any&gt;()</span>
-                }
-<span class="fc" id="L241">            }[keys.last()]</span>
-    else
-<span class="fc bfc" id="L243" title="All 2 branches covered.">        (this as Map&lt;Any, Any&gt;).getOrElse(keys.first()) { null }</span>
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @param name .
- * @return .
- */
-@Suppress(&quot;UNCHECKED_CAST&quot;, &quot;ReplaceGetOrSet&quot;)
-fun &lt;T : Any&gt; Map&lt;*, *&gt;.requireKeys(vararg name: Any): T =
-<span class="fc bfc" id="L254" title="All 4 branches covered.">    this.get(*name) as? T ?: error(&quot;$name required key not found&quot;)</span>
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @param name .
- * @return .
- */
-fun &lt;K, V&gt; Map&lt;K, V&gt;.require(name: K): V =
-<span class="fc bfc" id="L264" title="All 2 branches covered.">    this[name] ?: error(&quot;$name required key not found&quot;)</span>
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @return .
- */
-fun &lt;K, V&gt; Map&lt;K, V?&gt;.filterEmpty(): Map&lt;K, V&gt; =
-<span class="pc bpc" id="L273" title="1 of 4 branches missed.">    this.filterValues(::notEmpty).mapValues { (_, v) -&gt; v ?: fail }</span>
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @return .
- */
-fun &lt;V&gt; List&lt;V?&gt;.filterEmpty(): List&lt;V&gt; =
-<span class="pc bpc" id="L282" title="1 of 4 branches missed.">    this.filter(::notEmpty).map { it ?: fail }</span>
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @param value .
- * @return .
- */
-fun &lt;V&gt; notEmpty(value: V?): Boolean {
-<span class="fc" id="L291">    return when (value) {</span>
-<span class="fc bfc" id="L292" title="All 2 branches covered.">        null -&gt; false</span>
-<span class="fc bfc" id="L293" title="All 4 branches covered.">        is List&lt;*&gt; -&gt; value.isNotEmpty()</span>
-<span class="fc bfc" id="L294" title="All 4 branches covered.">        is Map&lt;*, *&gt; -&gt; value.isNotEmpty()</span>
-<span class="fc" id="L295">        else -&gt; true</span>
-    }
-}
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+<span class="fc bfc" id="L150" title="All 4 branches covered.">    if (exceptions.isNotEmpty())</span>
+<span class="fc" id="L151">        throw MultipleException(message, exceptions)</span>
+<span class="fc" id="L152">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

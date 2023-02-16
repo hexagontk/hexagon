@@ -3,14 +3,14 @@
 import com.hexagonkt.handlers.ChainHandler
 import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.handlers.Handler
-import com.hexagonkt.core.media.TextMedia.PLAIN
+import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.toText
 import com.hexagonkt.handlers.Context
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.HttpStatusType.SERVER_ERROR
-import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
@@ -66,8 +66,8 @@ import com.hexagonkt.http.server.model.HttpServerResponse
 <span class="fc" id="L66">                    event = event.copy(</span>
 <span class="fc" id="L67">                        response = response.copy(</span>
 <span class="fc" id="L68">                            body = exception.toText(),</span>
-<span class="fc" id="L69">                            contentType = ContentType(PLAIN),</span>
-<span class="fc" id="L70">                            status = INTERNAL_SERVER_ERROR,</span>
+<span class="fc" id="L69">                            contentType = ContentType(TEXT_PLAIN),</span>
+<span class="fc" id="L70">                            status = INTERNAL_SERVER_ERROR_500,</span>
                         )
                     )
                 )

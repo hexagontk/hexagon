@@ -21,7 +21,7 @@
         <link rel="next" href="../http_client_examples/">
       
       <link rel="icon" href="../../favicon.ico">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.11">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.12">
     
     
       
@@ -1018,8 +1018,8 @@
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="c1">// Matches path&#39;s requests with *any* HTTP method as a fallback (return 404 instead 405)</span>
-<span class="w">    </span><span class="n">after</span><span class="p">(</span><span class="n">ALL</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">DELETE</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">PUT</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">GET</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/books/{id}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">send</span><span class="p">(</span><span class="n">METHOD_NOT_ALLOWED</span><span class="p">)</span>
+<span class="w">    </span><span class="n">after</span><span class="p">(</span><span class="n">ALL</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">DELETE</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">PUT</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">GET</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/books/{id}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND_404</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">send</span><span class="p">(</span><span class="n">METHOD_NOT_ALLOWED_405</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/books&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1127,7 +1127,7 @@
 <span class="cm">     * Catching `Exception` handles any unhandled exception, has to be the last executed (first</span>
 <span class="cm">     * declared)</span>
 <span class="cm">     */</span>
-<span class="w">    </span><span class="n">exception</span><span class="o">&lt;</span><span class="n">Exception</span><span class="o">&gt;</span><span class="p">(</span><span class="n">NOT_FOUND</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">exception</span><span class="o">&lt;</span><span class="n">Exception</span><span class="o">&gt;</span><span class="p">(</span><span class="n">NOT_FOUND_404</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">internalServerError</span><span class="p">(</span><span class="s">&quot;Root handler&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 
@@ -1246,7 +1246,7 @@
 <span class="w">    </span><span class="c1">// All matching filters are run in order unless call is halted</span>
 <span class="w">    </span><span class="n">filter</span><span class="p">(</span><span class="s">&quot;/protected/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">users</span><span class="o">[</span><span class="n">attributes</span><span class="o">[</span><span class="s">&quot;username&quot;</span><span class="o">]]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">attributes</span><span class="o">[</span><span class="s">&quot;password&quot;</span><span class="o">]</span><span class="p">)</span>
-<span class="w">            </span><span class="n">send</span><span class="p">(</span><span class="n">FORBIDDEN</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Forbidden&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">send</span><span class="p">(</span><span class="n">FORBIDDEN_403</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Forbidden&quot;</span><span class="p">)</span>
 <span class="w">        </span><span class="k">else</span>
 <span class="w">            </span><span class="n">next</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
@@ -1257,19 +1257,19 @@
 
 <span class="w">    </span><span class="n">path</span><span class="p">(</span><span class="s">&quot;/after&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">after</span><span class="p">(</span><span class="n">PUT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">success</span><span class="p">(</span><span class="n">ALREADY_REPORTED</span><span class="p">)</span>
+<span class="w">            </span><span class="n">send</span><span class="p">(</span><span class="n">ALREADY_REPORTED_208</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 
 <span class="w">        </span><span class="n">after</span><span class="p">(</span><span class="n">PUT</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/second&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">success</span><span class="p">(</span><span class="n">NO_CONTENT</span><span class="p">)</span>
+<span class="w">            </span><span class="n">send</span><span class="p">(</span><span class="n">NO_CONTENT_204</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 
 <span class="w">        </span><span class="n">after</span><span class="p">(</span><span class="s">&quot;/second&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">success</span><span class="p">(</span><span class="n">CREATED</span><span class="p">)</span>
+<span class="w">            </span><span class="n">send</span><span class="p">(</span><span class="n">CREATED_201</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 
 <span class="w">        </span><span class="n">after</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">success</span><span class="p">(</span><span class="n">ACCEPTED</span><span class="p">)</span>
+<span class="w">            </span><span class="n">send</span><span class="p">(</span><span class="n">ACCEPTED_202</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1335,7 +1335,7 @@
 <span class="w">    </span><span class="n">after</span><span class="p">(</span>
 <span class="w">        </span><span class="n">methods</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">setOf</span><span class="p">(</span><span class="n">GET</span><span class="p">),</span>
 <span class="w">        </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/*&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND</span><span class="p">,</span>
+<span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND_404</span><span class="p">,</span>
 <span class="w">        </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UrlCallback</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:public&quot;</span><span class="p">))</span>
 <span class="w">    </span><span class="p">)</span>
 
@@ -1719,7 +1719,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.instant"], "search": "../../assets/javascripts/workers/search.db81ec45.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.6df46069.min.js"></script>
+      <script src="../../assets/javascripts/bundle.4b2c34cd.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

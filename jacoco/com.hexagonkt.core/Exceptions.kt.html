@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Exceptions.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core</a> &gt; <span class="el_source">Exceptions.kt</span></div><h1>Exceptions.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core
+
+/**
+ * This flag is true when assertions are enabled in the JVM (`-ea` flag). Assertions are disabled by
+ * default in the JVM, but they are enabled (and should be that way) on the tests.
+ */
+<span class="fc" id="L7">val assertEnabled: Boolean by lazy {</span>
+<span class="fc" id="L8">    try {</span>
+<span class="pc bpc" id="L9" title="1 of 2 branches missed.">        assert(false)</span>
+<span class="nc" id="L10">        false</span>
+<span class="fc" id="L11">    } catch (_: AssertionError) {</span>
+<span class="fc" id="L12">        true</span>
+    }
+}
+
+/** Syntax sugar to throw errors. */
+val fail: Nothing
+<span class="fc" id="L18">    get() = error(&quot;Invalid state&quot;)</span>
+
+/**
+ * Return the stack trace array of the frames that starts with the given prefix.
+ *
+ * @receiver Throwable which stack trace will be filtered.
+ * @param prefix Prefix used to filter stack trace elements (applied to class names).
+ * @return Array with the frames of the throwable whose classes start with the given prefix.
+ */
+fun Throwable.filterStackTrace(prefix: String): Array&lt;out StackTraceElement&gt; =
+<span class="fc bfc" id="L28" title="All 4 branches covered.">    if (prefix.isEmpty())</span>
+<span class="fc" id="L29">        this.stackTrace</span>
+    else
+<span class="fc" id="L31">        this.stackTrace.filter { it.className.startsWith(prefix) }.toTypedArray()</span>
+
+/**
+ * Return this throwable as a text.
+ *
+ * @receiver Throwable to be printed to a string.
+ * @param prefix Optional prefix to filter stack trace elements.
+ * @return The filtered (if filter is provided) Throwable as a string.
+ */
+<span class="fc" id="L40">fun Throwable.toText(prefix: String = &quot;&quot;): String =</span>
+<span class="fc" id="L41">    &quot;${this.javaClass.name}: ${this.message}&quot; +</span>
+<span class="fc" id="L42">            this.filterStackTrace(prefix).joinToString(eol, eol) { &quot;\tat $it&quot; } +</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (this.cause == null)</span>
+<span class="fc" id="L44">                &quot;&quot;</span>
+            else
+<span class="fc" id="L46">                &quot;${eol}Caused by: &quot; + (this.cause as Throwable).toText(prefix)</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

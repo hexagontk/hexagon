@@ -21,7 +21,7 @@
         <link rel="next" href="../maven/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.11">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.12">
     
     
       
@@ -1056,9 +1056,9 @@ development machine.</p>
   (<code>-t</code>) Gradle flag. Ie: <code>gw -t watch</code>.</li>
 <li>jarAll: creates a single JAR with all dependencies, and the application main class set up. This
   task is an alternative to the Gradle <code>installDist</code> task.</li>
-<li>jre: create an application distribution based on a jlink generated JRE.</li>
+<li>jlink: create an application distribution based on a jlink generated JRE.</li>
 <li>jpackage: create a jpackage distribution including a JVM with a subset of the modules.</li>
-<li>tarJpackage: compress Jpackage distribution in a single file.</li>
+<li>tarJlink: compress Jpackage distribution in a single file.</li>
 </ul>
 <p>To use it, apply <code>$gradleScripts/application.gradle</code> to your <code>build.gradle</code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
@@ -1147,7 +1147,7 @@ application.</p>
 <p>The defined tasks are:</p>
 <ul>
 <li>upx: compress the native executable using 'upx'. NOTE: Makes binaries use more RAM!!!</li>
-<li>zipNative: compress native executable in a ZIP file.</li>
+<li>tarNative: compress native executable into a TAR file.</li>
 </ul>
 <p>To use it you must apply the <code>$gradleScripts/native.gradle</code> script to your <code>build.gradle</code> file. It
 must be applied after the Kotlin plugin.</p>
@@ -1360,7 +1360,7 @@ script. I.e.:</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.db81ec45.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.6df46069.min.js"></script>
+      <script src="../assets/javascripts/bundle.4b2c34cd.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

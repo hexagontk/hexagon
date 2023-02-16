@@ -49,7 +49,7 @@ import kotlin.system.measureNanoTime
         }
 
 <span class="fc" id="L51">        val path = &quot;${n.method} ${n.path}&quot;</span>
-<span class="fc" id="L52">        val result = &quot;${m.status}(${m.status.code})&quot;</span>
+<span class="fc" id="L52">        val result = &quot;${m.status.type}(${m.status.code})&quot;</span>
 <span class="fc" id="L53">        val time = &quot;(${ns / 10e5} ms)&quot;</span>
 <span class="fc" id="L54">        val body = m.formatBody()</span>
 <span class="fc" id="L55">        return &quot;Response (partial headers):\n$path -&gt; $result $time$headers$body&quot;.trim()</span>

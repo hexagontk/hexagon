@@ -2,7 +2,7 @@
 
 import com.hexagonkt.http.checkHeaders
 import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.NOT_FOUND_404
 import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.server.model.ws.WsServerSession
 
@@ -11,7 +11,7 @@ import com.hexagonkt.http.server.model.ws.WsServerSession
 <span class="fc" id="L11">    override val headers: Headers = Headers(),</span>
 <span class="fc" id="L12">    override val contentType: ContentType? = null,</span>
 <span class="fc" id="L13">    override val cookies: List&lt;Cookie&gt; = emptyList(),</span>
-<span class="fc" id="L14">    override val status: HttpStatus = NOT_FOUND,</span>
+<span class="fc" id="L14">    override val status: HttpStatus = NOT_FOUND_404,</span>
 <span class="pc" id="L15">    val onConnect: WsServerSession.() -&gt; Unit = {},</span>
 <span class="pc" id="L16">    val onBinary: WsServerSession.(data: ByteArray) -&gt; Unit = {},</span>
 <span class="pc" id="L17">    val onText: WsServerSession.(text: String) -&gt; Unit = {},</span>

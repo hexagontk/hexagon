@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletFilter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">ServletFilter.kt</span></div><h1>ServletFilter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.core.media.TextMedia
+import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.toText
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.server.HttpServerSettings
@@ -58,7 +58,7 @@ import jakarta.servlet.http.HttpServletResponse
 <span class="fc" id="L58">            response.outputStream.write(bodyToBytes(handlerResponse.body))</span>
         }
 <span class="fc" id="L60">        catch (e: Exception) {</span>
-<span class="fc" id="L61">            response.addHeader(&quot;content-type&quot;, TextMedia.PLAIN.fullType)</span>
+<span class="fc" id="L61">            response.addHeader(&quot;content-type&quot;, TEXT_PLAIN.fullType)</span>
 <span class="fc" id="L62">            response.status = 500</span>
 <span class="fc" id="L63">            response.outputStream.write(e.toText().toByteArray())</span>
         }

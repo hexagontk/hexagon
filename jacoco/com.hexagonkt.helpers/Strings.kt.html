@@ -1,47 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Strings.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.helpers</a> &gt; <span class="el_source">Strings.kt</span></div><h1>Strings.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.helpers
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Strings.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.helpers</a> &gt; <span class="el_source">Strings.kt</span></div><h1>Strings.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.helpers
 
-import java.io.ByteArrayInputStream
-import java.io.InputStream
-import java.lang.System.getProperty
+import com.hexagonkt.core.eol
+import kotlin.IllegalArgumentException
 import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
-import java.util.*
 
 private const val VARIABLE_PREFIX = &quot;{{&quot;
 private const val VARIABLE_SUFFIX = &quot;}}&quot;
-
-<span class="fc" id="L13">private val base64Encoder: Base64.Encoder = Base64.getEncoder().withoutPadding()</span>
-<span class="fc" id="L14">private val base64Decoder: Base64.Decoder = Base64.getDecoder()</span>
-
-/** Runtime specific end of line. */
-<span class="fc" id="L17">val eol: String by lazy { getProperty(&quot;line.separator&quot;) }</span>
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @return .
- */
-fun ByteArray.encodeToBase64(): String =
-<span class="fc" id="L26">    base64Encoder.encodeToString(this)</span>
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @return .
- */
-fun String.encodeToBase64(): String =
-<span class="fc" id="L35">    toByteArray().encodeToBase64()</span>
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @return .
- */
-fun String.decodeBase64(): ByteArray =
-<span class="fc" id="L44">    base64Decoder.decode(this)</span>
 
 /**
  * Filter the target string substituting each key by its value. The keys format resembles Mustache's
@@ -54,24 +19,29 @@ fun String.decodeBase64(): ByteArray =
  * @sample com.hexagonkt.helpers.StringsSamplesTest.filterVarsExample
  */
 fun String.filterVars(parameters: Map&lt;*, *&gt;): String =
-<span class="fc" id="L57">    parameters.entries</span>
-<span class="fc" id="L58">        .asSequence()</span>
-<span class="fc bfc" id="L59" title="All 2 branches covered.">        .filter { it.key.toString().isNotEmpty() }</span>
-<span class="fc" id="L60">        .fold(this) { result, pair -&gt;</span>
-<span class="fc" id="L61">            val key = pair.key.toString()</span>
-<span class="fc" id="L62">            val value = pair.value.toString()</span>
-<span class="fc" id="L63">            result.replace(&quot;$VARIABLE_PREFIX$key$VARIABLE_SUFFIX&quot;, value)</span>
-<span class="fc" id="L64">        }</span>
+<span class="fc" id="L22">    this.filter(</span>
+<span class="fc" id="L23">        VARIABLE_PREFIX,</span>
+<span class="fc" id="L24">        VARIABLE_SUFFIX,</span>
+<span class="fc" id="L25">        *parameters</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            .filterKeys { it != null }</span>
+<span class="fc" id="L27">            .map { (k, v) -&gt; k.toString() to v.toString() }</span>
+<span class="fc" id="L28">            .toTypedArray()</span>
+<span class="fc" id="L29">    )</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Filter the target string substituting each key by its value. The keys format resembles Mustache's
+ * one: `{{key}}` and all occurrences are replaced by the supplied value.
  *
- * @receiver .
- * @param parameters .
- * @return .
+ * If a variable does not have a parameter, it is left as it is.
+ *
+ * @param parameters vararg of key/value pairs.
+ * @return The filtered text or the same string if no values are passed or found in the text.
+ * @sample com.hexagonkt.helpers.StringsSamplesTest.filterVarsVarargExample
+ *
+ * @see filterVars
  */
 fun String.filterVars(vararg parameters: Pair&lt;*, *&gt;) =
-<span class="fc" id="L74">    this.filterVars(mapOf(*parameters))</span>
+<span class="fc" id="L44">    this.filterVars(mapOf(*parameters))</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -82,10 +52,37 @@ fun String.filterVars(vararg parameters: Pair&lt;*, *&gt;) =
  * @param parameters .
  * @return .
  */
-fun String.filter(prefix: String, suffix: String, vararg parameters: Pair&lt;String, String&gt;): String =
-<span class="nc" id="L86">    parameters.fold(this) { result, (first, second) -&gt;</span>
-<span class="nc" id="L87">        result.replace(prefix + first + suffix, second)</span>
-<span class="nc" id="L88">    }</span>
+fun String.filter(prefix: String, suffix: String, vararg parameters: Pair&lt;String, *&gt;): String =
+<span class="fc" id="L56">    parameters.fold(this) { result, (first, second) -&gt;</span>
+<span class="fc" id="L57">        result.replace(prefix + first + suffix, second.toString())</span>
+<span class="fc" id="L58">    }</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param T .
+ * @param converter .
+ * @return .
+ */
+fun &lt;T : Enum&lt;*&gt;&gt; String.toEnum(converter: (String) -&gt; T): T =
+<span class="fc" id="L69">    uppercase().replace(&quot; &quot;, &quot;_&quot;).let(converter)</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param T .
+ * @param converter .
+ * @return .
+ */
+fun &lt;T : Enum&lt;*&gt;&gt; String.toEnumOrNull(converter: (String) -&gt; T): T? =
+<span class="fc" id="L80">    try {</span>
+<span class="fc" id="L81">        toEnum(converter)</span>
+    }
+<span class="fc" id="L83">    catch (e: IllegalArgumentException) {</span>
+<span class="fc" id="L84">        null</span>
+<span class="fc" id="L85">    }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -95,27 +92,54 @@ fun String.filter(prefix: String, suffix: String, vararg parameters: Pair&lt;Str
  * @return .
  */
 fun Regex.findGroups(text: String): List&lt;MatchGroup&gt; =
-<span class="fc bfc" id="L98" title="All 4 branches covered.">    (this.find(text)?.groups ?: emptyList&lt;MatchGroup&gt;())</span>
-<span class="fc" id="L99">        .filterNotNull()</span>
-<span class="fc" id="L100">        .drop(1)</span>
+<span class="pc bpc" id="L95" title="1 of 4 branches missed.">    (this.find(text)?.groups ?: emptyList&lt;MatchGroup&gt;())</span>
+<span class="fc" id="L96">        .filterNotNull()</span>
+<span class="fc" id="L97">        .drop(1)</span>
+
+fun String.camelToWords(): List&lt;String&gt; =
+<span class="fc" id="L100">    split(&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex()).toWords()</span>
+
+fun String.snakeToWords(): List&lt;String&gt; =
+<span class="fc" id="L103">    split(&quot;_&quot;).toWords()</span>
+
+fun String.kebabToWords(): List&lt;String&gt; =
+<span class="fc" id="L106">    split(&quot;-&quot;).toWords()</span>
+
+fun List&lt;String&gt;.toWords(): List&lt;String&gt; =
+<span class="fc bfc" id="L109" title="All 2 branches covered.">    filter(String::isNotEmpty).map(String::lowercase)</span>
+
+fun List&lt;String&gt;.wordsToCamel(): String =
+<span class="fc bfc" id="L112" title="All 4 branches covered.">    wordsToPascal().replaceFirstChar(Char::lowercase)</span>
+
+fun List&lt;String&gt;.wordsToPascal(): String =
+<span class="pc bpc" id="L115" title="2 of 4 branches missed.">    joinToString(&quot;&quot;) { it.replaceFirstChar(Char::uppercase) }</span>
+
+fun List&lt;String&gt;.wordsToSnake(): String =
+<span class="fc" id="L118">    joinToString(&quot;_&quot;)</span>
+
+fun List&lt;String&gt;.wordsToKebab(): String =
+<span class="fc" id="L121">    joinToString(&quot;-&quot;)</span>
+
+fun List&lt;String&gt;.wordsToTitle(): String =
+<span class="pc bpc" id="L124" title="2 of 4 branches missed.">    joinToString(&quot; &quot;) { it.replaceFirstChar(Char::uppercase) }</span>
+
+fun List&lt;String&gt;.wordsToSentence(): String =
+<span class="pc bpc" id="L127" title="2 of 4 branches missed.">    joinToString(&quot; &quot;).replaceFirstChar(Char::uppercase)</span>
 
 /**
  * Transform the target string from snake case to camel case.
  */
 fun String.snakeToCamel(): String =
-<span class="fc" id="L106">    this.split(&quot;_&quot;)</span>
-<span class="fc" id="L107">        .asSequence()</span>
-<span class="fc" id="L108">        .filter(String::isNotEmpty)</span>
-<span class="pc bpc" id="L109" title="2 of 4 branches missed.">        .joinToString(&quot;&quot;, transform = { it.replaceFirstChar(Char::uppercase) })</span>
-<span class="fc bfc" id="L110" title="All 4 branches covered.">        .replaceFirstChar(Char::lowercase)</span>
+<span class="fc" id="L133">    snakeToWords().wordsToCamel()</span>
+
+fun Enum&lt;*&gt;.toWords(): String =
+<span class="fc" id="L136">    toString().lowercase().replace(&quot;_&quot;, &quot; &quot;)</span>
 
 /**
  * Transform the target string from camel case to snake case.
  */
 fun String.camelToSnake(): String =
-<span class="fc" id="L116">    this.split(&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex())</span>
-<span class="fc" id="L117">        .joinToString(&quot;_&quot;, transform = String::lowercase)</span>
-<span class="pc bpc" id="L118" title="2 of 4 branches missed.">        .replaceFirstChar(Char::lowercase)</span>
+<span class="fc" id="L142">    camelToWords().wordsToSnake()</span>
 
 /**
  * Format the string as a banner with a delimiter above and below text. The character used to
@@ -123,15 +147,15 @@ fun String.camelToSnake(): String =
  *
  * @param bannerDelimiter Delimiter char for banners.
  */
-<span class="fc" id="L126">fun String.banner(bannerDelimiter: String = &quot;*&quot;): String =</span>
-<span class="fc" id="L127">    bannerDelimiter</span>
-<span class="fc" id="L128">        .repeat(this</span>
-<span class="fc" id="L129">            .lines()</span>
-<span class="fc" id="L130">            .asSequence()</span>
-<span class="fc" id="L131">            .map { it.length }</span>
-<span class="fc" id="L132">            .maxOrElse(0)</span>
+<span class="fc" id="L150">fun String.banner(bannerDelimiter: String = &quot;*&quot;): String =</span>
+<span class="fc" id="L151">    bannerDelimiter</span>
+<span class="fc" id="L152">        .repeat(this</span>
+<span class="fc" id="L153">            .lines()</span>
+<span class="fc" id="L154">            .asSequence()</span>
+<span class="fc" id="L155">            .map { it.length }</span>
+<span class="fc" id="L156">            .maxOrElse(0)</span>
         )
-<span class="fc" id="L134">        .let { &quot;$it$eol$this$eol$it&quot; }</span>
+<span class="fc" id="L158">        .let { &quot;$it$eol$this$eol$it&quot; }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -140,16 +164,7 @@ fun String.camelToSnake(): String =
  * @return .
  */
 fun String.stripAccents(): String =
-<span class="fc" id="L143">    normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @return .
- */
-fun String.toStream(): InputStream =
-<span class="fc" id="L152">    ByteArrayInputStream(this.toByteArray())</span>
+<span class="fc" id="L167">    normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -158,19 +173,11 @@ fun String.toStream(): InputStream =
  * @return .
  */
 fun utf8(vararg bytes: Int): String =
-<span class="fc" id="L161">    String(bytes.map(Int::toByte).toByteArray())</span>
+<span class="fc" id="L176">    String(bytes.map(Int::toByte).toByteArray())</span>
 
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @param count .
- * @param pad .
- * @return .
- */
-<span class="fc" id="L171">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;): String =</span>
-<span class="fc" id="L172">    this.prependIndent(pad.repeat(count))</span>
+fun String.toEnumValue(): String =
+<span class="fc" id="L179">    trim().uppercase().replace(&quot; &quot;, &quot;_&quot;)</span>
 
 internal fun Sequence&lt;Int&gt;.maxOrElse(fallback: Int): Int =
-<span class="fc bfc" id="L175" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

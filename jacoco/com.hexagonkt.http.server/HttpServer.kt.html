@@ -81,11 +81,11 @@ import java.lang.System.nanoTime
      * @param handler The only handler used for this server.
      * @param settings Server settings. Port and address will be searched in this map.
      */
-<span class="nc" id="L84">    constructor(</span>
+<span class="fc" id="L84">    constructor(</span>
         adapter: HttpServerPort,
         handler: HttpHandler,
-<span class="nc" id="L87">        settings: HttpServerSettings = HttpServerSettings(),</span>
-<span class="pc" id="L88">    ) : this(adapter, listOf(handler), settings)</span>
+<span class="fc" id="L87">        settings: HttpServerSettings = HttpServerSettings(),</span>
+<span class="fc" id="L88">    ) : this(adapter, listOf(handler), settings)</span>
 
     override fun close() {
 <span class="fc" id="L91">        stop()</span>

@@ -6,6 +6,7 @@ import java.lang.management.MemoryUsage
 import java.lang.management.RuntimeMXBean
 import java.net.InetAddress
 import java.nio.charset.Charset
+import java.time.ZoneId
 import java.util.*
 
 import kotlin.reflect.KClass
@@ -18,41 +19,52 @@ import kotlin.reflect.KClass
  */
 object Jvm {
     /** Default timezone. TODO Defining this lazily fails in macOS */
-<span class="fc" id="L21">    val timeZone: TimeZone = TimeZone.getDefault()</span>
+<span class="fc" id="L22">    val timeZone: TimeZone = TimeZone.getDefault()</span>
+
+    /** Default zone ID. */
+<span class="fc" id="L25">    val zoneId: ZoneId by lazy { timeZone.toZoneId() }</span>
 
     /** Default character set. */
-<span class="fc" id="L24">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
+<span class="fc" id="L28">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
 
     /** Default locale for this instance of the Java Virtual Machine. */
-<span class="fc" id="L27">    val locale: Locale by lazy { Locale.getDefault() }</span>
+<span class="fc" id="L31">    val locale: Locale by lazy { Locale.getDefault() }</span>
 
     /** The hostname of the machine running this program. */
-<span class="fc" id="L30">    val hostname: String by lazy { InetAddress.getLocalHost().hostName }</span>
+<span class="fc" id="L34">    val hostname: String by lazy { InetAddress.getLocalHost().hostName }</span>
 
     /** The IP address of the machine running this program. */
-<span class="fc" id="L33">    val ip: String by lazy { InetAddress.getLocalHost().hostAddress }</span>
+<span class="fc" id="L37">    val ip: String by lazy { InetAddress.getLocalHost().hostAddress }</span>
 
     /**
      * ID representing the running Java virtual machine. If the 'java.management' module is not
      * available returns `N/A`.
      */
-<span class="pc bpc" id="L39" title="2 of 4 branches missed.">    val id: String by lazy { runtime?.name ?: &quot;N/A&quot; }</span>
+<span class="pc bpc" id="L43" title="2 of 4 branches missed.">    val id: String by lazy { runtime?.name ?: &quot;N/A&quot; }</span>
 
     /** Name of the JVM running this program. For example: OpenJDK 64-Bit Server VM. */
-<span class="fc" id="L42">    val name: String by lazy { System.getProperty(&quot;java.vm.name&quot;) }</span>
+<span class="fc" id="L46">    val name: String by lazy { System.getProperty(&quot;java.vm.name&quot;) }</span>
 
     /** Java version aka language level. For example: 11 */
-<span class="fc" id="L45">    val version: String by lazy { System.getProperty(&quot;java.vm.specification.version&quot;) }</span>
+<span class="fc" id="L49">    val version: String by lazy { System.getProperty(&quot;java.vm.specification.version&quot;) }</span>
 
     /** Number of processors available to the Java virtual machine. */
-<span class="fc" id="L48">    val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }</span>
+<span class="fc" id="L52">    val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }</span>
 
     /** User Time Zone property. Can be set with -D user.timezone=&lt;tz&gt; JVM argument. */
-<span class="fc" id="L51">    val timezone: String by lazy { System.getProperty(&quot;user.timezone&quot;) }</span>
+<span class="fc" id="L55">    val timezone: String by lazy { System.getProperty(&quot;user.timezone&quot;) }</span>
 
     /** User locale consist of 2-letter language code, 2-letter country code and file encoding. */
-<span class="fc" id="L54">    val localeCode: String by lazy {</span>
-<span class="fc" id="L55">        &quot;%s_%s.%s&quot;.format(locale.language, locale.country, charset.name())</span>
+<span class="fc" id="L58">    val localeCode: String by lazy {</span>
+<span class="fc" id="L59">        &quot;%s_%s.%s&quot;.format(locale.language, locale.country, charset.name())</span>
+    }
+
+<span class="fc" id="L62">    private val heap: MemoryUsage? by lazy {</span>
+<span class="pc" id="L63">        try { getMemoryMXBean().heapMemoryUsage } catch (_: NoClassDefFoundError) { null }</span>
+    }
+
+<span class="fc" id="L66">    private val runtime: RuntimeMXBean? by lazy {</span>
+<span class="pc" id="L67">        try { getRuntimeMXBean() } catch (_: NoClassDefFoundError) { null }</span>
     }
 
     /**
@@ -62,7 +74,7 @@ object Jvm {
      * @return Initial amount of memory in kilobytes.
      */
     fun initialMemory(): String =
-<span class="pc bpc" id="L65" title="2 of 4 branches missed.">        heap?.let { &quot;%,d&quot;.format(it.init / 1024) } ?: &quot;N/A&quot;</span>
+<span class="pc bpc" id="L77" title="2 of 4 branches missed.">        heap?.let { &quot;%,d&quot;.format(it.init / 1024) } ?: &quot;N/A&quot;</span>
 
     /**
      * Amount of used memory in kilobytes. If the 'java.management' module is not available returns
@@ -71,7 +83,7 @@ object Jvm {
      * @return Used memory in kilobytes.
      */
     fun usedMemory(): String =
-<span class="pc bpc" id="L74" title="2 of 4 branches missed.">        heap?.let { &quot;%,d&quot;.format(it.used / 1024) } ?: &quot;N/A&quot;</span>
+<span class="pc bpc" id="L86" title="2 of 4 branches missed.">        heap?.let { &quot;%,d&quot;.format(it.used / 1024) } ?: &quot;N/A&quot;</span>
 
     /**
      * Uptime of the Java virtual machine in seconds. If the 'java.management' module is not
@@ -80,7 +92,7 @@ object Jvm {
      * @return JVM uptime in seconds.
      */
     fun uptime(): String =
-<span class="pc bpc" id="L83" title="2 of 4 branches missed.">        runtime?.let { &quot;%01.3f&quot;.format(it.uptime / 1e3) } ?: &quot;N/A&quot;</span>
+<span class="pc bpc" id="L95" title="2 of 4 branches missed.">        runtime?.let { &quot;%01.3f&quot;.format(it.uptime / 1e3) } ?: &quot;N/A&quot;</span>
 
     /**
      * Retrieve a setting by name by looking in the JVM system properties first and in OS
@@ -93,11 +105,11 @@ object Jvm {
      *   found on the JVM system properties and in OS environment variables.
      */
     fun &lt;T: Any&gt; systemSettingOrNull(type: KClass&lt;T&gt;, name: String): T? =
-<span class="fc" id="L96">        systemSettingRaw(name).let { it.parseOrNull(type) }</span>
+<span class="fc" id="L108">        systemSettingRaw(name).let { it.parseOrNull(type) }</span>
 
     fun &lt;T: Any&gt; systemSetting(type: KClass&lt;T&gt;, name: String): T =
-<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        systemSettingOrNull(type, name)</span>
-<span class="pc" id="L100">            ?: error(&quot;Required '${type.simpleName}' system setting '$name' not found&quot;)</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        systemSettingOrNull(type, name)</span>
+<span class="pc" id="L112">            ?: error(&quot;Required '${type.simpleName}' system setting '$name' not found&quot;)</span>
 
     /**
      * Retrieve a flag (boolean parameter) by name by looking in the JVM system properties first and
@@ -107,7 +119,7 @@ object Jvm {
      * @return True if the parameter is found and its value is exactly 'true', false otherwise.
      */
     fun systemFlag(name: String): Boolean =
-<span class="fc bfc" id="L110" title="All 2 branches covered.">        systemSettingOrNull(Boolean::class, name) ?: false</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        systemSettingOrNull(Boolean::class, name) ?: false</span>
 
     /**
      * Utility method for retrieving a system setting, check [systemSettingOrNull] for details.
@@ -124,17 +136,9 @@ object Jvm {
     inline fun &lt;reified T: Any&gt; systemSetting(name: String): T =
         systemSetting(T::class, name)
 
-<span class="fc" id="L127">    private val heap: MemoryUsage? by lazy {</span>
-<span class="pc" id="L128">        try { getMemoryMXBean().heapMemoryUsage } catch (_: NoClassDefFoundError) { null }</span>
-    }
-
-<span class="fc" id="L131">    private val runtime: RuntimeMXBean? by lazy {</span>
-<span class="pc" id="L132">        try { getRuntimeMXBean() } catch (_: NoClassDefFoundError) { null }</span>
-    }
-
     private fun systemSettingRaw(name: String): String? {
-<span class="fc bfc" id="L136" title="All 4 branches covered.">        require(name.isNotBlank()) { &quot;Setting name can not be blank&quot; }</span>
-<span class="fc bfc" id="L137" title="All 2 branches covered.">        return System.getProperty(name) ?: System.getenv(name)</span>
+<span class="fc bfc" id="L140" title="All 4 branches covered.">        require(name.isNotBlank()) { &quot;Setting name can not be blank&quot; }</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        return System.getProperty(name) ?: System.getenv(name)</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

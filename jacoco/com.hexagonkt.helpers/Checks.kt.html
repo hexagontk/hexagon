@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Checks.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.helpers</a> &gt; <span class="el_source">Checks.kt</span></div><h1>Checks.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.helpers
+
+import com.hexagonkt.core.responseFound
+import java.net.URL
+import java.time.LocalDate
+import kotlin.reflect.KProperty1
+
+fun &lt;T : Any&gt; T.requireNotBlank(field: KProperty1&lt;T, CharSequence?&gt;) {
+<span class="fc" id="L9">    val fieldValue = field.get(this)</span>
+<span class="fc bfc" id="L10" title="All 6 branches covered.">    require(fieldValue?.isNotBlank() ?: true) { &quot;'${field.name}' cannot be blank&quot; }</span>
+<span class="fc" id="L11">}</span>
+
+fun &lt;T : Any&gt; T.requireNotBlanks(field: KProperty1&lt;T, Collection&lt;CharSequence&gt;?&gt;) {
+<span class="fc bfc" id="L14" title="All 2 branches covered.">    val fieldValue = field.get(this) ?: emptyList()</span>
+<span class="fc bfc" id="L15" title="All 4 branches covered.">    require(fieldValue.all { it.isNotBlank() }) { &quot;'${field.name}' cannot contain blanks&quot; }</span>
+<span class="fc" id="L16">}</span>
+
+<span class="nc" id="L18">fun &lt;T : Any&gt; T.requireBefore(field: KProperty1&lt;T, LocalDate?&gt;, date: LocalDate = LocalDate.now()) {</span>
+<span class="fc" id="L19">    val fieldValue = field.get(this)</span>
+<span class="fc bfc" id="L20" title="All 4 branches covered.">    require(fieldValue?.isBefore(date) ?: true) {</span>
+<span class="fc" id="L21">        &quot;'${field.name}' must be before $date: $fieldValue&quot;</span>
+    }
+<span class="fc" id="L23">}</span>
+
+<span class="fc" id="L25">fun &lt;T : Any&gt; T.requireBeforeOrEquals(</span>
+    field: KProperty1&lt;T, LocalDate?&gt;,
+<span class="fc" id="L27">    date: LocalDate = LocalDate.now()</span>
+) {
+<span class="fc" id="L29">    requireBefore(field, date.plusDays(1))</span>
+<span class="fc" id="L30">}</span>
+
+fun &lt;T : Any&gt; T.requireUrlFound(field: KProperty1&lt;T, URL?&gt;) {
+<span class="fc" id="L33">    val fieldValue = field.get(this)</span>
+<span class="fc bfc" id="L34" title="All 4 branches covered.">    require(fieldValue?.responseFound() ?: true) {</span>
+<span class="fc" id="L35">        &quot;'${field.name}' URL must be available: $fieldValue&quot;</span>
+    }
+<span class="fc" id="L37">}</span>
+
+fun &lt;T : Any&gt; T.requireUrlsFound(field: KProperty1&lt;T, Collection&lt;URL&gt;?&gt;) {
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">    val fieldValue = field.get(this) ?: emptyList()</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">    require(fieldValue.all { it.responseFound() }) {</span>
+<span class="fc" id="L42">        &quot;'${field.name}' URL must be available: $fieldValue&quot;</span>
+    }
+<span class="fc" id="L44">}</span>
+
+fun &lt;T : Any, N : Number&gt; T.requireGreater(field: KProperty1&lt;T, Comparable&lt;N&gt;?&gt;, min: N) {
+<span class="fc" id="L47">    val fieldValue = field.get(this)</span>
+<span class="fc bfc" id="L48" title="All 6 branches covered.">    require((fieldValue?.compareTo(min) ?: 1) &gt; 0) {</span>
+<span class="fc" id="L49">        &quot;'${field.name}' must be greater than $min: $fieldValue&quot;</span>
+    }
+<span class="fc" id="L51">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

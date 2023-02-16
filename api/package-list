@@ -8,6 +8,8 @@ com.hexagonkt.core.media
 com.hexagonkt.core.security
 module:handlers
 com.hexagonkt.handlers
+module:helpers
+com.hexagonkt.helpers
 module:http
 com.hexagonkt.http
 com.hexagonkt.http.model

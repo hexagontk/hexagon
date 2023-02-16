@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpStatuses.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.model</a> &gt; <span class="el_source">HttpStatuses.kt</span></div><h1>HttpStatuses.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.model
+
+import com.hexagonkt.http.model.HttpStatusType.*
+
+<span class="fc" id="L5">val CONTINUE_100: HttpStatus = HttpStatus(100, INFORMATION)</span>
+<span class="fc" id="L6">val SWITCHING_PROTOCOLS_101: HttpStatus = HttpStatus(101, INFORMATION)</span>
+<span class="fc" id="L7">val PROCESSING_102: HttpStatus = HttpStatus(102, INFORMATION)</span>
+<span class="fc" id="L8">val EARLY_HINTS_103: HttpStatus = HttpStatus(103, INFORMATION)</span>
+
+<span class="fc" id="L10">val OK_200: HttpStatus = HttpStatus(200, SUCCESS)</span>
+<span class="fc" id="L11">val CREATED_201: HttpStatus = HttpStatus(201, SUCCESS)</span>
+<span class="fc" id="L12">val ACCEPTED_202: HttpStatus = HttpStatus(202, SUCCESS)</span>
+<span class="fc" id="L13">val NON_AUTHORITATIVE_INFORMATION_203: HttpStatus = HttpStatus(203, SUCCESS)</span>
+<span class="fc" id="L14">val NO_CONTENT_204: HttpStatus = HttpStatus(204, SUCCESS)</span>
+<span class="fc" id="L15">val RESET_CONTENT_205: HttpStatus = HttpStatus(205, SUCCESS)</span>
+<span class="fc" id="L16">val PARTIAL_CONTENT_206: HttpStatus = HttpStatus(206, SUCCESS)</span>
+<span class="fc" id="L17">val MULTI_STATUS_207: HttpStatus = HttpStatus(207, SUCCESS)</span>
+<span class="fc" id="L18">val ALREADY_REPORTED_208: HttpStatus = HttpStatus(208, SUCCESS)</span>
+<span class="fc" id="L19">val IM_USED_226: HttpStatus = HttpStatus(226, SUCCESS)</span>
+
+<span class="fc" id="L21">val MULTIPLE_CHOICES_300: HttpStatus = HttpStatus(300, REDIRECTION)</span>
+<span class="fc" id="L22">val MOVED_PERMANENTLY_301: HttpStatus = HttpStatus(301, REDIRECTION)</span>
+<span class="fc" id="L23">val FOUND_302: HttpStatus = HttpStatus(302, REDIRECTION)</span>
+<span class="fc" id="L24">val SEE_OTHER_303: HttpStatus = HttpStatus(303, REDIRECTION)</span>
+<span class="fc" id="L25">val NOT_MODIFIED_304: HttpStatus = HttpStatus(304, REDIRECTION)</span>
+<span class="fc" id="L26">val USE_PROXY_305: HttpStatus = HttpStatus(305, REDIRECTION)</span>
+<span class="fc" id="L27">val TEMPORARY_REDIRECT_307: HttpStatus = HttpStatus(307, REDIRECTION)</span>
+<span class="fc" id="L28">val PERMANENT_REDIRECT_308: HttpStatus = HttpStatus(308, REDIRECTION)</span>
+
+<span class="fc" id="L30">val BAD_REQUEST_400: HttpStatus = HttpStatus(400, CLIENT_ERROR)</span>
+<span class="fc" id="L31">val UNAUTHORIZED_401: HttpStatus = HttpStatus(401, CLIENT_ERROR)</span>
+<span class="fc" id="L32">val PAYMENT_REQUIRED_402: HttpStatus = HttpStatus(402, CLIENT_ERROR)</span>
+<span class="fc" id="L33">val FORBIDDEN_403: HttpStatus = HttpStatus(403, CLIENT_ERROR)</span>
+<span class="fc" id="L34">val NOT_FOUND_404: HttpStatus = HttpStatus(404, CLIENT_ERROR)</span>
+<span class="fc" id="L35">val METHOD_NOT_ALLOWED_405: HttpStatus = HttpStatus(405, CLIENT_ERROR)</span>
+<span class="fc" id="L36">val NOT_ACCEPTABLE_406: HttpStatus = HttpStatus(406, CLIENT_ERROR)</span>
+<span class="fc" id="L37">val PROXY_AUTHENTICATION_REQUIRED_407: HttpStatus = HttpStatus(407, CLIENT_ERROR)</span>
+<span class="fc" id="L38">val REQUEST_TIMEOUT_408: HttpStatus = HttpStatus(408, CLIENT_ERROR)</span>
+<span class="fc" id="L39">val CONFLICT_409: HttpStatus = HttpStatus(409, CLIENT_ERROR)</span>
+<span class="fc" id="L40">val GONE_410: HttpStatus = HttpStatus(410, CLIENT_ERROR)</span>
+<span class="fc" id="L41">val LENGTH_REQUIRED_411: HttpStatus = HttpStatus(411, CLIENT_ERROR)</span>
+<span class="fc" id="L42">val PRECONDITION_FAILED_412: HttpStatus = HttpStatus(412, CLIENT_ERROR)</span>
+<span class="fc" id="L43">val CONTENT_TOO_LARGE_413: HttpStatus = HttpStatus(413, CLIENT_ERROR)</span>
+<span class="fc" id="L44">val URI_TOO_LONG_414: HttpStatus = HttpStatus(414, CLIENT_ERROR)</span>
+<span class="fc" id="L45">val UNSUPPORTED_MEDIA_TYPE_415: HttpStatus = HttpStatus(415, CLIENT_ERROR)</span>
+<span class="fc" id="L46">val RANGE_NOT_SATISFIABLE_416: HttpStatus = HttpStatus(416, CLIENT_ERROR)</span>
+<span class="fc" id="L47">val EXPECTATION_FAILED_417: HttpStatus = HttpStatus(417, CLIENT_ERROR)</span>
+<span class="fc" id="L48">val I_AM_A_TEAPOT_418: HttpStatus = HttpStatus(418, CLIENT_ERROR)</span>
+<span class="fc" id="L49">val MISDIRECTED_REQUEST_421: HttpStatus = HttpStatus(421, CLIENT_ERROR)</span>
+<span class="fc" id="L50">val UNPROCESSABLE_CONTENT_422: HttpStatus = HttpStatus(422, CLIENT_ERROR)</span>
+<span class="fc" id="L51">val LOCKED_423: HttpStatus = HttpStatus(423, CLIENT_ERROR)</span>
+<span class="fc" id="L52">val FAILED_DEPENDENCY_424: HttpStatus = HttpStatus(424, CLIENT_ERROR)</span>
+<span class="fc" id="L53">val TOO_EARLY_425: HttpStatus = HttpStatus(425, CLIENT_ERROR)</span>
+<span class="fc" id="L54">val UPGRADE_REQUIRED_426: HttpStatus = HttpStatus(426, CLIENT_ERROR)</span>
+<span class="fc" id="L55">val PRECONDITION_REQUIRED_428: HttpStatus = HttpStatus(428, CLIENT_ERROR)</span>
+<span class="fc" id="L56">val TOO_MANY_REQUESTS_429: HttpStatus = HttpStatus(429, CLIENT_ERROR)</span>
+<span class="fc" id="L57">val REQUEST_HEADER_FIELDS_TOO_LARGE_431: HttpStatus = HttpStatus(431, CLIENT_ERROR)</span>
+<span class="fc" id="L58">val UNAVAILABLE_FOR_LEGAL_REASONS_451: HttpStatus = HttpStatus(451, CLIENT_ERROR)</span>
+
+<span class="fc" id="L60">val INTERNAL_SERVER_ERROR_500: HttpStatus = HttpStatus(500, SERVER_ERROR)</span>
+<span class="fc" id="L61">val NOT_IMPLEMENTED_501: HttpStatus = HttpStatus(501, SERVER_ERROR)</span>
+<span class="fc" id="L62">val BAD_GATEWAY_502: HttpStatus = HttpStatus(502, SERVER_ERROR)</span>
+<span class="fc" id="L63">val SERVICE_UNAVAILABLE_503: HttpStatus = HttpStatus(503, SERVER_ERROR)</span>
+<span class="fc" id="L64">val GATEWAY_TIMEOUT_504: HttpStatus = HttpStatus(504, SERVER_ERROR)</span>
+<span class="fc" id="L65">val HTTP_VERSION_NOT_SUPPORTED_505: HttpStatus = HttpStatus(505, SERVER_ERROR)</span>
+<span class="fc" id="L66">val VARIANT_ALSO_NEGOTIATES_506: HttpStatus = HttpStatus(506, SERVER_ERROR)</span>
+<span class="fc" id="L67">val INSUFFICIENT_STORAGE_507: HttpStatus = HttpStatus(507, SERVER_ERROR)</span>
+<span class="fc" id="L68">val LOOP_DETECTED_508: HttpStatus = HttpStatus(508, SERVER_ERROR)</span>
+<span class="fc" id="L69">val NOT_EXTENDED_510: HttpStatus = HttpStatus(510, SERVER_ERROR)</span>
+<span class="fc" id="L70">val NETWORK_AUTHENTICATION_REQUIRED_511: HttpStatus = HttpStatus(511, SERVER_ERROR)</span>
+
+<span class="fc" id="L72">val HTTP_STATUSES: List&lt;HttpStatus&gt; = listOf(</span>
+<span class="fc" id="L73">    CONTINUE_100, SWITCHING_PROTOCOLS_101, PROCESSING_102, EARLY_HINTS_103,</span>
+
+<span class="fc" id="L75">    OK_200, CREATED_201, ACCEPTED_202, NON_AUTHORITATIVE_INFORMATION_203, NO_CONTENT_204,</span>
+<span class="fc" id="L76">    RESET_CONTENT_205, PARTIAL_CONTENT_206, MULTI_STATUS_207, ALREADY_REPORTED_208, IM_USED_226,</span>
+
+<span class="fc" id="L78">    MULTIPLE_CHOICES_300, MOVED_PERMANENTLY_301, FOUND_302, SEE_OTHER_303, NOT_MODIFIED_304,</span>
+<span class="fc" id="L79">    USE_PROXY_305, TEMPORARY_REDIRECT_307, PERMANENT_REDIRECT_308,</span>
+
+<span class="fc" id="L81">    BAD_REQUEST_400, UNAUTHORIZED_401, PAYMENT_REQUIRED_402, FORBIDDEN_403, NOT_FOUND_404,</span>
+<span class="fc" id="L82">    METHOD_NOT_ALLOWED_405, NOT_ACCEPTABLE_406, PROXY_AUTHENTICATION_REQUIRED_407,</span>
+<span class="fc" id="L83">    REQUEST_TIMEOUT_408, CONFLICT_409, GONE_410, LENGTH_REQUIRED_411, PRECONDITION_FAILED_412,</span>
+<span class="fc" id="L84">    CONTENT_TOO_LARGE_413, URI_TOO_LONG_414, UNSUPPORTED_MEDIA_TYPE_415, RANGE_NOT_SATISFIABLE_416,</span>
+<span class="fc" id="L85">    EXPECTATION_FAILED_417, I_AM_A_TEAPOT_418, MISDIRECTED_REQUEST_421, UNPROCESSABLE_CONTENT_422,</span>
+<span class="fc" id="L86">    LOCKED_423, FAILED_DEPENDENCY_424, TOO_EARLY_425, UPGRADE_REQUIRED_426,</span>
+<span class="fc" id="L87">    PRECONDITION_REQUIRED_428, TOO_MANY_REQUESTS_429, REQUEST_HEADER_FIELDS_TOO_LARGE_431,</span>
+<span class="fc" id="L88">    UNAVAILABLE_FOR_LEGAL_REASONS_451,</span>
+
+<span class="fc" id="L90">    INTERNAL_SERVER_ERROR_500, NOT_IMPLEMENTED_501, BAD_GATEWAY_502, SERVICE_UNAVAILABLE_503,</span>
+<span class="fc" id="L91">    GATEWAY_TIMEOUT_504, HTTP_VERSION_NOT_SUPPORTED_505, VARIANT_ALSO_NEGOTIATES_506,</span>
+<span class="fc" id="L92">    INSUFFICIENT_STORAGE_507, LOOP_DETECTED_508, NOT_EXTENDED_510,</span>
+<span class="fc" id="L93">    NETWORK_AUTHENTICATION_REQUIRED_511,</span>
+)
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

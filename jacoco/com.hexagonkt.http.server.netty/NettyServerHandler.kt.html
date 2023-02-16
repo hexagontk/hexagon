@@ -70,7 +70,7 @@ import java.util.concurrent.Flow.*
 <span class="fc bfc" id="L70" title="All 2 branches covered.">        val isWebSocket = connection == &quot;upgrade&quot;</span>
 <span class="pc bpc" id="L71" title="1 of 2 branches missed.">            &amp;&amp; upgrade == &quot;websocket&quot;</span>
 <span class="pc bpc" id="L72" title="1 of 2 branches missed.">            &amp;&amp; method == GET</span>
-<span class="fc bfc" id="L73" title="All 2 branches covered.">            &amp;&amp; response.status == SuccessStatus.ACCEPTED</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">            &amp;&amp; response.status == ACCEPTED_202</span>
 
 <span class="fc" id="L75">        when {</span>
 <span class="fc bfc" id="L76" title="All 2 branches covered.">            isSse -&gt; handleSse(context, response, body)</span>
@@ -166,7 +166,7 @@ import java.util.concurrent.Flow.*
     @Suppress(&quot;OVERRIDE_DEPRECATION&quot;) // Deprecated in base interface, but allowed in parent class
     override fun exceptionCaught(context: ChannelHandlerContext, cause: Throwable) {
 <span class="fc" id="L168">        val body = &quot;Failure: $cause\n&quot;</span>
-<span class="fc" id="L169">        val response = HttpServerResponse(body, status = ServerErrorStatus.INTERNAL_SERVER_ERROR)</span>
+<span class="fc" id="L169">        val response = HttpServerResponse(body, status = INTERNAL_SERVER_ERROR_500)</span>
 <span class="fc" id="L170">        writeResponse(context, response, false)</span>
 <span class="fc" id="L171">    }</span>
 
@@ -213,64 +213,64 @@ import java.util.concurrent.Flow.*
 
     internal fun nettyStatus(status: HttpStatus): HttpResponseStatus =
 <span class="fc" id="L215">        when (status) {</span>
-<span class="fc bfc" id="L216" title="All 2 branches covered.">            InformationStatus.CONTINUE -&gt; CONTINUE</span>
-<span class="fc bfc" id="L217" title="All 2 branches covered.">            InformationStatus.SWITCHING_PROTOCOLS -&gt; SWITCHING_PROTOCOLS</span>
-<span class="fc bfc" id="L218" title="All 2 branches covered.">            InformationStatus.PROCESSING -&gt; PROCESSING</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">            CONTINUE_100 -&gt; CONTINUE</span>
+<span class="fc bfc" id="L217" title="All 2 branches covered.">            SWITCHING_PROTOCOLS_101 -&gt; SWITCHING_PROTOCOLS</span>
+<span class="fc bfc" id="L218" title="All 2 branches covered.">            PROCESSING_102 -&gt; PROCESSING</span>
 
-<span class="fc bfc" id="L220" title="All 2 branches covered.">            SuccessStatus.OK -&gt; OK</span>
-<span class="fc bfc" id="L221" title="All 2 branches covered.">            SuccessStatus.CREATED -&gt; CREATED</span>
-<span class="pc bpc" id="L222" title="1 of 2 branches missed.">            ACCEPTED -&gt; ACCEPTED</span>
-<span class="fc bfc" id="L223" title="All 2 branches covered.">            SuccessStatus.NON_AUTHORITATIVE_INFORMATION -&gt; NON_AUTHORITATIVE_INFORMATION</span>
-<span class="fc bfc" id="L224" title="All 2 branches covered.">            SuccessStatus.NO_CONTENT -&gt; NO_CONTENT</span>
-<span class="fc bfc" id="L225" title="All 2 branches covered.">            SuccessStatus.RESET_CONTENT -&gt; RESET_CONTENT</span>
-<span class="fc bfc" id="L226" title="All 2 branches covered.">            SuccessStatus.PARTIAL_CONTENT -&gt; PARTIAL_CONTENT</span>
-<span class="fc bfc" id="L227" title="All 2 branches covered.">            SuccessStatus.MULTI_STATUS -&gt; MULTI_STATUS</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">            OK_200 -&gt; OK</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">            CREATED_201 -&gt; CREATED</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">            ACCEPTED_202 -&gt; ACCEPTED</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">            NON_AUTHORITATIVE_INFORMATION_203 -&gt; NON_AUTHORITATIVE_INFORMATION</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">            NO_CONTENT_204 -&gt; NO_CONTENT</span>
+<span class="fc bfc" id="L225" title="All 2 branches covered.">            RESET_CONTENT_205 -&gt; RESET_CONTENT</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">            PARTIAL_CONTENT_206 -&gt; PARTIAL_CONTENT</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">            MULTI_STATUS_207 -&gt; MULTI_STATUS</span>
 
-<span class="fc bfc" id="L229" title="All 2 branches covered.">            RedirectionStatus.MULTIPLE_CHOICES -&gt; MULTIPLE_CHOICES</span>
-<span class="fc bfc" id="L230" title="All 2 branches covered.">            RedirectionStatus.MOVED_PERMANENTLY -&gt; MOVED_PERMANENTLY</span>
-<span class="fc bfc" id="L231" title="All 2 branches covered.">            RedirectionStatus.FOUND -&gt; FOUND</span>
-<span class="fc bfc" id="L232" title="All 2 branches covered.">            RedirectionStatus.SEE_OTHER -&gt; SEE_OTHER</span>
-<span class="fc bfc" id="L233" title="All 2 branches covered.">            RedirectionStatus.NOT_MODIFIED -&gt; NOT_MODIFIED</span>
-<span class="fc bfc" id="L234" title="All 2 branches covered.">            RedirectionStatus.USE_PROXY -&gt; USE_PROXY</span>
-<span class="fc bfc" id="L235" title="All 2 branches covered.">            RedirectionStatus.TEMPORARY_REDIRECT -&gt; TEMPORARY_REDIRECT</span>
-<span class="fc bfc" id="L236" title="All 2 branches covered.">            RedirectionStatus.PERMANENT_REDIRECT -&gt; PERMANENT_REDIRECT</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">            MULTIPLE_CHOICES_300 -&gt; MULTIPLE_CHOICES</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">            MOVED_PERMANENTLY_301 -&gt; MOVED_PERMANENTLY</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">            FOUND_302 -&gt; FOUND</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">            SEE_OTHER_303 -&gt; SEE_OTHER</span>
+<span class="fc bfc" id="L233" title="All 2 branches covered.">            NOT_MODIFIED_304 -&gt; NOT_MODIFIED</span>
+<span class="fc bfc" id="L234" title="All 2 branches covered.">            USE_PROXY_305 -&gt; USE_PROXY</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">            TEMPORARY_REDIRECT_307 -&gt; TEMPORARY_REDIRECT</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">            PERMANENT_REDIRECT_308 -&gt; PERMANENT_REDIRECT</span>
 
-<span class="fc bfc" id="L238" title="All 2 branches covered.">            ClientErrorStatus.BAD_REQUEST -&gt; BAD_REQUEST</span>
-<span class="fc bfc" id="L239" title="All 2 branches covered.">            ClientErrorStatus.NOT_FOUND -&gt; NOT_FOUND</span>
-<span class="fc bfc" id="L240" title="All 2 branches covered.">            ClientErrorStatus.UNAUTHORIZED -&gt; UNAUTHORIZED</span>
-<span class="fc bfc" id="L241" title="All 2 branches covered.">            ClientErrorStatus.PAYMENT_REQUIRED -&gt; PAYMENT_REQUIRED</span>
-<span class="fc bfc" id="L242" title="All 2 branches covered.">            ClientErrorStatus.FORBIDDEN -&gt; FORBIDDEN</span>
-<span class="fc bfc" id="L243" title="All 2 branches covered.">            ClientErrorStatus.METHOD_NOT_ALLOWED -&gt; METHOD_NOT_ALLOWED</span>
-<span class="fc bfc" id="L244" title="All 2 branches covered.">            ClientErrorStatus.NOT_ACCEPTABLE -&gt; NOT_ACCEPTABLE</span>
-<span class="fc bfc" id="L245" title="All 2 branches covered.">            ClientErrorStatus.PROXY_AUTHENTICATION_REQUIRED -&gt; PROXY_AUTHENTICATION_REQUIRED</span>
-<span class="fc bfc" id="L246" title="All 2 branches covered.">            ClientErrorStatus.REQUEST_TIMEOUT -&gt; REQUEST_TIMEOUT</span>
-<span class="fc bfc" id="L247" title="All 2 branches covered.">            ClientErrorStatus.CONFLICT -&gt; CONFLICT</span>
-<span class="fc bfc" id="L248" title="All 2 branches covered.">            ClientErrorStatus.GONE -&gt; GONE</span>
-<span class="fc bfc" id="L249" title="All 2 branches covered.">            ClientErrorStatus.LENGTH_REQUIRED -&gt; LENGTH_REQUIRED</span>
-<span class="fc bfc" id="L250" title="All 2 branches covered.">            ClientErrorStatus.PRECONDITION_FAILED -&gt; PRECONDITION_FAILED</span>
-<span class="fc bfc" id="L251" title="All 2 branches covered.">            ClientErrorStatus.URI_TOO_LONG -&gt; REQUEST_URI_TOO_LONG</span>
-<span class="fc bfc" id="L252" title="All 2 branches covered.">            ClientErrorStatus.UNSUPPORTED_MEDIA_TYPE -&gt; UNSUPPORTED_MEDIA_TYPE</span>
-<span class="fc bfc" id="L253" title="All 2 branches covered.">            ClientErrorStatus.RANGE_NOT_SATISFIABLE -&gt; REQUESTED_RANGE_NOT_SATISFIABLE</span>
-<span class="fc bfc" id="L254" title="All 2 branches covered.">            ClientErrorStatus.EXPECTATION_FAILED -&gt; EXPECTATION_FAILED</span>
-<span class="fc bfc" id="L255" title="All 2 branches covered.">            ClientErrorStatus.MISDIRECTED_REQUEST -&gt; MISDIRECTED_REQUEST</span>
-<span class="fc bfc" id="L256" title="All 2 branches covered.">            ClientErrorStatus.UNPROCESSABLE_CONTENT -&gt; UNPROCESSABLE_ENTITY</span>
-<span class="fc bfc" id="L257" title="All 2 branches covered.">            ClientErrorStatus.LOCKED -&gt; LOCKED</span>
-<span class="fc bfc" id="L258" title="All 2 branches covered.">            ClientErrorStatus.FAILED_DEPENDENCY -&gt; FAILED_DEPENDENCY</span>
-<span class="fc bfc" id="L259" title="All 2 branches covered.">            ClientErrorStatus.UPGRADE_REQUIRED -&gt; UPGRADE_REQUIRED</span>
-<span class="fc bfc" id="L260" title="All 2 branches covered.">            ClientErrorStatus.PRECONDITION_REQUIRED -&gt; PRECONDITION_REQUIRED</span>
-<span class="fc bfc" id="L261" title="All 2 branches covered.">            ClientErrorStatus.TOO_MANY_REQUESTS -&gt; TOO_MANY_REQUESTS</span>
-<span class="fc bfc" id="L262" title="All 2 branches covered.">            ClientErrorStatus.REQUEST_HEADER_FIELDS_TOO_LARGE -&gt; REQUEST_HEADER_FIELDS_TOO_LARGE</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">            BAD_REQUEST_400 -&gt; BAD_REQUEST</span>
+<span class="fc bfc" id="L239" title="All 2 branches covered.">            NOT_FOUND_404 -&gt; NOT_FOUND</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">            UNAUTHORIZED_401 -&gt; UNAUTHORIZED</span>
+<span class="fc bfc" id="L241" title="All 2 branches covered.">            PAYMENT_REQUIRED_402 -&gt; PAYMENT_REQUIRED</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">            FORBIDDEN_403 -&gt; FORBIDDEN</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">            METHOD_NOT_ALLOWED_405 -&gt; METHOD_NOT_ALLOWED</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">            NOT_ACCEPTABLE_406 -&gt; NOT_ACCEPTABLE</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">            PROXY_AUTHENTICATION_REQUIRED_407 -&gt; PROXY_AUTHENTICATION_REQUIRED</span>
+<span class="fc bfc" id="L246" title="All 2 branches covered.">            REQUEST_TIMEOUT_408 -&gt; REQUEST_TIMEOUT</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">            CONFLICT_409 -&gt; CONFLICT</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">            GONE_410 -&gt; GONE</span>
+<span class="fc bfc" id="L249" title="All 2 branches covered.">            LENGTH_REQUIRED_411 -&gt; LENGTH_REQUIRED</span>
+<span class="fc bfc" id="L250" title="All 2 branches covered.">            PRECONDITION_FAILED_412 -&gt; PRECONDITION_FAILED</span>
+<span class="fc bfc" id="L251" title="All 2 branches covered.">            URI_TOO_LONG_414 -&gt; REQUEST_URI_TOO_LONG</span>
+<span class="fc bfc" id="L252" title="All 2 branches covered.">            UNSUPPORTED_MEDIA_TYPE_415 -&gt; UNSUPPORTED_MEDIA_TYPE</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">            RANGE_NOT_SATISFIABLE_416 -&gt; REQUESTED_RANGE_NOT_SATISFIABLE</span>
+<span class="fc bfc" id="L254" title="All 2 branches covered.">            EXPECTATION_FAILED_417 -&gt; EXPECTATION_FAILED</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">            MISDIRECTED_REQUEST_421 -&gt; MISDIRECTED_REQUEST</span>
+<span class="fc bfc" id="L256" title="All 2 branches covered.">            UNPROCESSABLE_CONTENT_422 -&gt; UNPROCESSABLE_ENTITY</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">            LOCKED_423 -&gt; LOCKED</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">            FAILED_DEPENDENCY_424 -&gt; FAILED_DEPENDENCY</span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">            UPGRADE_REQUIRED_426 -&gt; UPGRADE_REQUIRED</span>
+<span class="fc bfc" id="L260" title="All 2 branches covered.">            PRECONDITION_REQUIRED_428 -&gt; PRECONDITION_REQUIRED</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">            TOO_MANY_REQUESTS_429 -&gt; TOO_MANY_REQUESTS</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">            REQUEST_HEADER_FIELDS_TOO_LARGE_431 -&gt; REQUEST_HEADER_FIELDS_TOO_LARGE</span>
 
-<span class="fc bfc" id="L264" title="All 2 branches covered.">            ServerErrorStatus.INTERNAL_SERVER_ERROR -&gt; INTERNAL_SERVER_ERROR</span>
-<span class="fc bfc" id="L265" title="All 2 branches covered.">            ServerErrorStatus.NOT_IMPLEMENTED -&gt; NOT_IMPLEMENTED</span>
-<span class="fc bfc" id="L266" title="All 2 branches covered.">            ServerErrorStatus.BAD_GATEWAY -&gt; BAD_GATEWAY</span>
-<span class="fc bfc" id="L267" title="All 2 branches covered.">            ServerErrorStatus.SERVICE_UNAVAILABLE -&gt; SERVICE_UNAVAILABLE</span>
-<span class="fc bfc" id="L268" title="All 2 branches covered.">            ServerErrorStatus.GATEWAY_TIMEOUT -&gt; GATEWAY_TIMEOUT</span>
-<span class="fc bfc" id="L269" title="All 2 branches covered.">            ServerErrorStatus.HTTP_VERSION_NOT_SUPPORTED -&gt; HTTP_VERSION_NOT_SUPPORTED</span>
-<span class="fc bfc" id="L270" title="All 2 branches covered.">            ServerErrorStatus.VARIANT_ALSO_NEGOTIATES -&gt; VARIANT_ALSO_NEGOTIATES</span>
-<span class="fc bfc" id="L271" title="All 2 branches covered.">            ServerErrorStatus.INSUFFICIENT_STORAGE -&gt; INSUFFICIENT_STORAGE</span>
-<span class="fc bfc" id="L272" title="All 2 branches covered.">            ServerErrorStatus.NOT_EXTENDED -&gt; NOT_EXTENDED</span>
-<span class="fc bfc" id="L273" title="All 2 branches covered.">            ServerErrorStatus.NETWORK_AUTHENTICATION_REQUIRED -&gt; NETWORK_AUTHENTICATION_REQUIRED</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">            INTERNAL_SERVER_ERROR_500 -&gt; INTERNAL_SERVER_ERROR</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">            NOT_IMPLEMENTED_501 -&gt; NOT_IMPLEMENTED</span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">            BAD_GATEWAY_502 -&gt; BAD_GATEWAY</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">            SERVICE_UNAVAILABLE_503 -&gt; SERVICE_UNAVAILABLE</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">            GATEWAY_TIMEOUT_504 -&gt; GATEWAY_TIMEOUT</span>
+<span class="fc bfc" id="L269" title="All 2 branches covered.">            HTTP_VERSION_NOT_SUPPORTED_505 -&gt; HTTP_VERSION_NOT_SUPPORTED</span>
+<span class="fc bfc" id="L270" title="All 2 branches covered.">            VARIANT_ALSO_NEGOTIATES_506 -&gt; VARIANT_ALSO_NEGOTIATES</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">            INSUFFICIENT_STORAGE_507 -&gt; INSUFFICIENT_STORAGE</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">            NOT_EXTENDED_510 -&gt; NOT_EXTENDED</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">            NETWORK_AUTHENTICATION_REQUIRED_511 -&gt; NETWORK_AUTHENTICATION_REQUIRED</span>
 
 <span class="fc" id="L275">            else -&gt; HttpResponseStatus(status.code, status.toString())</span>
 <span class="fc" id="L276">        }</span>

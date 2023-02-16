@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>I18n.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.helpers</a> &gt; <span class="el_source">I18n.kt</span></div><h1>I18n.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.helpers
+
+import java.util.*
+import kotlin.reflect.KClass
+
+/** Set of allowed country codes in this JVM. */
+<span class="fc" id="L7">val countryCodes: Set&lt;String&gt; by lazy {</span>
+<span class="fc" id="L8">    Locale.getISOCountries().toSet()</span>
+}
+
+/** Set of allowed language codes in this JVM. */
+<span class="fc" id="L12">val languageCodes: Set&lt;String&gt; by lazy {</span>
+<span class="fc" id="L13">    Locale.getISOLanguages().toSet()</span>
+}
+
+/** Set of allowed currency codes in this JVM. */
+<span class="fc" id="L17">val currencyCodes: Set&lt;String&gt; by lazy {</span>
+<span class="fc" id="L18">    Currency.getAvailableCurrencies().map { it.currencyCode }.toSet()</span>
+}
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param locale .
+ * @return .
+ */
+<span class="nc" id="L27">inline fun &lt;reified T : ResourceBundle&gt; resourceBundle(</span>
+<span class="nc" id="L28">    locale: Locale = Locale.getDefault()): ResourceBundle =</span>
+<span class="nc" id="L29">    resourceBundle(T::class, locale)</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param type .
+ * @param locale .
+ * @return .
+ */
+<span class="nc" id="L38">fun &lt;T : ResourceBundle&gt; resourceBundle(</span>
+<span class="nc" id="L39">    type: KClass&lt;T&gt;, locale: Locale = Locale.getDefault()): ResourceBundle =</span>
+<span class="fc" id="L40">    ResourceBundle.getBundle(type.java.name, locale)</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param language .
+ * @param country .
+ * @return .
+ */
+<span class="fc" id="L49">fun localeOf(language: String = &quot;&quot;, country: String = &quot;&quot;): Locale {</span>
+<span class="fc bfc" id="L50" title="All 10 branches covered.">    require(language.isNotEmpty() || country.isNotEmpty()) {</span>
+<span class="fc" id="L51">        &quot;A non-blank language or country is required&quot;</span>
+    }
+<span class="fc bfc" id="L53" title="All 8 branches covered.">    require(language.isEmpty() || language in languageCodes) { &quot;Language: '$language' not allowed&quot; }</span>
+<span class="fc bfc" id="L54" title="All 8 branches covered.">    require(country.isEmpty() || country in countryCodes) { &quot;Country: '$country' not allowed&quot; }</span>
+<span class="fc" id="L55">    return Locale.Builder().setLanguage(language).setRegion(country).build()</span>
+}
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param language .
+ * @param country .
+ * @return .
+ */
+<span class="fc" id="L65">fun localeOfOrNull(language: String = &quot;&quot;, country: String = &quot;&quot;): Locale? =</span>
+<span class="fc" id="L66">    try {</span>
+<span class="fc" id="L67">        localeOf(language, country)</span>
+    }
+<span class="fc" id="L69">    catch (_: IllegalArgumentException) {</span>
+<span class="fc" id="L70">        null</span>
+<span class="fc" id="L71">    }</span>
+
+fun languageOf(language: String): Locale =
+<span class="fc" id="L74">    localeOf(language = language)</span>
+
+fun languageOfOrNull(language: String): Locale? =
+<span class="fc" id="L77">    try {</span>
+<span class="nc" id="L78">        languageOf(language)</span>
+    }
+<span class="fc" id="L80">    catch (_: IllegalArgumentException) {</span>
+<span class="fc" id="L81">        null</span>
+<span class="fc" id="L82">    }</span>
+
+fun countryOf(country: String): Locale =
+<span class="fc" id="L85">    localeOf(country = country)</span>
+
+fun countryOfOrNull(country: String): Locale? =
+<span class="fc" id="L88">    try {</span>
+<span class="fc" id="L89">        countryOf(country)</span>
+    }
+<span class="fc" id="L91">    catch (_: IllegalArgumentException) {</span>
+<span class="fc" id="L92">        null</span>
+<span class="fc" id="L93">    }</span>
+
+fun parseLocale(languageCountry: String): Locale =
+<span class="fc" id="L96">    languageCountry</span>
+<span class="fc" id="L97">        .split(&quot;_&quot;)</span>
+<span class="fc" id="L98">        .let {</span>
+<span class="fc" id="L99">            when {</span>
+<span class="fc bfc" id="L100" title="All 4 branches covered.">                it.size == 1 &amp;&amp; it[0].all { c -&gt; c.isUpperCase() } -&gt; countryOf(it[0])</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">                it.size == 1 -&gt; languageOf(it[0])</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">                it.size == 2 -&gt; localeOf(it[0], it[1])</span>
+<span class="fc" id="L103">                else -&gt; throw IllegalArgumentException(&quot;Invalid locale format: $languageCountry&quot;)</span>
+            }
+<span class="fc" id="L105">        }</span>
+
+fun parseLocaleOrNull(languageCountry: String): Locale? =
+<span class="fc" id="L108">    try {</span>
+<span class="fc" id="L109">        parseLocale(languageCountry)</span>
+    }
+<span class="fc" id="L111">    catch (_: IllegalArgumentException) {</span>
+<span class="fc" id="L112">        null</span>
+<span class="fc" id="L113">    }</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
