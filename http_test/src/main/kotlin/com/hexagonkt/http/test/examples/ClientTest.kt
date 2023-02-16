@@ -1,8 +1,8 @@
 package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.require
-import com.hexagonkt.core.media.ApplicationMedia.JSON
-import com.hexagonkt.core.media.ApplicationMedia.YAML
+import com.hexagonkt.core.media.APPLICATION_JSON
+import com.hexagonkt.core.media.APPLICATION_YAML
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
@@ -13,8 +13,8 @@ import com.hexagonkt.http.formatQueryString
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
-import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
-import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
+import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.handlers.HttpCallback
 import com.hexagonkt.http.server.handlers.HttpHandler
@@ -59,7 +59,7 @@ abstract class ClientTest(
 
     @BeforeEach fun resetHandler() {
         callback = {
-            val contentType = ContentType(JSON, charset = Charsets.UTF_8)
+            val contentType = ContentType(APPLICATION_JSON, charset = Charsets.UTF_8)
             val bodyString = request.bodyString()
             val bodyHeader = if (bodyString.endsWith("\n") || bodyString.contains("{")) "json" else bodyString
             ok(
@@ -78,7 +78,7 @@ abstract class ClientTest(
 
         val response = client.send(HttpClientRequest())
 
-        assertEquals(INTERNAL_SERVER_ERROR, response.status)
+        assertEquals(INTERNAL_SERVER_ERROR_500, response.status)
         assertTrue(response.bodyString().contains("failure"))
     }
 
@@ -150,7 +150,7 @@ abstract class ClientTest(
         // All client settings parameters are optionals and provide default values
         HttpClient(adapter, HttpClientSettings(
             baseUrl = URL("http://host:1234/base"),
-            contentType = ContentType(JSON),
+            contentType = ContentType(APPLICATION_JSON),
             useCookies = true,
             headers = Headers(Header("x-api-Key", "cafebabe")), // Headers used in all requests
             insecure = false,               // If true, the client doesn't check server certificates
@@ -161,11 +161,12 @@ abstract class ClientTest(
 
     @Test fun `JSON requests works as expected`() {
         val expectedBody = "{  \"foo\" : \"fighters\",  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"}"
-        val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ").serialize(JSON)
+        val map = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
+        val requestBody = map.serialize(APPLICATION_JSON)
 
-        val response = client.post("/", requestBody, contentType = ContentType(JSON))
+        val response = client.post("/", requestBody, contentType = ContentType(APPLICATION_JSON))
         assertEquals(expectedBody, response.body.toString().trim().replace("[\r\n]".toRegex(), ""))
-        assertEquals(ContentType(JSON).text, response.headers["ct"]?.value)
+        assertEquals(ContentType(APPLICATION_JSON).text, response.headers["ct"]?.value)
 
         val body2 = client.post("/", requestBody).body
         assertEquals(expectedBody, body2.toString().trim().replace("[\r\n]".toRegex(), ""))
@@ -180,7 +181,7 @@ abstract class ClientTest(
             body = mapOf("body" to "payload").serialize(),
             headers = Headers(Header("x-header", "value")),
             queryParameters = QueryParameters(QueryParameter("qp", "qpValue")),
-            contentType = ContentType(JSON)
+            contentType = ContentType(APPLICATION_JSON)
         )
 
         val response = client.send(request)
@@ -243,38 +244,39 @@ abstract class ClientTest(
 
         // bodyAndContentTypeRequests
         val body = mapOf("key" to "value")
-        val serializedBody = body.serialize(YAML)
+        val serializedBody = body.serialize(APPLICATION_YAML)
+        val yaml = ContentType(APPLICATION_YAML)
 
-        val responseGet = client.get("/", body = serializedBody, contentType = ContentType(YAML))
-        val responsePost = client.post("/", serializedBody, contentType = ContentType(YAML))
-        val responsePut = client.put("/", serializedBody, contentType = ContentType(YAML))
-        val responseDelete = client.delete("/", serializedBody, contentType = ContentType(YAML))
-        val responseTrace = client.trace("/", serializedBody, contentType = ContentType(YAML))
-        val responseOptions = client.options("/", serializedBody, contentType = ContentType(YAML))
-        val responsePatch = client.patch("/", serializedBody, contentType = ContentType(YAML))
+        val responseGet = client.get("/", body = serializedBody, contentType = yaml)
+        val responsePost = client.post("/", serializedBody, contentType = yaml)
+        val responsePut = client.put("/", serializedBody, contentType = yaml)
+        val responseDelete = client.delete("/", serializedBody, contentType = yaml)
+        val responseTrace = client.trace("/", serializedBody, contentType = yaml)
+        val responseOptions = client.options("/", serializedBody, contentType = yaml)
+        val responsePatch = client.patch("/", serializedBody, contentType = yaml)
         // bodyAndContentTypeRequests
 
-        checkResponse(responseGet, body, ContentType(YAML))
-        checkResponse(responsePost, body, ContentType(YAML))
-        checkResponse(responsePut, body, ContentType(YAML))
-        checkResponse(responseDelete, body, ContentType(YAML))
-        checkResponse(responseTrace, body, ContentType(YAML))
-        checkResponse(responseOptions, body, ContentType(YAML))
-        checkResponse(responsePatch, body, ContentType(YAML))
+        checkResponse(responseGet, body, yaml)
+        checkResponse(responsePost, body, yaml)
+        checkResponse(responsePut, body, yaml)
+        checkResponse(responseDelete, body, yaml)
+        checkResponse(responseTrace, body, yaml)
+        checkResponse(responseOptions, body, yaml)
+        checkResponse(responsePatch, body, yaml)
     }
 
     @Test fun `Parameters are set properly` () {
         val endpoint = URL("http://localhost:${server.runtimePort}")
         val h = Headers(Header("header1", "val1", "val2"))
         val settings = HttpClientSettings(
-            contentType = ContentType(JSON),
+            contentType = ContentType(APPLICATION_JSON),
             useCookies = false,
             headers = h,
             insecure = true
         )
         val c = HttpClient(clientAdapter(), endpoint, settings)
 
-        assertEquals(c.settings.contentType, ContentType(JSON))
+        assertEquals(c.settings.contentType, ContentType(APPLICATION_JSON))
         assert(!c.settings.useCookies)
         assertEquals(c.settings.headers, h)
 
@@ -287,7 +289,7 @@ abstract class ClientTest(
             it.start()
             it.get("/auth").apply {
                 assertEquals(listOf("val1", "val2"), headers["head1"]?.values)
-                assertEquals(status, OK)
+                assertEquals(status, OK_200)
             }
         }
     }
@@ -296,7 +298,7 @@ abstract class ClientTest(
         var run: Boolean
 
         callback = {
-            val contentType = ContentType(JSON, charset = Charsets.UTF_8)
+            val contentType = ContentType(APPLICATION_JSON, charset = Charsets.UTF_8)
             val number = BigInteger(request.body as ByteArray).toLong()
             ok(
                 body = number,
@@ -307,7 +309,7 @@ abstract class ClientTest(
 
         client.post("/string", 42).apply {
             assertEquals("42", headers.require("body").value)
-            assertEquals(status, OK)
+            assertEquals(status, OK_200)
             run = true
         }
 
@@ -319,7 +321,7 @@ abstract class ClientTest(
 
         client.post("/string", "text").apply {
             assert(headers["body"]?.value?.isNotEmpty() ?: false)
-            assertEquals(status, OK)
+            assertEquals(status, OK_200)
             run = true
         }
 
@@ -386,10 +388,10 @@ abstract class ClientTest(
     private fun checkResponse(
         response: HttpClientResponse,
         parameter: Map<String, String>?,
-        format: ContentType = ContentType(JSON),
+        format: ContentType = ContentType(APPLICATION_JSON),
     ) {
 
-        assertEquals(OK, response.status)
+        assertEquals(OK_200, response.status)
         assertEquals(
             parameter?.serialize(format.mediaType)?.trim() ?: "",
             response.bodyString().trim()

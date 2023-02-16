@@ -6,10 +6,10 @@ import com.hexagonkt.core.logging.LoggingLevel.INFO
 import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.logging.logger
-import com.hexagonkt.http.model.ClientErrorStatus.*
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.model.SuccessStatus.CREATED
+import com.hexagonkt.http.model.CREATED_201
 import com.hexagonkt.http.server.handlers.HttpServerContext
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
@@ -75,8 +75,8 @@ internal class BooksTest {
         }
 
         // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-        after(ALL - DELETE - PUT - GET, "/books/{id}", status = NOT_FOUND) {
-            send(METHOD_NOT_ALLOWED)
+        after(ALL - DELETE - PUT - GET, "/books/{id}", status = NOT_FOUND_404) {
+            send(METHOD_NOT_ALLOWED_405)
         }
 
         get("/books") {
@@ -130,8 +130,8 @@ internal class BooksTest {
         }
 
         // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-        after(ALL - DELETE - PUT - GET, "/{id}", status = NOT_FOUND) {
-            send(METHOD_NOT_ALLOWED)
+        after(ALL - DELETE - PUT - GET, "/{id}", status = NOT_FOUND_404) {
+            send(METHOD_NOT_ALLOWED_405)
         }
 
         get {
@@ -186,8 +186,8 @@ internal class BooksTest {
             }
 
             // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-            after(ALL - DELETE - PUT - GET, status = NOT_FOUND) {
-                send(METHOD_NOT_ALLOWED)
+            after(ALL - DELETE - PUT - GET, status = NOT_FOUND_404) {
+                send(METHOD_NOT_ALLOWED_405)
             }
         }
 
@@ -208,7 +208,7 @@ internal class BooksTest {
         ).forEach {
             val result = it.send(POST, "/books", "author=Vladimir%20Nabokov&title=Lolita")
             assert(Integer.valueOf(result.body as String) > 0)
-            assertEquals(CREATED, result.status)
+            assertEquals(CREATED_201, result.status)
         }
         LoggingManager.setLoggerLevel(logger, INFO)
     }
@@ -217,12 +217,12 @@ internal class BooksTest {
         listOf(path, pathAlternative).forEach { p ->
             p.send(POST, "/books", "title=Lolita").let {
                 assertEquals("Missing author", it.body)
-                assertEquals(BAD_REQUEST, it.status)
+                assertEquals(BAD_REQUEST_400, it.status)
             }
 
             p.send(POST, "/books", "author=Vladimir%20Nabokov").let {
                 assertEquals("Missing title", it.body)
-                assertEquals(BAD_REQUEST, it.status)
+                assertEquals(BAD_REQUEST_400, it.status)
             }
         }
     }
@@ -258,7 +258,7 @@ internal class BooksTest {
             )
             val id = Integer.valueOf(createResult.body as String)
             assert(id > 0)
-            assertEquals(CREATED, createResult.status)
+            assertEquals(CREATED_201, createResult.status)
             val result = it.send(DELETE, "/books/$id")
             assertResponseContains(result, id.toString(), "deleted")
         }
@@ -267,14 +267,14 @@ internal class BooksTest {
     @Test fun `Book not found returns a 404`() {
         listOf(path, pathAlternative).forEach {
             val result = it.send(GET, "/books/9999")
-            assertResponseContains(result, NOT_FOUND, "not found")
+            assertResponseContains(result, NOT_FOUND_404, "not found")
         }
     }
 
     @Test fun `Invalid method returns 405`() {
         listOf(path, pathAlternative).forEach {
             val result = it.send(OPTIONS, "/books/9999")
-            assertEquals(METHOD_NOT_ALLOWED, result.status)
+            assertEquals(METHOD_NOT_ALLOWED_405, result.status)
         }
     }
 }

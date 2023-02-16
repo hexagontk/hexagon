@@ -130,7 +130,7 @@ fun main() {
     server = serve {
         get("/hello/{name}") {
             val name = pathParameters["name"]
-            ok("Hello $name!", contentType = ContentType(PLAIN))
+            ok("Hello $name!", contentType = ContentType(TEXT_PLAIN))
         }
     }
 }
@@ -209,8 +209,8 @@ private val path: PathHandler = path {
     }
 
     // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-    after(ALL - DELETE - PUT - GET, "/books/{id}", status = NOT_FOUND) {
-        send(METHOD_NOT_ALLOWED)
+    after(ALL - DELETE - PUT - GET, "/books/{id}", status = NOT_FOUND_404) {
+        send(METHOD_NOT_ALLOWED_405)
     }
 
     get("/books") {
@@ -237,7 +237,7 @@ private val path: PathHandler = path {
      * Catching `Exception` handles any unhandled exception, has to be the last executed (first
      * declared)
      */
-    exception<Exception>(NOT_FOUND) {
+    exception<Exception>(NOT_FOUND_404) {
         internalServerError("Root handler")
     }
 
@@ -308,7 +308,7 @@ private val path: PathHandler = path {
     // All matching filters are run in order unless call is halted
     filter("/protected/*") {
         if(users[attributes["username"]] != attributes["password"])
-            send(FORBIDDEN, "Forbidden")
+            send(FORBIDDEN_403, "Forbidden")
         else
             next()
     }
@@ -319,19 +319,19 @@ private val path: PathHandler = path {
 
     path("/after") {
         after(PUT) {
-            success(ALREADY_REPORTED)
+            send(ALREADY_REPORTED_208)
         }
 
         after(PUT, "/second") {
-            success(NO_CONTENT)
+            send(NO_CONTENT_204)
         }
 
         after("/second") {
-            success(CREATED)
+            send(CREATED_201)
         }
 
         after {
-            success(ACCEPTED)
+            send(ACCEPTED_202)
         }
     }
 }
@@ -353,7 +353,7 @@ private val path: PathHandler = path {
     after(
         methods = setOf(GET),
         pattern = "/*",
-        status = NOT_FOUND,
+        status = NOT_FOUND_404,
         callback = UrlCallback(URL("classpath:public"))
     )
 

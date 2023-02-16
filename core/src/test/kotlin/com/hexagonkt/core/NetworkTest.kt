@@ -4,6 +4,7 @@ import java.net.ServerSocket
 import kotlin.test.Test
 import java.net.InetAddress
 import java.net.URL
+import java.util.*
 import kotlin.test.*
 
 internal class NetworkTest {
@@ -39,21 +40,21 @@ internal class NetworkTest {
 
     @Test fun `Check localized URL`() {
         URL("classpath:locales/data.json").let {
-            assertEquals(it, it.localized(parseLocale("it_IT")))
+            assertEquals(it, it.localized(Locale.Builder().setLanguage("it").setRegion("IT").build()))
         }
         assertEquals(
             URL("classpath:locales/data_en_US.json"),
-            URL("classpath:locales/data.json").localized(parseLocale("en_US")),
+            URL("classpath:locales/data.json").localized(Locale.Builder().setLanguage("en").setRegion("US").build()),
         )
         assertEquals(
             URL("classpath:locales/data_en.json"),
-            URL("classpath:locales/data.json").localized(parseLocale("en_GB")),
+            URL("classpath:locales/data.json").localized(Locale.Builder().setLanguage("en").setRegion("GB").build()),
         )
     }
 
     @Test fun `Internet address helper works correctly`() {
-        assertEquals(InetAddress.getByAddress(byteArrayOf(0, 0, 0, 0)), allInterfaces)
-        assertEquals(InetAddress.getByAddress(byteArrayOf(127, 0, 0, 1)), loopbackInterface)
+        assertEquals(InetAddress.getByAddress(byteArrayOf(0, 0, 0, 0)), ALL_INTERFACES)
+        assertEquals(InetAddress.getByAddress(byteArrayOf(127, 0, 0, 1)), LOOPBACK_INTERFACE)
         assertEquals(InetAddress.getByAddress(byteArrayOf(127, 3, 2, 1)), inetAddress(127, 3, 2, 1))
     }
 

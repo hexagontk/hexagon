@@ -49,7 +49,7 @@ class LoggingCallback(
         }
 
         val path = "${n.method} ${n.path}"
-        val result = "${m.status}(${m.status.code})"
+        val result = "${m.status.type}(${m.status.code})"
         val time = "(${ns / 10e5} ms)"
         val body = m.formatBody()
         return "Response (partial headers):\n$path -> $result $time$headers$body".trim()

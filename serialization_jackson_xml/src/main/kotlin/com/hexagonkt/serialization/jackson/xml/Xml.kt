@@ -10,7 +10,7 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.hexagonkt.core.media.ApplicationMedia
+import com.hexagonkt.core.media.APPLICATION_XML
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.jackson.JacksonHelper.ByteBufferDeserializer
@@ -48,7 +48,7 @@ object Xml : SerializationFormat {
             .addDeserializer(InetAddress::class.java, InetAddressDeserializer)
         )
 
-    override val mediaType: MediaType = ApplicationMedia.XML
+    override val mediaType: MediaType = APPLICATION_XML
     override val textFormat: Boolean = true
 
     private val writer = createObjectWriter()

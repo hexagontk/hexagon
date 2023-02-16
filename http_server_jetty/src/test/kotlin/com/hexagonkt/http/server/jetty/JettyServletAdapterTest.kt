@@ -1,10 +1,10 @@
 package com.hexagonkt.http.server.jetty
 
-import com.hexagonkt.core.media.TextMedia.PLAIN
+import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.handlers.path
 import kotlin.test.Test
 import org.junit.jupiter.api.condition.EnabledForJreRange
@@ -46,7 +46,7 @@ internal class JettyServletAdapterTest {
         val path = path {
             get("/hello/{name}") {
                 val name = pathParameters["name"]
-                ok("Hello $name!", contentType = ContentType(PLAIN))
+                ok("Hello $name!", contentType = ContentType(TEXT_PLAIN))
             }
         }
         val server = serve(handlers = listOf(path))
@@ -56,8 +56,8 @@ internal class JettyServletAdapterTest {
                 it.start()
                 val result = it.get("/hello/Ada")
                 assertEquals("Hello Ada!", result.body)
-                assertEquals(OK, result.status)
-                assertEquals(ContentType(PLAIN), result.contentType)
+                assertEquals(OK_200, result.status)
+                assertEquals(ContentType(TEXT_PLAIN), result.contentType)
             }
         }
     }

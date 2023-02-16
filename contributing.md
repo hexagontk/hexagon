@@ -91,6 +91,7 @@ Other useful Gradle commands are:
 * Build: `./gradlew build`
 * Rebuild: `./gradlew clean build`
 * Documentation: `./gradlew javadoc`
+* Code Analysis: `./gradlew detektMain`, `./gradlew detektTest` or `./gradlew detekt`
 * Test: `./gradlew test`
 * Run: `./gradlew ${MODULE}:run`
 * Profile Build: `./gradlew ${TASK} --profile`

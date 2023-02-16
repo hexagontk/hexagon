@@ -120,9 +120,9 @@ Gradle's script for a service or application. It adds these extra tasks:
   (`-t`) Gradle flag. Ie: `gw -t watch`.
 * jarAll: creates a single JAR with all dependencies, and the application main class set up. This
   task is an alternative to the Gradle `installDist` task.
-* jre: create an application distribution based on a jlink generated JRE.
+* jlink: create an application distribution based on a jlink generated JRE.
 * jpackage: create a jpackage distribution including a JVM with a subset of the modules.
-* tarJpackage: compress Jpackage distribution in a single file.
+* tarJlink: compress Jpackage distribution in a single file.
 
 To use it, apply `$gradleScripts/application.gradle` to your `build.gradle`.
 
@@ -224,7 +224,7 @@ application.
 The defined tasks are:
 
 * upx: compress the native executable using 'upx'. NOTE: Makes binaries use more RAM!!!
-* zipNative: compress native executable in a ZIP file.
+* tarNative: compress native executable into a TAR file.
 
 To use it you must apply the `$gradleScripts/native.gradle` script to your `build.gradle` file. It
 must be applied after the Kotlin plugin.

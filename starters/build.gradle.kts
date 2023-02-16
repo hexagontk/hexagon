@@ -8,6 +8,21 @@ apply(from = "../gradle/publish.gradle")
 
 extensions.configure<PublishingExtension> {
     publications {
+        createPomPublication("hexagon_bom") { pomDom ->
+            properties.set(mapOf(
+                "kotlin.version" to project.properties["kotlinVersion"].toString(),
+                "mockk.version" to project.properties["mockkVersion"].toString(),
+                "junit.version" to project.properties["junitVersion"].toString(),
+                "hexagon.version" to rootProject.version.toString()
+            ))
+
+            withXml {
+                listOf("dependencyManagement").forEach {
+                    asElement().importElement(pomDom.firstElement(it))
+                }
+            }
+        }
+
         createPomPublication("kotlin_pom") { pomDom ->
             val javaPlugin = extensions.getByType(JavaPluginExtension::class.java)
             val source = javaPlugin.sourceCompatibility.toString()

@@ -8,7 +8,7 @@ apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/detekt.gradle")
 
-description = "Hexagon core utilities. Includes serialization and logging helpers."
+description = "Hexagon core utilities. Includes logging helpers."
 
 dependencies {
     "api"("org.jetbrains.kotlin:kotlin-stdlib")

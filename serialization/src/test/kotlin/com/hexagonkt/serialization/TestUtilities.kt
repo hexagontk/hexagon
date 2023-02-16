@@ -1,11 +1,12 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.core.media.ApplicationMedia
+import com.hexagonkt.core.media.APPLICATION_AVRO
+import com.hexagonkt.core.media.APPLICATION_PHP
 import java.io.InputStream
 import java.io.OutputStream
 
 object TextTestFormat : SerializationFormat {
-    override val mediaType = ApplicationMedia.PHP
+    override val mediaType = APPLICATION_PHP
     override val textFormat = true
 
     override fun serialize(instance: Any, output: OutputStream) {
@@ -17,7 +18,7 @@ object TextTestFormat : SerializationFormat {
 }
 
 object BinaryTestFormat : SerializationFormat {
-    override val mediaType = ApplicationMedia.AVRO
+    override val mediaType = APPLICATION_AVRO
     override val textFormat = false
 
     override fun serialize(instance: Any, output: OutputStream) {

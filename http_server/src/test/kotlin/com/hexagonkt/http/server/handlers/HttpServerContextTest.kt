@@ -1,16 +1,14 @@
 package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.handlers.EventContext
-import com.hexagonkt.core.media.TextMedia.HTML
-import com.hexagonkt.core.media.TextMedia.PLAIN
+import com.hexagonkt.core.media.TEXT_HTML
+import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
-import com.hexagonkt.http.model.RedirectionStatus.FOUND
-import com.hexagonkt.http.model.ServerErrorStatus.BAD_GATEWAY
-import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
-import com.hexagonkt.http.model.SuccessStatus.*
+import com.hexagonkt.http.model.FOUND_302
+import com.hexagonkt.http.model.BAD_GATEWAY_502
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.patterns.TemplatePathPattern
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequest
@@ -36,9 +34,9 @@ internal class HttpServerContextTest {
             parts = listOf(HttpPart("n", "b")),
             formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
             cookies = listOf(Cookie("cn", "cv")),
-            contentType = ContentType(PLAIN),
+            contentType = ContentType(TEXT_PLAIN),
             certificateChain = emptyList(),
-            accept = listOf(ContentType(HTML)),
+            accept = listOf(ContentType(TEXT_HTML)),
         )
 
     @Test fun `Context helper methods work properly`() {
@@ -79,44 +77,44 @@ internal class HttpServerContextTest {
         val path = PathHandler(
             OnHandler("/ok") { ok() },
             OnHandler("/notFound") { notFound() },
-            OnHandler("/noContent") { send(HttpServerResponse(status = NO_CONTENT)) },
-            OnHandler("/accepted") { send(status = ACCEPTED) },
+            OnHandler("/noContent") { send(HttpServerResponse(status = NO_CONTENT_204)) },
+            OnHandler("/accepted") { send(status = ACCEPTED_202) },
             OnHandler("/created") { created() },
             OnHandler("/badRequest") { badRequest() },
-            OnHandler("/clientError") { clientError(FORBIDDEN) },
-            OnHandler("/success") { success(NO_CONTENT) },
-            OnHandler("/serverError") { serverError(BAD_GATEWAY) },
-            OnHandler("/redirect") { redirect(FOUND) },
+            OnHandler("/clientError") { send(FORBIDDEN_403) },
+            OnHandler("/success") { send(NO_CONTENT_204) },
+            OnHandler("/serverError") { send(BAD_GATEWAY_502) },
+            OnHandler("/redirect") { send(FOUND_302) },
             OnHandler("/internalServerError") { internalServerError() },
             OnHandler("/internalServerErrorException") { internalServerError(RuntimeException()) },
-            OnHandler("/serverErrorException") { serverError(BAD_GATEWAY, RuntimeException()) },
+            OnHandler("/serverErrorException") { serverError(BAD_GATEWAY_502, RuntimeException()) },
         )
 
-        assertEquals(OK, path.process(HttpServerRequest(path = "/ok")).status)
-        assertEquals(NOT_FOUND, path.process(HttpServerRequest(path = "/notFound")).status)
-        assertEquals(NO_CONTENT, path.process(HttpServerRequest(path = "/noContent")).status)
-        assertEquals(ACCEPTED, path.process(HttpServerRequest(path = "/accepted")).status)
-        assertEquals(CREATED, path.process(HttpServerRequest(path = "/created")).status)
-        assertEquals(BAD_REQUEST, path.process(HttpServerRequest(path = "/badRequest")).status)
-        assertEquals(FORBIDDEN, path.process(HttpServerRequest(path = "/clientError")).status)
-        assertEquals(NO_CONTENT, path.process(HttpServerRequest(path = "/success")).status)
-        assertEquals(BAD_GATEWAY, path.process(HttpServerRequest(path = "/serverError")).status)
-        assertEquals(FOUND, path.process(HttpServerRequest(path = "/redirect")).status)
+        assertEquals(OK_200, path.process(HttpServerRequest(path = "/ok")).status)
+        assertEquals(NOT_FOUND_404, path.process(HttpServerRequest(path = "/notFound")).status)
+        assertEquals(NO_CONTENT_204, path.process(HttpServerRequest(path = "/noContent")).status)
+        assertEquals(ACCEPTED_202, path.process(HttpServerRequest(path = "/accepted")).status)
+        assertEquals(CREATED_201, path.process(HttpServerRequest(path = "/created")).status)
+        assertEquals(BAD_REQUEST_400, path.process(HttpServerRequest(path = "/badRequest")).status)
+        assertEquals(FORBIDDEN_403, path.process(HttpServerRequest(path = "/clientError")).status)
+        assertEquals(NO_CONTENT_204, path.process(HttpServerRequest(path = "/success")).status)
+        assertEquals(BAD_GATEWAY_502, path.process(HttpServerRequest(path = "/serverError")).status)
+        assertEquals(FOUND_302, path.process(HttpServerRequest(path = "/redirect")).status)
         assertEquals(
-            INTERNAL_SERVER_ERROR,
+            INTERNAL_SERVER_ERROR_500,
             path.process(HttpServerRequest(path = "/internalServerError")).status
         )
 
         path.process(HttpServerRequest(path = "/internalServerErrorException")).let {
-            assertEquals(INTERNAL_SERVER_ERROR, it.status)
+            assertEquals(INTERNAL_SERVER_ERROR_500, it.status)
             assertTrue(it.bodyString().contains(RuntimeException::class.java.name))
-            assertEquals(ContentType(PLAIN), it.contentType)
+            assertEquals(ContentType(TEXT_PLAIN), it.contentType)
         }
 
         path.process(HttpServerRequest(path = "/serverErrorException")).let {
-            assertEquals(BAD_GATEWAY, it.status)
+            assertEquals(BAD_GATEWAY_502, it.status)
             assertTrue(it.bodyString().contains(RuntimeException::class.java.name))
-            assertEquals(ContentType(PLAIN), it.contentType)
+            assertEquals(ContentType(TEXT_PLAIN), it.contentType)
         }
     }
 
@@ -131,11 +129,11 @@ internal class HttpServerContextTest {
             )
         )
 
-        assertEquals(OK, context.next().response.status)
+        assertEquals(OK_200, context.next().response.status)
     }
 
     @Test fun `Client errors helpers returns proper status`() {
-        assertEquals(UNAUTHORIZED, HttpServerContext().unauthorized().status)
-        assertEquals(FORBIDDEN, HttpServerContext().forbidden().status)
+        assertEquals(UNAUTHORIZED_401, HttpServerContext().unauthorized().status)
+        assertEquals(FORBIDDEN_403, HttpServerContext().forbidden().status)
     }
 }

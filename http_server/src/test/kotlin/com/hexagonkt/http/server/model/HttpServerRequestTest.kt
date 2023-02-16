@@ -1,9 +1,9 @@
 package com.hexagonkt.http.server.model
 
-import com.hexagonkt.core.media.TextMedia.CSS
-import com.hexagonkt.core.media.TextMedia.HTML
-import com.hexagonkt.core.media.TextMedia.PLAIN
-import com.hexagonkt.core.media.TextMedia.RICHTEXT
+import com.hexagonkt.core.media.TEXT_CSS
+import com.hexagonkt.core.media.TEXT_HTML
+import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.core.media.TEXT_RICHTEXT
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
@@ -38,9 +38,9 @@ internal class HttpServerRequestTest {
             parts = listOf(HttpPart("n", "b")),
             formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
             cookies = listOf(Cookie("cn", "cv")),
-            contentType = ContentType(PLAIN),
+            contentType = ContentType(TEXT_PLAIN),
             certificateChain = emptyList(),
-            accept = listOf(ContentType(HTML)),
+            accept = listOf(ContentType(TEXT_HTML)),
         )
 
     @Test fun `HTTP Server Request comparison works ok`() {
@@ -54,8 +54,8 @@ internal class HttpServerRequestTest {
         val parts = listOf(HttpPart("p", "v"))
         val formParameters = FormParameters(FormParameter("h1", "v1"))
         val cookies = listOf(Cookie("p", "v"))
-        val contentType = ContentType(RICHTEXT)
-        val accept = listOf(ContentType(CSS))
+        val contentType = ContentType(TEXT_RICHTEXT)
+        val accept = listOf(ContentType(TEXT_CSS))
 
         assertNotEquals(httpServerRequest, httpServerRequest.copy(method = PUT))
         assertNotEquals(httpServerRequest, httpServerRequest.copy(protocol = HTTP2))

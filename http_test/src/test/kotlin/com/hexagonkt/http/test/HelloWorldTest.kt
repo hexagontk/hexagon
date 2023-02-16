@@ -1,10 +1,10 @@
 package com.hexagonkt.http.test
 
-import com.hexagonkt.core.media.TextMedia.PLAIN
+import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.HttpServer
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -26,7 +26,7 @@ fun main() {
     server = serve {
         get("/hello/{name}") {
             val name = pathParameters["name"]
-            ok("Hello $name!", contentType = ContentType(PLAIN))
+            ok("Hello $name!", contentType = ContentType(TEXT_PLAIN))
         }
     }
 }
@@ -52,7 +52,7 @@ internal class HelloWorldTest {
     @Test fun `A request returns 200 and the greeting test`() {
         val result = client.get("/hello/Ada")
         assertEquals("Hello Ada!", result.body)
-        assertEquals(OK, result.status)
-        assertEquals(ContentType(PLAIN), result.contentType)
+        assertEquals(OK_200, result.status)
+        assertEquals(ContentType(TEXT_PLAIN), result.contentType)
     }
 }

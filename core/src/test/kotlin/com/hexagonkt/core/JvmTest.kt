@@ -59,7 +59,7 @@ internal class JvmTest {
         System.setProperty("validLong", 456L.toString())
         System.setProperty("validFloat", 0.5F.toString())
         System.setProperty("validDouble", 1.5.toString())
-        System.setProperty("validInetAddress", loopbackInterface.hostName)
+        System.setProperty("validInetAddress", LOOPBACK_INTERFACE.hostName)
         System.setProperty("validURL", URL("http://localhost:1234/path").toString())
         System.setProperty("validURI", URI("ws://localhost:1234/path").toString())
         System.setProperty("invalidBoolean", "_")
@@ -78,7 +78,7 @@ internal class JvmTest {
         assertEquals(456L, Jvm.systemSetting("validLong"))
         assertEquals(0.5F, Jvm.systemSetting("validFloat"))
         assertEquals(1.5, Jvm.systemSetting("validDouble"))
-        assertEquals(loopbackInterface, Jvm.systemSetting("validInetAddress"))
+        assertEquals(LOOPBACK_INTERFACE, Jvm.systemSetting("validInetAddress"))
         assertEquals(URL("http://localhost:1234/path"), Jvm.systemSetting("validURL"))
         assertEquals(URI("ws://localhost:1234/path"), Jvm.systemSetting("validURI"))
 
@@ -101,6 +101,16 @@ internal class JvmTest {
         assertEquals("Unsupported type: ${type.qualifiedName}", e.message)
     }
 
+    @Test fun `Default time zone is fetched correctly`() {
+        assertNotNull(Jvm.timeZone)
+        assertNotNull(Jvm.zoneId)
+    }
+
+    @Test fun `Default JVM info is fetched correctly`() {
+        assert(Jvm.id.isNotBlank())
+        assert(Jvm.cpuCount > 0)
+    }
+
     @Test fun `Default charset is fetched correctly`() {
         assert(Jvm.charset.isRegistered)
         assert(Jvm.charset.canEncode())
@@ -108,5 +118,17 @@ internal class JvmTest {
 
     @Test fun `JVM version is retrieved`() {
         assert(Jvm.version.isNotBlank())
+    }
+
+    @Test fun `System setting works ok`() {
+        System.setProperty("system_property", "value")
+
+        assert(Jvm.systemSetting<String>("system_property") == "value")
+
+        assert(Jvm.systemSetting<String>("PATH").isNotEmpty())
+        assertNull(Jvm.systemSettingOrNull<String>("_not_defined_"))
+
+        System.setProperty("PATH", "path override")
+        assert(Jvm.systemSetting<String>("PATH") == "path override")
     }
 }

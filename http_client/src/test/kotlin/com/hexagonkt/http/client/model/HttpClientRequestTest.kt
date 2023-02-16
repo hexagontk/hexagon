@@ -1,9 +1,9 @@
 package com.hexagonkt.http.client.model
 
-import com.hexagonkt.core.media.TextMedia.CSS
-import com.hexagonkt.core.media.TextMedia.HTML
-import com.hexagonkt.core.media.TextMedia.PLAIN
-import com.hexagonkt.core.media.TextMedia.RICHTEXT
+import com.hexagonkt.core.media.TEXT_CSS
+import com.hexagonkt.core.media.TEXT_HTML
+import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.core.media.TEXT_RICHTEXT
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
@@ -28,8 +28,8 @@ internal class HttpClientRequestTest {
             parts = listOf(HttpPart("n", "b")),
             formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
             cookies = listOf(Cookie("cn", "cv")),
-            contentType = ContentType(PLAIN),
-            accept = listOf(ContentType(HTML)),
+            contentType = ContentType(TEXT_PLAIN),
+            accept = listOf(ContentType(TEXT_HTML)),
         )
 
     @Test fun `HTTP Client Request comparison works ok`() {
@@ -43,8 +43,8 @@ internal class HttpClientRequestTest {
         val parts = listOf(HttpPart("p", "v"))
         val formParameters = FormParameters(FormParameter("h1", "v1"))
         val cookies = listOf(Cookie("p", "v"))
-        val contentType = ContentType(RICHTEXT)
-        val accept = listOf(ContentType(CSS))
+        val contentType = ContentType(TEXT_RICHTEXT)
+        val accept = listOf(ContentType(TEXT_CSS))
 
         assertNotEquals(httpClientRequest, httpClientRequest.copy(method = PUT))
         assertNotEquals(httpClientRequest, httpClientRequest.copy(protocol = HTTP2))
@@ -60,7 +60,9 @@ internal class HttpClientRequestTest {
         assertNotEquals(httpClientRequest, httpClientRequest.copy(accept = accept))
         assertNotEquals(
             httpClientRequest,
-            httpClientRequest.copy(queryParameters = QueryParameters(QueryParameter("k", "v", "v2")))
+            httpClientRequest.copy(
+                queryParameters = QueryParameters(QueryParameter("k", "v", "v2"))
+            )
         )
 
         assertEquals(httpClientRequest.hashCode(), httpClientRequestData().hashCode())

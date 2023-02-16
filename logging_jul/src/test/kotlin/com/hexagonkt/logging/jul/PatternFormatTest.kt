@@ -2,7 +2,6 @@ package com.hexagonkt.logging.jul
 
 import com.hexagonkt.core.Ansi
 import com.hexagonkt.core.fail
-import com.hexagonkt.core.out
 import org.junit.jupiter.api.Assertions
 import kotlin.test.Test
 import java.lang.RuntimeException
@@ -31,14 +30,14 @@ internal class PatternFormatTest {
         val record = LogRecord(SEVERE, message)
         record.thrown = RuntimeException("Tested failure")
 
-        val colorMessage = PatternFormat(true).format(record).out()
+        val colorMessage = PatternFormat(true).format(record)
         Assertions.assertTrue(colorMessage.contains(message))
         Assertions.assertTrue(colorMessage.contains(Ansi.RED))
         Assertions.assertTrue(colorMessage.contains("Tested failure"))
         Assertions.assertTrue(colorMessage.contains(RuntimeException::class.qualifiedName ?: fail))
         Assertions.assertTrue(colorMessage.contains(this::class.qualifiedName ?: fail))
 
-        val plainMessage = PatternFormat(false).format(record).out()
+        val plainMessage = PatternFormat(false).format(record)
         Assertions.assertTrue(plainMessage.contains(message))
         Assertions.assertFalse(plainMessage.contains(Ansi.RED))
         Assertions.assertTrue(plainMessage.contains("Tested failure"))

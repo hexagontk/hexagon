@@ -1,9 +1,6 @@
 package com.hexagonkt.core.media
 
-import com.hexagonkt.core.media.ApplicationMedia.*
 import com.hexagonkt.core.media.MediaTypeGroup.*
-import com.hexagonkt.core.media.TextMedia.HTML
-import com.hexagonkt.core.media.TextMedia.PLAIN
 import kotlin.test.Test
 import java.io.File
 import kotlin.IllegalArgumentException
@@ -44,22 +41,22 @@ internal class MediaTypesTest {
     }
 
     @Test fun `Media types of files and URLs can be retrieved`() {
-        assertEquals(PLAIN, mediaTypeOfOrNull(URL("http://localhost/file.txt")))
-        assertEquals(JSON, mediaTypeOfOrNull(URL("http://localhost/file.json")))
-        assertEquals(PLAIN, mediaTypeOf(URL("http://localhost/file.txt")))
-        assertEquals(JSON, mediaTypeOf(URL("http://localhost/file.json")))
-        assertEquals(AVRO, mediaTypeOf("avro"))
+        assertEquals(TEXT_PLAIN, mediaTypeOfOrNull(URL("http://localhost/file.txt")))
+        assertEquals(APPLICATION_JSON, mediaTypeOfOrNull(URL("http://localhost/file.json")))
+        assertEquals(TEXT_PLAIN, mediaTypeOf(URL("http://localhost/file.txt")))
+        assertEquals(APPLICATION_JSON, mediaTypeOf(URL("http://localhost/file.json")))
+        assertEquals(APPLICATION_AVRO, mediaTypeOf("avro"))
         assertNull(mediaTypeOfOrNull(URL("http://localhost/file")))
         assertNull(mediaTypeOfOrNull(URL("http://localhost/file.foo")))
 
-        assertEquals(HTML, mediaTypeOfOrNull(File("file.html")))
-        assertEquals(HTML, mediaTypeOfOrNull(File("file.htm")))
-        assertEquals(YAML, mediaTypeOfOrNull(File("file.yaml")))
-        assertEquals(YAML, mediaTypeOfOrNull(File("file.yml")))
-        assertEquals(HTML, mediaTypeOf(File("file.html")))
-        assertEquals(HTML, mediaTypeOf(File("file.htm")))
-        assertEquals(YAML, mediaTypeOf(File("file.yaml")))
-        assertEquals(YAML, mediaTypeOf(File("file.yml")))
+        assertEquals(TEXT_HTML, mediaTypeOfOrNull(File("file.html")))
+        assertEquals(TEXT_HTML, mediaTypeOfOrNull(File("file.htm")))
+        assertEquals(APPLICATION_YAML, mediaTypeOfOrNull(File("file.yaml")))
+        assertEquals(APPLICATION_YAML, mediaTypeOfOrNull(File("file.yml")))
+        assertEquals(TEXT_HTML, mediaTypeOf(File("file.html")))
+        assertEquals(TEXT_HTML, mediaTypeOf(File("file.htm")))
+        assertEquals(APPLICATION_YAML, mediaTypeOf(File("file.yaml")))
+        assertEquals(APPLICATION_YAML, mediaTypeOf(File("file.yml")))
         assertNull(mediaTypeOfOrNull(File("file")))
         assertNull(mediaTypeOfOrNull(File("file.baz")))
     }

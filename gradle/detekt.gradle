@@ -5,7 +5,6 @@
 apply(plugin: "io.gitlab.arturbosch.detekt")
 
 detekt {
-
     final String detektConfigPath = findProperty("detektConfigPath")
 
     ignoreFailures = true
@@ -13,4 +12,31 @@ detekt {
 
     if (detektConfigPath != null)
         config = rootProject.files(detektConfigPath)
+}
+
+tasks.named("detekt") {
+    reports {
+        sarif.required.set(false)
+        html.required.set(false)
+        txt.required.set(false)
+        md.required.set(true)
+    }
+}
+
+tasks.named("detektMain") {
+    reports {
+        sarif.required.set(false)
+        html.required.set(false)
+        txt.required.set(false)
+        md.required.set(true)
+    }
+}
+
+tasks.named("detektTest") {
+    reports {
+        sarif.required.set(false)
+        html.required.set(false)
+        txt.required.set(false)
+        md.required.set(true)
+    }
 }

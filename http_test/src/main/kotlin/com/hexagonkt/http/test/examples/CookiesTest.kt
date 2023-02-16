@@ -3,7 +3,7 @@ package com.hexagonkt.http.test.examples
 import com.hexagonkt.core.require
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.Cookie
-import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
@@ -59,7 +59,7 @@ abstract class CookiesTest(
     @Test
     @Order(1)
     fun `Empty cookies assures there is no cookies`() {
-        assertEquals(OK, client.post("/assertNoCookies").status)
+        assertEquals(OK_200, client.post("/assertNoCookies").status)
     }
 
     @Test
@@ -72,7 +72,7 @@ abstract class CookiesTest(
         client.post("/addCookie?$cookie")
         val result = client.post("/assertHasCookie?$cookie")
         assertEquals(1, client.cookies.size)
-        assertEquals(OK, result.status)
+        assertEquals(OK_200, result.status)
     }
 
     @Test
@@ -83,10 +83,10 @@ abstract class CookiesTest(
         val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
         client.post("/addCookie?$cookie")
         assertEquals(1, client.cookies.size)
-        assertEquals(OK, client.post("/assertHasCookie?$cookie").status)
+        assertEquals(OK_200, client.post("/assertHasCookie?$cookie").status)
         client.post("/removeCookie?$cookie")
         val result = client.post("/assertNoCookies")
-        assertEquals(OK, result.status)
+        assertEquals(OK_200, result.status)
     }
 
     @Test
@@ -96,7 +96,7 @@ abstract class CookiesTest(
         client.post("/removeCookie?cookieName=$cookieName")
         assert(client.cookies.isEmpty())
         val result = client.post("/assertNoCookies")
-        assertEquals(OK, result.status)
+        assertEquals(OK_200, result.status)
     }
 
     @Test

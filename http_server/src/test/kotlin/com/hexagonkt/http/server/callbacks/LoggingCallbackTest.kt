@@ -1,8 +1,8 @@
 package com.hexagonkt.http.server.callbacks
 
-import com.hexagonkt.core.media.ApplicationMedia.JSON
-import com.hexagonkt.core.media.TextMedia.HTML
-import com.hexagonkt.core.media.TextMedia.PLAIN
+import com.hexagonkt.core.media.APPLICATION_JSON
+import com.hexagonkt.core.media.TEXT_HTML
+import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.Headers
@@ -33,17 +33,19 @@ internal class LoggingCallbackTest {
         assertEquals(
             "$prefix \n\naccept: text/plain, text/html",
             requestDetails(
-                request = HttpServerRequest(accept = listOf(ContentType(PLAIN), ContentType(HTML)))
+                request = HttpServerRequest(
+                    accept = listOf(ContentType(TEXT_PLAIN), ContentType(TEXT_HTML))
+                )
             )
         )
         assertEquals(
             "$prefix \n\ncontent-type: application/json",
-            requestDetails(request = HttpServerRequest(contentType = ContentType(JSON)))
+            requestDetails(request = HttpServerRequest(contentType = ContentType(APPLICATION_JSON)))
         )
     }
 
     @Test fun `Details are configurable for responses`() {
-        val prefix = "Response (partial headers):\nGET  -> NOT_FOUND(404) (1.0 ms)"
+        val prefix = "Response (partial headers):\nGET  -> CLIENT_ERROR(404) (1.0 ms)"
 
         assertEquals("$prefix\n\nh: 42\n\nb", responseDetails(headers = true, body = true))
         assertEquals("$prefix\n\nh: 42", responseDetails(headers = true, body = false))
@@ -52,12 +54,12 @@ internal class LoggingCallbackTest {
     }
 
     @Test fun `Response headers are displayed properly`() {
-        val prefix = "Response (partial headers):\nGET  -> NOT_FOUND(404) (1.0 ms)"
+        val prefix = "Response (partial headers):\nGET  -> CLIENT_ERROR(404) (1.0 ms)"
 
         assertEquals(
             "$prefix\n\ncontent-type: application/json",
             responseDetails(
-                response = HttpServerResponse(contentType = ContentType(JSON))
+                response = HttpServerResponse(contentType = ContentType(APPLICATION_JSON))
             )
         )
     }

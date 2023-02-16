@@ -3,7 +3,6 @@ package com.hexagonkt.http
 import com.hexagonkt.core.assertEnabled
 import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.core.withZone
 import com.hexagonkt.http.model.*
 import java.math.BigInteger
 import java.net.URLDecoder
@@ -13,18 +12,18 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 
-val checkedHeaders: List<String> = listOf("content-type", "accept", "set-cookie", "authorization")
+val CHECKED_HEADERS: List<String> = listOf("content-type", "accept", "set-cookie", "authorization")
 
-val gmtZone: ZoneId = ZoneId.of("GMT")
+val GMT_ZONE: ZoneId = ZoneId.of("GMT")
 
-val httpDateFormatter: DateTimeFormatter = RFC_1123_DATE_TIME.withZone(ZoneOffset.UTC)
+val HTTP_DATE_FORMATTER: DateTimeFormatter = RFC_1123_DATE_TIME.withZone(ZoneOffset.UTC)
 
 fun checkHeaders(headers: Headers) {
     if (!assertEnabled)
         return
 
     val headersKeys = headers.httpFields.keys
-    val invalidHeaders = checkedHeaders.filter { headersKeys.contains(it) }
+    val invalidHeaders = CHECKED_HEADERS.filter { headersKeys.contains(it) }
 
     check(invalidHeaders.isEmpty()) {
         val invalidHeadersText = invalidHeaders.joinToString(",") { "'$it'" }
@@ -83,10 +82,10 @@ fun String.urlEncode(): String =
     URLEncoder.encode(this, Jvm.charset)
 
 fun LocalDateTime.toHttpFormat(): String =
-    httpDateFormatter.format(this.withZone().withZoneSameInstant(gmtZone))
+    HTTP_DATE_FORMATTER.format(ZonedDateTime.of(this, Jvm.zoneId).withZoneSameInstant(GMT_ZONE))
 
 fun Instant.toHttpFormat(): String =
-    httpDateFormatter.format(this)
+    HTTP_DATE_FORMATTER.format(this)
 
 fun parseContentType(contentType: String): ContentType {
     val typeParameter = contentType.split(";")

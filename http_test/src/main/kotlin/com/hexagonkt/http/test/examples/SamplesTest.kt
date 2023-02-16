@@ -1,24 +1,23 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.CodedException
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
-import com.hexagonkt.core.media.ApplicationMedia.JSON
-import com.hexagonkt.core.media.ApplicationMedia.XML
-import com.hexagonkt.core.media.TextMedia
+import com.hexagonkt.core.media.APPLICATION_JSON
+import com.hexagonkt.core.media.APPLICATION_XML
+import com.hexagonkt.core.media.TEXT_CSS
+import com.hexagonkt.core.media.TEXT_HTML
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.model.RedirectionStatus.FOUND
-import com.hexagonkt.http.model.ServerErrorStatus.HTTP_VERSION_NOT_SUPPORTED
-import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
-import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.model.FOUND_302
+import com.hexagonkt.http.model.HTTP_VERSION_NOT_SUPPORTED_505
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
+import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
@@ -103,7 +102,7 @@ abstract class SamplesTest(
 
             on(ALL - GET - PUT - POST, "/hello") { ok("Fallback if HTTP verb was not used before") }
 
-            on(status = NOT_FOUND) { ok("Get at '/' if no route matched before") }
+            on(status = NOT_FOUND_404) { ok("Get at '/' if no route matched before") }
             // routesCreation
         }
 
@@ -184,7 +183,7 @@ abstract class SamplesTest(
                 ok("Response body") // Returns a 200 status
                 // return any status (previous return value is ignored here)
                 send(
-                    BAD_REQUEST,
+                    BAD_REQUEST_400,
                     "Invalid request",
                     attributes = attributes + ("A" to "V") // Sets value of attribute A to V
                 )
@@ -247,9 +246,9 @@ abstract class SamplesTest(
                 status                              // Shortcut of `response.status`
 
                 send(
-                    status = UNAUTHORIZED,          // Set status code to 401
-                    body = "Hello",                 // Sets content to Hello
-                    contentType = ContentType(XML), // Set content type to application/xml
+                    status = UNAUTHORIZED_401,                  // Set status code to 401
+                    body = "Hello",                             // Sets content to Hello
+                    contentType = ContentType(APPLICATION_XML), // Set application/xml content type
                     headers = response.headers
                         + Header("foo", "bar")      // Sets header FOO with single value bar
                         + Header("baz", "1", "2")   // Sets header FOO values with [ bar ]
@@ -295,7 +294,7 @@ abstract class SamplesTest(
 
             // callbackRedirect
             get("/redirect") {
-                redirect(FOUND, "/call") // browser redirect to /call
+                send(FOUND_302, "/call") // browser redirect to /call
             }
             // callbackRedirect
 
@@ -318,10 +317,10 @@ abstract class SamplesTest(
 
             // callbackHalt
             get("/halt") {
-                clientError(UNAUTHORIZED)             // Halt with status
-                clientError(UNAUTHORIZED, "Go away!") // Halt with status and message
-                internalServerError("Body Message")   // Halt with message (status 500)
-                internalServerError()                 // Halt with status 500
+                send(UNAUTHORIZED_401)              // Halt with status
+                send(UNAUTHORIZED_401, "Go away!")  // Halt with status and message
+                internalServerError("Body Message") // Halt with message (status 500)
+                internalServerError()               // Halt with status 500
             }
             // callbackHalt
         }
@@ -332,21 +331,19 @@ abstract class SamplesTest(
                 it.cookies += Cookie("foo", "bar")
                 it.start()
 
+                val json = ContentType(APPLICATION_JSON)
                 val callResponse = it.get("/call")
-                assertEquals(BAD_REQUEST, callResponse.status)
+                assertEquals(BAD_REQUEST_400, callResponse.status)
                 assertEquals("Invalid request", callResponse.body)
-                assertEquals(
-                    OK,
-                    it.get("/request", body = "body", contentType = ContentType(JSON)).status
-                )
+                assertEquals(OK_200, it.get("/request", body = "body", contentType = json).status)
 
-                assertEquals(UNAUTHORIZED, it.get("/response").status)
-                assertEquals(OK, it.get("/pathParam/param").status)
-                assertEquals(OK, it.get("/queryParam").status)
-                assertEquals(OK, it.get("/formParam").status)
-                assertEquals(FOUND, it.get("/redirect").status)
-                assertEquals(OK, it.get("/cookie").status)
-                assertEquals(INTERNAL_SERVER_ERROR, it.get("/halt").status)
+                assertEquals(UNAUTHORIZED_401, it.get("/response").status)
+                assertEquals(OK_200, it.get("/pathParam/param").status)
+                assertEquals(OK_200, it.get("/queryParam").status)
+                assertEquals(OK_200, it.get("/formParam").status)
+                assertEquals(FOUND_302, it.get("/redirect").status)
+                assertEquals(OK_200, it.get("/cookie").status)
+                assertEquals(INTERNAL_SERVER_ERROR_500, it.get("/halt").status)
 
                 val stream = URL("classpath:assets/index.html").readBytes()
                 val parts = listOf(HttpPart("file", stream, "index.html"))
@@ -358,7 +355,7 @@ abstract class SamplesTest(
 
     @Test fun filters() {
         fun assertResponse(response: HttpClientResponse, body: String, vararg headers: String) {
-            assertEquals(OK, response.status)
+            assertEquals(OK_200, response.status)
             assertEquals(body, response.body)
             (headers.toList() + "b-all" + "a-all").forEach {
                 assert(response.headers.httpFields.containsKey(it))
@@ -416,23 +413,25 @@ abstract class SamplesTest(
     }
 
     @Test fun errors() {
+        class NumberException (val number: Int) : RuntimeException()
+
         val server = serve(serverAdapter()) {
             // errors
-            exception<Exception>(NOT_FOUND) {
+            exception<Exception>(NOT_FOUND_404) {
                 internalServerError("Root handler")
             }
 
             // Register handler for routes halted with 512 code
             get("/errors") { send(HttpStatus(512)) }
 
-            on(pattern = "*", status = HttpStatus(512)) { send(INTERNAL_SERVER_ERROR, "Ouch") }
+            on(pattern = "*", status = HttpStatus(512)) { send(INTERNAL_SERVER_ERROR_500, "Ouch") }
             // errors
 
-            exception<CodedException> { e ->
-                internalServerError(e.code.toString())
+            exception<NumberException> { e ->
+                internalServerError(e.number.toString())
             }
 
-            get("/codeException") { throw CodedException(9) }
+            get("/codeException") { throw NumberException(9) }
 
             // exceptions
             // Register handler for routes which callbacks throw exceptions
@@ -443,7 +442,7 @@ abstract class SamplesTest(
                 send(HttpStatus(599))
             }
             on(pattern = "*", exception = IllegalStateException::class) {
-                send(HTTP_VERSION_NOT_SUPPORTED, exception?.message ?: "empty")
+                send(HTTP_VERSION_NOT_SUPPORTED_505, exception?.message ?: "empty")
             }
             // exceptions
         }
@@ -453,11 +452,11 @@ abstract class SamplesTest(
                 it.start()
 
                 val errors = it.get("/errors")
-                assertEquals(INTERNAL_SERVER_ERROR, errors.status)
+                assertEquals(INTERNAL_SERVER_ERROR_500, errors.status)
                 assertEquals("Ouch", errors.body)
 
                 val exceptions = it.get("/exceptions")
-                assertEquals(HTTP_VERSION_NOT_SUPPORTED, exceptions.status)
+                assertEquals(HTTP_VERSION_NOT_SUPPORTED_505, exceptions.status)
                 assertEquals("Message", exceptions.body)
 
                 val codedExceptions = it.get("/codedExceptions")
@@ -465,7 +464,7 @@ abstract class SamplesTest(
                 assertEquals("code", codedExceptions.body)
 
                 it.get("/codeException").apply {
-                    assertEquals(INTERNAL_SERVER_ERROR, status)
+                    assertEquals(INTERNAL_SERVER_ERROR_500, status)
                     assertEquals("9", bodyString())
                 }
             }
@@ -479,14 +478,14 @@ abstract class SamplesTest(
 
             // Expose resources on the '/public' resource folder over the '/web' HTTP path
             on(
-                status = NOT_FOUND,
+                status = NOT_FOUND_404,
                 pattern = "/web/*",
                 callback = UrlCallback(URL("classpath:public"))
             )
 
             // Maps resources on 'assets' on the server root (assets/f.css -> /f.css)
             // '/public/css/style.css' resource would be: 'http://{host}:{port}/css/style.css'
-            on(status = NOT_FOUND, pattern = "/*", callback = UrlCallback(URL("classpath:assets")))
+            on(status = NOT_FOUND_404, pattern = "/*", callback = UrlCallback(URL("classpath:assets")))
             // files
         }
 
@@ -497,14 +496,14 @@ abstract class SamplesTest(
                 assert(it.get("/web/file.txt").bodyString().startsWith("It matches this route"))
 
                 val index = it.get("/index.html")
-                assertEquals(OK, index.status)
-                assertEquals(ContentType(TextMedia.HTML), index.contentType)
+                assertEquals(OK_200, index.status)
+                assertEquals(ContentType(TEXT_HTML), index.contentType)
                 val file = it.get("/web/file.css")
-                assertEquals(OK, file.status)
-                assertEquals(ContentType(TextMedia.CSS), file.contentType)
+                assertEquals(OK_200, file.status)
+                assertEquals(ContentType(TEXT_CSS), file.contentType)
 
                 val unavailable = it.get("/web/unavailable.css")
-                assertEquals(NOT_FOUND, unavailable.status)
+                assertEquals(NOT_FOUND_404, unavailable.status)
             }
         }
     }
@@ -551,8 +550,8 @@ abstract class SamplesTest(
         val notFound = handler.process()
         val ok = handler.process(method = GET, path = "/path")
 
-        assertEquals(NOT_FOUND, notFound.status)
-        assertEquals(OK, ok.status)
+        assertEquals(NOT_FOUND_404, notFound.status)
+        assertEquals(OK_200, ok.status)
         assertEquals("Callback result null null", ok.bodyString())
         // mockRequest
     }

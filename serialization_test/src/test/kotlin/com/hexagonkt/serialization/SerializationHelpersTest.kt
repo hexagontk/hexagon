@@ -1,6 +1,6 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.core.media.ApplicationMedia.JSON
+import com.hexagonkt.core.media.APPLICATION_JSON
 import com.hexagonkt.core.toStream
 import com.hexagonkt.serialization.jackson.json.Json
 import org.junit.jupiter.api.Test
@@ -42,8 +42,8 @@ internal class SerializationHelpersTest {
         assert("""{ "a": "b" }""".parseMap().isNotEmpty())
         assert("""[ { "a": "b" } ]""".parseList(Json).isNotEmpty())
         assert("""{ "a": "b" }""".parseMap(Json).isNotEmpty())
-        assert("""[ { "a": "b" } ]""".parseList(JSON).isNotEmpty())
-        assert("""{ "a": "b" }""".parseMap(JSON).isNotEmpty())
+        assert("""[ { "a": "b" } ]""".parseList(APPLICATION_JSON).isNotEmpty())
+        assert("""{ "a": "b" }""".parseMap(APPLICATION_JSON).isNotEmpty())
     }
 
     @Test fun `Parse stream helpers generates the correct collection`() {
@@ -51,7 +51,7 @@ internal class SerializationHelpersTest {
         assert("""{ "a": "b" }""".toStream().parseMap().isNotEmpty())
         assert("""[ { "a": "b" } ]""".toStream().parseList(Json).isNotEmpty())
         assert("""{ "a": "b" }""".toStream().parseMap(Json).isNotEmpty())
-        assert("""[ { "a": "b" } ]""".toStream().parseList(JSON).isNotEmpty())
-        assert("""{ "a": "b" }""".toStream().parseMap(JSON).isNotEmpty())
+        assert("""[ { "a": "b" } ]""".toStream().parseList(APPLICATION_JSON).isNotEmpty())
+        assert("""{ "a": "b" }""".toStream().parseMap(APPLICATION_JSON).isNotEmpty())
     }
 }

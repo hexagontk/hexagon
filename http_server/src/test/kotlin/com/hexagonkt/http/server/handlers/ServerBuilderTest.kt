@@ -1,9 +1,9 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.http.model.ClientErrorStatus.METHOD_NOT_ALLOWED
-import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.METHOD_NOT_ALLOWED_405
+import com.hexagonkt.http.model.NOT_FOUND_404
 import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.SuccessStatus.*
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.patterns.LiteralPathPattern
 import com.hexagonkt.http.server.examples.send
 import com.hexagonkt.http.server.model.HttpServerRequest
@@ -18,37 +18,37 @@ internal class ServerBuilderTest {
             path("/books") {
                 path("/{id}") {
                     get { ok("Title, Author") }
-                    after(status = NOT_FOUND) { send(METHOD_NOT_ALLOWED) }
+                    after(status = NOT_FOUND_404) { send(METHOD_NOT_ALLOWED_405) }
                 }
             }
         }
 
         val response = path.send(GET, "/c/books/100")
-        assertEquals(OK, response.status)
+        assertEquals(OK_200, response.status)
         assertEquals("Title, Author", response.bodyString())
     }
 
     @Test fun `Builder utility methods add all HTTP method handlers`() {
 
         val path = path {
-            head { success(OK) }
-            head("/head") { success(MULTI_STATUS) }
-            trace { success(ALREADY_REPORTED) }
-            trace("/trace") { success(ACCEPTED) }
-            options { success(CREATED) }
-            options("/options") { success(PARTIAL_CONTENT) }
-            patch { success(RESET_CONTENT) }
-            patch("/patch") { success(NO_CONTENT) }
+            head { send(OK_200) }
+            head("/head") { send(MULTI_STATUS_207) }
+            trace { send(ALREADY_REPORTED_208) }
+            trace("/trace") { send(ACCEPTED_202) }
+            options { send(CREATED_201) }
+            options("/options") { send(PARTIAL_CONTENT_206) }
+            patch { send(RESET_CONTENT_205) }
+            patch("/patch") { send(NO_CONTENT_204) }
         }
 
-        assertEquals(OK, path.send(HEAD, "").status)
-        assertEquals(MULTI_STATUS, path.send(HEAD, "/head").status)
-        assertEquals(ALREADY_REPORTED, path.send(TRACE, "").status)
-        assertEquals(ACCEPTED, path.send(TRACE, "/trace").status)
-        assertEquals(CREATED, path.send(OPTIONS, "").status)
-        assertEquals(PARTIAL_CONTENT, path.send(OPTIONS, "/options").status)
-        assertEquals(RESET_CONTENT, path.send(PATCH, "").status)
-        assertEquals(NO_CONTENT, path.send(PATCH, "/patch").status)
+        assertEquals(OK_200, path.send(HEAD, "").status)
+        assertEquals(MULTI_STATUS_207, path.send(HEAD, "/head").status)
+        assertEquals(ALREADY_REPORTED_208, path.send(TRACE, "").status)
+        assertEquals(ACCEPTED_202, path.send(TRACE, "/trace").status)
+        assertEquals(CREATED_201, path.send(OPTIONS, "").status)
+        assertEquals(PARTIAL_CONTENT_206, path.send(OPTIONS, "/options").status)
+        assertEquals(RESET_CONTENT_205, path.send(PATCH, "").status)
+        assertEquals(NO_CONTENT_204, path.send(PATCH, "/patch").status)
     }
 
     @Test fun `Builder utility methods add all types of handlers`() {
