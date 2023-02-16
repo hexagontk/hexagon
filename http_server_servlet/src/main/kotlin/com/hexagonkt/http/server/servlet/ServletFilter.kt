@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.core.media.TextMedia
+import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.toText
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.server.HttpServerSettings
@@ -58,7 +58,7 @@ class ServletFilter(
             response.outputStream.write(bodyToBytes(handlerResponse.body))
         }
         catch (e: Exception) {
-            response.addHeader("content-type", TextMedia.PLAIN.fullType)
+            response.addHeader("content-type", TEXT_PLAIN.fullType)
             response.status = 500
             response.outputStream.write(e.toText().toByteArray())
         }

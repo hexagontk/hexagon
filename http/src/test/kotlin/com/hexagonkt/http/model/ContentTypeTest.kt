@@ -1,6 +1,6 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.core.media.TextMedia.PLAIN
+import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.parseContentType
 import kotlin.test.Test
 import kotlin.IllegalStateException
@@ -78,31 +78,31 @@ internal class ContentTypeTest {
 
     @Test fun `Build content types with more than one parameter fails`() {
         val charset = Charset.defaultCharset()
-        assertFailsWith<IllegalArgumentException> { ContentType(PLAIN, "abc", charset, 0.1) }
-        assertFailsWith<IllegalArgumentException> { ContentType(PLAIN, "abc", charset, null) }
-        assertFailsWith<IllegalArgumentException> { ContentType(PLAIN, "abc", null, 0.1) }
-        assertFailsWith<IllegalArgumentException> { ContentType(PLAIN, null, charset, 0.1) }
+        assertFailsWith<IllegalArgumentException> { ContentType(TEXT_PLAIN, "abc", charset, 0.1) }
+        assertFailsWith<IllegalArgumentException> { ContentType(TEXT_PLAIN, "abc", charset, null) }
+        assertFailsWith<IllegalArgumentException> { ContentType(TEXT_PLAIN, "abc", null, 0.1) }
+        assertFailsWith<IllegalArgumentException> { ContentType(TEXT_PLAIN, null, charset, 0.1) }
     }
 
     @Test fun `Build content types with invalid parameters fails`() {
-        assertFailsWith<IllegalArgumentException> { ContentType(PLAIN, "") }
-        assertFailsWith<IllegalArgumentException> { ContentType(PLAIN, " ") }
-        assertFailsWith<IllegalArgumentException> { ContentType(PLAIN, q = -0.1) }
-        assertFailsWith<IllegalArgumentException> { ContentType(PLAIN, q = 1.1) }
+        assertFailsWith<IllegalArgumentException> { ContentType(TEXT_PLAIN, "") }
+        assertFailsWith<IllegalArgumentException> { ContentType(TEXT_PLAIN, " ") }
+        assertFailsWith<IllegalArgumentException> { ContentType(TEXT_PLAIN, q = -0.1) }
+        assertFailsWith<IllegalArgumentException> { ContentType(TEXT_PLAIN, q = 1.1) }
     }
 
     @Test fun `HttpPart hashcode behaves as expected`() {
         fun part(contentType: ContentType?, file: String?) =
             HttpPart("n", "v", contentType = contentType, submittedFileName = file)
 
-        val part1 = part(ContentType(PLAIN), null)
+        val part1 = part(ContentType(TEXT_PLAIN), null)
         val part2 = part(null, "sfn")
-        val part3 = part(ContentType(PLAIN), "sfn")
+        val part3 = part(ContentType(TEXT_PLAIN), "sfn")
         val part4 = part(null, null)
 
-        assertEquals(part1.hashCode(), part(ContentType(PLAIN), null).hashCode())
+        assertEquals(part1.hashCode(), part(ContentType(TEXT_PLAIN), null).hashCode())
         assertEquals(part2.hashCode(), part(null, "sfn").hashCode())
-        assertEquals(part3.hashCode(), part(ContentType(PLAIN), "sfn").hashCode())
+        assertEquals(part3.hashCode(), part(ContentType(TEXT_PLAIN), "sfn").hashCode())
         assertEquals(part4.hashCode(), part(null, null).hashCode())
     }
 }

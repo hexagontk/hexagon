@@ -10,22 +10,22 @@ import kotlin.test.assertSame
 internal class MediaTypeTest {
 
     @Test fun `MediaType init checks are disabled in production mode`() {
-        assertFailsWith<IllegalArgumentException> { CustomMedia(TEXT, "&plain") }
+        assertFailsWith<IllegalArgumentException> { MediaType(TEXT, "&plain") }
     }
 
     @Test fun `Media types can be fetched from their full type`() {
         assertSame(MediaType("application/avro"), MediaType.fullTypes["application/avro"])
-        assertEquals(MediaType("application/example"), CustomMedia(APPLICATION, "example"))
+        assertEquals(MediaType("application/example"), MediaType(APPLICATION, "example"))
     }
 
     @Test fun `Media types without extensions are correct`() {
-        assertEquals("multipart/alternative", MultipartMedia.ALTERNATIVE.fullType)
-        assertEquals("multipart/appledouble", MultipartMedia.APPLEDOUBLE.fullType)
-        assertEquals("multipart/digest", MultipartMedia.DIGEST.fullType)
-        assertEquals("multipart/mixed", MultipartMedia.MIXED.fullType)
-        assertEquals("multipart/parallel", MultipartMedia.PARALLEL.fullType)
+        assertEquals("multipart/alternative", MULTIPART_ALTERNATIVE.fullType)
+        assertEquals("multipart/appledouble", MULTIPART_APPLEDOUBLE.fullType)
+        assertEquals("multipart/digest", MULTIPART_DIGEST.fullType)
+        assertEquals("multipart/mixed", MULTIPART_MIXED.fullType)
+        assertEquals("multipart/parallel", MULTIPART_PARALLEL.fullType)
 
-        assertEquals("text/event-stream", TextMedia.EVENT_STREAM.fullType)
+        assertEquals("text/event-stream", TEXT_EVENT_STREAM.fullType)
     }
 
     @Test fun `Media types can be fetched from their file extensions`() {
@@ -128,6 +128,6 @@ internal class MediaTypeTest {
     }
 
     @Test fun `Not found extension returns the default media type`() {
-        assertEquals(defaultMediaType, MediaType["___"])
+        assertEquals(DEFAULT_MEDIA_TYPE, MediaType["___"])
     }
 }

@@ -1,11 +1,11 @@
 package com.hexagonkt.http.client.model
 
-import com.hexagonkt.core.media.TextMedia.HTML
-import com.hexagonkt.core.media.TextMedia.PLAIN
+import com.hexagonkt.core.media.TEXT_HTML
+import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
-import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.NOT_FOUND_404
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -24,9 +24,9 @@ internal class HttpClientCallTest {
         HttpClientResponse(
             body = "response",
             headers = Headers(Header("hr1", "hr1v1", "hr1v2")),
-            contentType = ContentType(HTML),
+            contentType = ContentType(TEXT_HTML),
             cookies = listOf(Cookie("cn", "cv")),
-            status = NOT_FOUND,
+            status = NOT_FOUND_404,
         )
 
     private fun httpClientRequestData(): HttpClientRequest =
@@ -41,8 +41,8 @@ internal class HttpClientCallTest {
             parts = listOf(HttpPart("n", "b")),
             formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
             cookies = listOf(Cookie("cn", "cv")),
-            contentType = ContentType(PLAIN),
-            accept = listOf(ContentType(HTML)),
+            contentType = ContentType(TEXT_PLAIN),
+            accept = listOf(ContentType(TEXT_HTML)),
         )
 
     @Test fun `HTTP Client Call comparison works ok`() {

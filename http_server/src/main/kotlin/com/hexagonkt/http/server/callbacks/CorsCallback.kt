@@ -1,14 +1,11 @@
 package com.hexagonkt.http.server.callbacks
 
 import com.hexagonkt.core.Glob
-import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpMethod
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.HttpMethod.OPTIONS
-import com.hexagonkt.http.model.SuccessStatus
+import com.hexagonkt.http.model.HttpStatusType.SUCCESS
 import com.hexagonkt.http.server.handlers.HttpServerContext
-import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
 
 /**
  * HTTP CORS callback. It holds info for CORS.
@@ -19,7 +16,7 @@ class CorsCallback(
     private val allowedHeaders: Set<String> = emptySet(),
     private val exposedHeaders: Set<String> = emptySet(),
     private val supportCredentials: Boolean = true,
-    private val preFlightStatus: SuccessStatus = NO_CONTENT,
+    private val preFlightStatus: HttpStatus = NO_CONTENT_204,
     private val preFlightMaxAge: Long = 0
 ) : (HttpServerContext) -> HttpServerContext {
 
@@ -39,7 +36,7 @@ class CorsCallback(
         allowedHeaders: Set<String> = emptySet(),
         exposedHeaders: Set<String> = emptySet(),
         supportCredentials: Boolean = true,
-        preFlightStatus: SuccessStatus = NO_CONTENT,
+        preFlightStatus: HttpStatus = NO_CONTENT_204,
         preFlightMaxAge: Long = 0) :
         this(
             Glob(allowedOrigin).regex,
@@ -51,12 +48,20 @@ class CorsCallback(
             preFlightMaxAge
         )
 
+    init {
+        val preFlightStatusType = preFlightStatus.type
+
+        require(preFlightStatusType == SUCCESS) {
+            "Preflight Status must be a success status: $preFlightStatusType"
+        }
+    }
+
     override fun invoke(context: HttpServerContext): HttpServerContext =
         context.simpleRequest().let {
             if (context.request.method == OPTIONS) it.preFlightRequest()
             else it
         }.let {
-            if (it.response.status != FORBIDDEN) it.next()
+            if (it.response.status != FORBIDDEN_403) it.next()
             else it
         }
 
@@ -95,7 +100,7 @@ class CorsCallback(
             h += Header(EXPOSE_HEADERS, requestHeaders.joinToString(","))
         }
 
-        return success(preFlightStatus, headers = h)
+        return send(preFlightStatus, headers = h)
     }
 
     private fun HttpServerContext.preFlightRequest(): HttpServerContext {
@@ -134,9 +139,9 @@ class CorsCallback(
         val origin = request.origin() ?: ""
         return when {
             allowOrigin(origin) && origin.isBlank() ->
-                success(preFlightStatus, headers = h)
+                send(preFlightStatus, headers = h)
             allowOrigin(origin) ->
-                success(preFlightStatus, headers = h + Header(ALLOW_ORIGIN, accessControlAllowOrigin(origin)))
+                send(preFlightStatus, headers = h + Header(ALLOW_ORIGIN, accessControlAllowOrigin(origin)))
             !allowOrigin(origin) && origin.isNotBlank() ->
                 forbidden("Not allowed origin: $origin")
             else ->

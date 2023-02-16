@@ -103,7 +103,7 @@ tasks.register("tarJpackage", Tar) {
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
 }
 
-tasks.register("jre", Exec) {
+tasks.register("jlink", Exec) {
     group = "distribution"
     description = "Create an application distribution based on a jlink generated JRE."
     dependsOn("jarAll")
@@ -144,10 +144,10 @@ tasks.register("jre", Exec) {
     }
 }
 
-tasks.register("tarJre", Tar) {
+tasks.register("tarJlink", Tar) {
     group = "distribution"
     description = "Compress JRE distribution in a single file."
-    dependsOn("jre")
+    dependsOn("jlink")
 
     from(buildDir.toPath().resolve(project.name).toFile())
     compression = Compression.BZIP2

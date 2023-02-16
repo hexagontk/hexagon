@@ -42,7 +42,7 @@ tasks.register("upx", Exec) {
     }
 }
 
-tasks.register("zipNative", Zip) {
+tasks.register("tarNative", Tar) {
     group = "distribution"
     description = "Compress native executable in a ZIP file."
     dependsOn("nativeCompile")
@@ -51,6 +51,7 @@ tasks.register("zipNative", Zip) {
     final String arch = System.getProperty("os.arch").toLowerCase()
     final String source = os.contains("windows")? "${project.name}.exe" : project.name
     from("$buildDir/native/nativeCompile")
+    compression = Compression.BZIP2
     include(source)
     archiveFileName.set("${project.name}-${project.version}-${os}-${arch}.zip")
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())

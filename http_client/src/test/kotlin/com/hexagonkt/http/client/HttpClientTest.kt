@@ -1,6 +1,6 @@
 package com.hexagonkt.http.client
 
-import com.hexagonkt.core.media.TextMedia.CSV
+import com.hexagonkt.core.media.TEXT_CSV
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.*
 import kotlin.test.Test
@@ -60,7 +60,7 @@ internal class HttpClientTest {
         }
 
         val client = HttpClient(VoidAdapter)
-        val csv = ContentType(CSV)
+        val csv = ContentType(TEXT_CSV)
         val csvClient = HttpClient(VoidAdapter, HttpClientSettings(contentType = csv))
         val headers = Headers(Header("h1", "v1"))
         val body = "body"

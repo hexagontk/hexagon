@@ -1,17 +1,14 @@
 package com.hexagonkt.core
 
-import com.hexagonkt.core.logging.Logger
 import java.io.File
 import java.net.*
 import java.util.*
 
-private val logger: Logger by lazy { Logger("com.hexagonkt.core.Helpers") }
-
 /** Internet address used to bind services to all local network interfaces. */
-val allInterfaces: InetAddress = inetAddress(0, 0, 0, 0)
+val ALL_INTERFACES: InetAddress = inetAddress(0, 0, 0, 0)
 
 /** Internet address used to bind services to the loopback interface. */
-val loopbackInterface: InetAddress = inetAddress(127, 0, 0, 1)
+val LOOPBACK_INTERFACE: InetAddress = inetAddress(127, 0, 0, 1)
 
 /**
  * Syntactic sugar to create an Internet address.
@@ -41,7 +38,6 @@ fun isPortOpened(port: Int): Boolean =
         Socket("localhost", port).use { it.isConnected }
     }
     catch (e: Exception) {
-        logger.debug { "Checked port: $port is already open" }
         false
     }
 

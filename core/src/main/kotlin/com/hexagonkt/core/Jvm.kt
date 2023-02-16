@@ -6,6 +6,7 @@ import java.lang.management.MemoryUsage
 import java.lang.management.RuntimeMXBean
 import java.net.InetAddress
 import java.nio.charset.Charset
+import java.time.ZoneId
 import java.util.*
 
 import kotlin.reflect.KClass
@@ -19,6 +20,9 @@ import kotlin.reflect.KClass
 object Jvm {
     /** Default timezone. TODO Defining this lazily fails in macOS */
     val timeZone: TimeZone = TimeZone.getDefault()
+
+    /** Default zone ID. */
+    val zoneId: ZoneId by lazy { timeZone.toZoneId() }
 
     /** Default character set. */
     val charset: Charset by lazy { Charset.defaultCharset() }
@@ -53,6 +57,14 @@ object Jvm {
     /** User locale consist of 2-letter language code, 2-letter country code and file encoding. */
     val localeCode: String by lazy {
         "%s_%s.%s".format(locale.language, locale.country, charset.name())
+    }
+
+    private val heap: MemoryUsage? by lazy {
+        try { getMemoryMXBean().heapMemoryUsage } catch (_: NoClassDefFoundError) { null }
+    }
+
+    private val runtime: RuntimeMXBean? by lazy {
+        try { getRuntimeMXBean() } catch (_: NoClassDefFoundError) { null }
     }
 
     /**
@@ -123,14 +135,6 @@ object Jvm {
 
     inline fun <reified T: Any> systemSetting(name: String): T =
         systemSetting(T::class, name)
-
-    private val heap: MemoryUsage? by lazy {
-        try { getMemoryMXBean().heapMemoryUsage } catch (_: NoClassDefFoundError) { null }
-    }
-
-    private val runtime: RuntimeMXBean? by lazy {
-        try { getRuntimeMXBean() } catch (_: NoClassDefFoundError) { null }
-    }
 
     private fun systemSettingRaw(name: String): String? {
         require(name.isNotBlank()) { "Setting name can not be blank" }

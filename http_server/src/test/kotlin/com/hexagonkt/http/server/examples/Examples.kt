@@ -4,7 +4,7 @@ import com.hexagonkt.core.encodeToBase64
 import com.hexagonkt.http.model.Authorization
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpStatus
-import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.parseQueryString
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.model.HttpServerRequest
@@ -20,7 +20,7 @@ internal fun assertResponseContains(
 }
 
 internal fun assertResponseContains(response: HttpServerResponse?, vararg content: String) {
-    assertResponseContains(response, OK, *content)
+    assertResponseContains(response, OK_200, *content)
 }
 
 internal fun PathHandler.send(
@@ -55,7 +55,7 @@ internal fun HttpServerRequest.auth(
 }
 
 internal fun assertResponseEquals(
-    response: HttpServerResponse?, content: String, status: HttpStatus = OK) {
+    response: HttpServerResponse?, content: String, status: HttpStatus = OK_200) {
 
     assertEquals(status, response?.status)
     assertEquals(content, response?.body?.let { it as String })

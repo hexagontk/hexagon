@@ -2,10 +2,10 @@ package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.fail
 import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
-import com.hexagonkt.http.model.Header
+import com.hexagonkt.http.model.NOT_FOUND_404
 import com.hexagonkt.http.model.HttpStatus
-import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
+import com.hexagonkt.http.model.Header
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
@@ -32,7 +32,7 @@ abstract class ErrorsTest(
          * Catching `Exception` handles any unhandled exception, has to be the last executed (first
          * declared)
          */
-        exception<Exception>(NOT_FOUND) {
+        exception<Exception>(NOT_FOUND_404) {
             internalServerError("Root handler")
         }
 
@@ -68,12 +68,12 @@ abstract class ErrorsTest(
     @Test fun `Invalid body returns 500 status code`() {
         val response = client.get("/invalidBody")
         val message = "Unsupported body type: LocalDateTime"
-        assertResponseContains(response, INTERNAL_SERVER_ERROR, message)
+        assertResponseContains(response, INTERNAL_SERVER_ERROR_500, message)
     }
 
     @Test fun `Halt stops request with 500 status code`() {
         val response = client.get("/halt")
-        assertResponseEquals(response, INTERNAL_SERVER_ERROR, "halted")
+        assertResponseEquals(response, INTERNAL_SERVER_ERROR_500, "halted")
     }
 
     @Test fun `Handling status code allows to change the returned code`() {
@@ -96,6 +96,6 @@ abstract class ErrorsTest(
 
     @Test fun `A runtime exception returns a 500 code`() {
         val response = client.get("/unhandledException")
-        assertResponseContains(response, INTERNAL_SERVER_ERROR, "Root handler")
+        assertResponseContains(response, INTERNAL_SERVER_ERROR_500, "Root handler")
     }
 }

@@ -8,7 +8,7 @@ import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.HttpStatus
-import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
@@ -59,7 +59,7 @@ abstract class BaseTest {
     }
 
     protected fun assertResponseContains(response: HttpClientResponse?, vararg content: String) {
-        assertResponseContains(response, OK, *content)
+        assertResponseContains(response, OK_200, *content)
     }
 
     // TODO Move to `http` module to share basic and digest auth among client and server
@@ -67,7 +67,7 @@ abstract class BaseTest {
         "Basic " + "$user:$password".encodeToBase64()
 
     protected fun assertResponseEquals(
-        response: HttpClientResponse?, status: HttpStatus = OK, content: String) {
+        response: HttpClientResponse?, status: HttpStatus = OK_200, content: String) {
 
         assertEquals(status, response?.status)
         assertEquals(content, response?.body?.let { it as String }?.trim())

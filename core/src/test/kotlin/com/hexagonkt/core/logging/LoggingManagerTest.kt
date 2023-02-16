@@ -35,21 +35,21 @@ internal class LoggingManagerTest {
         )
 
         LoggingManager.setLoggerLevel("com.hx.core", WARN)
-        assertTrue(chc.isLoggerLevelEnabled(ERROR))
-        assertTrue(chc.isLoggerLevelEnabled(WARN))
-        assertFalse(chc.isLoggerLevelEnabled(INFO))
-        assertFalse(chc.isLoggerLevelEnabled(DEBUG))
-        assertFalse(chc.isLoggerLevelEnabled(TRACE))
+        assertTrue(chc.isLoggerLevelEnabled(ERROR) && chc.isErrorEnabled())
+        assertTrue(chc.isLoggerLevelEnabled(WARN) && chc.isWarnEnabled())
+        assertFalse(chc.isLoggerLevelEnabled(INFO) || chc.isInfoEnabled())
+        assertFalse(chc.isLoggerLevelEnabled(DEBUG) || chc.isDebugEnabled())
+        assertFalse(chc.isLoggerLevelEnabled(TRACE) || chc.isTraceEnabled())
         assertTrue(allLevels.all { ch.isLoggerLevelEnabled(it) && chl.isLoggerLevelEnabled(it) })
 
         // TODO Check if parent level changes gets reflected on created loggers (com.hx -> TRACE)
         LoggingManager.setLoggerLevel("com.hx.core", TRACE)
         assertTrue(LoggingManager.isLoggerLevelEnabled("com.hx.core", INFO))
-        assertTrue(chc.isLoggerLevelEnabled(ERROR))
-        assertTrue(chc.isLoggerLevelEnabled(WARN))
-        assertTrue(chc.isLoggerLevelEnabled(INFO))
-        assertTrue(chc.isLoggerLevelEnabled(DEBUG))
-        assertTrue(chc.isLoggerLevelEnabled(TRACE))
+        assertTrue(chc.isLoggerLevelEnabled(ERROR) && chc.isErrorEnabled())
+        assertTrue(chc.isLoggerLevelEnabled(WARN) && chc.isWarnEnabled())
+        assertTrue(chc.isLoggerLevelEnabled(INFO) && chc.isInfoEnabled())
+        assertTrue(chc.isLoggerLevelEnabled(DEBUG) && chc.isDebugEnabled())
+        assertTrue(chc.isLoggerLevelEnabled(TRACE) && chc.isTraceEnabled())
     }
 
     @Test fun `'defaultLoggerName' can be changed`() {

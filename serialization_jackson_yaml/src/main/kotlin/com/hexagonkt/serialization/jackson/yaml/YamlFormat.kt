@@ -3,7 +3,7 @@ package com.hexagonkt.serialization.jackson.yaml
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.*
-import com.hexagonkt.core.media.ApplicationMedia
+import com.hexagonkt.core.media.APPLICATION_YAML
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.serialization.jackson.JacksonTextFormat
 
@@ -21,5 +21,5 @@ open class YamlFormat(
             }
     }
 
-    override val mediaType: MediaType = ApplicationMedia.YAML
+    override val mediaType: MediaType = APPLICATION_YAML
 }

@@ -1,7 +1,7 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.core.media.ApplicationMedia.PHP
-import com.hexagonkt.core.media.ApplicationMedia.AVRO
+import com.hexagonkt.core.media.APPLICATION_PHP
+import com.hexagonkt.core.media.APPLICATION_AVRO
 import com.hexagonkt.serialization.jackson.json.Json
 import kotlin.test.Test
 import java.io.File
@@ -27,20 +27,20 @@ internal class SerializationTest {
         SerializationManager.formats = setOf(BinaryTestFormat)
         SerializationManager.defaultFormat = TextTestFormat
 
-        assertContentEquals("text".toByteArray(), "text".serializeBytes(PHP))
-        assertContentEquals("text".serializeBytes(PHP), "text".serializeBytes())
-        assertContentEquals("text".toByteArray(), "text".serializeBytes(AVRO))
-        assertEquals("text", "text".serialize(PHP))
-        assertEquals("text".serialize(PHP), "text".serialize())
-        assertFailsWith<IllegalStateException> { "text".serialize(AVRO) }
+        assertContentEquals("text".toByteArray(), "text".serializeBytes(APPLICATION_PHP))
+        assertContentEquals("text".serializeBytes(APPLICATION_PHP), "text".serializeBytes())
+        assertContentEquals("text".toByteArray(), "text".serializeBytes(APPLICATION_AVRO))
+        assertEquals("text", "text".serialize(APPLICATION_PHP))
+        assertEquals("text".serialize(APPLICATION_PHP), "text".serialize())
+        assertFailsWith<IllegalStateException> { "text".serialize(APPLICATION_AVRO) }
 
-        assertEquals(listOf("text"), "string".parse(PHP))
-        assertEquals("string".parse(PHP), "string".parse())
-        assertEquals("string".parse(PHP), "string".parse(TextTestFormat))
-        assertEquals(listOf("bytes"), "string".parse(AVRO))
+        assertEquals(listOf("text"), "string".parse(APPLICATION_PHP))
+        assertEquals("string".parse(APPLICATION_PHP), "string".parse())
+        assertEquals("string".parse(APPLICATION_PHP), "string".parse(TextTestFormat))
+        assertEquals(listOf("bytes"), "string".parse(APPLICATION_AVRO))
 
-        assertEquals("string".parse(TextTestFormat), "string".parse(PHP))
-        assertEquals("string".parse(BinaryTestFormat), "string".parse(AVRO))
+        assertEquals("string".parse(TextTestFormat), "string".parse(APPLICATION_PHP))
+        assertEquals("string".parse(BinaryTestFormat), "string".parse(APPLICATION_AVRO))
 
         assertEquals(listOf("text"), URL("classpath:data/company.php").parse())
         assertEquals(listOf("bytes"), URL("classpath:data/company.avro").parse())

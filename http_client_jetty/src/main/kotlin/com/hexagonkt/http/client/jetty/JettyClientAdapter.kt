@@ -1,9 +1,9 @@
 package com.hexagonkt.http.client.jetty
 
-import com.hexagonkt.core.media.TextMedia
+import com.hexagonkt.core.media.TEXT_EVENT_STREAM
 import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.http.bodyToBytes
-import com.hexagonkt.http.checkedHeaders
+import com.hexagonkt.http.CHECKED_HEADERS
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
@@ -115,7 +115,7 @@ class JettyClientAdapter : HttpClientPort {
         val clientPublisher = SubmissionPublisher<ServerEvent>(publisherExecutor, Int.MAX_VALUE)
 
         val sseRequest = request.copy(
-            accept = listOf(ContentType(TextMedia.EVENT_STREAM)),
+            accept = listOf(ContentType(TEXT_EVENT_STREAM)),
             headers = request.headers + Header("connection", "keep-alive")
         )
 
@@ -172,7 +172,7 @@ class JettyClientAdapter : HttpClientPort {
             headers
                 .fieldNamesCollection
                 .map { it.lowercase() }
-                .filter { it !in checkedHeaders }
+                .filter { it !in CHECKED_HEADERS }
                 .map { Header(it, headers.getValuesList(it)) }
         )
 

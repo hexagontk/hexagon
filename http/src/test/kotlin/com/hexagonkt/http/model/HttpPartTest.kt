@@ -1,8 +1,8 @@
 package com.hexagonkt.http.model
 
 import com.hexagonkt.core.media.MediaTypeGroup.TEXT
-import com.hexagonkt.core.media.CustomMedia
-import com.hexagonkt.core.media.TextMedia.HTML
+import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.core.media.TEXT_HTML
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -15,7 +15,7 @@ internal class HttpPartTest {
         name = "name",
         body = "content",
         headers = Headers(Header("header", "value")),
-        contentType = ContentType(CustomMedia(TEXT, "plain")),
+        contentType = ContentType(MediaType(TEXT, "plain")),
         size = "content".length.toLong(),
         submittedFileName = "filename",
     )
@@ -74,7 +74,7 @@ internal class HttpPartTest {
         assertNotEquals(part, part.copy(name = "other"))
         assertNotEquals(part, part.copy(body = "other"))
         assertNotEquals(part, part.copy(headers = Headers(Header("a", "b"))))
-        assertNotEquals(part, part.copy(contentType = ContentType(HTML)))
+        assertNotEquals(part, part.copy(contentType = ContentType(TEXT_HTML)))
         assertNotEquals(part, part.copy(size = 10))
         assertNotEquals(part, part.copy(submittedFileName = "other"))
         assertEquals(part.hashCode(), HttpPart("key", "value").hashCode())

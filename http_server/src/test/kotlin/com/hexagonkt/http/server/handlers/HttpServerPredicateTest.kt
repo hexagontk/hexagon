@@ -1,11 +1,11 @@
 package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.handlers.EventContext
+import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.model.HttpStatus
-import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.patterns.LiteralPathPattern
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequest
@@ -58,19 +58,19 @@ internal class HttpServerPredicateTest {
 
     @Test fun `Predicate with method filter works properly`() {
         HttpServerPredicate(setOf(PUT, OPTIONS), "*").let {
-            assertTrue(it.predicate(serverContext(PUT, "/a", OK)))
-            assertTrue(it.predicate(serverContext(OPTIONS, "/a", OK)))
-            assertFalse(it.predicate(serverContext(POST, "/", OK)))
-            assertFalse(it.predicate(serverContext(GET, "/", OK)))
+            assertTrue(it.predicate(serverContext(PUT, "/a", OK_200)))
+            assertTrue(it.predicate(serverContext(OPTIONS, "/a", OK_200)))
+            assertFalse(it.predicate(serverContext(POST, "/", OK_200)))
+            assertFalse(it.predicate(serverContext(GET, "/", OK_200)))
         }
     }
 
     @Test fun `Predicate with pattern filter works properly`() {
         HttpServerPredicate(pathPattern = LiteralPathPattern("/a")).let {
-            assertTrue(it.predicate(serverContext(POST, "/a", OK)))
-            assertTrue(it.predicate(serverContext(GET, "/a", OK)))
-            assertFalse(it.predicate(serverContext(POST, "/", OK)))
-            assertFalse(it.predicate(serverContext(GET, "/", OK)))
+            assertTrue(it.predicate(serverContext(POST, "/a", OK_200)))
+            assertTrue(it.predicate(serverContext(GET, "/a", OK_200)))
+            assertFalse(it.predicate(serverContext(POST, "/", OK_200)))
+            assertFalse(it.predicate(serverContext(GET, "/", OK_200)))
         }
     }
 
@@ -94,11 +94,11 @@ internal class HttpServerPredicateTest {
     }
 
     @Test fun `Predicate with status filter works properly`() {
-        HttpServerPredicate(pattern = "*", status = OK).let {
+        HttpServerPredicate(pattern = "*", status = OK_200).let {
             HttpMethod.values().forEach { method ->
                 listOf("/", "/a").forEach { pattern ->
-                    assertTrue(it.predicate(serverContext(method, pattern, OK)))
-                    (HttpStatus.codes.values.toList() - OK).forEach { status ->
+                    assertTrue(it.predicate(serverContext(method, pattern, OK_200)))
+                    (HttpStatus.codes.values.toList() - OK_200).forEach { status ->
                         assertFalse(it.predicate(serverContext(method, pattern, status)))
                     }
                 }
@@ -110,17 +110,17 @@ internal class HttpServerPredicateTest {
         HttpServerPredicate(
             pathPattern = LiteralPathPattern("/a"),
             exception = RuntimeException::class,
-            status = OK).let {
+            status = OK_200).let {
 
             HttpMethod.values().forEach { method ->
-                assertTrue(it.predicate(serverContext(method, "/a", OK, RuntimeException())))
-                assertTrue(it.predicate(serverContext(method, "/a", OK, IllegalStateException())))
+                assertTrue(it.predicate(serverContext(method, "/a", OK_200, RuntimeException())))
+                assertTrue(it.predicate(serverContext(method, "/a", OK_200, IllegalStateException())))
             }
 
             HttpMethod.values().forEach { method ->
                 listOf("/b", "/c").forEach { pattern ->
                     listOf(null, IOException()).forEach { exception ->
-                        (HttpStatus.codes.values.toList() - OK).forEach { status ->
+                        (HttpStatus.codes.values.toList() - OK_200).forEach { status ->
                             val c = serverContext(method, pattern, status, exception)
                             assertFalse(it.predicate(c))
                         }
@@ -160,21 +160,21 @@ internal class HttpServerPredicateTest {
             methods = setOf(POST, PUT),
             pathPattern = LiteralPathPattern("/a"),
             exception = RuntimeException::class,
-            status = OK).let {
+            status = OK_200).let {
 
             setOf(POST, PUT).forEach { method ->
-                assertTrue(it.predicate(serverContext(method, "/a", OK, RuntimeException())))
-                assertTrue(it.predicate(serverContext(method, "/a", OK, IllegalStateException())))
+                assertTrue(it.predicate(serverContext(method, "/a", OK_200, RuntimeException())))
+                assertTrue(it.predicate(serverContext(method, "/a", OK_200, IllegalStateException())))
             }
             (ALL - POST - PUT).forEach { method ->
-                assertFalse(it.predicate(serverContext(method, "/a", OK, RuntimeException())))
-                assertFalse(it.predicate(serverContext(method, "/a", OK, IllegalStateException())))
+                assertFalse(it.predicate(serverContext(method, "/a", OK_200, RuntimeException())))
+                assertFalse(it.predicate(serverContext(method, "/a", OK_200, IllegalStateException())))
             }
 
             HttpMethod.values().forEach { method ->
                 listOf("/b", "/c").forEach { pattern ->
                     listOf(null, IOException()).forEach { exception ->
-                        (HttpStatus.codes.values.toList() - OK).forEach { status ->
+                        (HttpStatus.codes.values.toList() - OK_200).forEach { status ->
                             val c = it.predicate(serverContext(method, pattern, status, exception))
                             assertFalse(c)
                         }

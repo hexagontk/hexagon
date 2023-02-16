@@ -4,12 +4,12 @@ import com.hexagonkt.core.decodeBase64
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
-import com.hexagonkt.http.model.ClientErrorStatus.UNAUTHORIZED
+import com.hexagonkt.http.model.FORBIDDEN_403
+import com.hexagonkt.http.model.UNAUTHORIZED_401
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.HttpMethod.PUT
-import com.hexagonkt.http.model.SuccessStatus.*
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
@@ -58,7 +58,7 @@ abstract class FiltersTest(
         // All matching filters are run in order unless call is halted
         filter("/protected/*") {
             if(users[attributes["username"]] != attributes["password"])
-                send(FORBIDDEN, "Forbidden")
+                send(FORBIDDEN_403, "Forbidden")
             else
                 next()
         }
@@ -69,19 +69,19 @@ abstract class FiltersTest(
 
         path("/after") {
             after(PUT) {
-                success(ALREADY_REPORTED)
+                send(ALREADY_REPORTED_208)
             }
 
             after(PUT, "/second") {
-                success(NO_CONTENT)
+                send(NO_CONTENT_204)
             }
 
             after("/second") {
-                success(CREATED)
+                send(CREATED_201)
             }
 
             after {
-                success(ACCEPTED)
+                send(ACCEPTED_202)
             }
         }
     }
@@ -90,16 +90,16 @@ abstract class FiltersTest(
     override val handler: HttpHandler = path
 
     @Test fun `After handlers can be chained`() {
-        assertEquals(ACCEPTED, client.get("/after").status)
-        assertEquals(CREATED, client.get("/after/second").status)
-        assertEquals(NO_CONTENT, client.put("/after/second").status)
-        assertEquals(ALREADY_REPORTED, client.put("/after").status)
+        assertEquals(ACCEPTED_202, client.get("/after").status)
+        assertEquals(CREATED_201, client.get("/after/second").status)
+        assertEquals(NO_CONTENT_204, client.put("/after/second").status)
+        assertEquals(ALREADY_REPORTED_208, client.put("/after").status)
     }
 
     @Test fun `Request without authorization returns 401`() {
         val response = client.get("/protected/hi")
         val time = response.headers["time"]?.value?.toLong() ?: 0
-        assertResponseEquals(response, UNAUTHORIZED, "Unauthorized")
+        assertResponseEquals(response, UNAUTHORIZED_401, "Unauthorized")
         assert(time > 0)
     }
 
@@ -107,7 +107,7 @@ abstract class FiltersTest(
         authorizedClient("Turing", "London").use {
             val response = it.get("/protected/hi")
             val time = response.headers["time"]?.value?.toLong() ?: 0
-            assertResponseEquals(response, OK, "Hello Turing!")
+            assertResponseEquals(response, OK_200, "Hello Turing!")
             assert(time > 0)
         }
     }
@@ -116,7 +116,7 @@ abstract class FiltersTest(
         authorizedClient("Turing", "Millis").use {
             val response = it.get("/protected/hi")
             val time = response.headers["time"]?.value?.toLong() ?: 0
-            assertResponseEquals(response, FORBIDDEN, "Forbidden")
+            assertResponseEquals(response, FORBIDDEN_403, "Forbidden")
             assert(time > 0)
         }
     }
@@ -125,7 +125,7 @@ abstract class FiltersTest(
         authorizedClient("Curry", "Millis").use {
             val response = it.get("/protected/hi")
             val time = response.headers["time"]?.value?.toLong() ?: 0
-            assertResponseEquals(response, FORBIDDEN, "Forbidden")
+            assertResponseEquals(response, FORBIDDEN_403, "Forbidden")
             assert(time > 0)
         }
     }

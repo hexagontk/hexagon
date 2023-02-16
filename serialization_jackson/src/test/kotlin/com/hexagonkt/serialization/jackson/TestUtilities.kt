@@ -1,6 +1,6 @@
 package com.hexagonkt.serialization.jackson
 
-import com.hexagonkt.core.media.ApplicationMedia
+import com.hexagonkt.core.media.APPLICATION_JSON
 import com.hexagonkt.core.media.MediaType
 import java.net.InetAddress
 import java.net.URL
@@ -30,5 +30,5 @@ internal data class Company(
 )
 
 object TextFormat : JacksonTextFormat() {
-    override val mediaType: MediaType = ApplicationMedia.JSON
+    override val mediaType: MediaType = APPLICATION_JSON
 }

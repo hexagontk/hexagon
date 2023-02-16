@@ -1,16 +1,14 @@
 package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.handlers.Context
-import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.core.assertEnabled
-import com.hexagonkt.core.media.TextMedia.PLAIN
+import com.hexagonkt.core.media.TEXT_EVENT_STREAM
+import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.toText
 import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.ClientErrorStatus.*
-import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.model.ServerEvent
-import com.hexagonkt.http.model.SuccessStatus.*
 import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.server.model.*
 import com.hexagonkt.http.server.model.ws.WsServerSession
@@ -66,36 +64,6 @@ data class HttpServerContext(
     override fun next(): HttpServerContext =
         HttpServerContext(context.next())
 
-    fun success(
-        status: SuccessStatus,
-        body: Any = response.body,
-        headers: Headers = response.headers,
-        contentType: ContentType? = response.contentType,
-        cookies: List<Cookie> = response.cookies,
-        attributes: Map<*, *> = context.attributes,
-    ): HttpServerContext =
-        send(status, body, headers, contentType, cookies, attributes)
-
-    fun redirect(
-        status: RedirectionStatus,
-        body: Any = response.body,
-        headers: Headers = response.headers,
-        contentType: ContentType? = response.contentType,
-        cookies: List<Cookie> = response.cookies,
-        attributes: Map<*, *> = context.attributes,
-    ): HttpServerContext =
-        send(status, body, headers, contentType, cookies, attributes)
-
-    fun clientError(
-        status: ClientErrorStatus,
-        body: Any = response.body,
-        headers: Headers = response.headers,
-        contentType: ContentType? = response.contentType,
-        cookies: List<Cookie> = response.cookies,
-        attributes: Map<*, *> = context.attributes,
-    ): HttpServerContext =
-        send(status, body, headers, contentType, cookies, attributes)
-
     fun unauthorized(
         body: Any = response.body,
         headers: Headers = response.headers,
@@ -103,7 +71,7 @@ data class HttpServerContext(
         cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
-        send(UNAUTHORIZED, body, headers, contentType, cookies, attributes)
+        send(UNAUTHORIZED_401, body, headers, contentType, cookies, attributes)
 
     fun forbidden(
         body: Any = response.body,
@@ -112,17 +80,7 @@ data class HttpServerContext(
         cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
-        send(FORBIDDEN, body, headers, contentType, cookies, attributes)
-
-    fun serverError(
-        status: ServerErrorStatus,
-        body: Any = response.body,
-        headers: Headers = response.headers,
-        contentType: ContentType? = response.contentType,
-        cookies: List<Cookie> = response.cookies,
-        attributes: Map<*, *> = context.attributes,
-    ): HttpServerContext =
-        send(status, body, headers, contentType, cookies, attributes)
+        send(FORBIDDEN_403, body, headers, contentType, cookies, attributes)
 
     fun internalServerError(
         body: Any = response.body,
@@ -131,19 +89,19 @@ data class HttpServerContext(
         cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
-        send(INTERNAL_SERVER_ERROR, body, headers, contentType, cookies, attributes)
+        send(INTERNAL_SERVER_ERROR_500, body, headers, contentType, cookies, attributes)
 
     fun serverError(
-        status: ServerErrorStatus,
+        status: HttpStatus,
         exception: Exception,
         headers: Headers = response.headers,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
-        serverError(
+        send(
             status = status,
             body = exception.toText(),
             headers = headers,
-            contentType = ContentType(PLAIN),
+            contentType = ContentType(TEXT_PLAIN),
             attributes = attributes,
         )
 
@@ -152,7 +110,7 @@ data class HttpServerContext(
         headers: Headers = response.headers,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
-        serverError(INTERNAL_SERVER_ERROR, exception, headers, attributes)
+        serverError(INTERNAL_SERVER_ERROR_500, exception, headers, attributes)
 
     fun ok(
         body: Any = response.body,
@@ -161,13 +119,13 @@ data class HttpServerContext(
         cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
-        success(OK, body, headers, contentType, cookies, attributes)
+        send(OK_200, body, headers, contentType, cookies, attributes)
 
     fun sse(body: Publisher<ServerEvent>): HttpServerContext =
         ok(
             body = body,
             headers = response.headers + Header("cache-control", "no-cache"),
-            contentType = ContentType(TextMedia.EVENT_STREAM)
+            contentType = ContentType(TEXT_EVENT_STREAM)
         )
 
     fun badRequest(
@@ -177,7 +135,7 @@ data class HttpServerContext(
         cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
-        clientError(BAD_REQUEST, body, headers, contentType, cookies, attributes)
+        send(BAD_REQUEST_400, body, headers, contentType, cookies, attributes)
 
     fun notFound(
         body: Any = response.body,
@@ -186,7 +144,7 @@ data class HttpServerContext(
         cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
-        clientError(NOT_FOUND, body, headers, contentType, cookies, attributes)
+        send(NOT_FOUND_404, body, headers, contentType, cookies, attributes)
 
     fun created(
         body: Any = response.body,
@@ -195,7 +153,7 @@ data class HttpServerContext(
         cookies: List<Cookie> = response.cookies,
         attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
-        success(CREATED, body, headers, contentType, cookies, attributes)
+        send(CREATED_201, body, headers, contentType, cookies, attributes)
 
     fun accepted(
         onConnect: WsServerSession.() -> Unit = {},
@@ -207,7 +165,7 @@ data class HttpServerContext(
     ): HttpServerContext =
         send(
             context.event.response.copy(
-                status = ACCEPTED,
+                status = ACCEPTED_202,
                 onConnect = onConnect,
                 onBinary = onBinary,
                 onText = onText,

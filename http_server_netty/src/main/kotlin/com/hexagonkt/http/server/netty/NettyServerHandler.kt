@@ -70,7 +70,7 @@ internal class NettyServerHandler(
         val isWebSocket = connection == "upgrade"
             && upgrade == "websocket"
             && method == GET
-            && response.status == SuccessStatus.ACCEPTED
+            && response.status == ACCEPTED_202
 
         when {
             isSse -> handleSse(context, response, body)
@@ -166,7 +166,7 @@ internal class NettyServerHandler(
     @Suppress("OVERRIDE_DEPRECATION") // Deprecated in base interface, but allowed in parent class
     override fun exceptionCaught(context: ChannelHandlerContext, cause: Throwable) {
         val body = "Failure: $cause\n"
-        val response = HttpServerResponse(body, status = ServerErrorStatus.INTERNAL_SERVER_ERROR)
+        val response = HttpServerResponse(body, status = INTERNAL_SERVER_ERROR_500)
         writeResponse(context, response, false)
     }
 
@@ -213,64 +213,64 @@ internal class NettyServerHandler(
 
     internal fun nettyStatus(status: HttpStatus): HttpResponseStatus =
         when (status) {
-            InformationStatus.CONTINUE -> CONTINUE
-            InformationStatus.SWITCHING_PROTOCOLS -> SWITCHING_PROTOCOLS
-            InformationStatus.PROCESSING -> PROCESSING
+            CONTINUE_100 -> CONTINUE
+            SWITCHING_PROTOCOLS_101 -> SWITCHING_PROTOCOLS
+            PROCESSING_102 -> PROCESSING
 
-            SuccessStatus.OK -> OK
-            SuccessStatus.CREATED -> CREATED
-            ACCEPTED -> ACCEPTED
-            SuccessStatus.NON_AUTHORITATIVE_INFORMATION -> NON_AUTHORITATIVE_INFORMATION
-            SuccessStatus.NO_CONTENT -> NO_CONTENT
-            SuccessStatus.RESET_CONTENT -> RESET_CONTENT
-            SuccessStatus.PARTIAL_CONTENT -> PARTIAL_CONTENT
-            SuccessStatus.MULTI_STATUS -> MULTI_STATUS
+            OK_200 -> OK
+            CREATED_201 -> CREATED
+            ACCEPTED_202 -> ACCEPTED
+            NON_AUTHORITATIVE_INFORMATION_203 -> NON_AUTHORITATIVE_INFORMATION
+            NO_CONTENT_204 -> NO_CONTENT
+            RESET_CONTENT_205 -> RESET_CONTENT
+            PARTIAL_CONTENT_206 -> PARTIAL_CONTENT
+            MULTI_STATUS_207 -> MULTI_STATUS
 
-            RedirectionStatus.MULTIPLE_CHOICES -> MULTIPLE_CHOICES
-            RedirectionStatus.MOVED_PERMANENTLY -> MOVED_PERMANENTLY
-            RedirectionStatus.FOUND -> FOUND
-            RedirectionStatus.SEE_OTHER -> SEE_OTHER
-            RedirectionStatus.NOT_MODIFIED -> NOT_MODIFIED
-            RedirectionStatus.USE_PROXY -> USE_PROXY
-            RedirectionStatus.TEMPORARY_REDIRECT -> TEMPORARY_REDIRECT
-            RedirectionStatus.PERMANENT_REDIRECT -> PERMANENT_REDIRECT
+            MULTIPLE_CHOICES_300 -> MULTIPLE_CHOICES
+            MOVED_PERMANENTLY_301 -> MOVED_PERMANENTLY
+            FOUND_302 -> FOUND
+            SEE_OTHER_303 -> SEE_OTHER
+            NOT_MODIFIED_304 -> NOT_MODIFIED
+            USE_PROXY_305 -> USE_PROXY
+            TEMPORARY_REDIRECT_307 -> TEMPORARY_REDIRECT
+            PERMANENT_REDIRECT_308 -> PERMANENT_REDIRECT
 
-            ClientErrorStatus.BAD_REQUEST -> BAD_REQUEST
-            ClientErrorStatus.NOT_FOUND -> NOT_FOUND
-            ClientErrorStatus.UNAUTHORIZED -> UNAUTHORIZED
-            ClientErrorStatus.PAYMENT_REQUIRED -> PAYMENT_REQUIRED
-            ClientErrorStatus.FORBIDDEN -> FORBIDDEN
-            ClientErrorStatus.METHOD_NOT_ALLOWED -> METHOD_NOT_ALLOWED
-            ClientErrorStatus.NOT_ACCEPTABLE -> NOT_ACCEPTABLE
-            ClientErrorStatus.PROXY_AUTHENTICATION_REQUIRED -> PROXY_AUTHENTICATION_REQUIRED
-            ClientErrorStatus.REQUEST_TIMEOUT -> REQUEST_TIMEOUT
-            ClientErrorStatus.CONFLICT -> CONFLICT
-            ClientErrorStatus.GONE -> GONE
-            ClientErrorStatus.LENGTH_REQUIRED -> LENGTH_REQUIRED
-            ClientErrorStatus.PRECONDITION_FAILED -> PRECONDITION_FAILED
-            ClientErrorStatus.URI_TOO_LONG -> REQUEST_URI_TOO_LONG
-            ClientErrorStatus.UNSUPPORTED_MEDIA_TYPE -> UNSUPPORTED_MEDIA_TYPE
-            ClientErrorStatus.RANGE_NOT_SATISFIABLE -> REQUESTED_RANGE_NOT_SATISFIABLE
-            ClientErrorStatus.EXPECTATION_FAILED -> EXPECTATION_FAILED
-            ClientErrorStatus.MISDIRECTED_REQUEST -> MISDIRECTED_REQUEST
-            ClientErrorStatus.UNPROCESSABLE_CONTENT -> UNPROCESSABLE_ENTITY
-            ClientErrorStatus.LOCKED -> LOCKED
-            ClientErrorStatus.FAILED_DEPENDENCY -> FAILED_DEPENDENCY
-            ClientErrorStatus.UPGRADE_REQUIRED -> UPGRADE_REQUIRED
-            ClientErrorStatus.PRECONDITION_REQUIRED -> PRECONDITION_REQUIRED
-            ClientErrorStatus.TOO_MANY_REQUESTS -> TOO_MANY_REQUESTS
-            ClientErrorStatus.REQUEST_HEADER_FIELDS_TOO_LARGE -> REQUEST_HEADER_FIELDS_TOO_LARGE
+            BAD_REQUEST_400 -> BAD_REQUEST
+            NOT_FOUND_404 -> NOT_FOUND
+            UNAUTHORIZED_401 -> UNAUTHORIZED
+            PAYMENT_REQUIRED_402 -> PAYMENT_REQUIRED
+            FORBIDDEN_403 -> FORBIDDEN
+            METHOD_NOT_ALLOWED_405 -> METHOD_NOT_ALLOWED
+            NOT_ACCEPTABLE_406 -> NOT_ACCEPTABLE
+            PROXY_AUTHENTICATION_REQUIRED_407 -> PROXY_AUTHENTICATION_REQUIRED
+            REQUEST_TIMEOUT_408 -> REQUEST_TIMEOUT
+            CONFLICT_409 -> CONFLICT
+            GONE_410 -> GONE
+            LENGTH_REQUIRED_411 -> LENGTH_REQUIRED
+            PRECONDITION_FAILED_412 -> PRECONDITION_FAILED
+            URI_TOO_LONG_414 -> REQUEST_URI_TOO_LONG
+            UNSUPPORTED_MEDIA_TYPE_415 -> UNSUPPORTED_MEDIA_TYPE
+            RANGE_NOT_SATISFIABLE_416 -> REQUESTED_RANGE_NOT_SATISFIABLE
+            EXPECTATION_FAILED_417 -> EXPECTATION_FAILED
+            MISDIRECTED_REQUEST_421 -> MISDIRECTED_REQUEST
+            UNPROCESSABLE_CONTENT_422 -> UNPROCESSABLE_ENTITY
+            LOCKED_423 -> LOCKED
+            FAILED_DEPENDENCY_424 -> FAILED_DEPENDENCY
+            UPGRADE_REQUIRED_426 -> UPGRADE_REQUIRED
+            PRECONDITION_REQUIRED_428 -> PRECONDITION_REQUIRED
+            TOO_MANY_REQUESTS_429 -> TOO_MANY_REQUESTS
+            REQUEST_HEADER_FIELDS_TOO_LARGE_431 -> REQUEST_HEADER_FIELDS_TOO_LARGE
 
-            ServerErrorStatus.INTERNAL_SERVER_ERROR -> INTERNAL_SERVER_ERROR
-            ServerErrorStatus.NOT_IMPLEMENTED -> NOT_IMPLEMENTED
-            ServerErrorStatus.BAD_GATEWAY -> BAD_GATEWAY
-            ServerErrorStatus.SERVICE_UNAVAILABLE -> SERVICE_UNAVAILABLE
-            ServerErrorStatus.GATEWAY_TIMEOUT -> GATEWAY_TIMEOUT
-            ServerErrorStatus.HTTP_VERSION_NOT_SUPPORTED -> HTTP_VERSION_NOT_SUPPORTED
-            ServerErrorStatus.VARIANT_ALSO_NEGOTIATES -> VARIANT_ALSO_NEGOTIATES
-            ServerErrorStatus.INSUFFICIENT_STORAGE -> INSUFFICIENT_STORAGE
-            ServerErrorStatus.NOT_EXTENDED -> NOT_EXTENDED
-            ServerErrorStatus.NETWORK_AUTHENTICATION_REQUIRED -> NETWORK_AUTHENTICATION_REQUIRED
+            INTERNAL_SERVER_ERROR_500 -> INTERNAL_SERVER_ERROR
+            NOT_IMPLEMENTED_501 -> NOT_IMPLEMENTED
+            BAD_GATEWAY_502 -> BAD_GATEWAY
+            SERVICE_UNAVAILABLE_503 -> SERVICE_UNAVAILABLE
+            GATEWAY_TIMEOUT_504 -> GATEWAY_TIMEOUT
+            HTTP_VERSION_NOT_SUPPORTED_505 -> HTTP_VERSION_NOT_SUPPORTED
+            VARIANT_ALSO_NEGOTIATES_506 -> VARIANT_ALSO_NEGOTIATES
+            INSUFFICIENT_STORAGE_507 -> INSUFFICIENT_STORAGE
+            NOT_EXTENDED_510 -> NOT_EXTENDED
+            NETWORK_AUTHENTICATION_REQUIRED_511 -> NETWORK_AUTHENTICATION_REQUIRED
 
             else -> HttpResponseStatus(status.code, status.toString())
         }

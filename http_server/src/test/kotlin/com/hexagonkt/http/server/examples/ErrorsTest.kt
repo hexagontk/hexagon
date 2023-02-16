@@ -1,11 +1,11 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.core.fail
-import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.NOT_FOUND_404
+import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod.GET
-import com.hexagonkt.http.model.HttpStatus
-import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
 import kotlin.test.Test
@@ -37,7 +37,7 @@ internal class ErrorsTest {
         }
 
         // Catching `Exception` handles any unhandled exception before (it has to be the last)
-        on(pattern = "*", exception = Exception::class, status = NOT_FOUND) {
+        on(pattern = "*", exception = Exception::class, status = NOT_FOUND_404) {
             internalServerError("Root handler")
         }
 
@@ -49,7 +49,7 @@ internal class ErrorsTest {
 
     @Test fun `Halt stops request with 500 status code`() {
         val response = path.send(GET, "/halt")
-        assertResponseEquals(response, "halted", INTERNAL_SERVER_ERROR)
+        assertResponseEquals(response, "halted", INTERNAL_SERVER_ERROR_500)
     }
 
     @Test fun `Handling status code allows to change the returned code`() {
@@ -72,6 +72,6 @@ internal class ErrorsTest {
 
     @Test fun `A runtime exception returns a 500 code`() {
         val response = path.send(GET, "/unhandledException")
-        assertResponseContains(response, INTERNAL_SERVER_ERROR, "Root handler")
+        assertResponseContains(response, INTERNAL_SERVER_ERROR_500, "Root handler")
     }
 }

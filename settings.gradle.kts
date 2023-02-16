@@ -9,6 +9,7 @@ include(
     // Utility modules
     "core",
     "handlers",
+    "helpers",
     "http",
 
     // Ports

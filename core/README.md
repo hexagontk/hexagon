@@ -36,11 +36,6 @@ JVM information and other useful utilities.
 To use the 'classpath' URL scheme on GraalVM native images, the `native-image` command requires to
 add the Classpath handler manually with the `--enable-url-protocols=classpath` parameter.
 
-## Flags (System Properties)
-* DISABLE_CHECKS: set to true to disable some checks in order to shave a few ms. in production.
-  Do not enable it in application development and turn it on only when the application is
-  extensively tested.
-
 # Package com.hexagonkt.core.logging
 Provides a logging management capabilities abstracting the application from logging libraries.
 
@@ -58,9 +53,6 @@ alternatives:
 [Logger]: /api/core/com.hexagonkt.core.logging/-logger
 [Java Util Logging]:
 https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
-
-# Package com.hexagonkt.core.logging.jul
-Logging implementation for Java logging module. This is the default implementation.
 
 # Package com.hexagonkt.core.media
 Media types definitions and constants for default media types.

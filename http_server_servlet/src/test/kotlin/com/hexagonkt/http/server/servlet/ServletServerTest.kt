@@ -6,7 +6,7 @@ import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.logging.jul.JulLoggingAdapter
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
-import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.NOT_FOUND_404
 import com.hexagonkt.http.server.handlers.path
 import org.eclipse.jetty.webapp.WebAppContext
 import org.junit.jupiter.api.AfterAll
@@ -59,7 +59,7 @@ internal class ServletServerTest {
         HttpClient(JettyClientAdapter(), URL("http://127.0.0.1:9897")).use {
             it.start()
             assertEquals("Hello Servlet!", it.get("/").body)
-            assertEquals(NOT_FOUND, it.post("/").status)
+            assertEquals(NOT_FOUND_404, it.post("/").status)
         }
     }
 }

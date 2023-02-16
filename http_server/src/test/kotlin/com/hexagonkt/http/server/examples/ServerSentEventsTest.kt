@@ -2,9 +2,9 @@ package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.logging.info
-import com.hexagonkt.core.media.TextMedia
+import com.hexagonkt.core.media.TEXT_EVENT_STREAM
 import com.hexagonkt.http.model.HttpMethod.GET
-import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.model.ServerEvent
@@ -27,8 +27,8 @@ internal class ServerSentEventsTest {
     @Suppress("UNCHECKED_CAST") // For testing purposes only
     @Test fun `Request with invalid user returns 403`() {
         val response = path.send(GET, "/sse")
-        assertEquals(OK, response.status)
-        assertEquals(TextMedia.EVENT_STREAM, response.contentType?.mediaType)
+        assertEquals(OK_200, response.status)
+        assertEquals(TEXT_EVENT_STREAM, response.contentType?.mediaType)
         assertEquals("no-cache", response.headers["cache-control"]?.value)
 
         val publisher = response.body as? SubmissionPublisher<ServerEvent> ?: fail

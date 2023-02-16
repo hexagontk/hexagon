@@ -11,8 +11,13 @@ import org.eclipse.jetty.websocket.server.config.JettyWebSocketServletContainerI
 import java.util.*
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
+import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.ws.CloseStatus
 import com.hexagonkt.http.model.ws.CloseStatus.NORMAL
+import com.hexagonkt.http.server.HttpServer
+import com.hexagonkt.http.server.handlers.AfterHandler
+import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import kotlin.test.Test
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
@@ -98,5 +103,15 @@ internal class JettyWsServerTest {
         assertEquals("Goodbye_", result)
 
         httpClient.close()
+    }
+
+    @Test fun `Simple server example`() {
+        HttpServer(
+            JettyServletAdapter(),
+            PathHandler(
+                AfterHandler { ok() },
+                AfterHandler(GET) { ok() }
+            )
+        )
     }
 }

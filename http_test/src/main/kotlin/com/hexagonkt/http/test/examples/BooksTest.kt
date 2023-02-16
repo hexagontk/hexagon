@@ -2,10 +2,10 @@ package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.require
 import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.model.ClientErrorStatus.*
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.model.SuccessStatus.CREATED
+import com.hexagonkt.http.model.CREATED_201
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
@@ -77,8 +77,8 @@ abstract class BooksTest(
         }
 
         // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-        after(ALL - DELETE - PUT - GET, "/books/{id}", status = NOT_FOUND) {
-            send(METHOD_NOT_ALLOWED)
+        after(ALL - DELETE - PUT - GET, "/books/{id}", status = NOT_FOUND_404) {
+            send(METHOD_NOT_ALLOWED_405)
         }
 
         get("/books") {
@@ -133,8 +133,8 @@ abstract class BooksTest(
         }
 
         // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-        after(ALL - DELETE - PUT - GET, "/{id}", status = NOT_FOUND) {
-            send(METHOD_NOT_ALLOWED)
+        after(ALL - DELETE - PUT - GET, "/{id}", status = NOT_FOUND_404) {
+            send(METHOD_NOT_ALLOWED_405)
         }
 
         get {
@@ -189,8 +189,8 @@ abstract class BooksTest(
             }
 
             // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-            after(ALL - DELETE - PUT - GET, status = NOT_FOUND) {
-                send(METHOD_NOT_ALLOWED)
+            after(ALL - DELETE - PUT - GET, status = NOT_FOUND_404) {
+                send(METHOD_NOT_ALLOWED_405)
             }
         }
 
@@ -209,7 +209,7 @@ abstract class BooksTest(
         listOf("/a", "/b", "/c").forEach {
             val result = client.post("$it/books?author=Vladimir%20Nabokov&title=Lolita")
             assert(Integer.valueOf(result.body as String) > 0)
-            assertEquals(CREATED, result.status)
+            assertEquals(CREATED_201, result.status)
         }
     }
 
@@ -217,12 +217,12 @@ abstract class BooksTest(
         listOf("/a", "/b", "/c").forEach { p ->
             client.post("$p/books?title=Lolita").let {
                 assertEquals("Missing author", it.body)
-                assertEquals(BAD_REQUEST, it.status)
+                assertEquals(BAD_REQUEST_400, it.status)
             }
 
             client.post("$p/books?author=Vladimir%20Nabokov").let {
                 assertEquals("Missing title", it.body)
-                assertEquals(BAD_REQUEST, it.status)
+                assertEquals(BAD_REQUEST_400, it.status)
             }
         }
     }
@@ -254,7 +254,7 @@ abstract class BooksTest(
     @Test fun `Update not found book returns a 404`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.put("$it/books/9999?title=Don%20Quixote")
-            assertResponseContains(result, NOT_FOUND, "not found")
+            assertResponseContains(result, NOT_FOUND_404, "not found")
         }
     }
 
@@ -264,7 +264,7 @@ abstract class BooksTest(
                 client.post("$it/books?author=Ken%20Follett&title=The%20Pillars%20of%20the%20Earth")
             val id = Integer.valueOf(createResult.body as String)
             assert(id > 0)
-            assertEquals(CREATED, createResult.status)
+            assertEquals(CREATED_201, createResult.status)
             val result = client.delete("$it/books/$id")
             assertResponseContains(result, id.toString(), "deleted")
         }
@@ -273,28 +273,28 @@ abstract class BooksTest(
     @Test fun `Delete not found book returns a 404`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.delete("$it/books/9999")
-            assertResponseContains(result, NOT_FOUND, "not found")
+            assertResponseContains(result, NOT_FOUND_404, "not found")
         }
     }
 
     @Test fun `Book not found returns a 404`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.get("$it/books/9999")
-            assertResponseContains(result, NOT_FOUND, "not found")
+            assertResponseContains(result, NOT_FOUND_404, "not found")
         }
     }
 
     @Test fun `Invalid method returns 405`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.options("$it/books/9999")
-            assertEquals(METHOD_NOT_ALLOWED, result.status)
+            assertEquals(METHOD_NOT_ALLOWED_405, result.status)
         }
     }
 
     @Test fun `Not handled method returns 404`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.options("$it/books")
-            assertEquals(NOT_FOUND, result.status)
+            assertEquals(NOT_FOUND_404, result.status)
         }
     }
 }

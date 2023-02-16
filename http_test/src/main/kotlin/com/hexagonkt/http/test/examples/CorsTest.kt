@@ -1,12 +1,12 @@
 package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
+import com.hexagonkt.http.model.FORBIDDEN_403
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.HttpMethod.POST
-import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
-import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.model.NO_CONTENT_204
+import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.callbacks.CorsCallback
 import com.hexagonkt.http.server.handlers.ServerBuilder
@@ -60,7 +60,7 @@ abstract class CorsTest(
             client.get("/default"),
             client.get("/default/path")
         ).forEach {
-            assertEquals(OK, it.status)
+            assertEquals(OK_200, it.status)
             assertEquals("GET", it.body)
         }
     }
@@ -70,7 +70,7 @@ abstract class CorsTest(
             client.get("/example/org", Headers(Header("origin", "other.com"))),
             client.get("/example/org/path", Headers(Header("origin", "other.com")))
         ).forEach {
-            assertEquals(FORBIDDEN, it.status)
+            assertEquals(FORBIDDEN_403, it.status)
             assertEquals("Not allowed origin: other.com", it.body)
         }
     }
@@ -80,7 +80,7 @@ abstract class CorsTest(
             client.get("/no/credentials", Headers(Header("origin", "other.com"))),
             client.get("/no/credentials/path", Headers(Header("origin", "other.com")))
         ).forEach {
-            assertEquals(OK, it.status)
+            assertEquals(OK_200, it.status)
             assertEquals("GET", it.body)
             assertEquals("*", it.headers["access-control-allow-origin"]?.value)
             assert(it.headers["vary"]?.value?.contains("Origin")?.not() ?: true)
@@ -89,7 +89,7 @@ abstract class CorsTest(
 
     @Test fun `Simple CORS request`() {
         val result = client.get("/default", Headers(Header("origin", "example.org")))
-        assertEquals(OK, result.status)
+        assertEquals(OK_200, result.status)
         assertEquals("example.org", result.headers["access-control-allow-origin"]?.value)
         assert(result.headers["vary"]?.value?.contains("Origin") ?: false)
         assertEquals("true", result.headers["access-control-allow-credentials"]?.value)
@@ -97,7 +97,7 @@ abstract class CorsTest(
 
     @Test fun `Simple CORS request with not allowed method`() {
         val result = client.get("/only/post", Headers(Header("origin", "example.org")))
-        assertEquals(FORBIDDEN, result.status)
+        assertEquals(FORBIDDEN_403, result.status)
         assertEquals("Not allowed method: GET", result.body)
     }
 
@@ -106,7 +106,7 @@ abstract class CorsTest(
             Header("origin", "example.org"),
             Header("head", "exposed header"),
         ))
-        assertEquals(OK, result.status)
+        assertEquals(OK_200, result.status)
         assertEquals("example.org", result.headers["access-control-allow-origin"]?.value)
         assert(result.headers["vary"]?.value?.contains("Origin") ?: false)
         assertEquals("true", result.headers["access-control-allow-credentials"]?.value)
@@ -118,14 +118,14 @@ abstract class CorsTest(
             Header("origin", "example.org"),
             Header("access-control-request-method"),
         ))
-        assertEquals(FORBIDDEN, result.status)
+        assertEquals(FORBIDDEN_403, result.status)
         assertEquals("access-control-request-method required header not found", result.body)
     }
 
     @Test fun `CORS pre-flight without request method`() {
         val headers = Headers(Header("origin", "example.org"))
         val result = client.options("/default", headers = headers)
-        assertEquals(FORBIDDEN, result.status)
+        assertEquals(FORBIDDEN_403, result.status)
         assertEquals("access-control-request-method required header not found", result.body)
     }
 
@@ -135,7 +135,7 @@ abstract class CorsTest(
             Header("access-control-request-method", "GET"),
         ))
         assertEquals("example.org", result.headers["access-control-allow-origin"]?.value)
-        assertEquals(NO_CONTENT, result.status)
+        assertEquals(NO_CONTENT_204, result.status)
         assert(result.bodyString().isEmpty())
     }
 
@@ -150,7 +150,7 @@ abstract class CorsTest(
                 Header("access-control-request-method", "GET"),
             ))
         ).forEach {
-            assertEquals(FORBIDDEN, it.status)
+            assertEquals(FORBIDDEN_403, it.status)
             assertNull(it.headers["access-control-allow-origin"])
             assertEquals("Not allowed origin: other.com", it.body)
         }
@@ -165,7 +165,7 @@ abstract class CorsTest(
                 Header("access-control-request-method", "GET"),
             ))
         ).forEach {
-            assertEquals(FORBIDDEN, it.status)
+            assertEquals(FORBIDDEN_403, it.status)
             assertNull(it.headers["access-control-allow-origin"])
             assertEquals("Forbidden pre-flight request", it.body)
         }
@@ -177,7 +177,7 @@ abstract class CorsTest(
                 Header("access-control-request-method", "GET"),
             )),
         ).forEach {
-            assertEquals(NO_CONTENT, it.status)
+            assertEquals(NO_CONTENT_204, it.status)
             assertNull(it.headers["access-control-allow-origin"])
             assert(it.bodyString().isEmpty())
         }
@@ -189,7 +189,7 @@ abstract class CorsTest(
             Header("access-control-request-method", "GET"),
             Header("access-control-request-headers", "header1,header2"),
         )).apply {
-            assertEquals(NO_CONTENT, status)
+            assertEquals(NO_CONTENT_204, status)
             assertEquals("example.org", headers["access-control-allow-origin"]?.value)
             assert(bodyString().isEmpty())
         }
@@ -198,7 +198,7 @@ abstract class CorsTest(
             Header("access-control-request-method", "GET"),
             Header("access-control-request-headers", "header1,header2"),
         )).apply {
-            assertEquals(NO_CONTENT, status)
+            assertEquals(NO_CONTENT_204, status)
             assert(bodyString().isEmpty())
             assertEquals("example.org", headers["access-control-allow-origin"]?.value)
             assertEquals("10", headers["access-control-max-age"]?.value)
@@ -210,7 +210,7 @@ abstract class CorsTest(
             Header("origin", "example.org"),
             Header("access-control-request-method", "GET"),
         ))
-        assertEquals(FORBIDDEN, result.status)
+        assertEquals(FORBIDDEN_403, result.status)
         assertEquals("Not allowed method: GET", result.body)
     }
 
@@ -220,7 +220,7 @@ abstract class CorsTest(
             Header("access-control-request-method", "GET"),
             Header("access-control-request-headers", "header1,header2"),
         ))
-        assertEquals(FORBIDDEN, result.status)
+        assertEquals(FORBIDDEN_403, result.status)
         assertEquals("Not allowed headers", result.body)
     }
 
@@ -230,7 +230,7 @@ abstract class CorsTest(
             Header("access-control-request-method", "GET"),
             Header("access-control-request-headers", "head"),
         ))
-        assertEquals(NO_CONTENT, result.status)
+        assertEquals(NO_CONTENT_204, result.status)
         assert(result.bodyString().isEmpty())
     }
 }

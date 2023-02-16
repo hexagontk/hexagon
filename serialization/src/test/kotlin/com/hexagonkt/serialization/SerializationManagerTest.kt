@@ -1,8 +1,6 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.core.media.ApplicationMedia
-import com.hexagonkt.core.media.TextMedia
-import com.hexagonkt.core.media.mediaTypeOf
+import com.hexagonkt.core.media.*
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.SerializationManager.formatOfOrNull
@@ -57,7 +55,7 @@ internal class SerializationManagerTest {
     }
 
     @Test fun `User can add and remove serialization formats`() {
-        assertEquals(TextTestFormat, formatOf(ApplicationMedia.PHP))
+        assertEquals(TextTestFormat, formatOf(APPLICATION_PHP))
 
         formats = emptySet()
         assert(formats.isEmpty())
@@ -65,30 +63,30 @@ internal class SerializationManagerTest {
         formats = setOf(TextTestFormat)
         assertEquals(setOf(TextTestFormat), formats)
         assertEquals(TextTestFormat, formatOf(mediaTypeOf("php")))
-        assertEquals(TextTestFormat, formatOf(ApplicationMedia.PHP))
+        assertEquals(TextTestFormat, formatOf(APPLICATION_PHP))
 
         formats = setOf(TextTestFormat, BinaryTestFormat)
         assertEquals(setOf(TextTestFormat, BinaryTestFormat), formats)
         assertEquals(TextTestFormat, formatOf(mediaTypeOf("php")))
-        assertEquals(TextTestFormat, formatOf(ApplicationMedia.PHP))
+        assertEquals(TextTestFormat, formatOf(APPLICATION_PHP))
         assertEquals(BinaryTestFormat, formatOf(mediaTypeOf("avro")))
-        assertEquals(BinaryTestFormat, formatOf(ApplicationMedia.AVRO))
+        assertEquals(BinaryTestFormat, formatOf(APPLICATION_AVRO))
     }
 
     @Test fun `Searching a format not loaded return null or raises an exception`() {
-        assertNull(formatOfOrNull(TextMedia.PLAIN))
+        assertNull(formatOfOrNull(TEXT_PLAIN))
         val e = assertFailsWith<IllegalStateException> {
             formats = setOf(TextTestFormat)
-            formatOf(ApplicationMedia.JSON)
+            formatOf(APPLICATION_JSON)
         }
 
-        val mt = ApplicationMedia.JSON.fullType
+        val mt = APPLICATION_JSON.fullType
         val amt = "application/x-httpd-php"
         assertEquals("Cannot find serialization format for: $mt. Available: $amt", e.message)
     }
 
     @Test fun `Searching serialization format for content types, URLs, files and resources works`() {
-        assertEquals(TextTestFormat, formatOf(ApplicationMedia.PHP))
+        assertEquals(TextTestFormat, formatOf(APPLICATION_PHP))
         assertEquals(TextTestFormat, formatOf(mediaTypeOf("php")))
         assertEquals(TextTestFormat, formatOf(mediaTypeOf(URL("http://l/a.php"))))
         assertEquals(TextTestFormat, formatOf(mediaTypeOf(File("f.php"))))

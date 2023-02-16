@@ -1,12 +1,12 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.core.decodeBase64
-import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
-import com.hexagonkt.http.model.ClientErrorStatus.UNAUTHORIZED
+import com.hexagonkt.http.model.FORBIDDEN_403
+import com.hexagonkt.http.model.UNAUTHORIZED_401
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.HttpMethod.PUT
-import com.hexagonkt.http.model.SuccessStatus.*
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
 import kotlin.test.Test
@@ -44,7 +44,7 @@ internal class FiltersTest {
         // All matching filters are run in order unless call is halted
         filter("/protected/*") {
             if(users[attributes["username"]] != attributes["password"])
-                send(FORBIDDEN, "Forbidden")
+                send(FORBIDDEN_403, "Forbidden")
             else
                 next()
         }
@@ -55,55 +55,55 @@ internal class FiltersTest {
 
         path("/after") {
             after(PUT) {
-                success(ALREADY_REPORTED)
+                send(ALREADY_REPORTED_208)
             }
 
             after(PUT, "/second") {
-                success(NO_CONTENT)
+                send(NO_CONTENT_204)
             }
 
             after("/second") {
-                success(CREATED)
+                send(CREATED_201)
             }
 
             after {
-                success(ACCEPTED)
+                send(ACCEPTED_202)
             }
         }
     }
 
     @Test fun `After handlers can be chained`() {
-        assertEquals(ACCEPTED, path.send(GET, "/after").status)
-        assertEquals(CREATED, path.send(GET, "/after/second").status)
-        assertEquals(NO_CONTENT, path.send(PUT, "/after/second").status)
-        assertEquals(ALREADY_REPORTED, path.send(PUT, "/after").status)
+        assertEquals(ACCEPTED_202, path.send(GET, "/after").status)
+        assertEquals(CREATED_201, path.send(GET, "/after/second").status)
+        assertEquals(NO_CONTENT_204, path.send(PUT, "/after/second").status)
+        assertEquals(ALREADY_REPORTED_208, path.send(PUT, "/after").status)
     }
 
     @Test fun `Request without authorization returns 401`() {
         val response = path.send(GET, "/protected/hi")
         val time = response.headers["time"]?.value?.toLong() ?: 0
-        assertResponseEquals(response, "Unauthorized", UNAUTHORIZED)
+        assertResponseEquals(response, "Unauthorized", UNAUTHORIZED_401)
         assert(time > 0)
     }
 
     @Test fun `HTTP request with valid credentials returns valid response`() {
         val response = path.send(GET, "/protected/hi", user = "Turing", password = "London")
         val time = response.headers["time"]?.value?.toLong() ?: 0
-        assertResponseEquals(response, "Hello Turing!", OK)
+        assertResponseEquals(response, "Hello Turing!", OK_200)
         assert(time > 0)
     }
 
     @Test fun `Request with invalid password returns 403`() {
         val response = path.send(GET, "/protected/hi", user = "Turing", password = "Millis")
         val time = response.headers["time"]?.value?.toLong() ?: 0
-        assertResponseEquals(response, "Forbidden", FORBIDDEN)
+        assertResponseEquals(response, "Forbidden", FORBIDDEN_403)
         assert(time > 0)
     }
 
     @Test fun `Request with invalid user returns 403`() {
         val response = path.send(GET, "/protected/hi", user = "Curry", password = "Millis")
         val time = response.headers["time"]?.value?.toLong() ?: 0
-        assertResponseEquals(response, "Forbidden", FORBIDDEN)
+        assertResponseEquals(response, "Forbidden", FORBIDDEN_403)
         assert(time > 0)
     }
 }
