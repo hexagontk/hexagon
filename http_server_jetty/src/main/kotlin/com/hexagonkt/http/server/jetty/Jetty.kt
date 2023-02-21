@@ -13,7 +13,7 @@ import com.hexagonkt.http.server.handlers.HttpHandler
  * @return The started [HttpServer] instance.
  */
 fun serve(
-    settings: HttpServerSettings = HttpServerSettings(), handlers: List<HttpHandler>
+    settings: HttpServerSettings = HttpServerSettings(), handlers: HttpHandler
 ): HttpServer =
     HttpServer(JettyServletAdapter(), handlers, settings).apply { start() }
 
@@ -28,5 +28,5 @@ fun serve(
 fun serve(
     settings: HttpServerSettings = HttpServerSettings(), block: ServerBuilder.() -> Unit
 ): HttpServer =
-    HttpServer(JettyServletAdapter(), ServerBuilder().apply {block()}.handlers, settings)
+    HttpServer(JettyServletAdapter(), ServerBuilder().apply { block() }.handler(), settings)
         .apply { start() }

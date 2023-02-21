@@ -6,7 +6,7 @@ import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.parseQueryString
-import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
 import kotlin.test.assertEquals
@@ -23,7 +23,7 @@ internal fun assertResponseContains(response: HttpServerResponse?, vararg conten
     assertResponseContains(response, OK_200, *content)
 }
 
-internal fun PathHandler.send(
+internal fun HttpHandler.send(
     method: HttpMethod,
     requestPath: String,
     query: String = "",

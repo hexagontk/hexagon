@@ -12,8 +12,7 @@ import com.hexagonkt.http.server.HttpServerFeature.WEB_SOCKETS
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.server.handlers.HttpHandler
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.Channel
 import io.netty.channel.ChannelInitializer
@@ -85,8 +84,8 @@ open class NettyServerAdapter(
         try {
             val settings = server.settings
             val sslSettings = settings.sslSettings
-            val handlers: Map<HttpMethod, PathHandler> =
-                path(settings.contextPath, server.handlers)
+            val handlers: Map<HttpMethod, HttpHandler> =
+                server.handler.addPrefix(settings.contextPath)
                     .byMethod()
                     .mapKeys { HttpMethod.valueOf(it.key.toString()) }
 
@@ -124,7 +123,7 @@ open class NettyServerAdapter(
 
     private fun createInitializer(
         sslSettings: SslSettings?,
-        handlers: Map<HttpMethod, PathHandler>,
+        handlers: Map<HttpMethod, HttpHandler>,
         group: DefaultEventExecutorGroup?,
         settings: HttpServerSettings
     ) =
@@ -196,7 +195,7 @@ open class NettyServerAdapter(
         )
 
     class HttpChannelInitializer(
-        private val handlers: Map<HttpMethod, PathHandler>,
+        private val handlers: Map<HttpMethod, HttpHandler>,
         private val executorGroup: EventExecutorGroup?,
         private val settings: HttpServerSettings,
     ) : ChannelInitializer<SocketChannel>() {
@@ -220,7 +219,7 @@ open class NettyServerAdapter(
     }
 
     class HttpsChannelInitializer(
-        private val handlers: Map<HttpMethod, PathHandler>,
+        private val handlers: Map<HttpMethod, HttpHandler>,
         private val sslContext: SslContext,
         private val sslSettings: SslSettings,
         private val executorGroup: EventExecutorGroup?,

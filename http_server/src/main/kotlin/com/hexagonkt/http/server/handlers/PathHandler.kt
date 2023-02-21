@@ -1,16 +1,9 @@
 package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.handlers.ChainHandler
-import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.handlers.Handler
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.core.toText
-import com.hexagonkt.handlers.Context
-import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.model.HttpStatusType.SERVER_ERROR
-import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
@@ -55,51 +48,8 @@ data class PathHandler(
     override fun process(request: HttpServerRequestPort): HttpServerResponse =
         processContext(request).event.response
 
-    fun processContext(request: HttpServerRequestPort): Context<HttpServerCall> =
-        process(EventContext(HttpServerCall(request = request), predicate)).let {
-            val event = it.event
-            val response = event.response
-            val exception = it.exception
-
-            if (exception != null && response.status.type != SERVER_ERROR)
-                it.with(
-                    event = event.copy(
-                        response = response.copy(
-                            body = exception.toText(),
-                            contentType = ContentType(TEXT_PLAIN),
-                            status = INTERNAL_SERVER_ERROR_500,
-                        )
-                    )
-                )
-            else it
-        }
-
     override fun addPrefix(prefix: String): HttpHandler =
         copy(serverPredicate = serverPredicate.addPrefix(prefix))
-
-    fun byMethod(): Map<HttpMethod, PathHandler> =
-        serverPredicate.methods.associateWith { filter(it) }
-
-    fun filter(method: HttpMethod): PathHandler =
-        copy(
-            serverPredicate = serverPredicate.clearMethods(),
-            handlers = handlers
-                .filter {
-                    method in it.serverPredicate.methods || it.serverPredicate.methods.isEmpty()
-                }
-                .map {
-                    when (it) {
-                        is PathHandler ->
-                            it.filter(method)
-                        is OnHandler ->
-                            it.copy(serverPredicate = it.serverPredicate.clearMethods())
-                        is FilterHandler ->
-                            it.copy(serverPredicate = it.serverPredicate.clearMethods())
-                        is AfterHandler ->
-                            it.copy(serverPredicate = it.serverPredicate.clearMethods())
-                    }
-                }
-        )
 
     fun describe(): String =
         listOf(
