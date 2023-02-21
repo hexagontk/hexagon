@@ -1,5 +1,6 @@
 
 import me.champeau.jmh.JMHTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("java-library")
@@ -13,8 +14,8 @@ apply(from = "../gradle/detekt.gradle")
 
 description = "Test cases for HTTP client and server adapters."
 
-tasks.named<JavaCompile>("jmhCompileGeneratedClasses") {
-    targetCompatibility = "11"
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "11"
 }
 
 tasks.withType<JMHTask> {

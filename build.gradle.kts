@@ -25,6 +25,7 @@ plugins {
     id("project-report")
     id("org.jetbrains.dokka") version("1.7.20")
     id("com.github.jk1.dependency-license-report") version("2.1")
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.0")
     id("io.gitlab.arturbosch.detekt") version("1.22.0") apply(false)
     id("me.champeau.jmh") version("0.6.8") apply(false)
 }
@@ -90,3 +91,7 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
         }
     }
 })
+
+apiValidation {
+    validationDisabled = true
+}
