@@ -58,7 +58,7 @@ internal class PathHandlerTest {
             OnHandler(setOf(OPTIONS, HEAD), "/optionsHead1") { ok() },
         )
 
-        val pathsByMethod = path.byMethod()
+        val pathsByMethod = path.byMethod().mapValues { it.value as PathHandler }
 
         assertEquals(setOf(GET, POST, PUT, OPTIONS, DELETE, HEAD), pathsByMethod.keys.toSet())
         pathsByMethod.forEach { (_, v) ->
@@ -108,7 +108,7 @@ internal class PathHandlerTest {
             }
 
         fun patterns(method: HttpMethod): List<String> =
-            pathsByMethod[method]?.patterns() ?: emptyList()
+            (pathsByMethod[method] as? PathHandler)?.patterns() ?: emptyList()
 
         val getExpectedPatterns = listOf("/get1", "/any1", "/options1", "/any2", "/patch1", "/any3")
         assertEquals(getExpectedPatterns, patterns(GET))

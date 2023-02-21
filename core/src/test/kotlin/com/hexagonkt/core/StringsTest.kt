@@ -34,6 +34,11 @@ internal class StringsTest {
         tests.forEach { (k, v) -> assertNotNull(v.parseOrNull(k)) }
     }
 
+    @Test fun `Invalid string transformations return null`() {
+        assertNull("2020-02-28".parseOrNull(InetAddress::class))
+        assertNull("2020-02-28".parseOrNull(URL::class))
+    }
+
     @Test fun `String transformations work properly`() {
         assertEquals(File("dir/f.txt"), "dir/f.txt".parseOrNull(File::class))
         assertEquals(LocalDate.parse("2020-02-28"), "2020-02-28".parseOrNull(LocalDate::class))

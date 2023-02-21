@@ -6,6 +6,10 @@ import kotlin.reflect.KClass
 
 class ServerBuilder(var handlers: List<HttpHandler> = emptyList()) {
 
+    fun handler(contextPath: String = ""): HttpHandler =
+        if (handlers.size == 1) handlers[0].addPrefix(contextPath)
+        else PathHandler(contextPath, handlers)
+
     fun use(handler: HttpHandler) {
         this.handlers += handler
     }

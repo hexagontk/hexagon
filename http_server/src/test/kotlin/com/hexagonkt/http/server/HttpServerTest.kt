@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.http.model.HttpProtocol.H2C
+import com.hexagonkt.http.server.handlers.OnHandler
 import com.hexagonkt.http.server.handlers.PathHandler
 import kotlin.test.Test
 import kotlin.test.assertContains
@@ -17,7 +18,7 @@ internal class HttpServerTest {
 
     @Test fun `Default parameters`() {
         val serverSettings = HttpServerSettings(address("localhost"), 9999, banner = "name")
-        val server = HttpServer(VoidAdapter, listOf(PathHandler()), serverSettings)
+        val server = HttpServer(VoidAdapter, PathHandler(), serverSettings)
 
         assertEquals("name", server.settings.banner)
         assertEquals(VoidAdapter.javaClass.simpleName, server.portName)
@@ -27,7 +28,7 @@ internal class HttpServerTest {
 
     @Test fun `Runtime port`() {
         val serverSettings = HttpServerSettings(address("localhost"), 9999, banner = "name")
-        val server = HttpServer(VoidAdapter, listOf(PathHandler()), serverSettings)
+        val server = HttpServer(VoidAdapter, PathHandler(), serverSettings)
 
         assertFailsWith<IllegalStateException>("Server is not running") { server.runtimePort }
         assert(!server.started())
@@ -84,10 +85,8 @@ internal class HttpServerTest {
     }
 
     @Test fun `Server can not be created with ZIP compression if not supported by its adapter`() {
-        val handlers = emptyList<PathHandler>()
-
         assertFailsWith<IllegalStateException> {
-            HttpServer(VoidAdapter, handlers, HttpServerSettings(zip = true))
+            HttpServer(VoidAdapter, OnHandler { this }, HttpServerSettings(zip = true))
         }.let {
             val errorMessage = "Requesting ZIP compression with an adapter without support:"
             assertContains(it.message ?: "", errorMessage)
@@ -95,10 +94,8 @@ internal class HttpServerTest {
     }
 
     @Test fun `Server can not be created with a protocol not supported by its adapter`() {
-        val handlers = emptyList<PathHandler>()
-
         assertFailsWith<IllegalStateException> {
-            HttpServer(VoidAdapter, handlers, HttpServerSettings(protocol = H2C))
+            HttpServer(VoidAdapter, OnHandler { this }, HttpServerSettings(protocol = H2C))
         }.let {
             val message = it.message ?: ""
             assertContains(message, "Requesting unsupported protocol. Adapter's protocols:")

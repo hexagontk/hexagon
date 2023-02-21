@@ -49,7 +49,7 @@ internal class JettyServletAdapterTest {
                 ok("Hello $name!", contentType = ContentType(TEXT_PLAIN))
             }
         }
-        val server = serve(handlers = listOf(path))
+        val server = serve(handlers = path)
 
         server.use { s ->
             HttpClient(JettyClientAdapter(), URL("http://localhost:${s.runtimePort}")).use {

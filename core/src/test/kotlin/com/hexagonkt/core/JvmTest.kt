@@ -53,7 +53,6 @@ internal class JvmTest {
     }
 
     @Test fun `System settings handle parameter types correctly`() {
-
         System.setProperty("validBoolean", true.toString())
         System.setProperty("validInt", 123.toString())
         System.setProperty("validLong", 456L.toString())
@@ -97,7 +96,10 @@ internal class JvmTest {
         assertNull(Jvm.systemSettingOrNull(Boolean::class, "invalidBoolean"))
 
         val type = System::class
-        val e = assertFailsWith<IllegalStateException> { Jvm.systemSettingOrNull<System>("error") }
+        val e = assertFailsWith<IllegalArgumentException> {
+            Jvm.systemSettingOrNull<System>("error")
+        }
+
         assertEquals("Unsupported type: ${type.qualifiedName}", e.message)
     }
 

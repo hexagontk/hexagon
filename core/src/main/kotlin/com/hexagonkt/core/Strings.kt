@@ -74,8 +74,10 @@ fun String.decodeBase64(): ByteArray =
  * @return .
  */
 @Suppress("UNCHECKED_CAST") // All allowed types are checked at runtime
-fun <T : Any> String?.parseOrNull(type: KClass<T>): T? =
-    this?.let {
+fun <T : Any> String.parse(type: KClass<T>): T =
+    this.let {
+        require(type in parsedClasses) { "Unsupported type: ${type.qualifiedName}" }
+
         when (type) {
             Boolean::class -> this.toBooleanStrictOrNull()
             Int::class -> this.toIntOrNull()
@@ -92,7 +94,27 @@ fun <T : Any> String?.parseOrNull(type: KClass<T>): T? =
             LocalDateTime::class -> LocalDateTime.parse(this)
             else -> error("Unsupported type: ${type.qualifiedName}")
         }
-    } as? T
+    } as T
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param T .
+ * @param type .
+ * @return .
+ */
+@Suppress("UNCHECKED_CAST") // All allowed types are checked at runtime
+fun <T : Any> String?.parseOrNull(type: KClass<T>): T? =
+    this?.let {
+        require(type in parsedClasses) { "Unsupported type: ${type.qualifiedName}" }
+        try {
+            parse(type)
+        }
+        catch (e: Exception) {
+            null
+        }
+    }
 
 fun String.stripAnsi(): String =
     replace(Ansi.REGEX, "")

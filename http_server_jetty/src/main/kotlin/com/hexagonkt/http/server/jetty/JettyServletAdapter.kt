@@ -12,8 +12,6 @@ import com.hexagonkt.http.server.HttpServerFeature
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.path
 import org.eclipse.jetty.alpn.server.ALPNServerConnectionFactory
 import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory
 import org.eclipse.jetty.server.*
@@ -95,7 +93,7 @@ class JettyServletAdapter(
         val serverInstance = JettyServer(createThreadPool())
         jettyServer = serverInstance
 
-        val pathHandler: PathHandler = path(settings.contextPath, server.handlers)
+        val pathHandler = server.handler.addPrefix(settings.contextPath)
 
         val context = createServerContext(settings)
         val filter = ServletFilter(pathHandler, settings)

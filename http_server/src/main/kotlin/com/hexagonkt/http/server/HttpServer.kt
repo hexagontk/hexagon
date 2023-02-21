@@ -36,7 +36,7 @@ import java.lang.System.nanoTime
  */
 data class HttpServer(
     private val adapter: HttpServerPort,
-    val handlers: List<HttpHandler>,
+    val handler: HttpHandler,
     val settings: HttpServerSettings = HttpServerSettings()
 ) : Closeable {
 
@@ -72,20 +72,7 @@ data class HttpServer(
         settings: HttpServerSettings = HttpServerSettings(),
         block: ServerBuilder.() -> Unit
     ) :
-        this(adapter, listOf(path(block = block)), settings)
-
-    /**
-     * Utility constructor for the common case of having a single root handler.
-     *
-     * @param adapter The server engine.
-     * @param handler The only handler used for this server.
-     * @param settings Server settings. Port and address will be searched in this map.
-     */
-    constructor(
-        adapter: HttpServerPort,
-        handler: HttpHandler,
-        settings: HttpServerSettings = HttpServerSettings(),
-    ) : this(adapter, listOf(handler), settings)
+        this(adapter, path(block = block), settings)
 
     override fun close() {
         stop()

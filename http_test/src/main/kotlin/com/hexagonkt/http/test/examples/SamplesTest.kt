@@ -67,7 +67,7 @@ abstract class SamplesTest(
             get("/hello") { ok("Hello World!") }
         }
 
-        val runningServer = serve(serverAdapter(), listOf(path), settings)
+        val runningServer = serve(serverAdapter(), path, settings)
 
         // Servers implement closeable, you can use them inside a block assuring they will be closed
         runningServer.use { s ->
@@ -81,7 +81,7 @@ abstract class SamplesTest(
         /*
          * You may skip the settings and the defaults will be used
          */
-        val defaultSettingsServer = serve(serverAdapter(), listOf(path))
+        val defaultSettingsServer = serve(serverAdapter(), path)
         // serverCreation
 
         defaultSettingsServer.use { s ->
@@ -516,7 +516,7 @@ abstract class SamplesTest(
 
         val bindAddress = InetAddress.getLoopbackAddress()
         val serverSettings = HttpServerSettings(bindAddress, 0, banner = "name")
-        val server = serve(serverAdapter(), listOf(router), serverSettings)
+        val server = serve(serverAdapter(), router, serverSettings)
 
         server.use { s ->
             HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
