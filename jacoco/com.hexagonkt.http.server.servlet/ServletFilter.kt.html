@@ -5,7 +5,7 @@ import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.toText
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.model.HttpServerResponse
 import jakarta.servlet.*
 import jakarta.servlet.http.Cookie
@@ -14,13 +14,13 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 
 <span class="fc" id="L16">class ServletFilter(</span>
-    pathHandler: PathHandler,
+    pathHandler: HttpHandler,
 <span class="fc" id="L18">    private val serverSettings: HttpServerSettings</span>
 <span class="fc" id="L19">) : HttpFilter() {</span>
 
 <span class="fc" id="L21">    private val logger: Logger = Logger(ServletFilter::class)</span>
 
-    private val handlers: Map&lt;String, PathHandler&gt; =
+    private val handlers: Map&lt;String, HttpHandler&gt; =
 <span class="fc" id="L24">        pathHandler.byMethod().mapKeys { it.key.toString() }</span>
 
     override fun init(filterConfig: FilterConfig) {

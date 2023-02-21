@@ -1,62 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.handlers</a> &gt; <span class="el_source">HttpHandler.kt</span></div><h1>HttpHandler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.handlers
 
+import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.core.toText
+import com.hexagonkt.handlers.Context
 import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.handlers.Handler
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.HttpProtocol.HTTP
+import com.hexagonkt.http.model.HttpStatusType.SERVER_ERROR
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
 import java.security.cert.X509Certificate
 
-<span class="nc" id="L14">sealed interface HttpHandler : Handler&lt;HttpServerCall&gt; {</span>
+<span class="nc" id="L18">sealed interface HttpHandler : Handler&lt;HttpServerCall&gt; {</span>
     val serverPredicate: HttpServerPredicate
 
     fun addPrefix(prefix: String): HttpHandler
 
-    fun process(request: HttpServerRequestPort): HttpServerResponse =
-<span class="fc" id="L20">        EventContext(HttpServerCall(request = request), predicate).let { context -&gt;</span>
-<span class="fc bfc" id="L21" title="All 2 branches covered.">            if (serverPredicate(context)) process(context).event.response</span>
-<span class="fc" id="L22">            else context.event.response</span>
-<span class="fc" id="L23">        }</span>
+    fun byMethod(): Map&lt;HttpMethod, HttpHandler&gt; =
+<span class="fc" id="L24">        serverPredicate.methods.associateWith { filter(it) }</span>
 
-<span class="fc" id="L25">    fun process(</span>
-<span class="fc" id="L26">        method: HttpMethod = GET,</span>
-<span class="fc" id="L27">        protocol: HttpProtocol = HTTP,</span>
-<span class="fc" id="L28">        host: String = &quot;localhost&quot;,</span>
-<span class="fc" id="L29">        port: Int = 80,</span>
-<span class="fc" id="L30">        path: String = &quot;&quot;,</span>
-<span class="fc" id="L31">        queryParameters: QueryParameters = QueryParameters(),</span>
-<span class="fc" id="L32">        headers: Headers = Headers(),</span>
-<span class="fc" id="L33">        body: Any = &quot;&quot;,</span>
-<span class="fc" id="L34">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
-<span class="fc" id="L35">        formParameters: FormParameters = FormParameters(),</span>
-<span class="fc" id="L36">        cookies: List&lt;Cookie&gt; = emptyList(),</span>
-<span class="fc" id="L37">        contentType: ContentType? = null,</span>
-<span class="fc" id="L38">        certificateChain: List&lt;X509Certificate&gt; = emptyList(),</span>
-<span class="fc" id="L39">        accept: List&lt;ContentType&gt; = emptyList(),</span>
-<span class="fc" id="L40">        contentLength: Long = -1L,</span>
+    fun filter(method: HttpMethod): HttpHandler =
+<span class="fc" id="L27">        when (this) {</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">            is PathHandler -&gt;</span>
+<span class="fc" id="L29">                copy(</span>
+<span class="fc" id="L30">                    serverPredicate = serverPredicate.clearMethods(),</span>
+<span class="fc" id="L31">                    handlers = handlers</span>
+<span class="fc" id="L32">                        .filter {</span>
+<span class="fc" id="L33">                            val methods = it.serverPredicate.methods</span>
+<span class="fc bfc" id="L34" title="All 4 branches covered.">                            method in methods || methods.isEmpty()</span>
+                        }
+<span class="fc" id="L36">                        .map { it.filter(method) }</span>
+                )
+
+<span class="fc bfc" id="L39" title="All 2 branches covered.">            is OnHandler -&gt;</span>
+<span class="fc" id="L40">                copy(serverPredicate = serverPredicate.clearMethods())</span>
+
+<span class="fc bfc" id="L42" title="All 2 branches covered.">            is FilterHandler -&gt;</span>
+<span class="fc" id="L43">                copy(serverPredicate = serverPredicate.clearMethods())</span>
+
+<span class="fc" id="L45">            is AfterHandler -&gt;</span>
+<span class="fc" id="L46">                copy(serverPredicate = serverPredicate.clearMethods())</span>
+<span class="fc" id="L47">        }</span>
+
+    fun processContext(request: HttpServerRequestPort): Context&lt;HttpServerCall&gt; =
+<span class="fc" id="L50">        process(EventContext(HttpServerCall(request = request), predicate)).let {</span>
+<span class="fc" id="L51">            val event = it.event</span>
+<span class="fc" id="L52">            val response = event.response</span>
+<span class="fc" id="L53">            val exception = it.exception</span>
+
+<span class="fc bfc" id="L55" title="All 4 branches covered.">            if (exception != null &amp;&amp; response.status.type != SERVER_ERROR)</span>
+<span class="fc" id="L56">                it.with(</span>
+<span class="fc" id="L57">                    event = event.copy(</span>
+<span class="fc" id="L58">                        response = response.copy(</span>
+<span class="fc" id="L59">                            body = exception.toText(),</span>
+<span class="fc" id="L60">                            contentType = ContentType(TEXT_PLAIN),</span>
+<span class="fc" id="L61">                            status = INTERNAL_SERVER_ERROR_500,</span>
+                        )
+                    )
+                )
+<span class="fc" id="L65">            else it</span>
+<span class="fc" id="L66">        }</span>
+
+    fun process(request: HttpServerRequestPort): HttpServerResponse =
+<span class="fc" id="L69">        EventContext(HttpServerCall(request = request), predicate).let { context -&gt;</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if (serverPredicate(context)) process(context).event.response</span>
+<span class="fc" id="L71">            else context.event.response</span>
+<span class="fc" id="L72">        }</span>
+
+<span class="fc" id="L74">    fun process(</span>
+<span class="fc" id="L75">        method: HttpMethod = GET,</span>
+<span class="fc" id="L76">        protocol: HttpProtocol = HTTP,</span>
+<span class="fc" id="L77">        host: String = &quot;localhost&quot;,</span>
+<span class="fc" id="L78">        port: Int = 80,</span>
+<span class="fc" id="L79">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L80">        queryParameters: QueryParameters = QueryParameters(),</span>
+<span class="fc" id="L81">        headers: Headers = Headers(),</span>
+<span class="fc" id="L82">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L83">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L84">        formParameters: FormParameters = FormParameters(),</span>
+<span class="fc" id="L85">        cookies: List&lt;Cookie&gt; = emptyList(),</span>
+<span class="fc" id="L86">        contentType: ContentType? = null,</span>
+<span class="fc" id="L87">        certificateChain: List&lt;X509Certificate&gt; = emptyList(),</span>
+<span class="fc" id="L88">        accept: List&lt;ContentType&gt; = emptyList(),</span>
+<span class="fc" id="L89">        contentLength: Long = -1L,</span>
     ): HttpServerResponse =
-<span class="fc" id="L42">        process(</span>
-<span class="fc" id="L43">            HttpServerRequest(</span>
-<span class="fc" id="L44">                method,</span>
-<span class="fc" id="L45">                protocol,</span>
-<span class="fc" id="L46">                host,</span>
-<span class="fc" id="L47">                port,</span>
-<span class="fc" id="L48">                path,</span>
-<span class="fc" id="L49">                queryParameters,</span>
-<span class="fc" id="L50">                headers,</span>
-<span class="fc" id="L51">                body,</span>
-<span class="fc" id="L52">                parts,</span>
-<span class="fc" id="L53">                formParameters,</span>
-<span class="fc" id="L54">                cookies,</span>
-<span class="fc" id="L55">                contentType,</span>
-<span class="fc" id="L56">                certificateChain,</span>
-<span class="fc" id="L57">                accept,</span>
-<span class="fc" id="L58">                contentLength,</span>
+<span class="fc" id="L91">        process(</span>
+<span class="fc" id="L92">            HttpServerRequest(</span>
+<span class="fc" id="L93">                method,</span>
+<span class="fc" id="L94">                protocol,</span>
+<span class="fc" id="L95">                host,</span>
+<span class="fc" id="L96">                port,</span>
+<span class="fc" id="L97">                path,</span>
+<span class="fc" id="L98">                queryParameters,</span>
+<span class="fc" id="L99">                headers,</span>
+<span class="fc" id="L100">                body,</span>
+<span class="fc" id="L101">                parts,</span>
+<span class="fc" id="L102">                formParameters,</span>
+<span class="fc" id="L103">                cookies,</span>
+<span class="fc" id="L104">                contentType,</span>
+<span class="fc" id="L105">                certificateChain,</span>
+<span class="fc" id="L106">                accept,</span>
+<span class="fc" id="L107">                contentLength,</span>
             )
-<span class="fc" id="L60">        )</span>
-<span class="nc" id="L61">}</span>
+<span class="fc" id="L109">        )</span>
+<span class="nc" id="L110">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

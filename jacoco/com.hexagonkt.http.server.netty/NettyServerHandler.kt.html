@@ -4,8 +4,8 @@ import com.hexagonkt.handlers.Context
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.Cookie
+import com.hexagonkt.http.server.handlers.HttpHandler
 import com.hexagonkt.http.server.handlers.HttpServerContext
-import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerResponse
 import io.netty.buffer.Unpooled
@@ -31,7 +31,7 @@ import java.security.cert.X509Certificate
 import java.util.concurrent.Flow.*
 
 <span class="fc" id="L33">internal class NettyServerHandler(</span>
-<span class="fc" id="L34">    private val handlers: Map&lt;HttpMethod, PathHandler&gt;,</span>
+<span class="fc" id="L34">    private val handlers: Map&lt;HttpMethod, HttpHandler&gt;,</span>
 <span class="fc" id="L35">    private val sslHandler: SslHandler?,</span>
 <span class="fc" id="L36">) : ChannelInboundHandlerAdapter() {</span>
 

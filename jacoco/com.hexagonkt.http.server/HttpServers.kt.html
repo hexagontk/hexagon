@@ -7,33 +7,17 @@ import com.hexagonkt.http.server.handlers.HttpHandler
  * Create a server and start it.
  *
  * @param adapter Adapter instance which implements [HttpServerPort].
- * @param handlers List of handlers to be used by the server.
+ * @param handler Handler to be used by the server.
  * @param settings Server settings info.
  *
  * @return The started [HttpServer] instance.
  */
 <span class="fc" id="L15">fun serve(</span>
     adapter: HttpServerPort,
-    handlers: List&lt;HttpHandler&gt;,
+    handler: HttpHandler,
 <span class="fc" id="L18">    settings: HttpServerSettings = HttpServerSettings()</span>
 ): HttpServer =
-<span class="fc" id="L20">    HttpServer(adapter, handlers, settings).apply { start() }</span>
-
-/**
- * Create a server and start it.
- *
- * @param adapter Adapter instance which implements [HttpServerPort].
- * @param handler Handler to be used by the server.
- * @param settings Server settings info.
- *
- * @return The started [HttpServer] instance.
- */
-<span class="nc" id="L31">fun serve(</span>
-    adapter: HttpServerPort,
-    handler: HttpHandler,
-<span class="nc" id="L34">    settings: HttpServerSettings = HttpServerSettings()</span>
-): HttpServer =
-<span class="fc" id="L36">    serve(adapter, listOf(handler), settings)</span>
+<span class="fc" id="L20">    HttpServer(adapter, handler, settings).apply { start() }</span>
 
 /**
  * Create a server and start it.
@@ -44,10 +28,10 @@ import com.hexagonkt.http.server.handlers.HttpHandler
  *
  * @return The started [HttpServer] instance.
  */
-<span class="fc" id="L47">fun serve(</span>
+<span class="fc" id="L31">fun serve(</span>
     adapter: HttpServerPort,
-<span class="fc" id="L49">    settings: HttpServerSettings = HttpServerSettings(),</span>
+<span class="fc" id="L33">    settings: HttpServerSettings = HttpServerSettings(),</span>
     block: ServerBuilder.() -&gt; Unit
 ): HttpServer =
-<span class="fc" id="L52">    HttpServer(adapter, settings, block).apply { start() }</span>
+<span class="fc" id="L36">    HttpServer(adapter, settings, block).apply { start() }</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

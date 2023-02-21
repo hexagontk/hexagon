@@ -13,7 +13,7 @@ import com.hexagonkt.http.server.handlers.HttpHandler
  * @return The started [HttpServer] instance.
  */
 <span class="fc" id="L15">fun serve(</span>
-<span class="fc" id="L16">    settings: HttpServerSettings = HttpServerSettings(), handlers: List&lt;HttpHandler&gt;</span>
+<span class="fc" id="L16">    settings: HttpServerSettings = HttpServerSettings(), handlers: HttpHandler</span>
 ): HttpServer =
 <span class="fc" id="L18">    HttpServer(JettyServletAdapter(), handlers, settings).apply { start() }</span>
 
@@ -28,6 +28,6 @@ import com.hexagonkt.http.server.handlers.HttpHandler
 <span class="fc" id="L28">fun serve(</span>
 <span class="fc" id="L29">    settings: HttpServerSettings = HttpServerSettings(), block: ServerBuilder.() -&gt; Unit</span>
 ): HttpServer =
-<span class="fc" id="L31">    HttpServer(JettyServletAdapter(), ServerBuilder().apply {block()}.handlers, settings)</span>
+<span class="fc" id="L31">    HttpServer(JettyServletAdapter(), ServerBuilder().apply { block() }.handler(), settings)</span>
 <span class="fc" id="L32">        .apply { start() }</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

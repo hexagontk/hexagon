@@ -34,10 +34,10 @@ import java.lang.System.nanoTime
 /**
  * Server that listen to HTTP connections on a port and address and route requests to handlers.
  */
-<span class="pc" id="L37">data class HttpServer(</span>
+<span class="fc" id="L37">data class HttpServer(</span>
 <span class="fc" id="L38">    private val adapter: HttpServerPort,</span>
-<span class="fc" id="L39">    val handlers: List&lt;HttpHandler&gt;,</span>
-<span class="pc" id="L40">    val settings: HttpServerSettings = HttpServerSettings()</span>
+<span class="fc" id="L39">    val handler: HttpHandler,</span>
+<span class="fc" id="L40">    val settings: HttpServerSettings = HttpServerSettings()</span>
 ) : Closeable {
 
     companion object {
@@ -72,38 +72,25 @@ import java.lang.System.nanoTime
 <span class="fc" id="L72">        settings: HttpServerSettings = HttpServerSettings(),</span>
         block: ServerBuilder.() -&gt; Unit
     ) :
-<span class="fc" id="L75">        this(adapter, listOf(path(block = block)), settings)</span>
-
-    /**
-     * Utility constructor for the common case of having a single root handler.
-     *
-     * @param adapter The server engine.
-     * @param handler The only handler used for this server.
-     * @param settings Server settings. Port and address will be searched in this map.
-     */
-<span class="fc" id="L84">    constructor(</span>
-        adapter: HttpServerPort,
-        handler: HttpHandler,
-<span class="fc" id="L87">        settings: HttpServerSettings = HttpServerSettings(),</span>
-<span class="fc" id="L88">    ) : this(adapter, listOf(handler), settings)</span>
+<span class="fc" id="L75">        this(adapter, path(block = block), settings)</span>
 
     override fun close() {
-<span class="fc" id="L91">        stop()</span>
-<span class="fc" id="L92">    }</span>
+<span class="fc" id="L78">        stop()</span>
+<span class="fc" id="L79">    }</span>
 
-<span class="fc" id="L94">    init {</span>
-<span class="fc" id="L95">        val supportedProtocols = adapter.supportedProtocols()</span>
-<span class="fc bfc" id="L96" title="All 2 branches covered.">        check(settings.protocol in supportedProtocols) {</span>
-<span class="fc" id="L97">            val supportedProtocolsText = supportedProtocols.joinToString(&quot;, &quot;)</span>
-<span class="fc" id="L98">            &quot;Requesting unsupported protocol. Adapter's protocols: $supportedProtocolsText&quot;</span>
+<span class="fc" id="L81">    init {</span>
+<span class="fc" id="L82">        val supportedProtocols = adapter.supportedProtocols()</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        check(settings.protocol in supportedProtocols) {</span>
+<span class="fc" id="L84">            val supportedProtocolsText = supportedProtocols.joinToString(&quot;, &quot;)</span>
+<span class="fc" id="L85">            &quot;Requesting unsupported protocol. Adapter's protocols: $supportedProtocolsText&quot;</span>
         }
 
-<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (settings.zip)</span>
-<span class="fc bfc" id="L102" title="All 2 branches covered.">            check(adapter.supportedFeatures().contains(ZIP)) {</span>
-<span class="fc" id="L103">                val adapterName = adapter::class.qualifiedName</span>
-<span class="fc" id="L104">                &quot;Requesting ZIP compression with an adapter without support: '$adapterName'&quot;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (settings.zip)</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">            check(adapter.supportedFeatures().contains(ZIP)) {</span>
+<span class="fc" id="L90">                val adapterName = adapter::class.qualifiedName</span>
+<span class="fc" id="L91">                &quot;Requesting ZIP compression with an adapter without support: '$adapterName'&quot;</span>
             }
-<span class="fc" id="L106">    }</span>
+<span class="fc" id="L93">    }</span>
 
     /**
      * Runtime port of the server.
@@ -111,12 +98,12 @@ import java.lang.System.nanoTime
      * @exception IllegalStateException Throw an exception if the server hasn't been started.
      */
     val runtimePort
-<span class="fc bfc" id="L114" title="All 2 branches covered.">        get() = if (started()) adapter.runtimePort() else error(&quot;Server is not running&quot;)</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        get() = if (started()) adapter.runtimePort() else error(&quot;Server is not running&quot;)</span>
 
     /**
      * The port name of the server.
      */
-<span class="fc" id="L119">    val portName: String = adapter.javaClass.simpleName</span>
+<span class="fc" id="L106">    val portName: String = adapter.javaClass.simpleName</span>
 
     /**
      * Check whether the server has been started.
@@ -124,110 +111,110 @@ import java.lang.System.nanoTime
      * @return True if the server has started, else false.
      */
     fun started(): Boolean =
-<span class="fc" id="L127">        adapter.started()</span>
+<span class="fc" id="L114">        adapter.started()</span>
 
     /**
      * Start the server with the adapter instance and adds a shutdown hook for stopping the server.
      */
     fun start() {
-<span class="fc" id="L133">        val startTimestamp = nanoTime()</span>
+<span class="fc" id="L120">        val startTimestamp = nanoTime()</span>
 
-<span class="fc" id="L135">        getRuntime().addShutdownHook(</span>
-<span class="fc" id="L136">            Thread(</span>
+<span class="fc" id="L122">        getRuntime().addShutdownHook(</span>
+<span class="fc" id="L123">            Thread(</span>
                 {
-<span class="fc bfc" id="L138" title="All 2 branches covered.">                    if (started())</span>
-<span class="fc" id="L139">                        adapter.shutDown()</span>
-<span class="fc" id="L140">                },</span>
-<span class="fc" id="L141">                &quot;shutdown-${settings.bindAddress.hostName}-${settings.bindPort}&quot;</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">                    if (started())</span>
+<span class="fc" id="L126">                        adapter.shutDown()</span>
+<span class="fc" id="L127">                },</span>
+<span class="fc" id="L128">                &quot;shutdown-${settings.bindAddress.hostName}-${settings.bindPort}&quot;</span>
             )
         )
 
-<span class="fc" id="L145">        adapter.startUp(this)</span>
-<span class="fc" id="L146">        logger.info { &quot;Server started\n${createBanner(nanoTime() - startTimestamp)}&quot; }</span>
-<span class="fc" id="L147">    }</span>
+<span class="fc" id="L132">        adapter.startUp(this)</span>
+<span class="fc" id="L133">        logger.info { &quot;Server started\n${createBanner(nanoTime() - startTimestamp)}&quot; }</span>
+<span class="fc" id="L134">    }</span>
 
     /**
      * Stop the server.
      */
     fun stop() {
-<span class="fc" id="L153">        adapter.shutDown()</span>
-<span class="fc" id="L154">        logger.info { &quot;Server stopped&quot; }</span>
-<span class="fc" id="L155">    }</span>
+<span class="fc" id="L140">        adapter.shutDown()</span>
+<span class="fc" id="L141">        logger.info { &quot;Server stopped&quot; }</span>
+<span class="fc" id="L142">    }</span>
 
     internal fun createBanner(startUpTimestamp: Long): String {
 
-<span class="fc" id="L159">        val startUpTime = &quot;%,.0f&quot;.format(startUpTimestamp / 1e6)</span>
-<span class="fc" id="L160">        val bindAddress = settings.bindAddress</span>
-<span class="fc" id="L161">        val protocol = settings.protocol</span>
-<span class="fc bfc" id="L162" title="All 2 branches covered.">        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName</span>
-<span class="fc bfc" id="L163" title="All 2 branches covered.">        val scheme = if (protocol == HTTP) &quot;http&quot; else &quot;https&quot;</span>
-<span class="fc" id="L164">        val binding = &quot;$scheme://$hostName:$runtimePort&quot;</span>
+<span class="fc" id="L146">        val startUpTime = &quot;%,.0f&quot;.format(startUpTimestamp / 1e6)</span>
+<span class="fc" id="L147">        val bindAddress = settings.bindAddress</span>
+<span class="fc" id="L148">        val protocol = settings.protocol</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        val scheme = if (protocol == HTTP) &quot;http&quot; else &quot;https&quot;</span>
+<span class="fc" id="L151">        val binding = &quot;$scheme://$hostName:$runtimePort&quot;</span>
 
-<span class="fc" id="L166">        val serverAdapterValue = &quot;$BOLD$CYAN$portName$RESET&quot;</span>
+<span class="fc" id="L153">        val serverAdapterValue = &quot;$BOLD$CYAN$portName$RESET&quot;</span>
 
-<span class="fc" id="L168">        val protocols = adapter.supportedProtocols()</span>
-<span class="fc" id="L169">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET) {</span>
-<span class="fc bfc" id="L170" title="All 2 branches covered.">                if (it == settings.protocol) &quot;✅$it&quot; else &quot;$it&quot;</span>
+<span class="fc" id="L155">        val protocols = adapter.supportedProtocols()</span>
+<span class="fc" id="L156">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET) {</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">                if (it == settings.protocol) &quot;✅$it&quot; else &quot;$it&quot;</span>
             }
 
-<span class="fc" id="L173">        val features = adapter.supportedFeatures()</span>
-<span class="fc" id="L174">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET) { it.toString() }</span>
+<span class="fc" id="L160">        val features = adapter.supportedFeatures()</span>
+<span class="fc" id="L161">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET) { it.toString() }</span>
 
-<span class="fc" id="L176">        val options = adapter.options()</span>
-<span class="fc" id="L177">            .map { (k, v) -&gt; &quot;$k($v)&quot; }</span>
-<span class="fc" id="L178">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET)</span>
+<span class="fc" id="L163">        val options = adapter.options()</span>
+<span class="fc" id="L164">            .map { (k, v) -&gt; &quot;$k($v)&quot; }</span>
+<span class="fc" id="L165">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET)</span>
 
-<span class="fc" id="L180">        val hostnameValue = &quot;$BLUE$hostname$RESET&quot;</span>
-<span class="fc" id="L181">        val cpuCountValue = &quot;$BLUE$cpuCount$RESET&quot;</span>
+<span class="fc" id="L167">        val hostnameValue = &quot;$BLUE$hostname$RESET&quot;</span>
+<span class="fc" id="L168">        val cpuCountValue = &quot;$BLUE$cpuCount$RESET&quot;</span>
 
-<span class="fc" id="L183">        val javaVersionValue = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
+<span class="fc" id="L170">        val javaVersionValue = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
 
-<span class="fc" id="L185">        val localeValue = &quot;$BLUE$localeCode$RESET&quot;</span>
-<span class="fc" id="L186">        val timezoneValue = &quot;$BLUE$timezone$RESET&quot;</span>
-<span class="fc" id="L187">        val charsetValue = &quot;$BLUE$charset$RESET&quot;</span>
+<span class="fc" id="L172">        val localeValue = &quot;$BLUE$localeCode$RESET&quot;</span>
+<span class="fc" id="L173">        val timezoneValue = &quot;$BLUE$timezone$RESET&quot;</span>
+<span class="fc" id="L174">        val charsetValue = &quot;$BLUE$charset$RESET&quot;</span>
 
-<span class="fc" id="L189">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
-<span class="fc" id="L190">        val bindingValue = &quot;$BLUE$UNDERLINE$binding$RESET&quot;</span>
+<span class="fc" id="L176">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
+<span class="fc" id="L177">        val bindingValue = &quot;$BLUE$UNDERLINE$binding$RESET&quot;</span>
 
-<span class="fc bfc" id="L192" title="All 2 branches covered.">        val information = if (settings.vmInformation) {</span>
-<span class="fc" id="L193">            val jvmMemoryValue = &quot;$BLUE${initialMemory()}$RESET&quot;</span>
-<span class="fc" id="L194">            val bootTimeValue = &quot;$BOLD$MAGENTA${uptime()} s$RESET&quot;</span>
-<span class="fc" id="L195">            val usedMemoryValue = &quot;$BOLD$MAGENTA${usedMemory()} KB$RESET&quot;</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        val information = if (settings.vmInformation) {</span>
+<span class="fc" id="L180">            val jvmMemoryValue = &quot;$BLUE${initialMemory()}$RESET&quot;</span>
+<span class="fc" id="L181">            val bootTimeValue = &quot;$BOLD$MAGENTA${uptime()} s$RESET&quot;</span>
+<span class="fc" id="L182">            val usedMemoryValue = &quot;$BOLD$MAGENTA${usedMemory()} KB$RESET&quot;</span>
 
             &quot;&quot;&quot;
 
-<span class="fc" id="L199">            Server Adapter: $serverAdapterValue ($protocols)</span>
-<span class="fc" id="L200">            Supported Features: $features</span>
-<span class="fc" id="L201">            Configuration Options: $options</span>
+<span class="fc" id="L186">            Server Adapter: $serverAdapterValue ($protocols)</span>
+<span class="fc" id="L187">            Supported Features: $features</span>
+<span class="fc" id="L188">            Configuration Options: $options</span>
 
-<span class="fc" id="L203">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
-<span class="fc" id="L204">            🛠 Using $javaVersionValue</span>
-<span class="fc" id="L205">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
+<span class="fc" id="L190">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
+<span class="fc" id="L191">            🛠 Using $javaVersionValue</span>
+<span class="fc" id="L192">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
 
-<span class="fc" id="L207">            ⏱️ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
-<span class="pc bpc" id="L208" title="1 of 2 branches missed.">            🚀 Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot; }</span>
+<span class="fc" id="L194">            ⏱️ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">            🚀 Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot; }</span>
 
             &quot;&quot;&quot;
         }
         else {
             &quot;&quot;&quot;
 
-<span class="fc" id="L215">            Server Adapter: $serverAdapterValue ($protocols)</span>
-<span class="fc" id="L216">            Supported Features: $features</span>
-<span class="fc" id="L217">            Configuration Options: $options</span>
+<span class="fc" id="L202">            Server Adapter: $serverAdapterValue ($protocols)</span>
+<span class="fc" id="L203">            Supported Features: $features</span>
+<span class="fc" id="L204">            Configuration Options: $options</span>
 
-<span class="fc" id="L219">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs</span>
-<span class="fc" id="L220">            🛠 Using $javaVersionValue</span>
-<span class="fc" id="L221">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
+<span class="fc" id="L206">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs</span>
+<span class="fc" id="L207">            🛠 Using $javaVersionValue</span>
+<span class="fc" id="L208">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
 
-<span class="fc" id="L223">            ⏱️ Started in $startUpTimeValue (excluding VM)</span>
-<span class="fc bfc" id="L224" title="All 2 branches covered.">            🚀 Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot; }</span>
+<span class="fc" id="L210">            ⏱️ Started in $startUpTimeValue (excluding VM)</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">            🚀 Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot; }</span>
 
             &quot;&quot;&quot;
         }
 
-<span class="pc bpc" id="L229" title="1 of 4 branches missed.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: banner) + information.trimIndent()</span>
-<span class="fc" id="L230">        return banner.prependIndent()</span>
+<span class="pc bpc" id="L216" title="1 of 4 branches missed.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: banner) + information.trimIndent()</span>
+<span class="fc" id="L217">        return banner.prependIndent()</span>
     }
-<span class="nc" id="L232">}</span>
+<span class="fc" id="L219">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
