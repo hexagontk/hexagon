@@ -8,6 +8,11 @@ import java.text.Normalizer.normalize
 private const val VARIABLE_PREFIX = "{{"
 private const val VARIABLE_SUFFIX = "}}"
 
+val CAMEL_CASE: Regex = Regex("[a-z]+([A-Z][a-z0-9]+)+")
+val PASCAL_CASE: Regex = Regex("([A-Z][a-z0-9]+)+")
+val SNAKE_CASE: Regex = Regex("[A-Za-z]+(_[A-Za-z0-9]+)+")
+val KEBAB_CASE: Regex = Regex("[A-Za-z]+(-[A-Za-z0-9]+)+")
+
 /**
  * Filter the target string substituting each key by its value. The keys format resembles Mustache's
  * one: `{{key}}` and all occurrences are replaced by the supplied value.

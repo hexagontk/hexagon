@@ -13,6 +13,25 @@ internal class StringsTest {
 
     enum class Size { S, M, L, X_L }
 
+    @Test fun `Case regex matches proper text`() {
+        assert("camelCaseTest1".matches(CAMEL_CASE))
+        assert("PascalCaseTest2".matches(PASCAL_CASE))
+        assert("Snake_Case_Test_3".matches(SNAKE_CASE))
+        assert("Kebab-Case-Test-4".matches(KEBAB_CASE))
+
+        assertFalse("0camelCaseTest1".matches(CAMEL_CASE))
+        assertFalse("CamelCaseTest1".matches(CAMEL_CASE))
+
+        assertFalse("1PascalCaseTest2".matches(PASCAL_CASE))
+        assertFalse("pascalCaseTest2".matches(PASCAL_CASE))
+
+        assertFalse("2_Snake_Case_Test_3".matches(SNAKE_CASE))
+        assertFalse("Snake-Case-Test-3".matches(SNAKE_CASE))
+
+        assertFalse("3-Kebab-Case-Test-4".matches(KEBAB_CASE))
+        assertFalse("Kebab_Case_Test_4".matches(KEBAB_CASE))
+    }
+
     @Test fun `String case can changed`() {
         val words = listOf("these", "are", "a", "few", "words")
         assertEquals("These Are A Few Words", words.wordsToTitle())
