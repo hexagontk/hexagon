@@ -28,7 +28,6 @@ setUpDokka(dokkaHtmlPartial)
 setUpDokka(dokkaJavadoc)
 
 private void setUpDokka(final Object dokkaTask) {
-    dokkaTask.dependsOn(test)
     dokkaTask.moduleName.set(project.name)
     dokkaTask.offlineMode.set(true)
     dokkaTask.dokkaSourceSets {
@@ -42,7 +41,7 @@ private void setUpDokka(final Object dokkaTask) {
 }
 
 dependencies {
-    final String mermaidDokkaVersion = findProperty("mermaidDokkaVersion") ?: "0.4.0"
+    final String mermaidDokkaVersion = findProperty("mermaidDokkaVersion") ?: "0.4.4"
 
     dokkaHtmlPartialPlugin("com.glureau:html-mermaid-dokka-plugin:$mermaidDokkaVersion")
 }
