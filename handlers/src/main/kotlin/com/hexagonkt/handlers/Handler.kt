@@ -6,14 +6,8 @@ package com.hexagonkt.handlers
  * @param T Event type.
  */
 interface Handler<T : Any> {
-    val predicate: Predicate<T>
-    val callback: Callback<T>
+    val predicate: (Context<T>) -> Boolean
+    val callback: (Context<T>) -> Context<T>
 
-    fun process(context: Context<T>): Context<T> =
-        try {
-            callback(context)
-        }
-        catch (e: Exception) {
-            context.with(exception = e)
-        }
+    fun process(context: Context<T>): Context<T>
 }

@@ -1,6 +1,5 @@
 package com.hexagonkt.http.server.callbacks
 
-import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.NOT_FOUND_404
@@ -78,10 +77,8 @@ internal class UrlCallbackTest {
     ): HttpServerResponse =
         UrlCallback(URL(url))(
             HttpServerContext(
-                EventContext(
-                    HttpServerCall(HttpServerRequest(path = requestPath)),
-                    HttpServerPredicate(pathPattern = TemplatePathPattern(pathPattern))
-                )
+                HttpServerCall(HttpServerRequest(path = requestPath)),
+                HttpServerPredicate(pathPattern = TemplatePathPattern(pathPattern))
             )
         ).response
 }

@@ -120,7 +120,7 @@ internal class ServerBuilderTest {
     }
 
     private fun body(path: PathHandler, value: String): String =
-        path.process(HttpServerRequest(path = value)).body as String
+        path.process(HttpServerRequest(path = value)).response.body as String
 
     @Suppress("SameParameterValue") // Not relevant in tests
     private fun predicate(pattern: String): HttpServerPredicate =

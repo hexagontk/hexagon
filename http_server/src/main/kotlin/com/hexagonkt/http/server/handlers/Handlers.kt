@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.handlers.Callback
+import com.hexagonkt.handlers.Context
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpProtocol.HTTP
@@ -13,8 +13,8 @@ import kotlin.reflect.cast
 typealias HttpCallback = HttpServerContext.() -> HttpServerContext
 typealias HttpExceptionCallback<T> = HttpServerContext.(T) -> HttpServerContext
 
-internal fun toCallback(handler: HttpCallback): Callback<HttpServerCall> =
-    { context -> HttpServerContext(context).handler().context }
+internal fun toCallback(block: HttpCallback): (Context<HttpServerCall>) -> Context<HttpServerCall> =
+    { context -> HttpServerContext(context).block() }
 
 fun HttpCallback.process(
     request: HttpServerRequest,

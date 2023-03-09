@@ -4,6 +4,7 @@ import com.github.jk1.license.render.CsvReportRenderer
 import com.github.jk1.license.render.InventoryHtmlReportRenderer
 import com.github.jk1.license.render.InventoryMarkdownReportRenderer
 import com.github.jk1.license.render.ReportRenderer
+import io.gitlab.arturbosch.detekt.Detekt
 
 /*
  * Main build script, responsible for:
@@ -23,11 +24,11 @@ plugins {
     id("idea")
     id("eclipse")
     id("project-report")
-    id("org.jetbrains.dokka") version("1.7.20")
+    id("org.jetbrains.dokka") version("1.8.10")
     id("com.github.jk1.dependency-license-report") version("2.1")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.0")
     id("io.gitlab.arturbosch.detekt") version("1.22.0") apply(false)
-    id("me.champeau.jmh") version("0.6.8") apply(false)
+    id("me.champeau.jmh") version("0.7.0") apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")
@@ -94,4 +95,8 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
 
 apiValidation {
     validationDisabled = true
+}
+
+subprojects {
+    apply(from = "$rootDir/gradle/detekt.gradle")
 }

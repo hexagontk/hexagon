@@ -1,7 +1,6 @@
 package com.hexagonkt.http.server.handlers
 
 import com.hexagonkt.handlers.Context
-import com.hexagonkt.handlers.Predicate
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.http.patterns.LiteralPathPattern
 import com.hexagonkt.http.model.HttpMethod
@@ -16,14 +15,14 @@ data class HttpServerPredicate(
     val pathPattern: PathPattern = LiteralPathPattern(),
     val exception: KClass<out Exception>? = null,
     val status: HttpStatus? = null,
-) : Predicate<HttpServerCall> {
+) : (Context<HttpServerCall>) -> Boolean {
 
     private val logger: Logger = Logger(HttpServerPredicate::class)
 
     private fun PathPattern.isEmpty(): Boolean =
         pattern.isEmpty()
 
-    val predicate: Predicate<HttpServerCall> =
+    val predicate: (Context<HttpServerCall>) -> Boolean =
         if (methods.isEmpty()) log(::filterWithoutMethod)
         else log(::filterWithMethod)
 
@@ -42,7 +41,9 @@ data class HttpServerPredicate(
     fun clearMethods(): HttpServerPredicate =
         copy(methods = emptySet())
 
-    private fun log(predicate: Predicate<HttpServerCall>): Predicate<HttpServerCall> {
+    private fun log(
+        predicate: (Context<HttpServerCall>) -> Boolean
+    ): (Context<HttpServerCall>) -> Boolean {
         return if (logger.isDebugEnabled()) {
             {
                 val allowed = predicate(it)
