@@ -23,6 +23,7 @@ import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.callbacks.UrlCallback
 import com.hexagonkt.http.server.handlers.*
+import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.serve
 import com.hexagonkt.logging.slf4j.jul.Slf4jJulLoggingAdapter
 import org.junit.jupiter.api.AfterAll
@@ -547,12 +548,12 @@ abstract class SamplesTest(
         // Handlers can also be tested to check predicates along the callbacks
         val handler = get("/path", callback)
 
-        val notFound = handler.process()
-        val ok = handler.process(method = GET, path = "/path")
+        val notFound = handler.process(HttpServerRequest())
+        val ok = handler.process(HttpServerRequest(method = GET, path = "/path"))
 
         assertEquals(NOT_FOUND_404, notFound.status)
         assertEquals(OK_200, ok.status)
-        assertEquals("Callback result null null", ok.bodyString())
+        assertEquals("Callback result null null", ok.response.bodyString())
         // mockRequest
     }
 }

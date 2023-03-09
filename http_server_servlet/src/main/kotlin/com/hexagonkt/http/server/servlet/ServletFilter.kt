@@ -50,6 +50,7 @@ class ServletFilter(
 
         val handlerResponse = handlers[request.method]
             ?.process(ServletRequestAdapterSync(request))
+            ?.response
             ?: HttpServerResponse()
 
         try {

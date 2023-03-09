@@ -1,12 +1,16 @@
 package com.hexagonkt.http.server.handlers
 
+import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.core.toText
 import com.hexagonkt.handlers.ChainHandler
 import com.hexagonkt.handlers.Handler
+import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
+import com.hexagonkt.http.model.HttpStatusType.SERVER_ERROR
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
-import com.hexagonkt.http.server.model.HttpServerResponse
 
 data class PathHandler(
     override val serverPredicate: HttpServerPredicate,
@@ -45,8 +49,24 @@ data class PathHandler(
     constructor(pattern: String, vararg handlers: HttpHandler) :
         this(pattern, handlers.toList())
 
-    override fun process(request: HttpServerRequestPort): HttpServerResponse =
-        processContext(request).event.response
+    override fun process(request: HttpServerRequestPort): HttpServerContext =
+        process(HttpServerContext(HttpServerCall(request = request), predicate)).let {
+            val event = it.event
+            val response = event.response
+            val exception = it.exception
+
+            if (exception != null && response.status.type != SERVER_ERROR)
+                it.with(
+                    event = event.copy(
+                        response = response.copy(
+                            body = exception.toText(),
+                            contentType = ContentType(TEXT_PLAIN),
+                            status = INTERNAL_SERVER_ERROR_500,
+                        )
+                    )
+                )
+            else it
+        } as HttpServerContext
 
     override fun addPrefix(prefix: String): HttpHandler =
         copy(serverPredicate = serverPredicate.addPrefix(prefix))

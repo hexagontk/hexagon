@@ -1,13 +1,8 @@
 package com.hexagonkt.handlers
 
-/**
- * Context for an event.
- *
- * @param T Event type.
- */
 data class EventContext<T : Any>(
     override val event: T,
-    override val predicate: Predicate<T>,
+    override val predicate: (Context<T>) -> Boolean,
     override val nextHandlers: List<Handler<T>> = emptyList(),
     override val nextHandler: Int = 0,
     override val exception: Exception? = null,
@@ -16,7 +11,7 @@ data class EventContext<T : Any>(
 
     override fun with(
         event: T,
-        predicate: Predicate<T>,
+        predicate: (Context<T>) -> Boolean,
         nextHandlers: List<Handler<T>>,
         nextHandler: Int,
         exception: Exception?,
@@ -30,16 +25,4 @@ data class EventContext<T : Any>(
             exception = exception,
             attributes = attributes,
         )
-
-    override fun next(): Context<T> {
-        for (index in nextHandler until nextHandlers.size) {
-            val handler = nextHandlers[index]
-            if (handler.predicate(this))
-                return handler.process(
-                    with(predicate = handler.predicate, nextHandler = index + 1)
-                )
-        }
-
-        return this
-    }
 }

@@ -28,6 +28,7 @@ setUpDokka(dokkaHtmlPartial)
 setUpDokka(dokkaJavadoc)
 
 private void setUpDokka(final Object dokkaTask) {
+    dokkaTask.dependsOn("compileJava", "compileKotlin", "processResources")
     dokkaTask.moduleName.set(project.name)
     dokkaTask.offlineMode.set(true)
     dokkaTask.dokkaSourceSets {
