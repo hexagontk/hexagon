@@ -21,7 +21,7 @@
         <link rel="next" href="../http_client/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.15">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.1">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.113286f1.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.402914a4.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
@@ -2501,12 +2501,12 @@ relying on mocking libraries.</p>
 <span class="c1">// Handlers can also be tested to check predicates along the callbacks</span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">)</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="nv">notFound</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/path&quot;</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">notFound</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="n">HttpServerRequest</span><span class="p">())</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="n">HttpServerRequest</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/path&quot;</span><span class="p">))</span>
 
 <span class="n">assertEquals</span><span class="p">(</span><span class="n">NOT_FOUND_404</span><span class="p">,</span><span class="w"> </span><span class="n">notFound</span><span class="p">.</span><span class="na">status</span><span class="p">)</span>
 <span class="n">assertEquals</span><span class="p">(</span><span class="n">OK_200</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">.</span><span class="na">status</span><span class="p">)</span>
-<span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Callback result null null&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">.</span><span class="na">bodyString</span><span class="p">())</span>
+<span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Callback result null null&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">.</span><span class="na">response</span><span class="p">.</span><span class="na">bodyString</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
 <h2 id="package-comhexagonkthttpserver">Package com.hexagonkt.http.server<a class="headerlink" href="#package-comhexagonkthttpserver" title="Permanent link">&para;</a></h2>
 <p>This package defines server interfaces for HTTP server adapters.</p>
@@ -2704,7 +2704,7 @@ HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the H
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.2a6f1dda.min.js"></script>
+      <script src="../assets/javascripts/bundle.b78d2936.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

@@ -9,16 +9,16 @@
  * Their filter is evaluated after the `next` call, not before.
  */
 <span class="fc" id="L11">data class AfterHandler&lt;T : Any&gt;(</span>
-<span class="fc" id="L12">    val afterPredicate: Predicate&lt;T&gt; = { true },</span>
-<span class="fc" id="L13">    val afterCallback: Callback&lt;T&gt;,</span>
+<span class="pc" id="L12">    val afterPredicate: (Context&lt;T&gt;) -&gt; Boolean = { true },</span>
+<span class="fc" id="L13">    override val callback: (Context&lt;T&gt;) -&gt; Context&lt;T&gt;,</span>
 ) : Handler&lt;T&gt; {
 
-<span class="fc" id="L16">    override val predicate: Predicate&lt;T&gt; = { true }</span>
+<span class="fc" id="L16">    override val predicate: (Context&lt;T&gt;) -&gt; Boolean = { true }</span>
 
-<span class="fc" id="L18">    override val callback: Callback&lt;T&gt; = {</span>
-<span class="fc" id="L19">        val next = it.next().with(predicate = afterPredicate)</span>
-<span class="fc" id="L20">        try {</span>
-<span class="fc bfc" id="L21" title="All 2 branches covered.">            if (afterPredicate.invoke(next)) afterCallback(next)</span>
+    override fun process(context: Context&lt;T&gt;): Context&lt;T&gt; {
+<span class="fc" id="L19">        val next = context.next().with(predicate = afterPredicate)</span>
+<span class="fc" id="L20">        return try {</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">            if (afterPredicate.invoke(next)) callback(next)</span>
 <span class="fc" id="L22">            else next</span>
         }
 <span class="fc" id="L24">        catch (e: Exception) {</span>

@@ -35,9 +35,12 @@
     <div class="library-name">
 <a href="../../../index.html">
 <span>hexagon</span>            </a>    </div>
-    <div>2.6.2
+    <div>2.6.3
     </div>
     <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http_server:dokkaHtmlPartial/main">jvm</button>
+        </div>
         <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
         <div id="searchBar"></div>
     </div>
@@ -47,226 +50,232 @@
         <div id="sideMenu"></div>
     </div>
     <div id="main">
-<div class="main-content" id="content" pageids="http_server::com.hexagonkt.http.server.model/HttpServerResponse///PointingToDeclaration//-2066728320">
+<div class="main-content" data-page-type="classlike" id="content" pageids="http_server::com.hexagonkt.http.server.model/HttpServerResponse///PointingToDeclaration//-2066728320">
   <div class="breadcrumbs"><a href="../../index.html">http_server</a><span class="delimiter">/</span><a href="../index.html">com.hexagonkt.http.server.model</a><span class="delimiter">/</span><span class="current">HttpServerResponse</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Http</span><wbr><span>Server</span><wbr><span><span>Response</span></span></h1>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">HttpServerResponse</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>body<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span><span class="token operator"> = </span><span class="token string">""</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>headers<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-headers/index.html">Headers</a><span class="token operator"> = </span>Headers()<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>contentType<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-content-type/index.html">ContentType</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>cookies<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../http/com.hexagonkt.http.model/-cookie/index.html">Cookie</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>status<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-http-status/index.html">HttpStatus</a><span class="token operator"> = </span>NOT_FOUND_404<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>onConnect<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>onBinary<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>onText<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>text<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>onPing<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>onPong<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>onClose<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>status<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model.ws/-ws-close-status/index.html">WsCloseStatus</a><span class="token punctuation">, </span><span class="token keyword"></span>reason<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{ _, _ -&gt; }</span></span><span class="token punctuation">)</span> : <a href="../../../http/com.hexagonkt.http.model/-http-response/index.html">HttpResponse</a></div></div></div>
   </div>
   <div class="tabbedcontent">
-    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY">Members</button></div>
     <div class="tabs-section-body">
-      <h2 class="tabbedcontent">Constructors</h2>
-      <div class="table" data-togglable="Constructors"><a data-name="-2146983169%2FConstructors%2F-2066728320" anchor-label="HttpServerResponse" id="-2146983169%2FConstructors%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue TabbedContent">
-            <div class=""><span class="inline-flex">
-                <div><a href="-http-server-response.html"><span>Http</span><wbr><span>Server</span><wbr><span><span>Response</span></span></a></div>
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-2146983169%2FConstructors%2F-2066728320" anchor-label="HttpServerResponse" id="-2146983169%2FConstructors%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-http-server-response.html"><span>Http</span><wbr><span>Server</span><wbr><span><span>Response</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2146983169%2FConstructors%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-http-server-response.html"><span class="token function">HttpServerResponse</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">body<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span><span class="token operator"> = </span><span class="token string">""</span><span class="token punctuation">, </span></span><span class="parameter ">headers<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-headers/index.html">Headers</a><span class="token operator"> = </span>Headers()<span class="token punctuation">, </span></span><span class="parameter ">contentType<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-content-type/index.html">ContentType</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">cookies<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../http/com.hexagonkt.http.model/-cookie/index.html">Cookie</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()<span class="token punctuation">, </span></span><span class="parameter ">status<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-http-status/index.html">HttpStatus</a><span class="token operator"> = </span>NOT_FOUND_404<span class="token punctuation">, </span></span><span class="parameter ">onConnect<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter ">onBinary<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter ">onText<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>text<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter ">onPing<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter ">onPong<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter ">onClose<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>status<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model.ws/-ws-close-status/index.html">WsCloseStatus</a><span class="token punctuation">, </span><span class="token keyword"></span>reason<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{ _, _ -&gt; }</span></span><span class="token punctuation">)</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">body<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span><span class="token operator"> = </span><span class="token string">""</span><span class="token punctuation">, </span></span><span class="parameter ">headers<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-headers/index.html">Headers</a><span class="token operator"> = </span>Headers()<span class="token punctuation">, </span></span><span class="parameter ">contentType<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-content-type/index.html">ContentType</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">cookies<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../http/com.hexagonkt.http.model/-cookie/index.html">Cookie</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()<span class="token punctuation">, </span></span><span class="parameter ">status<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-http-status/index.html">HttpStatus</a><span class="token operator"> = </span>NOT_FOUND_404<span class="token punctuation">, </span></span><span class="parameter ">onConnect<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter ">onBinary<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter ">onText<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>text<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter ">onPing<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter ">onPong<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{}<span class="token punctuation">, </span></span><span class="parameter ">onClose<span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>status<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model.ws/-ws-close-status/index.html">WsCloseStatus</a><span class="token punctuation">, </span><span class="token keyword"></span>reason<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token operator"> = </span>{ _, _ -&gt; }</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <h2 class="">Functions</h2>
-      <div class="table" data-togglable="Functions"><a data-name="108861198%2FFunctions%2F-2066728320" anchor-label="bodyString" id="108861198%2FFunctions%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#108861198%2FFunctions%2F-2066728320"><span>body</span><wbr><span><span>String</span></span></a></div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="108861198%2FFunctions%2F-2066728320" anchor-label="bodyString" id="108861198%2FFunctions%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#108861198%2FFunctions%2F-2066728320"><span>body</span><wbr><span><span>String</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="108861198%2FFunctions%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#108861198%2FFunctions%2F-2066728320"><span class="token function">bodyString</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#108861198%2FFunctions%2F-2066728320"><span class="token function">bodyString</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="190216774%2FFunctions%2F-2066728320" anchor-label="cookiesMap" id="190216774%2FFunctions%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#190216774%2FFunctions%2F-2066728320"><span>cookies</span><wbr><span><span>Map</span></span></a></div>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#190216774%2FFunctions%2F-2066728320"><span>cookies</span><wbr><span><span>Map</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="190216774%2FFunctions%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#190216774%2FFunctions%2F-2066728320"><span class="token function">cookiesMap</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/Map///PointingToDeclaration/">Map</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../../http/com.hexagonkt.http.model/-cookie/index.html">Cookie</a><span class="token operator">&gt;</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#190216774%2FFunctions%2F-2066728320"><span class="token function">cookiesMap</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/Map///PointingToDeclaration/">Map</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../../http/com.hexagonkt.http.model/-cookie/index.html">Cookie</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <h2 class="">Properties</h2>
-      <div class="table" data-togglable="Properties"><a data-name="1150244629%2FProperties%2F-2066728320" anchor-label="body" id="1150244629%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="body.html"><span><span>body</span></span></a></div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1150244629%2FProperties%2F-2066728320" anchor-label="body" id="1150244629%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="body.html"><span><span>body</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1150244629%2FProperties%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><a data-name="1150244629%2FProperties%2F-2066728320" anchor-label="body" id="1150244629%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="body.html">body</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="body.html">body</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="299092944%2FProperties%2F-2066728320" anchor-label="contentType" id="299092944%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="content-type.html"><span>content</span><wbr><span><span>Type</span></span></a></div>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="content-type.html"><span>content</span><wbr><span><span>Type</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="299092944%2FProperties%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><a data-name="299092944%2FProperties%2F-2066728320" anchor-label="contentType" id="299092944%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="content-type.html">contentType</a><span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-content-type/index.html">ContentType</a><span class="token operator">?</span><span class="token operator"> = </span>null</div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="content-type.html">contentType</a><span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-content-type/index.html">ContentType</a><span class="token operator">?</span><span class="token operator"> = </span>null</div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1172056852%2FProperties%2F-2066728320" anchor-label="cookies" id="1172056852%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="cookies.html"><span><span>cookies</span></span></a></div>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="cookies.html"><span><span>cookies</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1172056852%2FProperties%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><a data-name="1172056852%2FProperties%2F-2066728320" anchor-label="cookies" id="1172056852%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="cookies.html">cookies</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../http/com.hexagonkt.http.model/-cookie/index.html">Cookie</a><span class="token operator">&gt;</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="cookies.html">cookies</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../http/com.hexagonkt.http.model/-cookie/index.html">Cookie</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="418296317%2FProperties%2F-2066728320" anchor-label="headers" id="418296317%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="headers.html"><span><span>headers</span></span></a></div>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="headers.html"><span><span>headers</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="418296317%2FProperties%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><a data-name="418296317%2FProperties%2F-2066728320" anchor-label="headers" id="418296317%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="headers.html">headers</a><span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-headers/index.html">Headers</a></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="headers.html">headers</a><span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-headers/index.html">Headers</a></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1606327991%2FProperties%2F-2066728320" anchor-label="onBinary" id="1606327991%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="on-binary.html"><span>on</span><wbr><span><span>Binary</span></span></a></div>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-binary.html"><span>on</span><wbr><span><span>Binary</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1606327991%2FProperties%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><a data-name="1606327991%2FProperties%2F-2066728320" anchor-label="onBinary" id="1606327991%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-binary.html">onBinary</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-binary.html">onBinary</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1280004490%2FProperties%2F-2066728320" anchor-label="onClose" id="1280004490%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="on-close.html"><span>on</span><wbr><span><span>Close</span></span></a></div>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-close.html"><span>on</span><wbr><span><span>Close</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1280004490%2FProperties%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><a data-name="1280004490%2FProperties%2F-2066728320" anchor-label="onClose" id="1280004490%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-close.html">onClose</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>status<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model.ws/-ws-close-status/index.html">WsCloseStatus</a><span class="token punctuation">, </span><span class="token keyword"></span>reason<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-close.html">onClose</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>status<span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model.ws/-ws-close-status/index.html">WsCloseStatus</a><span class="token punctuation">, </span><span class="token keyword"></span>reason<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-295146088%2FProperties%2F-2066728320" anchor-label="onConnect" id="-295146088%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="on-connect.html"><span>on</span><wbr><span><span>Connect</span></span></a></div>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-connect.html"><span>on</span><wbr><span><span>Connect</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-295146088%2FProperties%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><a data-name="-295146088%2FProperties%2F-2066728320" anchor-label="onConnect" id="-295146088%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-connect.html">onConnect</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-connect.html">onConnect</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-1668500186%2FProperties%2F-2066728320" anchor-label="onPing" id="-1668500186%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="on-ping.html"><span>on</span><wbr><span><span>Ping</span></span></a></div>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-ping.html"><span>on</span><wbr><span><span>Ping</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1668500186%2FProperties%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><a data-name="-1668500186%2FProperties%2F-2066728320" anchor-label="onPing" id="-1668500186%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-ping.html">onPing</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-ping.html">onPing</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1098047840%2FProperties%2F-2066728320" anchor-label="onPong" id="1098047840%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="on-pong.html"><span>on</span><wbr><span><span>Pong</span></span></a></div>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-pong.html"><span>on</span><wbr><span><span>Pong</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1098047840%2FProperties%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><a data-name="1098047840%2FProperties%2F-2066728320" anchor-label="onPong" id="1098047840%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-pong.html">onPong</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-pong.html">onPong</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-742651445%2FProperties%2F-2066728320" anchor-label="onText" id="-742651445%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="on-text.html"><span>on</span><wbr><span><span>Text</span></span></a></div>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-text.html"><span>on</span><wbr><span><span>Text</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-742651445%2FProperties%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><a data-name="-742651445%2FProperties%2F-2066728320" anchor-label="onText" id="-742651445%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-text.html">onText</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>text<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="on-text.html">onText</a><span class="token operator">: </span><span class="token keyword"></span><a href="../../com.hexagonkt.http.server.model.ws/-ws-server-session/index.html">WsServerSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token keyword"></span>text<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-1293110203%2FProperties%2F-2066728320" anchor-label="status" id="-1293110203%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="status.html"><span><span>status</span></span></a></div>
+          <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="status.html"><span><span>status</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1293110203%2FProperties%2F-2066728320"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><a data-name="-1293110203%2FProperties%2F-2066728320" anchor-label="status" id="-1293110203%2FProperties%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="status.html">status</a><span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-http-status/index.html">HttpStatus</a></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="status.html">status</a><span class="token operator">: </span><a href="../../../http/com.hexagonkt.http.model/-http-status/index.html">HttpStatus</a></div></div></div>
+                </div>
               </div>
             </div>
           </div>
@@ -280,6 +289,6 @@
       </div>
     </div>
 </div>
-
-</body></html>
+</body>
+</html>
 

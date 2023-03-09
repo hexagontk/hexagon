@@ -59,7 +59,7 @@ import java.util.concurrent.Flow.*
 <span class="fc" id="L59">        val headers = nettyRequest.headers()</span>
 <span class="fc" id="L60">        val request = NettyRequestAdapter(method, nettyRequest, certificates, address, headers)</span>
 
-<span class="fc" id="L62">        val resultContext = pathHandler.processContext(request)</span>
+<span class="fc" id="L62">        val resultContext = pathHandler.process(request)</span>
 <span class="fc" id="L63">        val response = resultContext.event.response</span>
 
 <span class="fc" id="L65">        val body = response.body</span>

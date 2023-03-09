@@ -50,40 +50,41 @@ import jakarta.servlet.http.HttpServletResponse
 
 <span class="pc bpc" id="L51" title="1 of 2 branches missed.">        val handlerResponse = handlers[request.method]</span>
 <span class="fc bfc" id="L52" title="All 2 branches covered.">            ?.process(ServletRequestAdapterSync(request))</span>
-<span class="fc" id="L53">            ?: HttpServerResponse()</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">            ?.response</span>
+<span class="fc" id="L54">            ?: HttpServerResponse()</span>
 
-<span class="fc" id="L55">        try {</span>
-<span class="fc" id="L56">            responseToServlet(handlerResponse, response)</span>
+<span class="fc" id="L56">        try {</span>
+<span class="fc" id="L57">            responseToServlet(handlerResponse, response)</span>
             // TODO Handle different types: deferred values, strings, ints... flows
-<span class="fc" id="L58">            response.outputStream.write(bodyToBytes(handlerResponse.body))</span>
+<span class="fc" id="L59">            response.outputStream.write(bodyToBytes(handlerResponse.body))</span>
         }
-<span class="fc" id="L60">        catch (e: Exception) {</span>
-<span class="fc" id="L61">            response.addHeader(&quot;content-type&quot;, TEXT_PLAIN.fullType)</span>
-<span class="fc" id="L62">            response.status = 500</span>
-<span class="fc" id="L63">            response.outputStream.write(e.toText().toByteArray())</span>
+<span class="fc" id="L61">        catch (e: Exception) {</span>
+<span class="fc" id="L62">            response.addHeader(&quot;content-type&quot;, TEXT_PLAIN.fullType)</span>
+<span class="fc" id="L63">            response.status = 500</span>
+<span class="fc" id="L64">            response.outputStream.write(e.toText().toByteArray())</span>
         }
         finally {
-<span class="fc" id="L66">            response.outputStream.flush()</span>
+<span class="fc" id="L67">            response.outputStream.flush()</span>
         }
-<span class="fc" id="L68">    }</span>
+<span class="fc" id="L69">    }</span>
 
     private fun responseToServlet(
         response: HttpServerResponse, servletResponse: HttpServletResponse) {
 
-<span class="fc" id="L73">        response.headers.values.forEach { (k, v) -&gt;</span>
-<span class="fc" id="L74">            v.forEach { servletResponse.addHeader(k, it) }</span>
-<span class="fc" id="L75">        }</span>
+<span class="fc" id="L74">        response.headers.values.forEach { (k, v) -&gt;</span>
+<span class="fc" id="L75">            v.forEach { servletResponse.addHeader(k, it) }</span>
+<span class="fc" id="L76">        }</span>
 
-<span class="fc" id="L77">        response.cookies.forEach {</span>
-<span class="fc" id="L78">            val cookie = Cookie(it.name, it.value).apply {</span>
-<span class="fc" id="L79">                maxAge = it.maxAge.toInt()</span>
-<span class="fc" id="L80">                secure = it.secure</span>
-<span class="fc" id="L81">            }</span>
-<span class="fc" id="L82">            servletResponse.addCookie(cookie)</span>
-<span class="fc" id="L83">        }</span>
+<span class="fc" id="L78">        response.cookies.forEach {</span>
+<span class="fc" id="L79">            val cookie = Cookie(it.name, it.value).apply {</span>
+<span class="fc" id="L80">                maxAge = it.maxAge.toInt()</span>
+<span class="fc" id="L81">                secure = it.secure</span>
+<span class="fc" id="L82">            }</span>
+<span class="fc" id="L83">            servletResponse.addCookie(cookie)</span>
+<span class="fc" id="L84">        }</span>
 
-<span class="fc bfc" id="L85" title="All 2 branches covered.">        response.contentType?.let { servletResponse.addHeader(&quot;content-type&quot;, it.text) }</span>
-<span class="fc" id="L86">        servletResponse.status = response.status.code</span>
-<span class="fc" id="L87">    }</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        response.contentType?.let { servletResponse.addHeader(&quot;content-type&quot;, it.text) }</span>
+<span class="fc" id="L87">        servletResponse.status = response.status.code</span>
+<span class="fc" id="L88">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -5,7 +5,7 @@ import com.hexagonkt.core.assertEnabled
 import com.hexagonkt.core.media.TEXT_EVENT_STREAM
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.toText
-import com.hexagonkt.handlers.EventContext
+import com.hexagonkt.handlers.Handler
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.model.ServerEvent
@@ -18,190 +18,219 @@ import java.util.concurrent.Flow.Publisher
 
 // TODO Add exception parameter to 'send*' methods
 <span class="fc" id="L20">data class HttpServerContext(</span>
-<span class="fc" id="L21">    val context: Context&lt;HttpServerCall&gt;</span>
-): Context&lt;HttpServerCall&gt; by context {
-<span class="fc" id="L23">    val request: HttpServerRequestPort = context.event.request</span>
-<span class="fc" id="L24">    val response: HttpServerResponse = context.event.response</span>
+<span class="fc" id="L21">    override val event: HttpServerCall,</span>
+<span class="fc" id="L22">    override val predicate: (Context&lt;HttpServerCall&gt;) -&gt; Boolean,</span>
+<span class="fc" id="L23">    override val nextHandlers: List&lt;Handler&lt;HttpServerCall&gt;&gt; = emptyList(),</span>
+<span class="fc" id="L24">    override val nextHandler: Int = 0,</span>
+<span class="fc" id="L25">    override val exception: Exception? = null,</span>
+<span class="fc" id="L26">    override val attributes: Map&lt;*, *&gt; = emptyMap&lt;Any, Any&gt;(),</span>
+): Context&lt;HttpServerCall&gt; {
+<span class="fc" id="L28">    val request: HttpServerRequestPort = event.request</span>
+<span class="fc" id="L29">    val response: HttpServerResponse = event.response</span>
 
-<span class="fc" id="L26">    val method: HttpMethod by lazy { request.method }</span>
-<span class="fc" id="L27">    val protocol: HttpProtocol by lazy { request.protocol }</span>
-<span class="fc" id="L28">    val host: String by lazy { request.host }</span>
-<span class="fc" id="L29">    val port: Int by lazy { request.port }</span>
-<span class="fc" id="L30">    val path: String by lazy { request.path }</span>
-<span class="fc" id="L31">    val queryParameters: QueryParameters by lazy { request.queryParameters }</span>
-<span class="fc" id="L32">    val parts: List&lt;HttpPart&gt; by lazy { request.parts }</span>
-<span class="fc" id="L33">    val formParameters: FormParameters by lazy { request.formParameters }</span>
-<span class="fc" id="L34">    val accept: List&lt;ContentType&gt; by lazy { request.accept }</span>
-<span class="fc" id="L35">    val authorization: Authorization? by lazy { request.authorization }</span>
-<span class="fc" id="L36">    val certificateChain: List&lt;X509Certificate&gt; by lazy { request.certificateChain }</span>
+<span class="fc" id="L31">    val method: HttpMethod by lazy { request.method }</span>
+<span class="fc" id="L32">    val protocol: HttpProtocol by lazy { request.protocol }</span>
+<span class="fc" id="L33">    val host: String by lazy { request.host }</span>
+<span class="fc" id="L34">    val port: Int by lazy { request.port }</span>
+<span class="fc" id="L35">    val path: String by lazy { request.path }</span>
+<span class="fc" id="L36">    val queryParameters: QueryParameters by lazy { request.queryParameters }</span>
+<span class="fc" id="L37">    val parts: List&lt;HttpPart&gt; by lazy { request.parts }</span>
+<span class="fc" id="L38">    val formParameters: FormParameters by lazy { request.formParameters }</span>
+<span class="fc" id="L39">    val accept: List&lt;ContentType&gt; by lazy { request.accept }</span>
+<span class="fc" id="L40">    val authorization: Authorization? by lazy { request.authorization }</span>
+<span class="fc" id="L41">    val certificateChain: List&lt;X509Certificate&gt; by lazy { request.certificateChain }</span>
 
-<span class="fc" id="L38">    val partsMap: Map&lt;String, HttpPart&gt; by lazy { request.partsMap() }</span>
-<span class="fc" id="L39">    val url: URL by lazy { request.url() }</span>
-<span class="fc" id="L40">    val userAgent: String? by lazy { request.userAgent() }</span>
-<span class="fc" id="L41">    val referer: String? by lazy { request.referer() }</span>
-<span class="fc" id="L42">    val origin: String? by lazy { request.origin() }</span>
-<span class="fc" id="L43">    val certificate: X509Certificate? by lazy { request.certificate() }</span>
+<span class="fc" id="L43">    val partsMap: Map&lt;String, HttpPart&gt; by lazy { request.partsMap() }</span>
+<span class="fc" id="L44">    val url: URL by lazy { request.url() }</span>
+<span class="fc" id="L45">    val userAgent: String? by lazy { request.userAgent() }</span>
+<span class="fc" id="L46">    val referer: String? by lazy { request.referer() }</span>
+<span class="fc" id="L47">    val origin: String? by lazy { request.origin() }</span>
+<span class="fc" id="L48">    val certificate: X509Certificate? by lazy { request.certificate() }</span>
 
-<span class="fc" id="L45">    val status: HttpStatus = response.status</span>
+<span class="fc" id="L50">    val status: HttpStatus = response.status</span>
 
-<span class="fc" id="L47">    val pathParameters: Map&lt;String, String&gt; by lazy {</span>
-<span class="fc" id="L48">        val httpHandler = context.predicate as HttpServerPredicate</span>
-<span class="fc" id="L49">        val pattern = httpHandler.pathPattern</span>
+<span class="fc" id="L52">    val pathParameters: Map&lt;String, String&gt; by lazy {</span>
+<span class="fc" id="L53">        val httpHandler = predicate as HttpServerPredicate</span>
+<span class="fc" id="L54">        val pattern = httpHandler.pathPattern</span>
 
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        if (assertEnabled)</span>
-<span class="pc bpc" id="L52" title="2 of 4 branches missed.">            check(!(pattern.prefix)) { &quot;Loading path parameters not allowed for paths&quot; }</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (assertEnabled)</span>
+<span class="pc bpc" id="L57" title="2 of 4 branches missed.">            check(!(pattern.prefix)) { &quot;Loading path parameters not allowed for paths&quot; }</span>
 
-<span class="fc" id="L54">        pattern.extractParameters(request.path)</span>
+<span class="fc" id="L59">        pattern.extractParameters(request.path)</span>
     }
 
-<span class="fc" id="L57">    constructor(</span>
-<span class="fc" id="L58">        request: HttpServerRequestPort = HttpServerRequest(),</span>
-<span class="fc" id="L59">        response: HttpServerResponse = HttpServerResponse(),</span>
-<span class="fc" id="L60">        predicate: HttpServerPredicate = HttpServerPredicate(),</span>
-<span class="fc" id="L61">        attributes: Map&lt;*, *&gt; = emptyMap&lt;Any, Any&gt;(),</span>
-<span class="fc" id="L62">    ) : this(EventContext(HttpServerCall(request, response), predicate, attributes = attributes))</span>
+<span class="fc" id="L62">    constructor(context: Context&lt;HttpServerCall&gt;) : this(</span>
+<span class="fc" id="L63">        event = context.event,</span>
+<span class="fc" id="L64">        predicate = context.predicate,</span>
+<span class="fc" id="L65">        nextHandlers = context.nextHandlers,</span>
+<span class="fc" id="L66">        nextHandler = context.nextHandler,</span>
+<span class="fc" id="L67">        exception = context.exception,</span>
+<span class="fc" id="L68">        attributes = context.attributes,</span>
+<span class="fc" id="L69">    )</span>
+
+<span class="fc" id="L71">    constructor(</span>
+<span class="fc" id="L72">        request: HttpServerRequestPort = HttpServerRequest(),</span>
+<span class="fc" id="L73">        response: HttpServerResponse = HttpServerResponse(),</span>
+<span class="fc" id="L74">        predicate: HttpServerPredicate = HttpServerPredicate(),</span>
+<span class="fc" id="L75">        attributes: Map&lt;*, *&gt; = emptyMap&lt;Any, Any&gt;(),</span>
+<span class="fc" id="L76">    ) : this(HttpServerCall(request, response), predicate, attributes = attributes)</span>
 
     override fun next(): HttpServerContext =
-<span class="fc" id="L65">        HttpServerContext(context.next())</span>
+        super.next() as HttpServerContext
 
-<span class="fc" id="L67">    fun unauthorized(</span>
-<span class="fc" id="L68">        body: Any = response.body,</span>
-<span class="fc" id="L69">        headers: Headers = response.headers,</span>
-<span class="fc" id="L70">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L71">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
-<span class="fc" id="L72">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
+    override fun with(
+        event: HttpServerCall,
+        predicate: (Context&lt;HttpServerCall&gt;) -&gt; Boolean,
+        nextHandlers: List&lt;Handler&lt;HttpServerCall&gt;&gt;,
+        nextHandler: Int,
+        exception: Exception?,
+        attributes: Map&lt;*, *&gt;
+    ): Context&lt;HttpServerCall&gt; =
+<span class="fc" id="L89">        copy(</span>
+<span class="fc" id="L90">            event = event,</span>
+<span class="fc" id="L91">            predicate = predicate,</span>
+<span class="fc" id="L92">            nextHandlers = nextHandlers,</span>
+<span class="fc" id="L93">            nextHandler = nextHandler,</span>
+<span class="fc" id="L94">            exception = exception,</span>
+<span class="fc" id="L95">            attributes = attributes,</span>
+<span class="fc" id="L96">        )</span>
+
+<span class="fc" id="L98">    fun unauthorized(</span>
+<span class="fc" id="L99">        body: Any = response.body,</span>
+<span class="fc" id="L100">        headers: Headers = response.headers,</span>
+<span class="fc" id="L101">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L102">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
+<span class="fc" id="L103">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L74">        send(UNAUTHORIZED_401, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L105">        send(UNAUTHORIZED_401, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L76">    fun forbidden(</span>
-<span class="fc" id="L77">        body: Any = response.body,</span>
-<span class="fc" id="L78">        headers: Headers = response.headers,</span>
-<span class="fc" id="L79">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L80">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
-<span class="fc" id="L81">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
+<span class="fc" id="L107">    fun forbidden(</span>
+<span class="fc" id="L108">        body: Any = response.body,</span>
+<span class="fc" id="L109">        headers: Headers = response.headers,</span>
+<span class="fc" id="L110">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L111">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
+<span class="fc" id="L112">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L83">        send(FORBIDDEN_403, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L114">        send(FORBIDDEN_403, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L85">    fun internalServerError(</span>
-<span class="fc" id="L86">        body: Any = response.body,</span>
-<span class="fc" id="L87">        headers: Headers = response.headers,</span>
-<span class="fc" id="L88">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L89">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
-<span class="fc" id="L90">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
+<span class="fc" id="L116">    fun internalServerError(</span>
+<span class="fc" id="L117">        body: Any = response.body,</span>
+<span class="fc" id="L118">        headers: Headers = response.headers,</span>
+<span class="fc" id="L119">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L120">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
+<span class="fc" id="L121">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L92">        send(INTERNAL_SERVER_ERROR_500, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L123">        send(INTERNAL_SERVER_ERROR_500, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L94">    fun serverError(</span>
+<span class="fc" id="L125">    fun serverError(</span>
         status: HttpStatus,
         exception: Exception,
-<span class="fc" id="L97">        headers: Headers = response.headers,</span>
-<span class="fc" id="L98">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
+<span class="fc" id="L128">        headers: Headers = response.headers,</span>
+<span class="fc" id="L129">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L100">        send(</span>
-<span class="fc" id="L101">            status = status,</span>
-<span class="fc" id="L102">            body = exception.toText(),</span>
-<span class="fc" id="L103">            headers = headers,</span>
-<span class="fc" id="L104">            contentType = ContentType(TEXT_PLAIN),</span>
-<span class="fc" id="L105">            attributes = attributes,</span>
-<span class="fc" id="L106">        )</span>
+<span class="fc" id="L131">        send(</span>
+<span class="fc" id="L132">            status = status,</span>
+<span class="fc" id="L133">            body = exception.toText(),</span>
+<span class="fc" id="L134">            headers = headers,</span>
+<span class="fc" id="L135">            contentType = ContentType(TEXT_PLAIN),</span>
+<span class="fc" id="L136">            attributes = attributes,</span>
+<span class="fc" id="L137">        )</span>
 
-<span class="fc" id="L108">    fun internalServerError(</span>
+<span class="fc" id="L139">    fun internalServerError(</span>
         exception: Exception,
-<span class="fc" id="L110">        headers: Headers = response.headers,</span>
-<span class="fc" id="L111">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
+<span class="fc" id="L141">        headers: Headers = response.headers,</span>
+<span class="fc" id="L142">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L113">        serverError(INTERNAL_SERVER_ERROR_500, exception, headers, attributes)</span>
+<span class="fc" id="L144">        serverError(INTERNAL_SERVER_ERROR_500, exception, headers, attributes)</span>
 
-<span class="fc" id="L115">    fun ok(</span>
-<span class="fc" id="L116">        body: Any = response.body,</span>
-<span class="fc" id="L117">        headers: Headers = response.headers,</span>
-<span class="fc" id="L118">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L119">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
-<span class="fc" id="L120">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
+<span class="fc" id="L146">    fun ok(</span>
+<span class="fc" id="L147">        body: Any = response.body,</span>
+<span class="fc" id="L148">        headers: Headers = response.headers,</span>
+<span class="fc" id="L149">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L150">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
+<span class="fc" id="L151">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L122">        send(OK_200, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L153">        send(OK_200, body, headers, contentType, cookies, attributes)</span>
 
     fun sse(body: Publisher&lt;ServerEvent&gt;): HttpServerContext =
-<span class="fc" id="L125">        ok(</span>
-<span class="fc" id="L126">            body = body,</span>
-<span class="fc" id="L127">            headers = response.headers + Header(&quot;cache-control&quot;, &quot;no-cache&quot;),</span>
-<span class="fc" id="L128">            contentType = ContentType(TEXT_EVENT_STREAM)</span>
-<span class="fc" id="L129">        )</span>
+<span class="fc" id="L156">        ok(</span>
+<span class="fc" id="L157">            body = body,</span>
+<span class="fc" id="L158">            headers = response.headers + Header(&quot;cache-control&quot;, &quot;no-cache&quot;),</span>
+<span class="fc" id="L159">            contentType = ContentType(TEXT_EVENT_STREAM)</span>
+<span class="fc" id="L160">        )</span>
 
-<span class="fc" id="L131">    fun badRequest(</span>
-<span class="fc" id="L132">        body: Any = response.body,</span>
-<span class="fc" id="L133">        headers: Headers = response.headers,</span>
-<span class="fc" id="L134">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L135">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
-<span class="fc" id="L136">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
+<span class="fc" id="L162">    fun badRequest(</span>
+<span class="fc" id="L163">        body: Any = response.body,</span>
+<span class="fc" id="L164">        headers: Headers = response.headers,</span>
+<span class="fc" id="L165">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L166">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
+<span class="fc" id="L167">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L138">        send(BAD_REQUEST_400, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L169">        send(BAD_REQUEST_400, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L140">    fun notFound(</span>
-<span class="fc" id="L141">        body: Any = response.body,</span>
-<span class="fc" id="L142">        headers: Headers = response.headers,</span>
-<span class="fc" id="L143">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L144">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
-<span class="fc" id="L145">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
+<span class="fc" id="L171">    fun notFound(</span>
+<span class="fc" id="L172">        body: Any = response.body,</span>
+<span class="fc" id="L173">        headers: Headers = response.headers,</span>
+<span class="fc" id="L174">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L175">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
+<span class="fc" id="L176">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L147">        send(NOT_FOUND_404, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L178">        send(NOT_FOUND_404, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L149">    fun created(</span>
-<span class="fc" id="L150">        body: Any = response.body,</span>
-<span class="fc" id="L151">        headers: Headers = response.headers,</span>
-<span class="fc" id="L152">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L153">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
-<span class="fc" id="L154">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
+<span class="fc" id="L180">    fun created(</span>
+<span class="fc" id="L181">        body: Any = response.body,</span>
+<span class="fc" id="L182">        headers: Headers = response.headers,</span>
+<span class="fc" id="L183">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L184">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
+<span class="fc" id="L185">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L156">        send(CREATED_201, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L187">        send(CREATED_201, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L158">    fun accepted(</span>
-<span class="fc" id="L159">        onConnect: WsServerSession.() -&gt; Unit = {},</span>
-<span class="pc" id="L160">        onBinary: WsServerSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="nc" id="L161">        onText: WsServerSession.(text: String) -&gt; Unit = {},</span>
-<span class="pc" id="L162">        onPing: WsServerSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="pc" id="L163">        onPong: WsServerSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="pc" id="L164">        onClose: WsServerSession.(status: WsCloseStatus, reason: String) -&gt; Unit = { _, _ -&gt; },</span>
+<span class="fc" id="L189">    fun accepted(</span>
+<span class="fc" id="L190">        onConnect: WsServerSession.() -&gt; Unit = {},</span>
+<span class="pc" id="L191">        onBinary: WsServerSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="nc" id="L192">        onText: WsServerSession.(text: String) -&gt; Unit = {},</span>
+<span class="pc" id="L193">        onPing: WsServerSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L194">        onPong: WsServerSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L195">        onClose: WsServerSession.(status: WsCloseStatus, reason: String) -&gt; Unit = { _, _ -&gt; },</span>
     ): HttpServerContext =
-<span class="fc" id="L166">        send(</span>
-<span class="fc" id="L167">            context.event.response.copy(</span>
-<span class="fc" id="L168">                status = ACCEPTED_202,</span>
-<span class="fc" id="L169">                onConnect = onConnect,</span>
-<span class="fc" id="L170">                onBinary = onBinary,</span>
-<span class="fc" id="L171">                onText = onText,</span>
-<span class="fc" id="L172">                onPing = onPing,</span>
-<span class="fc" id="L173">                onPong = onPong,</span>
-<span class="fc" id="L174">                onClose = onClose,</span>
+<span class="fc" id="L197">        send(</span>
+<span class="fc" id="L198">            event.response.copy(</span>
+<span class="fc" id="L199">                status = ACCEPTED_202,</span>
+<span class="fc" id="L200">                onConnect = onConnect,</span>
+<span class="fc" id="L201">                onBinary = onBinary,</span>
+<span class="fc" id="L202">                onText = onText,</span>
+<span class="fc" id="L203">                onPing = onPing,</span>
+<span class="fc" id="L204">                onPong = onPong,</span>
+<span class="fc" id="L205">                onClose = onClose,</span>
             )
-<span class="fc" id="L176">        )</span>
+<span class="fc" id="L207">        )</span>
 
-<span class="fc" id="L178">    fun send(</span>
-<span class="fc" id="L179">        status: HttpStatus = response.status,</span>
-<span class="fc" id="L180">        body: Any = response.body,</span>
-<span class="fc" id="L181">        headers: Headers = response.headers,</span>
-<span class="fc" id="L182">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L183">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
-<span class="fc" id="L184">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
+<span class="fc" id="L209">    fun send(</span>
+<span class="fc" id="L210">        status: HttpStatus = response.status,</span>
+<span class="fc" id="L211">        body: Any = response.body,</span>
+<span class="fc" id="L212">        headers: Headers = response.headers,</span>
+<span class="fc" id="L213">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L214">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
+<span class="fc" id="L215">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L186">        send(</span>
-<span class="fc" id="L187">            response.copy(</span>
-<span class="fc" id="L188">                body = body,</span>
-<span class="fc" id="L189">                headers = headers,</span>
-<span class="fc" id="L190">                contentType = contentType,</span>
-<span class="fc" id="L191">                cookies = cookies,</span>
-<span class="fc" id="L192">                status = status,</span>
+<span class="fc" id="L217">        send(</span>
+<span class="fc" id="L218">            response.copy(</span>
+<span class="fc" id="L219">                body = body,</span>
+<span class="fc" id="L220">                headers = headers,</span>
+<span class="fc" id="L221">                contentType = contentType,</span>
+<span class="fc" id="L222">                cookies = cookies,</span>
+<span class="fc" id="L223">                status = status,</span>
             ),
-<span class="fc" id="L194">            attributes</span>
-<span class="fc" id="L195">        )</span>
+<span class="fc" id="L225">            attributes</span>
+<span class="fc" id="L226">        )</span>
 
-<span class="fc" id="L197">    fun send(</span>
-<span class="fc" id="L198">        response: HttpServerResponse, attributes: Map&lt;*, *&gt; = context.attributes</span>
+<span class="fc" id="L228">    fun send(</span>
+<span class="fc" id="L229">        response: HttpServerResponse, attributes: Map&lt;*, *&gt; = this.attributes</span>
     ): HttpServerContext =
-<span class="fc" id="L200">        HttpServerContext(</span>
-<span class="fc" id="L201">            context.with(</span>
-<span class="fc" id="L202">                event = context.event.copy(response = response),</span>
-<span class="fc" id="L203">                attributes = attributes</span>
-            )
-<span class="fc" id="L205">        )</span>
-}
+<span class="fc" id="L231">        copy(</span>
+<span class="fc" id="L232">            event = event.copy(response = response),</span>
+<span class="fc" id="L233">            attributes = attributes</span>
+<span class="fc" id="L234">        )</span>
+<span class="fc" id="L235">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

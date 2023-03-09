@@ -35,9 +35,12 @@
     <div class="library-name">
 <a href="../../../index.html">
 <span>hexagon</span>            </a>    </div>
-    <div>2.6.2
+    <div>2.6.3
     </div>
     <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":helpers:dokkaHtmlPartial/main">jvm</button>
+        </div>
         <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
         <div id="searchBar"></div>
     </div>
@@ -47,241 +50,202 @@
         <div id="sideMenu"></div>
     </div>
     <div id="main">
-<div class="main-content" id="content" pageids="helpers::com.hexagonkt.helpers/MultipleException///PointingToDeclaration//1817434805">
+<div class="main-content" data-page-type="classlike" id="content" pageids="helpers::com.hexagonkt.helpers/MultipleException///PointingToDeclaration//1817434805">
   <div class="breadcrumbs"><a href="../../index.html">helpers</a><span class="delimiter">/</span><a href="../index.html">com.hexagonkt.helpers</a><span class="delimiter">/</span><span class="current">MultipleException</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Multiple</span><wbr><span><span>Exception</span></span></h1>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">MultipleException</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>causes<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">message<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator"> = </span><span class="token string">""</span></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="java.lang/RuntimeException///PointingToDeclaration/">RuntimeException</span></div><p class="paragraph">Exception with a list of causes. Cause is <code class="lang-kotlin">null</code> as it can't be tell which one of the list is the cause.</p><p class="paragraph">A coded multiple exception should be created this way: CodedException(400, "Many errors", MultipleException())</p><p class="paragraph">To pass a list of causes CodedException (500, "Error", *list)</p><p class="paragraph"><a href="https://github.com/hexagonkt/hexagon/issues/271">TODO</a>.</p></div></div>
   </div>
   <div class="tabbedcontent">
-    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY">Members</button></div>
     <div class="tabs-section-body">
-      <h2 class="tabbedcontent">Constructors</h2>
-      <div class="table" data-togglable="Constructors"><a data-name="1907794895%2FConstructors%2F1817434805" anchor-label="MultipleException" id="1907794895%2FConstructors%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue TabbedContent">
-            <div class=""><span class="inline-flex">
-                <div><a href="-multiple-exception.html"><span>Multiple</span><wbr><span><span>Exception</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1907794895%2FConstructors%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-multiple-exception.html"><span class="token function">MultipleException</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>causes<span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></span></span><span class="token punctuation">)</span></div></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-<a data-name="1813687402%2FConstructors%2F1817434805" anchor-label="MultipleException" id="1813687402%2FConstructors%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue TabbedContent">
-            <div class=""><span class="inline-flex">
-                <div><a href="-multiple-exception.html"><span>Multiple</span><wbr><span><span>Exception</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1813687402%2FConstructors%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-multiple-exception.html"><span class="token function">MultipleException</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">causes<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-<a data-name="1527830282%2FConstructors%2F1817434805" anchor-label="MultipleException" id="1527830282%2FConstructors%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue TabbedContent">
-            <div class=""><span class="inline-flex">
-                <div><a href="-multiple-exception.html"><span>Multiple</span><wbr><span><span>Exception</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1527830282%2FConstructors%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-multiple-exception.html"><span class="token function">MultipleException</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>causes<span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></span></span><span class="token punctuation">)</span></div></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-<a data-name="1059174058%2FConstructors%2F1817434805" anchor-label="MultipleException" id="1059174058%2FConstructors%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue TabbedContent">
-            <div class=""><span class="inline-flex">
-                <div><a href="-multiple-exception.html"><span>Multiple</span><wbr><span><span>Exception</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1059174058%2FConstructors%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-multiple-exception.html"><span class="token function">MultipleException</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">causes<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">message<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator"> = </span><span class="token string">""</span></span></span><span class="token punctuation">)</span></div></div></div>
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-1129194995%2FConstructors%2F1817434805" anchor-label="MultipleException" id="-1129194995%2FConstructors%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-multiple-exception.html"><span>Multiple</span><wbr><span><span>Exception</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1129194995%2FConstructors%2F1817434805"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>causes<span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">causes<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>causes<span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">causes<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">message<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator"> = </span><span class="token string">""</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <h2 class="">Functions</h2>
-      <div class="table" data-togglable="Functions"><a data-name="282858770%2FFunctions%2F1817434805" anchor-label="addSuppressed" id="282858770%2FFunctions%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#282858770%2FFunctions%2F1817434805"><span>add</span><wbr><span><span>Suppressed</span></span></a></div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="282858770%2FFunctions%2F1817434805" anchor-label="addSuppressed" id="282858770%2FFunctions%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#282858770%2FFunctions%2F1817434805"><span>add</span><wbr><span><span>Suppressed</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="282858770%2FFunctions%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#282858770%2FFunctions%2F1817434805"><span class="token function">addSuppressed</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></span></span><span class="token punctuation">)</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#282858770%2FFunctions%2F1817434805"><span class="token function">addSuppressed</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-1102069925%2FFunctions%2F1817434805" anchor-label="fillInStackTrace" id="-1102069925%2FFunctions%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#-1102069925%2FFunctions%2F1817434805"><span>fill</span><wbr><span>In</span><wbr><span>Stack</span><wbr><span><span>Trace</span></span></a></div>
+          <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1102069925%2FFunctions%2F1817434805"><span>fill</span><wbr><span>In</span><wbr><span>Stack</span><wbr><span><span>Trace</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1102069925%2FFunctions%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1102069925%2FFunctions%2F1817434805"><span class="token function">fillInStackTrace</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1102069925%2FFunctions%2F1817434805"><span class="token function">fillInStackTrace</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1043865560%2FFunctions%2F1817434805" anchor-label="getLocalizedMessage" id="1043865560%2FFunctions%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#1043865560%2FFunctions%2F1817434805"><span>get</span><wbr><span>Localized</span><wbr><span><span>Message</span></span></a></div>
+          <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1043865560%2FFunctions%2F1817434805"><span>get</span><wbr><span>Localized</span><wbr><span><span>Message</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1043865560%2FFunctions%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1043865560%2FFunctions%2F1817434805"><span class="token function">getLocalizedMessage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1043865560%2FFunctions%2F1817434805"><span class="token function">getLocalizedMessage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="2050903719%2FFunctions%2F1817434805" anchor-label="getStackTrace" id="2050903719%2FFunctions%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#2050903719%2FFunctions%2F1817434805"><span>get</span><wbr><span>Stack</span><wbr><span><span>Trace</span></span></a></div>
+          <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#2050903719%2FFunctions%2F1817434805"><span>get</span><wbr><span>Stack</span><wbr><span><span>Trace</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2050903719%2FFunctions%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#2050903719%2FFunctions%2F1817434805"><span class="token function">getStackTrace</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Array///PointingToDeclaration/">Array</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="java.lang/StackTraceElement///PointingToDeclaration/">StackTraceElement</span><span class="token operator">&gt;</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#2050903719%2FFunctions%2F1817434805"><span class="token function">getStackTrace</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Array///PointingToDeclaration/">Array</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="java.lang/StackTraceElement///PointingToDeclaration/">StackTraceElement</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="672492560%2FFunctions%2F1817434805" anchor-label="getSuppressed" id="672492560%2FFunctions%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#672492560%2FFunctions%2F1817434805"><span>get</span><wbr><span><span>Suppressed</span></span></a></div>
+          <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#672492560%2FFunctions%2F1817434805"><span>get</span><wbr><span><span>Suppressed</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="672492560%2FFunctions%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#672492560%2FFunctions%2F1817434805"><span class="token function">getSuppressed</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Array///PointingToDeclaration/">Array</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span><span class="token operator">&gt;</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#672492560%2FFunctions%2F1817434805"><span class="token function">getSuppressed</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Array///PointingToDeclaration/">Array</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-418225042%2FFunctions%2F1817434805" anchor-label="initCause" id="-418225042%2FFunctions%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#-418225042%2FFunctions%2F1817434805"><span>init</span><wbr><span><span>Cause</span></span></a></div>
+          <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-418225042%2FFunctions%2F1817434805"><span>init</span><wbr><span><span>Cause</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-418225042%2FFunctions%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-418225042%2FFunctions%2F1817434805"><span class="token function">initCause</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-418225042%2FFunctions%2F1817434805"><span class="token function">initCause</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-762248569%2FFunctions%2F1817434805" anchor-label="printStackTrace" id="-762248569%2FFunctions%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#-1769529168%2FFunctions%2F1817434805"><span>print</span><wbr><span>Stack</span><wbr><span><span>Trace</span></span></a></div>
+          <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1769529168%2FFunctions%2F1817434805"><span>print</span><wbr><span>Stack</span><wbr><span><span>Trace</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-762248569%2FFunctions%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1769529168%2FFunctions%2F1817434805"><span class="token function">printStackTrace</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1841853697%2FFunctions%2F1817434805"><span class="token function">printStackTrace</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="java.io/PrintStream///PointingToDeclaration/">PrintStream</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1175535278%2FFunctions%2F1817434805"><span class="token function">printStackTrace</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="java.io/PrintWriter///PointingToDeclaration/">PrintWriter</span></span></span><span class="token punctuation">)</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1769529168%2FFunctions%2F1817434805"><span class="token function">printStackTrace</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1841853697%2FFunctions%2F1817434805"><span class="token function">printStackTrace</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="java.io/PrintStream///PointingToDeclaration/">PrintStream</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1175535278%2FFunctions%2F1817434805"><span class="token function">printStackTrace</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="java.io/PrintWriter///PointingToDeclaration/">PrintWriter</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="2135801318%2FFunctions%2F1817434805" anchor-label="setStackTrace" id="2135801318%2FFunctions%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#2135801318%2FFunctions%2F1817434805"><span>set</span><wbr><span>Stack</span><wbr><span><span>Trace</span></span></a></div>
+          <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#2135801318%2FFunctions%2F1817434805"><span>set</span><wbr><span>Stack</span><wbr><span><span>Trace</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2135801318%2FFunctions%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#2135801318%2FFunctions%2F1817434805"><span class="token function">setStackTrace</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="kotlin/Array///PointingToDeclaration/">Array</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="java.lang/StackTraceElement///PointingToDeclaration/">StackTraceElement</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#2135801318%2FFunctions%2F1817434805"><span class="token function">setStackTrace</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="kotlin/Array///PointingToDeclaration/">Array</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="java.lang/StackTraceElement///PointingToDeclaration/">StackTraceElement</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <h2 class="">Properties</h2>
-      <div class="table" data-togglable="Properties"><a data-name="-654012527%2FProperties%2F1817434805" anchor-label="cause" id="-654012527%2FProperties%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#-654012527%2FProperties%2F1817434805"><span><span>cause</span></span></a></div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-654012527%2FProperties%2F1817434805" anchor-label="cause" id="-654012527%2FProperties%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-654012527%2FProperties%2F1817434805"><span><span>cause</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-654012527%2FProperties%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><a data-name="-654012527%2FProperties%2F1817434805" anchor-label="cause" id="-654012527%2FProperties%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html#-654012527%2FProperties%2F1817434805">cause</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span><span class="token operator">?</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html#-654012527%2FProperties%2F1817434805">cause</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span><span class="token operator">?</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1967743655%2FProperties%2F1817434805" anchor-label="causes" id="1967743655%2FProperties%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="causes.html"><span><span>causes</span></span></a></div>
+          <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="causes.html"><span><span>causes</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1967743655%2FProperties%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><a data-name="1967743655%2FProperties%2F1817434805" anchor-label="causes" id="1967743655%2FProperties%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="causes.html">causes</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span><span class="token operator">&gt;</span></div><div class="brief "><a data-name="1967743655%2FProperties%2F1817434805" anchor-label="causes" id="1967743655%2FProperties%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a><p class="paragraph">.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="causes.html">causes</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Throwable///PointingToDeclaration/">Throwable</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1824300659%2FProperties%2F1817434805" anchor-label="message" id="1824300659%2FProperties%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a>
-        <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="index.html#1824300659%2FProperties%2F1817434805"><span><span>message</span></span></a></div>
+          <div class="table-row" data-filterable-current=":helpers:dokkaHtmlPartial/main" data-filterable-set=":helpers:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1824300659%2FProperties%2F1817434805"><span><span>message</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1824300659%2FProperties%2F1817434805"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><a data-name="1824300659%2FProperties%2F1817434805" anchor-label="message" id="1824300659%2FProperties%2F1817434805" data-filterable-set=":helpers:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html#1824300659%2FProperties%2F1817434805">message</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":helpers:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html#1824300659%2FProperties%2F1817434805">message</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
@@ -295,6 +259,6 @@
       </div>
     </div>
 </div>
-
-</body></html>
+</body>
+</html>
 

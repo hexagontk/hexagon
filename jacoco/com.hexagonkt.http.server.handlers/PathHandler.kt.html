@@ -1,69 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PathHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.handlers</a> &gt; <span class="el_source">PathHandler.kt</span></div><h1>PathHandler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.handlers
 
+import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.core.toText
 import com.hexagonkt.handlers.ChainHandler
 import com.hexagonkt.handlers.Handler
+import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
+import com.hexagonkt.http.model.HttpStatusType.SERVER_ERROR
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
-import com.hexagonkt.http.server.model.HttpServerResponse
 
-<span class="pc" id="L11">data class PathHandler(</span>
-<span class="fc" id="L12">    override val serverPredicate: HttpServerPredicate,</span>
-<span class="fc" id="L13">    val handlers: List&lt;HttpHandler&gt;</span>
+<span class="fc" id="L15">data class PathHandler(</span>
+<span class="fc" id="L16">    override val serverPredicate: HttpServerPredicate,</span>
+<span class="fc" id="L17">    val handlers: List&lt;HttpHandler&gt;</span>
 ) :
     HttpHandler,
-<span class="fc" id="L16">    Handler&lt;HttpServerCall&gt; by ChainHandler(</span>
-<span class="fc" id="L17">        handlers.map { it.addPrefix(serverPredicate.pathPattern.pattern) },</span>
-<span class="fc" id="L18">        serverPredicate</span>
+<span class="fc" id="L20">    Handler&lt;HttpServerCall&gt; by ChainHandler(</span>
+<span class="fc" id="L21">        handlers.map { it.addPrefix(serverPredicate.pathPattern.pattern) },</span>
+<span class="fc" id="L22">        serverPredicate</span>
     )
 {
 
     private companion object {
         fun nestedMethods(handlers: List&lt;HttpHandler&gt;): Set&lt;HttpMethod&gt; =
-<span class="fc" id="L24">            handlers</span>
-<span class="fc bfc" id="L25" title="All 2 branches covered.">                .flatMap { it.serverPredicate.methods.ifEmpty { ALL } }</span>
-<span class="fc" id="L26">                .toSet()</span>
+<span class="fc" id="L28">            handlers</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">                .flatMap { it.serverPredicate.methods.ifEmpty { ALL } }</span>
+<span class="fc" id="L30">                .toSet()</span>
     }
 
     constructor(vararg handlers: HttpHandler) :
-<span class="fc" id="L30">        this(</span>
-<span class="fc" id="L31">            HttpServerPredicate(methods = nestedMethods(handlers.toList())),</span>
-<span class="fc" id="L32">            handlers.toList()</span>
-<span class="fc" id="L33">        )</span>
+<span class="fc" id="L34">        this(</span>
+<span class="fc" id="L35">            HttpServerPredicate(methods = nestedMethods(handlers.toList())),</span>
+<span class="fc" id="L36">            handlers.toList()</span>
+<span class="fc" id="L37">        )</span>
 
     constructor(pattern: String, handlers: List&lt;HttpHandler&gt;) :
-<span class="fc" id="L36">        this(</span>
-<span class="fc" id="L37">            HttpServerPredicate(</span>
-<span class="fc" id="L38">                methods = nestedMethods(handlers.toList()),</span>
-<span class="fc" id="L39">                pattern = pattern,</span>
-<span class="fc" id="L40">                prefix = true,</span>
+<span class="fc" id="L40">        this(</span>
+<span class="fc" id="L41">            HttpServerPredicate(</span>
+<span class="fc" id="L42">                methods = nestedMethods(handlers.toList()),</span>
+<span class="fc" id="L43">                pattern = pattern,</span>
+<span class="fc" id="L44">                prefix = true,</span>
             ),
-<span class="fc" id="L42">            handlers</span>
-<span class="fc" id="L43">        )</span>
+<span class="fc" id="L46">            handlers</span>
+<span class="fc" id="L47">        )</span>
 
     constructor(pattern: String, vararg handlers: HttpHandler) :
-<span class="fc" id="L46">        this(pattern, handlers.toList())</span>
+<span class="fc" id="L50">        this(pattern, handlers.toList())</span>
 
-    override fun process(request: HttpServerRequestPort): HttpServerResponse =
-<span class="fc" id="L49">        processContext(request).event.response</span>
+    override fun process(request: HttpServerRequestPort): HttpServerContext =
+<span class="fc" id="L53">        process(HttpServerContext(HttpServerCall(request = request), predicate)).let {</span>
+<span class="fc" id="L54">            val event = it.event</span>
+<span class="fc" id="L55">            val response = event.response</span>
+<span class="fc" id="L56">            val exception = it.exception</span>
+
+<span class="fc bfc" id="L58" title="All 4 branches covered.">            if (exception != null &amp;&amp; response.status.type != SERVER_ERROR)</span>
+<span class="fc" id="L59">                it.with(</span>
+<span class="fc" id="L60">                    event = event.copy(</span>
+<span class="fc" id="L61">                        response = response.copy(</span>
+<span class="fc" id="L62">                            body = exception.toText(),</span>
+<span class="fc" id="L63">                            contentType = ContentType(TEXT_PLAIN),</span>
+<span class="fc" id="L64">                            status = INTERNAL_SERVER_ERROR_500,</span>
+                        )
+                    )
+                )
+<span class="fc" id="L68">            else it</span>
+<span class="fc" id="L69">        } as HttpServerContext</span>
 
     override fun addPrefix(prefix: String): HttpHandler =
-<span class="fc" id="L52">        copy(serverPredicate = serverPredicate.addPrefix(prefix))</span>
+<span class="fc" id="L72">        copy(serverPredicate = serverPredicate.addPrefix(prefix))</span>
 
     fun describe(): String =
-<span class="fc" id="L55">        listOf(</span>
-<span class="fc" id="L56">            listOf(serverPredicate.describe()),</span>
-<span class="fc" id="L57">            handlers</span>
-<span class="fc" id="L58">                .map {</span>
-<span class="fc" id="L59">                    when (it) {</span>
-<span class="fc bfc" id="L60" title="All 2 branches covered.">                        is PathHandler -&gt; it.describe()</span>
-<span class="fc" id="L61">                        else -&gt; it.serverPredicate.describe()</span>
+<span class="fc" id="L75">        listOf(</span>
+<span class="fc" id="L76">            listOf(serverPredicate.describe()),</span>
+<span class="fc" id="L77">            handlers</span>
+<span class="fc" id="L78">                .map {</span>
+<span class="fc" id="L79">                    when (it) {</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">                        is PathHandler -&gt; it.describe()</span>
+<span class="fc" id="L81">                        else -&gt; it.serverPredicate.describe()</span>
                     }
                 }
-<span class="fc" id="L64">                .map {it.prependIndent(&quot; &quot;.repeat(4)) }</span>
+<span class="fc" id="L84">                .map {it.prependIndent(&quot; &quot;.repeat(4)) }</span>
         )
-<span class="fc" id="L66">        .flatten()</span>
-<span class="fc" id="L67">        .joinToString(&quot;\n&quot;) { it }</span>
+<span class="fc" id="L86">        .flatten()</span>
+<span class="fc" id="L87">        .joinToString(&quot;\n&quot;) { it }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
