@@ -59,11 +59,13 @@ tasks.register("jpackage") {
         final java.nio.file.Path buildDir = project.buildDir.toPath()
         final String name = project.name
         final String version = project.version
-        final File tmp = buildDir.resolve("tmp").toFile()
+        final File tmp = buildDir.resolve("jpackage").toFile()
 
         final String options = findProperty("options")
         final String icon = findProperty("icon")
         final String modules = findProperty("modules") ?: "java.logging"
+        final String jarAllName = "$name-all-${version}.jar"
+        final java.nio.file.Path jarAll = buildDir.resolve("libs/$jarAllName")
 
         List<String> command = [
             "${System.getenv("JAVA_HOME")}/bin/jpackage",
@@ -73,7 +75,7 @@ tasks.register("jpackage") {
             "--name", name,
             "--input", tmp.absolutePath,
             "--add-modules", modules,
-            "--main-jar", buildDir.resolve("libs/$name-all-${version}.jar").toFile().absolutePath
+            "--main-jar", jarAllName
         ]
 
         if (options != null)
@@ -84,6 +86,7 @@ tasks.register("jpackage") {
 
         tmp.mkdirs()
         buildDir.resolve(name).toFile().deleteDir()
+        java.nio.file.Files.copy(jarAll, buildDir.resolve("jpackage/$jarAllName"))
 
         exec {
             workingDir(buildDir.toFile())
@@ -110,7 +113,7 @@ tasks.register("jlink", Exec) {
 
     final String projectName = project.name
     final String jarFileName = "${project.name}-all-${project.version}.jar"
-    final String modules = findProperty("modules") ?: "java.logging,java.management"
+    final String modules = findProperty("modules") ?: "java.logging"
 
     commandLine(
         [

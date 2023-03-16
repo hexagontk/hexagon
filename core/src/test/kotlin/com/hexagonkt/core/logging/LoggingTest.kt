@@ -97,7 +97,7 @@ internal class LoggingTest {
 
         LoggingManager.setLoggerLevel(OFF)
 
-        LoggingManager.setLoggerLevel(date, TRACE)
+        LoggingManager.setLoggerLevel(date::class, TRACE)
         assertTrue(LoggingManager.isLoggerLevelEnabled(LocalDate::class, TRACE))
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, TRACE))
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, DEBUG))
@@ -105,7 +105,7 @@ internal class LoggingTest {
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, WARN))
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, ERROR))
 
-        LoggingManager.setLoggerLevel(date, DEBUG)
+        LoggingManager.setLoggerLevel(date::class, DEBUG)
         assertTrue(LoggingManager.isLoggerLevelEnabled(LocalDate::class, DEBUG))
         assertFalse(LoggingManager.isLoggerLevelEnabled(date, TRACE))
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, DEBUG))
@@ -113,7 +113,7 @@ internal class LoggingTest {
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, WARN))
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, ERROR))
 
-        LoggingManager.setLoggerLevel(date, INFO)
+        LoggingManager.setLoggerLevel(date::class, INFO)
         assertTrue(LoggingManager.isLoggerLevelEnabled(LocalDate::class, INFO))
         assertFalse(LoggingManager.isLoggerLevelEnabled(date, TRACE))
         assertFalse(LoggingManager.isLoggerLevelEnabled(date, DEBUG))
@@ -121,7 +121,7 @@ internal class LoggingTest {
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, WARN))
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, ERROR))
 
-        LoggingManager.setLoggerLevel(date, WARN)
+        LoggingManager.setLoggerLevel(date::class, WARN)
         assertTrue(LoggingManager.isLoggerLevelEnabled(LocalDate::class, WARN))
         assertFalse(LoggingManager.isLoggerLevelEnabled(date, TRACE))
         assertFalse(LoggingManager.isLoggerLevelEnabled(date, DEBUG))
@@ -129,7 +129,7 @@ internal class LoggingTest {
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, WARN))
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, ERROR))
 
-        LoggingManager.setLoggerLevel(date, ERROR)
+        LoggingManager.setLoggerLevel(date::class, ERROR)
         assertTrue(LoggingManager.isLoggerLevelEnabled(LocalDate::class, ERROR))
         assertFalse(LoggingManager.isLoggerLevelEnabled(date, TRACE))
         assertFalse(LoggingManager.isLoggerLevelEnabled(date, DEBUG))
@@ -137,7 +137,7 @@ internal class LoggingTest {
         assertFalse(LoggingManager.isLoggerLevelEnabled(date, WARN))
         assertTrue(LoggingManager.isLoggerLevelEnabled(date, ERROR))
 
-        LoggingManager.setLoggerLevel(date, OFF)
+        LoggingManager.setLoggerLevel(date::class, OFF)
         assertFalse(LoggingManager.isLoggerLevelEnabled(LocalDate::class, ERROR))
         assertFalse(LoggingManager.isLoggerLevelEnabled(date, TRACE))
         assertFalse(LoggingManager.isLoggerLevelEnabled(date, DEBUG))
