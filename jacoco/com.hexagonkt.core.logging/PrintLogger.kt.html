@@ -5,11 +5,13 @@ import com.hexagonkt.core.toText
 <span class="pc" id="L5">data class PrintLogger(val name: String) : LoggerPort {</span>
 
     override fun &lt;E : Throwable&gt; log(level: LoggingLevel, exception: E, message: (E) -&gt; Any?) {
-<span class="fc" id="L8">        println(&quot;$level - ${message(exception)}:\n${exception.toText()}&quot;)</span>
-<span class="fc" id="L9">    }</span>
+<span class="pc bpc" id="L8" title="1 of 2 branches missed.">        if (LoggingManager.isLoggerLevelEnabled(name, level))</span>
+<span class="fc" id="L9">            println(&quot;$level $name - ${message(exception)}:\n${exception.toText()}&quot;)</span>
+<span class="fc" id="L10">    }</span>
 
     override fun log(level: LoggingLevel, message: () -&gt; Any?) {
-<span class="fc" id="L12">        println(&quot;$level - ${message()}&quot;)</span>
-<span class="fc" id="L13">    }</span>
+<span class="fc bfc" id="L13" title="All 2 branches covered.">        if (LoggingManager.isLoggerLevelEnabled(name, level))</span>
+<span class="fc" id="L14">            println(&quot;$level $name - ${message()}&quot;)</span>
+<span class="fc" id="L15">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

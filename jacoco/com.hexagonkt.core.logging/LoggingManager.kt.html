@@ -25,24 +25,14 @@ object LoggingManager {
 <span class="fc" id="L25">    }</span>
 
     /**
-     * Set a logging level for a logger with a class instance.
-     *
-     * @param instance class instance.
-     * @param level One of the logging levels identifiers, e.g., TRACE
-     */
-    fun setLoggerLevel(instance: Any, level: LoggingLevel) {
-<span class="fc" id="L34">        setLoggerLevel(instance::class, level)</span>
-<span class="fc" id="L35">    }</span>
-
-    /**
      * Set a logging level for a logger with a class name.
      *
      * @param type Class type.
      * @param level One of the logging levels identifiers, e.g., TRACE
      */
     fun setLoggerLevel(type: KClass&lt;*&gt;, level: LoggingLevel) {
-<span class="fc" id="L44">        setLoggerLevel(qualifiedName(type), level)</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L34">        setLoggerLevel(qualifiedName(type), level)</span>
+<span class="fc" id="L35">    }</span>
 
     /**
      * Set a logger logging level for a logger with a default name.
@@ -50,8 +40,8 @@ object LoggingManager {
      * @param level One of the logging levels identifiers, e.g., TRACE
      */
     fun setLoggerLevel(level: LoggingLevel) {
-<span class="fc" id="L53">        setLoggerLevel(&quot;&quot;, level)</span>
-<span class="fc" id="L54">    }</span>
+<span class="fc" id="L43">        setLoggerLevel(&quot;&quot;, level)</span>
+<span class="fc" id="L44">    }</span>
 
     /**
      * Check if a logging level is enabled for a logger.
@@ -61,7 +51,7 @@ object LoggingManager {
      * @return True if the supplied level is enabled for the passed logger name.
      */
     fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =
-<span class="fc" id="L64">        adapter.isLoggerLevelEnabled(name, level)</span>
+<span class="fc" id="L54">        adapter.isLoggerLevelEnabled(name, level)</span>
 
     /**
      * Check if a logging level is enabled for a logger with an instance.
@@ -71,7 +61,7 @@ object LoggingManager {
      * @return True if the supplied level is enabled for the passed logger name.
      */
     fun isLoggerLevelEnabled(instance: Any, level: LoggingLevel): Boolean =
-<span class="fc" id="L74">        isLoggerLevelEnabled(instance::class, level)</span>
+<span class="fc" id="L64">        isLoggerLevelEnabled(instance::class, level)</span>
 
     /**
      * Check if a logging level is enabled for a logger with a class name.
@@ -81,7 +71,7 @@ object LoggingManager {
      * @return True if the supplied level is enabled for the passed logger name.
      */
     fun isLoggerLevelEnabled(type: KClass&lt;*&gt;, level: LoggingLevel): Boolean =
-<span class="fc" id="L84">        isLoggerLevelEnabled(qualifiedName(type), level)</span>
+<span class="fc" id="L74">        isLoggerLevelEnabled(qualifiedName(type), level)</span>
 
     /**
      * Check if a logging level is enabled for the root logger.
@@ -90,9 +80,9 @@ object LoggingManager {
      * @return True if the supplied level is enabled for the passed logger name.
      */
     fun isLoggerLevelEnabled(level: LoggingLevel): Boolean =
-<span class="fc" id="L93">        isLoggerLevelEnabled(&quot;&quot;, level)</span>
+<span class="fc" id="L83">        isLoggerLevelEnabled(&quot;&quot;, level)</span>
 
     private fun qualifiedName(type: KClass&lt;*&gt;): String =
-<span class="fc bfc" id="L96" title="All 2 branches covered.">        type.qualifiedName ?: error(&quot;Cannot get qualified name of type&quot;)</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        type.qualifiedName ?: error(&quot;Cannot get qualified name of type&quot;)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
