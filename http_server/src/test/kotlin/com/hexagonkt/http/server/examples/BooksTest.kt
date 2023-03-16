@@ -197,7 +197,6 @@ internal class BooksTest {
     }
 
     @Test fun `Create book returns 201 and new book ID`() {
-        LoggingManager.setLoggerLevel(logger, TRACE)
         listOf(
             path,
             pathAlternative,
@@ -210,7 +209,6 @@ internal class BooksTest {
             assert(Integer.valueOf(result.body as String) > 0)
             assertEquals(CREATED_201, result.status)
         }
-        LoggingManager.setLoggerLevel(logger, INFO)
     }
 
     @Test fun `Create book returns 400 if a parameter is missing`() {

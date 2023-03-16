@@ -53,6 +53,6 @@ tasks.register("tarNative", Tar) {
     from("$buildDir/native/nativeCompile")
     compression = Compression.BZIP2
     include(source)
-    archiveFileName.set("${project.name}-${project.version}-${os}-${arch}.zip")
+    archiveFileName.set("${project.name}-${project.version}-${os}-${arch}.tbz2")
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
 }

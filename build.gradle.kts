@@ -54,7 +54,7 @@ task("setUp") {
         prePush.writeText("""
             #!/usr/bin/env sh
             set -e
-            ./gradlew clean build
+            ./gradlew
         """.trimIndent() + "\n")
         prePush.setExecutable(true)
     }

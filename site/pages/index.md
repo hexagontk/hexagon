@@ -167,7 +167,7 @@ Ports with their provided implementations (Adapters).
 Module dependencies (including extra modules):
 
 ```mermaid
-graph LR
+graph TD
   http_server -->|uses| http
   http_client -->|uses| http
   web -->|uses| http_server
