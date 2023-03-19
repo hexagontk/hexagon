@@ -66,6 +66,7 @@ tasks.register("jpackage") {
         final String modules = findProperty("modules") ?: "java.logging"
         final String jarAllName = "$name-all-${version}.jar"
         final java.nio.file.Path jarAll = buildDir.resolve("libs/$jarAllName")
+        final java.nio.file.Path jpackageJar = buildDir.resolve("jpackage/$jarAllName")
 
         List<String> command = [
             "${System.getenv("JAVA_HOME")}/bin/jpackage",
@@ -86,7 +87,8 @@ tasks.register("jpackage") {
 
         tmp.mkdirs()
         buildDir.resolve(name).toFile().deleteDir()
-        java.nio.file.Files.copy(jarAll, buildDir.resolve("jpackage/$jarAllName"))
+        jpackageJar.toFile().delete()
+        java.nio.file.Files.copy(jarAll, jpackageJar)
 
         exec {
             workingDir(buildDir.toFile())
@@ -102,7 +104,7 @@ tasks.register("tarJpackage", Tar) {
 
     from(buildDir.toPath().resolve(project.name).toFile())
     compression = Compression.BZIP2
-    archiveFileName.set("${project.name}-${project.version}.tbz2")
+    archiveFileName.set("${project.name}-${project.version}-jpackage.tbz2")
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
 }
 
@@ -154,35 +156,6 @@ tasks.register("tarJlink", Tar) {
 
     from(buildDir.toPath().resolve(project.name).toFile())
     compression = Compression.BZIP2
-    archiveFileName.set("${project.name}-${project.version}.tbz2")
+    archiveFileName.set("${project.name}-${project.version}-jlink.tbz2")
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
-}
-
-tasks.register("watch") {
-    group = "application"
-    description = "Run application in other thread. Allows the possibility to watch source changes."
-    dependsOn("classes")
-
-    doLast {
-        final JavaExec runTask = run
-
-        // NOTE: these two statements are *REQUIRED* to load classpath and main class
-        runTask.classpath.each { it.toString() }
-        runTask.mainClass.toString()
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream()
-        exec {
-            commandLine("jps", "-l")
-            standardOutput = out
-        }
-        out.toString().readLines()
-            .findAll { it.endsWith(runTask.mainClass.get()) }
-            .collect { it.split(" ")[0] }
-            .each { pid -> exec { commandLine("kill", pid) } }
-
-        Thread.startDaemon {
-            runTask.setIgnoreExitValue(true)
-            runTask.actions.each { action -> action.execute(runTask) }
-        }
-    }
 }

@@ -115,9 +115,6 @@ Gradle's script for a service or application. It adds these extra tasks:
 
 * buildInfo: add configuration file (`META-INF/build.properties`) with build variables to the
   package. It is executed automatically before compiling classes.
-* watch: run the application in another thread. Allows the possibility to watch source changes. To
-  run the application and watch for changes you need to execute this task with the `--continuous`
-  (`-t`) Gradle flag. Ie: `gw -t watch`.
 * jarAll: creates a single JAR with all dependencies, and the application main class set up. This
   task is an alternative to the Gradle `installDist` task.
 * jlink: create an application distribution based on a jlink generated JRE.
