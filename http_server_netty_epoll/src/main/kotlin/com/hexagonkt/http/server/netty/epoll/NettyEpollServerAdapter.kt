@@ -16,30 +16,25 @@ import io.netty.channel.epoll.EpollServerSocketChannel
  */
 class NettyEpollServerAdapter(
     bossGroupThreads: Int = 1,
-    workerGroupThreads: Int = 0,
     executorThreads: Int = Jvm.cpuCount * 2,
     private val soBacklog: Int = 4 * 1_024,
     private val soReuseAddr: Boolean = true,
     private val soKeepAlive: Boolean = true,
 ) : NettyServerAdapter(
     bossGroupThreads,
-    workerGroupThreads,
     executorThreads,
     soBacklog,
     soReuseAddr,
     soKeepAlive,
 ) {
 
-    constructor() : this(1, 0, Jvm.cpuCount * 2, 4 * 1_024, true, true)
+    constructor() : this(1, Jvm.cpuCount * 2, 4 * 1_024, true, true)
 
     override fun groupSupplier(it: Int): MultithreadEventLoopGroup =
         EpollEventLoopGroup(it)
 
-    override fun serverBootstrapSupplier(
-        bossGroup: MultithreadEventLoopGroup,
-        workerGroup: MultithreadEventLoopGroup,
-    ): ServerBootstrap =
-        ServerBootstrap().group(bossGroup, workerGroup)
+    override fun serverBootstrapSupplier(bossGroup: MultithreadEventLoopGroup): ServerBootstrap =
+        ServerBootstrap().group(bossGroup)
             .channel(EpollServerSocketChannel::class.java)
             .option(EpollChannelOption.SO_REUSEPORT, true)
             .option(ChannelOption.SO_BACKLOG, soBacklog)
