@@ -76,7 +76,9 @@ open class NettyServerAdapter(
 
     override fun startUp(server: HttpServer) {
         val bossGroup = groupSupplier(bossGroupThreads)
-        val workerGroup = groupSupplier(workerGroupThreads)
+        val workerGroup =
+            if (workerGroupThreads < 0) bossGroup
+            else groupSupplier(workerGroupThreads)
         val executorGroup =
             if (executorThreads > 0) DefaultEventExecutorGroup(executorThreads)
             else null
