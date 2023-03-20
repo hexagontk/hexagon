@@ -43,6 +43,7 @@ import kotlin.Int.Companion.MAX_VALUE
  */
 open class NettyServerAdapter(
     private val bossGroupThreads: Int = 1,
+    private val workerGroupThreads: Int = 0,
     private val executorThreads: Int = Jvm.cpuCount * 2,
     private val soBacklog: Int = 4 * 1_024,
     private val soReuseAddr: Boolean = true,
@@ -57,6 +58,7 @@ open class NettyServerAdapter(
 
     constructor() : this(
         bossGroupThreads = 1,
+        workerGroupThreads = 0,
         executorThreads = Jvm.cpuCount * 2,
         soBacklog = 4 * 1_024,
         soReuseAddr = true,
@@ -74,6 +76,9 @@ open class NettyServerAdapter(
 
     override fun startUp(server: HttpServer) {
         val bossGroup = groupSupplier(bossGroupThreads)
+        val workerGroup =
+            if (workerGroupThreads < 0) bossGroup
+            else groupSupplier(workerGroupThreads)
         val executorGroup =
             if (executorThreads > 0) DefaultEventExecutorGroup(executorThreads)
             else null
@@ -86,7 +91,7 @@ open class NettyServerAdapter(
                     .byMethod()
                     .mapKeys { HttpMethod.valueOf(it.key.toString()) }
 
-            val nettyServer = serverBootstrapSupplier(bossGroup)
+            val nettyServer = serverBootstrapSupplier(bossGroup, workerGroup)
                 .childHandler(createInitializer(sslSettings, handlers, executorGroup, settings))
 
             val address = settings.bindAddress
@@ -95,9 +100,11 @@ open class NettyServerAdapter(
 
             nettyChannel = future.channel()
             bossEventLoop = bossGroup
+            workerEventLoop = workerGroup
         }
         catch (e: Exception) {
             bossGroup.shutdownGracefully()
+            workerGroup.shutdownGracefully()
             executorGroup?.shutdownGracefully()
         }
     }
@@ -105,8 +112,11 @@ open class NettyServerAdapter(
     open fun groupSupplier(it: Int): MultithreadEventLoopGroup =
         NioEventLoopGroup(it)
 
-    open fun serverBootstrapSupplier(bossGroup: MultithreadEventLoopGroup): ServerBootstrap =
-        ServerBootstrap().group(bossGroup)
+    open fun serverBootstrapSupplier(
+        bossGroup: MultithreadEventLoopGroup,
+        workerGroup: MultithreadEventLoopGroup,
+    ): ServerBootstrap =
+        ServerBootstrap().group(bossGroup, workerGroup)
             .channel(NioServerSocketChannel::class.java)
             .option(ChannelOption.SO_BACKLOG, soBacklog)
             .option(ChannelOption.SO_REUSEADDR, soReuseAddr)
@@ -178,6 +188,7 @@ open class NettyServerAdapter(
     override fun options(): Map<String, *> =
         fieldsMapOf(
             NettyServerAdapter::bossGroupThreads to bossGroupThreads,
+            NettyServerAdapter::workerGroupThreads to workerGroupThreads,
             NettyServerAdapter::executorThreads to executorThreads,
             NettyServerAdapter::soBacklog to soBacklog,
             NettyServerAdapter::soKeepAlive to soKeepAlive,
