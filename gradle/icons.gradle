@@ -13,7 +13,7 @@ task("icons").doLast {
 
     project.file("${buildDir.name}/icons").mkdirs()
 
-    createIco(logoSmall, "$iconsDirectory/favicon.ico", 16, 32, 48, 64)
+    createPng(logoSmall, "$iconsDirectory/favicon.png", 32, 32)
     createPng(logoSmall, "$iconsDirectory/icon-small.png", 180, 180)
     createPng(logoLarge, "$iconsDirectory/icon-large.png", 512, 512)
 }
@@ -35,7 +35,6 @@ private void createPng(
 
     exec {
         commandLine(
-            "magick",
             "convert",
             "-gravity", "center",
             "-background", "transparent",
@@ -51,7 +50,7 @@ private List<Integer> getSvgDimensions(final String svg) {
     final ByteArrayOutputStream commandOutput = new ByteArrayOutputStream()
     exec {
         standardOutput = commandOutput
-        commandLine("magick", "identify", svg)
+        commandLine("identify", svg)
     }
 
     return commandOutput
@@ -60,15 +59,4 @@ private List<Integer> getSvgDimensions(final String svg) {
         .trim()
         .split("x")
         .collect {it.toInteger() }
-}
-
-private void createIco(final String svg, final String ico, final int... widths) {
-
-    widths.each { createPng(svg, "_${it}.png", it, it) }
-
-    final List<String> images = widths.collect { "$buildDir/_${it}.png".toString() }
-    final String icoPath = "$buildDir/$ico"
-    exec { commandLine([ "convert", images, icoPath ].flatten().collect { it.toString() }) }
-
-    widths.each { new File("$buildDir/_${it}.png").delete() }
 }
