@@ -1,7 +1,4 @@
 
-import me.champeau.jmh.JMHTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("java-library")
     id("me.champeau.jmh")
@@ -10,30 +7,9 @@ plugins {
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
-apply(from = "../gradle/detekt.gradle")
+apply(from = "../gradle/jmh.gradle")
 
 description = "Test cases for HTTP client and server adapters."
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
-}
-
-tasks.withType<JMHTask> {
-    val jhmVersion = properties["jhmVersion"] as? String ?: "1.36"
-
-    jmhVersion.set(jhmVersion)
-    benchmarkMode.set(listOf("thrpt"))
-
-    iterations.set(10)
-    batchSize.set(1)
-    fork.set(1)
-    operationsPerInvocation.set(5)
-    timeOnIteration.set("1s")
-
-    warmup.set("1s")
-    warmupBatchSize.set(5)
-    warmupIterations.set(1)
-}
 
 dependencies {
     val junitVersion = properties["junitVersion"]

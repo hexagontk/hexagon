@@ -37,7 +37,7 @@ internal class HexagonCoreSamplesTest {
 
         // Logging level can be changed programmatically
         LoggingManager.setLoggerLevel(ERROR)
-        LoggingManager.setLoggerLevel(classLogger, DEBUG)
+        LoggingManager.setLoggerLevel(classLogger::class, DEBUG)
         LoggingManager.setLoggerLevel("com.hexagonkt", INFO)
         // logger
     }

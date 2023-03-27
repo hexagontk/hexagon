@@ -45,9 +45,9 @@ internal class HttpServerTest {
         assertEquals(NO_CONTENT_204, path.process(HttpServerRequest(path = "/a/b")).status)
         assertEquals(METHOD_NOT_ALLOWED_405, path.process(HttpServerRequest(PUT, path = "/a/b")).status)
         assertEquals(OK_200, path.process(HttpServerRequest(path = "/a/x")).status)
-        assertEquals("x", path.process(HttpServerRequest(path = "/a/x")).body)
+        assertEquals("x", path.process(HttpServerRequest(path = "/a/x")).response.body)
         assertEquals(OK_200, path.process(HttpServerRequest(path = "/a/b/value")).status)
-        assertEquals("value", path.process(HttpServerRequest(path = "/a/b/value")).body)
+        assertEquals("value", path.process(HttpServerRequest(path = "/a/b/value")).response.body)
     }
 
     @Test fun `Builder proof of concept`() {

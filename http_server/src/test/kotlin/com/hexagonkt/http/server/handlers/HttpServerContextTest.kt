@@ -1,6 +1,5 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.handlers.EventContext
 import com.hexagonkt.core.media.TEXT_HTML
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.model.*
@@ -45,23 +44,23 @@ internal class HttpServerContextTest {
             predicate = HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}")),
         )
 
-        assertSame(context.method, context.context.event.request.method)
-        assertSame(context.protocol, context.context.event.request.protocol)
-        assertSame(context.host, context.context.event.request.host)
-        assertEquals(context.port, context.context.event.request.port)
-        assertSame(context.path, context.context.event.request.path)
-        assertSame(context.queryParameters, context.context.event.request.queryParameters)
-        assertSame(context.parts, context.context.event.request.parts)
-        assertSame(context.formParameters, context.context.event.request.formParameters)
-        assertSame(context.accept, context.context.event.request.accept)
-        assertSame(context.certificateChain, context.context.event.request.certificateChain)
-        assertEquals(context.partsMap, context.context.event.request.partsMap())
-        assertEquals(context.url, context.context.event.request.url())
-        assertSame(context.userAgent, context.context.event.request.userAgent())
-        assertSame(context.referer, context.context.event.request.referer())
-        assertSame(context.origin, context.context.event.request.origin())
-        assertSame(context.certificate, context.context.event.request.certificate())
-        assertSame(context.status, context.context.event.response.status)
+        assertSame(context.method, context.event.request.method)
+        assertSame(context.protocol, context.event.request.protocol)
+        assertSame(context.host, context.event.request.host)
+        assertEquals(context.port, context.event.request.port)
+        assertSame(context.path, context.event.request.path)
+        assertSame(context.queryParameters, context.event.request.queryParameters)
+        assertSame(context.parts, context.event.request.parts)
+        assertSame(context.formParameters, context.event.request.formParameters)
+        assertSame(context.accept, context.event.request.accept)
+        assertSame(context.certificateChain, context.event.request.certificateChain)
+        assertEquals(context.partsMap, context.event.request.partsMap())
+        assertEquals(context.url, context.event.request.url())
+        assertSame(context.userAgent, context.event.request.userAgent())
+        assertSame(context.referer, context.event.request.referer())
+        assertSame(context.origin, context.event.request.origin())
+        assertSame(context.certificate, context.event.request.certificate())
+        assertSame(context.status, context.event.response.status)
     }
 
     @Test fun `Send without parameters return the same response`() {
@@ -105,13 +104,13 @@ internal class HttpServerContextTest {
             path.process(HttpServerRequest(path = "/internalServerError")).status
         )
 
-        path.process(HttpServerRequest(path = "/internalServerErrorException")).let {
+        path.process(HttpServerRequest(path = "/internalServerErrorException")).response.let {
             assertEquals(INTERNAL_SERVER_ERROR_500, it.status)
             assertTrue(it.bodyString().contains(RuntimeException::class.java.name))
             assertEquals(ContentType(TEXT_PLAIN), it.contentType)
         }
 
-        path.process(HttpServerRequest(path = "/serverErrorException")).let {
+        path.process(HttpServerRequest(path = "/serverErrorException")).response.let {
             assertEquals(BAD_GATEWAY_502, it.status)
             assertTrue(it.bodyString().contains(RuntimeException::class.java.name))
             assertEquals(ContentType(TEXT_PLAIN), it.contentType)
@@ -120,12 +119,10 @@ internal class HttpServerContextTest {
 
     @Test fun `'next' executes the next handler in the chain`() {
         val context = HttpServerContext(
-            EventContext(
-                HttpServerCall(httpServerRequest(), HttpServerResponse()),
-                HttpServerPredicate(),
-                listOf(
-                    OnHandler("*") { ok() },
-                )
+            HttpServerCall(httpServerRequest(), HttpServerResponse()),
+            HttpServerPredicate(),
+            listOf(
+                OnHandler("*") { ok() },
             )
         )
 
