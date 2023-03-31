@@ -40,6 +40,11 @@ jobs:
             ~/.local/bin
             ~/.local/lib/python*/site-packages
 
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get install fuse
+          sudo apt-get install librsvg2-bin
+
       - name: Check Out
         uses: actions/checkout@v3
         with:

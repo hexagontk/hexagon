@@ -75,16 +75,6 @@ processResources {
     }
 }
 
-jar {
-    manifest {
-        attributes("Automatic-Module-Name": "${project.group}.${project.name.replace('_', '.')}")
-    }
-}
-
-tasks.compileJava.doFirst {
-    options.compilerArgs = [ "--module-path", classpath.asPath ]
-}
-
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
