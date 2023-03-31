@@ -79,7 +79,7 @@ theme:
   custom_dir: mkdocs
 
   logo: img/logo_white.svg
-  favicon: favicon.ico
+  favicon: favicon.png
   icon:
     repo: fontawesome/brands/github-alt
 

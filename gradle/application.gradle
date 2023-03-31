@@ -9,6 +9,9 @@ classes.dependsOn("buildInfo")
 
 application {
     mainClass = findProperty("applicationClass")
+    final String options = findProperty("options")
+    if (options != null)
+        applicationDefaultJvmArgs = options.split(" ").toList()
 }
 
 task("buildInfo") {
@@ -97,14 +100,13 @@ tasks.register("jpackage") {
     }
 }
 
-tasks.register("tarJpackage", Tar) {
+tasks.register("zipJpackage", Zip) {
     group = "distribution"
     description = "Compress Jpackage distribution in a single file."
     dependsOn("jpackage")
 
     from(buildDir.toPath().resolve(project.name).toFile())
-    compression = Compression.BZIP2
-    archiveFileName.set("${project.name}-${project.version}-jpackage.tbz2")
+    archiveFileName.set("${project.name}-${project.version}-jpackage.zip")
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
 }
 
@@ -149,13 +151,12 @@ tasks.register("jlink", Exec) {
     }
 }
 
-tasks.register("tarJlink", Tar) {
+tasks.register("zipJlink", Zip) {
     group = "distribution"
     description = "Compress JRE distribution in a single file."
     dependsOn("jlink")
 
     from(buildDir.toPath().resolve(project.name).toFile())
-    compression = Compression.BZIP2
-    archiveFileName.set("${project.name}-${project.version}-jlink.tbz2")
+    archiveFileName.set("${project.name}-${project.version}-jlink.zip")
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
 }

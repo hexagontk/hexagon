@@ -1,0 +1,16 @@
+[
+  {
+    "name": "org.eclipse.jetty.http.pathmap.PathSpecSet",
+    "allPublicMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredMethods": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "org.eclipse.jetty.util.AsciiLowerCaseSet",
+    "allPublicMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredMethods": true,
+    "allDeclaredConstructors": true
+  }
+]
