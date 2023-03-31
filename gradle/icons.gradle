@@ -26,11 +26,8 @@ private void createPng(
 ) {
 
     exec {
-        final List<Integer> dimensions = getSvgDimensions(svg)
-        if (dimensions[0] > dimensions[1])
-            commandLine("rsvg-convert", "-w", width, "-o", "$buildDir/$out", svg)
-        else
-            commandLine("rsvg-convert", "-h", height, "-o", "$buildDir/$out", svg)
+        final String geometry = "${width}x${height}"
+        commandLine("convert", "-background", "none", "-resize", geometry, svg, "$buildDir/$out")
     }
 
     exec {
