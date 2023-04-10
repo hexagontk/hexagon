@@ -18,12 +18,7 @@ task("icons").doLast {
     createPng(logoLarge, "$iconsDirectory/icon-large.png", 512, 512)
 }
 
-private void createPng(
-    final String svg,
-    final String out,
-    final int width,
-    final int height
-) {
+private void createPng(final String svg, final String out, final int width, final int height) {
 
     exec {
         final String geometry = "${width}x${height}"
@@ -40,20 +35,4 @@ private void createPng(
             "$buildDir/$out"
         )
     }
-}
-
-private List<Integer> getSvgDimensions(final String svg) {
-
-    final ByteArrayOutputStream commandOutput = new ByteArrayOutputStream()
-    exec {
-        standardOutput = commandOutput
-        commandLine("identify", svg)
-    }
-
-    return commandOutput
-        .toString()
-        .find(/\s+\d+x\d+\s+/)
-        .trim()
-        .split("x")
-        .collect {it.toInteger() }
 }
