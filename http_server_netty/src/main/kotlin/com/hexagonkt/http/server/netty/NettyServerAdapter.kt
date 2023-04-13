@@ -143,7 +143,7 @@ open class NettyServerAdapter(
                 else sslContextBuilder.trustManager(trustManager).build()
 
             HttpsChannelInitializer(handlers, sslContext, sslSettings, group, settings)
-        } else if (settings.protocol.equals(H2C)) {
+        } else if (settings.protocol == H2C) {
             H2CChannelInitializer()
         } else {
             HttpChannelInitializer(handlers, group, settings)

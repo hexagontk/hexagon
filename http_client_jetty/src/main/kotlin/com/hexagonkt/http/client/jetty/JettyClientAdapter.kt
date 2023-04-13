@@ -18,7 +18,7 @@ import org.eclipse.jetty.client.api.ContentResponse
 import org.eclipse.jetty.client.api.Request
 import org.eclipse.jetty.client.api.Response
 import org.eclipse.jetty.client.dynamic.HttpClientTransportDynamic
-import org.eclipse.jetty.client.http.HttpClientConnectionFactory
+import org.eclipse.jetty.client.http.HttpClientConnectionFactory.HTTP11
 import org.eclipse.jetty.client.util.BytesRequestContent
 import org.eclipse.jetty.client.util.MultiPartRequestContent
 import org.eclipse.jetty.client.util.StringRequestContent
@@ -35,7 +35,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.Flow.Publisher
 import java.util.concurrent.SubmissionPublisher
 import org.eclipse.jetty.http2.client.HTTP2Client as JettyHttp2Client
-import org.eclipse.jetty.http2.client.http.ClientConnectionFactoryOverHTTP2
+import org.eclipse.jetty.http2.client.http.ClientConnectionFactoryOverHTTP2.HTTP2
 import org.eclipse.jetty.client.HttpClient as JettyHttpClient
 import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFactory
 
@@ -54,10 +54,8 @@ class JettyClientAdapter : HttpClientPort {
         val clientConnector = ClientConnector()
         clientConnector.sslContextFactory = sslContext(client.settings)
 
-        val http1 = HttpClientConnectionFactory.HTTP11
-        val http2Client = JettyHttp2Client(clientConnector)
-        val http2 = ClientConnectionFactoryOverHTTP2.HTTP2(http2Client)
-        val transport = HttpClientTransportDynamic(clientConnector, http1, http2);
+        val http2 = HTTP2(JettyHttp2Client(clientConnector))
+        val transport = HttpClientTransportDynamic(clientConnector, HTTP11, http2)
 
         jettyClient = JettyHttpClient(transport)
         httpClient = client
