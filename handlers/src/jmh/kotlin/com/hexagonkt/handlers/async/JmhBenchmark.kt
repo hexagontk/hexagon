@@ -1,10 +1,11 @@
-package com.hexagonkt.handlers
+package com.hexagonkt.handlers.async
 
-import com.hexagonkt.handlers.*
+import com.hexagonkt.handlers.async.*
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
+import java.util.concurrent.CompletableFuture
 
 @State(Scope.Benchmark)
 open class JmhBenchmark {
@@ -36,40 +37,40 @@ open class JmhBenchmark {
             )
     }
 
-    private fun <T : Any> Handler<T>.process(event: T): T =
-        process(EventContext(event, predicate)).event
+    private fun <T : Any> Handler<T>.process(event: T): CompletableFuture<T> =
+        process(EventContext(event, predicate)).thenApply(Context<T>::event)
 
     private val chains = listOf(
         ChainHandler<String>(
-            AfterHandler({ it.hasLetters('a', 'e') }) { it.appendText("<A1>") },
-            AfterHandler({ it.hasLetters('b', 'f') }) { it.appendText("<A2>") },
-            OnHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>") },
-            OnHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>") },
+            AfterHandler({ it.hasLetters('a', 'e') }) { it.appendText("<A1>").done() },
+            AfterHandler({ it.hasLetters('b', 'f') }) { it.appendText("<A2>").done() },
+            OnHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>").done() },
+            OnHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>").done() },
         ),
         ChainHandler<String>(
-            OnHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>") },
-            AfterHandler({ it.hasLetters('a', 'e') }) { it.appendText("<A1>") },
-            OnHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>") },
-            AfterHandler({ it.hasLetters('b', 'f') }) { it.appendText("<A2>") },
+            OnHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>").done() },
+            AfterHandler({ it.hasLetters('a', 'e') }) { it.appendText("<A1>").done() },
+            OnHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>").done() },
+            AfterHandler({ it.hasLetters('b', 'f') }) { it.appendText("<A2>").done() },
         ),
         ChainHandler<String>(
-            OnHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>") },
-            OnHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>") },
-            AfterHandler({ it.hasLetters('a', 'e') }) { it.appendText("<A1>") },
-            AfterHandler({ it.hasLetters('b', 'f') }) { it.appendText("<A2>") },
+            OnHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>").done() },
+            OnHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>").done() },
+            AfterHandler({ it.hasLetters('a', 'e') }) { it.appendText("<A1>").done() },
+            AfterHandler({ it.hasLetters('b', 'f') }) { it.appendText("<A2>").done() },
         ),
     )
 
     private val filtersChain = ChainHandler<String>(
-        AfterHandler { it.appendText("<A1>") },
-        OnHandler { it.appendText("<B1>")},
+        AfterHandler { it.appendText("<A1>").done() },
+        OnHandler { it.appendText("<B1>").done() },
         FilterHandler({ it.hasLetters('a', 'b') }) {
             if (it.event.startsWith("a"))
                 it.with(event = it.event + "<PASS>").next()
             else
-                it.with(event = it.event + "<HALT>")
+                it.with(event = it.event + "<HALT>").done()
         },
-        OnHandler { it.appendText("<B2>")},
+        OnHandler { it.appendText("<B2>").done() },
     )
 
     @Benchmark fun beforeAndAfterHandlersAreCalledInOrder(bh: Blackhole) {
