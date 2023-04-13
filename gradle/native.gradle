@@ -3,20 +3,12 @@ apply(plugin: "org.graalvm.buildtools.native")
 
 graalvmNative {
     agent {
-        final String codeFilterFile = findProperty("codeFilterFile")
-        defaultMode = codeFilterFile == null? "standard" : "conditional"
+        defaultMode = "standard"
 
         metadataCopy {
             inputTaskNames.add("test")
             final String buildPath = project.buildDir.absolutePath
             outputDirectories.add("$buildPath/resources/main/META-INF/native-image")
-        }
-
-        modes {
-            conditional {
-                if (codeFilterFile != null)
-                    userCodeFilterPath.set(rootProject.file(codeFilterFile).absolutePath)
-            }
         }
     }
 
@@ -42,7 +34,7 @@ tasks.register("upx", Exec) {
     }
 }
 
-tasks.register("tarNative", Tar) {
+tasks.register("zipNative", Zip) {
     group = "distribution"
     description = "Compress native executable in a ZIP file."
     dependsOn("nativeCompile")
@@ -51,7 +43,6 @@ tasks.register("tarNative", Tar) {
     final String arch = System.getProperty("os.arch").toLowerCase()
     final String source = os.contains("windows")? "${project.name}.exe" : project.name
     from("$buildDir/native/nativeCompile")
-    compression = Compression.BZIP2
     include(source)
     archiveFileName.set("${project.name}-${project.version}-${os}-${arch}.zip")
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())

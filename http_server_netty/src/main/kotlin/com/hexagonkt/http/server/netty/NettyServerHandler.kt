@@ -60,7 +60,7 @@ internal class NettyServerHandler(
         val headers = nettyRequest.headers()
         val request = NettyRequestAdapter(method, nettyRequest, certificates, address, headers)
 
-        val resultContext = pathHandler.processContext(request)
+        val resultContext = pathHandler.process(request)
         val response = resultContext.event.response
 
         val body = response.body

@@ -25,16 +25,6 @@ object LoggingManager {
     }
 
     /**
-     * Set a logging level for a logger with a class instance.
-     *
-     * @param instance class instance.
-     * @param level One of the logging levels identifiers, e.g., TRACE
-     */
-    fun setLoggerLevel(instance: Any, level: LoggingLevel) {
-        setLoggerLevel(instance::class, level)
-    }
-
-    /**
      * Set a logging level for a logger with a class name.
      *
      * @param type Class type.

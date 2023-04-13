@@ -7,6 +7,7 @@ apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
 
 tasks.register<JacocoReport>("jacocoRootReport") {
+    dependsOn(":dokkaHtmlMultiModule")
 
     val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
     val modulesSources = rootProject.modulesPaths("src/main/kotlin")

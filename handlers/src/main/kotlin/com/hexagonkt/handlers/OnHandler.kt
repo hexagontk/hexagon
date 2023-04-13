@@ -1,16 +1,15 @@
 package com.hexagonkt.handlers
 
 data class OnHandler<T : Any>(
-    override val predicate: Predicate<T> = { true },
-    val beforeCallback: Callback<T>,
+    override val predicate: (Context<T>) -> Boolean = { true },
+    override val callback: (Context<T>) -> Context<T>,
 ) : Handler<T> {
 
-    override val callback: Callback<T> = {
+    override fun process(context: Context<T>): Context<T> =
         try {
-            beforeCallback(it).next()
+            callback(context).next()
         }
         catch (e: Exception) {
-            it.with(exception = e).next()
+            context.with(exception = e).next()
         }
-    }
 }

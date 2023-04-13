@@ -9,6 +9,9 @@ classes.dependsOn("buildInfo")
 
 application {
     mainClass = findProperty("applicationClass")
+    final String options = findProperty("options")
+    if (options != null)
+        applicationDefaultJvmArgs = options.split(" ").toList()
 }
 
 task("buildInfo") {
@@ -59,11 +62,14 @@ tasks.register("jpackage") {
         final java.nio.file.Path buildDir = project.buildDir.toPath()
         final String name = project.name
         final String version = project.version
-        final File tmp = buildDir.resolve("tmp").toFile()
+        final File tmp = buildDir.resolve("jpackage").toFile()
 
         final String options = findProperty("options")
         final String icon = findProperty("icon")
         final String modules = findProperty("modules") ?: "java.logging"
+        final String jarAllName = "$name-all-${version}.jar"
+        final java.nio.file.Path jarAll = buildDir.resolve("libs/$jarAllName")
+        final java.nio.file.Path jpackageJar = buildDir.resolve("jpackage/$jarAllName")
 
         List<String> command = [
             "${System.getenv("JAVA_HOME")}/bin/jpackage",
@@ -73,7 +79,7 @@ tasks.register("jpackage") {
             "--name", name,
             "--input", tmp.absolutePath,
             "--add-modules", modules,
-            "--main-jar", buildDir.resolve("libs/$name-all-${version}.jar").toFile().absolutePath
+            "--main-jar", jarAllName
         ]
 
         if (options != null)
@@ -84,6 +90,8 @@ tasks.register("jpackage") {
 
         tmp.mkdirs()
         buildDir.resolve(name).toFile().deleteDir()
+        jpackageJar.toFile().delete()
+        java.nio.file.Files.copy(jarAll, jpackageJar)
 
         exec {
             workingDir(buildDir.toFile())
@@ -92,14 +100,13 @@ tasks.register("jpackage") {
     }
 }
 
-tasks.register("tarJpackage", Tar) {
+tasks.register("zipJpackage", Zip) {
     group = "distribution"
     description = "Compress Jpackage distribution in a single file."
     dependsOn("jpackage")
 
     from(buildDir.toPath().resolve(project.name).toFile())
-    compression = Compression.BZIP2
-    archiveFileName.set("${project.name}-${project.version}.tbz2")
+    archiveFileName.set("${project.name}-${project.version}-jpackage.zip")
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
 }
 
@@ -110,7 +117,7 @@ tasks.register("jlink", Exec) {
 
     final String projectName = project.name
     final String jarFileName = "${project.name}-all-${project.version}.jar"
-    final String modules = findProperty("modules") ?: "java.logging,java.management"
+    final String modules = findProperty("modules") ?: "java.logging"
 
     commandLine(
         [
@@ -144,42 +151,12 @@ tasks.register("jlink", Exec) {
     }
 }
 
-tasks.register("tarJlink", Tar) {
+tasks.register("zipJlink", Zip) {
     group = "distribution"
     description = "Compress JRE distribution in a single file."
     dependsOn("jlink")
 
     from(buildDir.toPath().resolve(project.name).toFile())
-    compression = Compression.BZIP2
-    archiveFileName.set("${project.name}-${project.version}.tbz2")
+    archiveFileName.set("${project.name}-${project.version}-jlink.zip")
     destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
-}
-
-tasks.register("watch") {
-    group = "application"
-    description = "Run application in other thread. Allows the possibility to watch source changes."
-    dependsOn("classes")
-
-    doLast {
-        final JavaExec runTask = run
-
-        // NOTE: these two statements are *REQUIRED* to load classpath and main class
-        runTask.classpath.each { it.toString() }
-        runTask.mainClass.toString()
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream()
-        exec {
-            commandLine("jps", "-l")
-            standardOutput = out
-        }
-        out.toString().readLines()
-            .findAll { it.endsWith(runTask.mainClass.get()) }
-            .collect { it.split(" ")[0] }
-            .each { pid -> exec { commandLine("kill", pid) } }
-
-        Thread.startDaemon {
-            runTask.setIgnoreExitValue(true)
-            runTask.actions.each { action -> action.execute(runTask) }
-        }
-    }
 }

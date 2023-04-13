@@ -37,7 +37,7 @@ internal fun HttpHandler.send(
             queryParameters = parseQueryString(query)
         )
         .auth(user, password)
-    )
+    ).response
 
 internal fun HttpServerRequest.auth(
     user: String? = null, password: String? = null): HttpServerRequest {
