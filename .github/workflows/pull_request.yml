@@ -12,6 +12,13 @@ jobs:
     with:
       tasks: createCa createIdentities
 
+  native_test:
+    name: Native Test
+    permissions: read-all
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
+    with:
+      tasks: build nativeTest
+
   build_site:
     name: Build Site
     permissions: read-all
