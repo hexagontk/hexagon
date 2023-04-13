@@ -7,8 +7,8 @@ import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.client.model.HttpClientRequest
-import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.model.HttpRequest
+import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.formatQueryString
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.GET
@@ -16,9 +16,9 @@ import com.hexagonkt.http.model.HttpProtocol.HTTPS
 import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.server.handlers.HttpCallback
-import com.hexagonkt.http.server.handlers.HttpHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.HttpCallback
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
@@ -28,6 +28,7 @@ import org.junit.jupiter.api.*
 import java.math.BigInteger
 import java.net.URL
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -42,14 +43,14 @@ abstract class ClientTest(
     private var callback: HttpCallback = { this }
 
     override val handler: HttpHandler = path {
-        post("/*") { callback() }
-        get("/*") { callback() }
-        head("/*") { callback() }
-        put("/*") { callback() }
-        delete("/*") { callback() }
-        trace("/*") { callback() }
-        options("/*") { callback() }
-        patch("/*") { callback() }
+        post("*") { callback() }
+        get("*") { callback() }
+        head("*") { callback() }
+        put("*") { callback() }
+        delete("*") { callback() }
+        trace("*") { callback() }
+        options("*") { callback() }
+        patch("*") { callback() }
     }
 
     @BeforeAll fun setUpSerializationFormats() {
@@ -76,7 +77,7 @@ abstract class ClientTest(
     @Test fun `Exceptions are returned as internal server errors`() {
         callback = { error("failure") }
 
-        val response = client.send(HttpClientRequest())
+        val response = client.send(HttpRequest())
 
         assertEquals(INTERNAL_SERVER_ERROR_500, response.status)
         assertTrue(response.bodyString().contains("failure"))
@@ -91,7 +92,7 @@ abstract class ClientTest(
         }
 
         val response = client.send(
-            HttpClientRequest(
+            HttpRequest(
                 formParameters = FormParameters(
                     FormParameter("p1", "v11"),
                     FormParameter("p2", "v21", "v22"),
@@ -118,7 +119,7 @@ abstract class ClientTest(
 
         client.cookies = emptyList()
         val response = client.send(
-            HttpClientRequest(
+            HttpRequest(
                 cookies = listOf(
                     Cookie("c1", "v1"),
                     Cookie("c2", "v2", 1),
@@ -143,7 +144,7 @@ abstract class ClientTest(
 
         // clientCreation
         HttpClient(adapter)
-        HttpClient(adapter, URL("http://host:1234/base"))
+        HttpClient(adapter, HttpClientSettings(URL("http://host:1234/base")))
         // clientCreation
 
         // clientSettingsCreation
@@ -175,7 +176,7 @@ abstract class ClientTest(
     @Test fun `HTTP generic requests work ok`() {
 
         // genericRequest
-        val request = HttpClientRequest(
+        val request = HttpRequest(
             method = GET,
             path = "/",
             body = mapOf("body" to "payload").serialize(),
@@ -266,19 +267,19 @@ abstract class ClientTest(
     }
 
     @Test fun `Parameters are set properly` () {
-        val endpoint = URL("http://localhost:${server.runtimePort}")
-        val h = Headers(Header("header1", "val1", "val2"))
+        val clientHeaders = Headers(Header("header1", "val1", "val2"))
         val settings = HttpClientSettings(
+            baseUrl = URL("http://localhost:${server.runtimePort}"),
             contentType = ContentType(APPLICATION_JSON),
             useCookies = false,
-            headers = h,
+            headers = clientHeaders,
             insecure = true
         )
-        val c = HttpClient(clientAdapter(), endpoint, settings)
+        val c = HttpClient(clientAdapter(), settings)
 
         assertEquals(c.settings.contentType, ContentType(APPLICATION_JSON))
         assert(!c.settings.useCookies)
-        assertEquals(c.settings.headers, h)
+        assertEquals(c.settings.headers, clientHeaders)
 
         callback = {
             val headers = Header("head1", request.headers.require("header1").values)
@@ -288,6 +289,31 @@ abstract class ClientTest(
         c.use {
             it.start()
             it.get("/auth").apply {
+                assertEquals(listOf("val1", "val2"), headers["head1"]?.values)
+                assertEquals(status, OK_200)
+            }
+            it.get().apply {
+                assertEquals(listOf("val1", "val2"), headers["head1"]?.values)
+                assertEquals(status, OK_200)
+            }
+        }
+
+        assertFalse(c.started())
+
+        c.request {
+            assertTrue(c.started())
+            get("/auth").apply {
+                assertEquals(listOf("val1", "val2"), headers["head1"]?.values)
+                assertEquals(status, OK_200)
+            }
+        }
+
+        c.start()
+        assertTrue(c.started())
+
+        c.request {
+            assertTrue(c.started())
+            get("/auth").apply {
                 assertEquals(listOf("val1", "val2"), headers["head1"]?.values)
                 assertEquals(status, OK_200)
             }
@@ -386,7 +412,7 @@ abstract class ClientTest(
     }
 
     private fun checkResponse(
-        response: HttpClientResponse,
+        response: HttpResponsePort,
         parameter: Map<String, String>?,
         format: ContentType = ContentType(APPLICATION_JSON),
     ) {

@@ -1,11 +1,17 @@
 package com.hexagonkt.http.model
 
 import com.hexagonkt.core.fail
-import com.hexagonkt.http.model.HttpProtocol.HTTP
-import kotlin.test.Test
+import com.hexagonkt.core.media.TEXT_CSS
+import com.hexagonkt.core.media.TEXT_HTML
+import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.core.media.TEXT_RICHTEXT
+import com.hexagonkt.core.security.loadKeyStore
+import com.hexagonkt.http.model.HttpMethod.POST
+import com.hexagonkt.http.model.HttpMethod.PUT
+import com.hexagonkt.http.model.HttpProtocol.*
 import java.net.URL
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
+import java.security.cert.X509Certificate
+import kotlin.test.*
 
 internal class HttpRequestTest {
 
@@ -25,7 +31,7 @@ internal class HttpRequestTest {
         )
     }
 
-    private object TestEmptyRequest: HttpRequest {
+    private object TestEmptyRequest: HttpRequestPort {
         override val method: HttpMethod get() = fail
         override val protocol: HttpProtocol = testProtocol
         override val host: String = testHost
@@ -38,6 +44,27 @@ internal class HttpRequestTest {
         override val contentType: ContentType get() = fail
         override val accept: List<ContentType> get() = fail
         override val authorization: Authorization? = authorization()
+        override val certificateChain: List<X509Certificate> get() = fail
+        override val contentLength: Long get() = fail
+
+        override fun with(
+            body: Any,
+            headers: Headers,
+            contentType: ContentType?,
+            method: HttpMethod,
+            protocol: HttpProtocol,
+            host: String,
+            port: Int,
+            path: String,
+            queryParameters: QueryParameters,
+            parts: List<HttpPart>,
+            formParameters: FormParameters,
+            cookies: List<Cookie>,
+            accept: List<ContentType>,
+            authorization: Authorization?,
+            certificateChain: List<X509Certificate>,
+        ): HttpRequestPort =
+            fail
 
         override val cookies: List<Cookie> =
             listOf(Cookie("name1", "value1"), Cookie("name2", "value2"))
@@ -46,7 +73,7 @@ internal class HttpRequestTest {
             listOf(HttpPart("name1", "value1"), HttpPart("name2", "value2"))
     }
 
-    private object TestRequest : HttpRequest {
+    private object TestRequest : HttpRequestPort {
         override val method: HttpMethod get() = fail
         override val protocol: HttpProtocol = testProtocol
         override val host: String = testHost
@@ -59,12 +86,122 @@ internal class HttpRequestTest {
         override val contentType: ContentType get() = fail
         override val accept: List<ContentType> get() = fail
         override val authorization: Authorization? = authorization()
+        override val certificateChain: List<X509Certificate> get() = fail
+        override val contentLength: Long get() = fail
+
+        override fun with(
+            body: Any,
+            headers: Headers,
+            contentType: ContentType?,
+            method: HttpMethod,
+            protocol: HttpProtocol,
+            host: String,
+            port: Int,
+            path: String,
+            queryParameters: QueryParameters,
+            parts: List<HttpPart>,
+            formParameters: FormParameters,
+            cookies: List<Cookie>,
+            accept: List<ContentType>,
+            authorization: Authorization?,
+            certificateChain: List<X509Certificate>,
+        ): HttpRequestPort =
+            fail
 
         override val cookies: List<Cookie> =
             listOf(Cookie("name1", "value1"), Cookie("name2", "value2"))
 
         override val parts: List<HttpPart> =
             listOf(HttpPart("name1", "value1"), HttpPart("name2", "value2"))
+    }
+
+    private val keyStoreResource = "hexagonkt.p12"
+    private val keyStoreUrl = URL("classpath:$keyStoreResource")
+    private val keyStore = loadKeyStore(keyStoreUrl, keyStoreResource.reversed())
+    private val certificate = keyStore.getCertificate("hexagonkt")
+    private val certificates = listOf(certificate as X509Certificate)
+
+    private fun httpRequestData(): HttpRequest =
+        HttpRequest(
+            method = POST,
+            protocol = HTTPS,
+            host = "127.0.0.1",
+            port = 9999,
+            path = "/path",
+            queryParameters = QueryParameters(QueryParameter("k", "v")),
+            headers = Headers(Header("h1", "h1v1", "h1v2")),
+            body = "request",
+            parts = listOf(HttpPart("n", "b")),
+            formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
+            cookies = listOf(Cookie("cn", "cv")),
+            contentType = ContentType(TEXT_PLAIN),
+            certificateChain = emptyList(),
+            accept = listOf(ContentType(TEXT_HTML)),
+        )
+
+    @Test fun `HTTP Request comparison works ok`() {
+        val httpRequest = httpRequestData()
+
+        assertEquals(httpRequest, httpRequest)
+        assertEquals(httpRequestData(), httpRequestData())
+        assertFalse(httpRequest.equals(""))
+
+        val headers = Headers(Header("h1", "v1"))
+        val parts = listOf(HttpPart("p", "v"))
+        val formParameters = FormParameters(FormParameter("h1", "v1"))
+        val cookies = listOf(Cookie("p", "v"))
+        val contentType = ContentType(TEXT_RICHTEXT)
+        val accept = listOf(ContentType(TEXT_CSS))
+
+        assertNotEquals(httpRequest, httpRequest.with(method = PUT))
+        assertNotEquals(httpRequest, httpRequest.with(protocol = HTTP2))
+        assertNotEquals(httpRequest, httpRequest.with(host = "host"))
+        assertNotEquals(httpRequest, httpRequest.with(port = 1234))
+        assertNotEquals(httpRequest, httpRequest.with(path = "/aPath"))
+        assertNotEquals(httpRequest, httpRequest.with(headers = headers))
+        assertNotEquals(httpRequest, httpRequest.with(body = "body"))
+        assertNotEquals(httpRequest, httpRequest.with(parts = parts))
+        assertNotEquals(httpRequest, httpRequest.with(formParameters = formParameters))
+        assertNotEquals(httpRequest, httpRequest.with(cookies = cookies))
+        assertNotEquals(httpRequest, httpRequest.with(contentType = contentType))
+        assertNotEquals(httpRequest, httpRequest.with(certificateChain = certificates))
+        assertNotEquals(httpRequest, httpRequest.with(accept = accept))
+        assertNotEquals(
+            httpRequest,
+            httpRequest.copy(queryParameters = QueryParameters(QueryParameter("k", "v", "v2")))
+        )
+
+        assertEquals(httpRequest.hashCode(), httpRequestData().hashCode())
+        assertEquals(
+            httpRequest.copy(contentType = null).hashCode(),
+            httpRequestData().copy(contentType = null).hashCode()
+        )
+    }
+
+    @Test fun `'certificate' returns the first chain certificate`() {
+        val requestData = httpRequestData()
+        assertNull(requestData.certificate())
+        assertEquals(certificate,requestData.copy(certificateChain = certificates).certificate())
+    }
+
+    @Test fun `Common headers access methods work as expected`() {
+        val requestData = httpRequestData()
+
+        assertNull(requestData.userAgent())
+        assertNull(requestData.referer())
+        assertNull(requestData.origin())
+
+        requestData.copy(
+            headers = Headers(
+                Header("user-agent", "ua"),
+                Header("referer", "r"),
+                Header("origin", "o"),
+            )
+        ).let {
+            assertEquals("ua", it.userAgent())
+            assertEquals("r", it.referer())
+            assertEquals("o", it.origin())
+        }
     }
 
     @Test fun `Header convenience methods works properly`() {
@@ -102,8 +239,9 @@ internal class HttpRequestTest {
     }
 
     @Test fun `URL is generated correctly`() {
-        assertEquals(URL("http://localhost:80/path?qp1=value1&qp1=value2"), TestRequest.url())
+        assertEquals(URL("http://localhost/path?qp1=value1&qp1=value2"), TestRequest.url())
         testPort = 9999
+        assertEquals(URL("http://localhost:9999/path?qp1=value1&qp1=value2"), TestRequest.url())
         testQueryParameters = QueryParameters()
         assertEquals(URL("http://localhost:9999/path"), TestRequest.url())
     }

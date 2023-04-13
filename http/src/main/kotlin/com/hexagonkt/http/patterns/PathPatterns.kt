@@ -1,9 +1,5 @@
 package com.hexagonkt.http.patterns
 
-/*
- * TODO Move http_server handlers here and generalize to allow them to be used by server and client
- */
-
 import com.hexagonkt.core.assertEnabled
 
 fun createPathPattern(pattern: String, prefix: Boolean): PathPattern =

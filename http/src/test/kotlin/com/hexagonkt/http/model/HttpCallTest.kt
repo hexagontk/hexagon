@@ -1,27 +1,25 @@
-package com.hexagonkt.http.server.model
+package com.hexagonkt.http.model
 
 import com.hexagonkt.core.media.TEXT_HTML
 import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.NOT_FOUND_404
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpProtocol.HTTPS
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
-internal class HttpServerCallTest {
+internal class HttpCallTest {
 
-    private val fullServerCall: HttpServerCall = httpServerCallData()
+    private val fullCall: HttpCall = httpCallData()
 
-    private fun httpServerCallData(): HttpServerCall =
-        HttpServerCall(
-            httpServerRequestData(),
-            httpServerResponseData()
+    private fun httpCallData(): HttpCall =
+        HttpCall(
+            httpRequestData(),
+            httpResponseData()
         )
 
-    private fun httpServerResponseData(): HttpServerResponse =
-        HttpServerResponse(
+    private fun httpResponseData(): HttpResponse =
+        HttpResponse(
             body = "response",
             headers = Headers(Header("hr1", "hr1v1", "hr1v2")),
             contentType = ContentType(TEXT_HTML),
@@ -29,8 +27,8 @@ internal class HttpServerCallTest {
             status = NOT_FOUND_404,
         )
 
-    private fun httpServerRequestData(): HttpServerRequest =
-        HttpServerRequest(
+    private fun httpRequestData(): HttpRequest =
+        HttpRequest(
             method = POST,
             protocol = HTTPS,
             host = "127.0.0.1",
@@ -47,9 +45,9 @@ internal class HttpServerCallTest {
         )
 
     @Test fun `HTTP Server Call comparison works ok`() {
-        assertEquals(fullServerCall, fullServerCall)
-        assertEquals(httpServerCallData(), httpServerCallData())
-        assertFalse(fullServerCall.equals(""))
-        assertEquals(fullServerCall.hashCode(), httpServerCallData().hashCode())
+        assertEquals(fullCall, fullCall)
+        assertEquals(httpCallData(), httpCallData())
+        assertFalse(fullCall.equals(""))
+        assertEquals(fullCall.hashCode(), httpCallData().hashCode())
     }
 }
