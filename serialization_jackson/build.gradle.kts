@@ -16,7 +16,6 @@ dependencies {
     "api"(project(":serialization"))
     "api"(platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
     "api"("com.fasterxml.jackson.core:jackson-databind")
-    "api"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
     "testImplementation"("org.jetbrains.kotlin:kotlin-reflect")
     "testImplementation"("com.fasterxml.jackson.module:jackson-module-kotlin") {

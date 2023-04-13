@@ -1,7 +1,8 @@
 package com.hexagonkt.serialization.jackson.toml
 
+import com.hexagonkt.core.fieldsMapOfNotNull
 import com.hexagonkt.core.require
-import com.hexagonkt.core.requireKeys
+import com.hexagonkt.core.requirePath
 import com.hexagonkt.serialization.*
 import com.hexagonkt.serialization.test.SerializationTest
 import org.junit.jupiter.api.BeforeAll
@@ -19,7 +20,7 @@ internal class TomlTest : SerializationTest() {
         URL("classpath:data/company.toml"),
     )
 
-    data class Player (val name: String, val number: Int, val category: ClosedRange<Int>)
+    data class Player(val name: String, val number: Int, val category: ClosedRange<Int>)
 
     @BeforeAll fun setUpSerializationManager() {
         SerializationManager.formats = linkedSetOf(Toml)
@@ -27,18 +28,28 @@ internal class TomlTest : SerializationTest() {
 
     private fun Map<*, *>.convert(): Player =
         Player(
-            name = requireKeys(Player::name.name),
-            number = requireKeys(Player::number.name),
-            category = requireKeys<Map<String, Int>>(Player::category.name).let { map ->
+            name = requirePath(Player::name),
+            number = requirePath(Player::number),
+            category = requirePath<Map<String, Int>>(Player::category).let { map ->
                 val start = map.require(ClosedRange<*>::start.name)
                 val endInclusive = map.require(ClosedRange<*>::endInclusive.name)
                 start..endInclusive
             }
         )
 
+    private fun Player.convert(): Map<*, *> =
+        fieldsMapOfNotNull(
+            Player::name to name,
+            Player::number to number,
+            Player::category to fieldsMapOfNotNull(
+                ClosedRange<*>::start to category.start,
+                ClosedRange<*>::endInclusive to category.endInclusive,
+            )
+        )
+
     @Test fun `TOML is serialized properly` () {
         val player = Player("Michael", 23, 18..65)
-        val serializedPlayer = player.serialize(Toml)
+        val serializedPlayer = player.convert().serialize(Toml)
         val deserializedPlayer = serializedPlayer.parseMap(Toml).convert()
 
         assertEquals(deserializedPlayer.name, player.name)
@@ -58,7 +69,7 @@ internal class TomlTest : SerializationTest() {
             c = "d"
             d = 1.5
             e = 2000-01-01
-        """.parseMap(Toml) as Map<String, *>
+        """.parseMap(Toml)
         val parse = map.require("_") as List<Map<Any, *>>
         assertEquals("b", parse.first()["a"])
         assertEquals(1.5, parse.last()["d"])

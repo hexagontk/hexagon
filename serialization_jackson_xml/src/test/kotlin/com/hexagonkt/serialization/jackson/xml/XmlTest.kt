@@ -1,10 +1,6 @@
 package com.hexagonkt.serialization.jackson.xml
 
-import com.hexagonkt.core.requireKeys
-import com.hexagonkt.core.keys
-import com.hexagonkt.core.invoke
-import com.hexagonkt.core.require
-import com.hexagonkt.core.toStream
+import com.hexagonkt.core.*
 import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.BeforeAll
 import kotlin.test.Test
@@ -37,9 +33,9 @@ internal class XmlTest {
 
     private fun Map<*, *>.convert(): Player =
         Player(
-            name = requireKeys(Player::name.name),
-            number = requireKeys<String>(Player::number.name).toInt(),
-            category = requireKeys<Map<String, String>>(Player::category.name).let { map ->
+            name = requirePath(Player::name),
+            number = requireString(Player::number).toInt(),
+            category = requirePath<Map<String, String>>(Player::category).let { map ->
                 val start = map.require(ClosedRange<*>::start.name).toInt()
                 val endInclusive = map.require(ClosedRange<*>::endInclusive.name).toInt()
                 start..endInclusive
@@ -65,7 +61,7 @@ internal class XmlTest {
               <dependencies>
                 <dependency>
                   <groupId>org.junit.jupiter</groupId>
-                  <artifactId>junit-jupiter</artifactId>
+                  <artifactId>junit</artifactId>
                   <scope>test</scope>
                 </dependency>
                 <dependency>
@@ -82,11 +78,14 @@ internal class XmlTest {
         val collection = parse as Map<*, *>
 
         assertEquals("Kotlin POM", collection["name"])
-        assertEquals("central", collection("repositories", "repository", "id"))
-        assertEquals("junit-jupiter", collection("dependencies", "dependency", 0, "artifactId"))
-        assertEquals("kotlin-test", collection("dependencies", "dependency", 1, "artifactId"))
-        assertEquals("val", collection("alien", "property"))
-        assertEquals("text", collection("alien", ""))
+        assertEquals("central", collection.getPath("repositories", "repository", "id"))
+        assertEquals("junit", collection.getPath("dependencies", "dependency", 0, "artifactId"))
+        assertEquals("val", collection.getPath("alien", "property"))
+        assertEquals("text", collection.getPath("alien", ""))
+        assertEquals(
+            "kotlin-test",
+            collection.getPath("dependencies", "dependency", 1, "artifactId")
+        )
     }
 
     @Test
@@ -140,15 +139,15 @@ internal class XmlTest {
 
         val collection = xml.parse(Xml) as Map<*, *>
 
-        assertEquals("header", collection.keys("bean", "id"))
-        assertEquals(2, (collection.keys("camelContext", "rest", "post") as? List<*>)?.size)
-        assertEquals(3, (collection.keys("camelContext", "rest", "get") as? List<*>)?.size)
+        assertEquals("header", collection.getPath("bean", "id"))
+        assertEquals(2, (collection.getPath("camelContext", "rest", "post") as? List<*>)?.size)
+        assertEquals(3, (collection.getPath("camelContext", "rest", "get") as? List<*>)?.size)
     }
 
     @Suppress("UNCHECKED_CAST") // Required by test
     @Test fun `XML is serialized properly` () {
         val player = Player("Michael", 23, 18..65)
-        val serializedPlayer = player.serialize(Xml)
+        val serializedPlayer = player.convert().serialize(Xml)
         val deserializedPlayer = serializedPlayer.parseMap(Xml).convert()
 
         assertEquals(deserializedPlayer.name, player.name)
@@ -162,7 +161,9 @@ internal class XmlTest {
                 Player("Magic", 32, 18..65),
             )
         )
-        val serializedPlayers = players.serialize(Xml)
+        val serializedPlayers = players
+            .let { it + ("players" to it["players"]?.map { p -> p.convert() }) }
+            .serialize(Xml)
         val parse = serializedPlayers.parse(Xml) as Map<*, List<Any>>
         val deserializedPlayers = parse.entries.first().value.map { (it as Map<*, *>).convert() }
 
@@ -197,7 +198,7 @@ internal class XmlTest {
                 </item>
             </ArrayList>
         """.trimIndent().toStream().parse(Xml) as Map<*, *>
-        assertEquals("b", parse.keys("item", 0, "a"))
+        assertEquals("b", parse.getPath("item", 0, "a"))
     }
 
     @Test fun `Object can be serialized to stream`() {
