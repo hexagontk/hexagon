@@ -3,6 +3,7 @@ package com.hexagonkt.core.logging
 import com.hexagonkt.core.logging.LoggingLevel.*
 import io.mockk.every
 import io.mockk.mockk
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty
 import kotlin.IllegalStateException
 import kotlin.reflect.KClass
 import kotlin.test.*
@@ -48,7 +49,9 @@ internal class LoggerTest {
         assert(l.isWarnEnabled())
     }
 
-    @Test fun `Invalid class name raises error`() {
+    @Test
+    @DisabledIfSystemProperty(named = "nativeTest", matches = "true")
+    fun `Invalid class name raises error`() {
         val kc = mockk<KClass<*>>()
         every { kc.qualifiedName } returns null
         val e = assertFailsWith<IllegalStateException> { Logger(kc) }

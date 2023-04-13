@@ -22,6 +22,8 @@ internal class NetworkTest {
         assert(!URL("file:not_existing.txt").exists())
         assert(!URL("file:src").exists())
         assert(!URL("classpath:data.json").exists())
+
+        assert(!URL("ftp://example.com").exists())
     }
 
     @Test fun `Check URL first variant`() {
@@ -39,16 +41,19 @@ internal class NetworkTest {
     }
 
     @Test fun `Check localized URL`() {
+        fun locale(language: String, region: String): Locale =
+            Locale.Builder().setLanguage(language).setRegion(region).build()
+
         URL("classpath:locales/data.json").let {
-            assertEquals(it, it.localized(Locale.Builder().setLanguage("it").setRegion("IT").build()))
+            assertEquals(it, it.localized(locale("it", "IT")))
         }
         assertEquals(
             URL("classpath:locales/data_en_US.json"),
-            URL("classpath:locales/data.json").localized(Locale.Builder().setLanguage("en").setRegion("US").build()),
+            URL("classpath:locales/data.json").localized(locale("en", "US")),
         )
         assertEquals(
             URL("classpath:locales/data_en.json"),
-            URL("classpath:locales/data.json").localized(Locale.Builder().setLanguage("en").setRegion("GB").build()),
+            URL("classpath:locales/data.json").localized(locale("en", "GB")),
         )
     }
 
