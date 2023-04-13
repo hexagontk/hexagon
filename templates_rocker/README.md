@@ -1,9 +1,12 @@
 
 # Module templates_rocker
-
 [Rocker] template engine adapter for Hexagon.
 
 For usage instructions, refer to the [Templates Port documentation](/templates/).
+
+For using Rocker templates in GraalVM native images, the template file (and the classes) need to be
+specified as resources in the configuration (I.e.: using `-H:IncludeResources=.*\\.(html|class)`).
+Adding the classes used in the templates to the `reflect-config.json` file is also required.
 
 [Rocker]: https://github.com/fizzed/rocker
 
