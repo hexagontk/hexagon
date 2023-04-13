@@ -17,7 +17,7 @@ dependencies {
     "api"("io.netty:netty-codec-http2") { exclude(group = "org.slf4j") }
 
     "testImplementation"(project(":http_test"))
-    "testImplementation"(project(":http_client_jetty"))
+    "testImplementation"(project(":http_client_jetty_ws"))
     "testImplementation"(project(":serialization_jackson_json"))
     "testImplementation"(project(":serialization_jackson_yaml"))
 }

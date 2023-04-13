@@ -2,17 +2,13 @@ package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.require
-import com.hexagonkt.core.logging.LoggingLevel.INFO
-import com.hexagonkt.core.logging.LoggingLevel.TRACE
-import com.hexagonkt.core.logging.LoggingManager
-import com.hexagonkt.core.logging.logger
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.CREATED_201
-import com.hexagonkt.http.server.handlers.HttpServerContext
-import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.HttpContext
+import com.hexagonkt.http.handlers.PathHandler
+import com.hexagonkt.http.handlers.path
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -26,7 +22,7 @@ internal class BooksTest {
         102 to Book("Homer", "The Odyssey")
     )
 
-    private fun HttpServerContext.missingField(field: String): HttpServerContext =
+    private fun HttpContext.missingField(field: String): HttpContext =
         badRequest("Missing $field")
 
     val path: PathHandler = path {

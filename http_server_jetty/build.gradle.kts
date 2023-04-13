@@ -17,6 +17,6 @@ dependencies {
     "api"("org.eclipse.jetty.http2:http2-server")
     "api"("org.eclipse.jetty:jetty-alpn-java-server")
 
-    "testImplementation"(project(":http_client_jetty"))
+    "testImplementation"(project(":http_client_jetty_ws"))
     "testImplementation"("org.eclipse.jetty.websocket:websocket-jetty-server")
 }

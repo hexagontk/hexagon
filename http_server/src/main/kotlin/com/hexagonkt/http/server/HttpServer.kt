@@ -25,9 +25,9 @@ import com.hexagonkt.core.Jvm.uptime
 import com.hexagonkt.core.Jvm.usedMemory
 import com.hexagonkt.core.prependIndent
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
-import com.hexagonkt.http.server.handlers.HttpHandler
-import com.hexagonkt.http.server.handlers.ServerBuilder
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.HandlerBuilder
+import com.hexagonkt.http.handlers.path
 import java.io.Closeable
 import java.lang.System.nanoTime
 
@@ -60,7 +60,7 @@ data class HttpServer(
     private val logger: Logger = Logger(this::class)
 
     /**
-     * Create a server with a builder ([ServerBuilder]) to set up handlers.
+     * Create a server with a builder ([HandlerBuilder]) to set up handlers.
      *
      * @param adapter The server engine.
      * @param settings Server settings. Port and address will be searched in this map.
@@ -70,7 +70,7 @@ data class HttpServer(
     constructor(
         adapter: HttpServerPort,
         settings: HttpServerSettings = HttpServerSettings(),
-        block: ServerBuilder.() -> Unit
+        block: HandlerBuilder.() -> Unit
     ) :
         this(adapter, path(block = block), settings)
 

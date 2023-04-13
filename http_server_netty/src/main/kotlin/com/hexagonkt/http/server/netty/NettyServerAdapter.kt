@@ -8,11 +8,10 @@ import com.hexagonkt.http.model.HttpProtocol
 import com.hexagonkt.http.model.HttpProtocol.*
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerFeature
-import com.hexagonkt.http.server.HttpServerFeature.WEB_SOCKETS
-import com.hexagonkt.http.server.HttpServerFeature.ZIP
+import com.hexagonkt.http.server.HttpServerFeature.*
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.handlers.HttpHandler
+import com.hexagonkt.http.handlers.HttpHandler
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.Channel
 import io.netty.channel.ChannelInitializer
@@ -37,9 +36,6 @@ import kotlin.Int.Companion.MAX_VALUE
 
 /**
  * Implements [HttpServerPort] using Netty [Channel].
- *
- * TODO Add HTTP/2 support: https://www.baeldung.com/netty-http2
- * TODO Add SSE support: https://github.com/marcusyates/netty-sse-example
  */
 open class NettyServerAdapter(
     private val bossGroupThreads: Int = 1,
@@ -183,7 +179,7 @@ open class NettyServerAdapter(
         setOf(HTTP, HTTPS, HTTP2)
 
     override fun supportedFeatures(): Set<HttpServerFeature> =
-        setOf(ZIP, WEB_SOCKETS)
+        setOf(ZIP, WEB_SOCKETS, SSE)
 
     override fun options(): Map<String, *> =
         fieldsMapOf(
