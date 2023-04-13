@@ -1,7 +1,7 @@
 package com.hexagonkt.http.client.jetty
 
-import com.hexagonkt.http.client.model.ws.WsClientSession
-import com.hexagonkt.http.model.ws.WsCloseStatus
+import com.hexagonkt.http.model.HttpRequestPort
+import com.hexagonkt.http.model.ws.WsSession
 import org.eclipse.jetty.websocket.api.Session
 import java.net.URI
 import java.nio.ByteBuffer
@@ -9,7 +9,16 @@ import java.nio.ByteBuffer
 class JettyClientWsSession(
     override val uri: URI,
     private val session: Session
-) : WsClientSession {
+) : WsSession {
+
+    override val attributes: Map<*, *>
+        get() = throw UnsupportedOperationException()
+    override val request: HttpRequestPort
+        get() = throw UnsupportedOperationException()
+    override val exception: Exception
+        get() = throw UnsupportedOperationException()
+    override val pathParameters: Map<String, String>
+        get() = throw UnsupportedOperationException()
 
     override fun send(data: ByteArray) {
         session.remote.sendBytes(ByteBuffer.wrap(data))
@@ -27,7 +36,7 @@ class JettyClientWsSession(
         session.remote.sendPong(ByteBuffer.wrap(data))
     }
 
-    override fun close(status: WsCloseStatus, reason: String) {
-        session.close(status.code, reason)
+    override fun close(status: Int, reason: String) {
+        session.close(status, reason)
     }
 }

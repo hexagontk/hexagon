@@ -1,7 +1,5 @@
 package com.hexagonkt.http.client.jetty
 
-import com.hexagonkt.http.model.ws.CloseStatus
-import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.model.ws.WsSession
 import org.eclipse.jetty.websocket.api.Session
 import org.eclipse.jetty.websocket.api.WebSocketAdapter
@@ -14,7 +12,7 @@ class JettyWebSocketAdapter(
     private val onText: WsSession.(text: String) -> Unit,
     private val onPing: WsSession.(data: ByteArray) -> Unit,
     private val onPong: WsSession.(data: ByteArray) -> Unit,
-    private val onClose: WsSession.(status: WsCloseStatus, reason: String) -> Unit,
+    private val onClose: WsSession.(status: Int, reason: String) -> Unit,
 ) : WebSocketAdapter() {
 
     private val wsSession by lazy { JettyClientWsSession(uri, session) }
@@ -29,7 +27,7 @@ class JettyWebSocketAdapter(
     }
 
     override fun onWebSocketClose(statusCode: Int, reason: String) {
-        wsSession.onClose(CloseStatus.valueOf(statusCode), reason)
+        wsSession.onClose(statusCode, reason)
         super.onWebSocketClose(statusCode, reason)
     }
 
