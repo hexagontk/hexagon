@@ -5,9 +5,8 @@ import com.hexagonkt.http.model.*
 import java.net.URL
 
 // TODO Add proxy configuration
-// TODO Allow null value in 'baseUrl'
 data class HttpClientSettings(
-    val baseUrl: URL = URL("http://localhost:2010"),
+    val baseUrl: URL? = null,
     val contentType: ContentType? = null,
     val useCookies: Boolean = true,
     val headers: Headers = Headers(),

@@ -1,14 +1,14 @@
 package com.hexagonkt.http.client
 
 import com.hexagonkt.core.media.TEXT_CSV
-import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.handlers.FilterHandler
+import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.model.*
-import kotlin.test.Test
+import java.lang.StringBuilder
 import java.net.URL
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import java.util.concurrent.Flow
+import java.util.concurrent.Flow.Subscription
+import kotlin.test.*
 
 internal class HttpClientTest {
 
@@ -20,13 +20,24 @@ internal class HttpClientTest {
 
         val base = "http://example.org"
         val baseUrl = URL(base)
-        assertEquals(baseUrl, HttpClient(VoidAdapter, base).settings.baseUrl)
-        assertEquals(baseUrl, HttpClient(VoidAdapter, base, noCookiesSettings).settings.baseUrl)
-        assertFalse(HttpClient(VoidAdapter, base, noCookiesSettings).settings.useCookies)
+        assertEquals(
+            baseUrl,
+            HttpClient(VoidAdapter, HttpClientSettings(baseUrl)).settings.baseUrl
+        )
+        assertEquals(
+            baseUrl,
+            HttpClient(VoidAdapter, noCookiesSettings.copy(baseUrl = baseUrl)).settings.baseUrl
+        )
+        assertFalse(
+            HttpClient(VoidAdapter, noCookiesSettings.copy(baseUrl = baseUrl)).settings.useCookies
+        )
 
         val settingsBaseUrl = URL("http://server.com")
         val baseUrlSettings = HttpClientSettings(baseUrl = settingsBaseUrl)
-        assertEquals(baseUrl, HttpClient(VoidAdapter, base, baseUrlSettings).settings.baseUrl)
+        assertEquals(
+            baseUrl,
+            HttpClient(VoidAdapter, baseUrlSettings.copy(baseUrl = baseUrl)).settings.baseUrl
+        )
         assertEquals(settingsBaseUrl, HttpClient(VoidAdapter, baseUrlSettings).settings.baseUrl)
     }
 
@@ -48,7 +59,7 @@ internal class HttpClientTest {
     }
 
     @Test fun `Client helper methods work properly`() {
-        fun HttpClientResponse.checkClient(
+        fun HttpResponsePort.checkClient(
             path: String,
             body: String = "",
             headers: Headers = Headers(),
@@ -65,47 +76,120 @@ internal class HttpClientTest {
         val headers = Headers(Header("h1", "v1"))
         val body = "body"
 
-        client.get("/a").checkClient("/a")
-        client.head("/a").checkClient("/a")
-        client.post("/a").checkClient("/a")
-        client.put("/a").checkClient("/a")
-        client.delete("/a").checkClient("/a")
-        client.trace("/a").checkClient("/a")
-        client.options("/a").checkClient("/a")
-        client.patch("/a").checkClient("/a")
+        client.request {
+            get("/a").checkClient("/a")
+            head("/a").checkClient("/a")
+            post("/a").checkClient("/a")
+            put("/a").checkClient("/a")
+            delete("/a").checkClient("/a")
+            trace("/a").checkClient("/a")
+            options("/a").checkClient("/a")
+            patch("/a").checkClient("/a")
 
-        client.get("/a", headers).checkClient("/a", headers = headers)
-        client.head("/a", headers).checkClient("/a", headers = headers)
-        client.options("/a", headers = headers).checkClient("/a", headers = headers)
-        client.get("/a", body = body).checkClient("/a", body)
-        client.options("/a", body).checkClient("/a", body)
-        client.post("/a", body).checkClient("/a", body)
-        client.put("/a", body).checkClient("/a", body)
-        client.delete("/a", body).checkClient("/a", body)
-        client.trace("/a", body).checkClient("/a", body)
-        client.patch("/a", body).checkClient("/a", body)
-        client.options("/a", body, headers).checkClient("/a", body, headers)
+            get().checkClient("")
+            head().checkClient("")
+            post().checkClient("")
+            put().checkClient("")
+            delete().checkClient("")
+            trace().checkClient("")
+            options().checkClient("")
+            patch().checkClient("")
 
-        csvClient.get("/a").checkClient("/a", contentType = csv)
-        csvClient.head("/a").checkClient("/a")
-        csvClient.post("/a").checkClient("/a", contentType = csv)
-        csvClient.put("/a").checkClient("/a", contentType = csv)
-        csvClient.delete("/a").checkClient("/a", contentType = csv)
-        csvClient.trace("/a").checkClient("/a", contentType = csv)
-        csvClient.options("/a").checkClient("/a", contentType = csv)
-        csvClient.patch("/a").checkClient("/a", contentType = csv)
+            get("/a", headers).checkClient("/a", headers = headers)
+            head("/a", headers).checkClient("/a", headers = headers)
+            options("/a", headers = headers).checkClient("/a", headers = headers)
+            get("/a", body = body).checkClient("/a", body)
+            options("/a", body).checkClient("/a", body)
+            post("/a", body).checkClient("/a", body)
+            put("/a", body).checkClient("/a", body)
+            delete("/a", body).checkClient("/a", body)
+            trace("/a", body).checkClient("/a", body)
+            patch("/a", body).checkClient("/a", body)
+            options("/a", body, headers).checkClient("/a", body, headers)
+        }
 
-        csvClient.get("/a", headers).checkClient("/a", headers = headers, contentType = csv)
-        csvClient.head("/a", headers).checkClient("/a", headers = headers)
-        csvClient.get("/a", body = body).checkClient("/a", body, contentType = csv)
-        csvClient.options("/a", body).checkClient("/a", body, contentType = csv)
-        csvClient.post("/a", body).checkClient("/a", body, contentType = csv)
-        csvClient.put("/a", body).checkClient("/a", body, contentType = csv)
-        csvClient.delete("/a", body).checkClient("/a", body, contentType = csv)
-        csvClient.trace("/a", body).checkClient("/a", body, contentType = csv)
-        csvClient.patch("/a", body).checkClient("/a", body, contentType = csv)
-        csvClient.options("/a", body, headers).checkClient("/a", body, headers, contentType = csv)
-        csvClient.options("/a", headers = headers)
-            .checkClient("/a", headers = headers, contentType = csv)
+        csvClient.request {
+            get("/a").checkClient("/a", contentType = csv)
+            head("/a").checkClient("/a")
+            post("/a").checkClient("/a", contentType = csv)
+            put("/a").checkClient("/a", contentType = csv)
+            delete("/a").checkClient("/a", contentType = csv)
+            trace("/a").checkClient("/a", contentType = csv)
+            options("/a").checkClient("/a", contentType = csv)
+            patch("/a").checkClient("/a", contentType = csv)
+
+            get("/a", headers).checkClient("/a", headers = headers, contentType = csv)
+            head("/a", headers).checkClient("/a", headers = headers)
+            get("/a", body = body).checkClient("/a", body, contentType = csv)
+            options("/a", body).checkClient("/a", body, contentType = csv)
+            post("/a", body).checkClient("/a", body, contentType = csv)
+            put("/a", body).checkClient("/a", body, contentType = csv)
+            delete("/a", body).checkClient("/a", body, contentType = csv)
+            trace("/a", body).checkClient("/a", body, contentType = csv)
+            patch("/a", body).checkClient("/a", body, contentType = csv)
+            options("/a", body, headers).checkClient("/a", body, headers, contentType = csv)
+            options("/a", headers = headers).checkClient("/a", headers = headers, contentType = csv)
+        }
+    }
+
+    @Test fun `Shut down not started client fails`() {
+        val client = HttpClient(VoidAdapter)
+        val message = assertFailsWith<IllegalStateException> { client.stop() }.message
+        assertEquals("HTTP client *MUST BE STARTED* before shut-down", message)
+    }
+
+    @Test fun `Handlers filter requests and responses`() {
+        val handler = FilterHandler {
+            val next = request(body = "p_" + request.bodyString()).next()
+            next.send(body = next.request.bodyString() + next.response.bodyString() + "_s")
+        }
+        val client = HttpClient(VoidAdapter, handler = handler)
+
+        val e = assertFailsWith<IllegalStateException> { client.get("http://localhost") }
+        assertEquals("HTTP client *MUST BE STARTED* before sending requests", e.message)
+
+        client.request {
+            assertEquals("p_p__s", client.post("/test").bodyString())
+            assertEquals("p_bodyp_body_s", client.post("/test", "body").bodyString())
+        }
+    }
+
+    @Test fun `SSE requests work properly`() {
+        val client = HttpClient(VoidAdapter)
+
+        val e = assertFailsWith<IllegalStateException> { client.sse("http://localhost") }
+        assertEquals("HTTP client *MUST BE STARTED* before sending requests", e.message)
+
+        client.request {
+            val publisher = sse("http://example.org")
+            publisher.subscribe(object : Flow.Subscriber<ServerEvent> {
+                override fun onComplete() {}
+                override fun onError(throwable: Throwable) {}
+
+                override fun onNext(item: ServerEvent) {
+                    assertEquals(ServerEvent("event", "data", "id", 1), item)
+                }
+
+                override fun onSubscribe(subscription: Subscription) {
+                    subscription.request(Long.MAX_VALUE)
+                }
+            })
+            VoidAdapter.eventPublisher.submit(ServerEvent("event", "data", "id", 1))
+        }
+    }
+
+    @Test fun `WebSockets requests work properly`() {
+        val client = HttpClient(VoidAdapter)
+
+        val e = assertFailsWith<IllegalStateException> { client.ws("http://localhost") }
+        assertEquals("HTTP client *MUST BE STARTED* before connecting to WS", e.message)
+
+        client.request {
+            val data = StringBuilder()
+            val session = ws("http://example.org", onText = { data.append(it) })
+            assertEquals("", data.toString())
+            session.send("text")
+            assertEquals("text", data.toString())
+        }
     }
 }
