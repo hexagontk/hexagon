@@ -20,13 +20,9 @@ abstract class Http2Test(
     final override val serverAdapter: () -> HttpServerPort,
     final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
-    private val h2cServerSettings = serverSettings.copy(
-        bindPort = 0,
-        protocol = H2C,
-    )
 
     private val clientSettings = HttpClientSettings()
-
+    private val h2cServerSettings = serverSettings.copy(bindPort = 0, protocol = H2C)
     private val h2cHeaders: Headers = Headers(
         Header("Upgrade", "h2c"),
         Header("Connection", "Upgrade, HTTP2-Settings"),

@@ -39,9 +39,11 @@ internal class NettyServerHandler(
     private var certificates: List<X509Certificate> = emptyList()
 
     override fun channelRead(context: ChannelHandlerContext, nettyRequest: Any) {
-        if (nettyRequest !is HttpRequest)
-            return
+        if (nettyRequest is HttpRequest)
+            readHttpRequest(context, nettyRequest)
+    }
 
+    private fun readHttpRequest(context: ChannelHandlerContext, nettyRequest: HttpRequest) {
         val result = nettyRequest.decoderResult()
 
         if (result.isFailure)
