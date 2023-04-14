@@ -19,6 +19,7 @@ import io.netty.handler.codec.http.HttpHeaderValues.CHUNKED
 import io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE
 import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.HttpMethod.GET
+import io.netty.handler.codec.http.HttpRequest
 import io.netty.handler.codec.http.HttpResponseStatus.*
 import io.netty.handler.codec.http.HttpVersion.HTTP_1_1
 import io.netty.handler.codec.http.cookie.DefaultCookie
@@ -38,9 +39,11 @@ internal class NettyServerHandler(
     private var certificates: List<X509Certificate> = emptyList()
 
     override fun channelRead(context: ChannelHandlerContext, nettyRequest: Any) {
-        if (nettyRequest !is FullHttpRequest)
-            return
+        if (nettyRequest is HttpRequest)
+            readHttpRequest(context, nettyRequest)
+    }
 
+    private fun readHttpRequest(context: ChannelHandlerContext, nettyRequest: HttpRequest) {
         val result = nettyRequest.decoderResult()
 
         if (result.isFailure)
@@ -125,7 +128,7 @@ internal class NettyServerHandler(
         context: ChannelHandlerContext,
         request: Context<HttpCall>,
         response: HttpResponsePort,
-        nettyRequest: FullHttpRequest,
+        nettyRequest: HttpRequest,
         channel: Channel
     ) {
         val session = NettyWsSession(context, HttpContext(request))
@@ -143,7 +146,7 @@ internal class NettyServerHandler(
         session.(response.onConnect)()
     }
 
-    private fun wsHandshake(nettyRequest: FullHttpRequest, channel: Channel) {
+    private fun wsHandshake(nettyRequest: HttpRequest, channel: Channel) {
         val host = nettyRequest.headers()["host"]
         val uri = nettyRequest.uri()
         val url = "ws://$host$uri"

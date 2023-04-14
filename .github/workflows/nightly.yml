@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ ubuntu-latest, windows-latest ]
 
     name: Build (${{ matrix.os }})
     permissions: read-all
@@ -34,6 +34,17 @@ jobs:
       os: ${{ matrix.os }}
       check_directory: core/build
       ref: develop
+
+  # TODO Delete this special case when macOS runs Jacoco properly
+  build_macos:
+    name: Build (macos-latest)
+    permissions: read-all
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
+    with:
+      os: macos-latest
+      check_directory: core/build
+      ref: develop
+      tasks: -x jacocoTestReport
 
   sample_keystores:
     strategy:
