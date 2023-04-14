@@ -1,6 +1,7 @@
 package com.hexagonkt.core
 
 import java.io.File
+import java.lang.IllegalArgumentException
 import java.net.InetAddress
 import java.net.URI
 import java.net.URL
@@ -32,6 +33,11 @@ internal class StringsTest {
 
         assertEquals(parsedClasses, tests.keys)
         tests.forEach { (k, v) -> assertNotNull(v.parseOrNull(k)) }
+    }
+
+    @Test fun `Invalid types return 'null' on parse`() {
+        val e = assertFailsWith<IllegalArgumentException> { "28".parse(System::class) }
+        assertEquals("Unsupported type: java.lang.System", e.message)
     }
 
     @Test fun `Invalid string transformations return null`() {

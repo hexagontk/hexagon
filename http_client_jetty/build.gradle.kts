@@ -6,6 +6,7 @@ plugins {
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
+apply(from = "../gradle/native.gradle")
 
 dependencies {
     val jettyVersion = properties["jettyVersion"]
@@ -15,5 +16,4 @@ dependencies {
     "api"("org.eclipse.jetty:jetty-client") { exclude(group = "org.slf4j") }
     "api"("org.eclipse.jetty.http2:http2-client") { exclude(group = "org.slf4j") }
     "api"("org.eclipse.jetty.http2:http2-http-client-transport") { exclude(group = "org.slf4j") }
-    "api"("org.eclipse.jetty.websocket:websocket-jetty-client") { exclude(group = "org.slf4j") }
 }

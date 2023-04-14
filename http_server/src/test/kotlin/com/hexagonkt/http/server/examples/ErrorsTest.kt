@@ -6,8 +6,8 @@ import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
-import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.PathHandler
+import com.hexagonkt.http.handlers.path
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

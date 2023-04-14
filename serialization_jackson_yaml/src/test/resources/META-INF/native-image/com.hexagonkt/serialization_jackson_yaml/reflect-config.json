@@ -1,0 +1,9 @@
+[
+  {
+    "name": "com.hexagonkt.serialization.jackson.yaml.YamlTest$Player",
+    "allPublicMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredMethods": true,
+    "allDeclaredConstructors": true
+  }
+]

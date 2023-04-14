@@ -77,7 +77,7 @@ To set up this script's parameters, check the [build variables section]. These h
 * iconsDirectory: directory inside `build` where icons will be generated. The default is `icons`.
 
 [rsvg]: https://github.com/GNOME/librsvg
-[imagemagick]: https://www.imagemagick.org
+[imagemagick]: https://imagemagick.org/index.php
 
 ## Kotlin
 Adds Kotlin's Gradle plugin.
@@ -251,9 +251,6 @@ And if you want to create a native image for your application you should execute
 ```
 
 To set up this script's parameters, check the [build variables section]. These helper settings are:
-
-* codeFilterFile: file which filters the source code to include in the configuration metadata. It is
-  optional and by default it is empty (value to be used in application's native images).
 
 [GraalVM]: https://www.graalvm.org
 [native image]: https://graalvm.github.io/native-build-tools/latest/index.html

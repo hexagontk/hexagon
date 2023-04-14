@@ -12,9 +12,9 @@ import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.HttpHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.PathHandler
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import java.net.URL
@@ -131,12 +131,10 @@ abstract class FiltersTest(
     }
 
     private fun authorizedClient(user: String, password: String): HttpClient {
-        val headers = Headers(Header("authorization", basicAuth(user, password)))
-        return HttpClient(
-            clientAdapter(),
-            URL("http://localhost:${server.runtimePort}"),
-            HttpClientSettings(headers = headers)
+        val settings = HttpClientSettings(
+            baseUrl = URL("http://localhost:${server.runtimePort}"),
+            headers = Headers(Header("authorization", basicAuth(user, password)))
         )
-            .apply { start() }
+        return HttpClient(clientAdapter(), settings).apply { start() }
     }
 }

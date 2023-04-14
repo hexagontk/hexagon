@@ -44,7 +44,11 @@ internal class ClasspathHandlerProviderTest {
         val e = assertFailsWith<MalformedURLException> {
             assert(URL("unknown:data").readText().lines().isNotEmpty())
         }
-        assert(e.message == "unknown protocol: unknown")
+
+        val errorJvm = "unknown protocol: unknown"
+        val errorNative = "The URL protocol unknown is not tested"
+        val message = e.message ?: "_"
+        assert(message.contains(errorJvm) || message.contains(errorNative))
     }
 
     @Test fun `Resource loading using URL returns data`() {

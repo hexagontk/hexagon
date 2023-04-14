@@ -9,8 +9,8 @@ include(
     // Utility modules
     "core",
     "handlers",
-    "helpers",
     "http",
+    "http_handlers",
 
     // Ports
     "http_client",
@@ -30,6 +30,7 @@ include(
     "serialization_jackson_yaml",
     "serialization_jackson_xml",
     "http_client_jetty",
+    "http_client_jetty_ws",
     "http_server_servlet",
     "http_server_jetty",
     "http_server_netty",

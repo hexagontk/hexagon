@@ -35,13 +35,6 @@ a project from scratch following these steps:
 
 5. Run the service and view the results at: [http://localhost:2010/hello][Endpoint]
 
-> 🔥 **Tip**
->
-> <sup>If you use Gradle, you can use the [Application Helper] and run the application watching for
-> changes with the command: `./gradlew watch -t`</sup>
-
-[Application Helper]: /gradle/#application
-
 # Dependencies Verification
 Hexagon's dependencies are signed, you can get the public key at the
 [OpenPGP Public Key Server][pgp key] or [here][site pgp key].

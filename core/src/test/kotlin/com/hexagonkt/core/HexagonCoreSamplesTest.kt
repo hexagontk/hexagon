@@ -4,9 +4,21 @@ import com.hexagonkt.core.logging.logger
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.logging.LoggingLevel.*
 import com.hexagonkt.core.logging.LoggingManager
+import java.net.URL
 import kotlin.test.Test
+import kotlin.test.assertContains
 
 internal class HexagonCoreSamplesTest {
+
+    @Test fun buildPropertiesBundled() {
+        val hexagonProperties = URL("classpath:hexagon.properties").readText()
+
+        assertContains(hexagonProperties, "project=")
+        assertContains(hexagonProperties, "module=")
+        assertContains(hexagonProperties, "version=")
+        assertContains(hexagonProperties, "group=")
+        assertContains(hexagonProperties, "description=")
+    }
 
     @Suppress("RedundantExplicitType") // Type declared for examples generation
     @Test fun loggerUsage() {

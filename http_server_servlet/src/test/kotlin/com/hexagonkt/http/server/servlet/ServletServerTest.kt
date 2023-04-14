@@ -5,9 +5,10 @@ import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.logging.jul.JulLoggingAdapter
 import com.hexagonkt.http.client.HttpClient
+import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.NOT_FOUND_404
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.path
 import org.eclipse.jetty.webapp.WebAppContext
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -56,7 +57,8 @@ internal class ServletServerTest {
     }
 
     @Test fun `Servlet server starts`() {
-        HttpClient(JettyClientAdapter(), URL("http://127.0.0.1:9897")).use {
+        val settings = HttpClientSettings(URL("http://127.0.0.1:9897"))
+        HttpClient(JettyClientAdapter(), settings).use {
             it.start()
             assertEquals("Hello Servlet!", it.get("/").body)
             assertEquals(NOT_FOUND_404, it.post("/").status)

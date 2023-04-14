@@ -1,26 +1,62 @@
 package com.hexagonkt.serialization
 
+import com.hexagonkt.core.decodeBase64
 import com.hexagonkt.core.media.APPLICATION_PHP
 import com.hexagonkt.core.media.APPLICATION_AVRO
+import com.hexagonkt.serialization.Department.DESIGN
+import com.hexagonkt.serialization.Department.DEVELOPMENT
 import com.hexagonkt.serialization.jackson.json.Json
 import kotlin.test.Test
 import java.io.File
+import java.net.InetAddress
 import kotlin.IllegalStateException
 import java.net.URL
+import java.nio.ByteBuffer
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 internal class SerializationTest {
 
-    @Test fun `Data serialization to file work properly`() {
-        SerializationManager.defaultFormat = Json
+    @Test fun `Created data mappers work correctly`() {
+        val jsonCompany =
+            """
+            {
+              "id" : "id",
+              foundation : "2014-01-25",
+              closeTime : "11:42",
+              openTime : {
+                start : "08:30",
+                end : "14:51:00"
+              },
+              "web" : "http://example.org",
+              "clients" : [
+                "http://c1.example.org",
+                "http://c2.example.org"
+              ],
+              "logo" : "AAEC",
+              "notes" : "notes",
+              "people" : [
+                { "name" : "John" },
+                { "name" : "Mike" }
+              ],
+              "departments" : [ "DESIGN", "DEVELOPMENT" ],
+              "creationDate" : "2016-01-01T00:00",
+              "host" : "127.0.0.1",
+              "averageMargin" : 0.13782355,
+            }
+            """
 
-        val map = mapOf("a" to "b")
-        val file = File("build/a.json")
+        val company = jsonCompany.parseMap(Json).toData(::Company)
+        val serializedCompany = company.copy(notes = "${company.notes} updated").serialize(Json)
+        val parsedCompany = serializedCompany.parseMap(Json).toData(::Company)
 
-        map.serialize(file)
-        assertEquals(map, file.parse())
+        assertEquals(setOf(DESIGN, DEVELOPMENT), company.departments)
+        assertEquals(0.13782355F, company.averageMargin)
+        assertEquals("notes updated", parsedCompany.notes)
     }
 
     @Test fun `Data serialization helpers work properly`() {
@@ -56,5 +92,40 @@ internal class SerializationTest {
         }
         assertEquals(listOf("text"), phpFile.parse())
         assertEquals(listOf("bytes"), avroFile.parse())
+    }
+
+    @Test fun `Data serialization helpers convert data properly`() {
+        SerializationManager.formats = setOf(Json)
+
+        URL("classpath:data/company.json").parse().toData(::Company).first().apply {
+            assertEquals("id1", id)
+            assertEquals(LocalDate.of(2014, 1, 25), foundation)
+            assertEquals(LocalTime.of(11, 42), closeTime)
+            assertEquals(LocalTime.of(8, 30)..LocalTime.of(14, 51), openTime)
+            assertEquals(URL("http://example.org"), web)
+            assertEquals(setOf(Person("John"), Person("Mike")), people)
+            assertEquals(LocalDateTime.of(2016, 1, 1, 0, 0), creationDate)
+            assertEquals(InetAddress.getByName("127.0.0.1"), host)
+        }
+
+        URL("classpath:data/companies.json").parse().toData(::Company).first().apply {
+            val clientList = listOf(URL("http://c1.example.org"), URL("http://c2.example.org"))
+
+            assertEquals("id", id)
+            assertEquals(LocalDate.of(2014, 1, 25), foundation)
+            assertEquals(LocalTime.of(11, 42), closeTime)
+            assertEquals(LocalTime.of(8, 30)..LocalTime.of(14, 51), openTime)
+            assertEquals(URL("http://example.org"), web)
+            assertEquals(clientList, clients)
+            assertEquals(ByteBuffer.wrap("AAEC".decodeBase64()), logo)
+            assertEquals("notes", notes)
+            assertEquals(setOf(Person("John"), Person("Mike")), people)
+            assertEquals(setOf(DESIGN, DEVELOPMENT), departments)
+            assertEquals(LocalDateTime.of(2016, 1, 1, 0, 0), creationDate)
+            assertEquals(InetAddress.getByName("127.0.0.1"), host)
+        }
+
+        val e = assertFailsWith<IllegalStateException> { "text".toData(::Company) }
+        assertEquals("Instance of type: String cannot be transformed to data", e.message)
     }
 }

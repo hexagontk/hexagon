@@ -1,14 +1,10 @@
 package com.hexagonkt.http.server.callbacks
 
 import com.hexagonkt.core.media.TEXT_MARKDOWN
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.NOT_FOUND_404
-import com.hexagonkt.http.model.OK_200
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.patterns.TemplatePathPattern
-import com.hexagonkt.http.server.handlers.HttpServerContext
-import com.hexagonkt.http.server.handlers.HttpServerPredicate
-import com.hexagonkt.http.server.model.HttpServerRequest
-import com.hexagonkt.http.server.model.HttpServerResponse
+import com.hexagonkt.http.handlers.HttpContext
+import com.hexagonkt.http.handlers.HttpPredicate
 import kotlin.test.Test
 import java.io.File
 import kotlin.IllegalStateException
@@ -73,11 +69,11 @@ internal class FileCallbackTest {
         filePath: String,
         requestPath: String,
         pathPattern: String
-    ): HttpServerResponse =
+    ): HttpResponsePort =
         FileCallback(File(filePath))(
-            HttpServerContext(
-                request = HttpServerRequest(path = requestPath),
-                predicate = HttpServerPredicate(pathPattern = TemplatePathPattern(pathPattern)),
+            HttpContext(
+                request = HttpRequest(path = requestPath),
+                predicate = HttpPredicate(pathPattern = TemplatePathPattern(pathPattern)),
             )
         ).response
 }

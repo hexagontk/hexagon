@@ -15,6 +15,12 @@ graalvmNative {
     metadataRepository {
         enabled.set(true)
     }
+
+    binaries {
+        test {
+            runtimeArgs = [ "-DnativeTest=true", "--xml-output-dir", "build/reports/tests/native" ]
+        }
+    }
 }
 
 tasks.register("upx", Exec) {

@@ -1,6 +1,6 @@
 package com.hexagonkt.serialization.test
 
-import com.hexagonkt.core.requireKeys
+import com.hexagonkt.core.requirePath
 import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.Test
 import java.net.URL
@@ -50,8 +50,8 @@ abstract class SerializationTest {
 
     private fun mapToPerson(map: Map<*, *>) =
         Person(
-            givenName = map.requireKeys("givenName"),
-            familyName = map.requireKeys("familyName"),
-            birthDate = LocalDate.parse(map.requireKeys("birthDate"))
+            givenName = map.requirePath("givenName"),
+            familyName = map.requirePath("familyName"),
+            birthDate = LocalDate.parse(map.requirePath("birthDate"))
         )
 }

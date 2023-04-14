@@ -7,8 +7,8 @@ import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.HttpProtocol.*
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.server.handlers.HttpHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -43,7 +43,7 @@ abstract class Http2Test(
         val server = serve(serverAdapter(), handler, h2cServerSettings)
 
         val contextPath = URL("http://localhost:${server.runtimePort}")
-        val client = HttpClient(clientAdapter(), contextPath, clientSettings)
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
 
         client.start()
         client.get("/hello", h2cHeaders).apply {
@@ -54,4 +54,3 @@ abstract class Http2Test(
         server.stop()
     }
 }
-

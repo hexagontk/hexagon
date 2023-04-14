@@ -5,8 +5,9 @@ import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.toText
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.handlers.HttpHandler
-import com.hexagonkt.http.server.model.HttpServerResponse
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.model.HttpResponse
+import com.hexagonkt.http.model.HttpResponsePort
 import jakarta.servlet.*
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpFilter
@@ -51,11 +52,10 @@ class ServletFilter(
         val handlerResponse = handlers[request.method]
             ?.process(ServletRequestAdapterSync(request))
             ?.response
-            ?: HttpServerResponse()
+            ?: HttpResponse()
 
         try {
             responseToServlet(handlerResponse, response)
-            // TODO Handle different types: deferred values, strings, ints... flows
             response.outputStream.write(bodyToBytes(handlerResponse.body))
         }
         catch (e: Exception) {
@@ -69,7 +69,7 @@ class ServletFilter(
     }
 
     private fun responseToServlet(
-        response: HttpServerResponse, servletResponse: HttpServletResponse) {
+        response: HttpResponsePort, servletResponse: HttpServletResponse) {
 
         response.headers.values.forEach { (k, v) ->
             v.forEach { servletResponse.addHeader(k, it) }

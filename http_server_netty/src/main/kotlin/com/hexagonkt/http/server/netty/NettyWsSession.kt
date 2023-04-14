@@ -1,22 +1,24 @@
 package com.hexagonkt.http.server.netty
 
-import com.hexagonkt.http.model.ws.WsCloseStatus
-import com.hexagonkt.http.server.handlers.HttpServerContext
-import com.hexagonkt.http.server.model.HttpServerRequestPort
-import com.hexagonkt.http.server.model.ws.WsServerSession
+import com.hexagonkt.http.handlers.HttpContext
+import com.hexagonkt.http.model.HttpRequestPort
+import com.hexagonkt.http.model.ws.WsSession
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.http.websocketx.*
+import java.net.URI
 
 internal class NettyWsSession(
     nettyContext: ChannelHandlerContext,
-    context: HttpServerContext,
-) : WsServerSession {
+    context: HttpContext,
+) : WsSession {
 
     override val attributes: Map<*, *> by lazy { context.attributes }
-    override val request: HttpServerRequestPort by lazy { context.request }
+    override val request: HttpRequestPort by lazy { context.request }
     override val exception: Exception? by lazy { context.exception }
     override val pathParameters: Map<String, String> by lazy { context.pathParameters }
+
+    override val uri: URI get() = throw UnsupportedOperationException()
 
     private val channel = nettyContext.channel()
 
@@ -38,8 +40,8 @@ internal class NettyWsSession(
         channel.writeAndFlush(PongWebSocketFrame(Unpooled.wrappedBuffer(data)))
     }
 
-    override fun close(status: WsCloseStatus, reason: String) {
-        val webSocketFrame = CloseWebSocketFrame(status.code, reason)
+    override fun close(status: Int, reason: String) {
+        val webSocketFrame = CloseWebSocketFrame(status, reason)
         channel.writeAndFlush(webSocketFrame)
     }
 }

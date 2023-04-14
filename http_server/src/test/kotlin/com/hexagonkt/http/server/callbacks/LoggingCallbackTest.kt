@@ -6,16 +6,16 @@ import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.Headers
-import com.hexagonkt.http.server.handlers.HttpServerContext
-import com.hexagonkt.http.server.model.HttpServerRequest
-import com.hexagonkt.http.server.model.HttpServerResponse
+import com.hexagonkt.http.handlers.HttpContext
+import com.hexagonkt.http.model.HttpRequest
+import com.hexagonkt.http.model.HttpResponse
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class LoggingCallbackTest {
 
     @Test fun `Logging callback include the details`() {
-        LoggingCallback()(HttpServerContext())
+        LoggingCallback()(HttpContext())
     }
 
     @Test fun `Details are configurable for requests`() {
@@ -33,14 +33,14 @@ internal class LoggingCallbackTest {
         assertEquals(
             "$prefix \n\naccept: text/plain, text/html",
             requestDetails(
-                request = HttpServerRequest(
+                request = HttpRequest(
                     accept = listOf(ContentType(TEXT_PLAIN), ContentType(TEXT_HTML))
                 )
             )
         )
         assertEquals(
             "$prefix \n\ncontent-type: application/json",
-            requestDetails(request = HttpServerRequest(contentType = ContentType(APPLICATION_JSON)))
+            requestDetails(request = HttpRequest(contentType = ContentType(APPLICATION_JSON)))
         )
     }
 
@@ -59,7 +59,7 @@ internal class LoggingCallbackTest {
         assertEquals(
             "$prefix\n\ncontent-type: application/json",
             responseDetails(
-                response = HttpServerResponse(contentType = ContentType(APPLICATION_JSON))
+                response = HttpResponse(contentType = ContentType(APPLICATION_JSON))
             )
         )
     }
@@ -67,8 +67,8 @@ internal class LoggingCallbackTest {
     private fun requestDetails(
         headers: Boolean = true,
         body: Boolean = true,
-        request: HttpServerRequest =
-            HttpServerRequest(
+        request: HttpRequest =
+            HttpRequest(
                 headers = Headers(Header("h", 42)),
                 body = "b"
             )
@@ -78,13 +78,13 @@ internal class LoggingCallbackTest {
     private fun responseDetails(
         headers: Boolean = true,
         body: Boolean = true,
-        request: HttpServerRequest =
-            HttpServerRequest(
+        request: HttpRequest =
+            HttpRequest(
                 headers = Headers(Header("h", 42)),
                 body = "b"
             ),
-        response: HttpServerResponse =
-            HttpServerResponse(
+        response: HttpResponse =
+            HttpResponse(
                 headers = Headers(Header("h", 42)),
                 body = "b",
             ),

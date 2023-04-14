@@ -142,7 +142,7 @@ Check the next snippet for Handlers usage examples:
 A predicate is a function that is applied to a call context and returns a boolean. If the result is
 true, the handler will be executed.
 
-The default implementation ([HttpServerPredicate]) is based on a template with any combination of
+The default implementation ([HttpPredicate]) is based on a template with any combination of
 the following fields:
 
 * a list of HTTP methods
@@ -152,7 +152,7 @@ the following fields:
 
 It yields true if all the supplied fields matches a call context.
 
-[HttpServerPredicate]: /api/http_server/com.hexagonkt.http.server.handlers/-http-server-predicate
+[HttpPredicate]: /api/http_server/com.hexagonkt.http.handlers/-http-predicate
 
 ## Path Patterns
 Patterns to match requests paths. They can have:
@@ -373,7 +373,7 @@ To do this kind of tests without creating a custom server (using the real produc
 Check the [tests of the starter projects].
 
 [tests of the starter projects]:
-https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt
+https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/ApplicationTest.kt
 
 ## Mocking Calls
 To unit test callbacks and handlers you can create test calls with hardcoded requests without
@@ -397,7 +397,7 @@ HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the H
 # Package com.hexagonkt.http.server.model
 Classes to model server HTTP messages (requests and responses). Built on top of the [http] module.
 
-# Package com.hexagonkt.http.server.model.ws
+# Package com.hexagonkt.http.model.ws
 Classes to model server HTTP messages (requests and responses). Built on top of the [http] module.
 
 [http]: /http

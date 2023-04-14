@@ -3,11 +3,10 @@ package com.hexagonkt.http.server.servlet
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
 import com.hexagonkt.http.parseQueryString
-import com.hexagonkt.http.server.model.HttpServerRequestPort
 import java.security.cert.X509Certificate
 import jakarta.servlet.http.HttpServletRequest
 
-internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpServerRequestPort {
+internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpRequestPort {
 
     private companion object {
         const val CERTIFICATE_ATTRIBUTE = "jakarta.servlet.request.X509Certificate"

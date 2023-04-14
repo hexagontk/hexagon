@@ -27,14 +27,15 @@ class PatternFormat(
     private val messageOnly: Boolean = false,
 ) : Formatter() {
 
-    companion object {
-        const val TIMESTAMP = "%tH:%<tM:%<tS,%<tL"
-        const val LEVEL = "%-5s"
-        const val THREAD = "[%-15s]"
-        const val LOGGER = "%-30s"
+    internal companion object {
+        private const val TIMESTAMP = "%tH:%<tM:%<tS,%<tL"
+        private const val LEVEL = "%-5s"
+        private const val THREAD = "[%-15s]"
+        private const val LOGGER = "%-30s"
+
         const val PATTERN = "$TIMESTAMP $LEVEL $THREAD $LOGGER | %s%n"
         const val COLOR_PATTERN =
-            "$BRIGHT_BLACK$TIMESTAMP %s$LEVEL$RESET $MAGENTA$THREAD $CYAN$LOGGER$RESET | %s%n"
+            "$BRIGHT_BLACK$TIMESTAMP %s$LEVEL$RESET $MAGENTA$THREAD $CYAN$LOGGER$RESET | %s%n$RESET"
     }
 
     private val pattern: String = if (useColor) COLOR_PATTERN else PATTERN
