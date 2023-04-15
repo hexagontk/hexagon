@@ -1010,7 +1010,7 @@ are available to be referenced as samples.</p>
 IDEs.</p>
 <h3 id="icons">Icons<a class="headerlink" href="#icons" title="Permanent link">&para;</a></h3>
 <p>Create web icons (favicon and thumbnails for browsers/mobile) from SVG images (logos).</p>
-<p>For image rendering you will need <a href="https://github.com/GNOME/librsvg">rsvg</a> (librsvg2-bin) and <a href="https://www.imagemagick.org">imagemagick</a> installed in the
+<p>For image rendering you will need <a href="https://github.com/GNOME/librsvg">rsvg</a> (librsvg2-bin) and <a href="https://imagemagick.org/index.php">imagemagick</a> installed in the
 development machine.</p>
 <p>To use it, apply <code>$gradleScripts/icons.gradle</code> to your <code>build.gradle</code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
@@ -1168,10 +1168,6 @@ script. I.e.:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>./gradlew<span class="w"> </span>-Pagent<span class="w"> </span>nativeCompile
 </code></pre></div></td></tr></table></div>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
-<ul>
-<li>codeFilterFile: file which filters the source code to include in the configuration metadata. It is
-  optional and by default it is empty (value to be used in application's native images).</li>
-</ul>
 
 
   

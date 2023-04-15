@@ -27,57 +27,58 @@ import java.util.logging.LogRecord
 <span class="fc" id="L27">    private val messageOnly: Boolean = false,</span>
 <span class="fc" id="L28">) : Formatter() {</span>
 
-    companion object {
-        const val TIMESTAMP = &quot;%tH:%&lt;tM:%&lt;tS,%&lt;tL&quot;
-        const val LEVEL = &quot;%-5s&quot;
-        const val THREAD = &quot;[%-15s]&quot;
-        const val LOGGER = &quot;%-30s&quot;
+    internal companion object {
+        private const val TIMESTAMP = &quot;%tH:%&lt;tM:%&lt;tS,%&lt;tL&quot;
+        private const val LEVEL = &quot;%-5s&quot;
+        private const val THREAD = &quot;[%-15s]&quot;
+        private const val LOGGER = &quot;%-30s&quot;
+
         const val PATTERN = &quot;$TIMESTAMP $LEVEL $THREAD $LOGGER | %s%n&quot;
         const val COLOR_PATTERN =
-            &quot;$BRIGHT_BLACK$TIMESTAMP %s$LEVEL$RESET $MAGENTA$THREAD $CYAN$LOGGER$RESET | %s%n&quot;
+            &quot;$BRIGHT_BLACK$TIMESTAMP %s$LEVEL$RESET $MAGENTA$THREAD $CYAN$LOGGER$RESET | %s%n$RESET&quot;
     }
 
-<span class="fc bfc" id="L40" title="All 2 branches covered.">    private val pattern: String = if (useColor) COLOR_PATTERN else PATTERN</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">    private val pattern: String = if (useColor) COLOR_PATTERN else PATTERN</span>
 
-<span class="fc" id="L42">    private val levelColors: Map&lt;Level, String&gt; = mapOf(</span>
-<span class="fc" id="L43">        Level.FINER to Ansi.DEFAULT,</span>
-<span class="fc" id="L44">        Level.FINE to Ansi.DEFAULT,</span>
-<span class="fc" id="L45">        Level.INFO to BLUE,</span>
-<span class="fc" id="L46">        Level.WARNING to Ansi.YELLOW,</span>
-<span class="fc" id="L47">        Level.SEVERE to RED + Ansi.BOLD</span>
+<span class="fc" id="L43">    private val levelColors: Map&lt;Level, String&gt; = mapOf(</span>
+<span class="fc" id="L44">        Level.FINER to Ansi.DEFAULT,</span>
+<span class="fc" id="L45">        Level.FINE to Ansi.DEFAULT,</span>
+<span class="fc" id="L46">        Level.INFO to BLUE,</span>
+<span class="fc" id="L47">        Level.WARNING to Ansi.YELLOW,</span>
+<span class="fc" id="L48">        Level.SEVERE to RED + Ansi.BOLD</span>
     )
 
-<span class="fc" id="L50">    private val levelNames: Map&lt;Level, String&gt; = mapOf(</span>
-<span class="fc" id="L51">        Level.FINER to &quot;TRACE&quot;,</span>
-<span class="fc" id="L52">        Level.FINE to &quot;DEBUG&quot;,</span>
-<span class="fc" id="L53">        Level.INFO to &quot;INFO&quot;,</span>
-<span class="fc" id="L54">        Level.WARNING to &quot;WARN&quot;,</span>
-<span class="fc" id="L55">        Level.SEVERE to &quot;ERROR&quot;</span>
+<span class="fc" id="L51">    private val levelNames: Map&lt;Level, String&gt; = mapOf(</span>
+<span class="fc" id="L52">        Level.FINER to &quot;TRACE&quot;,</span>
+<span class="fc" id="L53">        Level.FINE to &quot;DEBUG&quot;,</span>
+<span class="fc" id="L54">        Level.INFO to &quot;INFO&quot;,</span>
+<span class="fc" id="L55">        Level.WARNING to &quot;WARN&quot;,</span>
+<span class="fc" id="L56">        Level.SEVERE to &quot;ERROR&quot;</span>
     )
 
     override fun format(record: LogRecord): String {
-<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (messageOnly)</span>
-<span class="fc" id="L60">            return record.message + &quot;\n&quot;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (messageOnly)</span>
+<span class="fc" id="L61">            return record.message + &quot;\n&quot;</span>
 
-<span class="fc" id="L62">        val instant = Instant.ofEpochMilli(record.millis)</span>
-<span class="fc" id="L63">        val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())</span>
-<span class="fc" id="L64">        val thrown = record.thrown</span>
-<span class="fc" id="L65">        val trace = when {</span>
-<span class="fc bfc" id="L66" title="All 2 branches covered.">            thrown == null -&gt; &quot;&quot;</span>
-<span class="fc bfc" id="L67" title="All 2 branches covered.">            useColor -&gt; &quot;$eol${thrown.toText()}&quot;.replace(&quot;\n&quot;, &quot;\n$RED&quot;)</span>
-<span class="fc" id="L68">            else -&gt; &quot;$eol${thrown.toText()}&quot;</span>
+<span class="fc" id="L63">        val instant = Instant.ofEpochMilli(record.millis)</span>
+<span class="fc" id="L64">        val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())</span>
+<span class="fc" id="L65">        val thrown = record.thrown</span>
+<span class="fc" id="L66">        val trace = when {</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            thrown == null -&gt; &quot;&quot;</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">            useColor -&gt; &quot;$eol${thrown.toText()}&quot;.replace(&quot;\n&quot;, &quot;\n$RED&quot;)</span>
+<span class="fc" id="L69">            else -&gt; &quot;$eol${thrown.toText()}&quot;</span>
         }
-<span class="fc" id="L70">        val level = record.level</span>
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        val levelName = levelNames[level] ?: fail</span>
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        val levelColor = levelColors[level] ?: BLUE</span>
-<span class="fc" id="L73">        val message = record.message</span>
-<span class="fc" id="L74">        val loggerName = record.loggerName</span>
-<span class="fc" id="L75">        val threadName = Thread.currentThread().name</span>
+<span class="fc" id="L71">        val level = record.level</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        val levelName = levelNames[level] ?: fail</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        val levelColor = levelColors[level] ?: BLUE</span>
+<span class="fc" id="L74">        val message = record.message</span>
+<span class="fc" id="L75">        val loggerName = record.loggerName</span>
+<span class="fc" id="L76">        val threadName = Thread.currentThread().name</span>
 
-<span class="fc bfc" id="L77" title="All 2 branches covered.">        return if (useColor)</span>
-<span class="fc" id="L78">            pattern.format(dateTime, levelColor, levelName, threadName, loggerName, message + trace)</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        return if (useColor)</span>
+<span class="fc" id="L79">            pattern.format(dateTime, levelColor, levelName, threadName, loggerName, message + trace)</span>
         else
-<span class="fc" id="L80">            pattern.format(dateTime, levelName, threadName, loggerName, message + trace)</span>
+<span class="fc" id="L81">            pattern.format(dateTime, levelName, threadName, loggerName, message + trace)</span>
     }
-<span class="fc" id="L82">}</span>
+<span class="fc" id="L83">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

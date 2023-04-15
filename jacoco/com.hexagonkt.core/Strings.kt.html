@@ -76,7 +76,7 @@ fun String.decodeBase64(): ByteArray =
 @Suppress(&quot;UNCHECKED_CAST&quot;) // All allowed types are checked at runtime
 fun &lt;T : Any&gt; String.parse(type: KClass&lt;T&gt;): T =
 <span class="fc" id="L78">    this.let {</span>
-<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        require(type in parsedClasses) { &quot;Unsupported type: ${type.qualifiedName}&quot; }</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        require(type in parsedClasses) { &quot;Unsupported type: ${type.qualifiedName}&quot; }</span>
 
 <span class="fc" id="L81">        when (type) {</span>
 <span class="fc bfc" id="L82" title="All 2 branches covered.">            Boolean::class -&gt; this.toBooleanStrictOrNull()</span>
@@ -104,20 +104,19 @@ fun &lt;T : Any&gt; String.parse(type: KClass&lt;T&gt;): T =
  * @param type .
  * @return .
  */
-@Suppress(&quot;UNCHECKED_CAST&quot;) // All allowed types are checked at runtime
 fun &lt;T : Any&gt; String?.parseOrNull(type: KClass&lt;T&gt;): T? =
-<span class="fc bfc" id="L109" title="All 2 branches covered.">    this?.let {</span>
-<span class="fc bfc" id="L110" title="All 2 branches covered.">        require(type in parsedClasses) { &quot;Unsupported type: ${type.qualifiedName}&quot; }</span>
-<span class="fc" id="L111">        try {</span>
-<span class="fc" id="L112">            parse(type)</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">    this?.let {</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        require(type in parsedClasses) { &quot;Unsupported type: ${type.qualifiedName}&quot; }</span>
+<span class="fc" id="L110">        try {</span>
+<span class="fc" id="L111">            parse(type)</span>
         }
-<span class="fc" id="L114">        catch (e: Exception) {</span>
-<span class="fc" id="L115">            null</span>
+<span class="fc" id="L113">        catch (e: Exception) {</span>
+<span class="fc" id="L114">            null</span>
         }
-<span class="fc" id="L117">    }</span>
+<span class="fc" id="L116">    }</span>
 
 fun String.stripAnsi(): String =
-<span class="fc" id="L120">    replace(Ansi.REGEX, &quot;&quot;)</span>
+<span class="fc" id="L119">    replace(Ansi.REGEX, &quot;&quot;)</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -126,7 +125,7 @@ fun String.stripAnsi(): String =
  * @return .
  */
 fun String.toStream(): InputStream =
-<span class="fc" id="L129">    ByteArrayInputStream(this.toByteArray())</span>
+<span class="fc" id="L128">    ByteArrayInputStream(this.toByteArray())</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -136,6 +135,6 @@ fun String.toStream(): InputStream =
  * @param pad .
  * @return .
  */
-<span class="fc" id="L139">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;): String =</span>
-<span class="fc" id="L140">    this.prependIndent(pad.repeat(count))</span>
+<span class="fc" id="L138">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;): String =</span>
+<span class="fc" id="L139">    this.prependIndent(pad.repeat(count))</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

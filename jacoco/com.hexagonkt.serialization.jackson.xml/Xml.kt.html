@@ -5,64 +5,41 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.ObjectWriter
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
 import com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT
-import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.hexagonkt.core.media.APPLICATION_XML
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.serialization.SerializationFormat
-import com.hexagonkt.serialization.jackson.JacksonHelper.ByteBufferDeserializer
-import com.hexagonkt.serialization.jackson.JacksonHelper.ByteBufferSerializer
-import com.hexagonkt.serialization.jackson.JacksonHelper.ClosedRangeDeserializer
-import com.hexagonkt.serialization.jackson.JacksonHelper.ClosedRangeSerializer
-import com.hexagonkt.serialization.jackson.JacksonHelper.FloatDeserializer
-import com.hexagonkt.serialization.jackson.JacksonHelper.FloatSerializer
-import com.hexagonkt.serialization.jackson.JacksonHelper.InetAddressDeserializer
-import com.hexagonkt.serialization.jackson.JacksonHelper.InetAddressSerializer
 import com.hexagonkt.serialization.jackson.JacksonHelper.mapNode
 import java.io.InputStream
 import java.io.OutputStream
-import java.net.InetAddress
-import java.nio.ByteBuffer
 
 // TODO Implement with Java XML support (Jackson is not the best option here)
-<span class="pc" id="L31">object Xml : SerializationFormat {</span>
+<span class="pc" id="L19">object Xml : SerializationFormat {</span>
 
-<span class="fc" id="L33">    private val mapper: ObjectMapper = XmlMapper(JacksonXmlModule())</span>
-<span class="fc" id="L34">        .configure(INDENT_OUTPUT, true)</span>
-<span class="fc" id="L35">        .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)</span>
-<span class="fc" id="L36">        .configure(FAIL_ON_EMPTY_BEANS, false)</span>
-<span class="fc" id="L37">        .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)</span>
-<span class="fc" id="L38">        .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)</span>
-<span class="fc" id="L39">        .registerModule(JavaTimeModule())</span>
-<span class="fc" id="L40">        .registerModule(SimpleModule()</span>
-<span class="fc" id="L41">            .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)</span>
-<span class="fc" id="L42">            .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)</span>
-<span class="fc" id="L43">            .addSerializer(ClosedRange::class.java, ClosedRangeSerializer)</span>
-<span class="fc" id="L44">            .addDeserializer(ClosedRange::class.java, ClosedRangeDeserializer())</span>
-<span class="fc" id="L45">            .addSerializer(Float::class.java, FloatSerializer)</span>
-<span class="fc" id="L46">            .addDeserializer(Float::class.java, FloatDeserializer)</span>
-<span class="fc" id="L47">            .addSerializer(InetAddress::class.java, InetAddressSerializer)</span>
-<span class="fc" id="L48">            .addDeserializer(InetAddress::class.java, InetAddressDeserializer)</span>
-        )
+<span class="fc" id="L21">    private val mapper: ObjectMapper = XmlMapper(JacksonXmlModule())</span>
+<span class="fc" id="L22">        .configure(INDENT_OUTPUT, true)</span>
+<span class="fc" id="L23">        .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)</span>
+<span class="fc" id="L24">        .configure(FAIL_ON_EMPTY_BEANS, false)</span>
+<span class="fc" id="L25">        .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)</span>
+<span class="fc" id="L26">        .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)</span>
 
-<span class="fc" id="L51">    override val mediaType: MediaType = APPLICATION_XML</span>
-<span class="pc" id="L52">    override val textFormat: Boolean = true</span>
+<span class="fc" id="L28">    override val mediaType: MediaType = APPLICATION_XML</span>
+<span class="pc" id="L29">    override val textFormat: Boolean = true</span>
 
-<span class="fc" id="L54">    private val writer = createObjectWriter()</span>
+<span class="fc" id="L31">    private val writer = createObjectWriter()</span>
 
     private fun createObjectWriter(): ObjectWriter =
-<span class="fc" id="L57">        mapper.writer(DefaultXmlPrettyPrinter())</span>
+<span class="fc" id="L34">        mapper.writer(DefaultXmlPrettyPrinter())</span>
 
     override fun serialize(instance: Any, output: OutputStream) =
-<span class="fc" id="L60">        writer.writeValue(output, instance)</span>
+<span class="fc" id="L37">        writer.writeValue(output, instance)</span>
 
     override fun serialize(instance: Any): String =
-<span class="fc" id="L63">        writer.writeValueAsString(instance)</span>
+<span class="fc" id="L40">        writer.writeValueAsString(instance)</span>
 
     override fun parse(input: InputStream): Any =
-<span class="fc" id="L66">        mapNode(mapper.readTree(input))</span>
+<span class="fc" id="L43">        mapNode(mapper.readTree(input))</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

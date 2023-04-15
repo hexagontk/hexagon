@@ -798,6 +798,9 @@
 <h2 id="module-templates_rocker">Module templates_rocker<a class="headerlink" href="#module-templates_rocker" title="Permanent link">&para;</a></h2>
 <p><a href="https://github.com/fizzed/rocker">Rocker</a> template engine adapter for Hexagon.</p>
 <p>For usage instructions, refer to the <a href="/templates/">Templates Port documentation</a>.</p>
+<p>For using Rocker templates in GraalVM native images, the template file (and the classes) need to be
+specified as resources in the configuration (I.e.: using <code>-H:IncludeResources=.*\\.(html|class)</code>).
+Adding the classes used in the templates to the <code>reflect-config.json</code> file is also required.</p>
 <h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">build.gradle</label><label for="__tabbed_1_2">pom.xml</label></div>
 <div class="tabbed-content">

@@ -39,9 +39,7 @@ fun Throwable.filterStackTrace(prefix: String): Array&lt;out StackTraceElement&g
  */
 <span class="fc" id="L40">fun Throwable.toText(prefix: String = &quot;&quot;): String =</span>
 <span class="fc" id="L41">    &quot;${this.javaClass.name}: ${this.message}&quot; +</span>
-<span class="fc" id="L42">            this.filterStackTrace(prefix).joinToString(eol, eol) { &quot;\tat $it&quot; } +</span>
-<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (this.cause == null)</span>
-<span class="fc" id="L44">                &quot;&quot;</span>
-            else
-<span class="fc" id="L46">                &quot;${eol}Caused by: &quot; + (this.cause as Throwable).toText(prefix)</span>
+<span class="fc" id="L42">    this.filterStackTrace(prefix).joinToString(eol, eol) { &quot;\tat $it&quot; } +</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">    if (this.cause == null) &quot;&quot;</span>
+<span class="fc" id="L44">    else &quot;${eol}Caused by: &quot; + (this.cause as Throwable).toText(prefix)</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

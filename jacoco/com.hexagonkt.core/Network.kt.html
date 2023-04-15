@@ -57,12 +57,12 @@ fun URL.responseFound(): Boolean =
 
 // TODO Review the next functions, not all cases are covered
 fun URL.exists(): Boolean =
-<span class="pc bpc" id="L60" title="2 of 7 branches missed.">    when (protocol) {</span>
+<span class="pc bpc" id="L60" title="1 of 7 branches missed.">    when (protocol) {</span>
 <span class="fc" id="L61">        &quot;http&quot; -&gt; responseSuccessful()</span>
 <span class="fc" id="L62">        &quot;https&quot; -&gt; responseSuccessful()</span>
 <span class="fc bfc" id="L63" title="All 4 branches covered.">        &quot;file&quot; -&gt; File(file).let { it.exists() &amp;&amp; !it.isDirectory }</span>
 <span class="fc" id="L64">        &quot;classpath&quot; -&gt; try { openConnection(); true } catch (_: Exception) { false }</span>
-<span class="nc" id="L65">        else -&gt; false</span>
+<span class="fc" id="L65">        else -&gt; false</span>
 <span class="fc" id="L66">    }</span>
 
 fun URL.firstVariant(vararg suffixes: String): URL {
