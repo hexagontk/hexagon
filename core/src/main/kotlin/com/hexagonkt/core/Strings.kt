@@ -104,7 +104,6 @@ fun <T : Any> String.parse(type: KClass<T>): T =
  * @param type .
  * @return .
  */
-@Suppress("UNCHECKED_CAST") // All allowed types are checked at runtime
 fun <T : Any> String?.parseOrNull(type: KClass<T>): T? =
     this?.let {
         require(type in parsedClasses) { "Unsupported type: ${type.qualifiedName}" }

@@ -13,9 +13,6 @@ import kotlin.reflect.KClass
 
 /**
  * Object with utilities to gather information about the running JVM.
- *
- * TODO Add JVM exception handler to add information on known exceptions. I.e: Classpath handler not
- *   registered with information on how to fix it (call `ClasspathHandler.registerHandler()`)
  */
 object Jvm {
     /** Default timezone. TODO Defining this lazily fails in macOS */

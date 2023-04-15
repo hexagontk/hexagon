@@ -39,8 +39,6 @@ fun Throwable.filterStackTrace(prefix: String): Array<out StackTraceElement> =
  */
 fun Throwable.toText(prefix: String = ""): String =
     "${this.javaClass.name}: ${this.message}" +
-            this.filterStackTrace(prefix).joinToString(eol, eol) { "\tat $it" } +
-            if (this.cause == null)
-                ""
-            else
-                "${eol}Caused by: " + (this.cause as Throwable).toText(prefix)
+    this.filterStackTrace(prefix).joinToString(eol, eol) { "\tat $it" } +
+    if (this.cause == null) ""
+    else "${eol}Caused by: " + (this.cause as Throwable).toText(prefix)

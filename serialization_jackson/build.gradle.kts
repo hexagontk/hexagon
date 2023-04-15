@@ -6,6 +6,7 @@ plugins {
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
+apply(from = "../gradle/native.gradle")
 
 description = "Jackson's serialization utilities (used in several serialization formats)."
 
@@ -15,7 +16,6 @@ dependencies {
     "api"(project(":serialization"))
     "api"(platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
     "api"("com.fasterxml.jackson.core:jackson-databind")
-    "api"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
     "testImplementation"("org.jetbrains.kotlin:kotlin-reflect")
     "testImplementation"("com.fasterxml.jackson.module:jackson-module-kotlin") {
