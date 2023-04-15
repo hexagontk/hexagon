@@ -21,9 +21,6 @@ fun Any.serialize(format: SerializationFormat = requireDefaultFormat()): String 
 fun Any.serialize(mediaType: MediaType): String =
     this.serialize(formatOf(mediaType))
 
-fun Any.serialize(file: File): String =
-    this.serialize(mediaTypeOf(file)).apply(file::writeText)
-
 fun InputStream.parse(format: SerializationFormat = requireDefaultFormat()): Any =
     format.parse(this)
 
@@ -42,44 +39,58 @@ fun File.parse(): Any =
 fun URL.parse(): Any =
     this.openStream().parse(mediaTypeOf(this))
 
-fun URL.parseMap(): Map<*, *> =
+fun URL.parseMap(): Map<String, *> =
     this.parse().castToMap()
 
 fun URL.parseList(): List<*> =
     this.parse().castToList()
 
-fun File.parseMap(): Map<*, *> =
+fun File.parseMap(): Map<String, *> =
     this.parse().castToMap()
 
 fun File.parseList(): List<*> =
     this.parse().castToList()
 
-fun String.parseMap(format: SerializationFormat = requireDefaultFormat()): Map<*, *> =
+fun String.parseMap(format: SerializationFormat = requireDefaultFormat()): Map<String, *> =
     this.parse(format).castToMap()
 
 fun String.parseList(format: SerializationFormat = requireDefaultFormat()): List<*> =
     this.parse(format).castToList()
 
-fun String.parseMap(mediaType: MediaType): Map<*, *> =
+fun String.parseMap(mediaType: MediaType): Map<String, *> =
     this.parse(mediaType).castToMap()
 
 fun String.parseList(mediaType: MediaType): List<*> =
     this.parse(mediaType).castToList()
 
-fun InputStream.parseMap(format: SerializationFormat = requireDefaultFormat()): Map<*, *> =
+fun InputStream.parseMap(format: SerializationFormat = requireDefaultFormat()): Map<String, *> =
     this.parse(format).castToMap()
 
 fun InputStream.parseList(format: SerializationFormat = requireDefaultFormat()): List<*> =
     this.parse(format).castToList()
 
-fun InputStream.parseMap(mediaType: MediaType): Map<*, *> =
+fun InputStream.parseMap(mediaType: MediaType): Map<String, *> =
     this.parse(mediaType).castToMap()
 
 fun InputStream.parseList(mediaType: MediaType): List<*> =
     this.parse(mediaType).castToList()
 
-private fun Any?.castToMap(): Map<*, *> =
-    this as? Map<*, *> ?: error("$this cannot be cast to Map")
+fun <T> Any.toData(data: () -> Data<T>): List<T> =
+    when (this) {
+        is Map<*, *> -> listOf(this.castToMap().toData(data))
+        is List<*> -> toData(data)
+        else -> error("Instance of type: ${this::class.simpleName} cannot be transformed to data")
+    }
+
+fun <T> Map<String, *>.toData(data: () -> Data<T>): T =
+    data().with(this)
+
+fun <T> List<*>.toData(data: () -> Data<T>): List<T> =
+    map { it.castToMap() }.map { it.toData(data) }
+
+@Suppress("UNCHECKED_CAST") // Cast exception handled in function
+private fun Any?.castToMap(): Map<String, *> =
+    this as? Map<String, *> ?: error("$this cannot be cast to Map")
 
 private fun Any?.castToList(): List<*> =
     this as? List<*> ?: error("$this cannot be cast to List")

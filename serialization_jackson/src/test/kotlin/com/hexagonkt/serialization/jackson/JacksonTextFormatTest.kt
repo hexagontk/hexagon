@@ -1,5 +1,7 @@
 package com.hexagonkt.serialization.jackson
 
+import com.hexagonkt.core.media.APPLICATION_JSON
+import com.hexagonkt.core.media.MediaType
 import kotlin.test.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.IllegalStateException
@@ -8,6 +10,10 @@ import kotlin.test.assertFailsWith
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class JacksonTextFormatTest {
+
+    object TextFormat : JacksonTextFormat() {
+        override val mediaType: MediaType = APPLICATION_JSON
+    }
 
     @Test fun `Parse objects to nodes`() {
         assertEquals(emptyList<Any>(), TextFormat.parse("[]"))

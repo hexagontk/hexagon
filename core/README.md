@@ -32,10 +32,6 @@ application), you can import it with the following code:
 # Package com.hexagonkt.core
 JVM information and other useful utilities.
 
-## Classpath URLs in native images
-To use the 'classpath' URL scheme on GraalVM native images, the `native-image` command requires to
-add the Classpath handler manually with the `--enable-url-protocols=classpath` parameter.
-
 # Package com.hexagonkt.core.logging
 Provides a logging management capabilities abstracting the application from logging libraries.
 
