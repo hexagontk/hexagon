@@ -5,7 +5,7 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.HttpMethod.OPTIONS
 import com.hexagonkt.http.model.HttpStatusType.SUCCESS
-import com.hexagonkt.http.server.handlers.HttpServerContext
+import com.hexagonkt.http.handlers.HttpContext
 
 /**
  * HTTP CORS callback. It holds info for CORS.
@@ -18,7 +18,7 @@ class CorsCallback(
     private val supportCredentials: Boolean = true,
     private val preFlightStatus: HttpStatus = NO_CONTENT_204,
     private val preFlightMaxAge: Long = 0
-) : (HttpServerContext) -> HttpServerContext {
+) : (HttpContext) -> HttpContext {
 
     private companion object {
         const val ALLOW_ORIGIN = "access-control-allow-origin"
@@ -56,7 +56,7 @@ class CorsCallback(
         }
     }
 
-    override fun invoke(context: HttpServerContext): HttpServerContext =
+    override fun invoke(context: HttpContext): HttpContext =
         context.simpleRequest().let {
             if (context.request.method == OPTIONS) it.preFlightRequest()
             else it
@@ -72,7 +72,7 @@ class CorsCallback(
         if (allowedOrigin.pattern == ".*" && !supportCredentials) "*"
         else origin
 
-    private fun HttpServerContext.simpleRequest(): HttpServerContext {
+    private fun HttpContext.simpleRequest(): HttpContext {
         val origin = request.origin() ?: return this
         if (!allowOrigin(origin))
             return forbidden("Not allowed origin: $origin")
@@ -103,7 +103,7 @@ class CorsCallback(
         return send(preFlightStatus, headers = h)
     }
 
-    private fun HttpServerContext.preFlightRequest(): HttpServerContext {
+    private fun HttpContext.preFlightRequest(): HttpContext {
 
         val methodHeader = request.headers[REQUEST_METHOD]?.value
         val requestMethod = methodHeader

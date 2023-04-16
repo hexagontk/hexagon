@@ -1,8 +1,8 @@
 package com.hexagonkt.http.server.netty
 
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.server.handlers.ServerBuilder
-import com.hexagonkt.http.server.handlers.HttpHandler
+import com.hexagonkt.http.handlers.HandlerBuilder
+import com.hexagonkt.http.handlers.HttpHandler
 
 /**
  * Create a Netty server and start it. It is a shortcut to avoid passing the adapter.
@@ -26,7 +26,7 @@ fun serve(
  * @return The started [HttpServer] instance.
  */
 fun serve(
-    settings: HttpServerSettings = HttpServerSettings(), block: ServerBuilder.() -> Unit
+    settings: HttpServerSettings = HttpServerSettings(), block: HandlerBuilder.() -> Unit
 ): HttpServer =
-    HttpServer(NettyServerAdapter(), ServerBuilder().apply { block() }.handler(), settings)
+    HttpServer(NettyServerAdapter(), HandlerBuilder().apply { block() }.handler(), settings)
         .apply { start() }

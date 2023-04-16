@@ -9,5 +9,5 @@ apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/native.gradle")
 
 dependencies {
-    "api"(project(":http"))
+    "api"(project(":http_handlers"))
 }

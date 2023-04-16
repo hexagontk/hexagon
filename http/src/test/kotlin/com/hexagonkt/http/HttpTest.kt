@@ -39,6 +39,7 @@ internal class HttpTest {
         assertContentEquals("text".toByteArray(), bodyToBytes("text".toByteArray()))
         assertContentEquals(BigInteger.valueOf(42).toByteArray(), bodyToBytes(42))
         assertContentEquals(BigInteger.valueOf(1_234_567L).toByteArray(), bodyToBytes(1_234_567L))
+
         assertFailsWith<IllegalStateException> { bodyToBytes(LocalDate.now())  }
     }
 

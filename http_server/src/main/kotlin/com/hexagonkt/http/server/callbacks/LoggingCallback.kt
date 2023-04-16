@@ -3,7 +3,7 @@ package com.hexagonkt.http.server.callbacks
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.logging.LoggingLevel
 import com.hexagonkt.http.model.*
-import com.hexagonkt.http.server.handlers.HttpServerContext
+import com.hexagonkt.http.handlers.HttpContext
 import kotlin.system.measureNanoTime
 
 /**
@@ -14,19 +14,19 @@ class LoggingCallback(
     private val logger: Logger = Logger(LoggingCallback::class),
     private val includeHeaders: Boolean = false,
     private val includeBody: Boolean = true,
-) : (HttpServerContext) -> HttpServerContext {
+) : (HttpContext) -> HttpContext {
 
-    override fun invoke(context: HttpServerContext): HttpServerContext {
-        var result: HttpServerContext
+    override fun invoke(context: HttpContext): HttpContext {
+        var result: HttpContext
 
         logger.log(level) { details(context.request) }
-        val ns = measureNanoTime { result = context.send().next() }
+        val ns = measureNanoTime { result = context.next() }
         logger.log(level) { details(context.request, result.response, ns) }
 
         return result
     }
 
-    internal fun details(m: HttpRequest): String {
+    internal fun details(m: HttpRequestPort): String {
         val headers = if (includeHeaders) {
             val accept = Header("accept", m.accept.joinToString(", ") { it.text })
             val contentType = Header("content-type", m.contentType?.text ?: "")
@@ -40,7 +40,7 @@ class LoggingCallback(
         return "Request:\n${m.method} ${m.path}$headers$body".trim()
     }
 
-    internal fun details(n: HttpRequest, m: HttpResponse, ns: Long): String {
+    internal fun details(n: HttpRequestPort, m: HttpResponsePort, ns: Long): String {
         val headers = if (includeHeaders) {
             val contentType = Header("content-type", m.contentType?.text ?: "")
             (m.headers - "content-type" + contentType).format()

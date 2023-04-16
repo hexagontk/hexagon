@@ -5,6 +5,8 @@ import com.hexagonkt.http.parseContentType
 import jakarta.servlet.MultipartConfigElement
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.Part
+import java.security.cert.X509Certificate
+import kotlin.UnsupportedOperationException
 
 internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletRequestAdapter(req) {
 
@@ -25,6 +27,25 @@ internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletReque
 
         FormParameters(fields)
     }
+
+    override fun with(
+        body: Any,
+        headers: Headers,
+        contentType: ContentType?,
+        method: HttpMethod,
+        protocol: HttpProtocol,
+        host: String,
+        port: Int,
+        path: String,
+        queryParameters: QueryParameters,
+        parts: List<HttpPart>,
+        formParameters: FormParameters,
+        cookies: List<Cookie>,
+        accept: List<ContentType>,
+        authorization: Authorization?,
+        certificateChain: List<X509Certificate>,
+    ): HttpRequestPort =
+        throw UnsupportedOperationException()
 
     private val multipartConfig: MultipartConfigElement by lazy { MultipartConfigElement("/tmp") }
 

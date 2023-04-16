@@ -4,10 +4,10 @@ import com.hexagonkt.handlers.Context
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.Cookie
-import com.hexagonkt.http.server.handlers.HttpHandler
-import com.hexagonkt.http.server.handlers.HttpServerContext
-import com.hexagonkt.http.server.model.HttpServerCall
-import com.hexagonkt.http.server.model.HttpServerResponse
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.HttpContext
+import com.hexagonkt.http.model.HttpCall
+import com.hexagonkt.http.model.HttpResponse
 import io.netty.buffer.Unpooled
 import io.netty.channel.Channel
 import io.netty.channel.ChannelFutureListener.CLOSE
@@ -19,6 +19,7 @@ import io.netty.handler.codec.http.HttpHeaderValues.CHUNKED
 import io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE
 import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.HttpMethod.GET
+import io.netty.handler.codec.http.HttpRequest
 import io.netty.handler.codec.http.HttpResponseStatus.*
 import io.netty.handler.codec.http.HttpVersion.HTTP_1_1
 import io.netty.handler.codec.http.cookie.DefaultCookie
@@ -38,9 +39,11 @@ internal class NettyServerHandler(
     private var certificates: List<X509Certificate> = emptyList()
 
     override fun channelRead(context: ChannelHandlerContext, nettyRequest: Any) {
-        if (nettyRequest !is FullHttpRequest)
-            return
+        if (nettyRequest is HttpRequest)
+            readHttpRequest(context, nettyRequest)
+    }
 
+    private fun readHttpRequest(context: ChannelHandlerContext, nettyRequest: HttpRequest) {
         val result = nettyRequest.decoderResult()
 
         if (result.isFailure)
@@ -52,7 +55,7 @@ internal class NettyServerHandler(
         val pathHandler = handlers[method]
 
         if (pathHandler == null) {
-            writeResponse(context, HttpServerResponse(), HttpUtil.isKeepAlive(nettyRequest))
+            writeResponse(context, HttpResponse(), HttpUtil.isKeepAlive(nettyRequest))
             return
         }
 
@@ -80,7 +83,7 @@ internal class NettyServerHandler(
     }
 
     @Suppress("UNCHECKED_CAST") // Body not cast to Publisher<HttpServerEvent> due to type erasure
-    private fun handleSse(context: ChannelHandlerContext, response: HttpServerResponse, body: Any) {
+    private fun handleSse(context: ChannelHandlerContext, response: HttpResponsePort, body: Any) {
         val status = nettyStatus(response.status)
         val nettyResponse = DefaultHttpResponse(HTTP_1_1, status)
         val headers = nettyResponse.headers()
@@ -123,12 +126,12 @@ internal class NettyServerHandler(
 
     private fun handleWebSocket(
         context: ChannelHandlerContext,
-        request: Context<HttpServerCall>,
-        response: HttpServerResponse,
-        nettyRequest: FullHttpRequest,
+        request: Context<HttpCall>,
+        response: HttpResponsePort,
+        nettyRequest: HttpRequest,
         channel: Channel
     ) {
-        val session = NettyWsSession(context, HttpServerContext(request))
+        val session = NettyWsSession(context, HttpContext(request))
         val nettyWebSocketHandler = NettyWebSocketHandler(
             session,
             response.onBinary,
@@ -143,7 +146,7 @@ internal class NettyServerHandler(
         session.(response.onConnect)()
     }
 
-    private fun wsHandshake(nettyRequest: FullHttpRequest, channel: Channel) {
+    private fun wsHandshake(nettyRequest: HttpRequest, channel: Channel) {
         val host = nettyRequest.headers()["host"]
         val uri = nettyRequest.uri()
         val url = "ws://$host$uri"
@@ -166,20 +169,20 @@ internal class NettyServerHandler(
     @Suppress("OVERRIDE_DEPRECATION") // Deprecated in base interface, but allowed in parent class
     override fun exceptionCaught(context: ChannelHandlerContext, cause: Throwable) {
         val body = "Failure: $cause\n"
-        val response = HttpServerResponse(body, status = INTERNAL_SERVER_ERROR_500)
+        val response = HttpResponse(body, status = INTERNAL_SERVER_ERROR_500)
         writeResponse(context, response, false)
     }
 
     private fun writeResponse(
         context: ChannelHandlerContext,
-        hexagonResponse: HttpServerResponse,
+        hexagonResponse: HttpResponsePort,
         keepAlive: Boolean,
     ) {
         val buffer = Unpooled.copiedBuffer(bodyToBytes(hexagonResponse.body))
         val status = nettyStatus(hexagonResponse.status)
         val response = DefaultFullHttpResponse(HTTP_1_1, status, buffer)
-        val headers = response.headers()
 
+        val headers = response.headers()
         val hexagonHeaders = hexagonResponse.headers
         if (hexagonHeaders.httpFields.isNotEmpty())
             hexagonHeaders.values.map { (k, v) -> headers.add(k, v) }

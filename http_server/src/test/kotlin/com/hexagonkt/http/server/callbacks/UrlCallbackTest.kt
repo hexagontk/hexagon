@@ -1,15 +1,10 @@
 package com.hexagonkt.http.server.callbacks
 
 import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.NOT_FOUND_404
-import com.hexagonkt.http.model.OK_200
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.patterns.TemplatePathPattern
-import com.hexagonkt.http.server.handlers.HttpServerContext
-import com.hexagonkt.http.server.handlers.HttpServerPredicate
-import com.hexagonkt.http.server.model.HttpServerCall
-import com.hexagonkt.http.server.model.HttpServerRequest
-import com.hexagonkt.http.server.model.HttpServerResponse
+import com.hexagonkt.http.handlers.HttpContext
+import com.hexagonkt.http.handlers.HttpPredicate
 import kotlin.test.Test
 import kotlin.IllegalStateException
 import java.net.URL
@@ -74,11 +69,11 @@ internal class UrlCallbackTest {
         url: String,
         requestPath: String,
         pathPattern: String
-    ): HttpServerResponse =
+    ): HttpResponsePort =
         UrlCallback(URL(url))(
-            HttpServerContext(
-                HttpServerCall(HttpServerRequest(path = requestPath)),
-                HttpServerPredicate(pathPattern = TemplatePathPattern(pathPattern))
+            HttpContext(
+                HttpCall(HttpRequest(path = requestPath)),
+                HttpPredicate(pathPattern = TemplatePathPattern(pathPattern))
             )
         ).response
 }

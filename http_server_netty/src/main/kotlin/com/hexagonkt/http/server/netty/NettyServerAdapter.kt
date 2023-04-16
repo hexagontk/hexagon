@@ -8,16 +8,12 @@ import com.hexagonkt.http.model.HttpProtocol
 import com.hexagonkt.http.model.HttpProtocol.*
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerFeature
-import com.hexagonkt.http.server.HttpServerFeature.WEB_SOCKETS
-import com.hexagonkt.http.server.HttpServerFeature.ZIP
+import com.hexagonkt.http.server.HttpServerFeature.*
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.handlers.HttpHandler
+import com.hexagonkt.http.handlers.HttpHandler
 import io.netty.bootstrap.ServerBootstrap
-import io.netty.channel.Channel
-import io.netty.channel.ChannelInitializer
-import io.netty.channel.ChannelOption
-import io.netty.channel.MultithreadEventLoopGroup
+import io.netty.channel.*
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
@@ -37,9 +33,6 @@ import kotlin.Int.Companion.MAX_VALUE
 
 /**
  * Implements [HttpServerPort] using Netty [Channel].
- *
- * TODO Add HTTP/2 support: https://www.baeldung.com/netty-http2
- * TODO Add SSE support: https://github.com/marcusyates/netty-sse-example
  */
 open class NettyServerAdapter(
     private val bossGroupThreads: Int = 1,
@@ -129,23 +122,31 @@ open class NettyServerAdapter(
         group: DefaultEventExecutorGroup?,
         settings: HttpServerSettings
     ) =
-        if (sslSettings == null) {
-            HttpChannelInitializer(handlers, group, settings)
-        } else {
-            val keyManager = createKeyManagerFactory(sslSettings)
-
-            val sslContextBuilder = SslContextBuilder
-                .forServer(keyManager)
-                .clientAuth(if (sslSettings.clientAuth) REQUIRE else OPTIONAL)
-
-            val trustManager = createTrustManagerFactory(sslSettings)
-
-            val sslContext: SslContext =
-                if (trustManager == null) sslContextBuilder.build()
-                else sslContextBuilder.trustManager(trustManager).build()
-
-            HttpsChannelInitializer(handlers, sslContext, sslSettings, group, settings)
+        when {
+            sslSettings != null -> sslInitializer(sslSettings, handlers, group, settings)
+            else -> HttpChannelInitializer(handlers, group, settings)
         }
+
+    private fun sslInitializer(
+        sslSettings: SslSettings,
+        handlers: Map<HttpMethod, HttpHandler>,
+        group: DefaultEventExecutorGroup?,
+        settings: HttpServerSettings
+    ): HttpsChannelInitializer =
+        HttpsChannelInitializer(handlers, sslContext(sslSettings), sslSettings, group, settings)
+
+    private fun sslContext(sslSettings: SslSettings): SslContext {
+        val keyManager = createKeyManagerFactory(sslSettings)
+
+        val sslContextBuilder = SslContextBuilder
+            .forServer(keyManager)
+            .clientAuth(if (sslSettings.clientAuth) REQUIRE else OPTIONAL)
+
+        val trustManager = createTrustManagerFactory(sslSettings)
+
+        return if (trustManager == null) sslContextBuilder.build()
+            else sslContextBuilder.trustManager(trustManager).build()
+    }
 
     private fun createTrustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
         val trustStoreUrl = sslSettings.trustStore ?: return null
@@ -180,10 +181,10 @@ open class NettyServerAdapter(
     }
 
     override fun supportedProtocols(): Set<HttpProtocol> =
-        setOf(HTTP, HTTPS, HTTP2)
+        setOf(HTTP, HTTPS, HTTP2, H2C)
 
     override fun supportedFeatures(): Set<HttpServerFeature> =
-        setOf(ZIP, WEB_SOCKETS)
+        setOf(ZIP, WEB_SOCKETS, SSE)
 
     override fun options(): Map<String, *> =
         fieldsMapOf(

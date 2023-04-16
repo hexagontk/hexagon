@@ -9,8 +9,9 @@ import com.hexagonkt.core.media.TEXT_CSS
 import com.hexagonkt.core.media.TEXT_HTML
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.client.model.HttpClientRequest
-import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.client.HttpClientSettings
+import com.hexagonkt.http.model.HttpRequest
+import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
@@ -22,8 +23,7 @@ import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.callbacks.UrlCallback
-import com.hexagonkt.http.server.handlers.*
-import com.hexagonkt.http.server.model.HttpServerRequest
+import com.hexagonkt.http.handlers.*
 import com.hexagonkt.http.server.serve
 import com.hexagonkt.logging.slf4j.jul.Slf4jJulLoggingAdapter
 import org.junit.jupiter.api.AfterAll
@@ -72,7 +72,7 @@ abstract class SamplesTest(
 
         // Servers implement closeable, you can use them inside a block assuring they will be closed
         runningServer.use { s ->
-            HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
+            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
                 it.start()
                 assert(s.started())
                 assertEquals("Hello World!", it.get("/context/hello").body)
@@ -86,7 +86,7 @@ abstract class SamplesTest(
         // serverCreation
 
         defaultSettingsServer.use { s ->
-            HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
+            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
                 it.start()
                 assert(s.started())
                 assertEquals("Hello World!", it.get("/hello").body)
@@ -108,7 +108,7 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
+            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
                 it.start()
                 assertEquals("Get greeting", it.get("/hello").body)
                 assertEquals("Put greeting", it.put("/hello").body)
@@ -135,7 +135,7 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
+            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
                 it.start()
                 assertEquals("Greeting", it.get("/nested/hello").body)
                 assertEquals("Second level greeting", it.get("/nested/secondLevel/hello").body)
@@ -160,7 +160,7 @@ abstract class SamplesTest(
 
         server.use { s ->
             s.start()
-            HttpClient(clientAdapter(), URL("http://localhost:${server.runtimePort}")).use {
+            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${server.runtimePort}"))).use {
                 it.start()
 
                 assertEquals("Get client", it.get("/clients").body)
@@ -328,7 +328,7 @@ abstract class SamplesTest(
 
         server.use { s ->
             s.start()
-            HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
+            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
                 it.cookies += Cookie("foo", "bar")
                 it.start()
 
@@ -348,14 +348,14 @@ abstract class SamplesTest(
 
                 val stream = URL("classpath:assets/index.html").readBytes()
                 val parts = listOf(HttpPart("file", stream, "index.html"))
-                val response = it.send(HttpClientRequest(POST, path = "/file", parts = parts))
+                val response = it.send(HttpRequest(POST, path = "/file", parts = parts))
                 assert(response.bodyString().contains("<title>Hexagon</title>"))
             }
         }
     }
 
     @Test fun filters() {
-        fun assertResponse(response: HttpClientResponse, body: String, vararg headers: String) {
+        fun assertResponse(response: HttpResponsePort, body: String, vararg headers: String) {
             assertEquals(OK_200, response.status)
             assertEquals(body, response.body)
             (headers.toList() + "b-all" + "a-all").forEach {
@@ -364,8 +364,11 @@ abstract class SamplesTest(
         }
 
         fun assertFail(
-            code: HttpStatus, response: HttpClientResponse, body: String, vararg headers: String) {
-
+            code: HttpStatus,
+            response: HttpResponsePort,
+            body: String,
+            vararg headers: String
+        ) {
             assertEquals(code, response.status)
             (headers.toList() + "b-all" + "a-all")
                 .forEach { assert(response.headers.httpFields.contains(it)) }
@@ -398,7 +401,7 @@ abstract class SamplesTest(
         server.use { s ->
             s.start()
 
-            HttpClient(clientAdapter(), URL("http://localhost:${server.runtimePort}")).use {
+            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${server.runtimePort}"))).use {
                 it.start()
                 assertResponse(it.get("/filters/route"), "filters route", "b-filters", "a-filters")
                 assertResponse(it.get("/filters"), "filters")
@@ -432,7 +435,9 @@ abstract class SamplesTest(
                 internalServerError(e.number.toString())
             }
 
-            get("/codeException") { throw NumberException(9) }
+            get("/codeException") {
+                throw NumberException(9)
+            }
 
             // exceptions
             // Register handler for routes which callbacks throw exceptions
@@ -449,7 +454,7 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
+            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
                 it.start()
 
                 val errors = it.get("/errors")
@@ -491,7 +496,7 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
+            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
                 it.start()
 
                 assert(it.get("/web/file.txt").bodyString().startsWith("It matches this route"))
@@ -520,7 +525,7 @@ abstract class SamplesTest(
         val server = serve(serverAdapter(), router, serverSettings)
 
         server.use { s ->
-            HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
+            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
                 it.start()
                 assertEquals("Hi!", it.get("/hello").body)
             }
@@ -548,8 +553,8 @@ abstract class SamplesTest(
         // Handlers can also be tested to check predicates along the callbacks
         val handler = get("/path", callback)
 
-        val notFound = handler.process(HttpServerRequest())
-        val ok = handler.process(HttpServerRequest(method = GET, path = "/path"))
+        val notFound = handler.process(HttpRequest())
+        val ok = handler.process(HttpRequest(method = GET, path = "/path"))
 
         assertEquals(NOT_FOUND_404, notFound.status)
         assertEquals(OK_200, ok.status)

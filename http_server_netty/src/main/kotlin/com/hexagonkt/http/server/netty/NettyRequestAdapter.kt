@@ -1,17 +1,19 @@
 package com.hexagonkt.http.server.netty
 
 import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.Headers as HxHttpHeaders
 import com.hexagonkt.http.parseContentType
-import com.hexagonkt.http.server.model.HttpServerRequestPort
+import io.netty.buffer.ByteBufHolder
 import io.netty.buffer.ByteBufUtil
-import io.netty.handler.codec.http.FullHttpRequest
+import io.netty.buffer.Unpooled
 import io.netty.handler.codec.http.HttpHeaderNames.*
 import io.netty.handler.codec.http.HttpHeaders
 import io.netty.handler.codec.http.QueryStringDecoder
 import io.netty.handler.codec.http.cookie.Cookie
 import io.netty.handler.codec.http.cookie.ServerCookieDecoder
 import io.netty.handler.codec.http.multipart.*
+import io.netty.handler.codec.http.HttpRequest
 import java.net.InetSocketAddress
 import java.net.URI
 import java.security.cert.X509Certificate
@@ -19,11 +21,11 @@ import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 
 class NettyRequestAdapter(
     methodName: NettyHttpMethod,
-    req: FullHttpRequest,
+    req: HttpRequest,
     override val certificateChain: List<X509Certificate>,
     address: InetSocketAddress,
     nettyHeaders: HttpHeaders,
-) : HttpServerRequestPort {
+) : HttpRequestPort {
 
     override val accept: List<ContentType> by lazy {
         nettyHeaders.getAll(ACCEPT).flatMap { it.split(",") }.map { parseContentType(it) }
@@ -98,7 +100,9 @@ class NettyRequestAdapter(
     }
 
     override val body: Any by lazy {
-        val content = req.content()
+        val content =
+            if (req is ByteBufHolder) req.content()
+            else Unpooled.buffer(0)
 
         if (content.isReadable) ByteBufUtil.getBytes(content)
         else byteArrayOf()
@@ -118,4 +122,23 @@ class NettyRequestAdapter(
     }
 
     override val authorization: Authorization? by lazy { authorization() }
+
+    override fun with(
+        body: Any,
+        headers: Headers,
+        contentType: ContentType?,
+        method: HttpMethod,
+        protocol: HttpProtocol,
+        host: String,
+        port: Int,
+        path: String,
+        queryParameters: QueryParameters,
+        parts: List<HttpPart>,
+        formParameters: FormParameters,
+        cookies: List<com.hexagonkt.http.model.Cookie>,
+        accept: List<ContentType>,
+        authorization: Authorization?,
+        certificateChain: List<X509Certificate>
+    ): HttpRequestPort =
+        throw UnsupportedOperationException()
 }

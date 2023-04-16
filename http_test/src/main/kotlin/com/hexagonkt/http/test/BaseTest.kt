@@ -6,13 +6,14 @@ import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.client.HttpClientSettings
+import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.handlers.HttpHandler
+import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.logging.slf4j.jul.Slf4jJulLoggingAdapter
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -34,7 +35,8 @@ abstract class BaseTest {
     }
 
     protected val client: HttpClient by lazy {
-        HttpClient(clientAdapter(), URL("http://localhost:${server.runtimePort}"))
+        val settings = HttpClientSettings(URL("http://localhost:${server.runtimePort}"))
+        HttpClient(clientAdapter(), settings)
     }
 
     @BeforeAll fun startUp() {
@@ -51,14 +53,16 @@ abstract class BaseTest {
     }
 
     protected fun assertResponseContains(
-        response: HttpClientResponse?, status: HttpStatus, vararg content: String) {
+        response: HttpResponsePort?, status: HttpStatus, vararg content: String) {
 
         assertEquals(status, response?.status)
         val payload = response?.body?.let { b -> b as String }
         content.forEach { assert(payload?.contains(it) ?: false) }
     }
 
-    protected fun assertResponseContains(response: HttpClientResponse?, vararg content: String) {
+    protected fun assertResponseContains(
+        response: HttpResponsePort?, vararg content: String
+    ) {
         assertResponseContains(response, OK_200, *content)
     }
 
@@ -67,8 +71,8 @@ abstract class BaseTest {
         "Basic " + "$user:$password".encodeToBase64()
 
     protected fun assertResponseEquals(
-        response: HttpClientResponse?, status: HttpStatus = OK_200, content: String) {
-
+        response: HttpResponsePort?, status: HttpStatus = OK_200, content: String
+    ) {
         assertEquals(status, response?.status)
         assertEquals(content, response?.body?.let { it as String }?.trim())
     }
