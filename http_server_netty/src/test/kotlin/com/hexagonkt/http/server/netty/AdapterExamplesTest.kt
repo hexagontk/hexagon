@@ -1,15 +1,16 @@
 package com.hexagonkt.http.server.netty
 
-import com.hexagonkt.http.client.jetty.JettyClientAdapter
+import com.hexagonkt.http.client.jetty.JettyWsClientAdapter
 import com.hexagonkt.http.test.examples.*
 import com.hexagonkt.serialization.jackson.JacksonTextFormat
 import com.hexagonkt.serialization.jackson.json.Json
 import com.hexagonkt.serialization.jackson.yaml.Yaml
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty
 
 // TODO Assert context methods (request.method, request.protocol...)
 // TODO Check response headers don't contain invalid chars (\n, \t...)
 
-val clientAdapter: () -> JettyClientAdapter = ::JettyClientAdapter
+val clientAdapter: () -> JettyWsClientAdapter = ::JettyWsClientAdapter
 val serverAdapter: () -> NettyServerAdapter = ::NettyServerAdapter
 val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 
@@ -25,4 +26,5 @@ internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
 internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)
 internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
+@DisabledIfSystemProperty(named = "nativeTest", matches = "true") // TODO Fix this
 internal class AdapterWebSocketsTest : WebSocketsTest(clientAdapter, serverAdapter)

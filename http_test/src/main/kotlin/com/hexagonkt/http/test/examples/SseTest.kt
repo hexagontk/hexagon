@@ -2,13 +2,13 @@ package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.logging.info
 import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.client.model.HttpClientRequest
-import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.model.HttpRequest
+import com.hexagonkt.http.handlers.PathHandler
+import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.model.ServerEvent
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.handlers.HttpHandler
+import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import java.util.concurrent.Flow
@@ -38,7 +38,7 @@ abstract class SseTest(
 
     @Test fun `SSE requests get published events on the server`() {
         checkRequest { client.sse("/sse") }
-        checkRequest { client.sse(HttpClientRequest(path = "/sse")) }
+        checkRequest { client.sse(HttpRequest(path = "/sse")) }
     }
 
     private fun checkRequest(publisher: () -> Publisher<ServerEvent>) {

@@ -1,38 +1,30 @@
 package com.hexagonkt.http.client
 
-import com.hexagonkt.http.client.model.HttpClientRequest
-import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.OnHandler
+import com.hexagonkt.http.handlers.path
+import com.hexagonkt.http.model.HttpRequest
+import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.model.ws.WsSession
 import java.io.Closeable
-import java.net.URL
 import java.util.concurrent.Flow.Publisher
 
 /**
  * Client to use other REST services.
- *
- * TODO Add support for client filters. I.e.: for auth, signing, etc.
  */
 class HttpClient(
     private val adapter: HttpClientPort,
-    val settings: HttpClientSettings = HttpClientSettings()
+    val settings: HttpClientSettings = HttpClientSettings(),
+    val handler: HttpHandler? = null,
 ) : Closeable {
 
-    constructor(
-        adapter: HttpClientPort,
-        baseUrl: URL,
-        settings: HttpClientSettings = HttpClientSettings()
-    ) :
-        this(adapter, settings.copy(baseUrl = baseUrl))
-
-    constructor(
-        adapter: HttpClientPort,
-        baseUrl: String,
-        settings: HttpClientSettings = HttpClientSettings()
-    ) :
-        this(adapter, URL(baseUrl), settings)
+    private val rootHandler: HttpHandler? =
+        handler?.let {
+            val sendHandler = OnHandler("*") { send(adapter.send(request)) }
+            path("*", listOf(it, sendHandler))
+        }
 
     var cookies: List<Cookie> = emptyList()
 
@@ -44,10 +36,12 @@ class HttpClient(
         cookies.associateBy { it.name }
 
     fun start() {
+        check(!started()) { "HTTP client is already started" }
         adapter.startUp(this)
     }
 
     fun stop() {
+        check(started()) { "HTTP client *MUST BE STARTED* before shut-down" }
         adapter.shutDown()
     }
 
@@ -57,14 +51,24 @@ class HttpClient(
     /**
      * Synchronous execution.
      */
-    fun send(request: HttpClientRequest): HttpClientResponse =
-        adapter.send(request)
+    fun send(request: HttpRequest): HttpResponsePort =
+        if (!started())
+            error("HTTP client *MUST BE STARTED* before sending requests")
+        else
+            rootHandler
+                ?.process(request)
+                ?.let {
+                    if (it.exception != null) throw it.exception as Exception
+                    else it.response
+                }
+                ?: adapter.send(request)
 
-    fun sse(request: HttpClientRequest): Publisher<ServerEvent> =
-        adapter.sse(request)
+    fun sse(request: HttpRequest): Publisher<ServerEvent> =
+        if (!started()) error("HTTP client *MUST BE STARTED* before sending requests")
+        else adapter.sse(request)
 
     fun sse(path: String): Publisher<ServerEvent> =
-        sse(HttpClientRequest(path = path))
+        sse(HttpRequest(path = path))
 
     fun ws(
         path: String,
@@ -73,18 +77,25 @@ class HttpClient(
         onText: WsSession.(text: String) -> Unit = {},
         onPing: WsSession.(data: ByteArray) -> Unit = {},
         onPong: WsSession.(data: ByteArray) -> Unit = {},
-        onClose: WsSession.(status: WsCloseStatus, reason: String) -> Unit = { _, _ -> },
+        onClose: WsSession.(status: Int, reason: String) -> Unit = { _, _ -> },
     ): WsSession =
-        adapter.ws(path, onConnect, onBinary, onText, onPing, onPong, onClose)
+        if (!started()) error("HTTP client *MUST BE STARTED* before connecting to WS")
+        else adapter.ws(path, onConnect, onBinary, onText, onPing, onPong, onClose)
 
-    // TODO Test without passing a path (request to baseUrl directly)
+    fun request (block: HttpClient.() -> Unit) {
+        if (!started())
+            start()
+
+        use(block)
+    }
+
     fun get(
         path: String = "",
         headers: Headers = Headers(),
         body: Any? = null,
-        contentType: ContentType? = settings.contentType): HttpClientResponse =
+        contentType: ContentType? = settings.contentType): HttpResponsePort =
             send(
-                HttpClientRequest(
+                HttpRequest(
                     method = GET,
                     path = path,
                     body = body ?: "",
@@ -92,45 +103,45 @@ class HttpClient(
                     contentType = contentType)
             )
 
-    fun head(path: String = "", headers: Headers = Headers()): HttpClientResponse =
-        send(HttpClientRequest(HEAD, path = path, body = ByteArray(0), headers = headers))
+    fun head(path: String = "", headers: Headers = Headers()): HttpResponsePort =
+        send(HttpRequest(HEAD, path = path, body = ByteArray(0), headers = headers))
 
     fun post(
         path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType
-    ): HttpClientResponse =
-        send(HttpClientRequest(POST, path = path, body = body ?: "", contentType = contentType))
+    ): HttpResponsePort =
+        send(HttpRequest(POST, path = path, body = body ?: "", contentType = contentType))
 
     fun put(
         path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType
-    ): HttpClientResponse =
-        send(HttpClientRequest(PUT, path = path, body = body ?: "", contentType = contentType))
+    ): HttpResponsePort =
+        send(HttpRequest(PUT, path = path, body = body ?: "", contentType = contentType))
 
     fun delete(
         path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType
-    ): HttpClientResponse =
-        send(HttpClientRequest(DELETE, path = path, body = body ?: "", contentType = contentType))
+    ): HttpResponsePort =
+        send(HttpRequest(DELETE, path = path, body = body ?: "", contentType = contentType))
 
     fun trace(
         path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType
-    ): HttpClientResponse =
-        send(HttpClientRequest(TRACE, path = path, body = body ?: "", contentType = contentType))
+    ): HttpResponsePort =
+        send(HttpRequest(TRACE, path = path, body = body ?: "", contentType = contentType))
 
     fun options(
         path: String = "",
         body: Any? = null,
         headers: Headers = Headers(),
         contentType: ContentType? = settings.contentType
-    ): HttpClientResponse =
+    ): HttpResponsePort =
         send(
-            HttpClientRequest(
+            HttpRequest(
                 method = OPTIONS,
                 path = path,
                 body = body ?: "",
@@ -143,6 +154,6 @@ class HttpClient(
         path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType
-    ): HttpClientResponse =
-        send(HttpClientRequest(PATCH, path = path, body = body ?: "", contentType = contentType))
+    ): HttpResponsePort =
+        send(HttpRequest(PATCH, path = path, body = body ?: "", contentType = contentType))
 }

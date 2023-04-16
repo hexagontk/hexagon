@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.http.server.handlers.ServerBuilder
-import com.hexagonkt.http.server.handlers.HttpHandler
+import com.hexagonkt.http.handlers.HandlerBuilder
+import com.hexagonkt.http.handlers.HttpHandler
 
 /**
  * Create a server and start it.
@@ -31,6 +31,6 @@ fun serve(
 fun serve(
     adapter: HttpServerPort,
     settings: HttpServerSettings = HttpServerSettings(),
-    block: ServerBuilder.() -> Unit
+    block: HandlerBuilder.() -> Unit
 ): HttpServer =
     HttpServer(adapter, settings, block).apply { start() }

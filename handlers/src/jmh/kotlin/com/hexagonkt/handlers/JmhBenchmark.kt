@@ -72,7 +72,7 @@ open class JmhBenchmark {
         OnHandler { it.appendText("<B2>")},
     )
 
-    @Benchmark fun before_and_after_handlers_are_called_in_order(bh: Blackhole) {
+    @Benchmark fun beforeAndAfterHandlersAreCalledInOrder(bh: Blackhole) {
 
         // No handler called
         chains.forEach {
@@ -121,7 +121,7 @@ open class JmhBenchmark {
         }
     }
 
-    @Benchmark fun filters_allow_passing_and_halting(bh: Blackhole) {
+    @Benchmark fun filtersAllowPassingAndHalting(bh: Blackhole) {
         // Filter passing
         bh.consume(filtersChain.process("a"))
         // Filter halting

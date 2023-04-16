@@ -1,8 +1,8 @@
 package com.hexagonkt.http.server.jetty
 
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.server.handlers.ServerBuilder
-import com.hexagonkt.http.server.handlers.HttpHandler
+import com.hexagonkt.http.handlers.HandlerBuilder
+import com.hexagonkt.http.handlers.HttpHandler
 
 /**
  * Create a Jetty server and start it. It is a shortcut to avoid passing the adapter.
@@ -26,7 +26,7 @@ fun serve(
  * @return The started [HttpServer] instance.
  */
 fun serve(
-    settings: HttpServerSettings = HttpServerSettings(), block: ServerBuilder.() -> Unit
+    settings: HttpServerSettings = HttpServerSettings(), block: HandlerBuilder.() -> Unit
 ): HttpServer =
-    HttpServer(JettyServletAdapter(), ServerBuilder().apply { block() }.handler(), settings)
+    HttpServer(JettyServletAdapter(), HandlerBuilder().apply { block() }.handler(), settings)
         .apply { start() }

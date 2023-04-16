@@ -5,8 +5,8 @@ import com.hexagonkt.core.logging.info
 import com.hexagonkt.core.media.TEXT_EVENT_STREAM
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.OK_200
-import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.PathHandler
+import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.model.ServerEvent
 import kotlin.test.Test
 import java.util.concurrent.Flow

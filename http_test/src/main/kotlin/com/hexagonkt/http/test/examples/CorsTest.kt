@@ -9,10 +9,10 @@ import com.hexagonkt.http.model.NO_CONTENT_204
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.callbacks.CorsCallback
-import com.hexagonkt.http.server.handlers.ServerBuilder
-import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.HttpHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.HandlerBuilder
+import com.hexagonkt.http.handlers.PathHandler
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -36,7 +36,7 @@ abstract class CorsTest(
         corsPath("/allowed/headers", CorsCallback(allowedHeaders = setOf("head")))
     }
 
-    private fun ServerBuilder.corsPath(path: String, cors: CorsCallback) {
+    private fun HandlerBuilder.corsPath(path: String, cors: CorsCallback) {
         path(path) {
             // CORS settings can change for different routes
             filter(pattern = "*", callback = cors)

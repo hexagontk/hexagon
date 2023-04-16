@@ -1,6 +1,6 @@
 package com.hexagonkt.http.model
 
-interface HttpCall<I : HttpRequest, O : HttpResponse> {
-    val request: I
-    val response: O
-}
+data class HttpCall(
+    val request: HttpRequestPort = HttpRequest(),
+    val response: HttpResponsePort = HttpResponse(),
+)

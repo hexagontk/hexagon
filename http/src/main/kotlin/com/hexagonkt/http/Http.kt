@@ -18,6 +18,10 @@ val GMT_ZONE: ZoneId = ZoneId.of("GMT")
 
 val HTTP_DATE_FORMATTER: DateTimeFormatter = RFC_1123_DATE_TIME.withZone(ZoneOffset.UTC)
 
+val BODY_TYPES = setOf(String::class, ByteArray::class, Int::class, Long::class)
+
+val BODY_TYPES_NAMES = BODY_TYPES.joinToString(", ") { it.simpleName.toString() }
+
 fun checkHeaders(headers: Headers) {
     if (!assertEnabled)
         return
@@ -120,5 +124,6 @@ fun bodyToBytes(body: Any): ByteArray =
         is ByteArray -> body
         is Int -> BigInteger.valueOf(body.toLong()).toByteArray()
         is Long -> BigInteger.valueOf(body).toByteArray()
-        else -> error("Unsupported body type: ${body.javaClass.simpleName}")
+        else ->
+            error("Unsupported body type: ${body.javaClass.simpleName}. Must be: $BODY_TYPES_NAMES")
     }

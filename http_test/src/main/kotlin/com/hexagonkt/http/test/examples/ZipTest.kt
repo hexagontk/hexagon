@@ -2,11 +2,12 @@ package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.server.handlers.HttpHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import java.net.URL
@@ -37,7 +38,8 @@ abstract class ZipTest(
         }
         server.start()
 
-        val client = HttpClient(clientAdapter(), URL("http://localhost:${server.runtimePort}"))
+        val settings = HttpClientSettings(URL("http://localhost:${server.runtimePort}"))
+        val client = HttpClient(clientAdapter(), settings)
         client.start()
 
         client.get("/hello", Headers(Header("accept-encoding", "gzip"))).apply {
@@ -65,7 +67,8 @@ abstract class ZipTest(
         }
         server.start()
 
-        val client = HttpClient(clientAdapter(), URL("http://localhost:${server.runtimePort}"))
+        val settings = HttpClientSettings(URL("http://localhost:${server.runtimePort}"))
+        val client = HttpClient(clientAdapter(), settings)
         client.start()
 
         client.get("/hello", Headers(Header("accept-encoding", "gzip"))).apply {

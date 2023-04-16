@@ -4,7 +4,7 @@ import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.mediaTypeOfOrNull
 import com.hexagonkt.core.require
 import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.server.handlers.HttpServerContext
+import com.hexagonkt.http.handlers.HttpContext
 import java.io.File
 
 /**
@@ -17,10 +17,10 @@ import java.io.File
  *
  * @param file Base file used to resolve paths passed on the request.
  */
-class FileCallback(private val file: File) : (HttpServerContext) -> HttpServerContext {
+class FileCallback(private val file: File) : (HttpContext) -> HttpContext {
     private val logger: Logger = Logger(FileCallback::class)
 
-    override fun invoke(context: HttpServerContext): HttpServerContext {
+    override fun invoke(context: HttpContext): HttpContext {
         val file = when (context.pathParameters.size) {
             0 -> file.absoluteFile
             1 -> {

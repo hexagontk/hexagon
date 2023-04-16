@@ -115,10 +115,4 @@ and client authenticated by the server). You can see a complete example below:
 # Package com.hexagonkt.http.client
 This package holds the classes that define the HTTP client and its configuration settings.
 
-# Package com.hexagonkt.http.client.model
-Classes to model client HTTP messages (requests and responses). Built on top of the [http] module.
-
-# Package com.hexagonkt.http.client.model.ws
-Model classes for client Web Sockets. Built on top of the [http] module.
-
 [http]: /http

@@ -1,43 +1,65 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.http.formatQueryString
-import java.net.URL
+import com.hexagonkt.http.*
+import com.hexagonkt.http.model.HttpMethod.GET
+import com.hexagonkt.http.model.HttpProtocol.HTTP
+import java.security.cert.X509Certificate
 
-// TODO 'formParameters' are a kind of 'part' and both are handled as part of the 'body'
-//  they could be handled as a special kind of type in body processing (List<HttpPartPort>)
-interface HttpRequest : HttpMessage {
-    val method: HttpMethod                        // "GET"
-    val protocol: HttpProtocol                    // "http"
-    val host: String                              // "example.com"
-    val port: Int                                 // 80
-    val path: String                              // "/foo" servlet path + path info
-    val queryParameters: QueryParameters
-    val parts: List<HttpPart>                     // hash of multipart parts
-    val formParameters: FormParameters
-    val accept: List<ContentType>
-    val authorization: Authorization?
+data class HttpRequest(
+    override val method: HttpMethod = GET,
+    override val protocol: HttpProtocol = HTTP,
+    override val host: String = "localhost",
+    override val port: Int = 80,
+    override val path: String = "",
+    override val queryParameters: QueryParameters = QueryParameters(),
+    override val headers: Headers = Headers(),
+    override val body: Any = "",
+    override val parts: List<HttpPart> = emptyList(),
+    override val formParameters: FormParameters = FormParameters(),
+    override val cookies: List<Cookie> = emptyList(),
+    override val contentType: ContentType? = null,
+    override val certificateChain: List<X509Certificate> = emptyList(),
+    override val accept: List<ContentType> = emptyList(),
+    override val contentLength: Long = -1L,
+    override val authorization: Authorization? = null,
+) : HttpRequestPort {
 
-    fun partsMap(): Map<String, HttpPart> =
-        parts.associateBy { it.name }
+    init {
+        checkHeaders(headers)
+    }
 
-    fun url(): URL =
-        if (queryParameters.isEmpty())
-            URL("${protocol.schema}://$host:$port/$path")
-        else
-            URL("${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}")
-
-    fun userAgent(): String? =
-        headers["user-agent"]?.value
-
-    fun referer(): String? =
-        headers["referer"]?.value
-
-    fun origin(): String? =
-        headers["origin"]?.value
-
-    fun authorization(): Authorization? =
-        headers["authorization"]
-            ?.value
-            ?.split(" ", limit = 2)
-            ?.let { Authorization(it.first(), it.last()) }
+    override fun with(
+        body: Any,
+        headers: Headers,
+        contentType: ContentType?,
+        method: HttpMethod,
+        protocol: HttpProtocol,
+        host: String,
+        port: Int,
+        path: String,
+        queryParameters: QueryParameters,
+        parts: List<HttpPart>,
+        formParameters: FormParameters,
+        cookies: List<Cookie>,
+        accept: List<ContentType>,
+        authorization: Authorization?,
+        certificateChain: List<X509Certificate>,
+    ): HttpRequestPort =
+        copy(
+            body = body,
+            headers = headers,
+            contentType = contentType,
+            method = method,
+            protocol = protocol,
+            host = host,
+            port = port,
+            path = path,
+            queryParameters = queryParameters,
+            parts = parts,
+            formParameters = formParameters,
+            cookies = cookies,
+            accept = accept,
+            authorization = authorization,
+            certificateChain = certificateChain,
+        )
 }

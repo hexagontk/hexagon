@@ -7,11 +7,11 @@ import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.model.HttpProtocol.*
-import com.hexagonkt.http.model.ws.CloseStatus.NORMAL
+import com.hexagonkt.http.model.ws.NORMAL
 import com.hexagonkt.http.model.ws.WsSession
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.server.handlers.HttpHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import kotlin.IllegalStateException
@@ -105,7 +105,8 @@ abstract class WebSocketsTest(
     // ws_server
 
     @Test fun `WebSockets client check start and stop states`() {
-        val client = HttpClient(clientAdapter(), "https://localhost:9999", clientSettings)
+        val settings = clientSettings.copy(baseUrl = URL("https://localhost:9999"))
+        val client = HttpClient(clientAdapter(), settings)
 
         assertEquals(
             "HTTP client *MUST BE STARTED* before connecting to WS",
@@ -149,7 +150,7 @@ abstract class WebSocketsTest(
         val server = serve(serverAdapter(), handler, serverSettings)
 
         val contextPath = URL("$protocol://localhost:${server.runtimePort}")
-        val client = HttpClient(clientAdapter(), contextPath, clientSettings)
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
         client.start()
 
         // ws_client

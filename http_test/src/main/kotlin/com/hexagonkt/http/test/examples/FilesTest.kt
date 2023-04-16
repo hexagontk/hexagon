@@ -3,7 +3,7 @@ package com.hexagonkt.http.test.examples
 import com.hexagonkt.core.media.TEXT_CSS
 import com.hexagonkt.core.media.TEXT_HTML
 import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.client.model.HttpClientRequest
+import com.hexagonkt.http.model.HttpRequest
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.NOT_FOUND_404
 import com.hexagonkt.http.model.HttpMethod.GET
@@ -13,9 +13,9 @@ import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.callbacks.FileCallback
 import com.hexagonkt.http.server.callbacks.UrlCallback
-import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.HttpHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.PathHandler
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -98,7 +98,7 @@ abstract class FilesTest(
     @Test fun `Parameters are separated from each other`() {
         val parts = listOf(HttpPart("name", "value"))
         val response = client.send(
-            HttpClientRequest(POST, path = "/form?queryName=queryValue", parts = parts)
+            HttpRequest(POST, path = "/form?queryName=queryValue", parts = parts)
         )
         assertEquals("queryName:queryValue", response.headers["query-params"]?.value)
         assert(!(response.headers["query-params"]?.value?.contains("name:value") ?: true))
@@ -140,7 +140,7 @@ abstract class FilesTest(
     @Test fun `Sending multi part content works properly`() {
         // clientForm
         val parts = listOf(HttpPart("name", "value"))
-        val response = client.send(HttpClientRequest(POST, path = "/multipart", parts = parts))
+        val response = client.send(HttpRequest(POST, path = "/multipart", parts = parts))
         // clientForm
         val expectedHeaders = Headers(
             Header("name", "name"),
@@ -155,7 +155,7 @@ abstract class FilesTest(
         // clientFile
         val stream = URL("classpath:assets/index.html").readBytes()
         val parts = listOf(HttpPart("file", stream, "index.html"))
-        val response = client.send(HttpClientRequest(POST, path = "/file", parts = parts))
+        val response = client.send(HttpRequest(POST, path = "/file", parts = parts))
         // clientFile
         assertEquals("index.html", response.headers["submitted-file"]?.value)
         assertResponseContains(response, OK_200, "<!DOCTYPE html>", "<title>Hexagon</title>", "</html>")

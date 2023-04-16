@@ -15,7 +15,6 @@ data class HttpStatus(
         else -> throw IllegalArgumentException(INVALID_CODE_ERROR_MESSAGE + code)
     }
 ) {
-
     companion object {
         internal const val INVALID_CODE_ERROR_MESSAGE: String =
             "Error code is not in any HTTP status range (100..599): "
@@ -26,9 +25,6 @@ data class HttpStatus(
 
         operator fun get(code: Int): HttpStatus? =
             codes[code]
-
-        operator fun invoke(code: Int): HttpStatus =
-            codes[code] ?: HttpStatus(code)
     }
 
     init {
