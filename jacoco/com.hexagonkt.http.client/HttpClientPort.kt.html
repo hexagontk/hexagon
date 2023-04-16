@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpClientPort.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.client</a> &gt; <span class="el_source">HttpClientPort.kt</span></div><h1>HttpClientPort.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.client
 
-import com.hexagonkt.http.client.model.HttpClientRequest
-import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.model.HttpRequestPort
+import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.model.ServerEvent
-import com.hexagonkt.http.model.ws.WsCloseStatus
 import com.hexagonkt.http.model.ws.WsSession
 import java.util.concurrent.Flow.Publisher
 
@@ -15,18 +14,18 @@ interface HttpClientPort {
 
     fun started(): Boolean
 
-    fun send(request: HttpClientRequest): HttpClientResponse
+    fun send(request: HttpRequestPort): HttpResponsePort
 
-    fun sse(request: HttpClientRequest): Publisher&lt;ServerEvent&gt;
+    fun sse(request: HttpRequestPort): Publisher&lt;ServerEvent&gt;
 
-<span class="nc" id="L22">    fun ws(</span>
+<span class="nc" id="L21">    fun ws(</span>
         path: String,
         onConnect: WsSession.() -&gt; Unit,
         onBinary: WsSession.(data: ByteArray) -&gt; Unit,
         onText: WsSession.(text: String) -&gt; Unit,
-<span class="nc" id="L27">        onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="nc" id="L28">        onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
-        onClose: WsSession.(status: WsCloseStatus, reason: String) -&gt; Unit,
+<span class="nc" id="L26">        onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="nc" id="L27">        onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+        onClose: WsSession.(status: Int, reason: String) -&gt; Unit,
     ): WsSession
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

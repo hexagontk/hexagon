@@ -15,25 +15,21 @@ import kotlin.IllegalArgumentException
 <span class="fc" id="L15">        else -&gt; throw IllegalArgumentException(INVALID_CODE_ERROR_MESSAGE + code)</span>
     }
 ) {
-
     companion object {
         internal const val INVALID_CODE_ERROR_MESSAGE: String =
             &quot;Error code is not in any HTTP status range (100..599): &quot;
 
-<span class="fc" id="L23">        val codes: Map&lt;Int, HttpStatus&gt; by lazy {</span>
-<span class="fc" id="L24">            HTTP_STATUSES.associateBy { it.code }</span>
+<span class="fc" id="L22">        val codes: Map&lt;Int, HttpStatus&gt; by lazy {</span>
+<span class="fc" id="L23">            HTTP_STATUSES.associateBy { it.code }</span>
         }
 
         operator fun get(code: Int): HttpStatus? =
-<span class="fc" id="L28">            codes[code]</span>
-
-        operator fun invoke(code: Int): HttpStatus =
-<span class="nc bnc" id="L31" title="All 2 branches missed.">            codes[code] ?: HttpStatus(code)</span>
+<span class="fc" id="L27">            codes[code]</span>
     }
 
-<span class="fc" id="L34">    init {</span>
-<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if (assertEnabled)</span>
-<span class="fc bfc" id="L36" title="All 6 branches covered.">            require(code in 100..599) { INVALID_CODE_ERROR_MESSAGE + code }</span>
-<span class="fc" id="L37">    }</span>
-<span class="fc" id="L38">}</span>
+<span class="fc" id="L30">    init {</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (assertEnabled)</span>
+<span class="fc bfc" id="L32" title="All 6 branches covered.">            require(code in 100..599) { INVALID_CODE_ERROR_MESSAGE + code }</span>
+<span class="fc" id="L33">    }</span>
+<span class="fc" id="L34">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

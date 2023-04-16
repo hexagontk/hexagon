@@ -1,44 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpRequest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.model</a> &gt; <span class="el_source">HttpRequest.kt</span></div><h1>HttpRequest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.model
 
-import com.hexagonkt.http.formatQueryString
-import java.net.URL
+import com.hexagonkt.http.*
+import com.hexagonkt.http.model.HttpMethod.GET
+import com.hexagonkt.http.model.HttpProtocol.HTTP
+import java.security.cert.X509Certificate
 
-// TODO 'formParameters' are a kind of 'part' and both are handled as part of the 'body'
-//  they could be handled as a special kind of type in body processing (List&lt;HttpPartPort&gt;)
-<span class="fc" id="L8">interface HttpRequest : HttpMessage {</span>
-    val method: HttpMethod                        // &quot;GET&quot;
-    val protocol: HttpProtocol                    // &quot;http&quot;
-    val host: String                              // &quot;example.com&quot;
-    val port: Int                                 // 80
-    val path: String                              // &quot;/foo&quot; servlet path + path info
-    val queryParameters: QueryParameters
-    val parts: List&lt;HttpPart&gt;                     // hash of multipart parts
-    val formParameters: FormParameters
-    val accept: List&lt;ContentType&gt;
-    val authorization: Authorization?
+<span class="fc" id="L8">data class HttpRequest(</span>
+<span class="fc" id="L9">    override val method: HttpMethod = GET,</span>
+<span class="fc" id="L10">    override val protocol: HttpProtocol = HTTP,</span>
+<span class="fc" id="L11">    override val host: String = &quot;localhost&quot;,</span>
+<span class="fc" id="L12">    override val port: Int = 80,</span>
+<span class="fc" id="L13">    override val path: String = &quot;&quot;,</span>
+<span class="fc" id="L14">    override val queryParameters: QueryParameters = QueryParameters(),</span>
+<span class="fc" id="L15">    override val headers: Headers = Headers(),</span>
+<span class="fc" id="L16">    override val body: Any = &quot;&quot;,</span>
+<span class="fc" id="L17">    override val parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L18">    override val formParameters: FormParameters = FormParameters(),</span>
+<span class="fc" id="L19">    override val cookies: List&lt;Cookie&gt; = emptyList(),</span>
+<span class="fc" id="L20">    override val contentType: ContentType? = null,</span>
+<span class="fc" id="L21">    override val certificateChain: List&lt;X509Certificate&gt; = emptyList(),</span>
+<span class="fc" id="L22">    override val accept: List&lt;ContentType&gt; = emptyList(),</span>
+<span class="pc" id="L23">    override val contentLength: Long = -1L,</span>
+<span class="fc" id="L24">    override val authorization: Authorization? = null,</span>
+) : HttpRequestPort {
 
-    fun partsMap(): Map&lt;String, HttpPart&gt; =
-<span class="fc" id="L21">        parts.associateBy { it.name }</span>
+<span class="fc" id="L27">    init {</span>
+<span class="fc" id="L28">        checkHeaders(headers)</span>
+<span class="fc" id="L29">    }</span>
 
-    fun url(): URL =
-<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (queryParameters.isEmpty())</span>
-<span class="fc" id="L25">            URL(&quot;${protocol.schema}://$host:$port/$path&quot;)</span>
-        else
-<span class="fc" id="L27">            URL(&quot;${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}&quot;)</span>
-
-    fun userAgent(): String? =
-<span class="fc bfc" id="L30" title="All 2 branches covered.">        headers[&quot;user-agent&quot;]?.value</span>
-
-    fun referer(): String? =
-<span class="fc bfc" id="L33" title="All 2 branches covered.">        headers[&quot;referer&quot;]?.value</span>
-
-    fun origin(): String? =
-<span class="fc bfc" id="L36" title="All 2 branches covered.">        headers[&quot;origin&quot;]?.value</span>
-
-    fun authorization(): Authorization? =
-<span class="fc" id="L39">        headers[&quot;authorization&quot;]</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">            ?.value</span>
-<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            ?.split(&quot; &quot;, limit = 2)</span>
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            ?.let { Authorization(it.first(), it.last()) }</span>
-<span class="fc" id="L43">}</span>
+    override fun with(
+        body: Any,
+        headers: Headers,
+        contentType: ContentType?,
+        method: HttpMethod,
+        protocol: HttpProtocol,
+        host: String,
+        port: Int,
+        path: String,
+        queryParameters: QueryParameters,
+        parts: List&lt;HttpPart&gt;,
+        formParameters: FormParameters,
+        cookies: List&lt;Cookie&gt;,
+        accept: List&lt;ContentType&gt;,
+        authorization: Authorization?,
+        certificateChain: List&lt;X509Certificate&gt;,
+    ): HttpRequestPort =
+<span class="fc" id="L48">        copy(</span>
+<span class="fc" id="L49">            body = body,</span>
+<span class="fc" id="L50">            headers = headers,</span>
+<span class="fc" id="L51">            contentType = contentType,</span>
+<span class="fc" id="L52">            method = method,</span>
+<span class="fc" id="L53">            protocol = protocol,</span>
+<span class="fc" id="L54">            host = host,</span>
+<span class="fc" id="L55">            port = port,</span>
+<span class="fc" id="L56">            path = path,</span>
+<span class="fc" id="L57">            queryParameters = queryParameters,</span>
+<span class="fc" id="L58">            parts = parts,</span>
+<span class="fc" id="L59">            formParameters = formParameters,</span>
+<span class="fc" id="L60">            cookies = cookies,</span>
+<span class="fc" id="L61">            accept = accept,</span>
+<span class="fc" id="L62">            authorization = authorization,</span>
+<span class="fc" id="L63">            certificateChain = certificateChain,</span>
+<span class="fc" id="L64">        )</span>
+<span class="fc" id="L65">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

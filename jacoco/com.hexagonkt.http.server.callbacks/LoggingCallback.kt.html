@@ -3,7 +3,7 @@
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.logging.LoggingLevel
 import com.hexagonkt.http.model.*
-import com.hexagonkt.http.server.handlers.HttpServerContext
+import com.hexagonkt.http.handlers.HttpContext
 import kotlin.system.measureNanoTime
 
 /**
@@ -14,19 +14,19 @@ import kotlin.system.measureNanoTime
 <span class="fc" id="L14">    private val logger: Logger = Logger(LoggingCallback::class),</span>
 <span class="fc" id="L15">    private val includeHeaders: Boolean = false,</span>
 <span class="fc" id="L16">    private val includeBody: Boolean = true,</span>
-) : (HttpServerContext) -&gt; HttpServerContext {
+) : (HttpContext) -&gt; HttpContext {
 
-    override fun invoke(context: HttpServerContext): HttpServerContext {
-<span class="fc" id="L20">        var result: HttpServerContext</span>
+    override fun invoke(context: HttpContext): HttpContext {
+<span class="fc" id="L20">        var result: HttpContext</span>
 
 <span class="fc" id="L22">        logger.log(level) { details(context.request) }</span>
-<span class="fc" id="L23">        val ns = measureNanoTime { result = context.send().next() }</span>
+<span class="fc" id="L23">        val ns = measureNanoTime { result = context.next() }</span>
 <span class="fc" id="L24">        logger.log(level) { details(context.request, result.response, ns) }</span>
 
 <span class="fc" id="L26">        return result</span>
     }
 
-    internal fun details(m: HttpRequest): String {
+    internal fun details(m: HttpRequestPort): String {
 <span class="fc bfc" id="L30" title="All 2 branches covered.">        val headers = if (includeHeaders) {</span>
 <span class="fc" id="L31">            val accept = Header(&quot;accept&quot;, m.accept.joinToString(&quot;, &quot;) { it.text })</span>
 <span class="pc bpc" id="L32" title="1 of 4 branches missed.">            val contentType = Header(&quot;content-type&quot;, m.contentType?.text ?: &quot;&quot;)</span>
@@ -40,7 +40,7 @@ import kotlin.system.measureNanoTime
 <span class="fc" id="L40">        return &quot;Request:\n${m.method} ${m.path}$headers$body&quot;.trim()</span>
     }
 
-    internal fun details(n: HttpRequest, m: HttpResponse, ns: Long): String {
+    internal fun details(n: HttpRequestPort, m: HttpResponsePort, ns: Long): String {
 <span class="fc bfc" id="L44" title="All 2 branches covered.">        val headers = if (includeHeaders) {</span>
 <span class="pc bpc" id="L45" title="1 of 4 branches missed.">            val contentType = Header(&quot;content-type&quot;, m.contentType?.text ?: &quot;&quot;)</span>
 <span class="fc" id="L46">            (m.headers - &quot;content-type&quot; + contentType).format()</span>

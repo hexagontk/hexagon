@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OnHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.handlers</a> &gt; <span class="el_source">OnHandler.kt</span></div><h1>OnHandler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.handlers
+
+import com.hexagonkt.handlers.OnHandler
+import com.hexagonkt.handlers.Handler
+import com.hexagonkt.http.model.HttpMethod
+import com.hexagonkt.http.model.HttpStatus
+import com.hexagonkt.http.model.HttpCall
+import kotlin.reflect.KClass
+
+<span class="fc" id="L10">data class OnHandler(</span>
+<span class="fc" id="L11">    override val handlerPredicate: HttpPredicate = HttpPredicate(),</span>
+<span class="pc" id="L12">    val block: HttpCallback,</span>
+<span class="fc" id="L13">) : HttpHandler, Handler&lt;HttpCall&gt; by OnHandler(handlerPredicate, toCallback(block)) {</span>
+
+<span class="fc" id="L15">    constructor(</span>
+<span class="nc" id="L16">        methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
+<span class="fc" id="L17">        pattern: String = &quot;&quot;,</span>
+<span class="fc" id="L18">        exception: KClass&lt;out Exception&gt;? = null,</span>
+<span class="fc" id="L19">        status: HttpStatus? = null,</span>
+        block: HttpCallback,
+    ) :
+<span class="fc" id="L22">        this(HttpPredicate(methods, pattern, exception, status), block)</span>
+
+<span class="fc" id="L24">    constructor(method: HttpMethod, pattern: String = &quot;&quot;, block: HttpCallback) :</span>
+<span class="fc" id="L25">        this(setOf(method), pattern, block = block)</span>
+
+    constructor(pattern: String, block: HttpCallback) :
+<span class="fc" id="L28">        this(emptySet(), pattern, block = block)</span>
+
+    override fun addPrefix(prefix: String): HttpHandler =
+<span class="fc" id="L31">        copy(handlerPredicate = handlerPredicate.addPrefix(prefix))</span>
+<span class="fc" id="L32">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

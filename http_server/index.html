@@ -736,8 +736,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonkthttpservermodelws" class="md-nav__link">
-    Package com.hexagonkt.http.server.model.ws
+  <a href="#package-comhexagonkthttpmodelws" class="md-nav__link">
+    Package com.hexagonkt.http.model.ws
   </a>
   
 </li>
@@ -1432,8 +1432,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonkthttpservermodelws" class="md-nav__link">
-    Package com.hexagonkt.http.server.model.ws
+  <a href="#package-comhexagonkthttpmodelws" class="md-nav__link">
+    Package com.hexagonkt.http.model.ws
   </a>
   
 </li>
@@ -1557,7 +1557,7 @@ methods.</p>
 
 <span class="c1">// Servers implement closeable, you can use them inside a block assuring they will be closed</span>
 <span class="n">runningServer</span><span class="p">.</span><span class="na">use</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nb">it</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="na">started</span><span class="p">())</span>
 <span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/context/hello&quot;</span><span class="p">).</span><span class="na">body</span><span class="p">)</span>
@@ -1655,7 +1655,7 @@ H1 (after)
 <h2 id="handler-predicates">Handler Predicates<a class="headerlink" href="#handler-predicates" title="Permanent link">&para;</a></h2>
 <p>A predicate is a function that is applied to a call context and returns a boolean. If the result is
 true, the handler will be executed.</p>
-<p>The default implementation (<a href="/api/http_server/com.hexagonkt.http.server.handlers/-http-server-predicate">HttpServerPredicate</a>) is based on a template with any combination of
+<p>The default implementation (<a href="/api/http_server/com.hexagonkt.http.handlers/-http-predicate">HttpPredicate</a>) is based on a template with any combination of
 the following fields:</p>
 <ul>
 <li>a list of HTTP methods</li>
@@ -2128,7 +2128,7 @@ different handlers. Check the <a href="/api/http_server/com.hexagonkt.http.serve
 <span class="w">    </span><span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/allowed/headers&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">CorsCallback</span><span class="p">(</span><span class="n">allowedHeaders</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">setOf</span><span class="p">(</span><span class="s">&quot;head&quot;</span><span class="p">)))</span>
 <span class="p">}</span>
 
-<span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="n">ServerBuilder</span><span class="p">.</span><span class="nf">corsPath</span><span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="n">cors</span><span class="p">:</span><span class="w"> </span><span class="n">CorsCallback</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="n">HandlerBuilder</span><span class="p">.</span><span class="nf">corsPath</span><span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="n">cors</span><span class="p">:</span><span class="w"> </span><span class="n">CorsCallback</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// CORS settings can change for different routes</span>
 <span class="w">        </span><span class="n">filter</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cors</span><span class="p">)</span>
@@ -2248,7 +2248,7 @@ client used to connect (assuming it is valid, if not the connection will end wit
 
 <span class="c1">// Create an HTTP client and make an HTTPS request</span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">contextPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;https://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">contextPath</span><span class="p">,</span><span class="w"> </span><span class="n">clientSettings</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">clientSettings</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">contextPath</span><span class="p">))</span>
 <span class="n">client</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Assure the certificate received (and returned) by the server is correct</span>
@@ -2396,7 +2396,8 @@ code below for an example:</p>
 <span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
-<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">serverSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpServerSettings</span><span class="p">(</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">serverSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpServerSettings</span><span class="p">(</span>
 <span class="w">    </span><span class="n">bindPort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
 <span class="w">    </span><span class="n">zip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="p">)</span>
@@ -2408,7 +2409,8 @@ code below for an example:</p>
 <span class="p">}</span>
 <span class="n">server</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">settings</span><span class="p">)</span>
 <span class="n">client</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 
 <span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Headers</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;accept-encoding&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;gzip&quot;</span><span class="p">))).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
@@ -2448,14 +2450,14 @@ This will pick a random free port which you can check later:</p>
 <span class="kd">val</span><span class="w"> </span><span class="nv">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serve</span><span class="p">(</span><span class="n">serverAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">router</span><span class="p">,</span><span class="w"> </span><span class="n">serverSettings</span><span class="p">)</span>
 
 <span class="n">server</span><span class="p">.</span><span class="na">use</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nb">it</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hi!&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">body</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <p>To do this kind of tests without creating a custom server (using the real production code).
-Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt">tests of the starter projects</a>.</p>
+Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/ApplicationTest.kt">tests of the starter projects</a>.</p>
 <h3 id="mocking-calls">Mocking Calls<a class="headerlink" href="#mocking-calls" title="Permanent link">&para;</a></h3>
 <p>To unit test callbacks and handlers you can create test calls with hardcoded requests without
 relying on mocking libraries.</p>
@@ -2501,8 +2503,8 @@ relying on mocking libraries.</p>
 <span class="c1">// Handlers can also be tested to check predicates along the callbacks</span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">)</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="nv">notFound</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="n">HttpServerRequest</span><span class="p">())</span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="n">HttpServerRequest</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/path&quot;</span><span class="p">))</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">notFound</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="n">HttpRequest</span><span class="p">())</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="n">HttpRequest</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/path&quot;</span><span class="p">))</span>
 
 <span class="n">assertEquals</span><span class="p">(</span><span class="n">NOT_FOUND_404</span><span class="p">,</span><span class="w"> </span><span class="n">notFound</span><span class="p">.</span><span class="na">status</span><span class="p">)</span>
 <span class="n">assertEquals</span><span class="p">(</span><span class="n">OK_200</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">.</span><span class="na">status</span><span class="p">)</span>
@@ -2518,7 +2520,7 @@ filter, etc.).</p>
 HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the HTTP predicate.</p>
 <h2 id="package-comhexagonkthttpservermodel">Package com.hexagonkt.http.server.model<a class="headerlink" href="#package-comhexagonkthttpservermodel" title="Permanent link">&para;</a></h2>
 <p>Classes to model server HTTP messages (requests and responses). Built on top of the <a href="/http">http</a> module.</p>
-<h2 id="package-comhexagonkthttpservermodelws">Package com.hexagonkt.http.server.model.ws<a class="headerlink" href="#package-comhexagonkthttpservermodelws" title="Permanent link">&para;</a></h2>
+<h2 id="package-comhexagonkthttpmodelws">Package com.hexagonkt.http.model.ws<a class="headerlink" href="#package-comhexagonkthttpmodelws" title="Permanent link">&para;</a></h2>
 <p>Classes to model server HTTP messages (requests and responses). Built on top of the <a href="/http">http</a> module.</p>
 
 

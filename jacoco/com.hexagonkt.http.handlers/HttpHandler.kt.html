@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.handlers</a> &gt; <span class="el_source">HttpHandler.kt</span></div><h1>HttpHandler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.handlers
+
+import com.hexagonkt.handlers.Handler
+import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.HttpCall
+
+sealed interface HttpHandler : Handler&lt;HttpCall&gt; {
+    val handlerPredicate: HttpPredicate
+
+    fun addPrefix(prefix: String): HttpHandler
+
+    fun byMethod(): Map&lt;HttpMethod, HttpHandler&gt; =
+<span class="fc" id="L13">        handlerPredicate.methods.associateWith { filter(it) }</span>
+
+    fun filter(method: HttpMethod): HttpHandler =
+<span class="fc" id="L16">        when (this) {</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">            is PathHandler -&gt;</span>
+<span class="fc" id="L18">                copy(</span>
+<span class="fc" id="L19">                    handlerPredicate = handlerPredicate.clearMethods(),</span>
+<span class="fc" id="L20">                    handlers = handlers</span>
+<span class="fc" id="L21">                        .filter {</span>
+<span class="fc" id="L22">                            val methods = it.handlerPredicate.methods</span>
+<span class="fc bfc" id="L23" title="All 4 branches covered.">                            method in methods || methods.isEmpty()</span>
+                        }
+<span class="fc" id="L25">                        .map { it.filter(method) }</span>
+                )
+
+<span class="fc bfc" id="L28" title="All 2 branches covered.">            is OnHandler -&gt;</span>
+<span class="fc" id="L29">                copy(handlerPredicate = handlerPredicate.clearMethods())</span>
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">            is FilterHandler -&gt;</span>
+<span class="fc" id="L32">                copy(handlerPredicate = handlerPredicate.clearMethods())</span>
+
+<span class="fc" id="L34">            is AfterHandler -&gt;</span>
+<span class="fc" id="L35">                copy(handlerPredicate = handlerPredicate.clearMethods())</span>
+<span class="fc" id="L36">        }</span>
+
+    fun process(request: HttpRequestPort): HttpContext =
+<span class="fc" id="L39">        HttpContext(HttpCall(request = request), handlerPredicate).let { context -&gt;</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (handlerPredicate(context)) process(context) as HttpContext</span>
+<span class="fc" id="L41">            else context</span>
+<span class="fc" id="L42">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

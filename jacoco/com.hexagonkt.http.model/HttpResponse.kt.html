@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpResponse.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.model</a> &gt; <span class="el_source">HttpResponse.kt</span></div><h1>HttpResponse.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.model
 
-<span class="fc" id="L3">interface HttpResponse : HttpMessage {</span>
-    val status: HttpStatus
-<span class="fc" id="L5">}</span>
+import com.hexagonkt.http.checkHeaders
+import com.hexagonkt.http.model.ws.WsSession
+
+<span class="fc" id="L6">data class HttpResponse(</span>
+<span class="fc" id="L7">    override val body: Any = &quot;&quot;,</span>
+<span class="fc" id="L8">    override val headers: Headers = Headers(),</span>
+<span class="fc" id="L9">    override val contentType: ContentType? = null,</span>
+<span class="fc" id="L10">    override val cookies: List&lt;Cookie&gt; = emptyList(),</span>
+<span class="fc" id="L11">    override val status: HttpStatus = NOT_FOUND_404,</span>
+<span class="pc" id="L12">    override val contentLength: Long = -1L,</span>
+<span class="pc" id="L13">    override val onConnect: WsSession.() -&gt; Unit = {},</span>
+<span class="pc" id="L14">    override val onBinary: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L15">    override val onText: WsSession.(text: String) -&gt; Unit = {},</span>
+<span class="pc" id="L16">    override val onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L17">    override val onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L18">    override val onClose: WsSession.(status: Int, reason: String) -&gt; Unit = { _, _ -&gt; },</span>
+) : HttpResponsePort {
+
+<span class="fc" id="L21">    init {</span>
+<span class="fc" id="L22">        checkHeaders(headers)</span>
+<span class="fc" id="L23">    }</span>
+
+    override fun with(
+        status: HttpStatus,
+        body: Any,
+        headers: Headers,
+        contentType: ContentType?,
+        cookies: List&lt;Cookie&gt;,
+        onConnect: WsSession.() -&gt; Unit,
+        onBinary: WsSession.(data: ByteArray) -&gt; Unit,
+        onText: WsSession.(text: String) -&gt; Unit,
+        onPing: WsSession.(data: ByteArray) -&gt; Unit,
+        onPong: WsSession.(data: ByteArray) -&gt; Unit,
+        onClose: WsSession.(status: Int, reason: String) -&gt; Unit,
+    ): HttpResponsePort =
+<span class="fc" id="L38">        copy(</span>
+<span class="fc" id="L39">            status = status,</span>
+<span class="fc" id="L40">            body = body,</span>
+<span class="fc" id="L41">            headers = headers,</span>
+<span class="fc" id="L42">            contentType = contentType,</span>
+<span class="fc" id="L43">            cookies = cookies,</span>
+<span class="fc" id="L44">            onConnect = onConnect,</span>
+<span class="fc" id="L45">            onBinary = onBinary,</span>
+<span class="fc" id="L46">            onText = onText,</span>
+<span class="fc" id="L47">            onPing = onPing,</span>
+<span class="fc" id="L48">            onPong = onPong,</span>
+<span class="fc" id="L49">            onClose = onClose,</span>
+<span class="fc" id="L50">        )</span>
+<span class="fc" id="L51">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

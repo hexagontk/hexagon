@@ -5,7 +5,7 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.HttpMethod.OPTIONS
 import com.hexagonkt.http.model.HttpStatusType.SUCCESS
-import com.hexagonkt.http.server.handlers.HttpServerContext
+import com.hexagonkt.http.handlers.HttpContext
 
 /**
  * HTTP CORS callback. It holds info for CORS.
@@ -18,7 +18,7 @@ import com.hexagonkt.http.server.handlers.HttpServerContext
 <span class="pc" id="L18">    private val supportCredentials: Boolean = true,</span>
 <span class="pc" id="L19">    private val preFlightStatus: HttpStatus = NO_CONTENT_204,</span>
 <span class="pc" id="L20">    private val preFlightMaxAge: Long = 0</span>
-) : (HttpServerContext) -&gt; HttpServerContext {
+) : (HttpContext) -&gt; HttpContext {
 
     private companion object {
         const val ALLOW_ORIGIN = &quot;access-control-allow-origin&quot;
@@ -56,7 +56,7 @@ import com.hexagonkt.http.server.handlers.HttpServerContext
         }
 <span class="fc" id="L57">    }</span>
 
-    override fun invoke(context: HttpServerContext): HttpServerContext =
+    override fun invoke(context: HttpContext): HttpContext =
 <span class="fc" id="L60">        context.simpleRequest().let {</span>
 <span class="fc bfc" id="L61" title="All 2 branches covered.">            if (context.request.method == OPTIONS) it.preFlightRequest()</span>
 <span class="fc" id="L62">            else it</span>
@@ -72,7 +72,7 @@ import com.hexagonkt.http.server.handlers.HttpServerContext
 <span class="pc bpc" id="L72" title="1 of 4 branches missed.">        if (allowedOrigin.pattern == &quot;.*&quot; &amp;&amp; !supportCredentials) &quot;*&quot;</span>
 <span class="fc" id="L73">        else origin</span>
 
-    private fun HttpServerContext.simpleRequest(): HttpServerContext {
+    private fun HttpContext.simpleRequest(): HttpContext {
 <span class="fc bfc" id="L76" title="All 2 branches covered.">        val origin = request.origin() ?: return this</span>
 <span class="fc bfc" id="L77" title="All 2 branches covered.">        if (!allowOrigin(origin))</span>
 <span class="fc" id="L78">            return forbidden(&quot;Not allowed origin: $origin&quot;)</span>
@@ -103,7 +103,7 @@ import com.hexagonkt.http.server.handlers.HttpServerContext
 <span class="fc" id="L103">        return send(preFlightStatus, headers = h)</span>
     }
 
-    private fun HttpServerContext.preFlightRequest(): HttpServerContext {
+    private fun HttpContext.preFlightRequest(): HttpContext {
 
 <span class="fc bfc" id="L108" title="All 2 branches covered.">        val methodHeader = request.headers[REQUEST_METHOD]?.value</span>
 <span class="fc bfc" id="L109" title="All 2 branches covered.">        val requestMethod = methodHeader</span>

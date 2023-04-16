@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>http_client_jetty_ws</title>
+<link href="../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../scripts/sourceset_dependencies.js" async></script>
+<link href="../styles/style.css" rel="Stylesheet">
+<link href="../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../styles/main.css" rel="Stylesheet">
+<link href="../styles/prism.css" rel="Stylesheet">
+<link href="../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../scripts/main.js" defer></script>
+<script type="text/javascript" src="../scripts/prism.js" async></script>
+<script type="text/javascript" src="../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<script type="text/javascript" src="../dokka-mermaid.js" async></script></head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+<a href="../index.html">
+<span>hexagon</span>            </a>    </div>
+    <div>2.8.0
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http_client_jetty_ws:dokkaHtmlPartial/main">jvm</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageids="http_client_jetty_ws::////PointingToDeclaration//-207593426">
+  <div class="breadcrumbs"></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>http_client_jetty_ws</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http_client_jetty_ws:dokkaHtmlPartial/main"><p class="paragraph">/http_client implementation using the <a href="https://www.eclipse.org/jetty/documentation/jetty-11/programming-guide">Jetty HTTP Client</a> library (adding WS support).</p><blockquote class="quotation"><p class="paragraph">️⚠️ <strong>Warning</strong></p><p class="paragraph"><sup>WebSockets are not supported on GraalVM native images at the moment.</sup></p></blockquote><h3 class=""> Install the Dependency</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
+repositories {
+    mavenCentral()
+}
+
+implementation("com.hexagonkt:http_client_jetty_ws:$hexagonVersion")
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```xml
+
+  com.hexagonkt
+  http_client_jetty_ws
+  $hexagonVersion
+
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+  <h2 class="">Packages</h2>
+  <div class="table"><a data-name="-997188431%2FPackages%2F-207593426" anchor-label="com.hexagonkt.http.client.jetty" id="-997188431%2FPackages%2F-207593426" data-filterable-set=":http_client_jetty_ws:dokkaHtmlPartial/main"></a>
+    <div class="table-row" data-filterable-current=":http_client_jetty_ws:dokkaHtmlPartial/main" data-filterable-set=":http_client_jetty_ws:dokkaHtmlPartial/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.hexagonkt.http.client.jetty/index.html">com.hexagonkt.http.client.jetty</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-997188431%2FPackages%2F-207593426"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="-997188431%2FPackages%2F-207593426" anchor-label="com.hexagonkt.http.client.jetty" id="-997188431%2FPackages%2F-207593426" data-filterable-set=":http_client_jetty_ws:dokkaHtmlPartial/main"></a>
+            <p class="paragraph">Jetty HTTP client implementation classes.</p>
+          </span></div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagonkt/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagonkt/hexagon/blob/master/license.md"> MIT License</a></span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+

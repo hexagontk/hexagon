@@ -11,9 +11,9 @@ import com.hexagonkt.core.require
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.handlers.PathHandler
-import com.hexagonkt.http.server.handlers.HttpHandler
-import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.handlers.PathHandler
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.path
 import jakarta.servlet.*
 import java.lang.management.ManagementFactory
 import java.util.*

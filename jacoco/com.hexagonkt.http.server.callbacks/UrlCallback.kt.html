@@ -5,13 +5,13 @@ import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.mediaTypeOfOrNull
 import com.hexagonkt.core.require
 import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.server.handlers.HttpServerContext
+import com.hexagonkt.http.handlers.HttpContext
 import java.net.URL
 
-<span class="fc" id="L11">class UrlCallback(private val url: URL) : (HttpServerContext) -&gt; HttpServerContext {</span>
+<span class="fc" id="L11">class UrlCallback(private val url: URL) : (HttpContext) -&gt; HttpContext {</span>
 <span class="fc" id="L12">    private val logger: Logger = Logger(UrlCallback::class)</span>
 
-    override fun invoke(context: HttpServerContext): HttpServerContext {
+    override fun invoke(context: HttpContext): HttpContext {
 <span class="fc bfc" id="L15" title="All 3 branches covered.">        val requestPath = when (context.pathParameters.size) {</span>
 <span class="fc" id="L16">            0 -&gt; &quot;&quot;</span>
 <span class="fc" id="L17">            1 -&gt; context.pathParameters.require(&quot;0&quot;)</span>

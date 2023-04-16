@@ -5,14 +5,13 @@ import com.hexagonkt.http.model.*
 import java.net.URL
 
 // TODO Add proxy configuration
-// TODO Allow null value in 'baseUrl'
-<span class="fc" id="L9">data class HttpClientSettings(</span>
-<span class="fc" id="L10">    val baseUrl: URL = URL(&quot;http://localhost:2010&quot;),</span>
-<span class="fc" id="L11">    val contentType: ContentType? = null,</span>
-<span class="fc" id="L12">    val useCookies: Boolean = true,</span>
-<span class="fc" id="L13">    val headers: Headers = Headers(),</span>
-<span class="fc" id="L14">    val insecure: Boolean = false,</span>
-<span class="fc" id="L15">    val sslSettings: SslSettings? = null,</span>
-<span class="fc" id="L16">    val authorization: Authorization? = null,</span>
-<span class="fc" id="L17">)</span>
+<span class="fc" id="L8">data class HttpClientSettings(</span>
+<span class="fc" id="L9">    val baseUrl: URL? = null,</span>
+<span class="fc" id="L10">    val contentType: ContentType? = null,</span>
+<span class="fc" id="L11">    val useCookies: Boolean = true,</span>
+<span class="fc" id="L12">    val headers: Headers = Headers(),</span>
+<span class="fc" id="L13">    val insecure: Boolean = false,</span>
+<span class="fc" id="L14">    val sslSettings: SslSettings? = null,</span>
+<span class="fc" id="L15">    val authorization: Authorization? = null,</span>
+<span class="fc" id="L16">)</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
