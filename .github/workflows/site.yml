@@ -14,11 +14,6 @@ on:
         description: Java version used to run Gradle.
         default: "17"
 
-      java_distribution:
-        type: string
-        description: Java distribution used to run Gradle.
-        default: temurin
-
       check_directory:
         type: string
         description: Directory to check for build execution.
@@ -46,10 +41,11 @@ jobs:
           ref: ${{ inputs.ref }}
 
       - name: Set Up Java
-        uses: actions/setup-java@v3
+        uses: graalvm/setup-graalvm@v1
         with:
+          version: latest
           java-version: ${{ inputs.java }}
-          distribution: ${{ inputs.java_distribution }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: gradle
 
       - name: Build Project

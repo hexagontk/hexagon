@@ -8,9 +8,16 @@ jobs:
   sample_keystores:
     name: Sample Keystores
     permissions: read-all
-    uses: hexagonkt/.github/.github/workflows/gradle.yml@master
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       tasks: createCa createIdentities
+
+  native_test:
+    name: Native Test
+    permissions: read-all
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
+    with:
+      tasks: build nativeTest
 
   build_site:
     name: Build Site
@@ -20,7 +27,7 @@ jobs:
   test_publishing:
     name: Test Publishing
     permissions: read-all
-    uses: hexagonkt/.github/.github/workflows/gradle.yml@master
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       check_directory: core/build
       tasks: publishToMavenLocal -x test

@@ -26,10 +26,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set Up Java
-        uses: actions/setup-java@v3
+        uses: graalvm/setup-graalvm@v1
         with:
+          version: latest
           java-version: "17"
-          distribution: temurin
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: gradle
 
       - name: Update Site

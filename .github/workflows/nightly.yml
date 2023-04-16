@@ -3,7 +3,7 @@ name: Nightly
 
 on:
   schedule:
-    - cron: "59 23 * * 0,2,4,6"
+    - cron: "59 23 * * *"
 
 jobs:
   stale:
@@ -25,15 +25,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ ubuntu-latest, windows-latest ]
 
     name: Build (${{ matrix.os }})
     permissions: read-all
-    uses: hexagonkt/.github/.github/workflows/gradle.yml@master
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
       check_directory: core/build
       ref: develop
+
+  # TODO Delete this special case when Jacoco runs on macOS properly
+  build_macos:
+    name: Build (macos-latest)
+    permissions: read-all
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
+    with:
+      os: macos-latest
+      check_directory: core/build
+      ref: develop
+      tasks: -x jacocoTestReport
 
   sample_keystores:
     strategy:
@@ -43,11 +54,25 @@ jobs:
 
     name: Sample Keystores (${{ matrix.os }})
     permissions: read-all
-    uses: hexagonkt/.github/.github/workflows/gradle.yml@master
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
       ref: develop
       tasks: createCa createIdentities
+
+  native_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+
+    name: Native Test
+    permissions: read-all
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
+    with:
+      os: ${{ matrix.os }}
+      ref: develop
+      tasks: build nativeTest
 
   build_site:
     name: Build Site
@@ -64,7 +89,7 @@ jobs:
 
     name: Test Publishing (${{ matrix.os }})
     permissions: read-all
-    uses: hexagonkt/.github/.github/workflows/gradle.yml@master
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
       ref: develop
