@@ -72,7 +72,7 @@ jobs:
     with:
       os: ${{ matrix.os }}
       ref: develop
-      tasks: build nativeTest
+      tasks: nativeTest
 
   build_site:
     name: Build Site
