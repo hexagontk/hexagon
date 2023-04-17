@@ -17,4 +17,4 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
-      tasks: nativeTest -x http_server_netty:nativeTest -x http_server_netty_epoll:nativeTest
+      tasks: nativeTest
