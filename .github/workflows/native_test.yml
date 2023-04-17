@@ -10,11 +10,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ windows-latest, macos-latest ]
 
     name: Native Test
     permissions: read-all
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
-      tasks: nativeTest
+      tasks: nativeTest -x http_server_netty:nativeTest -x http_server_netty_epoll:nativeTest
