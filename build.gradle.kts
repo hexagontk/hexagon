@@ -4,7 +4,6 @@ import com.github.jk1.license.render.CsvReportRenderer
 import com.github.jk1.license.render.InventoryHtmlReportRenderer
 import com.github.jk1.license.render.InventoryMarkdownReportRenderer
 import com.github.jk1.license.render.ReportRenderer
-import io.gitlab.arturbosch.detekt.Detekt
 
 /*
  * Main build script, responsible for:
