@@ -9,9 +9,9 @@ task("icons").doLast {
 
     final String logoSmall = findProperty("logoSmall") ?: findProperty("logo")
     final String logoLarge = findProperty("logoLarge") ?: logoSmall
-    final String iconsDirectory = findProperty("iconsDirectory") ?: "icons"
+    final String iconsDirectory = findProperty("iconsDirectory") ?: "${buildDir.name}/icons"
 
-    project.file("${buildDir.name}/icons").mkdirs()
+    project.file(iconsDirectory).mkdirs()
 
     createPng(logoSmall, "$iconsDirectory/favicon.png", 32, 32)
     createPng(logoSmall, "$iconsDirectory/icon-small.png", 180, 180)
@@ -19,19 +19,13 @@ task("icons").doLast {
 }
 
 private void createPng(final String svg, final String out, final int width, final int height) {
-
-    exec {
-        final String geometry = "${width}x${height}"
-        commandLine("convert", "-background", "none", "-resize", geometry, svg, "$buildDir/$out")
-    }
-
     exec {
         commandLine(
             "convert",
             "-gravity", "center",
             "-background", "transparent",
-            "-extent", "${width}x${height}",
-            "$buildDir/$out",
+            "-resize", "${width}x${height}",
+            svg,
             "$buildDir/$out"
         )
     }
