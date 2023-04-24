@@ -240,11 +240,15 @@
         </plugin>
 
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
           <version>3.1.0</version>
           <executions>
             <execution>
-              <id>build_properties</id>
+              <id>build-properties</id>
+              <goals>
+                <goal>run</goal>
+              </goals>
               <configuration>
                 <target>
                   <propertyfile file="${project.build.outputDirectory}/META-INF/build.properties">
@@ -256,11 +260,9 @@
                   </propertyfile>
                 </target>
               </configuration>
-              <goals>
-                <goal>run</goal>
-              </goals>
             </execution>
             <execution>
+              <id>jpackage</id>
               <goals>
                 <goal>run</goal>
               </goals>
