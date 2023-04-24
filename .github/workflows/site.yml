@@ -56,10 +56,6 @@ jobs:
         run: ./gradlew --info --stacktrace build
 
       - name: Build Site
-        run: ./gradlew -x build buildSite
-
-      - name: Diagnose Site
-        if: failure()
         run: ./gradlew --info --stacktrace -x build buildSite
 
       - name: Check Build

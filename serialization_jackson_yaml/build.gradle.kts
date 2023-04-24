@@ -14,8 +14,7 @@ dependencies {
     val jacksonVersion = properties["jacksonVersion"]
 
     "api"(project(":serialization_jackson"))
-    "api"(platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
-    "api"("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    "api"("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
 
     "testImplementation"(project(":serialization_test"))
 }
