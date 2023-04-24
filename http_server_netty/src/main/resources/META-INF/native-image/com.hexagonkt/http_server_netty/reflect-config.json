@@ -1,12 +1,5 @@
 [
   {
-    "name": "io.netty.internal.tcnative.Library",
-    "allPublicMethods": true,
-    "allDeclaredFields": true,
-    "allDeclaredMethods": true,
-    "allDeclaredConstructors": true
-  },
-  {
     "name": "io.netty.handler.ssl.JdkSslServerContext",
     "allPublicMethods": true,
     "allDeclaredFields": true,

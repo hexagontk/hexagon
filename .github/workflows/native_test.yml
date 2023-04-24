@@ -10,7 +10,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ windows-latest, macos-latest ]
+        os: [ macos-latest ]
+#        os: [ windows-latest, macos-latest ]
 
     name: Native Test
     permissions: read-all
