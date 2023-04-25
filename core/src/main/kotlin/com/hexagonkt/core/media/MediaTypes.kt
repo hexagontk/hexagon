@@ -2,6 +2,7 @@ package com.hexagonkt.core.media
 
 import com.hexagonkt.core.media.MediaTypeGroup.*
 import java.io.File
+import java.net.URI
 import java.net.URL
 
 val MEDIA_TYPE_FORMAT: Regex = """\*|([\w+.-]+)""".toRegex()
@@ -196,6 +197,9 @@ fun parseMediaType(fullType: String): MediaType {
     return MediaType(group, type)
 }
 
+fun mediaTypeOfOrNull(uri: URI): MediaType? =
+    mediaTypeOfOrNull(pathExtension(uri.path))
+
 fun mediaTypeOfOrNull(url: URL): MediaType? =
     mediaTypeOfOrNull(pathExtension(url.file))
 
@@ -204,6 +208,9 @@ fun mediaTypeOfOrNull(file: File): MediaType? =
 
 fun mediaTypeOfOrNull(extension: String): MediaType? =
     MEDIA_TYPES_EXTENSIONS[extension]
+
+fun mediaTypeOf(uri: URI): MediaType =
+    mediaTypeOfOrNull(uri) ?: error("Media type not found for: '$uri' URI")
 
 fun mediaTypeOf(url: URL): MediaType =
     mediaTypeOfOrNull(url) ?: error("Media type not found for: '$url' URL")

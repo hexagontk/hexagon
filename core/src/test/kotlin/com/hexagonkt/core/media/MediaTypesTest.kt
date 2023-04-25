@@ -3,6 +3,7 @@ package com.hexagonkt.core.media
 import com.hexagonkt.core.media.MediaTypeGroup.*
 import kotlin.test.Test
 import java.io.File
+import java.net.URI
 import kotlin.IllegalArgumentException
 import kotlin.IllegalStateException
 import java.net.URL
@@ -41,8 +42,10 @@ internal class MediaTypesTest {
     }
 
     @Test fun `Media types of files and URLs can be retrieved`() {
+        assertEquals(APPLICATION_TOML, mediaTypeOfOrNull(URI("http://localhost/file.toml")))
         assertEquals(TEXT_PLAIN, mediaTypeOfOrNull(URL("http://localhost/file.txt")))
         assertEquals(APPLICATION_JSON, mediaTypeOfOrNull(URL("http://localhost/file.json")))
+        assertEquals(APPLICATION_TOML, mediaTypeOf(URI("http://localhost/file.toml")))
         assertEquals(TEXT_PLAIN, mediaTypeOf(URL("http://localhost/file.txt")))
         assertEquals(APPLICATION_JSON, mediaTypeOf(URL("http://localhost/file.json")))
         assertEquals(APPLICATION_AVRO, mediaTypeOf("avro"))
@@ -59,6 +62,8 @@ internal class MediaTypesTest {
         assertEquals(APPLICATION_YAML, mediaTypeOf(File("file.yml")))
         assertNull(mediaTypeOfOrNull(File("file")))
         assertNull(mediaTypeOfOrNull(File("file.baz")))
+        assertNull(mediaTypeOfOrNull(URI("http://localhost/file.baz")))
+        assertNull(mediaTypeOfOrNull(URL("http://localhost/file.baz")))
     }
 
     @Test fun `Exception is thrown if the media type is not found`() {
