@@ -1,7 +1,6 @@
 
 module com.hexagonkt.core {
 
-    requires java.management;
     requires transitive kotlin.stdlib;
 
     exports com.hexagonkt.core;
