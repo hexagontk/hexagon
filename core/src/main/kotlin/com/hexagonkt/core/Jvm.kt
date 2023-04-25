@@ -1,9 +1,5 @@
 package com.hexagonkt.core
 
-import java.lang.management.ManagementFactory.getMemoryMXBean
-import java.lang.management.ManagementFactory.getRuntimeMXBean
-import java.lang.management.MemoryUsage
-import java.lang.management.RuntimeMXBean
 import java.net.InetAddress
 import java.nio.charset.Charset
 import java.time.ZoneId
@@ -15,8 +11,8 @@ import kotlin.reflect.KClass
  * Object with utilities to gather information about the running JVM.
  */
 object Jvm {
-    /** Default timezone. TODO Defining this lazily fails in macOS */
-    val timeZone: TimeZone = TimeZone.getDefault()
+    /** Default timezone. */
+    val timeZone: TimeZone by lazy { TimeZone.getDefault() }
 
     /** Default zone ID. */
     val zoneId: ZoneId by lazy { timeZone.toZoneId() }
@@ -32,12 +28,6 @@ object Jvm {
 
     /** The IP address of the machine running this program. */
     val ip: String by lazy { InetAddress.getLocalHost().hostAddress }
-
-    /**
-     * ID representing the running Java virtual machine. If the 'java.management' module is not
-     * available returns `N/A`.
-     */
-    val id: String by lazy { runtime?.name ?: "N/A" }
 
     /** Name of the JVM running this program. For example: OpenJDK 64-Bit Server VM. */
     val name: String by lazy { System.getProperty("java.vm.name") }
@@ -55,41 +45,6 @@ object Jvm {
     val localeCode: String by lazy {
         "%s_%s.%s".format(locale.language, locale.country, charset.name())
     }
-
-    private val heap: MemoryUsage? by lazy {
-        try { getMemoryMXBean().heapMemoryUsage } catch (_: NoClassDefFoundError) { null }
-    }
-
-    private val runtime: RuntimeMXBean? by lazy {
-        try { getRuntimeMXBean() } catch (_: NoClassDefFoundError) { null }
-    }
-
-    /**
-     * Amount of memory in kilobytes that the JVM initially requests from the operating system. If
-     * the 'java.management' module is not available returns `N/A`.
-     *
-     * @return Initial amount of memory in kilobytes.
-     */
-    fun initialMemory(): String =
-        heap?.let { "%,d".format(it.init / 1024) } ?: "N/A"
-
-    /**
-     * Amount of used memory in kilobytes. If the 'java.management' module is not available returns
-     * `N/A`.
-     *
-     * @return Used memory in kilobytes.
-     */
-    fun usedMemory(): String =
-        heap?.let { "%,d".format(it.used / 1024) } ?: "N/A"
-
-    /**
-     * Uptime of the Java virtual machine in seconds. If the 'java.management' module is not
-     * available returns `N/A`.
-     *
-     * @return JVM uptime in seconds.
-     */
-    fun uptime(): String =
-        runtime?.let { "%01.3f".format(it.uptime / 1e3) } ?: "N/A"
 
     /**
      * Retrieve a setting by name by looking in the JVM system properties first and in OS

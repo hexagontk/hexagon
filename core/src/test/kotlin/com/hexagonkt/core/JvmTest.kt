@@ -40,13 +40,6 @@ internal class JvmTest {
         assert(Inet4Address.getAllByName(Jvm.ip).isNotEmpty())
     }
 
-    @Test fun `JVM metrics have valid values` () {
-        val numberRegex = Regex("[\\d.,]+")
-        assert(Jvm.initialMemory().matches(numberRegex))
-        assert(Jvm.usedMemory().matches(numberRegex))
-        assert(Jvm.uptime().matches(numberRegex))
-    }
-
     @Test fun `Locale code matches with default locale` () {
         assert(Jvm.localeCode.contains(Jvm.locale.country))
         assert(Jvm.localeCode.contains(Jvm.locale.language))
@@ -109,7 +102,6 @@ internal class JvmTest {
     }
 
     @Test fun `Default JVM info is fetched correctly`() {
-        assert(Jvm.id.isNotBlank())
         assert(Jvm.cpuCount > 0)
     }
 

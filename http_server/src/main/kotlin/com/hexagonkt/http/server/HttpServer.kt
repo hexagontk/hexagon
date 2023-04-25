@@ -20,9 +20,6 @@ import com.hexagonkt.core.Ansi.DEFAULT
 import com.hexagonkt.core.Ansi.MAGENTA
 import com.hexagonkt.core.Ansi.RESET
 import com.hexagonkt.core.Ansi.UNDERLINE
-import com.hexagonkt.core.Jvm.initialMemory
-import com.hexagonkt.core.Jvm.uptime
-import com.hexagonkt.core.Jvm.usedMemory
 import com.hexagonkt.core.prependIndent
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.handlers.HttpHandler
@@ -176,27 +173,7 @@ data class HttpServer(
         val startUpTimeValue = "$BOLD$MAGENTA$startUpTime ms$RESET"
         val bindingValue = "$BLUE$UNDERLINE$binding$RESET"
 
-        val information = if (settings.vmInformation) {
-            val jvmMemoryValue = "$BLUE${initialMemory()}$RESET"
-            val bootTimeValue = "$BOLD$MAGENTA${uptime()} s$RESET"
-            val usedMemoryValue = "$BOLD$MAGENTA${usedMemory()} KB$RESET"
-
-            """
-
-            Server Adapter: $serverAdapterValue ($protocols)
-            Supported Features: $features
-            Configuration Options: $options
-
-            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB
-            🛠 Using $javaVersionValue
-            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue
-
-            ⏱️ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue
-            🚀 Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else "" }
-
-            """
-        }
-        else {
+        val information =
             """
 
             Server Adapter: $serverAdapterValue ($protocols)
@@ -211,7 +188,6 @@ data class HttpServer(
             🚀 Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else "" }
 
             """
-        }
 
         val banner = (settings.banner?.let { "$it\n" } ?: banner) + information.trimIndent()
         return banner.prependIndent()

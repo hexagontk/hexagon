@@ -49,7 +49,6 @@ internal class HttpServerTest {
 
         val banners = listOf(
             serve(VoidAdapter, serverSettings) {},
-            serve(VoidAdapter, serverSettings.copy(vmInformation = true)) {}
         )
         .map {
             it.createBanner(System.currentTimeMillis())
@@ -63,7 +62,6 @@ internal class HttpServerTest {
             it
         }
         assertContains(banners.first(), "(excluding VM)")
-        assertFalse(banners.last().contains("(excluding VM)"))
     }
 
     @Test fun `Banner creation with enabled features and custom options`() {
