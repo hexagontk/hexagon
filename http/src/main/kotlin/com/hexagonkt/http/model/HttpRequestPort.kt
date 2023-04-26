@@ -54,17 +54,16 @@ interface HttpRequestPort : HttpMessage {
         .let(::URL)
 
     fun userAgent(): String? =
-        headers["user-agent"]?.value
+        headers["user-agent"]?.value as? String
 
     fun referer(): String? =
-        headers["referer"]?.value
+        headers["referer"]?.value as? String
 
     fun origin(): String? =
-        headers["origin"]?.value
+        headers["origin"]?.value as? String
 
     fun authorization(): Authorization? =
-        headers["authorization"]
-            ?.value
+        (headers["authorization"]?.value as? String)
             ?.split(" ", limit = 2)
             ?.let { Authorization(it.first(), it.last()) }
 }

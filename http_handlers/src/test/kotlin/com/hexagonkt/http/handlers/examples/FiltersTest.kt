@@ -81,28 +81,28 @@ internal class FiltersTest {
 
     @Test fun `Request without authorization returns 401`() {
         val response = path.send(GET, "/protected/hi")
-        val time = response.headers["time"]?.value?.toLong() ?: 0
+        val time = response.headers["time"]?.valueString()?.toLong() ?: 0
         assertResponseEquals(response, "Unauthorized", UNAUTHORIZED_401)
         assert(time > 0)
     }
 
     @Test fun `HTTP request with valid credentials returns valid response`() {
         val response = path.send(GET, "/protected/hi", user = "Turing", password = "London")
-        val time = response.headers["time"]?.value?.toLong() ?: 0
+        val time = response.headers["time"]?.valueString()?.toLong() ?: 0
         assertResponseEquals(response, "Hello Turing!", OK_200)
         assert(time > 0)
     }
 
     @Test fun `Request with invalid password returns 403`() {
         val response = path.send(GET, "/protected/hi", user = "Turing", password = "Millis")
-        val time = response.headers["time"]?.value?.toLong() ?: 0
+        val time = response.headers["time"]?.valueString()?.toLong() ?: 0
         assertResponseEquals(response, "Forbidden", FORBIDDEN_403)
         assert(time > 0)
     }
 
     @Test fun `Request with invalid user returns 403`() {
         val response = path.send(GET, "/protected/hi", user = "Curry", password = "Millis")
-        val time = response.headers["time"]?.value?.toLong() ?: 0
+        val time = response.headers["time"]?.valueString()?.toLong() ?: 0
         assertResponseEquals(response, "Forbidden", FORBIDDEN_403)
         assert(time > 0)
     }

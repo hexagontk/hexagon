@@ -75,8 +75,9 @@ fun formatQueryString(parameters: QueryParameters): String =
         .flatMap { (k, v) -> v.values.map { k to it } }
         .filter { it.first.isNotBlank() }
         .joinToString("&") { (k, v) ->
-            if (v.isBlank()) k.urlEncode()
-            else "${k.urlEncode()}=${v.urlEncode()}"
+            val s = v.toString()
+            if (s.isBlank()) k.urlEncode()
+            else "${k.urlEncode()}=${s.urlEncode()}"
         }
 
 fun String.urlDecode(): String =

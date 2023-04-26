@@ -101,9 +101,9 @@ abstract class FilesTest(
             HttpRequest(POST, path = "/form?queryName=queryValue", parts = parts)
         )
         assertEquals("queryName:queryValue", response.headers["query-params"]?.value)
-        assert(!(response.headers["query-params"]?.value?.contains("name:value") ?: true))
-        assert(response.headers["form-params"]?.value?.contains("name:value") ?: false)
-        assert(!(response.headers["form-params"]?.value?.contains("queryName:queryValue") ?: true))
+        assert(!(response.headers["query-params"]?.valueString()?.contains("name:value") ?: true))
+        assert(response.headers["form-params"]?.valueString()?.contains("name:value") ?: false)
+        assert(!(response.headers["form-params"]?.valueString()?.contains("queryName:queryValue") ?: true))
     }
 
     @Test fun `Requesting a folder with an existing file name returns 404`() {

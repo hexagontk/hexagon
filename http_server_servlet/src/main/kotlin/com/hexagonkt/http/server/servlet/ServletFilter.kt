@@ -72,7 +72,7 @@ class ServletFilter(
         response: HttpResponsePort, servletResponse: HttpServletResponse) {
 
         response.headers.values.forEach { (k, v) ->
-            v.forEach { servletResponse.addHeader(k, it) }
+            v.forEach { servletResponse.addHeader(k, it.toString()) }
         }
 
         response.cookies.forEach {

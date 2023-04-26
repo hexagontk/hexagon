@@ -13,7 +13,7 @@ internal class DateCallbackTest {
     @Test fun `Date callback creates the proper response`() {
         val context = HttpContext()
         val instant = Instant.now()
-        val date = DateCallback()(context).response.headers.require("date").value ?: fail
+        val date = DateCallback()(context).response.headers.require("date").valueString() ?: fail
         assertEquals(instant.toHttpFormat().substringBeforeLast(':'), date.substringBeforeLast(':'))
     }
 }

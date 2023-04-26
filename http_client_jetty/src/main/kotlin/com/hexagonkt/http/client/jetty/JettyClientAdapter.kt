@@ -185,14 +185,15 @@ open class JettyClientAdapter : HttpClientPort {
                     it.put("content-type", contentType.text)
                 if (authorization != null)
                     it.put("authorization", authorization.text)
-                (settings.headers + request.headers).values.forEach { (k, v) -> it.put(k, v) }
+                (settings.headers + request.headers).values
+                    .forEach { (k, v) -> it.put(k, v.map(Any::toString)) }
             }
             .body(createBody(request))
             .accept(*request.accept.map { it.text }.toTypedArray())
 
         request.queryParameters
             .forEach { (k, v) ->
-                v.values.forEach { jettyRequest.param(k, it) }
+                v.values.forEach { jettyRequest.param(k, it.toString()) }
             }
 
         return jettyRequest
@@ -220,7 +221,9 @@ open class JettyClientAdapter : HttpClientPort {
 
         request.formParameters
             .forEach { (k, v) ->
-                v.values.forEach { multiPart.addFieldPart(k, StringRequestContent(it), EMPTY) }
+                v.values.forEach {
+                    multiPart.addFieldPart(k, StringRequestContent(it.toString()), EMPTY)
+                }
             }
 
         multiPart.close()
