@@ -36,7 +36,7 @@ repositories {
 
 dependencies {
     final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.13.4"
-    final String scriptJunitVersion = findProperty("junitVersion") ?: "5.9.2"
+    final String scriptJunitVersion = findProperty("junitVersion") ?: "5.9.3"
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
@@ -138,7 +138,7 @@ tasks.withType(Test) { testTask ->
 }
 
 jacoco {
-    toolVersion = "0.8.9"
+    toolVersion = "0.8.10"
 }
 
 tasks.jacocoTestReport {

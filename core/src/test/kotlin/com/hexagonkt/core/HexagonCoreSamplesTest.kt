@@ -33,10 +33,10 @@ internal class HexagonCoreSamplesTest {
             """
         }
 
-        classLogger.trace { "Message only evaluated if trace enabled at ${Jvm.id}" }
-        classLogger.debug { "Message only evaluated if debug enabled at ${Jvm.id}" }
-        classLogger.warn { "Message only evaluated if warn enabled at ${Jvm.id}" }
-        classLogger.info { "Message only evaluated if info enabled at ${Jvm.id}" }
+        classLogger.trace { "Message only evaluated if trace enabled" }
+        classLogger.debug { "Message only evaluated if debug enabled" }
+        classLogger.warn { "Message only evaluated if warn enabled" }
+        classLogger.info { "Message only evaluated if info enabled" }
 
         val exception = IllegalStateException("Exception")
         classLogger.warn(exception) { "Warning with exception" }
