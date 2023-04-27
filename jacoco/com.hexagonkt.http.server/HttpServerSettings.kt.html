@@ -15,17 +15,14 @@ import java.net.InetAddress
  * @property sslSettings SSL settings info for configuring the server.
  * @property banner Server banner message.
  * @property zip Option to compress server responses.
- * @property vmInformation If true, show JVM information on start banner. If enabled, it forces
- *  the `java.management` module to be included.
  */
-<span class="fc" id="L21">data class HttpServerSettings(</span>
-<span class="fc" id="L22">    val bindAddress: InetAddress = InetAddress.getLoopbackAddress(),</span>
-<span class="fc" id="L23">    val bindPort: Int = 2010,</span>
-<span class="fc" id="L24">    val contextPath: String = &quot;&quot;,</span>
-<span class="fc" id="L25">    val protocol: HttpProtocol = HTTP,</span>
-<span class="fc" id="L26">    val sslSettings: SslSettings? = null,</span>
-<span class="fc" id="L27">    val banner: String? = null,</span>
-<span class="fc" id="L28">    val zip: Boolean = false,</span>
-<span class="fc" id="L29">    val vmInformation: Boolean = false,</span>
-<span class="fc" id="L30">)</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
+<span class="fc" id="L19">data class HttpServerSettings(</span>
+<span class="fc" id="L20">    val bindAddress: InetAddress = InetAddress.getLoopbackAddress(),</span>
+<span class="fc" id="L21">    val bindPort: Int = 2010,</span>
+<span class="fc" id="L22">    val contextPath: String = &quot;&quot;,</span>
+<span class="fc" id="L23">    val protocol: HttpProtocol = HTTP,</span>
+<span class="fc" id="L24">    val sslSettings: SslSettings? = null,</span>
+<span class="fc" id="L25">    val banner: String? = null,</span>
+<span class="fc" id="L26">    val zip: Boolean = false,</span>
+<span class="fc" id="L27">)</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

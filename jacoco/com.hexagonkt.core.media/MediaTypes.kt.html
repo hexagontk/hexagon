@@ -2,218 +2,225 @@
 
 import com.hexagonkt.core.media.MediaTypeGroup.*
 import java.io.File
+import java.net.URI
 import java.net.URL
 
-<span class="fc" id="L7">val MEDIA_TYPE_FORMAT: Regex = &quot;&quot;&quot;\*|([\w+.-]+)&quot;&quot;&quot;.toRegex()</span>
+<span class="fc" id="L8">val MEDIA_TYPE_FORMAT: Regex = &quot;&quot;&quot;\*|([\w+.-]+)&quot;&quot;&quot;.toRegex()</span>
 
-<span class="fc" id="L9">val APPLICATION_AVRO: MediaType = MediaType(APPLICATION, &quot;avro&quot;)</span>
-<span class="pc" id="L10">val APPLICATION_CBOR: MediaType = MediaType(APPLICATION, &quot;cbor&quot;)</span>
-<span class="fc" id="L11">val APPLICATION_JSON: MediaType = MediaType(APPLICATION, &quot;json&quot;)</span>
-<span class="fc" id="L12">val APPLICATION_YAML: MediaType = MediaType(APPLICATION, &quot;yaml&quot;)</span>
-<span class="fc" id="L13">val APPLICATION_XML: MediaType = MediaType(APPLICATION, &quot;xml&quot;)</span>
-<span class="pc" id="L14">val APPLICATION_GZIP: MediaType = MediaType(APPLICATION, &quot;gzip&quot;)</span>
-<span class="pc" id="L15">val APPLICATION_COMPRESS: MediaType = MediaType(APPLICATION, &quot;compress&quot;)</span>
-<span class="pc" id="L16">val APPLICATION_OCTET_STREAM: MediaType = MediaType(APPLICATION, &quot;octet-stream&quot;)</span>
-<span class="pc" id="L17">val APPLICATION_PDF: MediaType = MediaType(APPLICATION, &quot;pdf&quot;)</span>
-<span class="pc" id="L18">val APPLICATION_POSTSCRIPT: MediaType = MediaType(APPLICATION, &quot;postscript&quot;)</span>
-<span class="pc" id="L19">val APPLICATION_RTF: MediaType = MediaType(APPLICATION, &quot;rtf&quot;)</span>
-<span class="pc" id="L20">val APPLICATION_X_CSH: MediaType = MediaType(APPLICATION, &quot;x-csh&quot;)</span>
-<span class="pc" id="L21">val APPLICATION_X_GTAR: MediaType = MediaType(APPLICATION, &quot;x-gtar&quot;)</span>
-<span class="pc" id="L22">val APPLICATION_X_LATEX: MediaType = MediaType(APPLICATION, &quot;x-latex&quot;)</span>
-<span class="pc" id="L23">val APPLICATION_X_SH: MediaType = MediaType(APPLICATION, &quot;x-sh&quot;)</span>
-<span class="pc" id="L24">val APPLICATION_X_TAR: MediaType = MediaType(APPLICATION, &quot;x-tar&quot;)</span>
-<span class="pc" id="L25">val APPLICATION_X_TCL: MediaType = MediaType(APPLICATION, &quot;x-tcl&quot;)</span>
-<span class="pc" id="L26">val APPLICATION_X_TEX: MediaType = MediaType(APPLICATION, &quot;x-tex&quot;)</span>
-<span class="pc" id="L27">val APPLICATION_X_TEXINFO: MediaType = MediaType(APPLICATION, &quot;x-texinfo&quot;)</span>
-<span class="pc" id="L28">val APPLICATION_ZIP: MediaType = MediaType(APPLICATION, &quot;zip&quot;)</span>
-<span class="pc" id="L29">val APPLICATION_EPUB_ZIP: MediaType = MediaType(APPLICATION, &quot;epub+zip&quot;)</span>
-<span class="pc" id="L30">val APPLICATION_JAVA_ARCHIVE: MediaType = MediaType(APPLICATION, &quot;java-archive&quot;)</span>
-<span class="pc" id="L31">val APPLICATION_OGG: MediaType = MediaType(APPLICATION, &quot;ogg&quot;)</span>
-<span class="pc" id="L32">val APPLICATION_RAR: MediaType = MediaType(APPLICATION, &quot;vnd.rar&quot;)</span>
-<span class="pc" id="L33">val APPLICATION_XHTML: MediaType = MediaType(APPLICATION, &quot;xhtml+xml&quot;)</span>
-<span class="pc" id="L34">val APPLICATION_WEB_MANIFEST: MediaType = MediaType(APPLICATION, &quot;manifest+json&quot;)</span>
-<span class="fc" id="L35">val APPLICATION_TOML: MediaType = MediaType(APPLICATION, &quot;toml&quot;)</span>
-<span class="pc" id="L36">val APPLICATION_A7Z: MediaType = MediaType(APPLICATION, &quot;x-7z-compressed&quot;)</span>
-<span class="pc" id="L37">val APPLICATION_BZIP: MediaType = MediaType(APPLICATION, &quot;x-bzip&quot;)</span>
-<span class="pc" id="L38">val APPLICATION_BZIP2: MediaType = MediaType(APPLICATION, &quot;x-bzip2&quot;)</span>
-<span class="pc" id="L39">val APPLICATION_CDF: MediaType = MediaType(APPLICATION, &quot;x-cdf&quot;)</span>
-<span class="fc" id="L40">val APPLICATION_PHP: MediaType = MediaType(APPLICATION, &quot;x-httpd-php&quot;)</span>
+<span class="fc" id="L10">val APPLICATION_AVRO: MediaType = MediaType(APPLICATION, &quot;avro&quot;)</span>
+<span class="pc" id="L11">val APPLICATION_CBOR: MediaType = MediaType(APPLICATION, &quot;cbor&quot;)</span>
+<span class="fc" id="L12">val APPLICATION_JSON: MediaType = MediaType(APPLICATION, &quot;json&quot;)</span>
+<span class="fc" id="L13">val APPLICATION_YAML: MediaType = MediaType(APPLICATION, &quot;yaml&quot;)</span>
+<span class="fc" id="L14">val APPLICATION_XML: MediaType = MediaType(APPLICATION, &quot;xml&quot;)</span>
+<span class="pc" id="L15">val APPLICATION_GZIP: MediaType = MediaType(APPLICATION, &quot;gzip&quot;)</span>
+<span class="pc" id="L16">val APPLICATION_COMPRESS: MediaType = MediaType(APPLICATION, &quot;compress&quot;)</span>
+<span class="pc" id="L17">val APPLICATION_OCTET_STREAM: MediaType = MediaType(APPLICATION, &quot;octet-stream&quot;)</span>
+<span class="pc" id="L18">val APPLICATION_PDF: MediaType = MediaType(APPLICATION, &quot;pdf&quot;)</span>
+<span class="pc" id="L19">val APPLICATION_POSTSCRIPT: MediaType = MediaType(APPLICATION, &quot;postscript&quot;)</span>
+<span class="pc" id="L20">val APPLICATION_RTF: MediaType = MediaType(APPLICATION, &quot;rtf&quot;)</span>
+<span class="pc" id="L21">val APPLICATION_X_CSH: MediaType = MediaType(APPLICATION, &quot;x-csh&quot;)</span>
+<span class="pc" id="L22">val APPLICATION_X_GTAR: MediaType = MediaType(APPLICATION, &quot;x-gtar&quot;)</span>
+<span class="pc" id="L23">val APPLICATION_X_LATEX: MediaType = MediaType(APPLICATION, &quot;x-latex&quot;)</span>
+<span class="pc" id="L24">val APPLICATION_X_SH: MediaType = MediaType(APPLICATION, &quot;x-sh&quot;)</span>
+<span class="pc" id="L25">val APPLICATION_X_TAR: MediaType = MediaType(APPLICATION, &quot;x-tar&quot;)</span>
+<span class="pc" id="L26">val APPLICATION_X_TCL: MediaType = MediaType(APPLICATION, &quot;x-tcl&quot;)</span>
+<span class="pc" id="L27">val APPLICATION_X_TEX: MediaType = MediaType(APPLICATION, &quot;x-tex&quot;)</span>
+<span class="pc" id="L28">val APPLICATION_X_TEXINFO: MediaType = MediaType(APPLICATION, &quot;x-texinfo&quot;)</span>
+<span class="pc" id="L29">val APPLICATION_ZIP: MediaType = MediaType(APPLICATION, &quot;zip&quot;)</span>
+<span class="pc" id="L30">val APPLICATION_EPUB_ZIP: MediaType = MediaType(APPLICATION, &quot;epub+zip&quot;)</span>
+<span class="pc" id="L31">val APPLICATION_JAVA_ARCHIVE: MediaType = MediaType(APPLICATION, &quot;java-archive&quot;)</span>
+<span class="pc" id="L32">val APPLICATION_OGG: MediaType = MediaType(APPLICATION, &quot;ogg&quot;)</span>
+<span class="pc" id="L33">val APPLICATION_RAR: MediaType = MediaType(APPLICATION, &quot;vnd.rar&quot;)</span>
+<span class="pc" id="L34">val APPLICATION_XHTML: MediaType = MediaType(APPLICATION, &quot;xhtml+xml&quot;)</span>
+<span class="pc" id="L35">val APPLICATION_WEB_MANIFEST: MediaType = MediaType(APPLICATION, &quot;manifest+json&quot;)</span>
+<span class="fc" id="L36">val APPLICATION_TOML: MediaType = MediaType(APPLICATION, &quot;toml&quot;)</span>
+<span class="pc" id="L37">val APPLICATION_A7Z: MediaType = MediaType(APPLICATION, &quot;x-7z-compressed&quot;)</span>
+<span class="pc" id="L38">val APPLICATION_BZIP: MediaType = MediaType(APPLICATION, &quot;x-bzip&quot;)</span>
+<span class="pc" id="L39">val APPLICATION_BZIP2: MediaType = MediaType(APPLICATION, &quot;x-bzip2&quot;)</span>
+<span class="pc" id="L40">val APPLICATION_CDF: MediaType = MediaType(APPLICATION, &quot;x-cdf&quot;)</span>
+<span class="fc" id="L41">val APPLICATION_PHP: MediaType = MediaType(APPLICATION, &quot;x-httpd-php&quot;)</span>
 
-<span class="pc" id="L42">val AUDIO_BASIC: MediaType = MediaType(AUDIO, &quot;basic&quot;)</span>
-<span class="pc" id="L43">val AUDIO_MPEG: MediaType = MediaType(AUDIO, &quot;mpeg&quot;)</span>
-<span class="pc" id="L44">val AUDIO_WAV: MediaType = MediaType(AUDIO, &quot;wav&quot;)</span>
-<span class="pc" id="L45">val AUDIO_AAC: MediaType = MediaType(AUDIO, &quot;aac&quot;)</span>
-<span class="pc" id="L46">val AUDIO_MIDI: MediaType = MediaType(AUDIO, &quot;midi&quot;)</span>
-<span class="pc" id="L47">val AUDIO_OGG: MediaType = MediaType(AUDIO, &quot;ogg&quot;)</span>
-<span class="pc" id="L48">val AUDIO_OPUS: MediaType = MediaType(AUDIO, &quot;opus&quot;)</span>
-<span class="pc" id="L49">val AUDIO_WEBM: MediaType = MediaType(AUDIO, &quot;webm&quot;)</span>
+<span class="pc" id="L43">val AUDIO_BASIC: MediaType = MediaType(AUDIO, &quot;basic&quot;)</span>
+<span class="pc" id="L44">val AUDIO_MPEG: MediaType = MediaType(AUDIO, &quot;mpeg&quot;)</span>
+<span class="pc" id="L45">val AUDIO_WAV: MediaType = MediaType(AUDIO, &quot;wav&quot;)</span>
+<span class="pc" id="L46">val AUDIO_AAC: MediaType = MediaType(AUDIO, &quot;aac&quot;)</span>
+<span class="pc" id="L47">val AUDIO_MIDI: MediaType = MediaType(AUDIO, &quot;midi&quot;)</span>
+<span class="pc" id="L48">val AUDIO_OGG: MediaType = MediaType(AUDIO, &quot;ogg&quot;)</span>
+<span class="pc" id="L49">val AUDIO_OPUS: MediaType = MediaType(AUDIO, &quot;opus&quot;)</span>
+<span class="pc" id="L50">val AUDIO_WEBM: MediaType = MediaType(AUDIO, &quot;webm&quot;)</span>
 
-<span class="pc" id="L51">val FONT_OTF: MediaType = MediaType(FONT, &quot;otf&quot;)</span>
-<span class="pc" id="L52">val FONT_TTF: MediaType = MediaType(FONT, &quot;ttf&quot;)</span>
-<span class="pc" id="L53">val FONT_WOFF: MediaType = MediaType(FONT, &quot;woff&quot;)</span>
-<span class="pc" id="L54">val FONT_WOFF2: MediaType = MediaType(FONT, &quot;woff2&quot;)</span>
+<span class="pc" id="L52">val FONT_OTF: MediaType = MediaType(FONT, &quot;otf&quot;)</span>
+<span class="pc" id="L53">val FONT_TTF: MediaType = MediaType(FONT, &quot;ttf&quot;)</span>
+<span class="pc" id="L54">val FONT_WOFF: MediaType = MediaType(FONT, &quot;woff&quot;)</span>
+<span class="pc" id="L55">val FONT_WOFF2: MediaType = MediaType(FONT, &quot;woff2&quot;)</span>
 
-<span class="pc" id="L56">val IMAGE_GIF: MediaType = MediaType(IMAGE, &quot;gif&quot;)</span>
-<span class="pc" id="L57">val IMAGE_JPEG: MediaType = MediaType(IMAGE, &quot;jpeg&quot;)</span>
-<span class="pc" id="L58">val IMAGE_PNG: MediaType = MediaType(IMAGE, &quot;png&quot;)</span>
-<span class="pc" id="L59">val IMAGE_TIFF: MediaType = MediaType(IMAGE, &quot;tiff&quot;)</span>
-<span class="pc" id="L60">val IMAGE_SVG: MediaType = MediaType(IMAGE, &quot;svg+xml&quot;)</span>
-<span class="pc" id="L61">val IMAGE_ICO: MediaType = MediaType(IMAGE, &quot;vnd.microsoft.icon&quot;)</span>
-<span class="pc" id="L62">val IMAGE_WEBP: MediaType = MediaType(IMAGE, &quot;webp&quot;)</span>
-<span class="pc" id="L63">val IMAGE_AVIF: MediaType = MediaType(IMAGE, &quot;avif&quot;)</span>
+<span class="pc" id="L57">val IMAGE_GIF: MediaType = MediaType(IMAGE, &quot;gif&quot;)</span>
+<span class="pc" id="L58">val IMAGE_JPEG: MediaType = MediaType(IMAGE, &quot;jpeg&quot;)</span>
+<span class="pc" id="L59">val IMAGE_PNG: MediaType = MediaType(IMAGE, &quot;png&quot;)</span>
+<span class="pc" id="L60">val IMAGE_TIFF: MediaType = MediaType(IMAGE, &quot;tiff&quot;)</span>
+<span class="pc" id="L61">val IMAGE_SVG: MediaType = MediaType(IMAGE, &quot;svg+xml&quot;)</span>
+<span class="pc" id="L62">val IMAGE_ICO: MediaType = MediaType(IMAGE, &quot;vnd.microsoft.icon&quot;)</span>
+<span class="pc" id="L63">val IMAGE_WEBP: MediaType = MediaType(IMAGE, &quot;webp&quot;)</span>
+<span class="pc" id="L64">val IMAGE_AVIF: MediaType = MediaType(IMAGE, &quot;avif&quot;)</span>
 
-<span class="fc" id="L65">val MULTIPART_ALTERNATIVE: MediaType = MediaType(MULTIPART, &quot;alternative&quot;)</span>
-<span class="fc" id="L66">val MULTIPART_APPLEDOUBLE: MediaType = MediaType(MULTIPART, &quot;appledouble&quot;)</span>
-<span class="fc" id="L67">val MULTIPART_DIGEST: MediaType = MediaType(MULTIPART, &quot;digest&quot;)</span>
-<span class="fc" id="L68">val MULTIPART_MIXED: MediaType = MediaType(MULTIPART, &quot;mixed&quot;)</span>
-<span class="fc" id="L69">val MULTIPART_PARALLEL: MediaType = MediaType(MULTIPART, &quot;parallel&quot;)</span>
+<span class="fc" id="L66">val MULTIPART_ALTERNATIVE: MediaType = MediaType(MULTIPART, &quot;alternative&quot;)</span>
+<span class="fc" id="L67">val MULTIPART_APPLEDOUBLE: MediaType = MediaType(MULTIPART, &quot;appledouble&quot;)</span>
+<span class="fc" id="L68">val MULTIPART_DIGEST: MediaType = MediaType(MULTIPART, &quot;digest&quot;)</span>
+<span class="fc" id="L69">val MULTIPART_MIXED: MediaType = MediaType(MULTIPART, &quot;mixed&quot;)</span>
+<span class="fc" id="L70">val MULTIPART_PARALLEL: MediaType = MediaType(MULTIPART, &quot;parallel&quot;)</span>
 
-<span class="fc" id="L71">val TEXT_CSV: MediaType = MediaType(TEXT, &quot;csv&quot;)</span>
-<span class="pc" id="L72">val TEXT_X_JAVA_PROPERTIES: MediaType = MediaType(TEXT, &quot;x-java-properties&quot;)</span>
-<span class="pc" id="L73">val TEXT_JAVASCRIPT: MediaType = MediaType(TEXT, &quot;javascript&quot;)</span>
-<span class="fc" id="L74">val TEXT_CSS: MediaType = MediaType(TEXT, &quot;css&quot;)</span>
-<span class="fc" id="L75">val TEXT_HTML: MediaType = MediaType(TEXT, &quot;html&quot;)</span>
-<span class="fc" id="L76">val TEXT_MARKDOWN: MediaType = MediaType(TEXT, &quot;markdown&quot;)</span>
-<span class="fc" id="L77">val TEXT_PLAIN: MediaType = MediaType(TEXT, &quot;plain&quot;)</span>
-<span class="fc" id="L78">val TEXT_RICHTEXT: MediaType = MediaType(TEXT, &quot;richtext&quot;)</span>
-<span class="pc" id="L79">val TEXT_TAB_SEPARATED_VALUES: MediaType = MediaType(TEXT, &quot;tab-separated-values&quot;)</span>
-<span class="pc" id="L80">val TEXT_CALENDAR: MediaType = MediaType(TEXT, &quot;calendar&quot;)</span>
-<span class="fc" id="L81">val TEXT_EVENT_STREAM: MediaType = MediaType(TEXT, &quot;event-stream&quot;)</span>
+<span class="fc" id="L72">val TEXT_CSV: MediaType = MediaType(TEXT, &quot;csv&quot;)</span>
+<span class="pc" id="L73">val TEXT_X_JAVA_PROPERTIES: MediaType = MediaType(TEXT, &quot;x-java-properties&quot;)</span>
+<span class="pc" id="L74">val TEXT_JAVASCRIPT: MediaType = MediaType(TEXT, &quot;javascript&quot;)</span>
+<span class="fc" id="L75">val TEXT_CSS: MediaType = MediaType(TEXT, &quot;css&quot;)</span>
+<span class="fc" id="L76">val TEXT_HTML: MediaType = MediaType(TEXT, &quot;html&quot;)</span>
+<span class="fc" id="L77">val TEXT_MARKDOWN: MediaType = MediaType(TEXT, &quot;markdown&quot;)</span>
+<span class="fc" id="L78">val TEXT_PLAIN: MediaType = MediaType(TEXT, &quot;plain&quot;)</span>
+<span class="fc" id="L79">val TEXT_RICHTEXT: MediaType = MediaType(TEXT, &quot;richtext&quot;)</span>
+<span class="pc" id="L80">val TEXT_TAB_SEPARATED_VALUES: MediaType = MediaType(TEXT, &quot;tab-separated-values&quot;)</span>
+<span class="pc" id="L81">val TEXT_CALENDAR: MediaType = MediaType(TEXT, &quot;calendar&quot;)</span>
+<span class="fc" id="L82">val TEXT_EVENT_STREAM: MediaType = MediaType(TEXT, &quot;event-stream&quot;)</span>
 
-<span class="pc" id="L83">val VIDEO_MPEG: MediaType = MediaType(VIDEO, &quot;mpeg&quot;)</span>
-<span class="pc" id="L84">val VIDEO_QUICKTIME: MediaType = MediaType(VIDEO, &quot;quicktime&quot;)</span>
-<span class="pc" id="L85">val VIDEO_X_MSVIDEO: MediaType = MediaType(VIDEO, &quot;x-msvideo&quot;)</span>
-<span class="pc" id="L86">val VIDEO_MP4: MediaType = MediaType(VIDEO, &quot;mp4&quot;)</span>
-<span class="pc" id="L87">val VIDEO_OGG: MediaType = MediaType(VIDEO, &quot;ogg&quot;)</span>
-<span class="pc" id="L88">val VIDEO_WEBM: MediaType = MediaType(VIDEO, &quot;webm&quot;)</span>
+<span class="pc" id="L84">val VIDEO_MPEG: MediaType = MediaType(VIDEO, &quot;mpeg&quot;)</span>
+<span class="pc" id="L85">val VIDEO_QUICKTIME: MediaType = MediaType(VIDEO, &quot;quicktime&quot;)</span>
+<span class="pc" id="L86">val VIDEO_X_MSVIDEO: MediaType = MediaType(VIDEO, &quot;x-msvideo&quot;)</span>
+<span class="pc" id="L87">val VIDEO_MP4: MediaType = MediaType(VIDEO, &quot;mp4&quot;)</span>
+<span class="pc" id="L88">val VIDEO_OGG: MediaType = MediaType(VIDEO, &quot;ogg&quot;)</span>
+<span class="pc" id="L89">val VIDEO_WEBM: MediaType = MediaType(VIDEO, &quot;webm&quot;)</span>
 
-<span class="fc" id="L90">val DEFAULT_MEDIA_TYPE: MediaType = APPLICATION_OCTET_STREAM</span>
+<span class="fc" id="L91">val DEFAULT_MEDIA_TYPE: MediaType = APPLICATION_OCTET_STREAM</span>
 
-<span class="fc" id="L92">internal val MEDIA_TYPES_EXTENSIONS: Map&lt;String, MediaType&gt; = mapOf(</span>
-<span class="fc" id="L93">    &quot;avro&quot; to APPLICATION_AVRO,</span>
-<span class="fc" id="L94">    &quot;cbor&quot; to APPLICATION_CBOR,</span>
-<span class="fc" id="L95">    &quot;json&quot; to APPLICATION_JSON,</span>
-<span class="fc" id="L96">    &quot;yaml&quot; to APPLICATION_YAML,</span>
-<span class="fc" id="L97">    &quot;yml&quot; to APPLICATION_YAML,</span>
-<span class="fc" id="L98">    &quot;xml&quot; to APPLICATION_XML,</span>
-<span class="fc" id="L99">    &quot;bin&quot; to APPLICATION_OCTET_STREAM,</span>
-<span class="fc" id="L100">    &quot;lha&quot; to APPLICATION_OCTET_STREAM,</span>
-<span class="fc" id="L101">    &quot;lzh&quot; to APPLICATION_OCTET_STREAM,</span>
-<span class="fc" id="L102">    &quot;exe&quot; to APPLICATION_OCTET_STREAM,</span>
-<span class="fc" id="L103">    &quot;so&quot; to APPLICATION_OCTET_STREAM,</span>
-<span class="fc" id="L104">    &quot;class&quot; to APPLICATION_OCTET_STREAM,</span>
-<span class="fc" id="L105">    &quot;pdf&quot; to APPLICATION_PDF,</span>
-<span class="fc" id="L106">    &quot;ai&quot; to APPLICATION_POSTSCRIPT,</span>
-<span class="fc" id="L107">    &quot;eps&quot; to APPLICATION_POSTSCRIPT,</span>
-<span class="fc" id="L108">    &quot;ps&quot; to APPLICATION_POSTSCRIPT,</span>
-<span class="fc" id="L109">    &quot;rtf&quot; to APPLICATION_RTF,</span>
-<span class="fc" id="L110">    &quot;z&quot; to APPLICATION_COMPRESS,</span>
-<span class="fc" id="L111">    &quot;csh&quot; to APPLICATION_X_CSH,</span>
-<span class="fc" id="L112">    &quot;gtar&quot; to APPLICATION_X_GTAR,</span>
-<span class="fc" id="L113">    &quot;gz&quot; to APPLICATION_GZIP,</span>
-<span class="fc" id="L114">    &quot;gzip&quot; to APPLICATION_GZIP,</span>
-<span class="fc" id="L115">    &quot;latex&quot; to APPLICATION_X_LATEX,</span>
-<span class="fc" id="L116">    &quot;sh&quot; to APPLICATION_X_SH,</span>
-<span class="fc" id="L117">    &quot;tar&quot; to APPLICATION_X_TAR,</span>
-<span class="fc" id="L118">    &quot;tcl&quot; to APPLICATION_X_TCL,</span>
-<span class="fc" id="L119">    &quot;tex&quot; to APPLICATION_X_TEX,</span>
-<span class="fc" id="L120">    &quot;texinfo&quot; to APPLICATION_X_TEXINFO,</span>
-<span class="fc" id="L121">    &quot;texi&quot; to APPLICATION_X_TEXINFO,</span>
-<span class="fc" id="L122">    &quot;zip&quot; to APPLICATION_ZIP,</span>
-<span class="fc" id="L123">    &quot;epub&quot; to APPLICATION_EPUB_ZIP,</span>
-<span class="fc" id="L124">    &quot;jar&quot; to APPLICATION_JAVA_ARCHIVE,</span>
-<span class="fc" id="L125">    &quot;ogx&quot; to APPLICATION_OGG,</span>
-<span class="fc" id="L126">    &quot;rar&quot; to APPLICATION_RAR,</span>
-<span class="fc" id="L127">    &quot;7z&quot; to APPLICATION_A7Z,</span>
-<span class="fc" id="L128">    &quot;bz&quot; to APPLICATION_BZIP,</span>
-<span class="fc" id="L129">    &quot;bz2&quot; to APPLICATION_BZIP2,</span>
-<span class="fc" id="L130">    &quot;cda&quot; to APPLICATION_CDF,</span>
-<span class="fc" id="L131">    &quot;php&quot; to APPLICATION_PHP,</span>
-<span class="fc" id="L132">    &quot;xhtml&quot; to APPLICATION_XHTML,</span>
-<span class="fc" id="L133">    &quot;webmanifest&quot; to APPLICATION_WEB_MANIFEST,</span>
-<span class="fc" id="L134">    &quot;toml&quot; to APPLICATION_TOML,</span>
-<span class="fc" id="L135">    &quot;au&quot; to AUDIO_BASIC,</span>
-<span class="fc" id="L136">    &quot;snd&quot; to AUDIO_BASIC,</span>
-<span class="fc" id="L137">    &quot;mpga&quot; to AUDIO_MPEG,</span>
-<span class="fc" id="L138">    &quot;mp2&quot; to AUDIO_MPEG,</span>
-<span class="fc" id="L139">    &quot;mp2a&quot; to AUDIO_MPEG,</span>
-<span class="fc" id="L140">    &quot;mp3&quot; to AUDIO_MPEG,</span>
-<span class="fc" id="L141">    &quot;m2a&quot; to AUDIO_MPEG,</span>
-<span class="fc" id="L142">    &quot;m3a&quot; to AUDIO_MPEG,</span>
-<span class="fc" id="L143">    &quot;wav&quot; to AUDIO_WAV,</span>
-<span class="fc" id="L144">    &quot;aac&quot; to AUDIO_AAC,</span>
-<span class="fc" id="L145">    &quot;mid&quot; to AUDIO_MIDI,</span>
-<span class="fc" id="L146">    &quot;midi&quot; to AUDIO_MIDI,</span>
-<span class="fc" id="L147">    &quot;oga&quot; to AUDIO_OGG,</span>
-<span class="fc" id="L148">    &quot;opus&quot; to AUDIO_OPUS,</span>
-<span class="fc" id="L149">    &quot;weba&quot; to AUDIO_WEBM,</span>
-<span class="fc" id="L150">    &quot;otf&quot; to FONT_OTF,</span>
-<span class="fc" id="L151">    &quot;ttf&quot; to FONT_TTF,</span>
-<span class="fc" id="L152">    &quot;woff&quot; to FONT_WOFF,</span>
-<span class="fc" id="L153">    &quot;woff2&quot; to FONT_WOFF2,</span>
-<span class="fc" id="L154">    &quot;gif&quot; to IMAGE_GIF,</span>
-<span class="fc" id="L155">    &quot;jpeg&quot; to IMAGE_JPEG,</span>
-<span class="fc" id="L156">    &quot;jpg&quot; to IMAGE_JPEG,</span>
-<span class="fc" id="L157">    &quot;png&quot; to IMAGE_PNG,</span>
-<span class="fc" id="L158">    &quot;tiff&quot; to IMAGE_TIFF,</span>
-<span class="fc" id="L159">    &quot;tif&quot; to IMAGE_TIFF,</span>
-<span class="fc" id="L160">    &quot;svg&quot; to IMAGE_SVG,</span>
-<span class="fc" id="L161">    &quot;ico&quot; to IMAGE_ICO,</span>
-<span class="fc" id="L162">    &quot;webp&quot; to IMAGE_WEBP,</span>
-<span class="fc" id="L163">    &quot;avif&quot; to IMAGE_AVIF,</span>
-<span class="fc" id="L164">    &quot;csv&quot; to TEXT_CSV,</span>
-<span class="fc" id="L165">    &quot;properties&quot; to TEXT_X_JAVA_PROPERTIES,</span>
-<span class="fc" id="L166">    &quot;js&quot; to TEXT_JAVASCRIPT,</span>
-<span class="fc" id="L167">    &quot;css&quot; to TEXT_CSS,</span>
-<span class="fc" id="L168">    &quot;html&quot; to TEXT_HTML,</span>
-<span class="fc" id="L169">    &quot;htm&quot; to TEXT_HTML,</span>
-<span class="fc" id="L170">    &quot;md&quot; to TEXT_MARKDOWN,</span>
-<span class="fc" id="L171">    &quot;txt&quot; to TEXT_PLAIN,</span>
-<span class="fc" id="L172">    &quot;log&quot; to TEXT_PLAIN,</span>
-<span class="fc" id="L173">    &quot;rtx&quot; to TEXT_RICHTEXT,</span>
-<span class="fc" id="L174">    &quot;tsv&quot; to TEXT_TAB_SEPARATED_VALUES,</span>
-<span class="fc" id="L175">    &quot;ics&quot; to TEXT_CALENDAR,</span>
-<span class="fc" id="L176">    &quot;mpeg&quot; to VIDEO_MPEG,</span>
-<span class="fc" id="L177">    &quot;mpg&quot; to VIDEO_MPEG,</span>
-<span class="fc" id="L178">    &quot;mpe&quot; to VIDEO_MPEG,</span>
-<span class="fc" id="L179">    &quot;m1v&quot; to VIDEO_MPEG,</span>
-<span class="fc" id="L180">    &quot;m2v&quot; to VIDEO_MPEG,</span>
-<span class="fc" id="L181">    &quot;qt&quot; to VIDEO_QUICKTIME,</span>
-<span class="fc" id="L182">    &quot;mov&quot; to VIDEO_QUICKTIME,</span>
-<span class="fc" id="L183">    &quot;avi&quot; to VIDEO_X_MSVIDEO,</span>
-<span class="fc" id="L184">    &quot;mp4&quot; to VIDEO_MP4,</span>
-<span class="fc" id="L185">    &quot;ogv&quot; to VIDEO_OGG,</span>
-<span class="fc" id="L186">    &quot;webm&quot; to VIDEO_WEBM,</span>
+<span class="fc" id="L93">internal val MEDIA_TYPES_EXTENSIONS: Map&lt;String, MediaType&gt; = mapOf(</span>
+<span class="fc" id="L94">    &quot;avro&quot; to APPLICATION_AVRO,</span>
+<span class="fc" id="L95">    &quot;cbor&quot; to APPLICATION_CBOR,</span>
+<span class="fc" id="L96">    &quot;json&quot; to APPLICATION_JSON,</span>
+<span class="fc" id="L97">    &quot;yaml&quot; to APPLICATION_YAML,</span>
+<span class="fc" id="L98">    &quot;yml&quot; to APPLICATION_YAML,</span>
+<span class="fc" id="L99">    &quot;xml&quot; to APPLICATION_XML,</span>
+<span class="fc" id="L100">    &quot;bin&quot; to APPLICATION_OCTET_STREAM,</span>
+<span class="fc" id="L101">    &quot;lha&quot; to APPLICATION_OCTET_STREAM,</span>
+<span class="fc" id="L102">    &quot;lzh&quot; to APPLICATION_OCTET_STREAM,</span>
+<span class="fc" id="L103">    &quot;exe&quot; to APPLICATION_OCTET_STREAM,</span>
+<span class="fc" id="L104">    &quot;so&quot; to APPLICATION_OCTET_STREAM,</span>
+<span class="fc" id="L105">    &quot;class&quot; to APPLICATION_OCTET_STREAM,</span>
+<span class="fc" id="L106">    &quot;pdf&quot; to APPLICATION_PDF,</span>
+<span class="fc" id="L107">    &quot;ai&quot; to APPLICATION_POSTSCRIPT,</span>
+<span class="fc" id="L108">    &quot;eps&quot; to APPLICATION_POSTSCRIPT,</span>
+<span class="fc" id="L109">    &quot;ps&quot; to APPLICATION_POSTSCRIPT,</span>
+<span class="fc" id="L110">    &quot;rtf&quot; to APPLICATION_RTF,</span>
+<span class="fc" id="L111">    &quot;z&quot; to APPLICATION_COMPRESS,</span>
+<span class="fc" id="L112">    &quot;csh&quot; to APPLICATION_X_CSH,</span>
+<span class="fc" id="L113">    &quot;gtar&quot; to APPLICATION_X_GTAR,</span>
+<span class="fc" id="L114">    &quot;gz&quot; to APPLICATION_GZIP,</span>
+<span class="fc" id="L115">    &quot;gzip&quot; to APPLICATION_GZIP,</span>
+<span class="fc" id="L116">    &quot;latex&quot; to APPLICATION_X_LATEX,</span>
+<span class="fc" id="L117">    &quot;sh&quot; to APPLICATION_X_SH,</span>
+<span class="fc" id="L118">    &quot;tar&quot; to APPLICATION_X_TAR,</span>
+<span class="fc" id="L119">    &quot;tcl&quot; to APPLICATION_X_TCL,</span>
+<span class="fc" id="L120">    &quot;tex&quot; to APPLICATION_X_TEX,</span>
+<span class="fc" id="L121">    &quot;texinfo&quot; to APPLICATION_X_TEXINFO,</span>
+<span class="fc" id="L122">    &quot;texi&quot; to APPLICATION_X_TEXINFO,</span>
+<span class="fc" id="L123">    &quot;zip&quot; to APPLICATION_ZIP,</span>
+<span class="fc" id="L124">    &quot;epub&quot; to APPLICATION_EPUB_ZIP,</span>
+<span class="fc" id="L125">    &quot;jar&quot; to APPLICATION_JAVA_ARCHIVE,</span>
+<span class="fc" id="L126">    &quot;ogx&quot; to APPLICATION_OGG,</span>
+<span class="fc" id="L127">    &quot;rar&quot; to APPLICATION_RAR,</span>
+<span class="fc" id="L128">    &quot;7z&quot; to APPLICATION_A7Z,</span>
+<span class="fc" id="L129">    &quot;bz&quot; to APPLICATION_BZIP,</span>
+<span class="fc" id="L130">    &quot;bz2&quot; to APPLICATION_BZIP2,</span>
+<span class="fc" id="L131">    &quot;cda&quot; to APPLICATION_CDF,</span>
+<span class="fc" id="L132">    &quot;php&quot; to APPLICATION_PHP,</span>
+<span class="fc" id="L133">    &quot;xhtml&quot; to APPLICATION_XHTML,</span>
+<span class="fc" id="L134">    &quot;webmanifest&quot; to APPLICATION_WEB_MANIFEST,</span>
+<span class="fc" id="L135">    &quot;toml&quot; to APPLICATION_TOML,</span>
+<span class="fc" id="L136">    &quot;au&quot; to AUDIO_BASIC,</span>
+<span class="fc" id="L137">    &quot;snd&quot; to AUDIO_BASIC,</span>
+<span class="fc" id="L138">    &quot;mpga&quot; to AUDIO_MPEG,</span>
+<span class="fc" id="L139">    &quot;mp2&quot; to AUDIO_MPEG,</span>
+<span class="fc" id="L140">    &quot;mp2a&quot; to AUDIO_MPEG,</span>
+<span class="fc" id="L141">    &quot;mp3&quot; to AUDIO_MPEG,</span>
+<span class="fc" id="L142">    &quot;m2a&quot; to AUDIO_MPEG,</span>
+<span class="fc" id="L143">    &quot;m3a&quot; to AUDIO_MPEG,</span>
+<span class="fc" id="L144">    &quot;wav&quot; to AUDIO_WAV,</span>
+<span class="fc" id="L145">    &quot;aac&quot; to AUDIO_AAC,</span>
+<span class="fc" id="L146">    &quot;mid&quot; to AUDIO_MIDI,</span>
+<span class="fc" id="L147">    &quot;midi&quot; to AUDIO_MIDI,</span>
+<span class="fc" id="L148">    &quot;oga&quot; to AUDIO_OGG,</span>
+<span class="fc" id="L149">    &quot;opus&quot; to AUDIO_OPUS,</span>
+<span class="fc" id="L150">    &quot;weba&quot; to AUDIO_WEBM,</span>
+<span class="fc" id="L151">    &quot;otf&quot; to FONT_OTF,</span>
+<span class="fc" id="L152">    &quot;ttf&quot; to FONT_TTF,</span>
+<span class="fc" id="L153">    &quot;woff&quot; to FONT_WOFF,</span>
+<span class="fc" id="L154">    &quot;woff2&quot; to FONT_WOFF2,</span>
+<span class="fc" id="L155">    &quot;gif&quot; to IMAGE_GIF,</span>
+<span class="fc" id="L156">    &quot;jpeg&quot; to IMAGE_JPEG,</span>
+<span class="fc" id="L157">    &quot;jpg&quot; to IMAGE_JPEG,</span>
+<span class="fc" id="L158">    &quot;png&quot; to IMAGE_PNG,</span>
+<span class="fc" id="L159">    &quot;tiff&quot; to IMAGE_TIFF,</span>
+<span class="fc" id="L160">    &quot;tif&quot; to IMAGE_TIFF,</span>
+<span class="fc" id="L161">    &quot;svg&quot; to IMAGE_SVG,</span>
+<span class="fc" id="L162">    &quot;ico&quot; to IMAGE_ICO,</span>
+<span class="fc" id="L163">    &quot;webp&quot; to IMAGE_WEBP,</span>
+<span class="fc" id="L164">    &quot;avif&quot; to IMAGE_AVIF,</span>
+<span class="fc" id="L165">    &quot;csv&quot; to TEXT_CSV,</span>
+<span class="fc" id="L166">    &quot;properties&quot; to TEXT_X_JAVA_PROPERTIES,</span>
+<span class="fc" id="L167">    &quot;js&quot; to TEXT_JAVASCRIPT,</span>
+<span class="fc" id="L168">    &quot;css&quot; to TEXT_CSS,</span>
+<span class="fc" id="L169">    &quot;html&quot; to TEXT_HTML,</span>
+<span class="fc" id="L170">    &quot;htm&quot; to TEXT_HTML,</span>
+<span class="fc" id="L171">    &quot;md&quot; to TEXT_MARKDOWN,</span>
+<span class="fc" id="L172">    &quot;txt&quot; to TEXT_PLAIN,</span>
+<span class="fc" id="L173">    &quot;log&quot; to TEXT_PLAIN,</span>
+<span class="fc" id="L174">    &quot;rtx&quot; to TEXT_RICHTEXT,</span>
+<span class="fc" id="L175">    &quot;tsv&quot; to TEXT_TAB_SEPARATED_VALUES,</span>
+<span class="fc" id="L176">    &quot;ics&quot; to TEXT_CALENDAR,</span>
+<span class="fc" id="L177">    &quot;mpeg&quot; to VIDEO_MPEG,</span>
+<span class="fc" id="L178">    &quot;mpg&quot; to VIDEO_MPEG,</span>
+<span class="fc" id="L179">    &quot;mpe&quot; to VIDEO_MPEG,</span>
+<span class="fc" id="L180">    &quot;m1v&quot; to VIDEO_MPEG,</span>
+<span class="fc" id="L181">    &quot;m2v&quot; to VIDEO_MPEG,</span>
+<span class="fc" id="L182">    &quot;qt&quot; to VIDEO_QUICKTIME,</span>
+<span class="fc" id="L183">    &quot;mov&quot; to VIDEO_QUICKTIME,</span>
+<span class="fc" id="L184">    &quot;avi&quot; to VIDEO_X_MSVIDEO,</span>
+<span class="fc" id="L185">    &quot;mp4&quot; to VIDEO_MP4,</span>
+<span class="fc" id="L186">    &quot;ogv&quot; to VIDEO_OGG,</span>
+<span class="fc" id="L187">    &quot;webm&quot; to VIDEO_WEBM,</span>
 )
 
 fun parseMediaType(fullType: String): MediaType {
-<span class="fc" id="L190">    val groupType = fullType.split(&quot;/&quot;)</span>
-<span class="fc bfc" id="L191" title="All 4 branches covered.">    require(groupType.size == 2) { &quot;Media type format must be &lt;type&gt;/&lt;subtype&gt;: $fullType&quot; }</span>
+<span class="fc" id="L191">    val groupType = fullType.split(&quot;/&quot;)</span>
+<span class="fc bfc" id="L192" title="All 4 branches covered.">    require(groupType.size == 2) { &quot;Media type format must be &lt;type&gt;/&lt;subtype&gt;: $fullType&quot; }</span>
 
-<span class="fc" id="L193">    val groupText = groupType.first().uppercase()</span>
-<span class="fc bfc" id="L194" title="All 2 branches covered.">    val group = if (groupText == &quot;*&quot;) ANY else MediaTypeGroup.valueOf(groupText)</span>
-<span class="fc" id="L195">    val type = groupType.last()</span>
-<span class="fc" id="L196">    return MediaType(group, type)</span>
+<span class="fc" id="L194">    val groupText = groupType.first().uppercase()</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">    val group = if (groupText == &quot;*&quot;) ANY else MediaTypeGroup.valueOf(groupText)</span>
+<span class="fc" id="L196">    val type = groupType.last()</span>
+<span class="fc" id="L197">    return MediaType(group, type)</span>
 }
 
+fun mediaTypeOfOrNull(uri: URI): MediaType? =
+<span class="fc" id="L201">    mediaTypeOfOrNull(pathExtension(uri.path))</span>
+
 fun mediaTypeOfOrNull(url: URL): MediaType? =
-<span class="fc" id="L200">    mediaTypeOfOrNull(pathExtension(url.file))</span>
+<span class="fc" id="L204">    mediaTypeOfOrNull(pathExtension(url.file))</span>
 
 fun mediaTypeOfOrNull(file: File): MediaType? =
-<span class="fc" id="L203">    mediaTypeOfOrNull(file.extension)</span>
+<span class="fc" id="L207">    mediaTypeOfOrNull(file.extension)</span>
 
 fun mediaTypeOfOrNull(extension: String): MediaType? =
-<span class="fc" id="L206">    MEDIA_TYPES_EXTENSIONS[extension]</span>
+<span class="fc" id="L210">    MEDIA_TYPES_EXTENSIONS[extension]</span>
+
+fun mediaTypeOf(uri: URI): MediaType =
+<span class="pc bpc" id="L213" title="1 of 2 branches missed.">    mediaTypeOfOrNull(uri) ?: error(&quot;Media type not found for: '$uri' URI&quot;)</span>
 
 fun mediaTypeOf(url: URL): MediaType =
-<span class="fc bfc" id="L209" title="All 2 branches covered.">    mediaTypeOfOrNull(url) ?: error(&quot;Media type not found for: '$url' URL&quot;)</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">    mediaTypeOfOrNull(url) ?: error(&quot;Media type not found for: '$url' URL&quot;)</span>
 
 fun mediaTypeOf(file: File): MediaType =
-<span class="fc bfc" id="L212" title="All 2 branches covered.">    mediaTypeOfOrNull(file) ?: error(&quot;Media type not found for: '$file' file&quot;)</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">    mediaTypeOfOrNull(file) ?: error(&quot;Media type not found for: '$file' file&quot;)</span>
 
 fun mediaTypeOf(extension: String): MediaType =
-<span class="fc bfc" id="L215" title="All 2 branches covered.">    mediaTypeOfOrNull(extension) ?: error(&quot;Media type not found for: '$extension' extension&quot;)</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">    mediaTypeOfOrNull(extension) ?: error(&quot;Media type not found for: '$extension' extension&quot;)</span>
 
 private fun pathExtension(path: String): String =
-<span class="fc" id="L218">    path.substringAfterLast('.')</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
+<span class="fc" id="L225">    path.substringAfterLast('.')</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
