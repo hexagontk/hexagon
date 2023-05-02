@@ -39,6 +39,23 @@ internal class HttpServerTest {
         assertEquals(12345, server.runtimePort)
     }
 
+    @Test fun `Server without banner creation`() {
+        val serverSettings = HttpServerSettings(
+            address("localhost"),
+            12345,
+            banner = null,
+        )
+
+        val s = serve(VoidAdapter, serverSettings) {}
+        s.createBanner(System.currentTimeMillis()).let {
+            assert(it.startsWith(" at"))
+            assert(it.contains(" ms)"))
+            assert(!it.contains("✅HTTP"))
+            assert(!it.contains("HTTPS"))
+            assert(!it.contains("(excluding VM)"))
+        }
+    }
+
     @Test fun `Banner creation`() {
         val bannerPrefix = "Test Banner"
         val serverSettings = HttpServerSettings(
@@ -47,21 +64,15 @@ internal class HttpServerTest {
             banner = bannerPrefix,
         )
 
-        val banners = listOf(
-            serve(VoidAdapter, serverSettings) {},
-        )
-        .map {
-            it.createBanner(System.currentTimeMillis())
-        }
-        .map {
-            assertEquals(bannerPrefix, it.lines()[0].trimIndent())
+        val s = serve(VoidAdapter, serverSettings) {}
+        s.createBanner(System.currentTimeMillis()).let {
+            assertEquals(bannerPrefix, it.lines()[1].trimIndent())
             assertContains(it, "✅HTTP" )
             assertContains(it, "HTTPS")
             assertFalse(it.contains("ZIP"))
             assertFalse(it.contains("✅HTTPS"))
-            it
+            assertContains(it, "(excluding VM)")
         }
-        assertContains(banners.first(), "(excluding VM)")
     }
 
     @Test fun `Banner creation with enabled features and custom options`() {

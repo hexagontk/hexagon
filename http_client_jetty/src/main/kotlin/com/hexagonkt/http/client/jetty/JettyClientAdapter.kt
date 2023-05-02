@@ -170,14 +170,15 @@ open class JettyClientAdapter : HttpClientPort {
         val settings = adapterHttpClient.settings
         val contentType = request.contentType ?: settings.contentType
         val authorization = request.authorization ?: settings.authorization
+        val baseUrl = settings.baseUrl
 
         if (settings.useCookies) {
-            val uri = (adapterHttpClient.settings.baseUrl ?: request.url()).toURI()
+            val uri = (baseUrl ?: request.url()).toURI()
             addCookies(uri, adapterJettyClient.cookieStore, request.cookies)
         }
 
         val jettyRequest = adapterJettyClient
-            .newRequest(URI(settings.baseUrl.toString() + request.path))
+            .newRequest(URI((baseUrl?.toString() ?: "") + request.path))
             .method(HttpMethod.valueOf(request.method.toString()))
             .headers {
                 it.remove("accept-encoding") // Don't send encoding by default

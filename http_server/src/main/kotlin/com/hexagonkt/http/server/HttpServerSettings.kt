@@ -22,6 +22,6 @@ data class HttpServerSettings(
     val contextPath: String = "",
     val protocol: HttpProtocol = HTTP,
     val sslSettings: SslSettings? = null,
-    val banner: String? = null,
+    val banner: String? = HttpServer.banner,
     val zip: Boolean = false,
 )
