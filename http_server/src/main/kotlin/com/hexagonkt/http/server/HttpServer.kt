@@ -8,7 +8,6 @@ import com.hexagonkt.core.Jvm.ip
 import com.hexagonkt.core.Jvm.name
 import com.hexagonkt.core.Jvm.version
 import com.hexagonkt.core.Jvm.localeCode
-import com.hexagonkt.core.Jvm.timezone
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
 import com.hexagonkt.http.model.HttpProtocol.HTTP
 
@@ -20,6 +19,7 @@ import com.hexagonkt.core.Ansi.DEFAULT
 import com.hexagonkt.core.Ansi.MAGENTA
 import com.hexagonkt.core.Ansi.RESET
 import com.hexagonkt.core.Ansi.UNDERLINE
+import com.hexagonkt.core.Jvm.timeZone
 import com.hexagonkt.core.Jvm.totalMemory
 import com.hexagonkt.core.Jvm.usedMemory
 import com.hexagonkt.core.prependIndent
@@ -172,7 +172,7 @@ data class HttpServer(
         val javaVersionValue = "$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]"
 
         val localeValue = "$BLUE$localeCode$RESET"
-        val timezoneValue = "$BLUE$timezone$RESET"
+        val timezoneValue = "$BLUE${timeZone.id}$RESET"
         val charsetValue = "$BLUE$charset$RESET"
 
         val startUpTimeValue = "$BOLD$MAGENTA$startUpTime ms$RESET"

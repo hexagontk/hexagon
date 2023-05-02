@@ -81,7 +81,7 @@ abstract class ServletServer(
         val javaVersionValue = "$BOLD${BLUE}Java ${Jvm.version}$RESET [$BLUE${Jvm.name}$RESET]"
 
         val localeValue = "$BLUE${Jvm.localeCode}$RESET"
-        val timezoneValue = "$BLUE${Jvm.timezone}$RESET"
+        val timezoneValue = "$BLUE${Jvm.timeZone.id}$RESET"
         val charsetValue = "$BLUE${Jvm.charset}$RESET"
 
         val bootTimeValue = "$BOLD$MAGENTA$bootTime s$RESET"
