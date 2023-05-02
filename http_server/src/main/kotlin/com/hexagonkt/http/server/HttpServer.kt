@@ -185,7 +185,7 @@ data class HttpServer(
             Supported Features: $features
             Configuration Options: $options
 
-            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue Memory
+            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue of memory
             🛠 Using $javaVersionValue
             🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue
 
