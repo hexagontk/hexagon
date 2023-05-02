@@ -192,6 +192,12 @@ abstract class ClientTest(
         assertEquals("qp=qpValue", getResponse.headers["query-parameters"]?.value)
         assertEquals("qp=qpValue", response.headers["query-parameters"]?.value)
         checkResponse(response, mapOf("body" to "payload"))
+
+        val base = client.settings.baseUrl?.toString()
+        HttpClient(clientAdapter(), client.settings.copy(baseUrl = null)).request {
+            val secondResponse = get("$base/queryParameters?qp=qpValue")
+            assertEquals("qp=qpValue", secondResponse.headers["query-parameters"]?.value)
+        }
     }
 
     @Test fun `HTTP methods without body work ok`() {
