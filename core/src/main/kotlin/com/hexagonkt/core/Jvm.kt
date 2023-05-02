@@ -11,6 +11,8 @@ import kotlin.reflect.KClass
  * Object with utilities to gather information about the running JVM.
  */
 object Jvm {
+    private val runtime: Runtime by lazy { Runtime.getRuntime() }
+
     /** Default timezone. */
     val timeZone: TimeZone by lazy { TimeZone.getDefault() }
 
@@ -30,21 +32,37 @@ object Jvm {
     val ip: String by lazy { InetAddress.getLocalHost().hostAddress }
 
     /** Name of the JVM running this program. For example: OpenJDK 64-Bit Server VM. */
-    val name: String by lazy { System.getProperty("java.vm.name") }
+    val name: String by lazy { System.getProperty("java.vm.name", "N/A") }
 
     /** Java version aka language level. For example: 11 */
-    val version: String by lazy { System.getProperty("java.vm.specification.version") }
+    val version: String by lazy { System.getProperty("java.vm.specification.version", "N/A") }
 
     /** Number of processors available to the Java virtual machine. */
-    val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }
+    val cpuCount: Int by lazy { runtime.availableProcessors() }
 
     /** User Time Zone property. Can be set with -D user.timezone=<tz> JVM argument. */
-    val timezone: String by lazy { System.getProperty("user.timezone") }
+    val timezone: String by lazy { System.getProperty("user.timezone", "N/A") }
 
     /** User locale consist of 2-letter language code, 2-letter country code and file encoding. */
     val localeCode: String by lazy {
         "%s_%s.%s".format(locale.language, locale.country, charset.name())
     }
+
+    /**
+     * Amount of memory in kilobytes available to the JVM.
+     *
+     * @return Total amount of memory in kilobytes.
+     */
+    fun totalMemory(): String =
+        runtime.totalMemory().let { "%,d".format(it / 1024) }
+
+    /**
+     * Amount of used memory in kilobytes.
+     *
+     * @return Used memory in kilobytes.
+     */
+    fun usedMemory(): String =
+        (runtime.totalMemory() - runtime.freeMemory()).let { "%,d".format(it / 1024) }
 
     /**
      * Retrieve a setting by name by looking in the JVM system properties first and in OS
@@ -90,6 +108,6 @@ object Jvm {
 
     private fun systemSettingRaw(name: String): String? {
         require(name.isNotBlank()) { "Setting name can not be blank" }
-        return System.getProperty(name) ?: System.getenv(name)
+        return System.getProperty(name, System.getenv(name))
     }
 }

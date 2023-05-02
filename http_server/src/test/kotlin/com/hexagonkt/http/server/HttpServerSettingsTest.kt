@@ -14,7 +14,7 @@ internal class HttpServerSettingsTest {
             assertEquals(2010, it.bindPort)
             assertEquals(HTTP, it.protocol)
             assertNull(it.sslSettings)
-            assertNull(it.banner)
+            assertEquals(HttpServer.banner, it.banner)
             assertEquals(false, it.zip)
         }
     }
@@ -25,7 +25,7 @@ internal class HttpServerSettingsTest {
             assertEquals(2010, it.bindPort)
             assertEquals(HTTP, it.protocol)
             assertNull(it.sslSettings)
-            assertNull(it.banner)
+            assertEquals(HttpServer.banner, it.banner)
             assertEquals(true, it.zip)
         }
     }
