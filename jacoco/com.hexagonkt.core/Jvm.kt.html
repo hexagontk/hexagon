@@ -11,40 +11,58 @@ import kotlin.reflect.KClass
  * Object with utilities to gather information about the running JVM.
  */
 object Jvm {
+<span class="fc" id="L14">    private val runtime: Runtime by lazy { Runtime.getRuntime() }</span>
+
     /** Default timezone. */
-<span class="fc" id="L15">    val timeZone: TimeZone by lazy { TimeZone.getDefault() }</span>
+<span class="fc" id="L17">    val timeZone: TimeZone by lazy { TimeZone.getDefault() }</span>
 
     /** Default zone ID. */
-<span class="fc" id="L18">    val zoneId: ZoneId by lazy { timeZone.toZoneId() }</span>
+<span class="fc" id="L20">    val zoneId: ZoneId by lazy { timeZone.toZoneId() }</span>
 
     /** Default character set. */
-<span class="fc" id="L21">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
+<span class="fc" id="L23">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
 
     /** Default locale for this instance of the Java Virtual Machine. */
-<span class="fc" id="L24">    val locale: Locale by lazy { Locale.getDefault() }</span>
+<span class="fc" id="L26">    val locale: Locale by lazy { Locale.getDefault() }</span>
 
     /** The hostname of the machine running this program. */
-<span class="fc" id="L27">    val hostname: String by lazy { InetAddress.getLocalHost().hostName }</span>
+<span class="fc" id="L29">    val hostname: String by lazy { InetAddress.getLocalHost().hostName }</span>
 
     /** The IP address of the machine running this program. */
-<span class="fc" id="L30">    val ip: String by lazy { InetAddress.getLocalHost().hostAddress }</span>
+<span class="fc" id="L32">    val ip: String by lazy { InetAddress.getLocalHost().hostAddress }</span>
 
     /** Name of the JVM running this program. For example: OpenJDK 64-Bit Server VM. */
-<span class="fc" id="L33">    val name: String by lazy { System.getProperty(&quot;java.vm.name&quot;) }</span>
+<span class="fc" id="L35">    val name: String by lazy { System.getProperty(&quot;java.vm.name&quot;, &quot;N/A&quot;) }</span>
 
     /** Java version aka language level. For example: 11 */
-<span class="fc" id="L36">    val version: String by lazy { System.getProperty(&quot;java.vm.specification.version&quot;) }</span>
+<span class="fc" id="L38">    val version: String by lazy { System.getProperty(&quot;java.vm.specification.version&quot;, &quot;N/A&quot;) }</span>
 
     /** Number of processors available to the Java virtual machine. */
-<span class="fc" id="L39">    val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }</span>
+<span class="fc" id="L41">    val cpuCount: Int by lazy { runtime.availableProcessors() }</span>
 
     /** User Time Zone property. Can be set with -D user.timezone=&lt;tz&gt; JVM argument. */
-<span class="fc" id="L42">    val timezone: String by lazy { System.getProperty(&quot;user.timezone&quot;) }</span>
+<span class="fc" id="L44">    val timezone: String by lazy { System.getProperty(&quot;user.timezone&quot;, &quot;N/A&quot;) }</span>
 
     /** User locale consist of 2-letter language code, 2-letter country code and file encoding. */
-<span class="fc" id="L45">    val localeCode: String by lazy {</span>
-<span class="fc" id="L46">        &quot;%s_%s.%s&quot;.format(locale.language, locale.country, charset.name())</span>
+<span class="fc" id="L47">    val localeCode: String by lazy {</span>
+<span class="fc" id="L48">        &quot;%s_%s.%s&quot;.format(locale.language, locale.country, charset.name())</span>
     }
+
+    /**
+     * Amount of memory in kilobytes available to the JVM.
+     *
+     * @return Total amount of memory in kilobytes.
+     */
+    fun totalMemory(): String =
+<span class="fc" id="L57">        runtime.totalMemory().let { &quot;%,d&quot;.format(it / 1024) }</span>
+
+    /**
+     * Amount of used memory in kilobytes.
+     *
+     * @return Used memory in kilobytes.
+     */
+    fun usedMemory(): String =
+<span class="fc" id="L65">        (runtime.totalMemory() - runtime.freeMemory()).let { &quot;%,d&quot;.format(it / 1024) }</span>
 
     /**
      * Retrieve a setting by name by looking in the JVM system properties first and in OS
@@ -57,11 +75,11 @@ object Jvm {
      *   found on the JVM system properties and in OS environment variables.
      */
     fun &lt;T: Any&gt; systemSettingOrNull(type: KClass&lt;T&gt;, name: String): T? =
-<span class="fc" id="L60">        systemSettingRaw(name).let { it.parseOrNull(type) }</span>
+<span class="fc" id="L78">        systemSettingRaw(name).let { it.parseOrNull(type) }</span>
 
     fun &lt;T: Any&gt; systemSetting(type: KClass&lt;T&gt;, name: String): T =
-<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        systemSettingOrNull(type, name)</span>
-<span class="pc" id="L64">            ?: error(&quot;Required '${type.simpleName}' system setting '$name' not found&quot;)</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        systemSettingOrNull(type, name)</span>
+<span class="pc" id="L82">            ?: error(&quot;Required '${type.simpleName}' system setting '$name' not found&quot;)</span>
 
     /**
      * Retrieve a flag (boolean parameter) by name by looking in the JVM system properties first and
@@ -71,7 +89,7 @@ object Jvm {
      * @return True if the parameter is found and its value is exactly 'true', false otherwise.
      */
     fun systemFlag(name: String): Boolean =
-<span class="fc bfc" id="L74" title="All 2 branches covered.">        systemSettingOrNull(Boolean::class, name) ?: false</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        systemSettingOrNull(Boolean::class, name) ?: false</span>
 
     /**
      * Utility method for retrieving a system setting, check [systemSettingOrNull] for details.
@@ -89,8 +107,8 @@ object Jvm {
         systemSetting(T::class, name)
 
     private fun systemSettingRaw(name: String): String? {
-<span class="fc bfc" id="L92" title="All 4 branches covered.">        require(name.isNotBlank()) { &quot;Setting name can not be blank&quot; }</span>
-<span class="fc bfc" id="L93" title="All 2 branches covered.">        return System.getProperty(name) ?: System.getenv(name)</span>
+<span class="fc bfc" id="L110" title="All 4 branches covered.">        require(name.isNotBlank()) { &quot;Setting name can not be blank&quot; }</span>
+<span class="fc" id="L111">        return System.getProperty(name, System.getenv(name))</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

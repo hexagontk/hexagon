@@ -47,7 +47,7 @@ import java.security.cert.X509Certificate
 
     fun url(): URL =
 <span class="fc" id="L49">        when {</span>
-<span class="pc bpc" id="L50" title="1 of 4 branches missed.">            queryParameters.isEmpty() &amp;&amp; port == 80 -&gt; &quot;${protocol.schema}://$host/$path&quot;</span>
+<span class="fc bfc" id="L50" title="All 4 branches covered.">            queryParameters.isEmpty() &amp;&amp; port == 80 -&gt; &quot;${protocol.schema}://$host/$path&quot;</span>
 <span class="fc bfc" id="L51" title="All 2 branches covered.">            queryParameters.isEmpty() -&gt; &quot;${protocol.schema}://$host:$port/$path&quot;</span>
 <span class="fc" id="L52">            else -&gt; &quot;${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}&quot;</span>
         }
