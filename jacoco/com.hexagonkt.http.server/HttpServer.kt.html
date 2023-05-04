@@ -8,7 +8,6 @@ import com.hexagonkt.core.Jvm.ip
 import com.hexagonkt.core.Jvm.name
 import com.hexagonkt.core.Jvm.version
 import com.hexagonkt.core.Jvm.localeCode
-import com.hexagonkt.core.Jvm.timezone
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
 import com.hexagonkt.http.model.HttpProtocol.HTTP
 
@@ -20,6 +19,7 @@ import com.hexagonkt.core.Ansi.DEFAULT
 import com.hexagonkt.core.Ansi.MAGENTA
 import com.hexagonkt.core.Ansi.RESET
 import com.hexagonkt.core.Ansi.UNDERLINE
+import com.hexagonkt.core.Jvm.timeZone
 import com.hexagonkt.core.Jvm.totalMemory
 import com.hexagonkt.core.Jvm.usedMemory
 import com.hexagonkt.core.prependIndent
@@ -172,7 +172,7 @@ import java.lang.System.nanoTime
 <span class="fc" id="L172">        val javaVersionValue = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
 
 <span class="fc" id="L174">        val localeValue = &quot;$BLUE$localeCode$RESET&quot;</span>
-<span class="fc" id="L175">        val timezoneValue = &quot;$BLUE$timezone$RESET&quot;</span>
+<span class="fc" id="L175">        val timezoneValue = &quot;$BLUE${timeZone.id}$RESET&quot;</span>
 <span class="fc" id="L176">        val charsetValue = &quot;$BLUE$charset$RESET&quot;</span>
 
 <span class="fc" id="L178">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
