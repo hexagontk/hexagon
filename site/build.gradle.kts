@@ -35,7 +35,6 @@ val footer = file("footer.txt").readLines().joinToString(" ") { it.trim() }
 val dokkaConfiguration =
     mapOf("org.jetbrains.dokka.base.DokkaBase" to """{ "footerMessage": "$footer" }""")
 
-// TODO Make this task depend on 'assets' directory to update it upon changes on those CSS files
 rootProject.tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
     outputDirectory.set(rootProject.file("site/build/content/api"))
     pluginsMapConfiguration.set(dokkaConfiguration)

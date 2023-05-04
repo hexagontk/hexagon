@@ -2,7 +2,6 @@ package com.hexagonkt.http.model
 
 import java.time.Instant
 
-// TODO Handle 'path', 'httpOnly', 'sameSite' and 'expires'
 data class Cookie(
     val name: String,
     val value: String,
