@@ -1,8 +1,7 @@
 package com.hexagonkt.http.model
 
 /**
- * TODO
- * Used in headers, query parameters and form parameters
+ * HTTP multi-value field. Used in headers, query parameters and form parameters.
  */
 interface HttpField {
     val name: String
