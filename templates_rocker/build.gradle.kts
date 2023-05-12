@@ -27,3 +27,5 @@ rocker {
         }
     }
 }
+
+tasks.named("dokkaJavadoc") { dependsOn("compileTestJava") }
