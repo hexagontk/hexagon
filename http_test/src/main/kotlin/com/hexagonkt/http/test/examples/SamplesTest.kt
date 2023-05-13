@@ -551,7 +551,7 @@ abstract class SamplesTest(
         assertEquals("Callback result attribute header", resultContext.response.bodyString())
 
         // Handlers can also be tested to check predicates along the callbacks
-        val handler = get("/path", callback)
+        val handler = Get("/path", callback)
 
         val notFound = handler.process(HttpRequest())
         val ok = handler.process(HttpRequest(method = GET, path = "/path"))
