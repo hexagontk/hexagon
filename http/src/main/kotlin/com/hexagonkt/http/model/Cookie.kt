@@ -13,6 +13,8 @@ data class Cookie(
     val sameSite: Boolean = true,
     val expires: Instant? = null,
 ) {
+    val deleted: Boolean by lazy { value == "" && maxAge <= 0L }
+
     init {
         require(name.isNotBlank()) { "Cookie name can not be blank: $name" }
     }

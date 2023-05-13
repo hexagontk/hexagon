@@ -1,5 +1,6 @@
 package com.hexagonkt.http.model
 
+import org.junit.jupiter.api.Assertions.assertFalse
 import kotlin.test.Test
 import kotlin.IllegalArgumentException
 import kotlin.test.assertEquals
@@ -18,6 +19,7 @@ internal class CookieTest {
         assertEquals("value", cookie.value)
         assertEquals(5, cookie.maxAge)
         assertTrue(cookie.secure)
+        assertFalse(cookie.deleted)
     }
 
     @Test fun `Cookie can be deleted`() {
@@ -26,5 +28,6 @@ internal class CookieTest {
         assertEquals("", cookie.value)
         assertEquals(0, cookie.maxAge)
         assertTrue(cookie.secure)
+        assertTrue(cookie.deleted)
     }
 }
