@@ -9,12 +9,15 @@ include(
     // Utility modules
     "core",
     "handlers",
+    "handlers_async",
     "http",
     "http_handlers",
+    "http_handlers_async",
 
     // Ports
     "http_client",
     "http_server",
+    "http_server_async",
     "serialization",
     "templates",
 
@@ -35,12 +38,14 @@ include(
     "http_server_jetty",
     "http_server_netty",
     "http_server_netty_epoll",
+    "http_server_vertx_async",
     "templates_freemarker",
     "templates_pebble",
     "templates_rocker",
 
     // Testing
     "http_test",
+    "http_test_async",
     "serialization_test",
     "templates_test",
 )
