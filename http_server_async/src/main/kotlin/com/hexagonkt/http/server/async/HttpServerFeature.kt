@@ -1,4 +1,4 @@
-package com.hexagonkt.http.server
+package com.hexagonkt.http.server.async
 
 /**
  * Toolkit feature that may or may not be implemented by a server adapter.

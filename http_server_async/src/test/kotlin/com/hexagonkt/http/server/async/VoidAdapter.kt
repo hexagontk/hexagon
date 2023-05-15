@@ -2,8 +2,7 @@ package com.hexagonkt.http.server.async
 
 import com.hexagonkt.http.model.HttpProtocol
 import com.hexagonkt.http.model.HttpProtocol.H2C
-import com.hexagonkt.http.server.HttpServerFeature
-import com.hexagonkt.http.server.HttpServerFeature.SSE
+import com.hexagonkt.http.server.async.HttpServerFeature.SSE
 
 internal object VoidAdapter : HttpServerPort {
     private var started = false

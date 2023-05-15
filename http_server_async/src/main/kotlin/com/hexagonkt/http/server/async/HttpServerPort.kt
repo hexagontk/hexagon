@@ -1,7 +1,6 @@
 package com.hexagonkt.http.server.async
 
 import com.hexagonkt.http.model.HttpProtocol
-import com.hexagonkt.http.server.HttpServerFeature
 
 /**
  * Server instance of one kind.

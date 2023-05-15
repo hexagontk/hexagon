@@ -23,7 +23,7 @@ import com.hexagonkt.core.Jvm.timeZone
 import com.hexagonkt.core.Jvm.totalMemory
 import com.hexagonkt.core.Jvm.usedMemory
 import com.hexagonkt.core.prependIndent
-import com.hexagonkt.http.server.HttpServerFeature.ZIP
+import com.hexagonkt.http.server.async.HttpServerFeature.ZIP
 import com.hexagonkt.http.handlers.async.HttpHandler
 import com.hexagonkt.http.handlers.async.HandlerBuilder
 import com.hexagonkt.http.handlers.async.path

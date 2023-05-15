@@ -7,8 +7,8 @@ import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.model.HttpProtocol
 import com.hexagonkt.http.model.HttpProtocol.*
 import com.hexagonkt.http.server.async.HttpServer
-import com.hexagonkt.http.server.HttpServerFeature
-import com.hexagonkt.http.server.HttpServerFeature.ZIP
+import com.hexagonkt.http.server.async.HttpServerFeature
+import com.hexagonkt.http.server.async.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.async.HttpServerPort
 import com.hexagonkt.http.handlers.async.HttpHandler
 import com.hexagonkt.http.model.HttpResponse
