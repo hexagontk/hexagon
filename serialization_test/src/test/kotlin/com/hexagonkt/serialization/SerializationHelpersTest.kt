@@ -6,6 +6,7 @@ import com.hexagonkt.serialization.jackson.json.Json
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.net.URL
+import java.nio.file.Path
 import kotlin.test.assertFailsWith
 
 internal class SerializationHelpersTest {
@@ -35,6 +36,9 @@ internal class SerializationHelpersTest {
 
         assert(File("$baseDir/companies.json").parseList().isNotEmpty())
         assert(File("$baseDir/company.json").parseMap().isNotEmpty())
+
+        assert(Path.of("$baseDir/companies.json").parseList().isNotEmpty())
+        assert(Path.of("$baseDir/company.json").parseMap().isNotEmpty())
     }
 
     @Test fun `Parse string helpers generates the correct collection`() {

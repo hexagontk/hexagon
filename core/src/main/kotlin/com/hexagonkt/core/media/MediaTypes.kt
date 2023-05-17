@@ -4,6 +4,8 @@ import com.hexagonkt.core.media.MediaTypeGroup.*
 import java.io.File
 import java.net.URI
 import java.net.URL
+import java.nio.file.Path
+import kotlin.io.path.extension
 
 val MEDIA_TYPE_FORMAT: Regex = """\*|([\w+.-]+)""".toRegex()
 
@@ -206,6 +208,9 @@ fun mediaTypeOfOrNull(url: URL): MediaType? =
 fun mediaTypeOfOrNull(file: File): MediaType? =
     mediaTypeOfOrNull(file.extension)
 
+fun mediaTypeOfOrNull(path: Path): MediaType? =
+    mediaTypeOfOrNull(path.extension)
+
 fun mediaTypeOfOrNull(extension: String): MediaType? =
     MEDIA_TYPES_EXTENSIONS[extension]
 
@@ -217,6 +222,9 @@ fun mediaTypeOf(url: URL): MediaType =
 
 fun mediaTypeOf(file: File): MediaType =
     mediaTypeOfOrNull(file) ?: error("Media type not found for: '$file' file")
+
+fun mediaTypeOf(path: Path): MediaType =
+    mediaTypeOfOrNull(path) ?: error("Media type not found for: '$path' extension")
 
 fun mediaTypeOf(extension: String): MediaType =
     mediaTypeOfOrNull(extension) ?: error("Media type not found for: '$extension' extension")
