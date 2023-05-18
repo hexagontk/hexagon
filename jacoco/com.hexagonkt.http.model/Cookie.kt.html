@@ -13,11 +13,13 @@ import java.time.Instant
 <span class="pc" id="L13">    val sameSite: Boolean = true,</span>
 <span class="pc" id="L14">    val expires: Instant? = null,</span>
 ) {
-<span class="fc" id="L16">    init {</span>
-<span class="fc bfc" id="L17" title="All 4 branches covered.">        require(name.isNotBlank()) { &quot;Cookie name can not be blank: $name&quot; }</span>
-<span class="fc" id="L18">    }</span>
+<span class="pc bpc" id="L16" title="1 of 4 branches missed.">    val deleted: Boolean by lazy { value == &quot;&quot; &amp;&amp; maxAge &lt;= 0L }</span>
+
+<span class="fc" id="L18">    init {</span>
+<span class="fc bfc" id="L19" title="All 4 branches covered.">        require(name.isNotBlank()) { &quot;Cookie name can not be blank: $name&quot; }</span>
+<span class="fc" id="L20">    }</span>
 
     fun delete(): Cookie =
-<span class="fc" id="L21">        copy(value = &quot;&quot;, maxAge = 0)</span>
-<span class="fc" id="L22">}</span>
+<span class="fc" id="L23">        copy(value = &quot;&quot;, maxAge = 0)</span>
+<span class="fc" id="L24">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

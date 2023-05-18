@@ -17,7 +17,7 @@
       
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.9">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.13">
     
     
       
@@ -2141,7 +2141,7 @@ relying on mocking libraries.</p>
 <span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Callback result attribute header&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">resultContext</span><span class="p">.</span><span class="na">response</span><span class="p">.</span><span class="na">bodyString</span><span class="p">())</span>
 
 <span class="c1">// Handlers can also be tested to check predicates along the callbacks</span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">)</span>
 
 <span class="kd">val</span><span class="w"> </span><span class="nv">notFound</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="n">HttpRequest</span><span class="p">())</span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handler</span><span class="p">.</span><span class="na">process</span><span class="p">(</span><span class="n">HttpRequest</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/path&quot;</span><span class="p">))</span>
@@ -2311,7 +2311,7 @@ HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the H
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.fac441b0.min.js"></script>
+      <script src="../assets/javascripts/bundle.b4d07000.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       
