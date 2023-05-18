@@ -39,33 +39,60 @@ import java.security.cert.X509Certificate
 <span class="fc" id="L39">        certificateChain: List&lt;X509Certificate&gt; = this.certificateChain,</span>
     ): HttpRequestPort
 
+    operator fun plus(header: Header): HttpRequestPort =
+<span class="fc" id="L43">        with(headers = headers + header)</span>
+
+    operator fun plus(queryParameter: QueryParameter): HttpRequestPort =
+<span class="fc" id="L46">        with(queryParameters = queryParameters + queryParameter)</span>
+
+    operator fun plus(part: HttpPart): HttpRequestPort =
+<span class="fc" id="L49">        with(parts = parts + part)</span>
+
+    operator fun plus(formParameter: FormParameter): HttpRequestPort =
+<span class="fc" id="L52">        with(formParameters = formParameters + formParameter)</span>
+
+    operator fun plus(cookie: Cookie): HttpRequestPort =
+<span class="fc" id="L55">        with(cookies = cookies + cookie)</span>
+
+    operator fun plus(headers: Headers): HttpRequestPort =
+<span class="fc" id="L58">        with(headers = this.headers + headers)</span>
+
+    operator fun plus(queryParameters: QueryParameters): HttpRequestPort =
+<span class="fc" id="L61">        with(queryParameters = this.queryParameters + queryParameters)</span>
+
+    operator fun plus(parts: List&lt;HttpPart&gt;): HttpRequestPort =
+<span class="fc" id="L64">        with(parts = this.parts + parts)</span>
+
+    operator fun plus(formParameters: FormParameters): HttpRequestPort =
+<span class="fc" id="L67">        with(formParameters = this.formParameters + formParameters)</span>
+
     fun certificate(): X509Certificate? =
-<span class="fc" id="L43">        certificateChain.firstOrNull()</span>
+<span class="fc" id="L70">        certificateChain.firstOrNull()</span>
 
     fun partsMap(): Map&lt;String, HttpPart&gt; =
-<span class="fc" id="L46">        parts.associateBy { it.name }</span>
+<span class="fc" id="L73">        parts.associateBy { it.name }</span>
 
     fun url(): URL =
-<span class="fc" id="L49">        when {</span>
-<span class="fc bfc" id="L50" title="All 4 branches covered.">            queryParameters.isEmpty() &amp;&amp; port == 80 -&gt; &quot;${protocol.schema}://$host/$path&quot;</span>
-<span class="fc bfc" id="L51" title="All 2 branches covered.">            queryParameters.isEmpty() -&gt; &quot;${protocol.schema}://$host:$port/$path&quot;</span>
-<span class="fc" id="L52">            else -&gt; &quot;${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}&quot;</span>
+<span class="fc" id="L76">        when {</span>
+<span class="fc bfc" id="L77" title="All 4 branches covered.">            queryParameters.isEmpty() &amp;&amp; port == 80 -&gt; &quot;${protocol.schema}://$host/$path&quot;</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">            queryParameters.isEmpty() -&gt; &quot;${protocol.schema}://$host:$port/$path&quot;</span>
+<span class="fc" id="L79">            else -&gt; &quot;${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}&quot;</span>
         }
-<span class="fc" id="L54">        .let(::URL)</span>
+<span class="fc" id="L81">        .let(::URL)</span>
 
     fun userAgent(): String? =
-<span class="fc bfc" id="L57" title="All 2 branches covered.">        headers[&quot;user-agent&quot;]?.value</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        headers[&quot;user-agent&quot;]?.value</span>
 
     fun referer(): String? =
-<span class="fc bfc" id="L60" title="All 2 branches covered.">        headers[&quot;referer&quot;]?.value</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        headers[&quot;referer&quot;]?.value</span>
 
     fun origin(): String? =
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        headers[&quot;origin&quot;]?.value</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        headers[&quot;origin&quot;]?.value</span>
 
     fun authorization(): Authorization? =
-<span class="fc" id="L66">        headers[&quot;authorization&quot;]</span>
-<span class="fc bfc" id="L67" title="All 2 branches covered.">            ?.value</span>
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">            ?.split(&quot; &quot;, limit = 2)</span>
-<span class="pc bpc" id="L69" title="1 of 2 branches missed.">            ?.let { Authorization(it.first(), it.last()) }</span>
-<span class="fc" id="L70">}</span>
+<span class="fc" id="L93">        headers[&quot;authorization&quot;]</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            ?.value</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            ?.split(&quot; &quot;, limit = 2)</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            ?.let { Authorization(it.first(), it.last()) }</span>
+<span class="fc" id="L97">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

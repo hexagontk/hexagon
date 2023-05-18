@@ -27,5 +27,17 @@ import com.hexagonkt.http.model.ws.WsSession
 <span class="fc" id="L27">        onPong: WsSession.(data: ByteArray) -&gt; Unit = this.onPong,</span>
 <span class="fc" id="L28">        onClose: WsSession.(status: Int, reason: String) -&gt; Unit = this.onClose,</span>
     ): HttpResponsePort
-<span class="fc" id="L30">}</span>
+
+    operator fun plus(header: Header): HttpResponsePort =
+<span class="fc" id="L32">        with(headers = headers + header)</span>
+
+    operator fun plus(cookie: Cookie): HttpResponsePort =
+<span class="fc" id="L35">        with(cookies = cookies + cookie)</span>
+
+    operator fun plus(headers: Headers): HttpResponsePort =
+<span class="fc" id="L38">        with(headers = this.headers + headers)</span>
+
+    operator fun plus(cookies: List&lt;Cookie&gt;): HttpResponsePort =
+<span class="fc" id="L41">        with(cookies = this.cookies + cookies)</span>
+<span class="fc" id="L42">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
