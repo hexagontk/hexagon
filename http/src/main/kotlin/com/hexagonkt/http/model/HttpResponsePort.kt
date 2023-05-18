@@ -33,4 +33,10 @@ interface HttpResponsePort : HttpMessage {
 
     operator fun plus(cookie: Cookie): HttpResponsePort =
         with(cookies = cookies + cookie)
+
+    operator fun plus(headers: Headers): HttpResponsePort =
+        with(headers = this.headers + headers)
+
+    operator fun plus(cookies: List<Cookie>): HttpResponsePort =
+        with(cookies = this.cookies + cookies)
 }

@@ -50,10 +50,18 @@ internal class HttpResponseTest {
             httpResponse + header,
             httpResponse.copy(headers = httpResponse.headers + header)
         )
+        assertEquals(
+            httpResponse + Headers(header),
+            httpResponse.copy(headers = httpResponse.headers + header)
+        )
 
         val cookie = Cookie("n", "v")
         assertEquals(
             httpResponse + cookie,
+            httpResponse.copy(cookies = httpResponse.cookies + cookie)
+        )
+        assertEquals(
+            httpResponse + listOf(cookie),
             httpResponse.copy(cookies = httpResponse.cookies + cookie)
         )
     }

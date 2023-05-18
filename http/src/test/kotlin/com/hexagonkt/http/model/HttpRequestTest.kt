@@ -254,10 +254,18 @@ internal class HttpRequestTest {
             httpRequest + header,
             httpRequest.copy(headers = httpRequest.headers + header)
         )
+        assertEquals(
+            httpRequest + Headers(header),
+            httpRequest.copy(headers = httpRequest.headers + header)
+        )
 
         val queryParameter = QueryParameter("h", "v")
         assertEquals(
             httpRequest + queryParameter,
+            httpRequest.copy(queryParameters = httpRequest.queryParameters + queryParameter)
+        )
+        assertEquals(
+            httpRequest + QueryParameters(queryParameter),
             httpRequest.copy(queryParameters = httpRequest.queryParameters + queryParameter)
         )
 
@@ -266,10 +274,18 @@ internal class HttpRequestTest {
             httpRequest + httpPart,
             httpRequest.copy(parts = httpRequest.parts + httpPart)
         )
+        assertEquals(
+            httpRequest + listOf(httpPart),
+            httpRequest.copy(parts = httpRequest.parts + httpPart)
+        )
 
         val formParameter = FormParameter("h", "v")
         assertEquals(
             httpRequest + formParameter,
+            httpRequest.copy(formParameters = httpRequest.formParameters + formParameter)
+        )
+        assertEquals(
+            httpRequest + FormParameters(formParameter),
             httpRequest.copy(formParameters = httpRequest.formParameters + formParameter)
         )
 

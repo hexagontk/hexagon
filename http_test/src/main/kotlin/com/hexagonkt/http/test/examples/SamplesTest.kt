@@ -377,24 +377,24 @@ abstract class SamplesTest(
 
         val server = HttpServer(serverAdapter()) {
             // filters
-            on("/*") { send(headers = response.headers + Header("b-all", "true")) }
+            on("/*") { send(response + Header("b-all", "true")) }
 
-            on("/filters/*") { send(headers = response.headers + Header("b-filters", "true")) }
+            on("/filters/*") { send(response + Header("b-filters", "true")) }
             get("/filters/route") { ok("filters route") }
-            after("/filters/*") { send(headers = response.headers + Header("a-filters", "true")) }
+            after("/filters/*") { send(response + Header("a-filters", "true")) }
 
             get("/filters") { ok("filters") }
 
             path("/nested") {
-                on("*") { send(headers = response.headers + Header("b-nested", "true")) }
-                on { send(headers = response.headers + Header("b-nested-2", "true")) }
+                on("*") { send(response + Header("b-nested", "true")) }
+                on { send(response + Header("b-nested-2", "true")) }
                 get("/filters") { ok("nested filters") }
                 get("/halted") { send(HttpStatus(499), "halted") }
                 get { ok("nested also") }
-                after("*") { send(headers = response.headers + Header("a-nested", "true")) }
+                after("*") { send(response + Header("a-nested", "true")) }
             }
 
-            after("/*") { send(headers = response.headers + Header("a-all", "true")) }
+            after("/*") { send(response + Header("a-all", "true")) }
             // filters
         }
 

@@ -62,7 +62,10 @@ abstract class ClientTest(
         callback = {
             val contentType = ContentType(APPLICATION_JSON, charset = Charsets.UTF_8)
             val bodyString = request.bodyString()
-            val bodyHeader = if (bodyString.endsWith("\n") || bodyString.contains("{")) "json" else bodyString
+            val bodyHeader =
+                if (bodyString.endsWith("\n") || bodyString.contains("{")) "json"
+                else bodyString
+
             ok(
                 body = bodyString,
                 headers = response.headers
@@ -85,9 +88,7 @@ abstract class ClientTest(
 
     @Test fun `Form parameters are sent correctly`() {
         callback = {
-            val headers = Headers(
-                formParameters.httpFields.map { (k, v) -> Header(k, v.values) }
-            )
+            val headers = Headers(formParameters.httpFields.map { (k, v) -> Header(k, v.values) })
             ok(headers = headers)
         }
 
