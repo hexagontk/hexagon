@@ -7,6 +7,7 @@ import java.net.URI
 import kotlin.IllegalArgumentException
 import kotlin.IllegalStateException
 import java.net.URL
+import java.nio.file.Path
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
@@ -64,6 +65,16 @@ internal class MediaTypesTest {
         assertNull(mediaTypeOfOrNull(File("file.baz")))
         assertNull(mediaTypeOfOrNull(URI("http://localhost/file.baz")))
         assertNull(mediaTypeOfOrNull(URL("http://localhost/file.baz")))
+        assertEquals(TEXT_HTML, mediaTypeOfOrNull(Path.of("file.html")))
+        assertEquals(TEXT_HTML, mediaTypeOfOrNull(Path.of("file.htm")))
+        assertEquals(APPLICATION_YAML, mediaTypeOfOrNull(Path.of("file.yaml")))
+        assertEquals(APPLICATION_YAML, mediaTypeOfOrNull(Path.of("file.yml")))
+        assertEquals(TEXT_HTML, mediaTypeOf(Path.of("file.html")))
+        assertEquals(TEXT_HTML, mediaTypeOf(Path.of("file.htm")))
+        assertEquals(APPLICATION_YAML, mediaTypeOf(Path.of("file.yaml")))
+        assertEquals(APPLICATION_YAML, mediaTypeOf(Path.of("file.yml")))
+        assertNull(mediaTypeOfOrNull(Path.of("file")))
+        assertNull(mediaTypeOfOrNull(Path.of("file.baz")))
     }
 
     @Test fun `Exception is thrown if the media type is not found`() {

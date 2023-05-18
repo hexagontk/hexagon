@@ -34,7 +34,7 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         predicate: HttpPredicate = HttpPredicate(),
         callback: HttpCallback
     ) {
-        use(com.hexagonkt.http.handlers.on(predicate, callback))
+        use(OnHandler(predicate, callback))
     }
 
     fun on(
@@ -44,22 +44,22 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         status: HttpStatus? = null,
         callback: HttpCallback,
     ) {
-        use(com.hexagonkt.http.handlers.on(methods, pattern, exception, status, callback))
+        use(OnHandler(methods, pattern, exception, status, callback))
     }
 
     fun on(method: HttpMethod, pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.on(method, pattern, callback))
+        use(OnHandler(method, pattern, callback))
     }
 
     fun on(pattern: String, callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.on(pattern, callback))
+        use(OnHandler(pattern, callback))
     }
 
     fun filter(
         predicate: HttpPredicate = HttpPredicate(),
         callback: HttpCallback
     ) {
-        use(com.hexagonkt.http.handlers.filter(predicate, callback))
+        use(FilterHandler(predicate, callback))
     }
 
     fun filter(
@@ -70,23 +70,23 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         callback: HttpCallback,
     ) {
         use(
-            com.hexagonkt.http.handlers.filter(methods, pattern, exception, status, callback)
+            FilterHandler(methods, pattern, exception, status, callback)
         )
     }
 
     fun filter(method: HttpMethod, pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.filter(method, pattern, callback))
+        use(FilterHandler(method, pattern, callback))
     }
 
     fun filter(pattern: String, callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.filter(pattern, callback))
+        use(FilterHandler(pattern, callback))
     }
 
     fun after(
         predicate: HttpPredicate = HttpPredicate(),
         callback: HttpCallback
     ) {
-        use(com.hexagonkt.http.handlers.after(predicate, callback))
+        use(AfterHandler(predicate, callback))
     }
 
     fun after(
@@ -96,15 +96,15 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         status: HttpStatus? = null,
         callback: HttpCallback,
     ) {
-        use(com.hexagonkt.http.handlers.after(methods, pattern, exception, status, callback))
+        use(AfterHandler(methods, pattern, exception, status, callback))
     }
 
     fun after(method: HttpMethod, pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.after(method, pattern, callback))
+        use(AfterHandler(method, pattern, callback))
     }
 
     fun after(pattern: String, callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.after(pattern, callback))
+        use(AfterHandler(pattern, callback))
     }
 
     fun <T : Exception> exception(
@@ -112,49 +112,49 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         status: HttpStatus? = null,
         callback: HttpExceptionCallback<T>,
     ) {
-        use(com.hexagonkt.http.handlers.exception(exception, status, callback))
+        use(Exception(exception, status, callback))
     }
 
     inline fun <reified T : Exception> exception(
         status: HttpStatus? = null,
         noinline callback: HttpExceptionCallback<T>,
     ) {
-        use(com.hexagonkt.http.handlers.exception(T::class, status, callback))
+        use(Exception(T::class, status, callback))
     }
 
     fun get(pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.get(pattern, callback))
+        use(Get(pattern, callback))
     }
 
     fun ws(pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.ws(pattern, callback))
+        use(Ws(pattern, callback))
     }
 
     fun head(pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.head(pattern, callback))
+        use(Head(pattern, callback))
     }
 
     fun post(pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.post(pattern, callback))
+        use(Post(pattern, callback))
     }
 
     fun put(pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.put(pattern, callback))
+        use(Put(pattern, callback))
     }
 
     fun delete(pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.delete(pattern, callback))
+        use(Delete(pattern, callback))
     }
 
     fun trace(pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.trace(pattern, callback))
+        use(Trace(pattern, callback))
     }
 
     fun options(pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.options(pattern, callback))
+        use(Options(pattern, callback))
     }
 
     fun patch(pattern: String = "", callback: HttpCallback) {
-        use(com.hexagonkt.http.handlers.patch(pattern, callback))
+        use(Patch(pattern, callback))
     }
 }

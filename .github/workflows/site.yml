@@ -49,10 +49,6 @@ jobs:
           cache: gradle
 
       - name: Build Project
-        run: ./gradlew build
-
-      - name: Diagnose Build
-        if: failure()
         run: ./gradlew --info --stacktrace build
 
       - name: Build Site

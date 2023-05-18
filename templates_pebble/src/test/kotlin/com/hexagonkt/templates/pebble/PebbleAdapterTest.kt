@@ -17,4 +17,14 @@ internal class PebbleAdapterTest {
         assert(html.contains("2000"))
         assert(html.contains("31"))
     }
+
+    @Test fun `Templates can be extended`() {
+        val context = mapOf("localDate" to LocalDateTime.of(2000, 12, 31, 23, 45))
+        val resource = "classpath:templates/index.pebble.html"
+        val html = PebbleAdapter().render(URL(resource), context, locale)
+        assert(html.contains("23:45"))
+        assert(html.contains("2000"))
+        assert(html.contains("31"))
+        assert(html.contains("<head>"))
+    }
 }

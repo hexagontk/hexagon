@@ -8,6 +8,8 @@ import com.hexagonkt.serialization.SerializationManager.requireDefaultFormat
 import java.io.File
 import java.io.InputStream
 import java.net.URL
+import java.nio.file.Path
+import kotlin.io.path.inputStream
 
 fun Any.serializeBytes(format: SerializationFormat = requireDefaultFormat()): ByteArray =
     format.serializeBytes(this)
@@ -36,19 +38,28 @@ fun String.parse(mediaType: MediaType): Any =
 fun File.parse(): Any =
     this.inputStream().parse(mediaTypeOf(this))
 
+fun Path.parse(): Any =
+    this.inputStream().parse(mediaTypeOf(this))
+
 fun URL.parse(): Any =
     this.openStream().parse(mediaTypeOf(this))
-
-fun URL.parseMap(): Map<String, *> =
-    this.parse().castToMap()
-
-fun URL.parseList(): List<*> =
-    this.parse().castToList()
 
 fun File.parseMap(): Map<String, *> =
     this.parse().castToMap()
 
 fun File.parseList(): List<*> =
+    this.parse().castToList()
+
+fun Path.parseMap(): Map<String, *> =
+    this.parse().castToMap()
+
+fun Path.parseList(): List<*> =
+    this.parse().castToList()
+
+fun URL.parseMap(): Map<String, *> =
+    this.parse().castToMap()
+
+fun URL.parseList(): List<*> =
     this.parse().castToList()
 
 fun String.parseMap(format: SerializationFormat = requireDefaultFormat()): Map<String, *> =
