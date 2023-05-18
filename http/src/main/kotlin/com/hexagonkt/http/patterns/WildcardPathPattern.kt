@@ -8,7 +8,7 @@ data class WildcardPathPattern(override val prefix: Boolean = false) : PathPatte
 
     override fun addPrefix(prefix: String?): PathPattern =
         if (prefix == null) this
-        else createPathPattern("$prefix/$WILDCARD", this.prefix)
+        else createPathPattern("$prefix$WILDCARD", this.prefix)
 
     override fun matches(requestUrl: String): Boolean =
         true

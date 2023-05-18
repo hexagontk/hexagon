@@ -28,11 +28,11 @@ internal class WildcardPathPatternTest {
 
     @Test fun `Adding a prefix keep the prefix flag`() {
         WildcardPathPattern(true).addPrefix("/b").let {
-            assertEquals("/b/*", it.pattern)
+            assertEquals("/b*", it.pattern)
             assertTrue(it.prefix)
         }
         WildcardPathPattern(false).addPrefix("/b").let {
-            assertEquals("/b/*", it.pattern)
+            assertEquals("/b*", it.pattern)
             assertFalse(it.prefix)
         }
     }
