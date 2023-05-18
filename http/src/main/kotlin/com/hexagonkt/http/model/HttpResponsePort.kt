@@ -27,4 +27,10 @@ interface HttpResponsePort : HttpMessage {
         onPong: WsSession.(data: ByteArray) -> Unit = this.onPong,
         onClose: WsSession.(status: Int, reason: String) -> Unit = this.onClose,
     ): HttpResponsePort
+
+    operator fun plus(header: Header): HttpResponsePort =
+        with(headers = headers + header)
+
+    operator fun plus(cookie: Cookie): HttpResponsePort =
+        with(cookies = cookies + cookie)
 }

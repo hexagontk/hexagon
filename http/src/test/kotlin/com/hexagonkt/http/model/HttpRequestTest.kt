@@ -245,4 +245,38 @@ internal class HttpRequestTest {
         testQueryParameters = QueryParameters()
         assertEquals(URL("http://localhost:9999/path"), TestRequest.url())
     }
+
+    @Test fun `HTTP Request operators work ok`() {
+        val httpRequest = httpRequestData()
+
+        val header = Header("h", "v")
+        assertEquals(
+            httpRequest + header,
+            httpRequest.copy(headers = httpRequest.headers + header)
+        )
+
+        val queryParameter = QueryParameter("h", "v")
+        assertEquals(
+            httpRequest + queryParameter,
+            httpRequest.copy(queryParameters = httpRequest.queryParameters + queryParameter)
+        )
+
+        val httpPart = HttpPart("h", "v")
+        assertEquals(
+            httpRequest + httpPart,
+            httpRequest.copy(parts = httpRequest.parts + httpPart)
+        )
+
+        val formParameter = FormParameter("h", "v")
+        assertEquals(
+            httpRequest + formParameter,
+            httpRequest.copy(formParameters = httpRequest.formParameters + formParameter)
+        )
+
+        val cookie = Cookie("n", "v")
+        assertEquals(
+            httpRequest + cookie,
+            httpRequest.copy(cookies = httpRequest.cookies + cookie)
+        )
+    }
 }

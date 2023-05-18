@@ -39,6 +39,21 @@ interface HttpRequestPort : HttpMessage {
         certificateChain: List<X509Certificate> = this.certificateChain,
     ): HttpRequestPort
 
+    operator fun plus(header: Header): HttpRequestPort =
+        with(headers = headers + header)
+
+    operator fun plus(queryParameter: QueryParameter): HttpRequestPort =
+        with(queryParameters = queryParameters + queryParameter)
+
+    operator fun plus(part: HttpPart): HttpRequestPort =
+        with(parts = parts + part)
+
+    operator fun plus(formParameter: FormParameter): HttpRequestPort =
+        with(formParameters = formParameters + formParameter)
+
+    operator fun plus(cookie: Cookie): HttpRequestPort =
+        with(cookies = cookies + cookie)
+
     fun certificate(): X509Certificate? =
         certificateChain.firstOrNull()
 
