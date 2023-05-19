@@ -19,26 +19,50 @@ internal class HttpResponseTest {
         )
 
     @Test fun `HTTP Response comparison works ok`() {
-        val httpRequest = httpResponseData()
+        val httpResponse = httpResponseData()
 
-        assertEquals(httpRequest, httpRequest)
+        assertEquals(httpResponse, httpResponse)
         assertEquals(httpResponseData(), httpResponseData())
-        assertFalse(httpRequest.equals(""))
+        assertFalse(httpResponse.equals(""))
 
         val headers = Headers(Header("h1", "v1"))
         val cookies = listOf(Cookie("p", "v"))
         val contentType = ContentType(TEXT_RICHTEXT)
 
-        assertNotEquals(httpRequest, httpRequest.with(body = "body"))
-        assertNotEquals(httpRequest, httpRequest.with(headers = headers))
-        assertNotEquals(httpRequest, httpRequest.with(contentType = contentType))
-        assertNotEquals(httpRequest, httpRequest.with(cookies = cookies))
-        assertNotEquals(httpRequest, httpRequest.with(status = OK_200))
+        assertNotEquals(httpResponse, httpResponse.with(body = "body"))
+        assertNotEquals(httpResponse, httpResponse.with(headers = headers))
+        assertNotEquals(httpResponse, httpResponse.with(contentType = contentType))
+        assertNotEquals(httpResponse, httpResponse.with(cookies = cookies))
+        assertNotEquals(httpResponse, httpResponse.with(status = OK_200))
 
-        assertEquals(httpRequest.hashCode(), httpResponseData().hashCode())
+        assertEquals(httpResponse.hashCode(), httpResponseData().hashCode())
         assertEquals(
-            httpRequest.copy(contentType = null).hashCode(),
+            httpResponse.copy(contentType = null).hashCode(),
             httpResponseData(null).hashCode()
+        )
+    }
+
+    @Test fun `HTTP Response operators work ok`() {
+        val httpResponse = httpResponseData()
+
+        val header = Header("h", "v")
+        assertEquals(
+            httpResponse + header,
+            httpResponse.copy(headers = httpResponse.headers + header)
+        )
+        assertEquals(
+            httpResponse + Headers(header),
+            httpResponse.copy(headers = httpResponse.headers + header)
+        )
+
+        val cookie = Cookie("n", "v")
+        assertEquals(
+            httpResponse + cookie,
+            httpResponse.copy(cookies = httpResponse.cookies + cookie)
+        )
+        assertEquals(
+            httpResponse + listOf(cookie),
+            httpResponse.copy(cookies = httpResponse.cookies + cookie)
         )
     }
 }
