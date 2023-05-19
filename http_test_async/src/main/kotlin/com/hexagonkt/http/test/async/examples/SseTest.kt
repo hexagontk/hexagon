@@ -1,4 +1,4 @@
-package com.hexagonkt.http.test.examples.async
+package com.hexagonkt.http.test.async.examples
 
 import com.hexagonkt.core.logging.info
 import com.hexagonkt.handlers.async.done

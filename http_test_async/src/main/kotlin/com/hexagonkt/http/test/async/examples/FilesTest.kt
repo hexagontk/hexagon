@@ -1,4 +1,4 @@
-package com.hexagonkt.http.test.examples.async
+package com.hexagonkt.http.test.async.examples
 
 import com.hexagonkt.core.media.TEXT_CSS
 import com.hexagonkt.core.media.TEXT_HTML

@@ -37,6 +37,7 @@ include(
     "http_server_servlet",
     "http_server_jetty",
     "http_server_netty",
+    "http_server_netty_async",
     "http_server_netty_epoll",
     "http_server_vertx_async",
     "templates_freemarker",

@@ -2,7 +2,7 @@ package com.hexagonkt.http.test
 
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.server.vertx.VertxServerAdapter
-import com.hexagonkt.http.test.examples.async.*
+import com.hexagonkt.http.test.async.examples.*
 import com.hexagonkt.serialization.jackson.JacksonTextFormat
 import com.hexagonkt.serialization.jackson.json.Json
 import com.hexagonkt.serialization.jackson.yaml.Yaml

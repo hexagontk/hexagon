@@ -1,4 +1,4 @@
-package com.hexagonkt.http.test.examples.async
+package com.hexagonkt.http.test.async.examples
 
 import com.hexagonkt.handlers.async.done
 import com.hexagonkt.http.client.HttpClientPort

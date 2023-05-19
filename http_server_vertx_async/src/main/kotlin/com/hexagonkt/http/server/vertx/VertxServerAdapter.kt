@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server.vertx
 
+import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.fieldsMapOf
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.toText
@@ -17,6 +18,7 @@ import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import io.vertx.core.Vertx
 import io.vertx.core.VertxOptions
 import io.vertx.core.buffer.Buffer.buffer
+import io.vertx.core.eventbus.EventBusOptions
 import io.vertx.core.http.*
 import io.vertx.core.http.ClientAuth.NONE
 import io.vertx.core.http.ClientAuth.REQUIRED
@@ -34,6 +36,7 @@ import kotlin.io.path.absolutePathString
  * Implements [HttpServerPort] using Vert.x.
  */
 class VertxServerAdapter(
+    private val eventLoopPoolSize: Int = Jvm.cpuCount,
     private val preferNativeTransport: Boolean = false,
     private val tcpFastOpen: Boolean = false,
     private val tcpCork: Boolean = false,
@@ -45,6 +48,7 @@ class VertxServerAdapter(
     private lateinit var vertxServer: io.vertx.core.http.HttpServer
 
     constructor() : this(
+        eventLoopPoolSize = Jvm.cpuCount,
         preferNativeTransport = false,
     )
 
@@ -62,6 +66,7 @@ class VertxServerAdapter(
 
     override fun options(): Map<String, *> =
         fieldsMapOf(
+            VertxServerAdapter::eventLoopPoolSize to eventLoopPoolSize,
             VertxServerAdapter::preferNativeTransport to preferNativeTransport,
             VertxServerAdapter::tcpFastOpen to tcpFastOpen,
             VertxServerAdapter::tcpCork to tcpCork,
@@ -81,7 +86,11 @@ class VertxServerAdapter(
     override fun startUp(server: HttpServer) {
         val settings = server.settings
         val sslSettings = settings.sslSettings
-        val vertx = Vertx.vertx(VertxOptions().setPreferNativeTransport(preferNativeTransport))
+        val vertx = Vertx.vertx(VertxOptions()
+            .setEventLoopPoolSize(eventLoopPoolSize)
+            .setPreferNativeTransport(preferNativeTransport)
+            .setEventBusOptions(EventBusOptions())
+        )
 
         val handler = server.handler.addPrefix(settings.contextPath)
         val handlers = handler.byMethod().mapKeys { HttpMethod.valueOf(it.key.toString()) }
@@ -89,7 +98,8 @@ class VertxServerAdapter(
         val uploadDirectory = Files.createTempDirectory("hexagon")
         uploadDirectory.toFile().deleteOnExit()
         val router = Router.router(vertx)
-        router.route().handler(BodyHandler.create(uploadDirectory.absolutePathString()))
+        val bodyHandler = BodyHandler.create(uploadDirectory.absolutePathString())
+        router.route().handler(bodyHandler)
         router.route().handler { handle(handlers, it) }
 
         val hasTrustStore = sslSettings?.trustStore != null

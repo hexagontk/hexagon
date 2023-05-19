@@ -1,4 +1,4 @@
-package com.hexagonkt.http.test.examples.async
+package com.hexagonkt.http.test.async.examples
 
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.Simulation
