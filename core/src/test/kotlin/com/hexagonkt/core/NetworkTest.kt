@@ -3,7 +3,6 @@ package com.hexagonkt.core
 import java.net.ServerSocket
 import kotlin.test.Test
 import java.net.InetAddress
-import java.net.URL
 import java.util.*
 import kotlin.test.*
 
@@ -11,32 +10,32 @@ internal class NetworkTest {
 
     // TODO Replace URL accesses by local started HTTP servers
     @Test fun `Check URL exists`() {
-        assert(URL("http://example.com").exists())
-        assert(URL("https://example.com").exists())
-        assert(URL("file:README.md").exists())
-        assert(URL("file:src/test/resources/build.properties").exists())
-        assert(URL("classpath:locales/data.json").exists())
+        assert(urlOf("http://example.com").exists())
+        assert(urlOf("https://example.com").exists())
+        assert(urlOf("file:README.md").exists())
+        assert(urlOf("file:src/test/resources/build.properties").exists())
+        assert(urlOf("classpath:locales/data.json").exists())
 
-        assert(!URL("http://example.com/a.txt").exists())
-        assert(!URL("https://example.com/b.html").exists())
-        assert(!URL("file:not_existing.txt").exists())
-        assert(!URL("file:src").exists())
-        assert(!URL("classpath:data.json").exists())
+        assert(!urlOf("http://example.com/a.txt").exists())
+        assert(!urlOf("https://example.com/b.html").exists())
+        assert(!urlOf("file:not_existing.txt").exists())
+        assert(!urlOf("file:src").exists())
+        assert(!urlOf("classpath:data.json").exists())
 
-        assert(!URL("ftp://example.com").exists())
+        assert(!urlOf("ftp://example.com").exists())
     }
 
     @Test fun `Check URL first variant`() {
-        URL("classpath:locales/data.json").let {
+        urlOf("classpath:locales/data.json").let {
             assertEquals(it, it.firstVariant("_it_IT", "_it"))
         }
         assertEquals(
-            URL("classpath:locales/data_en_US.json"),
-            URL("classpath:locales/data.json").firstVariant("_en_US", "_en"),
+            urlOf("classpath:locales/data_en_US.json"),
+            urlOf("classpath:locales/data.json").firstVariant("_en_US", "_en"),
         )
         assertEquals(
-            URL("classpath:locales/data_en.json"),
-            URL("classpath:locales/data.json").firstVariant("_en_GB", "_en"),
+            urlOf("classpath:locales/data_en.json"),
+            urlOf("classpath:locales/data.json").firstVariant("_en_GB", "_en"),
         )
     }
 
@@ -44,16 +43,16 @@ internal class NetworkTest {
         fun locale(language: String, region: String): Locale =
             Locale.Builder().setLanguage(language).setRegion(region).build()
 
-        URL("classpath:locales/data.json").let {
+        urlOf("classpath:locales/data.json").let {
             assertEquals(it, it.localized(locale("it", "IT")))
         }
         assertEquals(
-            URL("classpath:locales/data_en_US.json"),
-            URL("classpath:locales/data.json").localized(locale("en", "US")),
+            urlOf("classpath:locales/data_en_US.json"),
+            urlOf("classpath:locales/data.json").localized(locale("en", "US")),
         )
         assertEquals(
-            URL("classpath:locales/data_en.json"),
-            URL("classpath:locales/data.json").localized(locale("en", "GB")),
+            urlOf("classpath:locales/data_en.json"),
+            urlOf("classpath:locales/data.json").localized(locale("en", "GB")),
         )
     }
 
@@ -71,9 +70,9 @@ internal class NetworkTest {
     }
 
     @Test fun `URL check works properly`() {
-        assertTrue { URL("http://example.com").responseSuccessful() }
-        assertFalse { URL("http://invalid-domain.z").responseSuccessful() }
-        assertTrue { URL("http://example.com").responseFound() }
-        assertFalse { URL("http://example.com/nothing").responseFound() }
+        assertTrue { urlOf("http://example.com").responseSuccessful() }
+        assertFalse { urlOf("http://invalid-domain.z").responseSuccessful() }
+        assertTrue { urlOf("http://example.com").responseFound() }
+        assertFalse { urlOf("http://example.com/nothing").responseFound() }
     }
 }

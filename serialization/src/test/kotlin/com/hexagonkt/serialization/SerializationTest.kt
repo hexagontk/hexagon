@@ -92,6 +92,8 @@ internal class SerializationTest {
         }
         assertEquals(listOf("text"), phpFile.parse())
         assertEquals(listOf("bytes"), avroFile.parse())
+        assertEquals(listOf("text"), phpFile.toPath().parse())
+        assertEquals(listOf("bytes"), avroFile.toPath().parse())
     }
 
     @Test fun `Data serialization helpers convert data properly`() {

@@ -33,7 +33,6 @@ class ServletFilter(
             """'$filterName' Servlet filter initialized.
               |  * Context path: ${filterConfig.servletContext.contextPath}
               |  * Parameters: $parameterNames
-              |  * Server settings: $serverSettings
             """.trimMargin()
         }
     }

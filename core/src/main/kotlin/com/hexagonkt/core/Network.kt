@@ -41,6 +41,9 @@ fun isPortOpened(port: Int): Boolean =
         false
     }
 
+fun urlOf(url: String): URL =
+    URI(url).toURL()
+
 fun URL.responseCode(): Int =
     try {
         (openConnection() as HttpURLConnection).responseCode

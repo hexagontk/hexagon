@@ -62,7 +62,10 @@ abstract class ClientTest(
         callback = {
             val contentType = ContentType(APPLICATION_JSON, charset = Charsets.UTF_8)
             val bodyString = request.bodyString()
-            val bodyHeader = if (bodyString.endsWith("\n") || bodyString.contains("{")) "json" else bodyString
+            val bodyHeader =
+                if (bodyString.endsWith("\n") || bodyString.contains("{")) "json"
+                else bodyString
+
             ok(
                 body = bodyString,
                 headers = response.headers
@@ -85,9 +88,7 @@ abstract class ClientTest(
 
     @Test fun `Form parameters are sent correctly`() {
         callback = {
-            val headers = Headers(
-                formParameters.httpFields.map { (k, v) -> Header(k, v.values) }
-            )
+            val headers = Headers(formParameters.httpFields.map { (k, v) -> Header(k, v.values) })
             ok(headers = headers)
         }
 
@@ -192,6 +193,12 @@ abstract class ClientTest(
         assertEquals("qp=qpValue", getResponse.headers["query-parameters"]?.value)
         assertEquals("qp=qpValue", response.headers["query-parameters"]?.value)
         checkResponse(response, mapOf("body" to "payload"))
+
+        val base = client.settings.baseUrl?.toString()
+        HttpClient(clientAdapter(), client.settings.copy(baseUrl = null)).request {
+            val secondResponse = get("$base/queryParameters?qp=qpValue")
+            assertEquals("qp=qpValue", secondResponse.headers["query-parameters"]?.value)
+        }
     }
 
     @Test fun `HTTP methods without body work ok`() {

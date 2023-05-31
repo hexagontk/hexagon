@@ -37,7 +37,8 @@ fun main() {
 internal class HelloWorldTest {
 
     private val client: HttpClient by lazy {
-        HttpClient(JettyClientAdapter(), HttpClientSettings(URL("http://localhost:${server.runtimePort}")))
+        val settings = HttpClientSettings(URL("http://localhost:${server.runtimePort}"))
+        HttpClient(JettyClientAdapter(), settings)
     }
 
     @BeforeAll fun initialize() {

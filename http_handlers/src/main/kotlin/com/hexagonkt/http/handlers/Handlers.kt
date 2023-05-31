@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName") // Uppercase functions are used for providing named constructors
+
 package com.hexagonkt.http.handlers
 
 import com.hexagonkt.handlers.Context
@@ -76,110 +78,47 @@ fun path(contextPath: String = "", handlers: List<HttpHandler>): PathHandler =
                 PathHandler(contextPath, it)
         }
 
-fun on(
-    predicate: HttpPredicate = HttpPredicate(),
-    callback: HttpCallback
-): OnHandler =
-    OnHandler(predicate, callback)
-
-fun on(
-    methods: Set<HttpMethod> = emptySet(),
-    pattern: String = "",
-    exception: KClass<out Exception>? = null,
-    status: HttpStatus? = null,
-    callback: HttpCallback,
-): OnHandler =
-    OnHandler(methods, pattern, exception, status, callback)
-
-fun on(method: HttpMethod, pattern: String = "", callback: HttpCallback): OnHandler =
-    OnHandler(method, pattern, callback)
-
-fun on(pattern: String, callback: HttpCallback): OnHandler =
-    OnHandler(pattern, callback)
-
-fun filter(
-    predicate: HttpPredicate = HttpPredicate(),
-    callback: HttpCallback
-): FilterHandler =
-    FilterHandler(predicate, callback)
-
-fun filter(
-    methods: Set<HttpMethod> = emptySet(),
-    pattern: String = "",
-    exception: KClass<out Exception>? = null,
-    status: HttpStatus? = null,
-    callback: HttpCallback,
-): FilterHandler =
-    FilterHandler(methods, pattern, exception, status, callback)
-
-fun filter(method: HttpMethod, pattern: String = "", callback: HttpCallback): FilterHandler =
-    FilterHandler(method, pattern, callback)
-
-fun filter(pattern: String, callback: HttpCallback): FilterHandler =
-    FilterHandler(pattern, callback)
-
-fun after(
-    predicate: HttpPredicate = HttpPredicate(),
-    callback: HttpCallback
-): AfterHandler =
-    AfterHandler(predicate, callback)
-
-fun after(
-    methods: Set<HttpMethod> = emptySet(),
-    pattern: String = "",
-    exception: KClass<out Exception>? = null,
-    status: HttpStatus? = null,
-    callback: HttpCallback,
-): AfterHandler =
-    AfterHandler(methods, pattern, exception, status, callback)
-
-fun after(method: HttpMethod, pattern: String = "", callback: HttpCallback): AfterHandler =
-    AfterHandler(method, pattern, callback)
-
-fun after(pattern: String, callback: HttpCallback): AfterHandler =
-    AfterHandler(pattern, callback)
-
-fun <T : Exception> exception(
+fun <T : Exception> Exception(
     exception: KClass<T>? = null,
     status: HttpStatus? = null,
     callback: HttpExceptionCallback<T>,
 ): AfterHandler =
-    after(emptySet(), "*", exception, status) {
+    AfterHandler(emptySet(), "*", exception, status) {
         callback(this.exception.castException(exception))
     }
 
-inline fun <reified T : Exception> exception(
+inline fun <reified T : Exception> Exception(
     status: HttpStatus? = null,
     noinline callback: HttpExceptionCallback<T>,
 ): AfterHandler =
-    exception(T::class, status, callback)
+    Exception(T::class, status, callback)
 
 internal fun <T : Exception> Exception?.castException(exception: KClass<T>?) =
     this?.let { exception?.cast(this) } ?: error("Exception 'null' or incorrect type")
 
-fun get(pattern: String = "", callback: HttpCallback): OnHandler =
-    on(GET, pattern, callback)
+fun Get(pattern: String = "", callback: HttpCallback): OnHandler =
+    OnHandler(GET, pattern, callback)
 
-fun ws(pattern: String = "", callback: HttpCallback): OnHandler =
-    get(pattern, callback)
+fun Ws(pattern: String = "", callback: HttpCallback): OnHandler =
+    Get(pattern, callback)
 
-fun head(pattern: String = "", callback: HttpCallback): OnHandler =
-    on(HEAD, pattern, callback)
+fun Head(pattern: String = "", callback: HttpCallback): OnHandler =
+    OnHandler(HEAD, pattern, callback)
 
-fun post(pattern: String = "", callback: HttpCallback): OnHandler =
-    on(POST, pattern, callback)
+fun Post(pattern: String = "", callback: HttpCallback): OnHandler =
+    OnHandler(POST, pattern, callback)
 
-fun put(pattern: String = "", callback: HttpCallback): OnHandler =
-    on(PUT, pattern, callback)
+fun Put(pattern: String = "", callback: HttpCallback): OnHandler =
+    OnHandler(PUT, pattern, callback)
 
-fun delete(pattern: String = "", callback: HttpCallback): OnHandler =
-    on(DELETE, pattern, callback)
+fun Delete(pattern: String = "", callback: HttpCallback): OnHandler =
+    OnHandler(DELETE, pattern, callback)
 
-fun trace(pattern: String = "", callback: HttpCallback): OnHandler =
-    on(TRACE, pattern, callback)
+fun Trace(pattern: String = "", callback: HttpCallback): OnHandler =
+    OnHandler(TRACE, pattern, callback)
 
-fun options(pattern: String = "", callback: HttpCallback): OnHandler =
-    on(OPTIONS, pattern, callback)
+fun Options(pattern: String = "", callback: HttpCallback): OnHandler =
+    OnHandler(OPTIONS, pattern, callback)
 
-fun patch(pattern: String = "", callback: HttpCallback): OnHandler =
-    on(PATCH, pattern, callback)
+fun Patch(pattern: String = "", callback: HttpCallback): OnHandler =
+    OnHandler(PATCH, pattern, callback)

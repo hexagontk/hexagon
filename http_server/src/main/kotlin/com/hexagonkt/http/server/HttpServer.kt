@@ -8,7 +8,6 @@ import com.hexagonkt.core.Jvm.ip
 import com.hexagonkt.core.Jvm.name
 import com.hexagonkt.core.Jvm.version
 import com.hexagonkt.core.Jvm.localeCode
-import com.hexagonkt.core.Jvm.timezone
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
 import com.hexagonkt.http.model.HttpProtocol.HTTP
 
@@ -20,6 +19,9 @@ import com.hexagonkt.core.Ansi.DEFAULT
 import com.hexagonkt.core.Ansi.MAGENTA
 import com.hexagonkt.core.Ansi.RESET
 import com.hexagonkt.core.Ansi.UNDERLINE
+import com.hexagonkt.core.Jvm.timeZone
+import com.hexagonkt.core.Jvm.totalMemory
+import com.hexagonkt.core.Jvm.usedMemory
 import com.hexagonkt.core.prependIndent
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.handlers.HttpHandler
@@ -127,7 +129,7 @@ data class HttpServer(
         )
 
         adapter.startUp(this)
-        logger.info { "Server started\n${createBanner(nanoTime() - startTimestamp)}" }
+        logger.info { "Server started${createBanner(nanoTime() - startTimestamp)}" }
     }
 
     /**
@@ -146,7 +148,10 @@ data class HttpServer(
         val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
         val scheme = if (protocol == HTTP) "http" else "https"
         val binding = "$scheme://$hostName:$runtimePort"
+        val banner = settings.banner ?: return " at $binding ($startUpTime ms)"
 
+        val jvmMemoryValue = "$BLUE${totalMemory()} KB$RESET"
+        val usedMemoryValue = "$BOLD$MAGENTA${usedMemory()} KB$RESET"
         val serverAdapterValue = "$BOLD$CYAN$portName$RESET"
 
         val protocols = adapter.supportedProtocols()
@@ -167,7 +172,7 @@ data class HttpServer(
         val javaVersionValue = "$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]"
 
         val localeValue = "$BLUE$localeCode$RESET"
-        val timezoneValue = "$BLUE$timezone$RESET"
+        val timezoneValue = "$BLUE${timeZone.id}$RESET"
         val charsetValue = "$BLUE$charset$RESET"
 
         val startUpTimeValue = "$BOLD$MAGENTA$startUpTime ms$RESET"
@@ -180,16 +185,16 @@ data class HttpServer(
             Supported Features: $features
             Configuration Options: $options
 
-            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs
+            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue of memory
             🛠 Using $javaVersionValue
             🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue
 
-            ⏱️ Started in $startUpTimeValue (excluding VM)
+            ⏱️ Started in $startUpTimeValue (excluding VM) using $usedMemoryValue
             🚀 Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else "" }
 
             """
 
-        val banner = (settings.banner?.let { "$it\n" } ?: banner) + information.trimIndent()
-        return banner.prependIndent()
+        val fullBanner = banner + information.trimIndent()
+        return "\n" + fullBanner.prependIndent()
     }
 }

@@ -16,7 +16,8 @@ class BenchmarkSimulation: Simulation() {
     private val http = HttpDsl.http.baseUrl("$protocol://$host:$port")
     private val population = CoreDsl.rampUsers(users).during(5)
 
-    private val getBooks = CoreDsl.repeat(times).on(CoreDsl.exec(HttpDsl.http("get /a/books").get("/a/books")))
+    private val getBooks =
+        CoreDsl.repeat(times).on(CoreDsl.exec(HttpDsl.http("get /a/books").get("/a/books")))
 
     private val scenario = CoreDsl.scenario("Get Books").exec(getBooks)
 

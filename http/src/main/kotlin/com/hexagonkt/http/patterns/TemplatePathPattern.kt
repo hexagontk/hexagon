@@ -16,7 +16,7 @@ data class TemplatePathPattern(
         private const val PARAMETER_PREFIX = "{"
         private const val PARAMETER_SUFFIX = "}"
 
-        private const val WILDCARD = "*"
+        internal const val WILDCARD = "*"
         private const val PARAMETER = "\\$PARAMETER_PREFIX\\w+$PARAMETER_SUFFIX"
 
         private val REGEX_CHARACTERS = listOf('(', ')', '|', '?', '+', '[', ']')

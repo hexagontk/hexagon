@@ -2,7 +2,6 @@ package com.hexagonkt.http.model
 
 import java.time.Instant
 
-// TODO Handle 'path', 'httpOnly', 'sameSite' and 'expires'
 data class Cookie(
     val name: String,
     val value: String,
@@ -14,6 +13,8 @@ data class Cookie(
     val sameSite: Boolean = true,
     val expires: Instant? = null,
 ) {
+    val deleted: Boolean by lazy { value == "" && maxAge <= 0L }
+
     init {
         require(name.isNotBlank()) { "Cookie name can not be blank: $name" }
     }
