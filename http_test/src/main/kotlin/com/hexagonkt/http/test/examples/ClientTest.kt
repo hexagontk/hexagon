@@ -282,7 +282,7 @@ abstract class ClientTest(
         assertEquals(c.settings.headers, clientHeaders)
 
         callback = {
-            val headers = Header("head1", request.headers.require("header1").values)
+            val headers = Header("head1", request.headers.require("header1").strings())
             ok(headers = response.headers + headers)
         }
 
@@ -346,7 +346,7 @@ abstract class ClientTest(
         var run: Boolean
 
         client.post("/string", "text").apply {
-            assert(headers["body"]?.valueString()?.isNotEmpty() ?: false)
+            assert(headers["body"]?.string()?.isNotEmpty() ?: false)
             assertEquals(status, OK_200)
             run = true
         }
@@ -403,7 +403,7 @@ abstract class ClientTest(
         client.start()
         client.get("/hello").apply {
             // Assure the certificate received (and returned) by the server is correct
-            assert(headers.require("cert").valueString()?.startsWith("CN=hexagonkt.com") ?: false)
+            assert(headers.require("cert").string()?.startsWith("CN=hexagonkt.com") ?: false)
             assertEquals(body, "Hello World!")
         }
 

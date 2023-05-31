@@ -9,8 +9,11 @@ interface HttpField {
     val value: Any?
     val values: List<Any>
 
-    fun valueString(): String? =
+    fun string(): String? =
         value?.toString()
+
+    fun strings(): List<String> =
+        values.map(Any::toString)
 
     operator fun plus(value: Any): HttpField
 

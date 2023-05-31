@@ -44,7 +44,7 @@ abstract class ZipTest(
 
         client.get("/hello", Headers(Header("accept-encoding", "gzip"))).apply {
             assertEquals(body, "Hello World!")
-            assert(headers["content-encoding"]?.valueString()?.contains("gzip") ?: false)
+            assert(headers["content-encoding"]?.string()?.contains("gzip") ?: false)
         }
 
         client.get("/hello").apply {

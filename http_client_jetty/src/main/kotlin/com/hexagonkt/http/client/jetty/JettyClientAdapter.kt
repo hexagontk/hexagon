@@ -192,9 +192,7 @@ open class JettyClientAdapter : HttpClientPort {
             .accept(*request.accept.map { it.text }.toTypedArray())
 
         request.queryParameters
-            .forEach { (k, v) ->
-                v.values.forEach { jettyRequest.param(k, it.toString()) }
-            }
+            .forEach { (k, v) -> v.strings().forEach { jettyRequest.param(k, it) } }
 
         return jettyRequest
     }
@@ -221,9 +219,7 @@ open class JettyClientAdapter : HttpClientPort {
 
         request.formParameters
             .forEach { (k, v) ->
-                v.values.forEach {
-                    multiPart.addFieldPart(k, StringRequestContent(it.toString()), EMPTY)
-                }
+                v.strings().forEach { multiPart.addFieldPart(k, StringRequestContent(it), EMPTY) }
             }
 
         multiPart.close()

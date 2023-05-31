@@ -60,7 +60,7 @@ class LoggingCallback(
 
     private fun Headers.format(): String =
         httpFields
-            .filter { (_, v) -> v.values.any { it.toString().isNotBlank() } }
-            .map { (k, v) -> "$k: ${v.values.joinToString(", ")}" }
+            .filter { (_, v) -> v.strings().any { it.isNotBlank() } }
+            .map { (k, v) -> "$k: ${v.strings().joinToString(", ")}" }
             .joinToString("\n", prefix = "\n\n")
 }

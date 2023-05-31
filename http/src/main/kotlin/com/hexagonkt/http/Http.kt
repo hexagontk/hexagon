@@ -72,12 +72,11 @@ fun parseQueryString(query: String): QueryParameters =
 
 fun formatQueryString(parameters: QueryParameters): String =
     parameters
-        .flatMap { (k, v) -> v.values.map { k to it } }
+        .flatMap { (k, v) -> v.strings().map { k to it } }
         .filter { it.first.isNotBlank() }
         .joinToString("&") { (k, v) ->
-            val s = v.toString()
-            if (s.isBlank()) k.urlEncode()
-            else "${k.urlEncode()}=${s.urlEncode()}"
+            if (v.isBlank()) k.urlEncode()
+            else "${k.urlEncode()}=${v.urlEncode()}"
         }
 
 fun String.urlDecode(): String =

@@ -2,10 +2,6 @@ package com.hexagonkt.http.handlers.examples
 
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.require
-import com.hexagonkt.core.logging.LoggingLevel.INFO
-import com.hexagonkt.core.logging.LoggingLevel.TRACE
-import com.hexagonkt.core.logging.LoggingManager
-import com.hexagonkt.core.logging.logger
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
@@ -32,8 +28,8 @@ internal class BooksTest {
     val path: PathHandler = path {
 
         post("/books") {
-            val author = queryParameters["author"]?.valueString() ?: return@post missingField("author")
-            val title = queryParameters["title"]?.valueString() ?: return@post missingField("title")
+            val author = queryParameters["author"]?.string() ?: return@post missingField("author")
+            val title = queryParameters["title"]?.string() ?: return@post missingField("title")
             val id = (books.keys.maxOrNull() ?: 0) + 1
             books += id to Book(author, title)
             created(id.toString())
@@ -53,8 +49,8 @@ internal class BooksTest {
             val book = books[bookId]
             if (book != null) {
                 books += bookId to book.copy(
-                    author = queryParameters["author"]?.valueString() ?: book.author,
-                    title = queryParameters["title"]?.valueString() ?: book.title
+                    author = queryParameters["author"]?.string() ?: book.author,
+                    title = queryParameters["title"]?.string() ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated")
@@ -87,8 +83,8 @@ internal class BooksTest {
     private val pathAlternative: PathHandler = path("/books") {
 
         post {
-            val author = queryParameters["author"]?.valueString() ?: return@post missingField("author")
-            val title = queryParameters["title"]?.valueString() ?: return@post missingField("title")
+            val author = queryParameters["author"]?.string() ?: return@post missingField("author")
+            val title = queryParameters["title"]?.string() ?: return@post missingField("title")
             val id = (books.keys.maxOrNull() ?: 0) + 1
             books += id to Book(author, title)
             created(id.toString())
@@ -108,8 +104,8 @@ internal class BooksTest {
             val book = books[bookId]
             if (book != null) {
                 books += bookId to book.copy(
-                    author = queryParameters["author"]?.valueString() ?: book.author,
-                    title = queryParameters["title"]?.valueString() ?: book.title
+                    author = queryParameters["author"]?.string() ?: book.author,
+                    title = queryParameters["title"]?.string() ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated")
@@ -142,8 +138,8 @@ internal class BooksTest {
     private val pathAlternative2: PathHandler = path("/books") {
 
         post {
-            val author = queryParameters["author"]?.valueString() ?: return@post missingField("author")
-            val title = queryParameters["title"]?.valueString() ?: return@post missingField("title")
+            val author = queryParameters["author"]?.string() ?: return@post missingField("author")
+            val title = queryParameters["title"]?.string() ?: return@post missingField("title")
             val id = (books.keys.maxOrNull() ?: 0) + 1
             books += id to Book(author, title)
             created(id.toString())
@@ -164,8 +160,8 @@ internal class BooksTest {
                 val book = books[bookId]
                 if (book != null) {
                     books += bookId to book.copy(
-                        author = queryParameters["author"]?.valueString() ?: book.author,
-                        title = queryParameters["title"]?.valueString() ?: book.title
+                        author = queryParameters["author"]?.string() ?: book.author,
+                        title = queryParameters["title"]?.string() ?: book.title
                     )
 
                     ok("Book with id '$bookId' updated")

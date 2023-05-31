@@ -30,8 +30,8 @@ abstract class CookiesTest(
         }
 
         post("/addCookie") {
-            val name = queryParameters.require("cookieName").valueString() ?: return@post badRequest("No cookie name")
-            val value = queryParameters.require("cookieValue").valueString() ?: return@post badRequest("No cookie value")
+            val name = queryParameters.require("cookieName").string() ?: return@post badRequest("No cookie name")
+            val value = queryParameters.require("cookieValue").string() ?: return@post badRequest("No cookie value")
             ok(cookies = response.cookies + Cookie(name, value))
         }
 

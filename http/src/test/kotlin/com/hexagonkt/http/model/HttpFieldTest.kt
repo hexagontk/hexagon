@@ -12,6 +12,8 @@ internal class HttpFieldTest {
         assertEquals(listOf("v1"), header.values)
         assertEquals(listOf("v1", "v2", "v3"), header.values + "v2" + "v3")
         assertEquals(listOf("v1", "v2", 1, true), header.values + "v2" + 1 + true)
+        assertEquals(listOf("v1", "v2", "v3"), header.strings() + "v2" + "v3")
+        assertEquals(listOf("v1", "v2", 1, true), header.strings() + "v2" + 1 + true)
 
         val queryParameter = QueryParameter("name", "v1")
         assertEquals("name", queryParameter.name)
@@ -19,6 +21,8 @@ internal class HttpFieldTest {
         assertEquals(listOf("v1"), queryParameter.values)
         assertEquals(listOf("v1", "v2", "v3"), queryParameter.values + "v2" + "v3")
         assertEquals(listOf("v1", "v2", 1, true), queryParameter.values + "v2" + 1 + true)
+        assertEquals(listOf("v1", "v2", "v3"), queryParameter.strings() + "v2" + "v3")
+        assertEquals(listOf("v1", "v2", 1, true), queryParameter.strings() + "v2" + 1 + true)
 
         val formParameter = FormParameter("name", "v1")
         assertEquals("name", formParameter.name)
@@ -26,5 +30,7 @@ internal class HttpFieldTest {
         assertEquals(listOf("v1"), formParameter.values)
         assertEquals(listOf("v1", "v2", "v3"), formParameter.values + "v2" + "v3")
         assertEquals(listOf("v1", "v2", 1, true), formParameter.values + "v2" + 1 + true)
+        assertEquals(listOf("v1", "v2", "v3"), formParameter.strings() + "v2" + "v3")
+        assertEquals(listOf("v1", "v2", 1, true), formParameter.strings() + "v2" + 1 + true)
     }
 }
