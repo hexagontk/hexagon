@@ -4,7 +4,6 @@ import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.toText
 import com.hexagonkt.http.bodyToBytes
-import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.model.HttpResponse
 import com.hexagonkt.http.model.HttpResponsePort
@@ -14,10 +13,7 @@ import jakarta.servlet.http.HttpFilter
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 
-class ServletFilter(
-    pathHandler: HttpHandler,
-    private val serverSettings: HttpServerSettings
-) : HttpFilter() {
+class ServletFilter(pathHandler: HttpHandler) : HttpFilter() {
 
     private val logger: Logger = Logger(ServletFilter::class)
 

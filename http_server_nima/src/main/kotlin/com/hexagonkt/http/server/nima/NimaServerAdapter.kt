@@ -78,7 +78,7 @@ class NimaServerAdapter : HttpServerPort {
             nimaResponse.status(Status.create(response.status.code))
 
             response.headers.values.forEach { h ->
-                nimaResponse.header(Header.create(Header.create(h.name), h.values))
+                nimaResponse.header(Header.create(Header.create(h.name), h.strings()))
             }
 
             response.cookies.forEach { c ->

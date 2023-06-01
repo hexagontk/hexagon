@@ -19,7 +19,7 @@ interface HttpRequestPort : HttpMessage {
     val authorization: Authorization?
 
     val certificateChain: List<X509Certificate>
-    val contentLength: Long                        // length of request.body (or 0)
+    val contentLength: Long                       // length of request.body (or 0)
 
     fun with(
         body: Any = this.body,
