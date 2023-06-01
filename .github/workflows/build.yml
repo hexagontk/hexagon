@@ -11,4 +11,5 @@ jobs:
     permissions: read-all
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
+      java: 19
       check_directory: core/build
