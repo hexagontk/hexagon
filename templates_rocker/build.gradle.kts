@@ -4,10 +4,11 @@ plugins {
     id("nu.studer.rocker") version("3.0.4")
 }
 
-apply(from = "../gradle/kotlin.gradle")
-apply(from = "../gradle/publish.gradle")
-apply(from = "../gradle/dokka.gradle")
-apply(from = "../gradle/native.gradle")
+apply(from = "$rootDir/gradle/kotlin.gradle")
+apply(from = "$rootDir/gradle/publish.gradle")
+apply(from = "$rootDir/gradle/dokka.gradle")
+apply(from = "$rootDir/gradle/native.gradle")
+apply(from = "$rootDir/gradle/detekt.gradle")
 
 dependencies {
     val rockerVersion = properties["rockerVersion"]

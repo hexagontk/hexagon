@@ -96,7 +96,3 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
 apiValidation {
     validationDisabled = true
 }
-
-subprojects {
-    apply(from = "$rootDir/gradle/detekt.gradle")
-}
