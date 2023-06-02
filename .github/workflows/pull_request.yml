@@ -27,6 +27,8 @@ jobs:
     name: Build Site
     permissions: read-all
     uses: hexagonkt/hexagon/.github/workflows/site.yml@master
+    with:
+      version: 22.3.1
 
   test_publishing:
     name: Test Publishing
