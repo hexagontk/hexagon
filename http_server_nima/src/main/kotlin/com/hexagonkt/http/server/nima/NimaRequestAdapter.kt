@@ -4,10 +4,11 @@ import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.core.media.MediaTypeGroup
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.Headers
-import com.hexagonkt.http.model.Headers as HxHttpHeaders
+import io.helidon.common.http.Http.Header as NimaHeader
 import io.helidon.common.http.Http
 import io.helidon.nima.webserver.http.ServerRequest
 import java.security.cert.X509Certificate
+import kotlin.jvm.optionals.getOrNull
 
 class NimaRequestAdapter(
     methodName: Http.Method,
@@ -15,17 +16,23 @@ class NimaRequestAdapter(
 ) : HttpRequestPort {
 
     override val certificateChain: List<X509Certificate> by lazy {
-        TODO()
+        req.remotePeer().tlsCertificates().getOrNull()
+            ?.toList()
+            ?.map { it as X509Certificate }
+            ?: emptyList()
     }
 
     override val accept: List<ContentType> by lazy {
-//        nettyHeaders.getAll(ACCEPT).flatMap { it.split(",") }.map { parseContentType(it) }
-        TODO()
+        req.headers().acceptedTypes().map {
+            val mt = it.mediaType()
+            val t = mt.type().uppercase()
+            val st = mt.subtype()
+            ContentType(MediaType(MediaTypeGroup.valueOf(t), st))
+        }
     }
 
     override val contentLength: Long by lazy {
-//        nettyHeaders[CONTENT_LENGTH]?.toLong() ?: 0L
-        TODO()
+        req.headers().get(NimaHeader.CONTENT_LENGTH).value().toLong()
     }
 
     override val queryParameters: QueryParameters by lazy {
@@ -37,29 +44,12 @@ class NimaRequestAdapter(
     }
 
     override val parts: List<HttpPart> by lazy {
-//        HttpPostRequestDecoder(req).bodyHttpDatas.map {
-//            when (it) {
-//                is FileUpload -> HttpPart(
-//                    name = it.name,
-//                    body = ByteBufUtil.getBytes(it.content()),
-//                    submittedFileName = it.filename,
-//                    contentType = it.contentType?.let { ct -> parseContentType(ct) },
-//                )
-//                is Attribute -> HttpPart(it.name, it.value)
-//                else -> error("Unknown part type: ${it.javaClass}")
-//            }
-//        }
         TODO()
     }
 
     override val formParameters: FormParameters by lazy {
-        val fields = parts
-            .filter { it.submittedFileName == null }
-            .groupBy { it.name }
-            .mapValues { it.value.map { v -> v.bodyString() } }
-            .map { (k, v) -> FormParameter(k, v) }
-
-        FormParameters(fields)
+        FormParameters()
+        TODO()
     }
 
     override val method: HttpMethod by lazy {
@@ -82,47 +72,31 @@ class NimaRequestAdapter(
         req.path().path()
     }
 
-    override val cookies: List<com.hexagonkt.http.model.Cookie> by lazy {
-//        val cookieHeader: String = nettyHeaders.get(COOKIE)
-//            ?: return@lazy emptyList<com.hexagonkt.http.model.Cookie>()
-//
-//        val cookies: Set<Cookie> = ServerCookieDecoder.STRICT.decode(cookieHeader)
-//
-//        cookies.map {
-//            Cookie(
-//                name = it.name(),
-//                value = it.value(),
+    override val cookies: List<Cookie> by lazy {
+        val c = req.headers().cookies().toMap()
+
+        c.map { (k, v) ->
+            Cookie(
+                name = k,
+                value = v.first(),
 //                maxAge = if (it.maxAge() == Long.MIN_VALUE) -1 else it.maxAge(),
 //                secure = it.isSecure,
-//            )
-//        }
-        TODO()
+            )
+        }
     }
 
     override val body: Any by lazy {
-//        val content =
-//            if (req is ByteBufHolder) req.content()
-//            else Unpooled.buffer(0)
-//
-//        if (content.isReadable) ByteBufUtil.getBytes(content)
-//        else byteArrayOf()
-        TODO()
+        req.content().inputStream().readAllBytes()
     }
 
-    override val headers: HxHttpHeaders by lazy {
-//        HxHttpHeaders(
-//            nettyHeaders.names()
-//                .toList()
-//                .map { it.lowercase() }
-//                .map { Header(it, nettyHeaders.getAll(it)) }
-//        )
-        TODO()
+    override val headers: Headers by lazy {
+        Headers(req.headers().map { Header(it.name(), it.allValues()) })
     }
 
     override val contentType: ContentType? by lazy {
         req.headers().contentType().map {
             val mt = it.mediaType()
-            val t = mt.type()
+            val t = mt.type().uppercase()
             val st = mt.subtype()
             ContentType(MediaType(MediaTypeGroup.valueOf(t), st))
         }
