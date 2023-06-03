@@ -353,7 +353,7 @@ abstract class ClientTest(
         var run: Boolean
 
         client.post("/string", "text").apply {
-            assert(headers["body"]?.value?.isNotEmpty() ?: false)
+            assert(headers["body"]?.string()?.isNotEmpty() ?: false)
             assertEquals(status, OK_200)
             run = true
         }
@@ -410,7 +410,7 @@ abstract class ClientTest(
         client.start()
         client.get("/hello").apply {
             // Assure the certificate received (and returned) by the server is correct
-            assert(headers.require("cert").value?.startsWith("CN=hexagonkt.com") ?: false)
+            assert(headers.require("cert").string()?.startsWith("CN=hexagonkt.com") ?: false)
             assertEquals(body, "Hello World!")
         }
 

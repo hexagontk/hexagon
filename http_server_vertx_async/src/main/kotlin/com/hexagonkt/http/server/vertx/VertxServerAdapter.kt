@@ -153,7 +153,7 @@ class VertxServerAdapter(
         vertxResponse.setStatusCode(response.status.code)
         contentLength.let { if (it >= 0) vertxHeaders.add("content-length", it.toString()) }
         response.contentType?.text?.let { vertxHeaders.add("content-type", it) }
-        response.headers.values.forEach { vertxHeaders.add(it.name, it.values) }
+        response.headers.values.forEach { vertxHeaders.add(it.name, it.strings()) }
         response.cookies.forEach {
             val cookie = Cookie.cookie(it.name, it.value)
             cookie.domain = it.domain

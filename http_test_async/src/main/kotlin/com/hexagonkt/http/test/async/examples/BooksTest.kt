@@ -35,8 +35,8 @@ abstract class BooksTest(
     private val path: PathHandler = path {
 
         post("/books") {
-            val author = queryParameters["author"]?.value ?: return@post badRequest("Missing author").done()
-            val title = queryParameters["title"]?.value ?: return@post badRequest("Missing title").done()
+            val author = queryParameters["author"]?.string() ?: return@post badRequest("Missing author").done()
+            val title = queryParameters["title"]?.string() ?: return@post badRequest("Missing title").done()
             val id = (books.keys.maxOrNull() ?: 0) + 1
             books += id to Book(author, title)
             created(id.toString()).done()
@@ -56,8 +56,8 @@ abstract class BooksTest(
             val book = books[bookId]
             if (book != null) {
                 books += bookId to book.copy(
-                    author = queryParameters["author"]?.value ?: book.author,
-                    title = queryParameters["title"]?.value ?: book.title
+                    author = queryParameters["author"]?.string() ?: book.author,
+                    title = queryParameters["title"]?.string() ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated").done()
@@ -91,8 +91,8 @@ abstract class BooksTest(
     private val pathAlternative: PathHandler = path("/books") {
 
         post {
-            val author = queryParameters["author"]?.value ?: return@post badRequest("Missing author").done()
-            val title = queryParameters["title"]?.value ?: return@post badRequest("Missing title").done()
+            val author = queryParameters["author"]?.string() ?: return@post badRequest("Missing author").done()
+            val title = queryParameters["title"]?.string() ?: return@post badRequest("Missing title").done()
             val id = (books.keys.maxOrNull() ?: 0) + 1
             books += id to Book(author, title)
             created(id.toString()).done()
@@ -112,8 +112,8 @@ abstract class BooksTest(
             val book = books[bookId]
             if (book != null) {
                 books += bookId to book.copy(
-                    author = queryParameters["author"]?.value ?: book.author,
-                    title = queryParameters["title"]?.value ?: book.title
+                    author = queryParameters["author"]?.string() ?: book.author,
+                    title = queryParameters["title"]?.string() ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated").done()
@@ -146,8 +146,8 @@ abstract class BooksTest(
     private val pathAlternative2: PathHandler = path("/books") {
 
         post {
-            val author = queryParameters["author"]?.value ?: return@post badRequest("Missing author").done()
-            val title = queryParameters["title"]?.value ?: return@post badRequest("Missing title").done()
+            val author = queryParameters["author"]?.string() ?: return@post badRequest("Missing author").done()
+            val title = queryParameters["title"]?.string() ?: return@post badRequest("Missing title").done()
             val id = (books.keys.maxOrNull() ?: 0) + 1
             books += id to Book(author, title)
             created(id.toString()).done()
@@ -168,8 +168,8 @@ abstract class BooksTest(
                 val book = books[bookId]
                 if (book != null) {
                     books += bookId to book.copy(
-                        author = queryParameters["author"]?.value ?: book.author,
-                        title = queryParameters["title"]?.value ?: book.title
+                        author = queryParameters["author"]?.string() ?: book.author,
+                        title = queryParameters["title"]?.string() ?: book.title
                     )
 
                     ok("Book with id '$bookId' updated").done()
