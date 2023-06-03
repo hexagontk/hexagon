@@ -18,7 +18,7 @@ import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.handlers.AfterHandler
 import com.hexagonkt.http.handlers.PathHandler
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import org.junit.jupiter.api.condition.DisabledIfSystemProperty
+import org.junit.jupiter.api.condition.DisabledInNativeImage
 import kotlin.test.Test
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
@@ -79,7 +79,7 @@ internal class JettyWsServerTest {
     }
 
     @Test
-    @DisabledIfSystemProperty(named = "nativeTest", matches = "true") // TODO Fix this
+    @DisabledInNativeImage
     fun `WS call works OK`() {
         startServer()
 
