@@ -45,3 +45,23 @@ include(
     "serialization_test",
     "templates_test",
 )
+
+fun includeModules(directory: String) {
+    val dir = File(directory)
+
+    if (!dir.exists() || !dir.isDirectory)
+        error("")
+
+    include(":$directory")
+
+    dir.listFiles()
+        ?.filter { it.isDirectory }
+        ?.filter { it.resolve("build.gradle.kts").isFile }
+        ?.forEach {
+            val name = it.name
+            include(":$directory:$name")
+            project(":$directory:$name").projectDir = it
+        }
+}
+
+//includeModules("sm")
