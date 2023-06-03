@@ -6,6 +6,35 @@ import kotlin.test.*
 
 internal class RegexPathPatternTest {
 
+    @Test fun `Insert parameters fails on invalid parameters`() {
+        fun testInvalid(re: String, vararg params: Pair<String, Any>) {
+            val path = RegexPathPattern(Regex(re))
+            val pathParameters = path.parameters
+            val parameters = params.toMap()
+            val parametersKeys = parameters.keys
+            val e = assertFailsWith<IllegalArgumentException> { path.insertParameters(parameters) }
+            assertEquals(
+                "Parameters must match pattern's parameters($pathParameters). Provided: $parametersKeys",
+                e.message
+            )
+        }
+
+        testInvalid("/alpha/(?<param>$VP?)/tango/(?<arg>$VP?)$", "param1" to "v1", "arg" to "v2")
+        testInvalid("/alpha/(?<param>$VP?)/tango/(?<arg>$VP?)$", "param" to "v1")
+        testInvalid("/alpha/(?<param>$VP?)/tango/(?<arg>$VP?)$", "arg" to "v2")
+        testInvalid(
+            "/alpha/(?<param>$VP?)/tango/(?<arg>$VP?)$",
+            "param" to "v1", "arg" to "v2", "extra" to "v3"
+        )
+    }
+
+    @Test fun `Insert parameters on path`() {
+        val path = RegexPathPattern(Regex("/alpha/(?<param>$VP?)/tango/(?<arg>$VP?)$"))
+        assertEquals(listOf("param", "arg"), path.parameters)
+        val parameters = mapOf("param" to "v1", "arg" to "v2")
+        assertEquals("/alpha/v1/tango/v2$", path.insertParameters(parameters))
+    }
+
     @Test fun `Prefixes are matched if pattern is prefix`() {
         val regexPath = RegexPathPattern(Regex("/alpha/bravo$"))
         assertFalse(regexPath.matches("/alpha/bravo/tango"))

@@ -5,6 +5,13 @@ import kotlin.test.*
 
 internal class LiteralPathPatternTest {
 
+    @Test fun `Insert parameters on path`() {
+        val e = assertFailsWith<IllegalStateException> {
+            LiteralPathPattern("/alpha/bravo").insertParameters(mapOf("a" to "b"))
+        }
+        assertEquals("Literal path pattern does not accept parameters", e.message)
+    }
+
     @Test fun `Prefixes are matched if pattern is prefix`() {
         val regexPath = LiteralPathPattern("/alpha/bravo")
         assertFalse(regexPath.matches("/alpha/bravo/tango"))
