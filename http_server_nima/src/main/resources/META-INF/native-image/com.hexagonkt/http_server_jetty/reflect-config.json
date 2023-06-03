@@ -1,0 +1,9 @@
+[
+  {
+    "name": "io.helidon.nima.webserver.LoomServer",
+    "allPublicMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredMethods": true,
+    "allDeclaredConstructors": true
+  }
+]

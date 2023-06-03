@@ -1,5 +1,7 @@
 package com.hexagonkt.http.patterns
 
+import com.hexagonkt.core.filter
+import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.VARIABLE_PATTERN
 import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.patternToRegex
 
 data class RegexPathPattern(val regex: Regex) : PathPattern {
@@ -8,6 +10,8 @@ data class RegexPathPattern(val regex: Regex) : PathPattern {
     override val prefix: Boolean = !regex.pattern.endsWith("$")
 
     internal companion object {
+        const val PARAMETER_PREFIX = "(?<"
+        const val PARAMETER_SUFFIX = ">$VARIABLE_PATTERN?)"
         val PARAMETER_REGEX = Regex("""\(\?<\w+>""")
     }
 
@@ -40,5 +44,16 @@ data class RegexPathPattern(val regex: Regex) : PathPattern {
         val resultGroups = result.groups as MatchNamedGroupCollection
         return if (parameters.isEmpty()) allValues
         else parameters.associateWith { resultGroups[it]?.value ?: "" } + allValues
+    }
+
+    override fun insertParameters(parameters: Map<String, Any>): String {
+        val keys = parameters.keys
+        val patternParameters = this.parameters
+
+        require(keys.toSet() == patternParameters.toSet()) {
+            "Parameters must match pattern's parameters($patternParameters). Provided: $keys"
+        }
+
+        return pattern.filter(PARAMETER_PREFIX, PARAMETER_SUFFIX, parameters)
     }
 }

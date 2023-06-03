@@ -11,6 +11,9 @@ interface PathPattern {
 
     fun extractParameters(requestUrl: String): Map<String, String>
 
+    fun insertParameters(parameters: Map<String, Any>): String =
+        error("${type()} path pattern does not accept parameters")
+
     fun describe(): String =
         "${type()}${if (prefix) " (PREFIX)" else ""} '$pattern'"
 

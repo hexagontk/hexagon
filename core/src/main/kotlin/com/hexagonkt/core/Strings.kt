@@ -13,6 +13,9 @@ import java.time.LocalTime
 import java.util.Base64
 import kotlin.reflect.KClass
 
+private const val VARIABLE_PREFIX = "{{"
+private const val VARIABLE_SUFFIX = "}}"
+
 private val base64Encoder: Base64.Encoder = Base64.getEncoder().withoutPadding()
 private val base64Decoder: Base64.Decoder = Base64.getDecoder()
 
@@ -37,6 +40,40 @@ val parsedClasses: Set<KClass<*>> by lazy {
         LocalDateTime::class,
     )
 }
+
+/**
+ * Filter the target string substituting each key by its value. The keys format resembles Mustache's
+ * one: `{{key}}` and all occurrences are replaced by the supplied value.
+ *
+ * If a variable does not have a parameter, it is left as it is.
+ *
+ * @param parameters The map with the list of key/value tuples.
+ * @return The filtered text or the same string if no values are passed or found in the text.
+ * @sample com.hexagonkt.core.StringsSamplesTest.filterVarsExample
+ */
+fun String.filterVars(parameters: Map<*, *>): String =
+    this.filter(
+        VARIABLE_PREFIX,
+        VARIABLE_SUFFIX,
+        parameters
+            .filterKeys { it != null }
+            .map { (k, v) -> k.toString() to v.toString() }
+            .toMap()
+    )
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param prefix .
+ * @param suffix .
+ * @param parameters .
+ * @return .
+ */
+fun String.filter(prefix: String, suffix: String, parameters: Map<String, *>): String =
+    parameters.entries.fold(this) { result, (first, second) ->
+        result.replace(prefix + first + suffix, second.toString())
+    }
 
 /**
  * Encode the content of this byteArray to base64.

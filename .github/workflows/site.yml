@@ -9,10 +9,15 @@ on:
         description: Branch to check out.
         default: ''
 
+      version:
+        type: string
+        description: GraalVM version used to run Gradle.
+        default: latest
+
       java:
         type: string
         description: Java version used to run Gradle.
-        default: "17"
+        default: 19
 
       check_directory:
         type: string
@@ -43,7 +48,7 @@ jobs:
       - name: Set Up Java
         uses: graalvm/setup-graalvm@v1
         with:
-          version: latest
+          version: ${{ inputs.version }}
           java-version: ${{ inputs.java }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: gradle

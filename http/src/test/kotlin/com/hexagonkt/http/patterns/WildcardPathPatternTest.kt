@@ -5,6 +5,13 @@ import kotlin.test.*
 
 internal class WildcardPathPatternTest {
 
+    @Test fun `Insert parameters on path`() {
+        val e = assertFailsWith<IllegalStateException> {
+            WildcardPathPattern().insertParameters(mapOf("a" to "b"))
+        }
+        assertEquals("Wildcard path pattern does not accept parameters", e.message)
+    }
+
     @Test fun `Prefixes are matched if pattern is prefix`() {
         val regexPath = WildcardPathPattern()
         assert(regexPath.matches("/alpha/bravo/tango"))

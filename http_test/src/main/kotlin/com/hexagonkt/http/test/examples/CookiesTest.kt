@@ -30,8 +30,8 @@ abstract class CookiesTest(
         }
 
         post("/addCookie") {
-            val name = queryParameters.require("cookieName").value ?: return@post badRequest("No cookie name")
-            val value = queryParameters.require("cookieValue").value ?: return@post badRequest("No cookie value")
+            val name = queryParameters.require("cookieName").string() ?: return@post badRequest("No cookie name")
+            val value = queryParameters.require("cookieValue").string() ?: return@post badRequest("No cookie value")
             ok(cookies = response.cookies + Cookie(name, value))
         }
 
@@ -112,7 +112,7 @@ abstract class CookiesTest(
         // Set the cookie in the client
         client.cookies = client.cookies + Cookie(cookieName, cookieValue)
 
-        // Assert that it is received in the server and change its value afterwards
+        // Assert that it is received in the server and change its value afterward
         client.post("/assertHasCookie?cookieName=$cookieName")
         client.post("/addCookie?cookieName=$cookieName&cookieValue=${cookieValue}_changed")
 

@@ -24,10 +24,10 @@ plugins {
     id("eclipse")
     id("project-report")
     id("org.jetbrains.dokka") version("1.8.10")
-    id("com.github.jk1.dependency-license-report") version("2.2")
+    id("com.github.jk1.dependency-license-report") version("2.4")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.1")
     id("org.graalvm.buildtools.native") version("0.9.22") apply(false)
-    id("io.gitlab.arturbosch.detekt") version("1.22.0") apply(false)
+    id("io.gitlab.arturbosch.detekt") version("1.23.0") apply(false)
     id("me.champeau.jmh") version("0.7.1") apply(false)
 }
 
@@ -95,8 +95,4 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
 
 apiValidation {
     validationDisabled = true
-}
-
-subprojects {
-    apply(from = "$rootDir/gradle/detekt.gradle")
 }

@@ -52,7 +52,7 @@ data class HttpContext(
         val pattern = httpHandler.pathPattern
 
         if (assertEnabled)
-            check(!(pattern.prefix)) { "Loading path parameters not allowed for paths" }
+            check(!pattern.prefix) { "Loading path parameters not allowed for paths" }
 
         pattern.extractParameters(request.path)
     }

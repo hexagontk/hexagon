@@ -14,6 +14,91 @@ import kotlin.text.prependIndent
 
 internal class StringsTest {
 
+    @Test fun `Filter variables returns the given string if no parameters are set`() {
+        val template = "User #{user}"
+
+        assertEquals(template, template.filterVars(mapOf<Any, Any>()))
+    }
+
+    @Test fun `Filter variables returns the same string if no variables are defined in it`() {
+        val template = "User no vars"
+
+        assertEquals(template, template.filterVars(mapOf("vars" to "value")))
+        assertEquals(template, template.filterVars(mapOf<Any, Any>()))
+    }
+
+    @Test fun `Filter variables returns the same string if variable values are not found`() {
+        val template = "User #{user}"
+
+        assertEquals(template, template.filterVars(mapOf("key" to "value")))
+    }
+
+    @Test fun `Filter variables ignores empty parameters`() {
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars(
+            mapOf(
+                null to "Void",
+                "" to "John",
+                "email" to "john@example.co"
+            )
+        )
+
+        assertEquals("john@example.co: User {{user}} aka {{user}} <john@example.co>", result)
+    }
+
+    @Test fun `Filter variables replaces all occurrences of variables with their values`() {
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars(
+            mapOf(
+                "user" to "John",
+                "email" to "john@example.co"
+            )
+        )
+
+        assertEquals("john@example.co: User John aka John <john@example.co>", result)
+    }
+
+    @Test fun `Filter returns the given string if no parameters are set`() {
+        val template = "User #{user}"
+
+        assertEquals(template, template.filter("#{", "}", emptyMap<String, Any>()))
+    }
+
+    @Test fun `Filter returns the same string if no variables are defined in it`() {
+        val template = "User no vars"
+
+        assertEquals(template, template.filter("#{", "}", emptyMap<String, Any>()))
+        assertEquals(template, template.filter("#{", "}", mapOf("vars" to "value")))
+    }
+
+    @Test fun `Filter returns the same string if variable values are not found`() {
+        val template = "User #{user}"
+
+        assertEquals(template, template.filter("#{", "}", mapOf("key" to "value")))
+    }
+
+    @Test fun `Filter ignores empty parameters`() {
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filter(
+            "{{", "}}",
+            mapOf(
+                "" to "John",
+                "email" to "john@example.co"
+            )
+        )
+
+        assertEquals("john@example.co: User {{user}} aka {{user}} <john@example.co>", result)
+    }
+
+    @Test fun `Filter replaces all occurrences of variables with their values`() {
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filter(
+            "{{", "}}",
+            mapOf(
+                "user" to "John",
+                "email" to "john@example.co"
+            )
+        )
+
+        assertEquals("john@example.co: User John aka John <john@example.co>", result)
+    }
+
     @Test fun `Parsed classes are the ones supported by parseOrNull`() {
         val tests = mapOf(
             Boolean::class to "true",

@@ -1,5 +1,7 @@
 package com.hexagonkt.http.patterns
 
+import com.hexagonkt.core.filter
+
 /**
  * A path definition. It parses path patterns and extract values for parameters.
  *
@@ -49,7 +51,20 @@ data class TemplatePathPattern(
                 }
     }
 
+    val parameters: List<String> = parameters(pattern)
+
     init {
         checkPathPatternPrefix(pattern, listOf("*"))
+    }
+
+    override fun insertParameters(parameters: Map<String, Any>): String {
+        val keys = parameters.keys
+        val patternParameters = this.parameters
+
+        require(keys.toSet() == patternParameters.toSet()) {
+            "Parameters must match pattern's parameters($patternParameters). Provided: $keys"
+        }
+
+        return pattern.filter(PARAMETER_PREFIX, PARAMETER_SUFFIX, parameters)
     }
 }

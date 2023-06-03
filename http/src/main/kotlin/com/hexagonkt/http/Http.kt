@@ -72,7 +72,7 @@ fun parseQueryString(query: String): QueryParameters =
 
 fun formatQueryString(parameters: QueryParameters): String =
     parameters
-        .flatMap { (k, v) -> v.values.map { k to it } }
+        .flatMap { (k, v) -> v.strings().map { k to it } }
         .filter { it.first.isNotBlank() }
         .joinToString("&") { (k, v) ->
             if (v.isBlank()) k.urlEncode()

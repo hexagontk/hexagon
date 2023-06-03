@@ -83,7 +83,7 @@ abstract class CorsTest(
             assertEquals(OK_200, it.status)
             assertEquals("GET", it.body)
             assertEquals("*", it.headers["access-control-allow-origin"]?.value)
-            assert(it.headers["vary"]?.value?.contains("Origin")?.not() ?: true)
+            assert(it.headers["vary"]?.string()?.contains("Origin")?.not() ?: true)
         }
     }
 
@@ -91,7 +91,7 @@ abstract class CorsTest(
         val result = client.get("/default", Headers(Header("origin", "example.org")))
         assertEquals(OK_200, result.status)
         assertEquals("example.org", result.headers["access-control-allow-origin"]?.value)
-        assert(result.headers["vary"]?.value?.contains("Origin") ?: false)
+        assert(result.headers["vary"]?.string()?.contains("Origin") ?: false)
         assertEquals("true", result.headers["access-control-allow-credentials"]?.value)
     }
 
@@ -108,7 +108,7 @@ abstract class CorsTest(
         ))
         assertEquals(OK_200, result.status)
         assertEquals("example.org", result.headers["access-control-allow-origin"]?.value)
-        assert(result.headers["vary"]?.value?.contains("Origin") ?: false)
+        assert(result.headers["vary"]?.string()?.contains("Origin") ?: false)
         assertEquals("true", result.headers["access-control-allow-credentials"]?.value)
         assertEquals("head", result.headers["access-control-expose-headers"]?.value)
     }

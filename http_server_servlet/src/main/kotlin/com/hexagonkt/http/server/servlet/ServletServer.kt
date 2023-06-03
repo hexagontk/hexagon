@@ -45,7 +45,7 @@ abstract class ServletServer(
     override fun contextInitialized(sce: ServletContextEvent) {
         val startTimestamp = System.nanoTime()
 
-        val servletFilter = ServletFilter(pathHandler, settings)
+        val servletFilter = ServletFilter(pathHandler)
         // Let's be a good JEE citizen
         servletFilter.init(object : FilterConfig {
             val params = Hashtable<String, String>(1).apply { put("filterName", filterName) }

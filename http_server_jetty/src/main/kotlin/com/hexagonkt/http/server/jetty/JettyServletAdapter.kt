@@ -96,7 +96,7 @@ class JettyServletAdapter(
         val pathHandler = server.handler.addPrefix(settings.contextPath)
 
         val context = createServerContext(settings)
-        val filter = ServletFilter(pathHandler, settings)
+        val filter = ServletFilter(pathHandler)
         val filterBind = context.servletContext.addFilter("filters", filter)
         val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
         filterBind.addMappingForUrlPatterns(dispatcherTypes, true, "/*")
