@@ -31,8 +31,6 @@ jobs:
     permissions: read-all
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      version: 22.3.1
-      java: 19
       os: ${{ matrix.os }}
       check_directory: core/build
       ref: develop
@@ -43,8 +41,6 @@ jobs:
     permissions: read-all
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      version: 22.3.1
-      java: 19
       os: macos-latest
       check_directory: core/build
       ref: develop
@@ -60,8 +56,6 @@ jobs:
     permissions: read-all
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      version: 22.3.1
-      java: 19
       os: ${{ matrix.os }}
       ref: develop
       tasks: createCa createIdentities
@@ -76,8 +70,6 @@ jobs:
     permissions: read-all
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      version: 22.3.1
-      java: 19
       os: ${{ matrix.os }}
       ref: develop
       tasks: nativeTest
@@ -100,8 +92,6 @@ jobs:
     permissions: read-all
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      version: 22.3.1
-      java: 19
       os: ${{ matrix.os }}
       ref: develop
       check_directory: core/build
