@@ -70,7 +70,7 @@ To create a server, you need to provide a handler (check the [handlers section] 
 information), and after creating a server you can run it or stop it with [start()] and [stop()]
 methods.
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?serverCreation
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?serverCreation
 
 [server settings]: /api/http_server/com.hexagonkt.http.server/-http-server-settings
 [handlers section]: /http_server/#handlers
@@ -96,7 +96,7 @@ attributes among handlers.
 The methods are available directly from the callback. You can check the [API documentation] for the
 full list of methods. This sample code illustrates the usage:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCall
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCall
 
 [API documentation]: /api/http_server/com.hexagonkt.http.server.handlers/-http-server-context
 
@@ -132,7 +132,7 @@ H1 (after)
 
 Check the next snippet for Handlers usage examples:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routesCreation
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routesCreation
 
 [next]: /api/http_server/com.hexagonkt.http.server.handlers/-http-server-context/next.html
 
@@ -183,19 +183,19 @@ that pattern.
 
 The following code details filters usage:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?filters
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?filters
 
 ## Path Handlers
 Handlers can be grouped by calling the `path()` method, which takes a String prefix and gives you a
 scope to declare other handlers. Ie:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routeGroups
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routeGroups
 
 If you have a lot of routes, it can be helpful to group them into Path Handlers. You can create path
 handlers to mount a group of routes in different paths (allowing you to reuse them). Check this
 snippet:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routers
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routers
 
 # Handler Callbacks
 Callbacks are request's handling blocks that are bound to handlers. They make the request and
@@ -207,7 +207,7 @@ Callbacks results are the input for the next handler's callbacks in the pipeline
 ## Request
 Request functionality is provided by the `request` field:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackRequest
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackRequest
 
 ## Path Parameters
 Route patterns can include named parameters, accessible via the `pathParameters` map on the request
@@ -215,37 +215,37 @@ object:
 
 Path parameters can be accessed by name or by index.
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackPathParam
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackPathParam
 
 ## Query Parameters
 It is possible to access the whole query string or only a specific query parameter using the
 `parameters` map on the `request` object:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackQueryParam
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackQueryParam
 
 ## Form Parameters
 HTML Form processing. Don't parse body!
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackFormParam
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackFormParam
 
 ## File Uploads
 Multipart Requests
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackFile
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackFile
 
 ## Response
 Response information is provided by the `response` field:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackResponse
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackResponse
 
 To send error responses:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackHalt
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackHalt
 
 ## Redirects
 You can redirect requests (returning 30x codes) by using `Call` utility methods:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackRedirect
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackRedirect
 
 ## Cookies
 The request and response cookie functions provide a convenient way for sharing information between
@@ -256,7 +256,7 @@ add new ones you have to use `response.addCookie()` and `response.removeCookie()
 
 Check the following sample code for details:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCookie
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCookie
 
 <!-- TODO End -->
 
@@ -267,13 +267,13 @@ handlers returning error codes.
 ## HTTP Errors Handlers
 Allow handling responses that returned an HTTP error code. Example:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?errors
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?errors
 
 ## Exception Mapping
 You can handle previously thrown exceptions of a given type (or subtype). The handler allows you to
 refer to the thrown exception. Look at the following code for a detailed example:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?exceptions
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?exceptions
 
 # Static Files
 You can use a [FileCallback] or a [UrlCallback] to route requests to files or classpath resources.
@@ -283,7 +283,7 @@ have a parameter to provide the file to be fetched inside the folder.
 
 Check the next example for details:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?files
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?files
 
 ## Media Types
 The media types of static files are computed from the file extension using the utility methods of
@@ -295,7 +295,7 @@ the [com.hexagonkt.core.media] package.
 CORS behaviour can be different depending on the path. You can attach different [CORS Callbacks] to
 different handlers. Check the [CorsCallback][CORS Callbacks] class for more details.
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CorsTest.kt?cors
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CorsTest.kt?cors
 
 [CORS Callbacks]: /api/http_server/com.hexagonkt.http.server.callbacks/-cors-callback
 
@@ -320,7 +320,7 @@ client used to connect (assuming it is valid, if not the connection will end wit
 
 Below you can find a simple example to set up an HTTPS server and client with mutual TLS:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/HttpsTest.kt?https
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/HttpsTest.kt?https
 
 [SslSettings]: /api/http/com.hexagonkt.http/-ssl-settings
 [HTTP/2]: https://en.wikipedia.org/wiki/HTTP/2
@@ -352,14 +352,14 @@ Sessions connected to the same WS endpoint can be stored to broadcast messages.
 
 Ping and pong allows to maintain connection opened.
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/WebSocketsTest.kt?ws_server
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/WebSocketsTest.kt?ws_server
 
 # Compression
 Gzip encoding is supported on the Hexagon Toolkit, however, its implementation depends on the used
 adapter. To turn on Gzip encoding, you need to enable that feature on the server settings. Check the
 code below for an example:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ZipTest.kt?zip
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ZipTest.kt?zip
 
 # Testing
 
@@ -367,7 +367,7 @@ code below for an example:
 To test HTTP servers from outside using a real Adapter, you can create a server setting `0` as port.
 This will pick a random free port which you can check later:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?test
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?test
 
 To do this kind of tests without creating a custom server (using the real production code).
 Check the [tests of the starter projects].
@@ -381,7 +381,7 @@ relying on mocking libraries.
 
 For a quick example, check the snipped below:
 
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?mockRequest
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?mockRequest
 
 # Package com.hexagonkt.http.server.async
 This package defines server interfaces for HTTP server adapters.
