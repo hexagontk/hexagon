@@ -2,11 +2,11 @@
 rootProject.name = "hexagon"
 
 include(
-    "site",
-    "starters",
     "core",
     "handlers",
     "handlers_async",
+    "site",
+    "starters",
 )
 
 includeModules(
