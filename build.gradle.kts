@@ -141,5 +141,5 @@ apiValidation {
             "web",
         )
     )
-    validationDisabled = true
+    validationDisabled = !file("core/api").isDirectory
 }
