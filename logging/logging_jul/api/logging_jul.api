@@ -1,0 +1,17 @@
+public final class com/hexagonkt/logging/jul/JulLoggingAdapter : com/hexagonkt/core/logging/LoggingPort {
+	public fun <init> ()V
+	public fun <init> (ZLjava/io/PrintStream;)V
+	public synthetic fun <init> (ZLjava/io/PrintStream;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun createLogger (Ljava/lang/String;)Lcom/hexagonkt/core/logging/LoggerPort;
+	public fun isLoggerLevelEnabled (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)Z
+	public fun setLoggerLevel (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)V
+}
+
+public final class com/hexagonkt/logging/jul/PatternFormat : java/util/logging/Formatter {
+	public static final field COLOR_PATTERN Ljava/lang/String;
+	public static final field PATTERN Ljava/lang/String;
+	public fun <init> (ZZ)V
+	public synthetic fun <init> (ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun format (Ljava/util/logging/LogRecord;)Ljava/lang/String;
+}
+

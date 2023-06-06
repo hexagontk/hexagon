@@ -1,0 +1,9 @@
+public final class com/hexagonkt/logging/slf4j/jul/Slf4jJulLoggingAdapter : com/hexagonkt/core/logging/LoggingPort {
+	public fun <init> ()V
+	public fun <init> (ZLjava/io/PrintStream;)V
+	public synthetic fun <init> (ZLjava/io/PrintStream;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun createLogger (Ljava/lang/String;)Lcom/hexagonkt/core/logging/LoggerPort;
+	public fun isLoggerLevelEnabled (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)Z
+	public fun setLoggerLevel (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)V
+}
+

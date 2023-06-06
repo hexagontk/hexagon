@@ -1,0 +1,16 @@
+public class com/hexagonkt/http/client/jetty/JettyClientAdapter : com/hexagonkt/http/client/HttpClientPort {
+	protected field httpClient Lcom/hexagonkt/http/client/HttpClient;
+	protected field jettyClient Lorg/eclipse/jetty/client/HttpClient;
+	public fun <init> ()V
+	protected final fun getHttpClient ()Lcom/hexagonkt/http/client/HttpClient;
+	protected final fun getJettyClient ()Lorg/eclipse/jetty/client/HttpClient;
+	public fun send (Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	protected final fun setHttpClient (Lcom/hexagonkt/http/client/HttpClient;)V
+	protected final fun setJettyClient (Lorg/eclipse/jetty/client/HttpClient;)V
+	public fun shutDown ()V
+	public fun sse (Lcom/hexagonkt/http/model/HttpRequestPort;)Ljava/util/concurrent/Flow$Publisher;
+	public fun startUp (Lcom/hexagonkt/http/client/HttpClient;)V
+	public fun started ()Z
+	public fun ws (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagonkt/http/model/ws/WsSession;
+}
+

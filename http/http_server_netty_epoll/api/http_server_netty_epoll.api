@@ -1,0 +1,8 @@
+public final class com/hexagonkt/http/server/netty/epoll/NettyEpollServerAdapter : com/hexagonkt/http/server/netty/NettyServerAdapter {
+	public fun <init> ()V
+	public fun <init> (IIIIZZ)V
+	public synthetic fun <init> (IIIIZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun groupSupplier (I)Lio/netty/channel/MultithreadEventLoopGroup;
+	public fun serverBootstrapSupplier (Lio/netty/channel/MultithreadEventLoopGroup;Lio/netty/channel/MultithreadEventLoopGroup;)Lio/netty/bootstrap/ServerBootstrap;
+}
+
