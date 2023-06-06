@@ -23,7 +23,7 @@ plugins {
     id("idea")
     id("eclipse")
     id("project-report")
-    id("org.jetbrains.dokka") version("1.8.10")
+    id("org.jetbrains.dokka") version("1.8.20")
     id("com.github.jk1.dependency-license-report") version("2.4")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.2")
     id("org.graalvm.buildtools.native") version("0.9.22") apply(false)
@@ -141,5 +141,5 @@ apiValidation {
             "web",
         )
     )
-    validationDisabled = !file("core/api").isDirectory
+    validationDisabled = !file("api").isDirectory
 }

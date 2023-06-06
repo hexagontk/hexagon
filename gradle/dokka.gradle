@@ -33,7 +33,9 @@ private void setUpDokka(final Object dokkaTask) {
         "compileKotlin",
         "compileTestKotlin",
         "processResources",
-        "processTestResources"
+        "processTestResources",
+        "apiCheck",
+        "apiDump"
     )
 
     dokkaTask.moduleName.set(project.name)
