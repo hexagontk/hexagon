@@ -75,8 +75,42 @@ task("release") {
     }
 }
 
+task("nativeTestModules") {
+    group = "reporting"
+    description = "Print module descriptions to be used in the GraalVM native compliant directory."
+
+    doLast {
+        val gitHub = "https://github.com/hexagonkt/hexagon/tree/master"
+        val entries = subprojects
+            .filter { sp -> sp.tasks.any { t -> t.name == "nativeTest" } }
+            .joinToString(",\n") { sp ->
+                val spd = gitHub + sp.projectDir.absolutePath.removePrefix(rootDir.absolutePath)
+                """
+                {
+                  "artifact": "${sp.group}:${sp.name}",
+                  "description": "${sp.description}",
+                  "details": [
+                    {
+                      "minimum_version": "${sp.version}",
+                      "test_level": "fully-tested"
+                      "metadata_locations": [
+                        "$spd"
+                      ],
+                      "tests_locations": [
+                        "$spd"
+                      ],
+                    }
+                  ]
+                }
+                """.trimIndent()
+            }
+        println(entries)
+    }
+}
+
 extensions.configure<LicenseReportExtension> {
     projects = subprojects.toTypedArray()
+    unionParentPomLicenses = false
     renderers = arrayOf<ReportRenderer>(
         CsvReportRenderer(),
         InventoryHtmlReportRenderer(),
@@ -94,5 +128,18 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
 })
 
 apiValidation {
+    ignoredProjects.addAll(
+        listOf(
+            "handlers_async",
+            "http_handlers_async",
+            "http_server_async",
+            "http_server_netty_async",
+            "http_server_vertx_async",
+            "http_test_async",
+            "rest",
+            "rest_test",
+            "web",
+        )
+    )
     validationDisabled = true
 }
