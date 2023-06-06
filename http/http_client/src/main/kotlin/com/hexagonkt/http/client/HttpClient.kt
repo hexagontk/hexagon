@@ -51,7 +51,6 @@ class HttpClient(
 
     /**
      * Synchronous execution.
-     * TODO Remove 'attributes' parameter when path parameters/pattern can be passed in the request
      */
     fun send(request: HttpRequest, attributes: Map<String, Any> = emptyMap()): HttpResponsePort =
         if (!started())
@@ -158,85 +157,6 @@ class HttpClient(
         contentType: ContentType? = settings.contentType
     ): HttpResponsePort =
         send(HttpRequest(PATCH, path = path, body = body ?: "", contentType = contentType))
-
-    fun get(
-        pathPattern: String,
-        pathParameters: Map<String, Any>,
-        headers: Headers = Headers(),
-        body: Any? = null,
-        contentType: ContentType? = settings.contentType): HttpResponsePort =
-        send(
-            HttpRequest(
-                method = GET,
-                path = pathPattern,
-                body = body ?: "",
-                headers = headers,
-                contentType = contentType)
-        )
-
-    fun head(
-        pathPattern: String,
-        pathParameters: Map<String, Any>,
-        headers: Headers = Headers()
-    ): HttpResponsePort =
-        send(HttpRequest(HEAD, path = pathPattern, body = ByteArray(0), headers = headers))
-
-    fun post(
-        pathPattern: String,
-        pathParameters: Map<String, Any>,
-        body: Any? = null,
-        contentType: ContentType? = settings.contentType
-    ): HttpResponsePort =
-        send(HttpRequest(POST, path = pathPattern, body = body ?: "", contentType = contentType))
-
-    fun put(
-        pathPattern: String,
-        pathParameters: Map<String, Any>,
-        body: Any? = null,
-        contentType: ContentType? = settings.contentType
-    ): HttpResponsePort =
-        send(HttpRequest(PUT, path = pathPattern, body = body ?: "", contentType = contentType))
-
-    fun delete(
-        pathPattern: String,
-        pathParameters: Map<String, Any>,
-        body: Any? = null,
-        contentType: ContentType? = settings.contentType
-    ): HttpResponsePort =
-        send(HttpRequest(DELETE, path = pathPattern, body = body ?: "", contentType = contentType))
-
-    fun trace(
-        pathPattern: String,
-        pathParameters: Map<String, Any>,
-        body: Any? = null,
-        contentType: ContentType? = settings.contentType
-    ): HttpResponsePort =
-        send(HttpRequest(TRACE, path = pathPattern, body = body ?: "", contentType = contentType))
-
-    fun options(
-        pathPattern: String,
-        pathParameters: Map<String, Any>,
-        body: Any? = null,
-        headers: Headers = Headers(),
-        contentType: ContentType? = settings.contentType
-    ): HttpResponsePort =
-        send(
-            HttpRequest(
-                method = OPTIONS,
-                path = pathPattern,
-                body = body ?: "",
-                headers = headers,
-                contentType = contentType
-            )
-        )
-
-    fun patch(
-        pathPattern: String,
-        pathParameters: Map<String, Any>,
-        body: Any? = null,
-        contentType: ContentType? = settings.contentType
-    ): HttpResponsePort =
-        send(HttpRequest(PATCH, path = pathPattern, body = body ?: "", contentType = contentType))
 
     private fun HttpHandler.process(
         request: HttpRequestPort, attributes: Map<String, Any>

@@ -9,18 +9,18 @@ include(
     "starters",
 )
 
-includeModules(
+includeNestedModules(
     "http",
     "logging",
     "serialization",
     "templates"
 )
 
-fun includeModules(vararg directories: String) {
-    directories.forEach(::includeModules)
+fun includeNestedModules(vararg directories: String) {
+    directories.forEach(::includeNestedModules)
 }
 
-fun includeModules(directory: String) {
+fun includeNestedModules(directory: String) {
     val dir = File(directory)
 
     if (!dir.exists() || !dir.isDirectory)
@@ -29,8 +29,7 @@ fun includeModules(directory: String) {
     include(":$directory")
 
     dir.listFiles()
-        ?.filter { it.isDirectory }
-        ?.filter { it.resolve("build.gradle.kts").isFile }
+        ?.filter { it.isDirectory && it.resolve("build.gradle.kts").isFile }
         ?.forEach {
             val name = it.name
             include(":$directory:$name")
