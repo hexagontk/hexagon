@@ -1,0 +1,867 @@
+public final class com/hexagonkt/http/HttpKt {
+	public static final fun bodyToBytes (Ljava/lang/Object;)[B
+	public static final fun checkHeaders (Lcom/hexagonkt/http/model/Headers;)V
+	public static final fun formatQueryString (Lcom/hexagonkt/http/model/QueryParameters;)Ljava/lang/String;
+	public static final fun getBODY_TYPES ()Ljava/util/Set;
+	public static final fun getBODY_TYPES_NAMES ()Ljava/lang/String;
+	public static final fun getCHECKED_HEADERS ()Ljava/util/List;
+	public static final fun getGMT_ZONE ()Ljava/time/ZoneId;
+	public static final fun getHTTP_DATE_FORMATTER ()Ljava/time/format/DateTimeFormatter;
+	public static final fun parseContentType (Ljava/lang/String;)Lcom/hexagonkt/http/model/ContentType;
+	public static final fun parseQueryString (Ljava/lang/String;)Lcom/hexagonkt/http/model/QueryParameters;
+	public static final fun toHttpFormat (Ljava/time/Instant;)Ljava/lang/String;
+	public static final fun toHttpFormat (Ljava/time/LocalDateTime;)Ljava/lang/String;
+	public static final fun urlDecode (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun urlEncode (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/SslSettings {
+	public fun <init> ()V
+	public fun <init> (Ljava/net/URL;Ljava/lang/String;Ljava/net/URL;Ljava/lang/String;Z)V
+	public synthetic fun <init> (Ljava/net/URL;Ljava/lang/String;Ljava/net/URL;Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/net/URL;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/net/URL;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Z
+	public final fun copy (Ljava/net/URL;Ljava/lang/String;Ljava/net/URL;Ljava/lang/String;Z)Lcom/hexagonkt/http/SslSettings;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/SslSettings;Ljava/net/URL;Ljava/lang/String;Ljava/net/URL;Ljava/lang/String;ZILjava/lang/Object;)Lcom/hexagonkt/http/SslSettings;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getClientAuth ()Z
+	public final fun getKeyStore ()Ljava/net/URL;
+	public final fun getKeyStorePassword ()Ljava/lang/String;
+	public final fun getTrustStore ()Ljava/net/URL;
+	public final fun getTrustStorePassword ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/Authorization {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/hexagonkt/http/model/Authorization;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/Authorization;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagonkt/http/model/Authorization;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/ContentType {
+	public fun <init> (Lcom/hexagonkt/core/media/MediaType;Ljava/lang/String;Ljava/nio/charset/Charset;Ljava/lang/Double;)V
+	public synthetic fun <init> (Lcom/hexagonkt/core/media/MediaType;Ljava/lang/String;Ljava/nio/charset/Charset;Ljava/lang/Double;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/hexagonkt/core/media/MediaType;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/nio/charset/Charset;
+	public final fun component4 ()Ljava/lang/Double;
+	public final fun copy (Lcom/hexagonkt/core/media/MediaType;Ljava/lang/String;Ljava/nio/charset/Charset;Ljava/lang/Double;)Lcom/hexagonkt/http/model/ContentType;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/ContentType;Lcom/hexagonkt/core/media/MediaType;Ljava/lang/String;Ljava/nio/charset/Charset;Ljava/lang/Double;ILjava/lang/Object;)Lcom/hexagonkt/http/model/ContentType;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBoundary ()Ljava/lang/String;
+	public final fun getCharset ()Ljava/nio/charset/Charset;
+	public final fun getMediaType ()Lcom/hexagonkt/core/media/MediaType;
+	public final fun getQ ()Ljava/lang/Double;
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/Cookie {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;ZLjava/time/Instant;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;ZLjava/time/Instant;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()J
+	public final fun component4 ()Z
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Z
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Z
+	public final fun component9 ()Ljava/time/Instant;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;ZLjava/time/Instant;)Lcom/hexagonkt/http/model/Cookie;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/Cookie;Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;ZLjava/time/Instant;ILjava/lang/Object;)Lcom/hexagonkt/http/model/Cookie;
+	public final fun delete ()Lcom/hexagonkt/http/model/Cookie;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDeleted ()Z
+	public final fun getDomain ()Ljava/lang/String;
+	public final fun getExpires ()Ljava/time/Instant;
+	public final fun getHttpOnly ()Z
+	public final fun getMaxAge ()J
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPath ()Ljava/lang/String;
+	public final fun getSameSite ()Z
+	public final fun getSecure ()Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/FormParameter : com/hexagonkt/http/model/HttpField {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public fun <init> (Ljava/lang/String;[Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lcom/hexagonkt/http/model/FormParameter;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/FormParameter;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/model/FormParameter;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()Ljava/lang/Object;
+	public fun getValues ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun minus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/FormParameter;
+	public synthetic fun minus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/HttpField;
+	public fun plus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/FormParameter;
+	public synthetic fun plus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/HttpField;
+	public fun string ()Ljava/lang/String;
+	public fun strings ()Ljava/util/List;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/FormParameters : java/util/Map, kotlin/jvm/internal/markers/KMappedMarker {
+	public fun <init> (Ljava/util/List;)V
+	public fun <init> (Ljava/util/Map;)V
+	public fun <init> ([Lcom/hexagonkt/http/model/FormParameter;)V
+	public fun clear ()V
+	public final fun component1 ()Ljava/util/Map;
+	public synthetic fun compute (Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+	public fun compute (Ljava/lang/String;Ljava/util/function/BiFunction;)Lcom/hexagonkt/http/model/FormParameter;
+	public synthetic fun computeIfAbsent (Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;
+	public fun computeIfAbsent (Ljava/lang/String;Ljava/util/function/Function;)Lcom/hexagonkt/http/model/FormParameter;
+	public synthetic fun computeIfPresent (Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+	public fun computeIfPresent (Ljava/lang/String;Ljava/util/function/BiFunction;)Lcom/hexagonkt/http/model/FormParameter;
+	public final fun containsKey (Ljava/lang/Object;)Z
+	public fun containsKey (Ljava/lang/String;)Z
+	public fun containsValue (Lcom/hexagonkt/http/model/FormParameter;)Z
+	public final fun containsValue (Ljava/lang/Object;)Z
+	public final fun copy (Ljava/util/Map;)Lcom/hexagonkt/http/model/FormParameters;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/FormParameters;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/model/FormParameters;
+	public final fun entrySet ()Ljava/util/Set;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun get (Ljava/lang/Object;)Lcom/hexagonkt/http/model/FormParameter;
+	public final synthetic fun get (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun get (Ljava/lang/String;)Lcom/hexagonkt/http/model/FormParameter;
+	public fun getEntries ()Ljava/util/Set;
+	public final fun getHttpFields ()Ljava/util/Map;
+	public fun getKeys ()Ljava/util/Set;
+	public fun getSize ()I
+	public fun getValues ()Ljava/util/Collection;
+	public fun hashCode ()I
+	public fun isEmpty ()Z
+	public final fun keySet ()Ljava/util/Set;
+	public synthetic fun merge (Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+	public fun merge (Ljava/lang/String;Lcom/hexagonkt/http/model/FormParameter;Ljava/util/function/BiFunction;)Lcom/hexagonkt/http/model/FormParameter;
+	public final fun minus (Ljava/lang/String;)Lcom/hexagonkt/http/model/FormParameters;
+	public final fun plus (Lcom/hexagonkt/http/model/FormParameter;)Lcom/hexagonkt/http/model/FormParameters;
+	public final fun plus (Lcom/hexagonkt/http/model/FormParameters;)Lcom/hexagonkt/http/model/FormParameters;
+	public synthetic fun put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun put (Ljava/lang/String;Lcom/hexagonkt/http/model/FormParameter;)Lcom/hexagonkt/http/model/FormParameter;
+	public fun putAll (Ljava/util/Map;)V
+	public synthetic fun putIfAbsent (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun putIfAbsent (Ljava/lang/String;Lcom/hexagonkt/http/model/FormParameter;)Lcom/hexagonkt/http/model/FormParameter;
+	public fun remove (Ljava/lang/Object;)Lcom/hexagonkt/http/model/FormParameter;
+	public synthetic fun remove (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun remove (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public synthetic fun replace (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public synthetic fun replace (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+	public fun replace (Ljava/lang/String;Lcom/hexagonkt/http/model/FormParameter;)Lcom/hexagonkt/http/model/FormParameter;
+	public fun replace (Ljava/lang/String;Lcom/hexagonkt/http/model/FormParameter;Lcom/hexagonkt/http/model/FormParameter;)Z
+	public fun replaceAll (Ljava/util/function/BiFunction;)V
+	public final fun size ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun values ()Ljava/util/Collection;
+}
+
+public final class com/hexagonkt/http/model/Header : com/hexagonkt/http/model/HttpField {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public fun <init> (Ljava/lang/String;[Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lcom/hexagonkt/http/model/Header;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/Header;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/model/Header;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()Ljava/lang/Object;
+	public fun getValues ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun minus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/Header;
+	public synthetic fun minus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/HttpField;
+	public fun plus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/Header;
+	public synthetic fun plus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/HttpField;
+	public fun string ()Ljava/lang/String;
+	public fun strings ()Ljava/util/List;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/Headers : java/util/Map, kotlin/jvm/internal/markers/KMappedMarker {
+	public fun <init> (Ljava/util/List;)V
+	public fun <init> (Ljava/util/Map;)V
+	public fun <init> ([Lcom/hexagonkt/http/model/Header;)V
+	public fun clear ()V
+	public final fun component1 ()Ljava/util/Map;
+	public synthetic fun compute (Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+	public fun compute (Ljava/lang/String;Ljava/util/function/BiFunction;)Lcom/hexagonkt/http/model/Header;
+	public synthetic fun computeIfAbsent (Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;
+	public fun computeIfAbsent (Ljava/lang/String;Ljava/util/function/Function;)Lcom/hexagonkt/http/model/Header;
+	public synthetic fun computeIfPresent (Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+	public fun computeIfPresent (Ljava/lang/String;Ljava/util/function/BiFunction;)Lcom/hexagonkt/http/model/Header;
+	public final fun containsKey (Ljava/lang/Object;)Z
+	public fun containsKey (Ljava/lang/String;)Z
+	public fun containsValue (Lcom/hexagonkt/http/model/Header;)Z
+	public final fun containsValue (Ljava/lang/Object;)Z
+	public final fun copy (Ljava/util/Map;)Lcom/hexagonkt/http/model/Headers;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/Headers;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/model/Headers;
+	public final fun entrySet ()Ljava/util/Set;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun get (Ljava/lang/Object;)Lcom/hexagonkt/http/model/Header;
+	public final synthetic fun get (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun get (Ljava/lang/String;)Lcom/hexagonkt/http/model/Header;
+	public fun getEntries ()Ljava/util/Set;
+	public final fun getHttpFields ()Ljava/util/Map;
+	public fun getKeys ()Ljava/util/Set;
+	public fun getSize ()I
+	public fun getValues ()Ljava/util/Collection;
+	public fun hashCode ()I
+	public fun isEmpty ()Z
+	public final fun keySet ()Ljava/util/Set;
+	public synthetic fun merge (Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+	public fun merge (Ljava/lang/String;Lcom/hexagonkt/http/model/Header;Ljava/util/function/BiFunction;)Lcom/hexagonkt/http/model/Header;
+	public final fun minus (Ljava/lang/String;)Lcom/hexagonkt/http/model/Headers;
+	public final fun plus (Lcom/hexagonkt/http/model/Header;)Lcom/hexagonkt/http/model/Headers;
+	public final fun plus (Lcom/hexagonkt/http/model/Headers;)Lcom/hexagonkt/http/model/Headers;
+	public synthetic fun put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun put (Ljava/lang/String;Lcom/hexagonkt/http/model/Header;)Lcom/hexagonkt/http/model/Header;
+	public fun putAll (Ljava/util/Map;)V
+	public synthetic fun putIfAbsent (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun putIfAbsent (Ljava/lang/String;Lcom/hexagonkt/http/model/Header;)Lcom/hexagonkt/http/model/Header;
+	public fun remove (Ljava/lang/Object;)Lcom/hexagonkt/http/model/Header;
+	public synthetic fun remove (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun remove (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public synthetic fun replace (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public synthetic fun replace (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+	public fun replace (Ljava/lang/String;Lcom/hexagonkt/http/model/Header;)Lcom/hexagonkt/http/model/Header;
+	public fun replace (Ljava/lang/String;Lcom/hexagonkt/http/model/Header;Lcom/hexagonkt/http/model/Header;)Z
+	public fun replaceAll (Ljava/util/function/BiFunction;)V
+	public final fun size ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun values ()Ljava/util/Collection;
+}
+
+public abstract interface class com/hexagonkt/http/model/HttpBase {
+	public abstract fun bodyString ()Ljava/lang/String;
+	public abstract fun getBody ()Ljava/lang/Object;
+	public abstract fun getContentType ()Lcom/hexagonkt/http/model/ContentType;
+	public abstract fun getHeaders ()Lcom/hexagonkt/http/model/Headers;
+}
+
+public final class com/hexagonkt/http/model/HttpBase$DefaultImpls {
+	public static fun bodyString (Lcom/hexagonkt/http/model/HttpBase;)Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/HttpCall {
+	public fun <init> ()V
+	public fun <init> (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/HttpResponsePort;)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/HttpResponsePort;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/hexagonkt/http/model/HttpRequestPort;
+	public final fun component2 ()Lcom/hexagonkt/http/model/HttpResponsePort;
+	public final fun copy (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/HttpResponsePort;)Lcom/hexagonkt/http/model/HttpCall;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/HttpCall;Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/HttpResponsePort;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpCall;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getRequest ()Lcom/hexagonkt/http/model/HttpRequestPort;
+	public final fun getResponse ()Lcom/hexagonkt/http/model/HttpResponsePort;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/hexagonkt/http/model/HttpField {
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun getValue ()Ljava/lang/Object;
+	public abstract fun getValues ()Ljava/util/List;
+	public abstract fun minus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/HttpField;
+	public abstract fun plus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/HttpField;
+	public abstract fun string ()Ljava/lang/String;
+	public abstract fun strings ()Ljava/util/List;
+}
+
+public final class com/hexagonkt/http/model/HttpField$DefaultImpls {
+	public static fun string (Lcom/hexagonkt/http/model/HttpField;)Ljava/lang/String;
+	public static fun strings (Lcom/hexagonkt/http/model/HttpField;)Ljava/util/List;
+}
+
+public abstract interface class com/hexagonkt/http/model/HttpMessage : com/hexagonkt/http/model/HttpBase {
+	public abstract fun cookiesMap ()Ljava/util/Map;
+	public abstract fun getCookies ()Ljava/util/List;
+}
+
+public final class com/hexagonkt/http/model/HttpMessage$DefaultImpls {
+	public static fun bodyString (Lcom/hexagonkt/http/model/HttpMessage;)Ljava/lang/String;
+	public static fun cookiesMap (Lcom/hexagonkt/http/model/HttpMessage;)Ljava/util/Map;
+}
+
+public final class com/hexagonkt/http/model/HttpMethod : java/lang/Enum {
+	public static final field Companion Lcom/hexagonkt/http/model/HttpMethod$Companion;
+	public static final field DELETE Lcom/hexagonkt/http/model/HttpMethod;
+	public static final field GET Lcom/hexagonkt/http/model/HttpMethod;
+	public static final field HEAD Lcom/hexagonkt/http/model/HttpMethod;
+	public static final field OPTIONS Lcom/hexagonkt/http/model/HttpMethod;
+	public static final field PATCH Lcom/hexagonkt/http/model/HttpMethod;
+	public static final field POST Lcom/hexagonkt/http/model/HttpMethod;
+	public static final field PUT Lcom/hexagonkt/http/model/HttpMethod;
+	public static final field TRACE Lcom/hexagonkt/http/model/HttpMethod;
+	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/http/model/HttpMethod;
+	public static fun values ()[Lcom/hexagonkt/http/model/HttpMethod;
+}
+
+public final class com/hexagonkt/http/model/HttpMethod$Companion {
+	public final fun getALL ()Ljava/util/Set;
+}
+
+public final class com/hexagonkt/http/model/HttpPart : com/hexagonkt/http/model/HttpBase {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;JLjava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;JLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;[BLjava/lang/String;)V
+	public fun bodyString ()Ljava/lang/String;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/Object;
+	public final fun component3 ()Lcom/hexagonkt/http/model/Headers;
+	public final fun component4 ()Lcom/hexagonkt/http/model/ContentType;
+	public final fun component5 ()J
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;JLjava/lang/String;)Lcom/hexagonkt/http/model/HttpPart;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/HttpPart;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;JLjava/lang/String;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpPart;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getBody ()Ljava/lang/Object;
+	public fun getContentType ()Lcom/hexagonkt/http/model/ContentType;
+	public fun getHeaders ()Lcom/hexagonkt/http/model/Headers;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getSize ()J
+	public final fun getSubmittedFileName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/HttpProtocol : java/lang/Enum {
+	public static final field H2C Lcom/hexagonkt/http/model/HttpProtocol;
+	public static final field HTTP Lcom/hexagonkt/http/model/HttpProtocol;
+	public static final field HTTP2 Lcom/hexagonkt/http/model/HttpProtocol;
+	public static final field HTTPS Lcom/hexagonkt/http/model/HttpProtocol;
+	public final fun getSchema ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/http/model/HttpProtocol;
+	public static fun values ()[Lcom/hexagonkt/http/model/HttpProtocol;
+}
+
+public final class com/hexagonkt/http/model/HttpRequest : com/hexagonkt/http/model/HttpRequestPort {
+	public fun <init> ()V
+	public fun <init> (Lcom/hexagonkt/http/model/HttpMethod;Lcom/hexagonkt/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagonkt/http/model/QueryParameters;Lcom/hexagonkt/http/model/Headers;Ljava/lang/Object;Ljava/util/List;Lcom/hexagonkt/http/model/FormParameters;Ljava/util/List;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/List;JLcom/hexagonkt/http/model/Authorization;)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/model/HttpMethod;Lcom/hexagonkt/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagonkt/http/model/QueryParameters;Lcom/hexagonkt/http/model/Headers;Ljava/lang/Object;Ljava/util/List;Lcom/hexagonkt/http/model/FormParameters;Ljava/util/List;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/List;JLcom/hexagonkt/http/model/Authorization;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun authorization ()Lcom/hexagonkt/http/model/Authorization;
+	public fun bodyString ()Ljava/lang/String;
+	public fun certificate ()Ljava/security/cert/X509Certificate;
+	public final fun component1 ()Lcom/hexagonkt/http/model/HttpMethod;
+	public final fun component10 ()Lcom/hexagonkt/http/model/FormParameters;
+	public final fun component11 ()Ljava/util/List;
+	public final fun component12 ()Lcom/hexagonkt/http/model/ContentType;
+	public final fun component13 ()Ljava/util/List;
+	public final fun component14 ()Ljava/util/List;
+	public final fun component15 ()J
+	public final fun component16 ()Lcom/hexagonkt/http/model/Authorization;
+	public final fun component2 ()Lcom/hexagonkt/http/model/HttpProtocol;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()I
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Lcom/hexagonkt/http/model/QueryParameters;
+	public final fun component7 ()Lcom/hexagonkt/http/model/Headers;
+	public final fun component8 ()Ljava/lang/Object;
+	public final fun component9 ()Ljava/util/List;
+	public fun cookiesMap ()Ljava/util/Map;
+	public final fun copy (Lcom/hexagonkt/http/model/HttpMethod;Lcom/hexagonkt/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagonkt/http/model/QueryParameters;Lcom/hexagonkt/http/model/Headers;Ljava/lang/Object;Ljava/util/List;Lcom/hexagonkt/http/model/FormParameters;Ljava/util/List;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/List;JLcom/hexagonkt/http/model/Authorization;)Lcom/hexagonkt/http/model/HttpRequest;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/HttpRequest;Lcom/hexagonkt/http/model/HttpMethod;Lcom/hexagonkt/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagonkt/http/model/QueryParameters;Lcom/hexagonkt/http/model/Headers;Ljava/lang/Object;Ljava/util/List;Lcom/hexagonkt/http/model/FormParameters;Ljava/util/List;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/List;JLcom/hexagonkt/http/model/Authorization;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getAccept ()Ljava/util/List;
+	public fun getAuthorization ()Lcom/hexagonkt/http/model/Authorization;
+	public fun getBody ()Ljava/lang/Object;
+	public fun getCertificateChain ()Ljava/util/List;
+	public fun getContentLength ()J
+	public fun getContentType ()Lcom/hexagonkt/http/model/ContentType;
+	public fun getCookies ()Ljava/util/List;
+	public fun getFormParameters ()Lcom/hexagonkt/http/model/FormParameters;
+	public fun getHeaders ()Lcom/hexagonkt/http/model/Headers;
+	public fun getHost ()Ljava/lang/String;
+	public fun getMethod ()Lcom/hexagonkt/http/model/HttpMethod;
+	public fun getParts ()Ljava/util/List;
+	public fun getPath ()Ljava/lang/String;
+	public fun getPort ()I
+	public fun getProtocol ()Lcom/hexagonkt/http/model/HttpProtocol;
+	public fun getQueryParameters ()Lcom/hexagonkt/http/model/QueryParameters;
+	public fun hashCode ()I
+	public fun origin ()Ljava/lang/String;
+	public fun partsMap ()Ljava/util/Map;
+	public fun plus (Lcom/hexagonkt/http/model/Cookie;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/FormParameter;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/FormParameters;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/Header;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/Headers;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/HttpPart;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/QueryParameter;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/QueryParameters;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Ljava/util/List;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun referer ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+	public fun url ()Ljava/net/URL;
+	public fun userAgent ()Ljava/lang/String;
+	public fun with (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Lcom/hexagonkt/http/model/HttpMethod;Lcom/hexagonkt/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagonkt/http/model/QueryParameters;Ljava/util/List;Lcom/hexagonkt/http/model/FormParameters;Ljava/util/List;Ljava/util/List;Lcom/hexagonkt/http/model/Authorization;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpRequestPort;
+}
+
+public abstract interface class com/hexagonkt/http/model/HttpRequestPort : com/hexagonkt/http/model/HttpMessage {
+	public abstract fun authorization ()Lcom/hexagonkt/http/model/Authorization;
+	public abstract fun certificate ()Ljava/security/cert/X509Certificate;
+	public abstract fun getAccept ()Ljava/util/List;
+	public abstract fun getAuthorization ()Lcom/hexagonkt/http/model/Authorization;
+	public abstract fun getCertificateChain ()Ljava/util/List;
+	public abstract fun getContentLength ()J
+	public abstract fun getFormParameters ()Lcom/hexagonkt/http/model/FormParameters;
+	public abstract fun getHost ()Ljava/lang/String;
+	public abstract fun getMethod ()Lcom/hexagonkt/http/model/HttpMethod;
+	public abstract fun getParts ()Ljava/util/List;
+	public abstract fun getPath ()Ljava/lang/String;
+	public abstract fun getPort ()I
+	public abstract fun getProtocol ()Lcom/hexagonkt/http/model/HttpProtocol;
+	public abstract fun getQueryParameters ()Lcom/hexagonkt/http/model/QueryParameters;
+	public abstract fun origin ()Ljava/lang/String;
+	public abstract fun partsMap ()Ljava/util/Map;
+	public abstract fun plus (Lcom/hexagonkt/http/model/Cookie;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public abstract fun plus (Lcom/hexagonkt/http/model/FormParameter;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public abstract fun plus (Lcom/hexagonkt/http/model/FormParameters;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public abstract fun plus (Lcom/hexagonkt/http/model/Header;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public abstract fun plus (Lcom/hexagonkt/http/model/Headers;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public abstract fun plus (Lcom/hexagonkt/http/model/HttpPart;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public abstract fun plus (Lcom/hexagonkt/http/model/QueryParameter;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public abstract fun plus (Lcom/hexagonkt/http/model/QueryParameters;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public abstract fun plus (Ljava/util/List;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public abstract fun referer ()Ljava/lang/String;
+	public abstract fun url ()Ljava/net/URL;
+	public abstract fun userAgent ()Ljava/lang/String;
+	public abstract fun with (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Lcom/hexagonkt/http/model/HttpMethod;Lcom/hexagonkt/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagonkt/http/model/QueryParameters;Ljava/util/List;Lcom/hexagonkt/http/model/FormParameters;Ljava/util/List;Ljava/util/List;Lcom/hexagonkt/http/model/Authorization;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpRequestPort;
+}
+
+public final class com/hexagonkt/http/model/HttpRequestPort$DefaultImpls {
+	public static fun authorization (Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/model/Authorization;
+	public static fun bodyString (Lcom/hexagonkt/http/model/HttpRequestPort;)Ljava/lang/String;
+	public static fun certificate (Lcom/hexagonkt/http/model/HttpRequestPort;)Ljava/security/cert/X509Certificate;
+	public static fun cookiesMap (Lcom/hexagonkt/http/model/HttpRequestPort;)Ljava/util/Map;
+	public static fun origin (Lcom/hexagonkt/http/model/HttpRequestPort;)Ljava/lang/String;
+	public static fun partsMap (Lcom/hexagonkt/http/model/HttpRequestPort;)Ljava/util/Map;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/Cookie;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/FormParameter;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/FormParameters;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/Header;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/Headers;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/HttpPart;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/QueryParameter;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/QueryParameters;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpRequestPort;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public static fun referer (Lcom/hexagonkt/http/model/HttpRequestPort;)Ljava/lang/String;
+	public static fun url (Lcom/hexagonkt/http/model/HttpRequestPort;)Ljava/net/URL;
+	public static fun userAgent (Lcom/hexagonkt/http/model/HttpRequestPort;)Ljava/lang/String;
+	public static synthetic fun with$default (Lcom/hexagonkt/http/model/HttpRequestPort;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Lcom/hexagonkt/http/model/HttpMethod;Lcom/hexagonkt/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagonkt/http/model/QueryParameters;Ljava/util/List;Lcom/hexagonkt/http/model/FormParameters;Ljava/util/List;Ljava/util/List;Lcom/hexagonkt/http/model/Authorization;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpRequestPort;
+}
+
+public final class com/hexagonkt/http/model/HttpResponse : com/hexagonkt/http/model/HttpResponsePort {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Lcom/hexagonkt/http/model/HttpStatus;JLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)V
+	public synthetic fun <init> (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Lcom/hexagonkt/http/model/HttpStatus;JLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun bodyString ()Ljava/lang/String;
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun component10 ()Lkotlin/jvm/functions/Function2;
+	public final fun component11 ()Lkotlin/jvm/functions/Function2;
+	public final fun component12 ()Lkotlin/jvm/functions/Function3;
+	public final fun component2 ()Lcom/hexagonkt/http/model/Headers;
+	public final fun component3 ()Lcom/hexagonkt/http/model/ContentType;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public final fun component6 ()J
+	public final fun component7 ()Lkotlin/jvm/functions/Function1;
+	public final fun component8 ()Lkotlin/jvm/functions/Function2;
+	public final fun component9 ()Lkotlin/jvm/functions/Function2;
+	public fun cookiesMap ()Ljava/util/Map;
+	public final fun copy (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Lcom/hexagonkt/http/model/HttpStatus;JLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagonkt/http/model/HttpResponse;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/HttpResponse;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Lcom/hexagonkt/http/model/HttpStatus;JLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getBody ()Ljava/lang/Object;
+	public fun getContentLength ()J
+	public fun getContentType ()Lcom/hexagonkt/http/model/ContentType;
+	public fun getCookies ()Ljava/util/List;
+	public fun getHeaders ()Lcom/hexagonkt/http/model/Headers;
+	public fun getOnBinary ()Lkotlin/jvm/functions/Function2;
+	public fun getOnClose ()Lkotlin/jvm/functions/Function3;
+	public fun getOnConnect ()Lkotlin/jvm/functions/Function1;
+	public fun getOnPing ()Lkotlin/jvm/functions/Function2;
+	public fun getOnPong ()Lkotlin/jvm/functions/Function2;
+	public fun getOnText ()Lkotlin/jvm/functions/Function2;
+	public fun getStatus ()Lcom/hexagonkt/http/model/HttpStatus;
+	public fun hashCode ()I
+	public fun plus (Lcom/hexagonkt/http/model/Cookie;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public fun plus (Lcom/hexagonkt/http/model/Header;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public fun plus (Lcom/hexagonkt/http/model/Headers;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public fun plus (Ljava/util/List;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public fun toString ()Ljava/lang/String;
+	public fun with (Lcom/hexagonkt/http/model/HttpStatus;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagonkt/http/model/HttpResponsePort;
+}
+
+public abstract interface class com/hexagonkt/http/model/HttpResponsePort : com/hexagonkt/http/model/HttpMessage {
+	public abstract fun getContentLength ()J
+	public abstract fun getOnBinary ()Lkotlin/jvm/functions/Function2;
+	public abstract fun getOnClose ()Lkotlin/jvm/functions/Function3;
+	public abstract fun getOnConnect ()Lkotlin/jvm/functions/Function1;
+	public abstract fun getOnPing ()Lkotlin/jvm/functions/Function2;
+	public abstract fun getOnPong ()Lkotlin/jvm/functions/Function2;
+	public abstract fun getOnText ()Lkotlin/jvm/functions/Function2;
+	public abstract fun getStatus ()Lcom/hexagonkt/http/model/HttpStatus;
+	public abstract fun plus (Lcom/hexagonkt/http/model/Cookie;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public abstract fun plus (Lcom/hexagonkt/http/model/Header;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public abstract fun plus (Lcom/hexagonkt/http/model/Headers;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public abstract fun plus (Ljava/util/List;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public abstract fun with (Lcom/hexagonkt/http/model/HttpStatus;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagonkt/http/model/HttpResponsePort;
+}
+
+public final class com/hexagonkt/http/model/HttpResponsePort$DefaultImpls {
+	public static fun bodyString (Lcom/hexagonkt/http/model/HttpResponsePort;)Ljava/lang/String;
+	public static fun cookiesMap (Lcom/hexagonkt/http/model/HttpResponsePort;)Ljava/util/Map;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpResponsePort;Lcom/hexagonkt/http/model/Cookie;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpResponsePort;Lcom/hexagonkt/http/model/Header;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpResponsePort;Lcom/hexagonkt/http/model/Headers;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public static fun plus (Lcom/hexagonkt/http/model/HttpResponsePort;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public static synthetic fun with$default (Lcom/hexagonkt/http/model/HttpResponsePort;Lcom/hexagonkt/http/model/HttpStatus;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
+}
+
+public final class com/hexagonkt/http/model/HttpStatus {
+	public static final field Companion Lcom/hexagonkt/http/model/HttpStatus$Companion;
+	public fun <init> (ILcom/hexagonkt/http/model/HttpStatusType;)V
+	public synthetic fun <init> (ILcom/hexagonkt/http/model/HttpStatusType;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()Lcom/hexagonkt/http/model/HttpStatusType;
+	public final fun copy (ILcom/hexagonkt/http/model/HttpStatusType;)Lcom/hexagonkt/http/model/HttpStatus;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/HttpStatus;ILcom/hexagonkt/http/model/HttpStatusType;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpStatus;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCode ()I
+	public final fun getType ()Lcom/hexagonkt/http/model/HttpStatusType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/HttpStatus$Companion {
+	public final fun get (I)Lcom/hexagonkt/http/model/HttpStatus;
+	public final fun getCodes ()Ljava/util/Map;
+}
+
+public final class com/hexagonkt/http/model/HttpStatusType : java/lang/Enum {
+	public static final field CLIENT_ERROR Lcom/hexagonkt/http/model/HttpStatusType;
+	public static final field INFORMATION Lcom/hexagonkt/http/model/HttpStatusType;
+	public static final field REDIRECTION Lcom/hexagonkt/http/model/HttpStatusType;
+	public static final field SERVER_ERROR Lcom/hexagonkt/http/model/HttpStatusType;
+	public static final field SUCCESS Lcom/hexagonkt/http/model/HttpStatusType;
+	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/http/model/HttpStatusType;
+	public static fun values ()[Lcom/hexagonkt/http/model/HttpStatusType;
+}
+
+public final class com/hexagonkt/http/model/HttpStatusesKt {
+	public static final fun getACCEPTED_202 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getALREADY_REPORTED_208 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getBAD_GATEWAY_502 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getBAD_REQUEST_400 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getCONFLICT_409 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getCONTENT_TOO_LARGE_413 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getCONTINUE_100 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getCREATED_201 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getEARLY_HINTS_103 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getEXPECTATION_FAILED_417 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getFAILED_DEPENDENCY_424 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getFORBIDDEN_403 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getFOUND_302 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getGATEWAY_TIMEOUT_504 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getGONE_410 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getHTTP_STATUSES ()Ljava/util/List;
+	public static final fun getHTTP_VERSION_NOT_SUPPORTED_505 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getIM_USED_226 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getINSUFFICIENT_STORAGE_507 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getINTERNAL_SERVER_ERROR_500 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getI_AM_A_TEAPOT_418 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getLENGTH_REQUIRED_411 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getLOCKED_423 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getLOOP_DETECTED_508 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getMETHOD_NOT_ALLOWED_405 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getMISDIRECTED_REQUEST_421 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getMOVED_PERMANENTLY_301 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getMULTIPLE_CHOICES_300 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getMULTI_STATUS_207 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getNETWORK_AUTHENTICATION_REQUIRED_511 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getNON_AUTHORITATIVE_INFORMATION_203 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getNOT_ACCEPTABLE_406 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getNOT_EXTENDED_510 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getNOT_FOUND_404 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getNOT_IMPLEMENTED_501 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getNOT_MODIFIED_304 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getNO_CONTENT_204 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getOK_200 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getPARTIAL_CONTENT_206 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getPAYMENT_REQUIRED_402 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getPERMANENT_REDIRECT_308 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getPRECONDITION_FAILED_412 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getPRECONDITION_REQUIRED_428 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getPROCESSING_102 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getPROXY_AUTHENTICATION_REQUIRED_407 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getRANGE_NOT_SATISFIABLE_416 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getREQUEST_HEADER_FIELDS_TOO_LARGE_431 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getREQUEST_TIMEOUT_408 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getRESET_CONTENT_205 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getSEE_OTHER_303 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getSERVICE_UNAVAILABLE_503 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getSWITCHING_PROTOCOLS_101 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getTEMPORARY_REDIRECT_307 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getTOO_EARLY_425 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getTOO_MANY_REQUESTS_429 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getUNAUTHORIZED_401 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getUNAVAILABLE_FOR_LEGAL_REASONS_451 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getUNPROCESSABLE_CONTENT_422 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getUNSUPPORTED_MEDIA_TYPE_415 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getUPGRADE_REQUIRED_426 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getURI_TOO_LONG_414 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getUSE_PROXY_305 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public static final fun getVARIANT_ALSO_NEGOTIATES_506 ()Lcom/hexagonkt/http/model/HttpStatus;
+}
+
+public final class com/hexagonkt/http/model/QueryParameter : com/hexagonkt/http/model/HttpField {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public fun <init> (Ljava/lang/String;[Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lcom/hexagonkt/http/model/QueryParameter;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/QueryParameter;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/model/QueryParameter;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()Ljava/lang/Object;
+	public fun getValues ()Ljava/util/List;
+	public fun hashCode ()I
+	public synthetic fun minus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/HttpField;
+	public fun minus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/QueryParameter;
+	public synthetic fun plus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/HttpField;
+	public fun plus (Ljava/lang/Object;)Lcom/hexagonkt/http/model/QueryParameter;
+	public fun string ()Ljava/lang/String;
+	public fun strings ()Ljava/util/List;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/QueryParameters : java/util/Map, kotlin/jvm/internal/markers/KMappedMarker {
+	public fun <init> (Ljava/util/List;)V
+	public fun <init> (Ljava/util/Map;)V
+	public fun <init> ([Lcom/hexagonkt/http/model/QueryParameter;)V
+	public fun clear ()V
+	public final fun component1 ()Ljava/util/Map;
+	public synthetic fun compute (Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+	public fun compute (Ljava/lang/String;Ljava/util/function/BiFunction;)Lcom/hexagonkt/http/model/QueryParameter;
+	public synthetic fun computeIfAbsent (Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;
+	public fun computeIfAbsent (Ljava/lang/String;Ljava/util/function/Function;)Lcom/hexagonkt/http/model/QueryParameter;
+	public synthetic fun computeIfPresent (Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+	public fun computeIfPresent (Ljava/lang/String;Ljava/util/function/BiFunction;)Lcom/hexagonkt/http/model/QueryParameter;
+	public final fun containsKey (Ljava/lang/Object;)Z
+	public fun containsKey (Ljava/lang/String;)Z
+	public fun containsValue (Lcom/hexagonkt/http/model/QueryParameter;)Z
+	public final fun containsValue (Ljava/lang/Object;)Z
+	public final fun copy (Ljava/util/Map;)Lcom/hexagonkt/http/model/QueryParameters;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/QueryParameters;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/model/QueryParameters;
+	public final fun entrySet ()Ljava/util/Set;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun get (Ljava/lang/Object;)Lcom/hexagonkt/http/model/QueryParameter;
+	public final synthetic fun get (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun get (Ljava/lang/String;)Lcom/hexagonkt/http/model/QueryParameter;
+	public fun getEntries ()Ljava/util/Set;
+	public final fun getHttpFields ()Ljava/util/Map;
+	public fun getKeys ()Ljava/util/Set;
+	public fun getSize ()I
+	public fun getValues ()Ljava/util/Collection;
+	public fun hashCode ()I
+	public fun isEmpty ()Z
+	public final fun keySet ()Ljava/util/Set;
+	public synthetic fun merge (Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+	public fun merge (Ljava/lang/String;Lcom/hexagonkt/http/model/QueryParameter;Ljava/util/function/BiFunction;)Lcom/hexagonkt/http/model/QueryParameter;
+	public final fun minus (Ljava/lang/String;)Lcom/hexagonkt/http/model/QueryParameters;
+	public final fun plus (Lcom/hexagonkt/http/model/QueryParameter;)Lcom/hexagonkt/http/model/QueryParameters;
+	public final fun plus (Lcom/hexagonkt/http/model/QueryParameters;)Lcom/hexagonkt/http/model/QueryParameters;
+	public synthetic fun put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun put (Ljava/lang/String;Lcom/hexagonkt/http/model/QueryParameter;)Lcom/hexagonkt/http/model/QueryParameter;
+	public fun putAll (Ljava/util/Map;)V
+	public synthetic fun putIfAbsent (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun putIfAbsent (Ljava/lang/String;Lcom/hexagonkt/http/model/QueryParameter;)Lcom/hexagonkt/http/model/QueryParameter;
+	public fun remove (Ljava/lang/Object;)Lcom/hexagonkt/http/model/QueryParameter;
+	public synthetic fun remove (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun remove (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public synthetic fun replace (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public synthetic fun replace (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+	public fun replace (Ljava/lang/String;Lcom/hexagonkt/http/model/QueryParameter;)Lcom/hexagonkt/http/model/QueryParameter;
+	public fun replace (Ljava/lang/String;Lcom/hexagonkt/http/model/QueryParameter;Lcom/hexagonkt/http/model/QueryParameter;)Z
+	public fun replaceAll (Ljava/util/function/BiFunction;)V
+	public final fun size ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun values ()Ljava/util/Collection;
+}
+
+public final class com/hexagonkt/http/model/ServerEvent {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/Long;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;)Lcom/hexagonkt/http/model/ServerEvent;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/ServerEvent;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;ILjava/lang/Object;)Lcom/hexagonkt/http/model/ServerEvent;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Ljava/lang/String;
+	public final fun getEvent ()Ljava/lang/String;
+	public final fun getEventData ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getRetry ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/ws/CloseStatusesKt {
+	public static final field ABNORMAL I
+	public static final field BAD_DATA I
+	public static final field BAD_PAYLOAD I
+	public static final field FAILED_TLS_HANDSHAKE I
+	public static final field INVALID_UPSTREAM_RESPONSE I
+	public static final field MESSAGE_TOO_LARGE I
+	public static final field NORMAL I
+	public static final field NO_CLOSE I
+	public static final field NO_CODE I
+	public static final field POLICY_VIOLATION I
+	public static final field PROTOCOL I
+	public static final field REQUIRED_EXTENSION I
+	public static final field SERVER_ERROR I
+	public static final field SERVICE_RESTART I
+	public static final field SHUTDOWN I
+	public static final field TRY_AGAIN_LATER I
+	public static final field UNDEFINED I
+}
+
+public abstract interface class com/hexagonkt/http/model/ws/WsSession {
+	public abstract fun close (ILjava/lang/String;)V
+	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getException ()Ljava/lang/Exception;
+	public abstract fun getPathParameters ()Ljava/util/Map;
+	public abstract fun getRequest ()Lcom/hexagonkt/http/model/HttpRequestPort;
+	public abstract fun getUri ()Ljava/net/URI;
+	public abstract fun ping ([B)V
+	public abstract fun pong ([B)V
+	public abstract fun send (Ljava/lang/String;)V
+	public abstract fun send ([B)V
+}
+
+public final class com/hexagonkt/http/model/ws/WsSession$DefaultImpls {
+	public static synthetic fun close$default (Lcom/hexagonkt/http/model/ws/WsSession;ILjava/lang/String;ILjava/lang/Object;)V
+}
+
+public final class com/hexagonkt/http/patterns/LiteralPathPattern : com/hexagonkt/http/patterns/PathPattern {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Z)V
+	public synthetic fun <init> (Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/patterns/PathPattern;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Z
+	public final fun copy (Ljava/lang/String;Z)Lcom/hexagonkt/http/patterns/LiteralPathPattern;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/patterns/LiteralPathPattern;Ljava/lang/String;ZILjava/lang/Object;)Lcom/hexagonkt/http/patterns/LiteralPathPattern;
+	public fun describe ()Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun extractParameters (Ljava/lang/String;)Ljava/util/Map;
+	public fun getPattern ()Ljava/lang/String;
+	public fun getPrefix ()Z
+	public fun hashCode ()I
+	public fun insertParameters (Ljava/util/Map;)Ljava/lang/String;
+	public fun matches (Ljava/lang/String;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/hexagonkt/http/patterns/PathPattern {
+	public abstract fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/patterns/PathPattern;
+	public abstract fun describe ()Ljava/lang/String;
+	public abstract fun extractParameters (Ljava/lang/String;)Ljava/util/Map;
+	public abstract fun getPattern ()Ljava/lang/String;
+	public abstract fun getPrefix ()Z
+	public abstract fun insertParameters (Ljava/util/Map;)Ljava/lang/String;
+	public abstract fun matches (Ljava/lang/String;)Z
+}
+
+public final class com/hexagonkt/http/patterns/PathPattern$DefaultImpls {
+	public static fun describe (Lcom/hexagonkt/http/patterns/PathPattern;)Ljava/lang/String;
+	public static fun insertParameters (Lcom/hexagonkt/http/patterns/PathPattern;Ljava/util/Map;)Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/patterns/PathPatternsKt {
+	public static final fun createPathPattern (Ljava/lang/String;Z)Lcom/hexagonkt/http/patterns/PathPattern;
+}
+
+public final class com/hexagonkt/http/patterns/RegexPathPattern : com/hexagonkt/http/patterns/PathPattern {
+	public static final field PARAMETER_PREFIX Ljava/lang/String;
+	public static final field PARAMETER_SUFFIX Ljava/lang/String;
+	public fun <init> (Lkotlin/text/Regex;)V
+	public fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/patterns/PathPattern;
+	public final fun component1 ()Lkotlin/text/Regex;
+	public final fun copy (Lkotlin/text/Regex;)Lcom/hexagonkt/http/patterns/RegexPathPattern;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/patterns/RegexPathPattern;Lkotlin/text/Regex;ILjava/lang/Object;)Lcom/hexagonkt/http/patterns/RegexPathPattern;
+	public fun describe ()Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun extractParameters (Ljava/lang/String;)Ljava/util/Map;
+	public final fun getParameters ()Ljava/util/List;
+	public fun getPattern ()Ljava/lang/String;
+	public fun getPrefix ()Z
+	public final fun getRegex ()Lkotlin/text/Regex;
+	public fun hashCode ()I
+	public fun insertParameters (Ljava/util/Map;)Ljava/lang/String;
+	public fun matches (Ljava/lang/String;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/patterns/TemplatePathPattern : com/hexagonkt/http/patterns/PathPattern {
+	public static final field VARIABLE_PATTERN Ljava/lang/String;
+	public fun <init> (Ljava/lang/String;Z)V
+	public synthetic fun <init> (Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/patterns/PathPattern;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Z
+	public final fun copy (Ljava/lang/String;Z)Lcom/hexagonkt/http/patterns/TemplatePathPattern;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/patterns/TemplatePathPattern;Ljava/lang/String;ZILjava/lang/Object;)Lcom/hexagonkt/http/patterns/TemplatePathPattern;
+	public fun describe ()Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun extractParameters (Ljava/lang/String;)Ljava/util/Map;
+	public final fun getParameters ()Ljava/util/List;
+	public fun getPattern ()Ljava/lang/String;
+	public fun getPrefix ()Z
+	public fun hashCode ()I
+	public fun insertParameters (Ljava/util/Map;)Ljava/lang/String;
+	public fun matches (Ljava/lang/String;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/patterns/WildcardPathPattern : com/hexagonkt/http/patterns/PathPattern {
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/patterns/PathPattern;
+	public final fun component1 ()Z
+	public final fun copy (Z)Lcom/hexagonkt/http/patterns/WildcardPathPattern;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/patterns/WildcardPathPattern;ZILjava/lang/Object;)Lcom/hexagonkt/http/patterns/WildcardPathPattern;
+	public fun describe ()Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun extractParameters (Ljava/lang/String;)Ljava/util/Map;
+	public fun getPattern ()Ljava/lang/String;
+	public fun getPrefix ()Z
+	public fun hashCode ()I
+	public fun insertParameters (Ljava/util/Map;)Ljava/lang/String;
+	public fun matches (Ljava/lang/String;)Z
+	public fun toString ()Ljava/lang/String;
+}
+

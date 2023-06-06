@@ -22,19 +22,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ## Third Party Libraries Licenses
+* [org.jetbrains.kotlin](https://kotlinlang.org): [Apache License, Version 2.0]
 
-* [ch.qos.logback](https://www.qos.ch): [GNU Lesser General Public License]
-* [com.fasterxml.jackson](https://github.com/FasterXML/jackson): [Apache License, Version 2.0]
+### Testing
+* [org.junit.jupiter](https://junit.org/junit5): [Eclipse Public License, Version 2.0]
+* [io.gatling](https://gatling.io): [Apache License, Version 2.0]
+
+### HTTP
 * [io.netty](https://netty.io): [Apache License, Version 2.0]
-* [io.pebbletemplates](https://pebbletemplates.io): [BSD 3-Clause License]
-* [io.swagger.parser.v3](https://swagger.io): [Apache License, Version 2.0]
+* [io.vertx](https://vertx.io): [Apache License, Version 2.0]
 * [org.eclipse.jetty:client](https://www.eclipse.org/jetty): [Eclipse Public License, Version 2.0]
 * [org.eclipse.jetty:webapp](https://www.eclipse.org/jetty): [Eclipse Public License, Version 2.0]
-* [org.freemarker](https://freemarker.apache.org): [Apache License, Version 2.0]
-* [org.jetbrains.kotlin](https://kotlinlang.org): [Apache License, Version 2.0]
-* [org.junit.jupiter](https://junit.org/junit5): [Eclipse Public License, Version 2.0]
+* [io.swagger.parser.v3](https://swagger.io): [Apache License, Version 2.0]
+
+### Logging
 * [org.slf4j](https://www.slf4j.org): [MIT License]
+* [ch.qos.logback](https://www.qos.ch): [GNU Lesser General Public License]
+
+### Serialization
+* [com.dslplatform](https://github.com/ngs-doo/dsl-json): [BSD 3-Clause License]
+* [com.fasterxml.jackson](https://github.com/FasterXML/jackson): [Apache License, Version 2.0]
 * [org.yaml](https://www.snakeyaml.org): [Apache License, Version 2.0]
+
+### Templates
+* [com.fizzed](https://github.com/fizzed/rocker): [Apache License, Version 2.0]
+* [io.pebbletemplates](https://pebbletemplates.io): [BSD 3-Clause License]
+* [org.freemarker](https://freemarker.apache.org): [Apache License, Version 2.0]
 
 [Apache License, Version 2.0]: https://www.apache.org/licenses/LICENSE-2.0
 [Eclipse Public License, Version 2.0]: https://www.eclipse.org/legal/epl-2.0

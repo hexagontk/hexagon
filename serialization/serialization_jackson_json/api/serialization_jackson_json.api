@@ -1,0 +1,12 @@
+public final class com/hexagonkt/serialization/jackson/json/Json : com/hexagonkt/serialization/jackson/json/JsonFormat {
+	public static final field INSTANCE Lcom/hexagonkt/serialization/jackson/json/Json;
+	public final fun getRaw ()Lcom/hexagonkt/serialization/jackson/json/JsonFormat;
+}
+
+public class com/hexagonkt/serialization/jackson/json/JsonFormat : com/hexagonkt/serialization/jackson/JacksonTextFormat {
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getMediaType ()Lcom/hexagonkt/core/media/MediaType;
+}
+

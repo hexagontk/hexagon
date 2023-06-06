@@ -1,0 +1,18 @@
+public final class com/hexagonkt/serialization/dsl/json/Json : com/hexagonkt/serialization/dsl/json/JsonFormat {
+	public static final field INSTANCE Lcom/hexagonkt/serialization/dsl/json/Json;
+	public final fun getRaw ()Lcom/hexagonkt/serialization/dsl/json/JsonFormat;
+}
+
+public class com/hexagonkt/serialization/dsl/json/JsonFormat : com/hexagonkt/serialization/SerializationFormat {
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getMediaType ()Lcom/hexagonkt/core/media/MediaType;
+	public fun getTextFormat ()Z
+	public fun parse (Ljava/io/InputStream;)Ljava/lang/Object;
+	public fun parse (Ljava/lang/String;)Ljava/lang/Object;
+	public fun serialize (Ljava/lang/Object;)Ljava/lang/String;
+	public fun serialize (Ljava/lang/Object;Ljava/io/OutputStream;)V
+	public fun serializeBytes (Ljava/lang/Object;)[B
+}
+

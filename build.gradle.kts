@@ -24,10 +24,10 @@ plugins {
     id("eclipse")
     id("project-report")
     id("org.jetbrains.dokka") version("1.8.10")
-    id("com.github.jk1.dependency-license-report") version("2.2")
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.1")
+    id("com.github.jk1.dependency-license-report") version("2.4")
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.2")
     id("org.graalvm.buildtools.native") version("0.9.22") apply(false)
-    id("io.gitlab.arturbosch.detekt") version("1.22.0") apply(false)
+    id("io.gitlab.arturbosch.detekt") version("1.23.0") apply(false)
     id("me.champeau.jmh") version("0.7.1") apply(false)
 }
 
@@ -75,8 +75,42 @@ task("release") {
     }
 }
 
+task("nativeTestModules") {
+    group = "reporting"
+    description = "Print module descriptions to be used in the GraalVM native compliant directory."
+
+    doLast {
+        val gitHub = "https://github.com/hexagonkt/hexagon/tree/master"
+        val entries = subprojects
+            .filter { sp -> sp.tasks.any { t -> t.name == "nativeTest" } }
+            .joinToString(",\n") { sp ->
+                val spd = gitHub + sp.projectDir.absolutePath.removePrefix(rootDir.absolutePath)
+                """
+                {
+                  "artifact": "${sp.group}:${sp.name}",
+                  "description": "${sp.description}",
+                  "details": [
+                    {
+                      "minimum_version": "${sp.version}",
+                      "test_level": "fully-tested"
+                      "metadata_locations": [
+                        "$spd"
+                      ],
+                      "tests_locations": [
+                        "$spd"
+                      ],
+                    }
+                  ]
+                }
+                """.trimIndent()
+            }
+        println(entries)
+    }
+}
+
 extensions.configure<LicenseReportExtension> {
     projects = subprojects.toTypedArray()
+    unionParentPomLicenses = false
     renderers = arrayOf<ReportRenderer>(
         CsvReportRenderer(),
         InventoryHtmlReportRenderer(),
@@ -94,9 +128,18 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
 })
 
 apiValidation {
-    validationDisabled = true
-}
-
-subprojects {
-    apply(from = "$rootDir/gradle/detekt.gradle")
+    ignoredProjects.addAll(
+        listOf(
+            "handlers_async",
+            "http_handlers_async",
+            "http_server_async",
+            "http_server_netty_async",
+            "http_server_vertx_async",
+            "http_test_async",
+            "rest",
+            "rest_test",
+            "web",
+        )
+    )
+    validationDisabled = !file("core/api").isDirectory
 }

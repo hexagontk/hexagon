@@ -1,0 +1,9 @@
+public abstract class com/hexagonkt/templates/test/TemplateAdapterTest {
+	public fun <init> (Ljava/net/URL;Lcom/hexagonkt/templates/TemplatePort;)V
+	public final fun A static template is rendered properly ()V
+	public final fun A static template with missing properties is rendered properly ()V
+	public final fun Invalid resource path will return empty map ()V
+	public final fun Set up adapter ()V
+	public final fun Template with not proper properties is rendered ()V
+}
+

@@ -65,11 +65,8 @@ project itself. These are internal modules not intended to be directly used by u
 [site]: https://github.com/hexagonkt/hexagon/blob/master/site/README.md
 
 ## Local Setup
-Hexagon build process requires [Docker installed](https://docs.docker.com/engine/install). The
-project also needs a JDK 11+ to compile
-
-You can check the required software, build the project, generate the documentation and install it in
-your local repository typing:
+Hexagon build process requires a JDK 17+ to compile. You can check the required software, build the
+project, generate the documentation and install it in your local repository typing:
 
 ```bash
 git clone https://github.com/hexagonkt/hexagon.git
@@ -114,11 +111,12 @@ If you want to generate the documentation site, check the Hexagon's site module 
 3. Merge Hexagon main project to `master` in GitHub
 4. Check the site deployment is OK ([https://hexagonkt.com])
 5. Publish Hexagon modules using the [Nexus Repository Manager]
-6. Update starter repositories (Gradle and Maven ones)
-7. Update TFB benchmark
-8. Update example projects inside the organization
-9. Create a changelog to announce the release
-10. Publish changelog on:
+6. Create a GitHub release
+7. Update starter repositories (Gradle and Maven ones)
+8. Update TFB benchmark
+9. Update example projects inside the organization
+10. Create a changelog to announce the release
+11. Publish changelog on:
   * Dev.to
   * Kotlin Slack
   * Reddit
