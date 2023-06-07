@@ -29,6 +29,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           version: latest
+          java-version: 17
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: gradle
 
