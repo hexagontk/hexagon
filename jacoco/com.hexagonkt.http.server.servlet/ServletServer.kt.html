@@ -45,7 +45,7 @@ import java.util.*
     override fun contextInitialized(sce: ServletContextEvent) {
 <span class="fc" id="L46">        val startTimestamp = System.nanoTime()</span>
 
-<span class="fc" id="L48">        val servletFilter = ServletFilter(pathHandler, settings)</span>
+<span class="fc" id="L48">        val servletFilter = ServletFilter(pathHandler)</span>
         // Let's be a good JEE citizen
 <span class="fc" id="L50">        servletFilter.init(object : FilterConfig {</span>
 <span class="pc" id="L51">            val params = Hashtable&lt;String, String&gt;(1).apply { put(&quot;filterName&quot;, filterName) }</span>

@@ -7,10 +7,10 @@ import java.time.Instant
 <span class="fc" id="L7">    val value: String,</span>
 <span class="fc" id="L8">    val maxAge: Long = -1,</span>
 <span class="fc" id="L9">    val secure: Boolean = false,</span>
-<span class="pc" id="L10">    val path: String = &quot;/&quot;,</span>
-<span class="pc" id="L11">    val httpOnly: Boolean = true,</span>
-<span class="pc" id="L12">    val domain: String = &quot;&quot;,</span>
-<span class="pc" id="L13">    val sameSite: Boolean = true,</span>
+<span class="fc" id="L10">    val path: String = &quot;/&quot;,</span>
+<span class="fc" id="L11">    val httpOnly: Boolean = true,</span>
+<span class="fc" id="L12">    val domain: String = &quot;&quot;,</span>
+<span class="fc" id="L13">    val sameSite: Boolean = true,</span>
 <span class="pc" id="L14">    val expires: Instant? = null,</span>
 ) {
 <span class="pc bpc" id="L16" title="1 of 4 branches missed.">    val deleted: Boolean by lazy { value == &quot;&quot; &amp;&amp; maxAge &lt;= 0L }</span>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>http_server_async</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<script type="text/javascript" src="../../dokka-mermaid.js" async></script></head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+<a href="../../index.html">
+<span>hexagon</span>            </a>    </div>
+    <div>3.0.0-B1
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http_server_async:dokkaHtmlPartial/main">jvm</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageids="http_server_async::////PointingToDeclaration//54548355">
+  <div class="breadcrumbs"></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>http_server_async</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_server_async:dokkaHtmlPartial/main"><p class="paragraph">This port's purpose is to develop HTTP servers (REST services or Web applications). It defines a DSL to declare HTTP request handlers.</p><p class="paragraph">Adapters implementing this port are in charge of processing HTTP requests through a list of handlers.</p><h2 class=""> Install the Dependency</h2><p class="paragraph">This module is not meant to be used directly. You should include and Adapter implementing this feature (as /http_server_jetty) in order to create an HTTP server.</p><h1 class=""> Context on HTTP processing</h1><p class="paragraph">An HTTP server is nothing more than a function that takes a request and returns a response. Requests and responses comply with several Web standards.</p><p class="paragraph">For the sake of ease of use, HTTP toolkits (or frameworks) are built. These tools make easier to write an HTTP server that has to deal with different behaviour based on requests attributes.</p><p class="paragraph">These development tools usually have different layers/parts (the ones below are some of the most common ones):</p><ul><li><p class="paragraph">IO: sockets and buffers management, SSL and thread scheduling is usually handled here also.</p></li><li><p class="paragraph">HTTP messages parsing: parse requests to internal model and serialize responses to bytes.</p></li><li><p class="paragraph">Routing: makes easy to run different blocks of code based on requests (usually supporting   pipelining among different blocks).</p></li></ul><p class="paragraph">Hexagon takes care of the third layer, it's "just" an abstraction layer for the IO engine and HTTP parser underneath, those two layers depends on the adapter (which you can select from a few alternatives).</p><p class="paragraph">This particularity allows users to swap adapters for different use cases. For example, You can use a low memory for embedded boards (as Raspberry Pi) or high through-output for servers, another use case would be to use a fast boot adapter for development, and select a different one for production.</p><p class="paragraph">To be agnostic of the adapter below, a custom HTTP model is implemented in Hexagon, and adapters must map their own structures to this model.</p><p class="paragraph">Now we'll talk about how HTTP routing is done in the toolkit. The cornerstone of HTTP handling in Hexagon is the handler: Hexagon handlers are a list of functions that may or may not be applied to an HTTP call depending on a predicate.</p><p class="paragraph">Handlers have a predicate, and they are only applied to a given request if the current request matches the predicate.</p><p class="paragraph">The functions that handle HTTP requests (named 'callbacks' in Hexagon) are blocks of code that get an HTTP call and return an HTTP call (probably the received one with a modified response), callbacks operate on immutable structures (the HTTP model).</p><p class="paragraph">Below you can find an in deep description of the concepts and components of this toolkit.</p><h1 class=""> Servers</h1><p class="paragraph">A server is a process listening to HTTP requests on a TCP port.</p><p class="paragraph">You can run multiple ones on different ports at the same time on the same JVM (this can be useful to test many microservices at the same time).</p><p class="paragraph">The server can be server settings. If you do not provide a value for them, they are searched inside the application settings and lastly, a default value is picked. This is the parameters list:</p><ul><li><p class="paragraph">banner: informative text shown at start up logs. If not set only runtime information is displayed.</p></li><li><p class="paragraph">bindAddress: address to which this process is bound. If none is provided, <code class="lang-kotlin">127.0.0.1</code> is taken.</p></li><li><p class="paragraph">bindPort: the port which the process listens to. By default, it is <code class="lang-kotlin">2010</code>.</p></li><li><p class="paragraph">contextPath: initial path used for the rest of the routes, by default it is empty.</p></li></ul><p class="paragraph">To create a server, you need to provide a handler (check the handlers section for more information), and after creating a server you can run it or stop it with start() and stop() methods.</p></div></div>
+  </div>
+  <h2 class="">Packages</h2>
+  <div class="table"><a data-name="-1561875897%2FPackages%2F54548355" anchor-label="com.hexagonkt.http.server.async" id="-1561875897%2FPackages%2F54548355" data-filterable-set=":http:http_server_async:dokkaHtmlPartial/main"></a>
+    <div class="table-row" data-filterable-current=":http:http_server_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_server_async:dokkaHtmlPartial/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.hexagonkt.http.server.async/index.html">com.hexagonkt.http.server.async</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1561875897%2FPackages%2F54548355"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="-1561875897%2FPackages%2F54548355" anchor-label="com.hexagonkt.http.server.async" id="-1561875897%2FPackages%2F54548355" data-filterable-set=":http:http_server_async:dokkaHtmlPartial/main"></a>
+            <p class="paragraph">This package defines server interfaces for HTTP server adapters.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="554595431%2FPackages%2F54548355" anchor-label="com.hexagonkt.http.server.async.callbacks" id="554595431%2FPackages%2F54548355" data-filterable-set=":http:http_server_async:dokkaHtmlPartial/main"></a>
+    <div class="table-row" data-filterable-current=":http:http_server_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_server_async:dokkaHtmlPartial/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.hexagonkt.http.server.async.callbacks/index.html">com.hexagonkt.http.server.async.callbacks</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="554595431%2FPackages%2F54548355"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagonkt/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagonkt/hexagon/blob/master/license.md"> MIT License</a></span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+

@@ -52,7 +52,7 @@ import java.util.concurrent.Flow.Publisher
 <span class="fc" id="L52">        val pattern = httpHandler.pathPattern</span>
 
 <span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if (assertEnabled)</span>
-<span class="pc bpc" id="L55" title="2 of 4 branches missed.">            check(!(pattern.prefix)) { &quot;Loading path parameters not allowed for paths&quot; }</span>
+<span class="pc bpc" id="L55" title="2 of 4 branches missed.">            check(!pattern.prefix) { &quot;Loading path parameters not allowed for paths&quot; }</span>
 
 <span class="fc" id="L57">        pattern.extractParameters(request.path)</span>
     }

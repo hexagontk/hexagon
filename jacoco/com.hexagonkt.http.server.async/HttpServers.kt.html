@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpServers.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.async</a> &gt; <span class="el_source">HttpServers.kt</span></div><h1>HttpServers.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.async
+
+import com.hexagonkt.http.handlers.async.HandlerBuilder
+import com.hexagonkt.http.handlers.async.HttpHandler
+
+/**
+ * Create a server and start it.
+ *
+ * @param adapter Adapter instance which implements [HttpServerPort].
+ * @param handler Handler to be used by the server.
+ * @param settings Server settings info.
+ *
+ * @return The started [HttpServer] instance.
+ */
+<span class="fc" id="L15">fun serve(</span>
+    adapter: HttpServerPort,
+    handler: HttpHandler,
+<span class="fc" id="L18">    settings: HttpServerSettings = HttpServerSettings()</span>
+): HttpServer =
+<span class="fc" id="L20">    HttpServer(adapter, handler, settings).apply { start() }</span>
+
+/**
+ * Create a server and start it.
+ *
+ * @param adapter Adapter instance which implements [HttpServerPort].
+ * @param settings Server settings info.
+ * @param block Lambda to be used to create the server's handlers.
+ *
+ * @return The started [HttpServer] instance.
+ */
+<span class="fc" id="L31">fun serve(</span>
+    adapter: HttpServerPort,
+<span class="fc" id="L33">    settings: HttpServerSettings = HttpServerSettings(),</span>
+    block: HandlerBuilder.() -&gt; Unit
+): HttpServer =
+<span class="fc" id="L36">    HttpServer(adapter, settings, block).apply { start() }</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

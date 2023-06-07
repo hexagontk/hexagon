@@ -96,7 +96,7 @@ import org.eclipse.jetty.server.Server as JettyServer
 <span class="fc" id="L96">        val pathHandler = server.handler.addPrefix(settings.contextPath)</span>
 
 <span class="fc" id="L98">        val context = createServerContext(settings)</span>
-<span class="fc" id="L99">        val filter = ServletFilter(pathHandler, settings)</span>
+<span class="fc" id="L99">        val filter = ServletFilter(pathHandler)</span>
 <span class="fc" id="L100">        val filterBind = context.servletContext.addFilter(&quot;filters&quot;, filter)</span>
 <span class="fc" id="L101">        val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)</span>
 <span class="fc" id="L102">        filterBind.addMappingForUrlPatterns(dispatcherTypes, true, &quot;/*&quot;)</span>

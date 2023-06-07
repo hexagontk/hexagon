@@ -19,7 +19,7 @@ import java.security.cert.X509Certificate
     val authorization: Authorization?
 
     val certificateChain: List&lt;X509Certificate&gt;
-    val contentLength: Long                        // length of request.body (or 0)
+    val contentLength: Long                       // length of request.body (or 0)
 
 <span class="fc" id="L24">    fun with(</span>
 <span class="fc" id="L25">        body: Any = this.body,</span>
@@ -81,18 +81,17 @@ import java.security.cert.X509Certificate
 <span class="fc" id="L81">        .let(::URL)</span>
 
     fun userAgent(): String? =
-<span class="fc bfc" id="L84" title="All 2 branches covered.">        headers[&quot;user-agent&quot;]?.value</span>
+<span class="fc bfc" id="L84" title="All 4 branches covered.">        headers[&quot;user-agent&quot;]?.value as? String</span>
 
     fun referer(): String? =
-<span class="fc bfc" id="L87" title="All 2 branches covered.">        headers[&quot;referer&quot;]?.value</span>
+<span class="fc bfc" id="L87" title="All 4 branches covered.">        headers[&quot;referer&quot;]?.value as? String</span>
 
     fun origin(): String? =
-<span class="fc bfc" id="L90" title="All 2 branches covered.">        headers[&quot;origin&quot;]?.value</span>
+<span class="fc bfc" id="L90" title="All 4 branches covered.">        headers[&quot;origin&quot;]?.value as? String</span>
 
     fun authorization(): Authorization? =
-<span class="fc" id="L93">        headers[&quot;authorization&quot;]</span>
-<span class="fc bfc" id="L94" title="All 2 branches covered.">            ?.value</span>
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            ?.split(&quot; &quot;, limit = 2)</span>
-<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            ?.let { Authorization(it.first(), it.last()) }</span>
-<span class="fc" id="L97">}</span>
+<span class="fc bfc" id="L93" title="All 4 branches covered.">        (headers[&quot;authorization&quot;]?.value as? String)</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            ?.split(&quot; &quot;, limit = 2)</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            ?.let { Authorization(it.first(), it.last()) }</span>
+<span class="fc" id="L96">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

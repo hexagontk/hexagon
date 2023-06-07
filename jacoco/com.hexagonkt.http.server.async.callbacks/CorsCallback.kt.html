@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CorsCallback.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.async.callbacks</a> &gt; <span class="el_source">CorsCallback.kt</span></div><h1>CorsCallback.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.async.callbacks
+
+import com.hexagonkt.core.Glob
+import com.hexagonkt.handlers.async.done
+import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.HttpMethod.Companion.ALL
+import com.hexagonkt.http.model.HttpMethod.OPTIONS
+import com.hexagonkt.http.model.HttpStatusType.SUCCESS
+import com.hexagonkt.http.handlers.async.HttpContext
+import java.util.concurrent.CompletableFuture
+
+/**
+ * HTTP CORS callback. It holds info for CORS.
+ */
+<span class="pc" id="L15">class CorsCallback(</span>
+<span class="fc" id="L16">    private val allowedOrigin: Regex,</span>
+<span class="pc" id="L17">    private val allowedMethods: Set&lt;HttpMethod&gt; = ALL,</span>
+<span class="pc" id="L18">    private val allowedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="pc" id="L19">    private val exposedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="pc" id="L20">    private val supportCredentials: Boolean = true,</span>
+<span class="pc" id="L21">    private val preFlightStatus: HttpStatus = NO_CONTENT_204,</span>
+<span class="pc" id="L22">    private val preFlightMaxAge: Long = 0</span>
+) : (HttpContext) -&gt; CompletableFuture&lt;HttpContext&gt; {
+
+    private companion object {
+        const val ALLOW_ORIGIN = &quot;access-control-allow-origin&quot;
+        const val ALLOW_CREDENTIALS = &quot;access-control-allow-credentials&quot;
+        const val REQUEST_METHOD = &quot;access-control-request-method&quot;
+        const val EXPOSE_HEADERS = &quot;access-control-expose-headers&quot;
+        const val REQUEST_HEADERS = &quot;access-control-request-headers&quot;
+        const val ALLOW_HEADERS = &quot;access-control-allow-headers&quot;
+        const val MAX_AGE = &quot;access-control-max-age&quot;
+    }
+
+<span class="fc" id="L35">    constructor(</span>
+<span class="fc" id="L36">        allowedOrigin: String = &quot;*&quot;,</span>
+<span class="fc" id="L37">        allowedMethods: Set&lt;HttpMethod&gt; = ALL,</span>
+<span class="fc" id="L38">        allowedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="fc" id="L39">        exposedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="fc" id="L40">        supportCredentials: Boolean = true,</span>
+<span class="fc" id="L41">        preFlightStatus: HttpStatus = NO_CONTENT_204,</span>
+<span class="fc" id="L42">        preFlightMaxAge: Long = 0) :</span>
+<span class="fc" id="L43">        this(</span>
+<span class="fc" id="L44">            Glob(allowedOrigin).regex,</span>
+<span class="fc" id="L45">            allowedMethods,</span>
+<span class="fc" id="L46">            allowedHeaders,</span>
+<span class="fc" id="L47">            exposedHeaders,</span>
+<span class="fc" id="L48">            supportCredentials,</span>
+<span class="fc" id="L49">            preFlightStatus,</span>
+<span class="fc" id="L50">            preFlightMaxAge</span>
+<span class="fc" id="L51">        )</span>
+
+<span class="fc" id="L53">    init {</span>
+<span class="fc" id="L54">        val preFlightStatusType = preFlightStatus.type</span>
+
+<span class="fc bfc" id="L56" title="All 4 branches covered.">        require(preFlightStatusType == SUCCESS) {</span>
+<span class="fc" id="L57">            &quot;Preflight Status must be a success status: $preFlightStatusType&quot;</span>
+        }
+<span class="fc" id="L59">    }</span>
+
+    override fun invoke(context: HttpContext): CompletableFuture&lt;HttpContext&gt; =
+<span class="fc" id="L62">        context.simpleRequest()</span>
+<span class="fc" id="L63">            .let {</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">                if (context.request.method == OPTIONS) it.preFlightRequest()</span>
+<span class="fc" id="L65">                else it</span>
+            }
+<span class="fc" id="L67">            .let {</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">                if (it.response.status != FORBIDDEN_403) it.next()</span>
+<span class="fc" id="L69">                else it.done()</span>
+            }
+<span class="fc" id="L71">            .thenApply { it as HttpContext }</span>
+
+    private fun allowOrigin(origin: String): Boolean =
+<span class="fc" id="L74">        allowedOrigin.matches(origin)</span>
+
+    private fun accessControlAllowOrigin(origin: String): String =
+<span class="pc bpc" id="L77" title="1 of 4 branches missed.">        if (allowedOrigin.pattern == &quot;.*&quot; &amp;&amp; !supportCredentials) &quot;*&quot;</span>
+<span class="fc" id="L78">        else origin</span>
+
+    private fun HttpContext.simpleRequest(): HttpContext {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        val origin = request.origin() ?: return this</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (!allowOrigin(origin))</span>
+<span class="fc" id="L83">            return forbidden(&quot;Not allowed origin: $origin&quot;)</span>
+
+<span class="fc" id="L85">        val accessControlAllowOrigin = accessControlAllowOrigin(origin)</span>
+<span class="fc" id="L86">        var h = response.headers + Header(ALLOW_ORIGIN, accessControlAllowOrigin)</span>
+
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (accessControlAllowOrigin != &quot;*&quot;)</span>
+<span class="fc" id="L89">            h += Header(&quot;vary&quot;, &quot;Origin&quot;)</span>
+
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (supportCredentials)</span>
+<span class="fc" id="L92">            h += Header(ALLOW_CREDENTIALS, true)</span>
+
+<span class="fc" id="L94">        val accessControlRequestMethod = request.headers[REQUEST_METHOD]</span>
+<span class="fc bfc" id="L95" title="All 4 branches covered.">        if (request.method == OPTIONS &amp;&amp; accessControlRequestMethod != null)</span>
+<span class="fc" id="L96">            return badRequest()</span>
+
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if (request.method !in allowedMethods)</span>
+<span class="fc" id="L99">            return forbidden(&quot;Not allowed method: ${request.method}&quot;)</span>
+
+<span class="fc bfc" id="L101" title="All 4 branches covered.">        if (exposedHeaders.isNotEmpty()) {</span>
+<span class="fc" id="L102">            val requestHeaderNames = request.headers.httpFields.keys.toSet()</span>
+<span class="fc" id="L103">            val requestHeaders = requestHeaderNames.filter { it in exposedHeaders }</span>
+
+<span class="fc" id="L105">            h += Header(EXPOSE_HEADERS, requestHeaders.joinToString(&quot;,&quot;))</span>
+        }
+
+<span class="fc" id="L108">        return send(preFlightStatus, headers = h)</span>
+    }
+
+    private fun HttpContext.preFlightRequest(): HttpContext {
+
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        val methodHeader = request.headers[REQUEST_METHOD]?.string()</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        val requestMethod = methodHeader</span>
+<span class="fc" id="L115">            ?: return forbidden(&quot;$REQUEST_METHOD required header not found&quot;)</span>
+
+<span class="fc" id="L117">        val method = HttpMethod.valueOf(requestMethod)</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (method !in allowedMethods)</span>
+<span class="fc" id="L119">            return forbidden(&quot;Not allowed method: $method&quot;)</span>
+
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        val accessControlRequestHeaders = request.headers[REQUEST_HEADERS]?.string()</span>
+
+<span class="fc" id="L123">        var h = response.headers</span>
+
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        if (accessControlRequestHeaders != null) {</span>
+<span class="fc" id="L126">            val allowedHeaders = accessControlRequestHeaders</span>
+<span class="fc" id="L127">                .split(&quot;,&quot;)</span>
+<span class="fc" id="L128">                .map { it.trim() }</span>
+<span class="fc" id="L129">                .all { it in allowedHeaders }</span>
+
+<span class="fc bfc" id="L131" title="All 6 branches covered.">            if (!allowedHeaders &amp;&amp; this@CorsCallback.allowedHeaders.isNotEmpty())</span>
+<span class="fc" id="L132">                return forbidden(&quot;Not allowed headers&quot;)</span>
+
+<span class="fc" id="L134">            val headers = this@CorsCallback.allowedHeaders</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">            val requestHeaders = headers.ifEmpty { request.headers.httpFields.keys.toSet() }</span>
+<span class="fc" id="L136">            h += Header(ALLOW_HEADERS, requestHeaders.joinToString(&quot;,&quot;))</span>
+        }
+
+<span class="fc" id="L139">        h += Header(REQUEST_METHOD, allowedMethods.joinToString(&quot;,&quot;))</span>
+
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        if (preFlightMaxAge &gt; 0)</span>
+<span class="fc" id="L142">            h += Header(MAX_AGE, preFlightMaxAge.toString())</span>
+
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        val origin = request.origin() ?: &quot;&quot;</span>
+<span class="fc" id="L145">        return when {</span>
+<span class="fc bfc" id="L146" title="All 4 branches covered.">            allowOrigin(origin) &amp;&amp; origin.isBlank() -&gt;</span>
+<span class="fc" id="L147">                send(preFlightStatus, headers = h)</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">            allowOrigin(origin) -&gt;</span>
+<span class="fc" id="L149">                send(preFlightStatus, headers = h + Header(ALLOW_ORIGIN, accessControlAllowOrigin(origin)))</span>
+<span class="pc bpc" id="L150" title="1 of 6 branches missed.">            !allowOrigin(origin) &amp;&amp; origin.isNotBlank() -&gt;</span>
+<span class="fc" id="L151">                forbidden(&quot;Not allowed origin: $origin&quot;)</span>
+            else -&gt;
+<span class="fc" id="L153">                forbidden(&quot;Forbidden pre-flight request&quot;)</span>
+        }
+    }
+<span class="nc" id="L156">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

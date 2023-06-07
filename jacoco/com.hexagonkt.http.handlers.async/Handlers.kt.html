@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Handlers.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.handlers.async</a> &gt; <span class="el_source">Handlers.kt</span></div><h1>Handlers.kt</h1><pre class="source lang-java linenums">@file:Suppress(&quot;FunctionName&quot;) // Uppercase functions are used for providing named constructors
+
+package com.hexagonkt.http.handlers.async
+
+import com.hexagonkt.handlers.async.Context
+import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.HttpMethod.*
+import com.hexagonkt.http.model.HttpProtocol.HTTP
+import com.hexagonkt.http.model.HttpCall
+import com.hexagonkt.http.model.HttpRequest
+import java.security.cert.X509Certificate
+import java.util.concurrent.CompletableFuture
+import kotlin.reflect.KClass
+import kotlin.reflect.cast
+
+typealias HttpCallback = HttpContext.() -&gt; CompletableFuture&lt;HttpContext&gt;
+typealias HttpExceptionCallback&lt;T&gt; = HttpContext.(T) -&gt; CompletableFuture&lt;HttpContext&gt;
+
+internal fun toCallback(
+    block: HttpCallback
+): (Context&lt;HttpCall&gt;) -&gt; CompletableFuture&lt;Context&lt;HttpCall&gt;&gt; =
+<span class="fc" id="L22">    { context -&gt; HttpContext(context).block().thenApply { it as HttpContext } }</span>
+
+<span class="nc" id="L24">fun HttpCallback.process(</span>
+    request: HttpRequest,
+<span class="nc" id="L26">    attributes: Map&lt;*, *&gt; = emptyMap&lt;Any, Any&gt;()</span>
+): CompletableFuture&lt;HttpContext&gt; =
+<span class="fc" id="L28">    this(HttpContext(request = request, attributes = attributes))</span>
+
+<span class="fc" id="L30">fun HttpCallback.process(</span>
+<span class="fc" id="L31">    method: HttpMethod = GET,</span>
+<span class="fc" id="L32">    protocol: HttpProtocol = HTTP,</span>
+<span class="fc" id="L33">    host: String = &quot;localhost&quot;,</span>
+<span class="fc" id="L34">    port: Int = 80,</span>
+<span class="fc" id="L35">    path: String = &quot;&quot;,</span>
+<span class="fc" id="L36">    queryParameters: QueryParameters = QueryParameters(),</span>
+<span class="nc" id="L37">    headers: Headers = Headers(),</span>
+<span class="fc" id="L38">    body: Any = &quot;&quot;,</span>
+<span class="fc" id="L39">    parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L40">    formParameters: FormParameters = FormParameters(),</span>
+<span class="fc" id="L41">    cookies: List&lt;Cookie&gt; = emptyList(),</span>
+<span class="fc" id="L42">    contentType: ContentType? = null,</span>
+<span class="fc" id="L43">    certificateChain: List&lt;X509Certificate&gt; = emptyList(),</span>
+<span class="fc" id="L44">    accept: List&lt;ContentType&gt; = emptyList(),</span>
+<span class="fc" id="L45">    contentLength: Long = -1L,</span>
+<span class="nc" id="L46">    attributes: Map&lt;*, *&gt; = emptyMap&lt;Any, Any&gt;(),</span>
+): CompletableFuture&lt;HttpContext&gt; =
+<span class="fc" id="L48">    this.process(</span>
+<span class="fc" id="L49">        HttpRequest(</span>
+<span class="fc" id="L50">            method,</span>
+<span class="fc" id="L51">            protocol,</span>
+<span class="fc" id="L52">            host,</span>
+<span class="fc" id="L53">            port,</span>
+<span class="fc" id="L54">            path,</span>
+<span class="fc" id="L55">            queryParameters,</span>
+<span class="fc" id="L56">            headers,</span>
+<span class="fc" id="L57">            body,</span>
+<span class="fc" id="L58">            parts,</span>
+<span class="fc" id="L59">            formParameters,</span>
+<span class="fc" id="L60">            cookies,</span>
+<span class="fc" id="L61">            contentType,</span>
+<span class="fc" id="L62">            certificateChain,</span>
+<span class="fc" id="L63">            accept,</span>
+<span class="fc" id="L64">            contentLength,</span>
+        ),
+<span class="fc" id="L66">        attributes,</span>
+<span class="fc" id="L67">    )</span>
+
+<span class="fc" id="L69">fun path(pattern: String = &quot;&quot;, block: HandlerBuilder.() -&gt; Unit): PathHandler {</span>
+<span class="fc" id="L70">    val builder = HandlerBuilder()</span>
+<span class="fc" id="L71">    builder.block()</span>
+<span class="fc" id="L72">    return path(pattern, builder.handlers)</span>
+}
+
+<span class="fc" id="L75">fun path(contextPath: String = &quot;&quot;, handlers: List&lt;HttpHandler&gt;): PathHandler =</span>
+<span class="fc" id="L76">    handlers</span>
+<span class="fc" id="L77">        .let {</span>
+<span class="fc bfc" id="L78" title="All 4 branches covered.">            if (it.size == 1 &amp;&amp; it[0] is PathHandler)</span>
+<span class="fc" id="L79">                (it[0] as PathHandler).addPrefix(contextPath) as PathHandler</span>
+            else
+<span class="fc" id="L81">                PathHandler(contextPath, it)</span>
+<span class="fc" id="L82">        }</span>
+
+<span class="nc" id="L84">fun &lt;T : Exception&gt; Exception(</span>
+<span class="nc" id="L85">    exception: KClass&lt;T&gt;? = null,</span>
+<span class="nc" id="L86">    status: HttpStatus? = null,</span>
+    callback: HttpExceptionCallback&lt;T&gt;,
+): AfterHandler =
+<span class="fc" id="L89">    AfterHandler(emptySet(), &quot;*&quot;, exception, status) {</span>
+<span class="fc" id="L90">        callback(this.exception.castException(exception))</span>
+<span class="fc" id="L91">    }</span>
+
+<span class="nc" id="L93">inline fun &lt;reified T : Exception&gt; Exception(</span>
+<span class="nc" id="L94">    status: HttpStatus? = null,</span>
+    noinline callback: HttpExceptionCallback&lt;T&gt;,
+): AfterHandler =
+<span class="nc" id="L97">    Exception(T::class, status, callback)</span>
+
+internal fun &lt;T : Exception&gt; Exception?.castException(exception: KClass&lt;T&gt;?) =
+<span class="fc bfc" id="L100" title="All 6 branches covered.">    this?.let { exception?.cast(this) } ?: error(&quot;Exception 'null' or incorrect type&quot;)</span>
+
+<span class="nc" id="L102">fun Get(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L103">    OnHandler(GET, pattern, callback)</span>
+
+<span class="nc" id="L105">fun Ws(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L106">    Get(pattern, callback)</span>
+
+<span class="nc" id="L108">fun Head(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L109">    OnHandler(HEAD, pattern, callback)</span>
+
+<span class="nc" id="L111">fun Post(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L112">    OnHandler(POST, pattern, callback)</span>
+
+<span class="nc" id="L114">fun Put(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L115">    OnHandler(PUT, pattern, callback)</span>
+
+<span class="nc" id="L117">fun Delete(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L118">    OnHandler(DELETE, pattern, callback)</span>
+
+<span class="nc" id="L120">fun Trace(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L121">    OnHandler(TRACE, pattern, callback)</span>
+
+<span class="nc" id="L123">fun Options(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L124">    OnHandler(OPTIONS, pattern, callback)</span>
+
+<span class="nc" id="L126">fun Patch(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L127">    OnHandler(PATCH, pattern, callback)</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,45 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegexPathPattern.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.patterns</a> &gt; <span class="el_source">RegexPathPattern.kt</span></div><h1>RegexPathPattern.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.patterns
 
+import com.hexagonkt.core.filter
+import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.VARIABLE_PATTERN
 import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.patternToRegex
 
-<span class="pc" id="L5">data class RegexPathPattern(val regex: Regex) : PathPattern {</span>
+<span class="pc" id="L7">data class RegexPathPattern(val regex: Regex) : PathPattern {</span>
 
-<span class="fc" id="L7">    override val pattern: String = regex.pattern</span>
-<span class="fc bfc" id="L8" title="All 2 branches covered.">    override val prefix: Boolean = !regex.pattern.endsWith(&quot;$&quot;)</span>
+<span class="fc" id="L9">    override val pattern: String = regex.pattern</span>
+<span class="fc bfc" id="L10" title="All 2 branches covered.">    override val prefix: Boolean = !regex.pattern.endsWith(&quot;$&quot;)</span>
 
     internal companion object {
-<span class="fc" id="L11">        val PARAMETER_REGEX = Regex(&quot;&quot;&quot;\(\?&lt;\w+&gt;&quot;&quot;&quot;)</span>
+        const val PARAMETER_PREFIX = &quot;(?&lt;&quot;
+        const val PARAMETER_SUFFIX = &quot;&gt;$VARIABLE_PATTERN?)&quot;
+<span class="fc" id="L15">        val PARAMETER_REGEX = Regex(&quot;&quot;&quot;\(\?&lt;\w+&gt;&quot;&quot;&quot;)</span>
     }
 
-<span class="fc" id="L14">    init {</span>
-<span class="fc" id="L15">        checkPathPatternPrefix(pattern, listOf(&quot;(.*?)&quot;, &quot;$&quot;))</span>
-<span class="fc" id="L16">    }</span>
+<span class="fc" id="L18">    init {</span>
+<span class="fc" id="L19">        checkPathPatternPrefix(pattern, listOf(&quot;(.*?)&quot;, &quot;$&quot;))</span>
+<span class="fc" id="L20">    }</span>
 
-<span class="fc" id="L18">    val parameters: List&lt;String&gt; =</span>
-<span class="fc" id="L19">        PARAMETER_REGEX.findAll(pattern)</span>
-<span class="fc" id="L20">            .map { it.value.removePrefix(&quot;(?&lt;&quot;).removeSuffix(&quot;&gt;&quot;) }</span>
-<span class="fc" id="L21">            .toList()</span>
+<span class="fc" id="L22">    val parameters: List&lt;String&gt; =</span>
+<span class="fc" id="L23">        PARAMETER_REGEX.findAll(pattern)</span>
+<span class="fc" id="L24">            .map { it.value.removePrefix(&quot;(?&lt;&quot;).removeSuffix(&quot;&gt;&quot;) }</span>
+<span class="fc" id="L25">            .toList()</span>
 
     override fun addPrefix(prefix: String?): PathPattern =
-<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (prefix == null) this</span>
-<span class="fc" id="L25">        else copy(regex = Regex(patternToRegex(prefix, true) + pattern))</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (prefix == null) this</span>
+<span class="fc" id="L29">        else copy(regex = Regex(patternToRegex(prefix, true) + pattern))</span>
 
     override fun matches(requestUrl: String): Boolean =
-<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (prefix) regex.matchesAt(requestUrl, 0)</span>
-<span class="fc" id="L29">        else regex.matches(requestUrl)</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (prefix) regex.matchesAt(requestUrl, 0)</span>
+<span class="fc" id="L33">        else regex.matches(requestUrl)</span>
 
     override fun extractParameters(requestUrl: String): Map&lt;String, String&gt; {
-<span class="fc" id="L32">        val result = regex.matchEntire(requestUrl)</span>
-<span class="fc bfc" id="L33" title="All 4 branches covered.">        require(result != null) { &quot;URL '$requestUrl' does not match path&quot; }</span>
+<span class="fc" id="L36">        val result = regex.matchEntire(requestUrl)</span>
+<span class="fc bfc" id="L37" title="All 4 branches covered.">        require(result != null) { &quot;URL '$requestUrl' does not match path&quot; }</span>
 
-<span class="fc" id="L35">        val allValues = result.groupValues</span>
-<span class="fc" id="L36">            .drop(1)</span>
-<span class="fc" id="L37">            .mapIndexed { ii, v -&gt; ii.toString() to v }</span>
-<span class="fc" id="L38">            .toMap()</span>
+<span class="fc" id="L39">        val allValues = result.groupValues</span>
+<span class="fc" id="L40">            .drop(1)</span>
+<span class="fc" id="L41">            .mapIndexed { ii, v -&gt; ii.toString() to v }</span>
+<span class="fc" id="L42">            .toMap()</span>
 
-<span class="fc" id="L40">        val resultGroups = result.groups as MatchNamedGroupCollection</span>
-<span class="fc bfc" id="L41" title="All 2 branches covered.">        return if (parameters.isEmpty()) allValues</span>
-<span class="pc bpc" id="L42" title="2 of 4 branches missed.">        else parameters.associateWith { resultGroups[it]?.value ?: &quot;&quot; } + allValues</span>
+<span class="fc" id="L44">        val resultGroups = result.groups as MatchNamedGroupCollection</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        return if (parameters.isEmpty()) allValues</span>
+<span class="pc bpc" id="L46" title="2 of 4 branches missed.">        else parameters.associateWith { resultGroups[it]?.value ?: &quot;&quot; } + allValues</span>
+    }
+
+    override fun insertParameters(parameters: Map&lt;String, Any&gt;): String {
+<span class="fc" id="L50">        val keys = parameters.keys</span>
+<span class="fc" id="L51">        val patternParameters = this.parameters</span>
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        require(keys.toSet() == patternParameters.toSet()) {</span>
+<span class="fc" id="L54">            &quot;Parameters must match pattern's parameters($patternParameters). Provided: $keys&quot;</span>
+        }
+
+<span class="fc" id="L57">        return pattern.filter(PARAMETER_PREFIX, PARAMETER_SUFFIX, parameters)</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

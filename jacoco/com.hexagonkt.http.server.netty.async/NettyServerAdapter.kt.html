@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NettyServerAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.netty.async</a> &gt; <span class="el_source">NettyServerAdapter.kt</span></div><h1>NettyServerAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.netty.async
+
+import com.hexagonkt.core.fieldsMapOf
+import com.hexagonkt.core.security.loadKeyStore
+import com.hexagonkt.http.SslSettings
+import com.hexagonkt.http.model.HttpProtocol
+import com.hexagonkt.http.model.HttpProtocol.*
+import com.hexagonkt.http.server.async.HttpServer
+import com.hexagonkt.http.server.async.HttpServerFeature
+import com.hexagonkt.http.server.async.HttpServerFeature.*
+import com.hexagonkt.http.server.async.HttpServerPort
+import com.hexagonkt.http.server.async.HttpServerSettings
+import com.hexagonkt.http.handlers.async.HttpHandler
+import io.netty.bootstrap.ServerBootstrap
+import io.netty.channel.*
+import io.netty.channel.nio.NioEventLoopGroup
+import io.netty.channel.socket.SocketChannel
+import io.netty.channel.socket.nio.NioServerSocketChannel
+import io.netty.handler.codec.http.*
+import io.netty.handler.ssl.ClientAuth.OPTIONAL
+import io.netty.handler.ssl.ClientAuth.REQUIRE
+import io.netty.handler.ssl.SslContext
+import io.netty.handler.ssl.SslContextBuilder
+import io.netty.handler.stream.ChunkedWriteHandler
+import java.net.InetSocketAddress
+import java.util.concurrent.TimeUnit.SECONDS
+import javax.net.ssl.KeyManagerFactory
+import javax.net.ssl.TrustManagerFactory
+import kotlin.Int.Companion.MAX_VALUE
+
+/**
+ * Implements [HttpServerPort] using Netty [Channel].
+ */
+<span class="pc" id="L34">open class NettyServerAdapter(</span>
+<span class="pc" id="L35">    private val bossGroupThreads: Int = 1,</span>
+<span class="pc" id="L36">    private val workerGroupThreads: Int = 0,</span>
+<span class="pc" id="L37">    private val soBacklog: Int = 4 * 1_024,</span>
+<span class="pc" id="L38">    private val soReuseAddr: Boolean = true,</span>
+<span class="pc" id="L39">    private val soKeepAlive: Boolean = true,</span>
+<span class="pc" id="L40">    private val shutdownQuietSeconds: Long = 0,</span>
+<span class="pc" id="L41">    private val shutdownTimeoutSeconds: Long = 0,</span>
+) : HttpServerPort {
+
+    private var nettyChannel: Channel? = null
+    private var bossEventLoop: MultithreadEventLoopGroup? = null
+    private var workerEventLoop: MultithreadEventLoopGroup? = null
+
+<span class="fc" id="L48">    constructor() : this(</span>
+<span class="fc" id="L49">        bossGroupThreads = 1,</span>
+<span class="fc" id="L50">        workerGroupThreads = 0,</span>
+<span class="fc" id="L51">        soBacklog = 4 * 1_024,</span>
+<span class="fc" id="L52">        soReuseAddr = true,</span>
+<span class="fc" id="L53">        soKeepAlive = true,</span>
+<span class="fc" id="L54">        shutdownQuietSeconds = 0,</span>
+<span class="fc" id="L55">        shutdownTimeoutSeconds = 0,</span>
+<span class="fc" id="L56">    )</span>
+
+    override fun runtimePort(): Int =
+        (nettyChannel?.localAddress() as? InetSocketAddress)?.port
+<span class="pc bpc" id="L60" title="3 of 6 branches missed.">            ?: error(&quot;Error fetching runtime port&quot;)</span>
+
+    override fun started() =
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        nettyChannel?.isOpen ?: false</span>
+
+    override fun startUp(server: HttpServer) {
+<span class="fc" id="L66">        val bossGroup = groupSupplier(bossGroupThreads)</span>
+<span class="fc" id="L67">        val workerGroup =</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">            if (workerGroupThreads &lt; 0) bossGroup</span>
+<span class="fc" id="L69">            else groupSupplier(workerGroupThreads)</span>
+
+<span class="fc" id="L71">        try {</span>
+<span class="fc" id="L72">            val settings = server.settings</span>
+<span class="fc" id="L73">            val sslSettings = settings.sslSettings</span>
+<span class="fc" id="L74">            val handlers: Map&lt;HttpMethod, HttpHandler&gt; =</span>
+<span class="fc" id="L75">                server.handler.addPrefix(settings.contextPath)</span>
+<span class="fc" id="L76">                    .byMethod()</span>
+<span class="fc" id="L77">                    .mapKeys { HttpMethod.valueOf(it.key.toString()) }</span>
+
+<span class="fc" id="L79">            val nettyServer = serverBootstrapSupplier(bossGroup, workerGroup)</span>
+<span class="fc" id="L80">                .childHandler(createInitializer(sslSettings, handlers, settings))</span>
+
+<span class="fc" id="L82">            val address = settings.bindAddress</span>
+<span class="fc" id="L83">            val port = settings.bindPort</span>
+<span class="fc" id="L84">            val future = nettyServer.bind(address, port).sync()</span>
+
+<span class="fc" id="L86">            nettyChannel = future.channel()</span>
+<span class="fc" id="L87">            bossEventLoop = bossGroup</span>
+<span class="fc" id="L88">            workerEventLoop = workerGroup</span>
+        }
+<span class="nc" id="L90">        catch (e: Exception) {</span>
+<span class="nc" id="L91">            bossGroup.shutdownGracefully()</span>
+<span class="nc" id="L92">            workerGroup.shutdownGracefully()</span>
+        }
+<span class="fc" id="L94">    }</span>
+
+    open fun groupSupplier(it: Int): MultithreadEventLoopGroup =
+<span class="fc" id="L97">        NioEventLoopGroup(it)</span>
+
+    open fun serverBootstrapSupplier(
+        bossGroup: MultithreadEventLoopGroup,
+        workerGroup: MultithreadEventLoopGroup,
+    ): ServerBootstrap =
+<span class="fc" id="L103">        ServerBootstrap().group(bossGroup, workerGroup)</span>
+<span class="fc" id="L104">            .channel(NioServerSocketChannel::class.java)</span>
+<span class="fc" id="L105">            .option(ChannelOption.SO_BACKLOG, soBacklog)</span>
+<span class="fc" id="L106">            .option(ChannelOption.SO_REUSEADDR, soReuseAddr)</span>
+<span class="fc" id="L107">            .childOption(ChannelOption.SO_KEEPALIVE, soKeepAlive)</span>
+<span class="fc" id="L108">            .childOption(ChannelOption.SO_REUSEADDR, soReuseAddr)</span>
+
+    private fun createInitializer(
+        sslSettings: SslSettings?,
+        handlers: Map&lt;HttpMethod, HttpHandler&gt;,
+        settings: HttpServerSettings
+    ) =
+<span class="fc" id="L115">        when {</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">            sslSettings != null -&gt; sslInitializer(sslSettings, handlers, settings)</span>
+<span class="fc" id="L117">            else -&gt; HttpChannelInitializer(handlers, settings)</span>
+<span class="fc" id="L118">        }</span>
+
+    private fun sslInitializer(
+        sslSettings: SslSettings,
+        handlers: Map&lt;HttpMethod, HttpHandler&gt;,
+        settings: HttpServerSettings
+    ): HttpsChannelInitializer =
+<span class="fc" id="L125">        HttpsChannelInitializer(handlers, sslContext(sslSettings), sslSettings, settings)</span>
+
+    private fun sslContext(sslSettings: SslSettings): SslContext {
+<span class="fc" id="L128">        val keyManager = createKeyManagerFactory(sslSettings)</span>
+
+<span class="fc" id="L130">        val sslContextBuilder = SslContextBuilder</span>
+<span class="fc" id="L131">            .forServer(keyManager)</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">            .clientAuth(if (sslSettings.clientAuth) REQUIRE else OPTIONAL)</span>
+
+<span class="fc" id="L134">        val trustManager = createTrustManagerFactory(sslSettings)</span>
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        return if (trustManager == null) sslContextBuilder.build()</span>
+<span class="fc" id="L137">            else sslContextBuilder.trustManager(trustManager).build()</span>
+    }
+
+    private fun createTrustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        val trustStoreUrl = sslSettings.trustStore ?: return null</span>
+
+<span class="fc" id="L143">        val trustStorePassword = sslSettings.trustStorePassword</span>
+<span class="fc" id="L144">        val trustStore = loadKeyStore(trustStoreUrl, trustStorePassword)</span>
+<span class="fc" id="L145">        val trustAlgorithm = TrustManagerFactory.getDefaultAlgorithm()</span>
+<span class="fc" id="L146">        val trustManager = TrustManagerFactory.getInstance(trustAlgorithm)</span>
+
+<span class="fc" id="L148">        trustManager.init(trustStore)</span>
+<span class="fc" id="L149">        return trustManager</span>
+    }
+
+    private fun createKeyManagerFactory(sslSettings: SslSettings): KeyManagerFactory {
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">        val keyStoreUrl = sslSettings.keyStore ?: error(&quot;&quot;)</span>
+<span class="fc" id="L154">        val keyStorePassword = sslSettings.keyStorePassword</span>
+<span class="fc" id="L155">        val keyStore = loadKeyStore(keyStoreUrl, keyStorePassword)</span>
+<span class="fc" id="L156">        val keyManager = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm())</span>
+<span class="fc" id="L157">        keyManager.init(keyStore, keyStorePassword.toCharArray())</span>
+<span class="fc" id="L158">        return keyManager</span>
+    }
+
+    override fun shutDown() {
+<span class="fc" id="L162">        workerEventLoop</span>
+<span class="pc bpc" id="L163" title="2 of 4 branches missed.">            ?.shutdownGracefully(shutdownQuietSeconds, shutdownTimeoutSeconds, SECONDS)?.sync()</span>
+<span class="fc" id="L164">        bossEventLoop</span>
+<span class="pc bpc" id="L165" title="2 of 4 branches missed.">            ?.shutdownGracefully(shutdownQuietSeconds, shutdownTimeoutSeconds, SECONDS)?.sync()</span>
+
+<span class="fc" id="L167">        nettyChannel = null</span>
+<span class="fc" id="L168">        bossEventLoop = null</span>
+<span class="fc" id="L169">        workerEventLoop = null</span>
+<span class="fc" id="L170">    }</span>
+
+    override fun supportedProtocols(): Set&lt;HttpProtocol&gt; =
+<span class="fc" id="L173">        setOf(HTTP, HTTPS, HTTP2, H2C)</span>
+
+    override fun supportedFeatures(): Set&lt;HttpServerFeature&gt; =
+<span class="fc" id="L176">        setOf(ZIP, WEB_SOCKETS, SSE)</span>
+
+    override fun options(): Map&lt;String, *&gt; =
+<span class="fc" id="L179">        fieldsMapOf(</span>
+<span class="fc" id="L180">            NettyServerAdapter::bossGroupThreads to bossGroupThreads,</span>
+<span class="fc" id="L181">            NettyServerAdapter::workerGroupThreads to workerGroupThreads,</span>
+<span class="fc" id="L182">            NettyServerAdapter::soBacklog to soBacklog,</span>
+<span class="fc" id="L183">            NettyServerAdapter::soKeepAlive to soKeepAlive,</span>
+<span class="fc" id="L184">            NettyServerAdapter::shutdownQuietSeconds to shutdownQuietSeconds,</span>
+<span class="fc" id="L185">            NettyServerAdapter::shutdownTimeoutSeconds to shutdownTimeoutSeconds,</span>
+<span class="fc" id="L186">        )</span>
+
+<span class="fc" id="L188">    class HttpChannelInitializer(</span>
+<span class="fc" id="L189">        private val handlers: Map&lt;HttpMethod, HttpHandler&gt;,</span>
+<span class="fc" id="L190">        private val settings: HttpServerSettings,</span>
+<span class="fc" id="L191">    ) : ChannelInitializer&lt;SocketChannel&gt;() {</span>
+
+        override fun initChannel(channel: SocketChannel) {
+<span class="fc" id="L194">            val pipeline = channel.pipeline()</span>
+
+<span class="fc" id="L196">            pipeline.addLast(HttpServerCodec())</span>
+<span class="fc" id="L197">            pipeline.addLast(HttpServerKeepAliveHandler())</span>
+<span class="fc" id="L198">            pipeline.addLast(HttpObjectAggregator(MAX_VALUE))</span>
+<span class="fc" id="L199">            pipeline.addLast(ChunkedWriteHandler())</span>
+
+<span class="fc bfc" id="L201" title="All 2 branches covered.">            if (settings.zip)</span>
+<span class="fc" id="L202">                pipeline.addLast(HttpContentCompressor())</span>
+
+<span class="fc" id="L204">            pipeline.addLast(NettyServerHandler(handlers, null))</span>
+<span class="fc" id="L205">        }</span>
+    }
+
+<span class="fc" id="L208">    class HttpsChannelInitializer(</span>
+<span class="fc" id="L209">        private val handlers: Map&lt;HttpMethod, HttpHandler&gt;,</span>
+<span class="fc" id="L210">        private val sslContext: SslContext,</span>
+<span class="fc" id="L211">        private val sslSettings: SslSettings,</span>
+<span class="fc" id="L212">        private val settings: HttpServerSettings,</span>
+<span class="fc" id="L213">    ) : ChannelInitializer&lt;SocketChannel&gt;() {</span>
+
+        override fun initChannel(channel: SocketChannel) {
+<span class="fc" id="L216">            val pipeline = channel.pipeline()</span>
+<span class="fc" id="L217">            val sslHandler = sslContext.newHandler(channel.alloc())</span>
+<span class="fc bfc" id="L218" title="All 2 branches covered.">            val handlerSsl = if (sslSettings.clientAuth) sslHandler else null</span>
+
+<span class="fc" id="L220">            pipeline.addLast(sslHandler)</span>
+<span class="fc" id="L221">            pipeline.addLast(HttpServerCodec())</span>
+<span class="fc" id="L222">            pipeline.addLast(HttpServerKeepAliveHandler())</span>
+<span class="fc" id="L223">            pipeline.addLast(HttpObjectAggregator(MAX_VALUE))</span>
+<span class="fc" id="L224">            pipeline.addLast(ChunkedWriteHandler())</span>
+
+<span class="pc bpc" id="L226" title="1 of 2 branches missed.">            if (settings.zip)</span>
+<span class="nc" id="L227">                pipeline.addLast(HttpContentCompressor())</span>
+
+<span class="fc" id="L229">            pipeline.addLast(NettyServerHandler(handlers, handlerSsl))</span>
+<span class="fc" id="L230">        }</span>
+    }
+<span class="nc" id="L232">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

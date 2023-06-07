@@ -72,7 +72,7 @@ fun parseQueryString(query: String): QueryParameters =
 
 fun formatQueryString(parameters: QueryParameters): String =
 <span class="fc" id="L74">    parameters</span>
-<span class="fc" id="L75">        .flatMap { (k, v) -&gt; v.values.map { k to it } }</span>
+<span class="fc" id="L75">        .flatMap { (k, v) -&gt; v.strings().map { k to it } }</span>
 <span class="pc bpc" id="L76" title="1 of 2 branches missed.">        .filter { it.first.isNotBlank() }</span>
 <span class="fc" id="L77">        .joinToString(&quot;&amp;&quot;) { (k, v) -&gt;</span>
 <span class="fc bfc" id="L78" title="All 2 branches covered.">            if (v.isBlank()) k.urlEncode()</span>

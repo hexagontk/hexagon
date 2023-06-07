@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Context.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.handlers.async</a> &gt; <span class="el_source">Context.kt</span></div><h1>Context.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.handlers.async
+
+import java.util.concurrent.CompletableFuture
+
+/**
+ * Context for an event.
+ *
+ * @param T Event type.
+ */
+interface Context&lt;T : Any&gt; {
+    val event: T
+    val predicate: (Context&lt;T&gt;) -&gt; Boolean
+    val nextHandlers: List&lt;Handler&lt;T&gt;&gt;
+    val nextHandler: Int
+    val exception: Exception?
+    val attributes: Map&lt;*, *&gt;
+
+<span class="fc" id="L18">    fun with(</span>
+<span class="fc" id="L19">        event: T = this.event,</span>
+<span class="fc" id="L20">        predicate: (Context&lt;T&gt;) -&gt; Boolean = this.predicate,</span>
+<span class="fc" id="L21">        nextHandlers: List&lt;Handler&lt;T&gt;&gt; = this.nextHandlers,</span>
+<span class="fc" id="L22">        nextHandler: Int = this.nextHandler,</span>
+<span class="fc" id="L23">        exception: Exception? = this.exception,</span>
+<span class="fc" id="L24">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
+    ): Context&lt;T&gt;
+
+    fun next(): CompletableFuture&lt;Context&lt;T&gt;&gt; {
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        for (index in nextHandler until nextHandlers.size) {</span>
+<span class="fc" id="L29">            val handler = nextHandlers[index]</span>
+<span class="fc" id="L30">            val p = handler.predicate</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">            if (p(this))</span>
+<span class="fc" id="L32">                return handler.process(with(predicate = p, nextHandler = index + 1))</span>
+        }
+
+<span class="fc" id="L35">        return CompletableFuture.completedFuture(this)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

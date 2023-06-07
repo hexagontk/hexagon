@@ -11,14 +11,17 @@ interface PathPattern {
 
     fun extractParameters(requestUrl: String): Map&lt;String, String&gt;
 
+    fun insertParameters(parameters: Map&lt;String, Any&gt;): String =
+<span class="fc" id="L15">        error(&quot;${type()} path pattern does not accept parameters&quot;)</span>
+
     fun describe(): String =
         &quot;${type()}${if (prefix) &quot; (PREFIX)&quot; else &quot;&quot;} '$pattern'&quot;
 
     private fun type(): String =
-<span class="fc" id="L18">        javaClass.simpleName.removeSuffix(typeSuffix)</span>
+<span class="fc" id="L21">        javaClass.simpleName.removeSuffix(typeSuffix)</span>
 
     private companion object {
-<span class="fc" id="L21">        val typeSuffix: String = PathPattern::class.java.simpleName</span>
+<span class="fc" id="L24">        val typeSuffix: String = PathPattern::class.java.simpleName</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

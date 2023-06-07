@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AfterHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.handlers.async</a> &gt; <span class="el_source">AfterHandler.kt</span></div><h1>AfterHandler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.handlers.async
+
+import java.util.concurrent.CompletableFuture
+
+/**
+ * After handlers are executed even if a filter don't call next handler (if after was added before
+ * filter).
+ *
+ * After handlers' filters are always true because they are meant to be evaluated on the **return**.
+ * If they are not called in first place, they won't be executed on the return of the next handler.
+ * Their filter is evaluated after the `next` call, not before.
+ */
+<span class="fc" id="L13">data class AfterHandler&lt;T : Any&gt;(</span>
+<span class="fc" id="L14">    val afterPredicate: (Context&lt;T&gt;) -&gt; Boolean = { true },</span>
+<span class="fc" id="L15">    override val callback: (Context&lt;T&gt;) -&gt; CompletableFuture&lt;Context&lt;T&gt;&gt;,</span>
+) : Handler&lt;T&gt; {
+
+<span class="fc" id="L18">    override val predicate: (Context&lt;T&gt;) -&gt; Boolean = { true }</span>
+
+    override fun process(context: Context&lt;T&gt;): CompletableFuture&lt;Context&lt;T&gt;&gt; {
+<span class="fc" id="L21">        return context.next().thenCompose { c -&gt;</span>
+<span class="fc" id="L22">            val next = c.with(predicate = afterPredicate)</span>
+<span class="fc" id="L23">            try {</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">                if (afterPredicate.invoke(next)) callback(next)</span>
+<span class="fc" id="L25">                else CompletableFuture.completedFuture(next)</span>
+            }
+<span class="fc" id="L27">            catch (e: Exception) {</span>
+<span class="fc" id="L28">                CompletableFuture.completedFuture(next.with(exception = e))</span>
+            }
+        }
+    }
+<span class="fc" id="L32">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

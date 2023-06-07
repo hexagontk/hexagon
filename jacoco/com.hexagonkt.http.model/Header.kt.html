@@ -2,10 +2,10 @@
 
 <span class="fc" id="L3">data class Header(</span>
 <span class="fc" id="L4">    override val name: String,</span>
-<span class="fc" id="L5">    override val values: List&lt;String&gt;,</span>
+<span class="fc" id="L5">    override val values: List&lt;Any&gt;,</span>
 ) : HttpField {
 
-<span class="fc" id="L8">    override val value: String? = values.firstOrNull()</span>
+<span class="fc" id="L8">    override val value: Any? = values.firstOrNull()</span>
 
 <span class="fc" id="L10">    constructor(name: String, vararg values: Any) : this(name, values.map(Any::toString))</span>
 

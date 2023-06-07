@@ -9,7 +9,7 @@ import com.hexagonkt.http.model.ws.WsSession
 <span class="fc" id="L9">    override val contentType: ContentType? = null,</span>
 <span class="fc" id="L10">    override val cookies: List&lt;Cookie&gt; = emptyList(),</span>
 <span class="fc" id="L11">    override val status: HttpStatus = NOT_FOUND_404,</span>
-<span class="pc" id="L12">    override val contentLength: Long = -1L,</span>
+<span class="fc" id="L12">    override val contentLength: Long = -1L,</span>
 <span class="pc" id="L13">    override val onConnect: WsSession.() -&gt; Unit = {},</span>
 <span class="pc" id="L14">    override val onBinary: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
 <span class="pc" id="L15">    override val onText: WsSession.(text: String) -&gt; Unit = {},</span>

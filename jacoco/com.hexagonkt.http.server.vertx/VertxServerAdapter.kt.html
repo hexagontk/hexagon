@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VertxServerAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.vertx</a> &gt; <span class="el_source">VertxServerAdapter.kt</span></div><h1>VertxServerAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.vertx
+
+import com.hexagonkt.core.Jvm
+import com.hexagonkt.core.fieldsMapOf
+import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.core.toText
+import com.hexagonkt.http.bodyToBytes
+import com.hexagonkt.http.model.HttpProtocol
+import com.hexagonkt.http.model.HttpProtocol.*
+import com.hexagonkt.http.server.async.HttpServer
+import com.hexagonkt.http.server.async.HttpServerFeature
+import com.hexagonkt.http.server.async.HttpServerFeature.ZIP
+import com.hexagonkt.http.server.async.HttpServerPort
+import com.hexagonkt.http.handlers.async.HttpHandler
+import com.hexagonkt.http.model.HttpResponse
+import com.hexagonkt.http.model.HttpResponsePort
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
+import io.vertx.core.Vertx
+import io.vertx.core.VertxOptions
+import io.vertx.core.buffer.Buffer.buffer
+import io.vertx.core.eventbus.EventBusOptions
+import io.vertx.core.http.*
+import io.vertx.core.http.ClientAuth.NONE
+import io.vertx.core.http.ClientAuth.REQUIRED
+import io.vertx.core.http.CookieSameSite.STRICT
+import io.vertx.core.http.CookieSameSite.NONE as SAME_SITE_NONE
+import io.vertx.core.net.JksOptions
+import io.vertx.ext.web.Router
+import io.vertx.ext.web.RoutingContext
+import io.vertx.ext.web.handler.BodyHandler
+import java.net.URL
+import java.nio.file.Files
+import kotlin.io.path.absolutePathString
+
+/**
+ * Implements [HttpServerPort] using Vert.x.
+ */
+<span class="fc" id="L38">class VertxServerAdapter(</span>
+<span class="pc" id="L39">    private val eventLoopPoolSize: Int = Jvm.cpuCount,</span>
+<span class="pc" id="L40">    private val preferNativeTransport: Boolean = false,</span>
+<span class="fc" id="L41">    private val tcpFastOpen: Boolean = false,</span>
+<span class="fc" id="L42">    private val tcpCork: Boolean = false,</span>
+<span class="fc" id="L43">    private val tcpQuickAck: Boolean = false,</span>
+<span class="fc" id="L44">    private val reusePort: Boolean = false,</span>
+) : HttpServerPort {
+
+    private var started: Boolean = false
+    private lateinit var vertxServer: io.vertx.core.http.HttpServer
+
+<span class="fc" id="L50">    constructor() : this(</span>
+<span class="fc" id="L51">        eventLoopPoolSize = Jvm.cpuCount,</span>
+<span class="fc" id="L52">        preferNativeTransport = false,</span>
+<span class="fc" id="L53">    )</span>
+
+    override fun runtimePort(): Int =
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        vertxServer.actualPort()</span>
+
+    override fun started(): Boolean =
+<span class="fc" id="L59">        started</span>
+
+    override fun supportedProtocols(): Set&lt;HttpProtocol&gt; =
+<span class="fc" id="L62">        setOf(HTTP, HTTPS, HTTP2)</span>
+
+    override fun supportedFeatures(): Set&lt;HttpServerFeature&gt; =
+<span class="fc" id="L65">        setOf(ZIP)</span>
+
+    override fun options(): Map&lt;String, *&gt; =
+<span class="fc" id="L68">        fieldsMapOf(</span>
+<span class="fc" id="L69">            VertxServerAdapter::eventLoopPoolSize to eventLoopPoolSize,</span>
+<span class="fc" id="L70">            VertxServerAdapter::preferNativeTransport to preferNativeTransport,</span>
+<span class="fc" id="L71">            VertxServerAdapter::tcpFastOpen to tcpFastOpen,</span>
+<span class="fc" id="L72">            VertxServerAdapter::tcpCork to tcpCork,</span>
+<span class="fc" id="L73">            VertxServerAdapter::tcpQuickAck to tcpQuickAck,</span>
+<span class="fc" id="L74">            VertxServerAdapter::reusePort to reusePort,</span>
+<span class="fc" id="L75">        )</span>
+
+    override fun shutDown() {
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        vertxServer</span>
+<span class="fc" id="L79">            .close()</span>
+<span class="fc" id="L80">            .onSuccess { started = false }</span>
+<span class="fc" id="L81">            .toCompletionStage()</span>
+<span class="fc" id="L82">            .toCompletableFuture()</span>
+<span class="fc" id="L83">            .join()</span>
+<span class="fc" id="L84">    }</span>
+
+    override fun startUp(server: HttpServer) {
+<span class="fc" id="L87">        val settings = server.settings</span>
+<span class="fc" id="L88">        val sslSettings = settings.sslSettings</span>
+<span class="fc" id="L89">        val vertx = Vertx.vertx(VertxOptions()</span>
+<span class="fc" id="L90">            .setEventLoopPoolSize(eventLoopPoolSize)</span>
+<span class="fc" id="L91">            .setPreferNativeTransport(preferNativeTransport)</span>
+<span class="fc" id="L92">            .setEventBusOptions(EventBusOptions())</span>
+        )
+
+<span class="fc" id="L95">        val handler = server.handler.addPrefix(settings.contextPath)</span>
+<span class="fc" id="L96">        val handlers = handler.byMethod().mapKeys { HttpMethod.valueOf(it.key.toString()) }</span>
+
+<span class="fc" id="L98">        val uploadDirectory = Files.createTempDirectory(&quot;hexagon&quot;)</span>
+<span class="fc" id="L99">        uploadDirectory.toFile().deleteOnExit()</span>
+<span class="fc" id="L100">        val router = Router.router(vertx)</span>
+<span class="fc" id="L101">        val bodyHandler = BodyHandler.create(uploadDirectory.absolutePathString())</span>
+<span class="fc" id="L102">        router.route().handler(bodyHandler)</span>
+<span class="fc" id="L103">        router.route().handler { handle(handlers, it) }</span>
+
+<span class="fc bfc" id="L105" title="All 4 branches covered.">        val hasTrustStore = sslSettings?.trustStore != null</span>
+<span class="fc" id="L106">        vertxServer = vertx</span>
+<span class="fc" id="L107">            .createHttpServer(</span>
+<span class="fc" id="L108">                HttpServerOptions()</span>
+<span class="fc" id="L109">                    .setPort(settings.bindPort)</span>
+<span class="fc" id="L110">                    .setHost(settings.bindAddress.hostName)</span>
+<span class="fc" id="L111">                    .setCompressionSupported(settings.zip)</span>
+<span class="fc bfc" id="L112" title="All 6 branches covered.">                    .setSsl(hasTrustStore || sslSettings?.keyStore != null)</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">                    .setClientAuth(if (hasTrustStore) REQUIRED else NONE)</span>
+<span class="fc" id="L114">                    .setTrustStoreOptions(</span>
+<span class="fc bfc" id="L115" title="All 4 branches covered.">                        createStoreOptions(sslSettings?.trustStore, sslSettings?.trustStorePassword)</span>
+                    )
+<span class="fc" id="L117">                    .setKeyStoreOptions(</span>
+<span class="fc bfc" id="L118" title="All 4 branches covered.">                        createStoreOptions(sslSettings?.keyStore, sslSettings?.keyStorePassword)</span>
+                    )
+<span class="fc" id="L120">                    .setTcpFastOpen(tcpFastOpen)</span>
+<span class="fc" id="L121">                    .setTcpCork(tcpCork)</span>
+<span class="fc" id="L122">                    .setTcpQuickAck(tcpQuickAck)</span>
+<span class="fc" id="L123">                    .setReusePort(reusePort)</span>
+            )
+<span class="fc" id="L125">            .requestHandler(router)</span>
+<span class="fc" id="L126">            .listen()</span>
+<span class="fc" id="L127">            .onSuccess { started = true }</span>
+<span class="fc" id="L128">            .toCompletionStage()</span>
+<span class="fc" id="L129">            .toCompletableFuture()</span>
+<span class="fc" id="L130">            .join()</span>
+<span class="fc" id="L131">    }</span>
+
+    private fun createStoreOptions(store: URL?, password: String?): JksOptions {
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        val trustStoreUrl = store ?: return JksOptions()</span>
+<span class="fc" id="L135">        return JksOptions()</span>
+<span class="fc" id="L136">            .setPassword(password)</span>
+<span class="fc" id="L137">            .setValue(buffer(trustStoreUrl.readBytes()))</span>
+    }
+
+    private fun handle(handlers: Map&lt;HttpMethod, HttpHandler&gt;, context: RoutingContext) {
+<span class="fc" id="L141">        val request = context.request()</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">        handlers[request.method()]</span>
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">            ?.process(VertxRequestAdapter(context))</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">            ?.thenApply { createResponse(request, it.response) }</span>
+<span class="nc" id="L145">            ?: createResponse(request, HttpResponse())</span>
+<span class="fc" id="L146">    }</span>
+
+    private fun createResponse(request: HttpServerRequest, response: HttpResponsePort) {
+<span class="fc" id="L149">        val vertxResponse = request.response()</span>
+<span class="fc" id="L150">        val vertxHeaders = vertxResponse.headers()</span>
+<span class="fc" id="L151">        val contentLength = response.contentLength</span>
+
+<span class="fc" id="L153">        vertxResponse.setStatusCode(response.status.code)</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        contentLength.let { if (it &gt;= 0) vertxHeaders.add(&quot;content-length&quot;, it.toString()) }</span>
+<span class="pc bpc" id="L155" title="1 of 4 branches missed.">        response.contentType?.text?.let { vertxHeaders.add(&quot;content-type&quot;, it) }</span>
+<span class="fc" id="L156">        response.headers.values.forEach { vertxHeaders.add(it.name, it.strings()) }</span>
+<span class="fc" id="L157">        response.cookies.forEach {</span>
+<span class="fc" id="L158">            val cookie = Cookie.cookie(it.name, it.value)</span>
+<span class="fc" id="L159">            cookie.domain = it.domain</span>
+<span class="fc" id="L160">            cookie.path = it.path</span>
+<span class="fc" id="L161">            cookie.isHttpOnly = it.httpOnly</span>
+<span class="fc" id="L162">            cookie.isSecure = it.secure</span>
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">            cookie.sameSite = if (it.sameSite) STRICT else SAME_SITE_NONE</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">            if (it.maxAge &gt;= 0)</span>
+<span class="fc" id="L165">                cookie.maxAge = it.maxAge</span>
+
+<span class="fc bfc" id="L167" title="All 2 branches covered.">            if (it.deleted) vertxResponse.removeCookie(cookie.name)</span>
+<span class="fc" id="L168">            else vertxResponse.addCookie(cookie)</span>
+<span class="fc" id="L169">        }</span>
+
+<span class="fc" id="L171">        try {</span>
+<span class="fc" id="L172">            val bytes = bodyToBytes(response.body)</span>
+<span class="fc" id="L173">            vertxResponse.end(buffer(bytes))</span>
+        }
+<span class="fc" id="L175">        catch (e: Exception) {</span>
+<span class="fc" id="L176">            vertxHeaders.add(&quot;content-type&quot;, TEXT_PLAIN.fullType)</span>
+<span class="fc" id="L177">            vertxResponse.setStatusCode(INTERNAL_SERVER_ERROR_500.code).end(buffer(e.toText().toByteArray()))</span>
+        }
+<span class="fc" id="L179">    }</span>
+<span class="fc" id="L180">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,305 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>BenchmarkIT</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<script type="text/javascript" src="../../../../dokka-mermaid.js" async></script></head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+<a href="../../../../index.html">
+<span>hexagon</span>            </a>    </div>
+    <div>3.0.0-B1
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http_test_async:dokkaHtmlPartial/main">jvm</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="http_test_async::com.hexagonkt.http.test.async.examples/BenchmarkIT///PointingToDeclaration//251030996">
+  <div class="breadcrumbs"><a href="../../index.html">http_test_async</a><span class="delimiter">/</span><a href="../index.html">com.hexagonkt.http.test.async.examples</a><span class="delimiter">/</span><span class="current">BenchmarkIT</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Benchmark</span><wbr><span><span>IT</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">BenchmarkIT</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">clientAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="../../../../http/http_client/com.hexagonkt.http.client/-http-client-port/index.html">HttpClientPort</a><span class="token punctuation">, </span></span><span class="parameter ">serverAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="../../../../http/http_server_async/com.hexagonkt.http.server.async/-http-server-port/index.html">HttpServerPort</a><span class="token punctuation">, </span></span><span class="parameter ">serverSettings<span class="token operator">: </span><a href="../../../../http/http_server_async/com.hexagonkt.http.server.async/-http-server-settings/index.html">HttpServerSettings</a><span class="token operator"> = </span>HttpServerSettings()</span></span><span class="token punctuation">)</span> : <a href="../-books-test/index.html">BooksTest</a></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1630637311%2FConstructors%2F251030996" anchor-label="BenchmarkIT" id="1630637311%2FConstructors%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-benchmark-i-t.html"><span>Benchmark</span><wbr><span><span>IT</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1630637311%2FConstructors%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">clientAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="../../../../http/http_client/com.hexagonkt.http.client/-http-client-port/index.html">HttpClientPort</a><span class="token punctuation">, </span></span><span class="parameter ">serverAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="../../../../http/http_server_async/com.hexagonkt.http.server.async/-http-server-port/index.html">HttpServerPort</a><span class="token punctuation">, </span></span><span class="parameter ">serverSettings<span class="token operator">: </span><a href="../../../../http/http_server_async/com.hexagonkt.http.server.async/-http-server-settings/index.html">HttpServerSettings</a><span class="token operator"> = </span>HttpServerSettings()</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1656434884%2FFunctions%2F251030996" anchor-label="Book not found returns a 404" id="1656434884%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-books-test/-book not found returns a 404.html"><span><span>Book</span></span> <span><span>not</span></span> <span><span>found</span></span> <span><span>returns</span></span> <span><span>a</span></span> <span><span>404</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1656434884%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-books-test/-book not found returns a 404.html"><span class="token function">Book not found returns a 404</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-160988528%2FFunctions%2F251030996" anchor-label="Create book returns 201 and new book ID" id="-160988528%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-books-test/-create book returns 201 and new book -i-d.html"><span><span>Create</span></span> <span><span>book</span></span> <span><span>returns</span></span> <span><span>201</span></span> <span><span>and</span></span> <span><span>new</span></span> <span><span>book</span></span> <span><span>ID</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-160988528%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-books-test/-create book returns 201 and new book -i-d.html"><span class="token function">Create book returns 201 and new book ID</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1072715471%2FFunctions%2F251030996" anchor-label="Create book returns 400 if a parameter is missing" id="1072715471%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-books-test/-create book returns 400 if a parameter is missing.html"><span><span>Create</span></span> <span><span>book</span></span> <span><span>returns</span></span> <span><span>400</span></span> <span><span>if</span></span> <span><span>a</span></span> <span><span>parameter</span></span> <span><span>is</span></span> <span><span>missing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1072715471%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-books-test/-create book returns 400 if a parameter is missing.html"><span class="token function">Create book returns 400 if a parameter is missing</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="509993447%2FFunctions%2F251030996" anchor-label="Delete book returns the deleted record ID" id="509993447%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-books-test/-delete book returns the deleted record -i-d.html"><span><span>Delete</span></span> <span><span>book</span></span> <span><span>returns</span></span> <span><span>the</span></span> <span><span>deleted</span></span> <span><span>record</span></span> <span><span>ID</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="509993447%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-books-test/-delete book returns the deleted record -i-d.html"><span class="token function">Delete book returns the deleted record ID</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1868768887%2FFunctions%2F251030996" anchor-label="Delete not found book returns a 404" id="1868768887%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-books-test/-delete not found book returns a 404.html"><span><span>Delete</span></span> <span><span>not</span></span> <span><span>found</span></span> <span><span>book</span></span> <span><span>returns</span></span> <span><span>a</span></span> <span><span>404</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1868768887%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-books-test/-delete not found book returns a 404.html"><span class="token function">Delete not found book returns a 404</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-22709015%2FFunctions%2F251030996" anchor-label="Example benchmark" id="-22709015%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-example benchmark.html"><span><span>Example</span></span> <span><span>benchmark</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-22709015%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="-example benchmark.html"><span class="token function">Example benchmark</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1318920387%2FFunctions%2F251030996" anchor-label="Get book returns all book's fields" id="1318920387%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-books-test/-get book returns all book's fields.html"><span><span>Get</span></span> <span><span>book</span></span> <span><span>returns</span></span> <span><span>all</span></span> <span><span>book's</span></span> <span><span>fields</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1318920387%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-books-test/-get book returns all book's fields.html"><span class="token function">Get book returns all book's fields</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1600468904%2FFunctions%2F251030996" anchor-label="Invalid method returns 405" id="-1600468904%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-books-test/-invalid method returns 405.html"><span><span>Invalid</span></span> <span><span>method</span></span> <span><span>returns</span></span> <span><span>405</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1600468904%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-books-test/-invalid method returns 405.html"><span class="token function">Invalid method returns 405</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="387820642%2FFunctions%2F251030996" anchor-label="List books contains all books IDs" id="387820642%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-books-test/-list books contains all books -i-ds.html"><span><span>List</span></span> <span><span>books</span></span> <span><span>contains</span></span> <span><span>all</span></span> <span><span>books</span></span> <span><span>IDs</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="387820642%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-books-test/-list books contains all books -i-ds.html"><span class="token function">List books contains all books IDs</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2027109967%2FFunctions%2F251030996" anchor-label="Not handled method returns 404" id="-2027109967%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-books-test/-not handled method returns 404.html"><span><span>Not</span></span> <span><span>handled</span></span> <span><span>method</span></span> <span><span>returns</span></span> <span><span>404</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2027109967%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-books-test/-not handled method returns 404.html"><span class="token function">Not handled method returns 404</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1099531690%2FFunctions%2F251030996" anchor-label="shutDown" id="-1099531690%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.hexagonkt.http.test.async/-base-test/shut-down.html"><span>shut</span><wbr><span><span>Down</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1099531690%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/AfterAll///PointingToDeclaration/"><span class="token annotation builtin">AfterAll</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../../com.hexagonkt.http.test.async/-base-test/shut-down.html"><span class="token function">shutDown</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-986277487%2FFunctions%2F251030996" anchor-label="startUp" id="-986277487%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.hexagonkt.http.test.async/-base-test/start-up.html"><span>start</span><wbr><span><span>Up</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-986277487%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/BeforeAll///PointingToDeclaration/"><span class="token annotation builtin">BeforeAll</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../../com.hexagonkt.http.test.async/-base-test/start-up.html"><span class="token function">startUp</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1484424359%2FFunctions%2F251030996" anchor-label="Update book overrides existing book data" id="-1484424359%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-books-test/-update book overrides existing book data.html"><span><span>Update</span></span> <span><span>book</span></span> <span><span>overrides</span></span> <span><span>existing</span></span> <span><span>book</span></span> <span><span>data</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1484424359%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-books-test/-update book overrides existing book data.html"><span class="token function">Update book overrides existing book data</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1883597035%2FFunctions%2F251030996" anchor-label="Update not found book returns a 404" id="-1883597035%2FFunctions%2F251030996" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test_async:dokkaHtmlPartial/main" data-filterable-set=":http:http_test_async:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-books-test/-update not found book returns a 404.html"><span><span>Update</span></span> <span><span>not</span></span> <span><span>found</span></span> <span><span>book</span></span> <span><span>returns</span></span> <span><span>a</span></span> <span><span>404</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1883597035%2FFunctions%2F251030996"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test_async:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-books-test/-update not found book returns a 404.html"><span class="token function">Update not found book returns a 404</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagonkt/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagonkt/hexagon/blob/master/license.md"> MIT License</a></span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+
