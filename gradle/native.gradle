@@ -18,7 +18,7 @@ graalvmNative {
 
     binaries {
         test {
-            runtimeArgs = [ "-DnativeTest=true", "--xml-output-dir", "build/reports/tests/native" ]
+            runtimeArgs = [ "--xml-output-dir", "build/reports/tests/native" ]
         }
     }
 }

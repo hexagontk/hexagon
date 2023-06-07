@@ -1,0 +1,20 @@
+public final class com/hexagonkt/http/server/jetty/JettyKt {
+	public static final fun serve (Lcom/hexagonkt/http/server/HttpServerSettings;Lcom/hexagonkt/http/handlers/HttpHandler;)Lcom/hexagonkt/http/server/HttpServer;
+	public static final fun serve (Lcom/hexagonkt/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;)Lcom/hexagonkt/http/server/HttpServer;
+	public static synthetic fun serve$default (Lcom/hexagonkt/http/server/HttpServerSettings;Lcom/hexagonkt/http/handlers/HttpHandler;ILjava/lang/Object;)Lcom/hexagonkt/http/server/HttpServer;
+	public static synthetic fun serve$default (Lcom/hexagonkt/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagonkt/http/server/HttpServer;
+}
+
+public final class com/hexagonkt/http/server/jetty/JettyServletAdapter : com/hexagonkt/http/server/HttpServerPort {
+	public fun <init> ()V
+	public fun <init> (IIIIZZZZ)V
+	public synthetic fun <init> (IIIIZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun options ()Ljava/util/Map;
+	public fun runtimePort ()I
+	public fun shutDown ()V
+	public fun startUp (Lcom/hexagonkt/http/server/HttpServer;)V
+	public fun started ()Z
+	public fun supportedFeatures ()Ljava/util/Set;
+	public fun supportedProtocols ()Ljava/util/Set;
+}
+

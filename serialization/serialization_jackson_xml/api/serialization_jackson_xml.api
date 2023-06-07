@@ -1,0 +1,11 @@
+public final class com/hexagonkt/serialization/jackson/xml/Xml : com/hexagonkt/serialization/SerializationFormat {
+	public static final field INSTANCE Lcom/hexagonkt/serialization/jackson/xml/Xml;
+	public fun getMediaType ()Lcom/hexagonkt/core/media/MediaType;
+	public fun getTextFormat ()Z
+	public fun parse (Ljava/io/InputStream;)Ljava/lang/Object;
+	public fun parse (Ljava/lang/String;)Ljava/lang/Object;
+	public fun serialize (Ljava/lang/Object;)Ljava/lang/String;
+	public fun serialize (Ljava/lang/Object;Ljava/io/OutputStream;)V
+	public fun serializeBytes (Ljava/lang/Object;)[B
+}
+

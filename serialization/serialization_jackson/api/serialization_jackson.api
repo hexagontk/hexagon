@@ -1,0 +1,19 @@
+public final class com/hexagonkt/serialization/jackson/JacksonHelper {
+	public static final field INSTANCE Lcom/hexagonkt/serialization/jackson/JacksonHelper;
+	public final fun createObjectMapper (Lcom/fasterxml/jackson/core/JsonFactory;)Lcom/fasterxml/jackson/databind/json/JsonMapper;
+	public final fun mapNode (Lcom/fasterxml/jackson/databind/JsonNode;)Ljava/lang/Object;
+	public final fun nodeToCollection (Lcom/fasterxml/jackson/databind/JsonNode;)Ljava/lang/Object;
+}
+
+public abstract class com/hexagonkt/serialization/jackson/JacksonTextFormat : com/hexagonkt/serialization/SerializationFormat {
+	public fun <init> ()V
+	public fun <init> (Lkotlin/jvm/functions/Function0;Z)V
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function0;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getTextFormat ()Z
+	public fun parse (Ljava/io/InputStream;)Ljava/lang/Object;
+	public fun parse (Ljava/lang/String;)Ljava/lang/Object;
+	public fun serialize (Ljava/lang/Object;)Ljava/lang/String;
+	public fun serialize (Ljava/lang/Object;Ljava/io/OutputStream;)V
+	public fun serializeBytes (Ljava/lang/Object;)[B
+}
+

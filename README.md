@@ -166,8 +166,8 @@ private val books: MutableMap<Int, Book> = linkedMapOf(
 private val path: PathHandler = path {
 
     post("/books") {
-        val author = queryParameters["author"]?.value ?: return@post badRequest("Missing author")
-        val title = queryParameters["title"]?.value ?: return@post badRequest("Missing title")
+        val author = queryParameters["author"]?.string() ?: return@post badRequest("Missing author")
+        val title = queryParameters["title"]?.string() ?: return@post badRequest("Missing title")
         val id = (books.keys.maxOrNull() ?: 0) + 1
         books += id to Book(author, title)
         created(id.toString())
@@ -187,8 +187,8 @@ private val path: PathHandler = path {
         val book = books[bookId]
         if (book != null) {
             books += bookId to book.copy(
-                author = queryParameters["author"]?.value ?: book.author,
-                title = queryParameters["title"]?.value ?: book.title
+                author = queryParameters["author"]?.string() ?: book.author,
+                title = queryParameters["title"]?.string() ?: book.title
             )
 
             ok("Book with id '$bookId' updated")

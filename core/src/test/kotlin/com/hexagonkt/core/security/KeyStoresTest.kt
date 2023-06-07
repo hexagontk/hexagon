@@ -16,7 +16,7 @@ internal class KeyStoresTest {
         val n = "hexagonkt"
         val f = "$n.p12"
         val pwd = f.reversed()
-        val p = if (File("http_test").exists()) "http_test" else "../http_test"
+        val p = if (File("http_test").exists()) "http/http_test" else "../http/http_test"
 
         val ks = loadKeyStore(URL("file:$p/src/main/resources/ssl/$f"), pwd)
         val public = ks.getPublicKey(n)

@@ -89,7 +89,7 @@ task("mkDocs") {
 task("checkDocs") {
     dependsOn("mkDocs")
     doLast {
-        val src = "http_test/src"
+        val src = "http/http_test/src"
         val readme = rootProject.file("README.md")
         val service = rootProject.file("$src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt")
         val examples = "$src/main/kotlin/com/hexagonkt/http/test/examples"
