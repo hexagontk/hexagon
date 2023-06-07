@@ -12,9 +12,15 @@ tasks.register<JacocoReport>("jacocoRootReport") {
     val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
     val modulesSources = rootProject.modulesPaths("src/main/kotlin")
     val modulesClasses = rootProject.modulesPaths("build/classes/kotlin/main")
+        .asSequence()
         .filterNot { it.absolutePath.contains("http_test") }
         .filterNot { it.absolutePath.contains("serialization_test") }
         .filterNot { it.absolutePath.contains("templates_test") }
+        .filterNot { it.absolutePath.contains("rest") }
+        .filterNot { it.absolutePath.contains("rest_test") }
+        .filterNot { it.absolutePath.contains("web") }
+        .toList()
+        // TODO Include the filtered modules when they are ready
 
     executionData.from(projectExecutionData)
     sourceDirectories.from(modulesSources)
@@ -168,7 +174,7 @@ fun generateDownloadBadge() {
 }
 
 fun Project.modulesPaths(path: String): List<File> =
-    subprojects.map { rootProject.file("${it.name}/$path") }.filter { it .exists() }
+    subprojects.map { sp -> sp.file(path) }.filter { it .exists() }
 
 fun overwrite(source: String, target: String) {
     project.file(source).copyTo(file(target), true)
