@@ -29,11 +29,6 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>helpers</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagonkt</groupId>
         <artifactId>http</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
@@ -49,7 +44,17 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
+        <artifactId>http_client_jetty_ws</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
         <artifactId>http_server</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>http_server_async</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
@@ -64,6 +69,11 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
+        <artifactId>http_server_netty_async</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
         <artifactId>http_server_netty_epoll</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
@@ -74,7 +84,37 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
+        <artifactId>http_server_vertx_async</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
         <artifactId>http_test</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>http_test_async</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>rest</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>rest_test</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>web</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>logging_jul</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
@@ -90,6 +130,11 @@
       <dependency>
         <groupId>com.hexagonkt</groupId>
         <artifactId>serialization</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>serialization_dsl_json</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
