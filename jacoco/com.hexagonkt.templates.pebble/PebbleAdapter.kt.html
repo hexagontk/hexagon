@@ -2,22 +2,46 @@
 
 import com.hexagonkt.templates.TemplatePort
 import io.pebbletemplates.pebble.PebbleEngine
+import io.pebbletemplates.pebble.loader.MemoryLoader
 import java.io.StringWriter
 import java.net.URL
 import java.util.*
 
-<span class="fc" id="L9">class PebbleAdapter(cache: Boolean = true, maxRenderedSize: Int = -1) : TemplatePort {</span>
+<span class="fc" id="L10">class PebbleAdapter(</span>
+<span class="fc" id="L11">    private val cache: Boolean = true,</span>
+<span class="fc" id="L12">    private val maxRenderedSize: Int = -1</span>
+) : TemplatePort {
 
-<span class="fc" id="L11">    private val engine: PebbleEngine = PebbleEngine.Builder()</span>
-<span class="fc" id="L12">        .cacheActive(cache)</span>
-<span class="fc" id="L13">        .maxRenderedSize(maxRenderedSize)</span>
-<span class="fc" id="L14">        .build()</span>
+<span class="fc" id="L15">    private val engine: PebbleEngine = PebbleEngine.Builder()</span>
+<span class="fc" id="L16">        .cacheActive(cache)</span>
+<span class="fc" id="L17">        .maxRenderedSize(maxRenderedSize)</span>
+<span class="fc" id="L18">        .build()</span>
 
     override fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale): String {
-<span class="fc" id="L17">        val writer = StringWriter()</span>
-<span class="fc" id="L18">        val resource = url.file</span>
-<span class="fc" id="L19">        engine.getTemplate(resource).evaluate(writer, context, locale)</span>
-<span class="fc" id="L20">        return writer.toString()</span>
+<span class="fc" id="L21">        val writer = StringWriter()</span>
+<span class="fc" id="L22">        val resource = url.file</span>
+<span class="fc" id="L23">        engine.getTemplate(resource).evaluate(writer, context, locale)</span>
+<span class="fc" id="L24">        return writer.toString()</span>
     }
-<span class="fc" id="L22">}</span>
+
+    override fun render(
+        name: String, templates: Map&lt;String, String&gt;, context: Map&lt;String, *&gt;, locale: Locale
+    ): String {
+
+<span class="fc" id="L31">        val writer = StringWriter()</span>
+<span class="fc" id="L32">        val memoryLoader = MemoryLoader().apply {</span>
+<span class="fc" id="L33">            templates.forEach { (k, v) -&gt; addTemplate(k, v) }</span>
+<span class="fc" id="L34">        }</span>
+
+<span class="fc" id="L36">        PebbleEngine.Builder()</span>
+<span class="fc" id="L37">            .cacheActive(cache)</span>
+<span class="fc" id="L38">            .loader(memoryLoader)</span>
+<span class="fc" id="L39">            .maxRenderedSize(maxRenderedSize)</span>
+<span class="fc" id="L40">            .build()</span>
+<span class="fc" id="L41">            .getTemplate(name)</span>
+<span class="fc" id="L42">            .evaluate(writer, context, locale)</span>
+
+<span class="fc" id="L44">        return writer.toString()</span>
+    }
+<span class="fc" id="L46">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

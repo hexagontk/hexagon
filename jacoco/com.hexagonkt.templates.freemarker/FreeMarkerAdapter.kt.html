@@ -2,49 +2,76 @@
 
 import com.hexagonkt.core.ResourceNotFoundException
 import com.hexagonkt.templates.TemplatePort
+import freemarker.cache.StringTemplateLoader
 import freemarker.cache.TemplateLookupContext
 import freemarker.cache.TemplateLookupResult
 import freemarker.cache.TemplateLookupStrategy
 import freemarker.cache.URLTemplateLoader
 import freemarker.template.Configuration
+import freemarker.template.Template
 import freemarker.template.Version
 import java.io.StringWriter
 import java.net.URL
 import java.util.*
 
-<span class="fc" id="L15">class FreeMarkerAdapter : TemplatePort {</span>
+<span class="fc" id="L17">class FreeMarkerAdapter : TemplatePort {</span>
+
+<span class="fc" id="L19">    private val freeMarkerVersion = Version(&quot;2.3.32&quot;)</span>
+
+    object AdapterTemplateLookupStrategy : TemplateLookupStrategy() {
+        override fun lookup(ctx: TemplateLookupContext): TemplateLookupResult =
+<span class="fc" id="L23">            try {</span>
+<span class="fc" id="L24">                val templateName = ctx.templateName</span>
+<span class="fc" id="L25">                URL(templateName)</span>
+<span class="fc" id="L26">                ctx.lookupWithAcquisitionStrategy(templateName)</span>
+            }
+<span class="fc" id="L28">            catch (e: ResourceNotFoundException) {</span>
+<span class="fc" id="L29">                ctx.createNegativeLookupResult()</span>
+<span class="fc" id="L30">            }</span>
+    }
+
+    object AdapterTemplateLoader : URLTemplateLoader() {
+        override fun getURL(name: String): URL =
+<span class="fc" id="L35">            URL(name)</span>
+    }
 
     override fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale): String {
-<span class="fc" id="L18">        val configuration = Configuration(Version(&quot;2.3.32&quot;)).apply {</span>
-<span class="fc" id="L19">            defaultEncoding = &quot;UTF-8&quot;</span>
-<span class="fc" id="L20">            templateLookupStrategy = object : TemplateLookupStrategy() {</span>
-                override fun lookup(ctx: TemplateLookupContext): TemplateLookupResult =
-<span class="fc" id="L22">                    try {</span>
-<span class="fc" id="L23">                        val templateName = ctx.templateName</span>
-<span class="fc" id="L24">                        URL(templateName)</span>
-<span class="fc" id="L25">                        ctx.lookupWithAcquisitionStrategy(templateName)</span>
-                    }
-<span class="fc" id="L27">                    catch (e: ResourceNotFoundException) {</span>
-<span class="fc" id="L28">                        ctx.createNegativeLookupResult()</span>
-<span class="fc" id="L29">                    }</span>
-            }
-<span class="fc" id="L31">            templateLoader = object : URLTemplateLoader() {</span>
-                override fun getURL(name: String): URL =
-<span class="fc" id="L33">                    URL(name)</span>
-            }
-<span class="fc" id="L35">        }</span>
+<span class="fc" id="L39">        val configuration = Configuration(freeMarkerVersion).apply {</span>
+<span class="fc" id="L40">            defaultEncoding = &quot;UTF-8&quot;</span>
+<span class="fc" id="L41">            templateLookupStrategy = AdapterTemplateLookupStrategy</span>
+<span class="fc" id="L42">            templateLoader = AdapterTemplateLoader</span>
+<span class="fc" id="L43">        }</span>
 
-<span class="fc" id="L37">        val template = configuration.getTemplate(url.toString())</span>
-<span class="fc" id="L38">        val writer = StringWriter()</span>
-
-<span class="pc" id="L40">        return writer.use {</span>
-<span class="fc" id="L41">            val templateUrl = context[&quot;_template_&quot;]</span>
-<span class="fc" id="L42">            val freemarkerContext = context + (&quot;_template_&quot; to templateUrl.toString())</span>
-<span class="fc" id="L43">            val env = template.createProcessingEnvironment(freemarkerContext, it)</span>
-<span class="fc" id="L44">            env.locale = locale</span>
-<span class="fc" id="L45">            env.process()</span>
-<span class="fc" id="L46">            it.buffer.toString()</span>
-        }
+<span class="fc" id="L45">        val template = configuration.getTemplate(url.toString())</span>
+<span class="fc" id="L46">        return processTemplate(template, context, locale)</span>
     }
+
+    override fun render(
+        name: String, templates: Map&lt;String, String&gt;, context: Map&lt;String, *&gt;, locale: Locale
+    ): String {
+<span class="fc" id="L52">        val configuration = Configuration(freeMarkerVersion).apply {</span>
+<span class="fc" id="L53">            defaultEncoding = &quot;UTF-8&quot;</span>
+<span class="fc" id="L54">            templateLoader = StringTemplateLoader().apply {</span>
+<span class="fc" id="L55">                templates.forEach { (k, v) -&gt; putTemplate(k, v) }</span>
+<span class="fc" id="L56">            }</span>
+<span class="fc" id="L57">        }</span>
+
+<span class="fc" id="L59">        val template = configuration.getTemplate(name)</span>
+<span class="fc" id="L60">        return processTemplate(template, context, locale)</span>
+    }
+
+    private fun processTemplate(
+        template: Template,
+        context: Map&lt;String, *&gt;,
+        locale: Locale
+    ): String =
+<span class="pc" id="L68">        StringWriter().use {</span>
+<span class="fc" id="L69">            val templateUrl = context[&quot;_template_&quot;]</span>
+<span class="fc" id="L70">            val freemarkerContext = context + (&quot;_template_&quot; to templateUrl.toString())</span>
+<span class="fc" id="L71">            val env = template.createProcessingEnvironment(freemarkerContext, it)</span>
+<span class="fc" id="L72">            env.locale = locale</span>
+<span class="fc" id="L73">            env.process()</span>
+<span class="fc" id="L74">            it.buffer.toString()</span>
+<span class="fc" id="L75">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

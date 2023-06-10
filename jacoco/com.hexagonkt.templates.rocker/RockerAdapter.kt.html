@@ -7,7 +7,7 @@ import com.hexagonkt.templates.TemplatePort
 import java.net.URL
 import java.util.*
 
-<span class="fc" id="L10">class RockerAdapter(reloading: Boolean = false) : TemplatePort {</span>
+<span class="pc" id="L10">class RockerAdapter(reloading: Boolean = false) : TemplatePort {</span>
 
 <span class="fc" id="L12">    init {</span>
 <span class="fc" id="L13">        RockerRuntime.getInstance().isReloading = reloading</span>
@@ -18,5 +18,10 @@ import java.util.*
 <span class="fc" id="L18">            .bind(&quot;context&quot;, context)</span>
 <span class="fc" id="L19">            .render(StringBuilderOutput.FACTORY)</span>
 <span class="fc" id="L20">            .toString()</span>
-<span class="fc" id="L21">}</span>
+
+    override fun render(
+        name: String, templates: Map&lt;String, String&gt;, context: Map&lt;String, *&gt;, locale: Locale
+    ): String =
+<span class="fc" id="L25">        throw UnsupportedOperationException(&quot;Rocker does not support memory templates&quot;)</span>
+<span class="fc" id="L26">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
