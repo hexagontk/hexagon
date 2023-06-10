@@ -62,5 +62,10 @@ class TemplatesTest {
 
         override fun render(url: URL, context: Map<String, *>, locale: Locale): String =
             "$url $context"
+
+        override fun render(
+            name: String, templates: Map<String, String>, context: Map<String, *>, locale: Locale
+        ): String =
+            throw UnsupportedOperationException()
     }
 }

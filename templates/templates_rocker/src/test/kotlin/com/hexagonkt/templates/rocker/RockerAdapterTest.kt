@@ -4,6 +4,8 @@ import kotlin.test.Test
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.Locale
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 internal class RockerAdapterTest {
 
@@ -16,5 +18,13 @@ internal class RockerAdapterTest {
         assert(html.contains("23:45"))
         assert(html.contains("2000"))
         assert(html.contains("31"))
+    }
+
+    @Test fun `Literal templates are not supported`() {
+        val context = mapOf("localDate" to LocalDateTime.of(2000, 12, 31, 23, 45))
+        val e = assertFailsWith<UnsupportedOperationException> {
+            RockerAdapter().render("template code", context, locale)
+        }
+        assertEquals("Rocker does not support memory templates", e.message)
     }
 }
