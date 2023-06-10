@@ -18,4 +18,9 @@ class RockerAdapter(reloading: Boolean = false) : TemplatePort {
             .bind("context", context)
             .render(StringBuilderOutput.FACTORY)
             .toString()
+
+    override fun render(
+        name: String, templates: Map<String, String>, context: Map<String, *>, locale: Locale
+    ): String =
+        throw UnsupportedOperationException("Rocker does not support memory templates")
 }

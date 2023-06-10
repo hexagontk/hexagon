@@ -11,6 +11,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter.ISO_DATE
 import kotlin.test.assertFails
 
+@Suppress("FunctionName") // Naming for tests
 @TestInstance(PER_CLASS)
 abstract class TemplateAdapterTest(private val url: URL, private val adapter: TemplatePort) {
 
