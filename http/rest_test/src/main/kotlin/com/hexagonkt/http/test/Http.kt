@@ -143,7 +143,8 @@ data class Http(
             formParameters = formParameters,
             parts = parts,
             contentType = contentType,
-            attributes = attributes,
+            attributes = attributes
+                + mapOf("pathPattern" to pathPattern, "pathParameters" to pathParameters),
         )
 
     fun get(
