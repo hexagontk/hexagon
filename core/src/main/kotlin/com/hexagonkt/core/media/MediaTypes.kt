@@ -36,7 +36,7 @@ val APPLICATION_RAR: MediaType = MediaType(APPLICATION, "vnd.rar")
 val APPLICATION_XHTML: MediaType = MediaType(APPLICATION, "xhtml+xml")
 val APPLICATION_WEB_MANIFEST: MediaType = MediaType(APPLICATION, "manifest+json")
 val APPLICATION_TOML: MediaType = MediaType(APPLICATION, "toml")
-val APPLICATION_A7Z: MediaType = MediaType(APPLICATION, "x-7z-compressed")
+val APPLICATION_7Z: MediaType = MediaType(APPLICATION, "x-7z-compressed")
 val APPLICATION_BZIP: MediaType = MediaType(APPLICATION, "x-bzip")
 val APPLICATION_BZIP2: MediaType = MediaType(APPLICATION, "x-bzip2")
 val APPLICATION_CDF: MediaType = MediaType(APPLICATION, "x-cdf")
@@ -127,7 +127,7 @@ internal val MEDIA_TYPES_EXTENSIONS: Map<String, MediaType> = mapOf(
     "jar" to APPLICATION_JAVA_ARCHIVE,
     "ogx" to APPLICATION_OGG,
     "rar" to APPLICATION_RAR,
-    "7z" to APPLICATION_A7Z,
+    "7z" to APPLICATION_7Z,
     "bz" to APPLICATION_BZIP,
     "bz2" to APPLICATION_BZIP2,
     "cda" to APPLICATION_CDF,
@@ -189,6 +189,12 @@ internal val MEDIA_TYPES_EXTENSIONS: Map<String, MediaType> = mapOf(
     "webm" to VIDEO_WEBM,
 )
 
+internal val EXTENSIONS_BY_MEDIA: Map<MediaType, List<String>> = MEDIA_TYPES_EXTENSIONS.entries
+    .groupBy { it.value }
+    .mapValues {
+        it.value.map { entry -> entry.key }
+    }
+
 fun parseMediaType(fullType: String): MediaType {
     val groupType = fullType.split("/")
     require(groupType.size == 2) { "Media type format must be <type>/<subtype>: $fullType" }
@@ -228,6 +234,9 @@ fun mediaTypeOf(path: Path): MediaType =
 
 fun mediaTypeOf(extension: String): MediaType =
     mediaTypeOfOrNull(extension) ?: error("Media type not found for: '$extension' extension")
+
+fun extensionsOf(mediaType: MediaType): List<String> =
+    EXTENSIONS_BY_MEDIA[mediaType] ?: emptyList()
 
 private fun pathExtension(path: String): String =
     path.substringAfterLast('.')
