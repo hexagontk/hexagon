@@ -79,12 +79,12 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>http_server_servlet</artifactId>
+        <artifactId>http_server_netty_epoll_async</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>http_server_vertx_async</artifactId>
+        <artifactId>http_server_servlet</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>

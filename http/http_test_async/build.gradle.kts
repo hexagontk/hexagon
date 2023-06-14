@@ -25,7 +25,7 @@ dependencies {
     "api"("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 
     "testImplementation"(project(":http:http_client_jetty"))
-    "testImplementation"(project(":http:http_server_vertx_async"))
+    "testImplementation"(project(":http:http_server_netty_async"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
     "testImplementation"(project(":serialization:serialization_jackson_yaml"))
 }
