@@ -75,7 +75,7 @@ data class Http(
         mediaType: MediaType,
         headers: Map<String, *> = emptyMap<String, Any>(),
         sslSettings: SslSettings? = SslSettings(),
-        handler: HttpHandler? = null,
+        handler: HttpHandler? = serializeHandler,
     ) : this(adapter, url, ContentType(mediaType), headers, sslSettings, handler)
 
     fun start() {

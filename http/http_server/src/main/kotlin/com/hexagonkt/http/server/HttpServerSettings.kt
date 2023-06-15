@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.core.Jvm
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.model.HttpProtocol
 import com.hexagonkt.http.model.HttpProtocol.HTTP
@@ -15,6 +16,7 @@ import java.net.InetAddress
  * @property sslSettings SSL settings info for configuring the server.
  * @property banner Server banner message.
  * @property zip Option to compress server responses.
+ * @property base Base URL to connect to the server. It lacks the port (as it can be dynamic).
  */
 data class HttpServerSettings(
     val bindAddress: InetAddress = InetAddress.getLoopbackAddress(),
@@ -24,4 +26,10 @@ data class HttpServerSettings(
     val sslSettings: SslSettings? = null,
     val banner: String? = HttpServer.banner,
     val zip: Boolean = false,
-)
+) {
+    val base by lazy {
+        val hostName = if (bindAddress.isAnyLocalAddress) Jvm.ip else bindAddress.canonicalHostName
+        val scheme = if (protocol == HTTP) "http" else "https"
+        "$scheme://$hostName"
+    }
+}

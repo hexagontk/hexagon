@@ -17,19 +17,19 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @TestInstance(PER_CLASS)
-class MockServerTest {
-    private val mockServer: MockServer = MockServer(JettyServletAdapter())
+class DynamicServerTest {
+    private val dynamicServer: DynamicServer = DynamicServer(JettyServletAdapter())
 
     @BeforeAll fun `Set up mock services`() {
-        mockServer.server.start()
+        dynamicServer.start()
     }
 
     @AfterAll fun `Shut down mock services`() {
-        mockServer.server.stop()
+        dynamicServer.stop()
     }
 
     @Test fun `Do HTTP requests`() {
-        mockServer.path = path {
+        dynamicServer.path = path {
             get("/hello/{name}") {
                 val name = pathParameters["name"]
 
@@ -37,24 +37,24 @@ class MockServerTest {
             }
         }
 
-        http(JettyClientAdapter(), "http://localhost:${mockServer.server.runtimePort}") {
+        http(JettyClientAdapter(), "http://localhost:${dynamicServer.runtimePort}") {
             get("/hello/mike")
             assertEquals(OK_200, response.status)
         }
     }
 
     @Test fun `Mock HTTP response`() {
-        mockServer.path = path {
+        dynamicServer.path = path {
             get("/foo") {
                 ok("dynamic")
             }
         }
 
-        Http(JettyClientAdapter(), "http://localhost:${mockServer.server.runtimePort}").request {
+        Http(JettyClientAdapter(), "http://localhost:${dynamicServer.runtimePort}").request {
             get("/foo")
             assertEquals(OK_200, response.status)
             assertEquals("dynamic", response.body)
-            mockServer.path = path {
+            dynamicServer.path = path {
                 get("/foo") {
                     ok("changed")
                 }
@@ -68,13 +68,13 @@ class MockServerTest {
     }
 
     @Test fun `Check all HTTP methods (absolute path)`() {
-        mockServer.path = path {
+        dynamicServer.path = path {
             on("*") {
                 ok("$method $path ${request.headers}", contentType = ContentType(TEXT_PLAIN))
             }
         }
 
-        val port = mockServer.server.runtimePort
+        val port = dynamicServer.runtimePort
         val adapter = JettyClientAdapter()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val http = Http(adapter, headers = headers)
@@ -102,13 +102,13 @@ class MockServerTest {
     }
 
     @Test fun `Check all HTTP methods`() {
-        mockServer.path = path {
+        dynamicServer.path = path {
             on("*") {
                 ok("$method $path ${request.headers}", contentType = ContentType(TEXT_PLAIN))
             }
         }
 
-        val url = "http://localhost:${mockServer.server.runtimePort}"
+        val url = "http://localhost:${dynamicServer.runtimePort}"
         val adapter = JettyClientAdapter()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val http = Http(adapter, url, headers = headers)
