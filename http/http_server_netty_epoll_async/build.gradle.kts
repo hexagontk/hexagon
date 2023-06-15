@@ -10,10 +10,11 @@ apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
 dependencies {
-    "api"(project(":http:http_handlers"))
-    "api"(project(":serialization:serialization"))
+    "api"(project(":http:http_server_netty_async"))
+    "api"("io.netty:netty-transport-native-epoll")
 
+    "testImplementation"(project(":http:http_test_async"))
     "testImplementation"(project(":http:http_client_jetty"))
-    "testImplementation"(project(":http:http_server_jetty"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
+    "testImplementation"(project(":serialization:serialization_jackson_yaml"))
 }

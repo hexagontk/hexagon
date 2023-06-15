@@ -134,6 +134,7 @@ apiValidation {
             "http_handlers_async",
             "http_server_async",
             "http_server_netty_async",
+            "http_server_netty_epoll_async",
             "http_test_async",
             "rest",
             "rest_test",

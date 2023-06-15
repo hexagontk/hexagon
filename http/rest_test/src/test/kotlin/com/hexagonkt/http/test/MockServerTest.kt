@@ -50,7 +50,7 @@ class MockServerTest {
             }
         }
 
-        Http(JettyClientAdapter(), "http://localhost:${mockServer.server.runtimePort}",).request {
+        Http(JettyClientAdapter(), "http://localhost:${mockServer.server.runtimePort}").request {
             get("/foo")
             assertEquals(OK_200, response.status)
             assertEquals("dynamic", response.body)
@@ -77,7 +77,7 @@ class MockServerTest {
         val port = mockServer.server.runtimePort
         val adapter = JettyClientAdapter()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
-        val http = Http(adapter, headers = headers,)
+        val http = Http(adapter, headers = headers)
 
         http.get("http://localhost:$port/hello/mike").assertBody("GET /hello/mike", headers)
         http.get("http://localhost:$port").assertBody("GET / ", headers)
@@ -111,7 +111,7 @@ class MockServerTest {
         val url = "http://localhost:${mockServer.server.runtimePort}"
         val adapter = JettyClientAdapter()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
-        val http = Http(adapter, url, headers = headers,)
+        val http = Http(adapter, url, headers = headers)
 
         http.get("/hello/mike").assertBody("GET /hello/mike", headers)
         http.get().assertBody("GET / ", headers)

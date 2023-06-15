@@ -6,10 +6,13 @@ import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.OnHandler
 import com.hexagonkt.http.model.HttpRequest
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
+import com.hexagonkt.http.model.HttpStatusType.SUCCESS
 import com.hexagonkt.http.patterns.createPathPattern
+import com.hexagonkt.rest.serializeCallback
 import java.net.URL
 
 data class Http(
@@ -18,16 +21,18 @@ data class Http(
     val contentType: ContentType? = null,
     val headers: Map<String, *> = emptyMap<String, Any>(),
     val sslSettings: SslSettings? = SslSettings(),
-    val handler: HttpHandler? = null,
+    val handler: HttpHandler? = serializeHandler,
 ) {
     companion object {
+        val serializeHandler: HttpHandler = OnHandler("*", serializeCallback)
+
         fun http(
             adapter: HttpClientPort,
             url: String? = null,
             contentType: ContentType? = null,
             headers: Map<String, *> = emptyMap<String, Any>(),
             sslSettings: SslSettings? = SslSettings(),
-            handler: HttpHandler? = null,
+            handler: HttpHandler? = serializeHandler,
             block: Http.() -> Unit
         ) {
            Http(adapter, url, contentType, headers, sslSettings, handler).request(block)
@@ -39,7 +44,7 @@ data class Http(
             mediaType: MediaType,
             headers: Map<String, *> = emptyMap<String, Any>(),
             sslSettings: SslSettings? = SslSettings(),
-            handler: HttpHandler? = null,
+            handler: HttpHandler? = serializeHandler,
             block: Http.() -> Unit
         ) {
             Http(adapter, url, mediaType, headers, sslSettings, handler).request(block)
@@ -57,7 +62,11 @@ data class Http(
         )
 
     private val client = HttpClient(adapter, settings, handler = handler)
+    private lateinit var lastRequest: HttpRequest
+    private lateinit var lastAttributes: Map<String, *>
     private lateinit var lastResponse: HttpResponsePort
+    val request: HttpRequest get() = lastRequest
+    val attributes: Map<String, *> get() = lastAttributes
     val response: HttpResponsePort get() = lastResponse
 
     constructor(
@@ -81,6 +90,30 @@ data class Http(
 
     fun request(block: Http.() -> Unit) {
         client.request { block.invoke(this@Http) }
+    }
+
+    fun assertStatus(status: HttpStatus) {
+        assert(status == lastResponse.status)
+    }
+
+    fun assertOk() {
+        assertStatus(OK_200)
+    }
+
+    fun assertStatus(statusType: HttpStatusType) {
+        assert(statusType == lastResponse.status.type)
+    }
+
+    fun assertSuccess() {
+        assertStatus(SUCCESS)
+    }
+
+    fun assertBody(body: Any) {
+        assert(body == lastResponse.body)
+    }
+
+    fun assertBodyContains(vararg texts: String) {
+        texts.forEach { assert(lastResponse.bodyString().contains(it)) }
     }
 
     private fun toHeaders(map: Map<String, *>): Headers = Headers(
@@ -109,9 +142,9 @@ data class Http(
             .apply {
                 if (!started())
                     start()
-            }
-            .send(
-                HttpRequest(
+
+                lastAttributes = attributes
+                lastRequest = HttpRequest(
                     method = method,
                     path = path,
                     body = body,
@@ -119,9 +152,9 @@ data class Http(
                     formParameters = FormParameters(formParameters),
                     parts = parts,
                     contentType = contentType,
-                ),
-                attributes = attributes,
-            )
+                )
+            }
+            .send(lastRequest, attributes = attributes)
             .apply { lastResponse = this }
 
     private fun send(
