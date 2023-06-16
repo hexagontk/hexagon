@@ -10,7 +10,7 @@ apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
 dependencies {
-    "api"(project(":http:http"))
+    "api"(project(":http:http_handlers"))
     "api"(project(":serialization:serialization"))
 
     "testImplementation"(project(":http:http_client_jetty"))

@@ -17,7 +17,7 @@ import java.net.URL
 import kotlin.test.assertEquals
 
 // hello_world
-import com.hexagonkt.http.server.vertx.serve
+import com.hexagonkt.http.server.netty.async.serve
 
 lateinit var server: HttpServer
 

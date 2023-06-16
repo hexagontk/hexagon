@@ -4,12 +4,10 @@ import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.Jvm.charset
 import com.hexagonkt.core.Jvm.cpuCount
 import com.hexagonkt.core.Jvm.hostname
-import com.hexagonkt.core.Jvm.ip
 import com.hexagonkt.core.Jvm.name
 import com.hexagonkt.core.Jvm.version
 import com.hexagonkt.core.Jvm.localeCode
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
-import com.hexagonkt.http.model.HttpProtocol.HTTP
 
 import java.lang.Runtime.getRuntime
 import com.hexagonkt.core.Ansi.BLUE
@@ -143,11 +141,8 @@ data class HttpServer(
     internal fun createBanner(startUpTimestamp: Long): String {
 
         val startUpTime = "%,.0f".format(startUpTimestamp / 1e6)
-        val bindAddress = settings.bindAddress
         val protocol = settings.protocol
-        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
-        val scheme = if (protocol == HTTP) "http" else "https"
-        val binding = "$scheme://$hostName:$runtimePort"
+        val binding = "${settings.base}:$runtimePort"
         val banner = settings.banner ?: return " at $binding ($startUpTime ms)"
 
         val jvmMemoryValue = "$BLUE${totalMemory()} KB$RESET"
@@ -155,9 +150,7 @@ data class HttpServer(
         val serverAdapterValue = "$BOLD$CYAN$portName$RESET"
 
         val protocols = adapter.supportedProtocols()
-            .joinToString("$RESET, $CYAN", CYAN, RESET) {
-                if (it == settings.protocol) "✅$it" else "$it"
-            }
+            .joinToString("$RESET, $CYAN", CYAN, RESET) { if (it == protocol) "✅$it" else "$it" }
 
         val features = adapter.supportedFeatures()
             .joinToString("$RESET, $CYAN", CYAN, RESET) { it.toString() }
