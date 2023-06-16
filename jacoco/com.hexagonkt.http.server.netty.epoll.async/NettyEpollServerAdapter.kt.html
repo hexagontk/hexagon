@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NettyEpollServerAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.netty.epoll.async</a> &gt; <span class="el_source">NettyEpollServerAdapter.kt</span></div><h1>NettyEpollServerAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.netty.epoll.async
+
+import com.hexagonkt.http.server.async.HttpServerPort
+import com.hexagonkt.http.server.netty.async.NettyServerAdapter
+import io.netty.bootstrap.ServerBootstrap
+import io.netty.channel.Channel
+import io.netty.channel.ChannelOption
+import io.netty.channel.MultithreadEventLoopGroup
+import io.netty.channel.epoll.EpollChannelOption
+import io.netty.channel.epoll.EpollEventLoopGroup
+import io.netty.channel.epoll.EpollServerSocketChannel
+
+/**
+ * Implements [HttpServerPort] using Netty Epoll [Channel].
+ */
+<span class="pc" id="L16">class NettyEpollServerAdapter(</span>
+<span class="nc" id="L17">    bossGroupThreads: Int = 1,</span>
+<span class="nc" id="L18">    workerGroupThreads: Int = 0,</span>
+<span class="pc" id="L19">    private val soBacklog: Int = 4 * 1_024,</span>
+<span class="pc" id="L20">    private val soReuseAddr: Boolean = true,</span>
+<span class="pc" id="L21">    private val soKeepAlive: Boolean = true,</span>
+<span class="fc" id="L22">) : NettyServerAdapter(</span>
+<span class="fc" id="L23">    bossGroupThreads,</span>
+<span class="fc" id="L24">    workerGroupThreads,</span>
+<span class="fc" id="L25">    soBacklog,</span>
+<span class="fc" id="L26">    soReuseAddr,</span>
+<span class="fc" id="L27">    soKeepAlive,</span>
+) {
+
+<span class="fc" id="L30">    constructor() : this(1, 0, 4 * 1_024, true, true)</span>
+
+    override fun groupSupplier(it: Int): MultithreadEventLoopGroup =
+<span class="fc" id="L33">        EpollEventLoopGroup(it)</span>
+
+    override fun serverBootstrapSupplier(
+        bossGroup: MultithreadEventLoopGroup,
+        workerGroup: MultithreadEventLoopGroup,
+    ): ServerBootstrap =
+<span class="fc" id="L39">        ServerBootstrap().group(bossGroup, workerGroup)</span>
+<span class="fc" id="L40">            .channel(EpollServerSocketChannel::class.java)</span>
+<span class="fc" id="L41">            .option(EpollChannelOption.SO_REUSEPORT, true)</span>
+<span class="fc" id="L42">            .option(ChannelOption.SO_BACKLOG, soBacklog)</span>
+<span class="fc" id="L43">            .option(ChannelOption.SO_REUSEADDR, soReuseAddr)</span>
+<span class="fc" id="L44">            .childOption(ChannelOption.SO_KEEPALIVE, soKeepAlive)</span>
+<span class="fc" id="L45">            .childOption(ChannelOption.SO_REUSEADDR, soReuseAddr)</span>
+<span class="nc" id="L46">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -53,13 +53,13 @@ import java.util.concurrent.CompletableFuture
 <span class="fc" id="L53">                val response = event.response</span>
 <span class="fc" id="L54">                val exception = it.exception</span>
 
-<span class="fc bfc" id="L56" title="All 4 branches covered.">                if (exception != null &amp;&amp; response.status.type != SERVER_ERROR)</span>
-<span class="fc" id="L57">                    it.with(</span>
-<span class="fc" id="L58">                        event = event.copy(</span>
-<span class="fc" id="L59">                            response = response.with(</span>
-<span class="fc" id="L60">                                body = exception.toText(),</span>
-<span class="fc" id="L61">                                contentType = ContentType(TEXT_PLAIN),</span>
-<span class="fc" id="L62">                                status = INTERNAL_SERVER_ERROR_500,</span>
+<span class="pc bpc" id="L56" title="1 of 4 branches missed.">                if (exception != null &amp;&amp; response.status.type != SERVER_ERROR)</span>
+<span class="nc" id="L57">                    it.with(</span>
+<span class="nc" id="L58">                        event = event.copy(</span>
+<span class="nc" id="L59">                            response = response.with(</span>
+<span class="nc" id="L60">                                body = exception.toText(),</span>
+<span class="nc" id="L61">                                contentType = ContentType(TEXT_PLAIN),</span>
+<span class="nc" id="L62">                                status = INTERNAL_SERVER_ERROR_500,</span>
                             )
                         )
                     )

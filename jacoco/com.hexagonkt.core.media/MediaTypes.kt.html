@@ -10,60 +10,60 @@ import kotlin.io.path.extension
 <span class="fc" id="L10">val MEDIA_TYPE_FORMAT: Regex = &quot;&quot;&quot;\*|([\w+.-]+)&quot;&quot;&quot;.toRegex()</span>
 
 <span class="fc" id="L12">val APPLICATION_AVRO: MediaType = MediaType(APPLICATION, &quot;avro&quot;)</span>
-<span class="pc" id="L13">val APPLICATION_CBOR: MediaType = MediaType(APPLICATION, &quot;cbor&quot;)</span>
+<span class="fc" id="L13">val APPLICATION_CBOR: MediaType = MediaType(APPLICATION, &quot;cbor&quot;)</span>
 <span class="fc" id="L14">val APPLICATION_JSON: MediaType = MediaType(APPLICATION, &quot;json&quot;)</span>
 <span class="fc" id="L15">val APPLICATION_YAML: MediaType = MediaType(APPLICATION, &quot;yaml&quot;)</span>
 <span class="fc" id="L16">val APPLICATION_XML: MediaType = MediaType(APPLICATION, &quot;xml&quot;)</span>
-<span class="pc" id="L17">val APPLICATION_GZIP: MediaType = MediaType(APPLICATION, &quot;gzip&quot;)</span>
-<span class="pc" id="L18">val APPLICATION_COMPRESS: MediaType = MediaType(APPLICATION, &quot;compress&quot;)</span>
-<span class="pc" id="L19">val APPLICATION_OCTET_STREAM: MediaType = MediaType(APPLICATION, &quot;octet-stream&quot;)</span>
-<span class="pc" id="L20">val APPLICATION_PDF: MediaType = MediaType(APPLICATION, &quot;pdf&quot;)</span>
-<span class="pc" id="L21">val APPLICATION_POSTSCRIPT: MediaType = MediaType(APPLICATION, &quot;postscript&quot;)</span>
-<span class="pc" id="L22">val APPLICATION_RTF: MediaType = MediaType(APPLICATION, &quot;rtf&quot;)</span>
-<span class="pc" id="L23">val APPLICATION_X_CSH: MediaType = MediaType(APPLICATION, &quot;x-csh&quot;)</span>
-<span class="pc" id="L24">val APPLICATION_X_GTAR: MediaType = MediaType(APPLICATION, &quot;x-gtar&quot;)</span>
-<span class="pc" id="L25">val APPLICATION_X_LATEX: MediaType = MediaType(APPLICATION, &quot;x-latex&quot;)</span>
-<span class="pc" id="L26">val APPLICATION_X_SH: MediaType = MediaType(APPLICATION, &quot;x-sh&quot;)</span>
-<span class="pc" id="L27">val APPLICATION_X_TAR: MediaType = MediaType(APPLICATION, &quot;x-tar&quot;)</span>
-<span class="pc" id="L28">val APPLICATION_X_TCL: MediaType = MediaType(APPLICATION, &quot;x-tcl&quot;)</span>
-<span class="pc" id="L29">val APPLICATION_X_TEX: MediaType = MediaType(APPLICATION, &quot;x-tex&quot;)</span>
-<span class="pc" id="L30">val APPLICATION_X_TEXINFO: MediaType = MediaType(APPLICATION, &quot;x-texinfo&quot;)</span>
-<span class="pc" id="L31">val APPLICATION_ZIP: MediaType = MediaType(APPLICATION, &quot;zip&quot;)</span>
-<span class="pc" id="L32">val APPLICATION_EPUB_ZIP: MediaType = MediaType(APPLICATION, &quot;epub+zip&quot;)</span>
-<span class="pc" id="L33">val APPLICATION_JAVA_ARCHIVE: MediaType = MediaType(APPLICATION, &quot;java-archive&quot;)</span>
-<span class="pc" id="L34">val APPLICATION_OGG: MediaType = MediaType(APPLICATION, &quot;ogg&quot;)</span>
-<span class="pc" id="L35">val APPLICATION_RAR: MediaType = MediaType(APPLICATION, &quot;vnd.rar&quot;)</span>
-<span class="pc" id="L36">val APPLICATION_XHTML: MediaType = MediaType(APPLICATION, &quot;xhtml+xml&quot;)</span>
-<span class="pc" id="L37">val APPLICATION_WEB_MANIFEST: MediaType = MediaType(APPLICATION, &quot;manifest+json&quot;)</span>
+<span class="fc" id="L17">val APPLICATION_GZIP: MediaType = MediaType(APPLICATION, &quot;gzip&quot;)</span>
+<span class="fc" id="L18">val APPLICATION_COMPRESS: MediaType = MediaType(APPLICATION, &quot;compress&quot;)</span>
+<span class="fc" id="L19">val APPLICATION_OCTET_STREAM: MediaType = MediaType(APPLICATION, &quot;octet-stream&quot;)</span>
+<span class="fc" id="L20">val APPLICATION_PDF: MediaType = MediaType(APPLICATION, &quot;pdf&quot;)</span>
+<span class="fc" id="L21">val APPLICATION_POSTSCRIPT: MediaType = MediaType(APPLICATION, &quot;postscript&quot;)</span>
+<span class="fc" id="L22">val APPLICATION_RTF: MediaType = MediaType(APPLICATION, &quot;rtf&quot;)</span>
+<span class="fc" id="L23">val APPLICATION_X_CSH: MediaType = MediaType(APPLICATION, &quot;x-csh&quot;)</span>
+<span class="fc" id="L24">val APPLICATION_X_GTAR: MediaType = MediaType(APPLICATION, &quot;x-gtar&quot;)</span>
+<span class="fc" id="L25">val APPLICATION_X_LATEX: MediaType = MediaType(APPLICATION, &quot;x-latex&quot;)</span>
+<span class="fc" id="L26">val APPLICATION_X_SH: MediaType = MediaType(APPLICATION, &quot;x-sh&quot;)</span>
+<span class="fc" id="L27">val APPLICATION_X_TAR: MediaType = MediaType(APPLICATION, &quot;x-tar&quot;)</span>
+<span class="fc" id="L28">val APPLICATION_X_TCL: MediaType = MediaType(APPLICATION, &quot;x-tcl&quot;)</span>
+<span class="fc" id="L29">val APPLICATION_X_TEX: MediaType = MediaType(APPLICATION, &quot;x-tex&quot;)</span>
+<span class="fc" id="L30">val APPLICATION_X_TEXINFO: MediaType = MediaType(APPLICATION, &quot;x-texinfo&quot;)</span>
+<span class="fc" id="L31">val APPLICATION_ZIP: MediaType = MediaType(APPLICATION, &quot;zip&quot;)</span>
+<span class="fc" id="L32">val APPLICATION_EPUB_ZIP: MediaType = MediaType(APPLICATION, &quot;epub+zip&quot;)</span>
+<span class="fc" id="L33">val APPLICATION_JAVA_ARCHIVE: MediaType = MediaType(APPLICATION, &quot;java-archive&quot;)</span>
+<span class="fc" id="L34">val APPLICATION_OGG: MediaType = MediaType(APPLICATION, &quot;ogg&quot;)</span>
+<span class="fc" id="L35">val APPLICATION_RAR: MediaType = MediaType(APPLICATION, &quot;vnd.rar&quot;)</span>
+<span class="fc" id="L36">val APPLICATION_XHTML: MediaType = MediaType(APPLICATION, &quot;xhtml+xml&quot;)</span>
+<span class="fc" id="L37">val APPLICATION_WEB_MANIFEST: MediaType = MediaType(APPLICATION, &quot;manifest+json&quot;)</span>
 <span class="fc" id="L38">val APPLICATION_TOML: MediaType = MediaType(APPLICATION, &quot;toml&quot;)</span>
-<span class="pc" id="L39">val APPLICATION_A7Z: MediaType = MediaType(APPLICATION, &quot;x-7z-compressed&quot;)</span>
-<span class="pc" id="L40">val APPLICATION_BZIP: MediaType = MediaType(APPLICATION, &quot;x-bzip&quot;)</span>
-<span class="pc" id="L41">val APPLICATION_BZIP2: MediaType = MediaType(APPLICATION, &quot;x-bzip2&quot;)</span>
-<span class="pc" id="L42">val APPLICATION_CDF: MediaType = MediaType(APPLICATION, &quot;x-cdf&quot;)</span>
+<span class="fc" id="L39">val APPLICATION_7Z: MediaType = MediaType(APPLICATION, &quot;x-7z-compressed&quot;)</span>
+<span class="fc" id="L40">val APPLICATION_BZIP: MediaType = MediaType(APPLICATION, &quot;x-bzip&quot;)</span>
+<span class="fc" id="L41">val APPLICATION_BZIP2: MediaType = MediaType(APPLICATION, &quot;x-bzip2&quot;)</span>
+<span class="fc" id="L42">val APPLICATION_CDF: MediaType = MediaType(APPLICATION, &quot;x-cdf&quot;)</span>
 <span class="fc" id="L43">val APPLICATION_PHP: MediaType = MediaType(APPLICATION, &quot;x-httpd-php&quot;)</span>
 
-<span class="pc" id="L45">val AUDIO_BASIC: MediaType = MediaType(AUDIO, &quot;basic&quot;)</span>
-<span class="pc" id="L46">val AUDIO_MPEG: MediaType = MediaType(AUDIO, &quot;mpeg&quot;)</span>
-<span class="pc" id="L47">val AUDIO_WAV: MediaType = MediaType(AUDIO, &quot;wav&quot;)</span>
-<span class="pc" id="L48">val AUDIO_AAC: MediaType = MediaType(AUDIO, &quot;aac&quot;)</span>
-<span class="pc" id="L49">val AUDIO_MIDI: MediaType = MediaType(AUDIO, &quot;midi&quot;)</span>
-<span class="pc" id="L50">val AUDIO_OGG: MediaType = MediaType(AUDIO, &quot;ogg&quot;)</span>
-<span class="pc" id="L51">val AUDIO_OPUS: MediaType = MediaType(AUDIO, &quot;opus&quot;)</span>
-<span class="pc" id="L52">val AUDIO_WEBM: MediaType = MediaType(AUDIO, &quot;webm&quot;)</span>
+<span class="fc" id="L45">val AUDIO_BASIC: MediaType = MediaType(AUDIO, &quot;basic&quot;)</span>
+<span class="fc" id="L46">val AUDIO_MPEG: MediaType = MediaType(AUDIO, &quot;mpeg&quot;)</span>
+<span class="fc" id="L47">val AUDIO_WAV: MediaType = MediaType(AUDIO, &quot;wav&quot;)</span>
+<span class="fc" id="L48">val AUDIO_AAC: MediaType = MediaType(AUDIO, &quot;aac&quot;)</span>
+<span class="fc" id="L49">val AUDIO_MIDI: MediaType = MediaType(AUDIO, &quot;midi&quot;)</span>
+<span class="fc" id="L50">val AUDIO_OGG: MediaType = MediaType(AUDIO, &quot;ogg&quot;)</span>
+<span class="fc" id="L51">val AUDIO_OPUS: MediaType = MediaType(AUDIO, &quot;opus&quot;)</span>
+<span class="fc" id="L52">val AUDIO_WEBM: MediaType = MediaType(AUDIO, &quot;webm&quot;)</span>
 
-<span class="pc" id="L54">val FONT_OTF: MediaType = MediaType(FONT, &quot;otf&quot;)</span>
-<span class="pc" id="L55">val FONT_TTF: MediaType = MediaType(FONT, &quot;ttf&quot;)</span>
-<span class="pc" id="L56">val FONT_WOFF: MediaType = MediaType(FONT, &quot;woff&quot;)</span>
-<span class="pc" id="L57">val FONT_WOFF2: MediaType = MediaType(FONT, &quot;woff2&quot;)</span>
+<span class="fc" id="L54">val FONT_OTF: MediaType = MediaType(FONT, &quot;otf&quot;)</span>
+<span class="fc" id="L55">val FONT_TTF: MediaType = MediaType(FONT, &quot;ttf&quot;)</span>
+<span class="fc" id="L56">val FONT_WOFF: MediaType = MediaType(FONT, &quot;woff&quot;)</span>
+<span class="fc" id="L57">val FONT_WOFF2: MediaType = MediaType(FONT, &quot;woff2&quot;)</span>
 
-<span class="pc" id="L59">val IMAGE_GIF: MediaType = MediaType(IMAGE, &quot;gif&quot;)</span>
-<span class="pc" id="L60">val IMAGE_JPEG: MediaType = MediaType(IMAGE, &quot;jpeg&quot;)</span>
-<span class="pc" id="L61">val IMAGE_PNG: MediaType = MediaType(IMAGE, &quot;png&quot;)</span>
-<span class="pc" id="L62">val IMAGE_TIFF: MediaType = MediaType(IMAGE, &quot;tiff&quot;)</span>
-<span class="pc" id="L63">val IMAGE_SVG: MediaType = MediaType(IMAGE, &quot;svg+xml&quot;)</span>
-<span class="pc" id="L64">val IMAGE_ICO: MediaType = MediaType(IMAGE, &quot;vnd.microsoft.icon&quot;)</span>
-<span class="pc" id="L65">val IMAGE_WEBP: MediaType = MediaType(IMAGE, &quot;webp&quot;)</span>
-<span class="pc" id="L66">val IMAGE_AVIF: MediaType = MediaType(IMAGE, &quot;avif&quot;)</span>
+<span class="fc" id="L59">val IMAGE_GIF: MediaType = MediaType(IMAGE, &quot;gif&quot;)</span>
+<span class="fc" id="L60">val IMAGE_JPEG: MediaType = MediaType(IMAGE, &quot;jpeg&quot;)</span>
+<span class="fc" id="L61">val IMAGE_PNG: MediaType = MediaType(IMAGE, &quot;png&quot;)</span>
+<span class="fc" id="L62">val IMAGE_TIFF: MediaType = MediaType(IMAGE, &quot;tiff&quot;)</span>
+<span class="fc" id="L63">val IMAGE_SVG: MediaType = MediaType(IMAGE, &quot;svg+xml&quot;)</span>
+<span class="fc" id="L64">val IMAGE_ICO: MediaType = MediaType(IMAGE, &quot;vnd.microsoft.icon&quot;)</span>
+<span class="fc" id="L65">val IMAGE_WEBP: MediaType = MediaType(IMAGE, &quot;webp&quot;)</span>
+<span class="fc" id="L66">val IMAGE_AVIF: MediaType = MediaType(IMAGE, &quot;avif&quot;)</span>
 
 <span class="fc" id="L68">val MULTIPART_ALTERNATIVE: MediaType = MediaType(MULTIPART, &quot;alternative&quot;)</span>
 <span class="fc" id="L69">val MULTIPART_APPLEDOUBLE: MediaType = MediaType(MULTIPART, &quot;appledouble&quot;)</span>
@@ -72,20 +72,20 @@ import kotlin.io.path.extension
 <span class="fc" id="L72">val MULTIPART_PARALLEL: MediaType = MediaType(MULTIPART, &quot;parallel&quot;)</span>
 
 <span class="fc" id="L74">val TEXT_CSV: MediaType = MediaType(TEXT, &quot;csv&quot;)</span>
-<span class="pc" id="L75">val TEXT_X_JAVA_PROPERTIES: MediaType = MediaType(TEXT, &quot;x-java-properties&quot;)</span>
-<span class="pc" id="L76">val TEXT_JAVASCRIPT: MediaType = MediaType(TEXT, &quot;javascript&quot;)</span>
+<span class="fc" id="L75">val TEXT_X_JAVA_PROPERTIES: MediaType = MediaType(TEXT, &quot;x-java-properties&quot;)</span>
+<span class="fc" id="L76">val TEXT_JAVASCRIPT: MediaType = MediaType(TEXT, &quot;javascript&quot;)</span>
 <span class="fc" id="L77">val TEXT_CSS: MediaType = MediaType(TEXT, &quot;css&quot;)</span>
 <span class="fc" id="L78">val TEXT_HTML: MediaType = MediaType(TEXT, &quot;html&quot;)</span>
 <span class="fc" id="L79">val TEXT_MARKDOWN: MediaType = MediaType(TEXT, &quot;markdown&quot;)</span>
 <span class="fc" id="L80">val TEXT_PLAIN: MediaType = MediaType(TEXT, &quot;plain&quot;)</span>
 <span class="fc" id="L81">val TEXT_RICHTEXT: MediaType = MediaType(TEXT, &quot;richtext&quot;)</span>
-<span class="pc" id="L82">val TEXT_TAB_SEPARATED_VALUES: MediaType = MediaType(TEXT, &quot;tab-separated-values&quot;)</span>
-<span class="pc" id="L83">val TEXT_CALENDAR: MediaType = MediaType(TEXT, &quot;calendar&quot;)</span>
+<span class="fc" id="L82">val TEXT_TAB_SEPARATED_VALUES: MediaType = MediaType(TEXT, &quot;tab-separated-values&quot;)</span>
+<span class="fc" id="L83">val TEXT_CALENDAR: MediaType = MediaType(TEXT, &quot;calendar&quot;)</span>
 <span class="fc" id="L84">val TEXT_EVENT_STREAM: MediaType = MediaType(TEXT, &quot;event-stream&quot;)</span>
 
-<span class="pc" id="L86">val VIDEO_MPEG: MediaType = MediaType(VIDEO, &quot;mpeg&quot;)</span>
-<span class="pc" id="L87">val VIDEO_QUICKTIME: MediaType = MediaType(VIDEO, &quot;quicktime&quot;)</span>
-<span class="pc" id="L88">val VIDEO_X_MSVIDEO: MediaType = MediaType(VIDEO, &quot;x-msvideo&quot;)</span>
+<span class="fc" id="L86">val VIDEO_MPEG: MediaType = MediaType(VIDEO, &quot;mpeg&quot;)</span>
+<span class="fc" id="L87">val VIDEO_QUICKTIME: MediaType = MediaType(VIDEO, &quot;quicktime&quot;)</span>
+<span class="fc" id="L88">val VIDEO_X_MSVIDEO: MediaType = MediaType(VIDEO, &quot;x-msvideo&quot;)</span>
 <span class="pc" id="L89">val VIDEO_MP4: MediaType = MediaType(VIDEO, &quot;mp4&quot;)</span>
 <span class="pc" id="L90">val VIDEO_OGG: MediaType = MediaType(VIDEO, &quot;ogg&quot;)</span>
 <span class="pc" id="L91">val VIDEO_WEBM: MediaType = MediaType(VIDEO, &quot;webm&quot;)</span>
@@ -127,7 +127,7 @@ import kotlin.io.path.extension
 <span class="fc" id="L127">    &quot;jar&quot; to APPLICATION_JAVA_ARCHIVE,</span>
 <span class="fc" id="L128">    &quot;ogx&quot; to APPLICATION_OGG,</span>
 <span class="fc" id="L129">    &quot;rar&quot; to APPLICATION_RAR,</span>
-<span class="fc" id="L130">    &quot;7z&quot; to APPLICATION_A7Z,</span>
+<span class="fc" id="L130">    &quot;7z&quot; to APPLICATION_7Z,</span>
 <span class="fc" id="L131">    &quot;bz&quot; to APPLICATION_BZIP,</span>
 <span class="fc" id="L132">    &quot;bz2&quot; to APPLICATION_BZIP2,</span>
 <span class="fc" id="L133">    &quot;cda&quot; to APPLICATION_CDF,</span>
@@ -189,46 +189,55 @@ import kotlin.io.path.extension
 <span class="fc" id="L189">    &quot;webm&quot; to VIDEO_WEBM,</span>
 )
 
-fun parseMediaType(fullType: String): MediaType {
-<span class="fc" id="L193">    val groupType = fullType.split(&quot;/&quot;)</span>
-<span class="fc bfc" id="L194" title="All 4 branches covered.">    require(groupType.size == 2) { &quot;Media type format must be &lt;type&gt;/&lt;subtype&gt;: $fullType&quot; }</span>
+<span class="pc" id="L192">internal val EXTENSIONS_BY_MEDIA: Map&lt;MediaType, List&lt;String&gt;&gt; = MEDIA_TYPES_EXTENSIONS.entries</span>
+<span class="fc" id="L193">    .groupBy { it.value }</span>
+<span class="fc" id="L194">    .mapValues {</span>
+<span class="fc" id="L195">        it.value.map { entry -&gt; entry.key }</span>
+    }
 
-<span class="fc" id="L196">    val groupText = groupType.first().uppercase()</span>
-<span class="fc bfc" id="L197" title="All 2 branches covered.">    val group = if (groupText == &quot;*&quot;) ANY else MediaTypeGroup.valueOf(groupText)</span>
-<span class="fc" id="L198">    val type = groupType.last()</span>
-<span class="fc" id="L199">    return MediaType(group, type)</span>
+fun parseMediaType(fullType: String): MediaType {
+<span class="fc" id="L199">    val groupType = fullType.split(&quot;/&quot;)</span>
+<span class="fc bfc" id="L200" title="All 4 branches covered.">    require(groupType.size == 2) { &quot;Media type format must be &lt;type&gt;/&lt;subtype&gt;: $fullType&quot; }</span>
+
+<span class="fc" id="L202">    val groupText = groupType.first().uppercase()</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">    val group = if (groupText == &quot;*&quot;) ANY else MediaTypeGroup.valueOf(groupText)</span>
+<span class="fc" id="L204">    val type = groupType.last()</span>
+<span class="fc" id="L205">    return MediaType(group, type)</span>
 }
 
 fun mediaTypeOfOrNull(uri: URI): MediaType? =
-<span class="fc" id="L203">    mediaTypeOfOrNull(pathExtension(uri.path))</span>
+<span class="fc" id="L209">    mediaTypeOfOrNull(pathExtension(uri.path))</span>
 
 fun mediaTypeOfOrNull(url: URL): MediaType? =
-<span class="fc" id="L206">    mediaTypeOfOrNull(pathExtension(url.file))</span>
+<span class="fc" id="L212">    mediaTypeOfOrNull(pathExtension(url.file))</span>
 
 fun mediaTypeOfOrNull(file: File): MediaType? =
-<span class="fc" id="L209">    mediaTypeOfOrNull(file.extension)</span>
+<span class="fc" id="L215">    mediaTypeOfOrNull(file.extension)</span>
 
 fun mediaTypeOfOrNull(path: Path): MediaType? =
-<span class="fc" id="L212">    mediaTypeOfOrNull(path.extension)</span>
+<span class="fc" id="L218">    mediaTypeOfOrNull(path.extension)</span>
 
 fun mediaTypeOfOrNull(extension: String): MediaType? =
-<span class="fc" id="L215">    MEDIA_TYPES_EXTENSIONS[extension]</span>
+<span class="fc" id="L221">    MEDIA_TYPES_EXTENSIONS[extension]</span>
 
 fun mediaTypeOf(uri: URI): MediaType =
-<span class="pc bpc" id="L218" title="1 of 2 branches missed.">    mediaTypeOfOrNull(uri) ?: error(&quot;Media type not found for: '$uri' URI&quot;)</span>
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">    mediaTypeOfOrNull(uri) ?: error(&quot;Media type not found for: '$uri' URI&quot;)</span>
 
 fun mediaTypeOf(url: URL): MediaType =
-<span class="fc bfc" id="L221" title="All 2 branches covered.">    mediaTypeOfOrNull(url) ?: error(&quot;Media type not found for: '$url' URL&quot;)</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">    mediaTypeOfOrNull(url) ?: error(&quot;Media type not found for: '$url' URL&quot;)</span>
 
 fun mediaTypeOf(file: File): MediaType =
-<span class="fc bfc" id="L224" title="All 2 branches covered.">    mediaTypeOfOrNull(file) ?: error(&quot;Media type not found for: '$file' file&quot;)</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">    mediaTypeOfOrNull(file) ?: error(&quot;Media type not found for: '$file' file&quot;)</span>
 
 fun mediaTypeOf(path: Path): MediaType =
-<span class="pc bpc" id="L227" title="1 of 2 branches missed.">    mediaTypeOfOrNull(path) ?: error(&quot;Media type not found for: '$path' extension&quot;)</span>
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">    mediaTypeOfOrNull(path) ?: error(&quot;Media type not found for: '$path' extension&quot;)</span>
 
 fun mediaTypeOf(extension: String): MediaType =
-<span class="fc bfc" id="L230" title="All 2 branches covered.">    mediaTypeOfOrNull(extension) ?: error(&quot;Media type not found for: '$extension' extension&quot;)</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">    mediaTypeOfOrNull(extension) ?: error(&quot;Media type not found for: '$extension' extension&quot;)</span>
+
+fun extensionsOf(mediaType: MediaType): List&lt;String&gt; =
+<span class="pc bpc" id="L239" title="1 of 2 branches missed.">    EXTENSIONS_BY_MEDIA[mediaType] ?: emptyList()</span>
 
 private fun pathExtension(path: String): String =
-<span class="fc" id="L233">    path.substringAfterLast('.')</span>
+<span class="fc" id="L242">    path.substringAfterLast('.')</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
