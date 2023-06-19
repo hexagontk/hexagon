@@ -9,86 +9,86 @@ import kotlin.io.path.extension
 
 val MEDIA_TYPE_FORMAT: Regex by lazy { """\*|([\w+.-]+)""".toRegex() }
 
-val APPLICATION_AVRO: MediaType = MediaType(APPLICATION, "avro")
-val APPLICATION_CBOR: MediaType = MediaType(APPLICATION, "cbor")
-val APPLICATION_JSON: MediaType = MediaType(APPLICATION, "json")
-val APPLICATION_YAML: MediaType = MediaType(APPLICATION, "yaml")
-val APPLICATION_XML: MediaType = MediaType(APPLICATION, "xml")
-val APPLICATION_GZIP: MediaType = MediaType(APPLICATION, "gzip")
-val APPLICATION_COMPRESS: MediaType = MediaType(APPLICATION, "compress")
-val APPLICATION_OCTET_STREAM: MediaType = MediaType(APPLICATION, "octet-stream")
-val APPLICATION_PDF: MediaType = MediaType(APPLICATION, "pdf")
-val APPLICATION_POSTSCRIPT: MediaType = MediaType(APPLICATION, "postscript")
-val APPLICATION_RTF: MediaType = MediaType(APPLICATION, "rtf")
-val APPLICATION_X_CSH: MediaType = MediaType(APPLICATION, "x-csh")
-val APPLICATION_X_GTAR: MediaType = MediaType(APPLICATION, "x-gtar")
-val APPLICATION_X_LATEX: MediaType = MediaType(APPLICATION, "x-latex")
-val APPLICATION_X_SH: MediaType = MediaType(APPLICATION, "x-sh")
-val APPLICATION_X_TAR: MediaType = MediaType(APPLICATION, "x-tar")
-val APPLICATION_X_TCL: MediaType = MediaType(APPLICATION, "x-tcl")
-val APPLICATION_X_TEX: MediaType = MediaType(APPLICATION, "x-tex")
-val APPLICATION_X_TEXINFO: MediaType = MediaType(APPLICATION, "x-texinfo")
-val APPLICATION_ZIP: MediaType = MediaType(APPLICATION, "zip")
-val APPLICATION_EPUB_ZIP: MediaType = MediaType(APPLICATION, "epub+zip")
-val APPLICATION_JAVA_ARCHIVE: MediaType = MediaType(APPLICATION, "java-archive")
-val APPLICATION_OGG: MediaType = MediaType(APPLICATION, "ogg")
-val APPLICATION_RAR: MediaType = MediaType(APPLICATION, "vnd.rar")
-val APPLICATION_XHTML: MediaType = MediaType(APPLICATION, "xhtml+xml")
-val APPLICATION_WEB_MANIFEST: MediaType = MediaType(APPLICATION, "manifest+json")
-val APPLICATION_TOML: MediaType = MediaType(APPLICATION, "toml")
-val APPLICATION_7Z: MediaType = MediaType(APPLICATION, "x-7z-compressed")
-val APPLICATION_BZIP: MediaType = MediaType(APPLICATION, "x-bzip")
-val APPLICATION_BZIP2: MediaType = MediaType(APPLICATION, "x-bzip2")
-val APPLICATION_CDF: MediaType = MediaType(APPLICATION, "x-cdf")
-val APPLICATION_PHP: MediaType = MediaType(APPLICATION, "x-httpd-php")
+val APPLICATION_AVRO: MediaType by lazy { MediaType(APPLICATION, "avro") }
+val APPLICATION_CBOR: MediaType by lazy { MediaType(APPLICATION, "cbor") }
+val APPLICATION_JSON: MediaType by lazy { MediaType(APPLICATION, "json") }
+val APPLICATION_YAML: MediaType by lazy { MediaType(APPLICATION, "yaml") }
+val APPLICATION_XML: MediaType by lazy { MediaType(APPLICATION, "xml") }
+val APPLICATION_GZIP: MediaType by lazy { MediaType(APPLICATION, "gzip") }
+val APPLICATION_COMPRESS: MediaType by lazy { MediaType(APPLICATION, "compress") }
+val APPLICATION_OCTET_STREAM: MediaType by lazy { MediaType(APPLICATION, "octet-stream") }
+val APPLICATION_PDF: MediaType by lazy { MediaType(APPLICATION, "pdf") }
+val APPLICATION_POSTSCRIPT: MediaType by lazy { MediaType(APPLICATION, "postscript") }
+val APPLICATION_RTF: MediaType by lazy { MediaType(APPLICATION, "rtf") }
+val APPLICATION_X_CSH: MediaType by lazy { MediaType(APPLICATION, "x-csh") }
+val APPLICATION_X_GTAR: MediaType by lazy { MediaType(APPLICATION, "x-gtar") }
+val APPLICATION_X_LATEX: MediaType by lazy { MediaType(APPLICATION, "x-latex") }
+val APPLICATION_X_SH: MediaType by lazy { MediaType(APPLICATION, "x-sh") }
+val APPLICATION_X_TAR: MediaType by lazy { MediaType(APPLICATION, "x-tar") }
+val APPLICATION_X_TCL: MediaType by lazy { MediaType(APPLICATION, "x-tcl") }
+val APPLICATION_X_TEX: MediaType by lazy { MediaType(APPLICATION, "x-tex") }
+val APPLICATION_X_TEXINFO: MediaType by lazy { MediaType(APPLICATION, "x-texinfo") }
+val APPLICATION_ZIP: MediaType by lazy { MediaType(APPLICATION, "zip") }
+val APPLICATION_EPUB_ZIP: MediaType by lazy { MediaType(APPLICATION, "epub+zip") }
+val APPLICATION_JAVA_ARCHIVE: MediaType by lazy { MediaType(APPLICATION, "java-archive") }
+val APPLICATION_OGG: MediaType by lazy { MediaType(APPLICATION, "ogg") }
+val APPLICATION_RAR: MediaType by lazy { MediaType(APPLICATION, "vnd.rar") }
+val APPLICATION_XHTML: MediaType by lazy { MediaType(APPLICATION, "xhtml+xml") }
+val APPLICATION_WEB_MANIFEST: MediaType by lazy { MediaType(APPLICATION, "manifest+json") }
+val APPLICATION_TOML: MediaType by lazy { MediaType(APPLICATION, "toml") }
+val APPLICATION_7Z: MediaType by lazy { MediaType(APPLICATION, "x-7z-compressed") }
+val APPLICATION_BZIP: MediaType by lazy { MediaType(APPLICATION, "x-bzip") }
+val APPLICATION_BZIP2: MediaType by lazy { MediaType(APPLICATION, "x-bzip2") }
+val APPLICATION_CDF: MediaType by lazy { MediaType(APPLICATION, "x-cdf") }
+val APPLICATION_PHP: MediaType by lazy { MediaType(APPLICATION, "x-httpd-php") }
 
-val AUDIO_BASIC: MediaType = MediaType(AUDIO, "basic")
-val AUDIO_MPEG: MediaType = MediaType(AUDIO, "mpeg")
-val AUDIO_WAV: MediaType = MediaType(AUDIO, "wav")
-val AUDIO_AAC: MediaType = MediaType(AUDIO, "aac")
-val AUDIO_MIDI: MediaType = MediaType(AUDIO, "midi")
-val AUDIO_OGG: MediaType = MediaType(AUDIO, "ogg")
-val AUDIO_OPUS: MediaType = MediaType(AUDIO, "opus")
-val AUDIO_WEBM: MediaType = MediaType(AUDIO, "webm")
+val AUDIO_BASIC: MediaType by lazy { MediaType(AUDIO, "basic") }
+val AUDIO_MPEG: MediaType by lazy { MediaType(AUDIO, "mpeg") }
+val AUDIO_WAV: MediaType by lazy { MediaType(AUDIO, "wav") }
+val AUDIO_AAC: MediaType by lazy { MediaType(AUDIO, "aac") }
+val AUDIO_MIDI: MediaType by lazy { MediaType(AUDIO, "midi") }
+val AUDIO_OGG: MediaType by lazy { MediaType(AUDIO, "ogg") }
+val AUDIO_OPUS: MediaType by lazy { MediaType(AUDIO, "opus") }
+val AUDIO_WEBM: MediaType by lazy { MediaType(AUDIO, "webm") }
 
-val FONT_OTF: MediaType = MediaType(FONT, "otf")
-val FONT_TTF: MediaType = MediaType(FONT, "ttf")
-val FONT_WOFF: MediaType = MediaType(FONT, "woff")
-val FONT_WOFF2: MediaType = MediaType(FONT, "woff2")
+val FONT_OTF: MediaType by lazy { MediaType(FONT, "otf") }
+val FONT_TTF: MediaType by lazy { MediaType(FONT, "ttf") }
+val FONT_WOFF: MediaType by lazy { MediaType(FONT, "woff") }
+val FONT_WOFF2: MediaType by lazy { MediaType(FONT, "woff2") }
 
-val IMAGE_GIF: MediaType = MediaType(IMAGE, "gif")
-val IMAGE_JPEG: MediaType = MediaType(IMAGE, "jpeg")
-val IMAGE_PNG: MediaType = MediaType(IMAGE, "png")
-val IMAGE_TIFF: MediaType = MediaType(IMAGE, "tiff")
-val IMAGE_SVG: MediaType = MediaType(IMAGE, "svg+xml")
-val IMAGE_ICO: MediaType = MediaType(IMAGE, "vnd.microsoft.icon")
-val IMAGE_WEBP: MediaType = MediaType(IMAGE, "webp")
-val IMAGE_AVIF: MediaType = MediaType(IMAGE, "avif")
+val IMAGE_GIF: MediaType by lazy { MediaType(IMAGE, "gif") }
+val IMAGE_JPEG: MediaType by lazy { MediaType(IMAGE, "jpeg") }
+val IMAGE_PNG: MediaType by lazy { MediaType(IMAGE, "png") }
+val IMAGE_TIFF: MediaType by lazy { MediaType(IMAGE, "tiff") }
+val IMAGE_SVG: MediaType by lazy { MediaType(IMAGE, "svg+xml") }
+val IMAGE_ICO: MediaType by lazy { MediaType(IMAGE, "vnd.microsoft.icon") }
+val IMAGE_WEBP: MediaType by lazy { MediaType(IMAGE, "webp") }
+val IMAGE_AVIF: MediaType by lazy { MediaType(IMAGE, "avif") }
 
-val MULTIPART_ALTERNATIVE: MediaType = MediaType(MULTIPART, "alternative")
-val MULTIPART_APPLEDOUBLE: MediaType = MediaType(MULTIPART, "appledouble")
-val MULTIPART_DIGEST: MediaType = MediaType(MULTIPART, "digest")
-val MULTIPART_MIXED: MediaType = MediaType(MULTIPART, "mixed")
-val MULTIPART_PARALLEL: MediaType = MediaType(MULTIPART, "parallel")
+val MULTIPART_ALTERNATIVE: MediaType by lazy { MediaType(MULTIPART, "alternative") }
+val MULTIPART_APPLEDOUBLE: MediaType by lazy { MediaType(MULTIPART, "appledouble") }
+val MULTIPART_DIGEST: MediaType by lazy { MediaType(MULTIPART, "digest") }
+val MULTIPART_MIXED: MediaType by lazy { MediaType(MULTIPART, "mixed") }
+val MULTIPART_PARALLEL: MediaType by lazy { MediaType(MULTIPART, "parallel") }
 
-val TEXT_CSV: MediaType = MediaType(TEXT, "csv")
-val TEXT_X_JAVA_PROPERTIES: MediaType = MediaType(TEXT, "x-java-properties")
-val TEXT_JAVASCRIPT: MediaType = MediaType(TEXT, "javascript")
-val TEXT_CSS: MediaType = MediaType(TEXT, "css")
-val TEXT_HTML: MediaType = MediaType(TEXT, "html")
-val TEXT_MARKDOWN: MediaType = MediaType(TEXT, "markdown")
-val TEXT_PLAIN: MediaType = MediaType(TEXT, "plain")
-val TEXT_RICHTEXT: MediaType = MediaType(TEXT, "richtext")
-val TEXT_TAB_SEPARATED_VALUES: MediaType = MediaType(TEXT, "tab-separated-values")
-val TEXT_CALENDAR: MediaType = MediaType(TEXT, "calendar")
-val TEXT_EVENT_STREAM: MediaType = MediaType(TEXT, "event-stream")
+val TEXT_CSV: MediaType by lazy { MediaType(TEXT, "csv") }
+val TEXT_X_JAVA_PROPERTIES: MediaType by lazy { MediaType(TEXT, "x-java-properties") }
+val TEXT_JAVASCRIPT: MediaType by lazy { MediaType(TEXT, "javascript") }
+val TEXT_CSS: MediaType by lazy { MediaType(TEXT, "css") }
+val TEXT_HTML: MediaType by lazy { MediaType(TEXT, "html") }
+val TEXT_MARKDOWN: MediaType by lazy { MediaType(TEXT, "markdown") }
+val TEXT_PLAIN: MediaType by lazy { MediaType(TEXT, "plain") }
+val TEXT_RICHTEXT: MediaType by lazy { MediaType(TEXT, "richtext") }
+val TEXT_TAB_SEPARATED_VALUES: MediaType by lazy { MediaType(TEXT, "tab-separated-values") }
+val TEXT_CALENDAR: MediaType by lazy { MediaType(TEXT, "calendar") }
+val TEXT_EVENT_STREAM: MediaType by lazy { MediaType(TEXT, "event-stream") }
 
-val VIDEO_MPEG: MediaType = MediaType(VIDEO, "mpeg")
-val VIDEO_QUICKTIME: MediaType = MediaType(VIDEO, "quicktime")
-val VIDEO_X_MSVIDEO: MediaType = MediaType(VIDEO, "x-msvideo")
-val VIDEO_MP4: MediaType = MediaType(VIDEO, "mp4")
-val VIDEO_OGG: MediaType = MediaType(VIDEO, "ogg")
-val VIDEO_WEBM: MediaType = MediaType(VIDEO, "webm")
+val VIDEO_MPEG: MediaType by lazy { MediaType(VIDEO, "mpeg") }
+val VIDEO_QUICKTIME: MediaType by lazy { MediaType(VIDEO, "quicktime") }
+val VIDEO_X_MSVIDEO: MediaType by lazy { MediaType(VIDEO, "x-msvideo") }
+val VIDEO_MP4: MediaType by lazy { MediaType(VIDEO, "mp4") }
+val VIDEO_OGG: MediaType by lazy { MediaType(VIDEO, "ogg") }
+val VIDEO_WEBM: MediaType by lazy { MediaType(VIDEO, "webm") }
 
 val DEFAULT_MEDIA_TYPE: MediaType by lazy { APPLICATION_OCTET_STREAM }
 
