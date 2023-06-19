@@ -1,8 +1,0 @@
-public abstract class com/hexagonkt/serialization/test/SerializationTest {
-	public fun <init> ()V
-	public final fun Parse URLs works ok ()V
-	public abstract fun getFormat ()Lcom/hexagonkt/serialization/SerializationFormat;
-	public abstract fun getUrls ()Ljava/util/List;
-	public final fun serializationUsage ()V
-}
-

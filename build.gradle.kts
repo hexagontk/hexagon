@@ -130,16 +130,25 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
 apiValidation {
     ignoredProjects.addAll(
         listOf(
+            // Utility modules
+            "site",
+            "starters",
+
+            // Test modules
+            "http_test",
+            "http_test_async",
+            "serialization_test",
+            "templates_test",
+
+            // Experimental modules
             "handlers_async",
             "http_handlers_async",
             "http_server_async",
             "http_server_netty_async",
             "http_server_netty_epoll_async",
-            "http_test_async",
             "rest",
             "rest_test",
             "web",
         )
     )
-    validationDisabled = !file("api").isDirectory
 }
