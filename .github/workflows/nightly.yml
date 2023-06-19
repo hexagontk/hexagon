@@ -95,4 +95,4 @@ jobs:
       os: ${{ matrix.os }}
       ref: develop
       check_directory: core/build
-      tasks: publishToMavenLocal -x test
+      tasks: publishToMavenLocal -x test -x apiDump

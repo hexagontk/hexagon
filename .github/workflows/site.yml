@@ -57,7 +57,7 @@ jobs:
         run: ./gradlew --info --stacktrace build
 
       - name: Build Site
-        run: ./gradlew --info --stacktrace -x build buildSite
+        run: ./gradlew --info --stacktrace -x build buildSite -x apiDump
 
       - name: Check Build
         if: ${{ inputs.check_directory != '' }}
