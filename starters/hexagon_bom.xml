@@ -104,7 +104,7 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>rest_test</artifactId>
+        <artifactId>rest_tools</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>

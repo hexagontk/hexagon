@@ -147,7 +147,7 @@ apiValidation {
             "http_server_netty_async",
             "http_server_netty_epoll_async",
             "rest",
-            "rest_test",
+            "rest_tools",
             "web",
         )
     )
