@@ -407,6 +407,7 @@ public final class com/hexagonkt/core/media/MediaTypesKt {
 	public static final fun mediaTypeOfOrNull (Ljava/net/URL;)Lcom/hexagonkt/core/media/MediaType;
 	public static final fun mediaTypeOfOrNull (Ljava/nio/file/Path;)Lcom/hexagonkt/core/media/MediaType;
 	public static final fun parseMediaType (Ljava/lang/String;)Lcom/hexagonkt/core/media/MediaType;
+	public static final fun pathExtension (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com/hexagonkt/core/security/CryptoKt {

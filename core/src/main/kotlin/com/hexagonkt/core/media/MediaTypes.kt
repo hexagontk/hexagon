@@ -242,5 +242,5 @@ fun mediaTypeOf(extension: String): MediaType =
 fun extensionsOf(mediaType: MediaType): List<String> =
     EXTENSIONS_BY_MEDIA[mediaType] ?: emptyList()
 
-private fun pathExtension(path: String): String =
+fun pathExtension(path: String): String =
     path.substringAfterLast('.')
