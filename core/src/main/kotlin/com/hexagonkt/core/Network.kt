@@ -5,10 +5,10 @@ import java.net.*
 import java.util.*
 
 /** Internet address used to bind services to all local network interfaces. */
-val ALL_INTERFACES: InetAddress = inetAddress(0, 0, 0, 0)
+val ALL_INTERFACES: InetAddress by lazy { inetAddress(0, 0, 0, 0) }
 
 /** Internet address used to bind services to the loopback interface. */
-val LOOPBACK_INTERFACE: InetAddress = inetAddress(127, 0, 0, 1)
+val LOOPBACK_INTERFACE: InetAddress by lazy { inetAddress(127, 0, 0, 1) }
 
 /**
  * Syntactic sugar to create an Internet address.

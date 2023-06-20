@@ -5,8 +5,10 @@ import java.net.URLConnection
 import java.net.URLStreamHandler
 
 object ClasspathHandler : URLStreamHandler() {
-    private val classLoader: ClassLoader = Thread.currentThread().contextClassLoader
-    private val protocolHandlers: Map<String, URLStreamHandler> = mapOf("classpath" to this)
+    private val classLoader: ClassLoader by lazy { Thread.currentThread().contextClassLoader }
+    private val protocolHandlers: Map<String, URLStreamHandler> by lazy {
+        mapOf("classpath" to this)
+    }
 
     override fun openConnection(url: URL): URLConnection =
         classLoader.getResource(url.path)?.openConnection()

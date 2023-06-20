@@ -26,7 +26,7 @@ plugins {
     id("org.jetbrains.dokka") version("1.8.20")
     id("com.github.jk1.dependency-license-report") version("2.4")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.2")
-    id("org.graalvm.buildtools.native") version("0.9.22") apply(false)
+    id("org.graalvm.buildtools.native") version("0.9.23") apply(false)
     id("io.gitlab.arturbosch.detekt") version("1.23.0") apply(false)
     id("me.champeau.jmh") version("0.7.1") apply(false)
 }
@@ -130,16 +130,25 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
 apiValidation {
     ignoredProjects.addAll(
         listOf(
+            // Utility modules
+            "site",
+            "starters",
+
+            // Test modules
+            "http_test",
+            "http_test_async",
+            "serialization_test",
+            "templates_test",
+
+            // Experimental modules
             "handlers_async",
             "http_handlers_async",
             "http_server_async",
             "http_server_netty_async",
             "http_server_netty_epoll_async",
-            "http_test_async",
             "rest",
-            "rest_test",
+            "rest_tools",
             "web",
         )
     )
-    validationDisabled = !file("api").isDirectory
 }

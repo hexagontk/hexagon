@@ -22,7 +22,7 @@ jobs:
   build_site:
     name: Build Site
     permissions: read-all
-    uses: hexagonkt/hexagon/.github/workflows/site.yml@master
+    uses: hexagonkt/hexagon/.github/workflows/site.yml@develop
 
   test_publishing:
     name: Test Publishing
@@ -30,4 +30,4 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       check_directory: core/build
-      tasks: publishToMavenLocal -x test
+      tasks: publishToMavenLocal -x test -x apiDump
