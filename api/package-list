@@ -51,7 +51,7 @@ com.hexagonkt.http.test.async
 com.hexagonkt.http.test.async.examples
 module:rest
 com.hexagonkt.rest
-module:rest_test
+module:rest_tools
 com.hexagonkt.http.test
 module:web
 com.hexagonkt.web

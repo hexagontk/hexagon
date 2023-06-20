@@ -16,8 +16,8 @@ import kotlin.reflect.KClass
 private const val VARIABLE_PREFIX = &quot;{{&quot;
 private const val VARIABLE_SUFFIX = &quot;}}&quot;
 
-<span class="fc" id="L19">private val base64Encoder: Base64.Encoder = Base64.getEncoder().withoutPadding()</span>
-<span class="fc" id="L20">private val base64Decoder: Base64.Decoder = Base64.getDecoder()</span>
+<span class="fc" id="L19">private val base64Encoder: Base64.Encoder by lazy { Base64.getEncoder().withoutPadding() }</span>
+<span class="fc" id="L20">private val base64Decoder: Base64.Decoder by lazy { Base64.getDecoder() }</span>
 
 /** Runtime specific end of line. */
 <span class="fc" id="L23">val eol: String by lazy { getProperty(&quot;line.separator&quot;) }</span>

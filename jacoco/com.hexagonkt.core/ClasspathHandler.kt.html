@@ -5,26 +5,28 @@ import java.net.URLConnection
 import java.net.URLStreamHandler
 
 object ClasspathHandler : URLStreamHandler() {
-<span class="fc" id="L8">    private val classLoader: ClassLoader = Thread.currentThread().contextClassLoader</span>
-<span class="fc" id="L9">    private val protocolHandlers: Map&lt;String, URLStreamHandler&gt; = mapOf(&quot;classpath&quot; to this)</span>
+<span class="fc" id="L8">    private val classLoader: ClassLoader by lazy { Thread.currentThread().contextClassLoader }</span>
+<span class="fc" id="L9">    private val protocolHandlers: Map&lt;String, URLStreamHandler&gt; by lazy {</span>
+<span class="fc" id="L10">        mapOf(&quot;classpath&quot; to this)</span>
+    }
 
     override fun openConnection(url: URL): URLConnection =
-<span class="fc bfc" id="L12" title="All 4 branches covered.">        classLoader.getResource(url.path)?.openConnection()</span>
-<span class="fc" id="L13">            ?: throw ResourceNotFoundException(&quot;$url cannot be open&quot;)</span>
+<span class="fc bfc" id="L14" title="All 4 branches covered.">        classLoader.getResource(url.path)?.openConnection()</span>
+<span class="fc" id="L15">            ?: throw ResourceNotFoundException(&quot;$url cannot be open&quot;)</span>
 
     fun registerHandler() {
-<span class="fc" id="L16">        try {</span>
-<span class="fc" id="L17">            URL.setURLStreamHandlerFactory {</span>
-<span class="fc" id="L18">                createURLStreamHandler(it)</span>
+<span class="fc" id="L18">        try {</span>
+<span class="fc" id="L19">            URL.setURLStreamHandlerFactory {</span>
+<span class="fc" id="L20">                createURLStreamHandler(it)</span>
             }
         }
-<span class="fc" id="L21">        catch (e: Error) {</span>
-<span class="fc" id="L22">            e.printStackTrace()</span>
+<span class="fc" id="L23">        catch (e: Error) {</span>
+<span class="fc" id="L24">            e.printStackTrace()</span>
         }
-<span class="fc" id="L24">    }</span>
+<span class="fc" id="L26">    }</span>
 
     fun createURLStreamHandler(protocol: String): URLStreamHandler? {
-<span class="fc" id="L27">        return protocolHandlers[protocol]</span>
+<span class="fc" id="L29">        return protocolHandlers[protocol]</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
