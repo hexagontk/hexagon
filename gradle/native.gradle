@@ -20,7 +20,7 @@ graalvmNative {
         test {
             quickBuild = true
             runtimeArgs = [ "--xml-output-dir", "build/reports/tests/native" ]
-//            jvmArgs = [ "-Xmx6g" ]
+            jvmArgs = [ "-Xmx6g" ]
         }
     }
 }
