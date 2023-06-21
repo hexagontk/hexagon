@@ -4,6 +4,9 @@ name: Nightly
 on:
   schedule:
     - cron: "59 23 * * *"
+  # TODO Remove after fixing issues
+  push:
+    branches: [ develop ]
 
 jobs:
   stale:
