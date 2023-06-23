@@ -8,6 +8,9 @@ on:
   push:
     branches: [ develop ]
 
+permissions:
+  contents: read
+
 jobs:
   stale:
     runs-on: ubuntu-latest
@@ -31,7 +34,6 @@ jobs:
         os: [ ubuntu-latest, windows-latest ]
 
     name: Build (${{ matrix.os }})
-    permissions: read-all
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
@@ -41,7 +43,6 @@ jobs:
   # TODO Delete this special case when Jacoco runs on macOS properly
   build_macos:
     name: Build (macos-latest)
-    permissions: read-all
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: macos-latest
@@ -56,7 +57,6 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: Sample Keystores (${{ matrix.os }})
-    permissions: read-all
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
@@ -70,7 +70,6 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: Native Test
-    permissions: read-all
     runs-on: ${{ matrix.os }}
     steps:
       - name: Configure Page File
@@ -93,7 +92,6 @@ jobs:
 
   build_site:
     name: Build Site
-    permissions: read-all
     uses: hexagonkt/hexagon/.github/workflows/site.yml@master
     with:
       version: 22.3.1
@@ -106,7 +104,6 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: Test Publishing (${{ matrix.os }})
-    permissions: read-all
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
