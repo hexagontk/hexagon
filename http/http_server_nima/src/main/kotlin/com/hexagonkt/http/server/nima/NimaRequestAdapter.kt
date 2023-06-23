@@ -45,33 +45,32 @@ class NimaRequestAdapter(
     }
 
     override val parts: List<HttpPart> by lazy {
-        requestParts.filterIsInstance(HttpPart::class.java)
-    }
-
-    override val formParameters: FormParameters by lazy {
-        FormParameters(requestParts.filterIsInstance(FormParameter::class.java))
-    }
-
-    private val requestParts: List<Any> by lazy {
         try {
-            val multiPart = req.content().`as`(MultiPart::class.java).iterator()
-            var parts = emptyList<Any>()
-            multiPart.forEachRemaining { p ->
-                val cd = p.partHeaders().get(Http.Header.create("content-disposition")).value()
-                if (cd.startsWith("form-data")) {
-                    parts = parts + FormParameter(p.name(), p.inputStream().reader().readText())
-                } else {
-                    val x = p.fileName()
-                    val b = p.inputStream().readAllBytes()
-                    val h = p.partHeaders()
-                    parts = parts + HttpPart(p.name(), b, submittedFileName = p.fileName().get())
-                }
+            val multiPart = req.content().`as`(MultiPart::class.java)
+            var parts = emptyList<HttpPart>()
+            // TODO Fails when parsing multiple parts !?
+            multiPart.forEach { p ->
+                val name = p.name()
+                val bytes = p.inputStream().readAllBytes()
+                val fileName = p.fileName().getOrNull()
+                    ?.let { HttpPart(name, bytes, it) }
+                    ?: HttpPart(name, String(bytes))
+
+                parts = parts + fileName
             }
             parts
         }
         catch (e: Exception) {
             emptyList()
         }
+    }
+
+    override val formParameters: FormParameters by lazy {
+        val fields = parts
+            .filter { it.submittedFileName == null }
+            .map { FormParameter(it.name, it.bodyString()) }
+
+        FormParameters(fields)
     }
 
     override val method: HttpMethod by lazy {
@@ -95,16 +94,7 @@ class NimaRequestAdapter(
     }
 
     override val cookies: List<Cookie> by lazy {
-        val c = req.headers().cookies().toMap()
-
-        c.map { (k, v) ->
-            Cookie(
-                name = k,
-                value = v.first(),
-//                maxAge = if (it.maxAge() == Long.MIN_VALUE) -1 else it.maxAge(),
-//                secure = it.isSecure,
-            )
-        }
+        req.headers().cookies().toMap().map { (k, v) -> Cookie(k, v.first()) }
     }
 
     override val body: Any by lazy {
