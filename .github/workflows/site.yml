@@ -28,7 +28,20 @@ jobs:
   site:
     name: Build Site
     runs-on: ubuntu-latest
-    permissions: read-all
+    permissions:
+#      actions: read
+#      checks: read
+      contents: read
+#      deployments: read
+#      id-token: read
+#      issues: read
+#      discussions: read
+#      packages: read
+#      pages: read
+#      pull-requests: read
+#      repository-projects: read
+#      security-events: read
+#      statuses: read
     defaults:
       run: { shell: bash }
     steps:
@@ -51,7 +64,6 @@ jobs:
         with:
           version: ${{ inputs.version }}
           java-version: ${{ inputs.java }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: gradle
 
       - name: Build Project
