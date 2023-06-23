@@ -28,6 +28,7 @@ jobs:
   site:
     name: Build Site
     runs-on: ubuntu-latest
+    permissions: read-all
     defaults:
       run: { shell: bash }
     steps:
