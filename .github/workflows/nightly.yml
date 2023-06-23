@@ -4,9 +4,6 @@ name: Nightly
 on:
   schedule:
     - cron: "59 23 * * *"
-  # TODO Remove after testing
-  push:
-    branches: [ develop ]
 
 permissions:
   contents: read
