@@ -17,10 +17,7 @@ import com.hexagonkt.http.server.HttpServerPort
 import io.helidon.common.http.Http.*
 import io.helidon.common.http.HttpMediaType
 import io.helidon.common.http.SetCookie
-import io.helidon.common.http.SetCookie.SameSite.NONE
-import io.helidon.common.http.SetCookie.SameSite.STRICT
 import io.helidon.nima.common.tls.Tls
-import io.helidon.nima.http.media.multipart.MultiPartSupport
 import io.helidon.nima.webserver.WebServer
 import io.helidon.nima.webserver.http.ServerResponse
 import java.security.SecureRandom
@@ -61,7 +58,6 @@ class NimaServerAdapter : HttpServerPort {
             .builder()
             .host(settings.bindAddress.hostName)
             .port(settings.bindPort)
-            .addMediaSupport(MultiPartSupport.create(io.helidon.common.config.Config.empty()))
             .defaultSocket {
                 val b = it
                     .port(settings.bindPort)
@@ -120,15 +116,16 @@ class NimaServerAdapter : HttpServerPort {
                     .builder(it.name, it.value)
                     .maxAge(Duration.ofSeconds(it.maxAge))
                     .path(it.path)
-                    .domain(it.domain)
                     .httpOnly(it.httpOnly)
-                    .sameSite(if (it.sameSite) STRICT else NONE)
                     .secure(it.secure)
 
                 if (it.expires != null)
                     cookie.expires(it.expires)
 
-                headers.addCookie(cookie.build())
+                if (it.deleted)
+                    headers.clearCookie(it.name)
+                else
+                    headers.addCookie(cookie.build())
             }
 
             response.contentType?.let { ct -> headers.contentType(HttpMediaType.create(ct.text)) }

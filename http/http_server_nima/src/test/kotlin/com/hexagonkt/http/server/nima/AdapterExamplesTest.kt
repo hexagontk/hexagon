@@ -48,12 +48,9 @@ internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter) {
         server.stop()
     }
 }
-@Disabled
 internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)
-@Disabled
 internal class AdapterFilesTest : FilesTest(clientAdapter, serverAdapter)
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
-@Disabled
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
 internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)
 @Disabled
