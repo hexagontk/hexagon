@@ -15,7 +15,7 @@ dependencies {
     val dslJsonVersion = properties["dslJsonVersion"]
 
     "api"(project(":serialization:serialization"))
-    "api"("com.dslplatform:dsl-json-java8:$dslJsonVersion")
+    "api"("com.dslplatform:dsl-json:$dslJsonVersion")
 
     "testImplementation"("org.jetbrains.kotlin:kotlin-reflect")
     "testImplementation"(project(":serialization:serialization_test"))
