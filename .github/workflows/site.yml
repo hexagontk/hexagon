@@ -28,6 +28,8 @@ jobs:
   site:
     name: Build Site
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run: { shell: bash }
     steps:
@@ -50,7 +52,6 @@ jobs:
         with:
           version: ${{ inputs.version }}
           java-version: ${{ inputs.java }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: gradle
 
       - name: Build Project
