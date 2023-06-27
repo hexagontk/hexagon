@@ -41,7 +41,7 @@ jobs:
           git remote set-url origin "$REMOTE"
           git clone "$REMOTE" --branch gh-pages build/gh-pages
           ./gradlew --info build
-          ./gradlew --info -x build -x apiDump buildSite
+          ./gradlew --info -x build buildSite
           ls -AlF site/build/site
 
       - name: Publish Packages
@@ -50,7 +50,7 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        run: ./gradlew --info --no-daemon -x test -x apiDump release
+        run: ./gradlew --info --no-daemon -x test release
 
       - name: Publish Site
         run: |
