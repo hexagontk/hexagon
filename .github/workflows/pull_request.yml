@@ -29,4 +29,4 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       check_directory: core/build
-      tasks: publishToMavenLocal -x test -x apiDump
+      tasks: publishToMavenLocal -x test

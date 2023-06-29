@@ -3,7 +3,7 @@ package com.hexagonkt.http.server
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.Jvm.charset
 import com.hexagonkt.core.Jvm.cpuCount
-import com.hexagonkt.core.Jvm.hostname
+import com.hexagonkt.core.Jvm.hostName
 import com.hexagonkt.core.Jvm.name
 import com.hexagonkt.core.Jvm.version
 import com.hexagonkt.core.Jvm.localeCode
@@ -159,7 +159,7 @@ data class HttpServer(
             .map { (k, v) -> "$k($v)" }
             .joinToString("$RESET, $CYAN", CYAN, RESET)
 
-        val hostnameValue = "$BLUE$hostname$RESET"
+        val hostnameValue = "$BLUE$hostName$RESET"
         val cpuCountValue = "$BLUE$cpuCount$RESET"
 
         val javaVersionValue = "$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]"

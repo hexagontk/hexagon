@@ -74,7 +74,7 @@ abstract class ServletServer(
 
         val serverAdapterValue = "$BOLD$CYAN${javaClass.simpleName}$RESET"
 
-        val hostnameValue = "$BLUE${Jvm.hostname}$RESET"
+        val hostnameValue = "$BLUE${Jvm.hostName}$RESET"
         val cpuCountValue = "$BLUE${Jvm.cpuCount}$RESET"
         val jvmMemoryValue = "$BLUE$jvmMemory$RESET"
 
