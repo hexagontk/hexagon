@@ -1295,7 +1295,7 @@ Check the details in the following code fragment:</p>
 <span class="n">client</span><span class="p">.</span><span class="na">post</span><span class="p">(</span><span class="s">&quot;/assertHasCookie?cookieName=</span><span class="si">$</span><span class="n">cookieName</span><span class="s">&quot;</span><span class="p">)</span>
 <span class="n">assertEquals</span><span class="p">(</span><span class="n">cookieValue</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;_changed&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="na">cookiesMap</span><span class="p">()</span><span class="o">[</span><span class="n">cookieName</span><span class="o">]?.</span><span class="na">value</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-<p>You can also check the <a href="https://github.com/hexagonkt/hexagon/blob/master/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt">full test</a> for more details.</p>
+<p>You can also check the <a href="https://github.com/hexagonkt/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt">full test</a> for more details.</p>
 <h2 id="multipart-forms-and-files">Multipart (forms and files)<a class="headerlink" href="#multipart-forms-and-files" title="Permanent link">&para;</a></h2>
 <p>Using the HTTP client you can send MIME multipart parts to the server. You can use it to post forms
 or files.</p>

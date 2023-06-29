@@ -3,7 +3,7 @@
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.Jvm.charset
 import com.hexagonkt.core.Jvm.cpuCount
-import com.hexagonkt.core.Jvm.hostname
+import com.hexagonkt.core.Jvm.hostName
 import com.hexagonkt.core.Jvm.name
 import com.hexagonkt.core.Jvm.version
 import com.hexagonkt.core.Jvm.localeCode
@@ -159,7 +159,7 @@ import java.lang.System.nanoTime
 <span class="fc" id="L159">            .map { (k, v) -&gt; &quot;$k($v)&quot; }</span>
 <span class="fc" id="L160">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET)</span>
 
-<span class="fc" id="L162">        val hostnameValue = &quot;$BLUE$hostname$RESET&quot;</span>
+<span class="fc" id="L162">        val hostnameValue = &quot;$BLUE$hostName$RESET&quot;</span>
 <span class="fc" id="L163">        val cpuCountValue = &quot;$BLUE$cpuCount$RESET&quot;</span>
 
 <span class="fc" id="L165">        val javaVersionValue = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>

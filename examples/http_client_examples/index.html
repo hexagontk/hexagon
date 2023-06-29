@@ -1027,7 +1027,7 @@
 
 <h2 id="http-client-creation-example">HTTP Client Creation Example<a class="headerlink" href="#http-client-creation-example" title="Permanent link">&para;</a></h2>
 <p>This example shows how to create HTTP Client instances. Check the
-<a href="https://github.com/hexagonkt/hexagon/blob/master/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt">full test</a>
+<a href="https://github.com/hexagonkt/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt">full test</a>
 for more information.</p>
 <h3 id="without-setting-parameters">Without setting parameters<a class="headerlink" href="#without-setting-parameters" title="Permanent link">&para;</a></h3>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -1055,7 +1055,7 @@ for more information.</p>
 </code></pre></div></td></tr></table></div>
 <h2 id="send-requests-example">Send Requests Example<a class="headerlink" href="#send-requests-example" title="Permanent link">&para;</a></h2>
 <p>This example shows send HTTP requests to a server. Here you can check the
-<a href="https://github.com/hexagonkt/hexagon/blob/master/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt">full test</a>.</p>
+<a href="https://github.com/hexagonkt/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt">full test</a>.</p>
 <h3 id="generic-request">Generic request<a class="headerlink" href="#generic-request" title="Permanent link">&para;</a></h3>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -1139,7 +1139,7 @@ for more information.</p>
 <span class="kd">val</span><span class="w"> </span><span class="nv">responsePatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="na">patch</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">serializedBody</span><span class="p">,</span><span class="w"> </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yaml</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <h2 id="use-cookies-example">Use Cookies Example<a class="headerlink" href="#use-cookies-example" title="Permanent link">&para;</a></h2>
-<p>Check the details at the <a href="https://github.com/hexagonkt/hexagon/blob/master/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt">full test</a>.</p>
+<p>Check the details at the <a href="https://github.com/hexagonkt/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt">full test</a>.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -1173,7 +1173,7 @@ for more information.</p>
 <span class="n">assertEquals</span><span class="p">(</span><span class="n">cookieValue</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;_changed&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="na">cookiesMap</span><span class="p">()</span><span class="o">[</span><span class="n">cookieName</span><span class="o">]?.</span><span class="na">value</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <h2 id="multipart-requests-example">Multipart Requests Example<a class="headerlink" href="#multipart-requests-example" title="Permanent link">&para;</a></h2>
-<p>Refer to the <a href="https://github.com/hexagonkt/hexagon/blob/master/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/FilesTest.kt">full test</a>
+<p>Refer to the <a href="https://github.com/hexagonkt/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/FilesTest.kt">full test</a>
 for more details.</p>
 <h3 id="send-form-fields">Send form fields<a class="headerlink" href="#send-form-fields" title="Permanent link">&para;</a></h3>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -1189,7 +1189,7 @@ for more details.</p>
 </code></pre></div></td></tr></table></div>
 <h2 id="mutual-tls-example">Mutual TLS Example<a class="headerlink" href="#mutual-tls-example" title="Permanent link">&para;</a></h2>
 <p>This example shows how make requests using mutual TLS between the client and the server. You can
-check the <a href="https://github.com/hexagonkt/hexagon/blob/master/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/HttpsTest.kt">full test</a>
+check the <a href="https://github.com/hexagonkt/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/HttpsTest.kt">full test</a>
 for more details.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>

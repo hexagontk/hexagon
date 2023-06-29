@@ -3,13 +3,10 @@
 import java.net.URLStreamHandler
 import java.net.spi.URLStreamHandlerProvider
 
-/**
- * JDK 11 only
- */
-<span class="fc" id="L9">internal class ClasspathHandlerProvider : URLStreamHandlerProvider() {</span>
+<span class="fc" id="L6">internal class ClasspathHandlerProvider : URLStreamHandlerProvider() {</span>
 
     override fun createURLStreamHandler(protocol: String): URLStreamHandler? {
-<span class="fc" id="L12">        return ClasspathHandler.createURLStreamHandler(protocol)</span>
+<span class="fc" id="L9">        return ClasspathHandler.createURLStreamHandler(protocol)</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

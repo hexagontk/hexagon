@@ -877,7 +877,7 @@
 
 <h2 id="register-template-adapters">Register Template Adapters<a class="headerlink" href="#register-template-adapters" title="Permanent link">&para;</a></h2>
 <p>Example to show how to register template adapters.
-<a href="https://github.com/hexagonkt/hexagon/blob/master/templates/src/test/kotlin/com/hexagonkt/templates/examples/TemplatesTest.kt">full test</a>.</p>
+<a href="https://github.com/hexagonkt/hexagon/blob/master/templates/templates/src/test/kotlin/com/hexagonkt/templates/examples/TemplatesTest.kt">full test</a>.</p>
 <h3 id="using-regular-expressions">Using regular Expressions<a class="headerlink" href="#using-regular-expressions" title="Permanent link">&para;</a></h3>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -902,7 +902,7 @@
 </code></pre></div></td></tr></table></div>
 <h2 id="process-templates">Process Templates<a class="headerlink" href="#process-templates" title="Permanent link">&para;</a></h2>
 <p>Simple example to show how to process templates.
-<a href="https://github.com/hexagonkt/hexagon/blob/master/templates/src/test/kotlin/com/hexagonkt/templates/examples/TemplatesTest.kt">full test</a>.</p>
+<a href="https://github.com/hexagonkt/hexagon/blob/master/templates/templates/src/test/kotlin/com/hexagonkt/templates/examples/TemplatesTest.kt">full test</a>.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;key1&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;value1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;key2&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;value2&quot;</span><span class="p">)</span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">rendered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TemplateManager</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:template.txt&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">context</span><span class="p">)</span>
