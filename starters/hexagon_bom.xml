@@ -9,19 +9,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <!-- Kotlin -->
-      <dependency>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-stdlib</artifactId>
-        <version>${kotlin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-reflect</artifactId>
-        <version>${kotlin.version}</version>
-      </dependency>
-
-      <!-- Hexagon -->
       <dependency>
         <groupId>com.hexagonkt</groupId>
         <artifactId>core</artifactId>

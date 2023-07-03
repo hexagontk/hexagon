@@ -9,10 +9,7 @@ apply(from = "../gradle/publish.gradle")
 extensions.configure<PublishingExtension> {
     publications {
         createPomPublication("hexagon_bom") { pomDom ->
-            properties.set(mapOf(
-                "kotlin.version" to project.properties["kotlinVersion"].toString(),
-                "hexagon.version" to rootProject.version.toString()
-            ))
+            properties.set(mapOf("hexagon.version" to rootProject.version.toString()))
 
             withXml {
                 listOf("dependencyManagement").forEach {
