@@ -12,7 +12,7 @@
       <!-- Kotlin -->
       <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-stdlib-jdk8</artifactId>
+        <artifactId>kotlin-stdlib</artifactId>
         <version>${kotlin.version}</version>
       </dependency>
       <dependency>
@@ -196,33 +196,6 @@
         <groupId>com.hexagonkt</groupId>
         <artifactId>templates_test</artifactId>
         <version>${hexagon.version}</version>
-      </dependency>
-
-      <!-- Tests -->
-      <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter</artifactId>
-        <version>${junit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-test</artifactId>
-        <version>${kotlin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.mockk</groupId>
-        <artifactId>mockk</artifactId>
-        <version>${mockk.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
     </dependencies>
   </dependencyManagement>

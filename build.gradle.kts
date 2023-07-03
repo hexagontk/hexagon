@@ -11,7 +11,6 @@ import com.github.jk1.license.render.ReportRenderer
  *  1. Publishing: upload binaries and templates to Maven Central
  *  2. Releasing: tag source code in GitHub
  *  3. Coverage report: aggregated coverage report for all modules
- *  4. Handle Docker containers: take care of tasks depending on Docker and containers clean up
  *
  * Plugins that are not used in the root project (this one) are only applied by the modules that use
  * them.
