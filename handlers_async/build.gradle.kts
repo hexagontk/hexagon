@@ -11,4 +11,4 @@ apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 apply(from = "$rootDir/gradle/jmh.gradle")
 
-description = "Handlers to be applied on events processing."
+description = "Asynchronous handlers to be applied on events processing."
