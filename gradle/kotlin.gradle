@@ -35,16 +35,12 @@ repositories {
 }
 
 dependencies {
-    final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.13.5"
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.9.3"
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter:$scriptJunitVersion")
-    testImplementation("io.mockk:mockk:$scriptMockkVersion") {
-        exclude(group: "org.jetbrains.kotlin")
-    }
 }
 
 // Replace build variables in resource files

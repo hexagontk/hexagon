@@ -9,12 +9,7 @@ apply(from = "../gradle/publish.gradle")
 extensions.configure<PublishingExtension> {
     publications {
         createPomPublication("hexagon_bom") { pomDom ->
-            properties.set(mapOf(
-                "kotlin.version" to project.properties["kotlinVersion"].toString(),
-                "mockk.version" to project.properties["mockkVersion"].toString(),
-                "junit.version" to project.properties["junitVersion"].toString(),
-                "hexagon.version" to rootProject.version.toString()
-            ))
+            properties.set(mapOf("hexagon.version" to rootProject.version.toString()))
 
             withXml {
                 listOf("dependencyManagement").forEach {
@@ -39,14 +34,12 @@ extensions.configure<PublishingExtension> {
                 "kotlin.compiler.jvmTarget" to target,
                 "kotlin.version" to project.properties["kotlinVersion"].toString(),
                 "dokka.version" to project.properties["dokkaVersion"].toString(),
-                "mockk.version" to project.properties["mockkVersion"].toString(),
                 "junit.version" to project.properties["junitVersion"].toString(),
                 "native.tools.version" to project.properties["nativeToolsVersion"].toString(),
-                "hexagon.version" to rootProject.version.toString()
             ))
 
             withXml {
-                listOf("dependencyManagement", "dependencies", "build").forEach {
+                listOf("dependencies", "build").forEach {
                     asElement().importElement(pomDom.firstElement(it))
                 }
             }
