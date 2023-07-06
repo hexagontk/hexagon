@@ -13,5 +13,5 @@ jobs:
     name: Build
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: 20
+      java: 20.0.1
       check_directory: core/build
