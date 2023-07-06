@@ -11,7 +11,6 @@ import com.github.jk1.license.render.ReportRenderer
  *  1. Publishing: upload binaries and templates to Maven Central
  *  2. Releasing: tag source code in GitHub
  *  3. Coverage report: aggregated coverage report for all modules
- *  4. Handle Docker containers: take care of tasks depending on Docker and containers clean up
  *
  * Plugins that are not used in the root project (this one) are only applied by the modules that use
  * them.
@@ -24,7 +23,7 @@ plugins {
     id("eclipse")
     id("project-report")
     id("org.jetbrains.dokka") version("1.8.20")
-    id("com.github.jk1.dependency-license-report") version("2.4")
+    id("com.github.jk1.dependency-license-report") version("2.5")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.2")
     id("org.graalvm.buildtools.native") version("0.9.23") apply(false)
     id("io.gitlab.arturbosch.detekt") version("1.23.0") apply(false)

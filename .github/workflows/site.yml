@@ -28,7 +28,8 @@ jobs:
   site:
     name: Build Site
     runs-on: ubuntu-latest
-    permissions: read-all
+    permissions:
+      contents: read
     defaults:
       run: { shell: bash }
     steps:
@@ -51,14 +52,13 @@ jobs:
         with:
           version: ${{ inputs.version }}
           java-version: ${{ inputs.java }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: gradle
 
       - name: Build Project
         run: ./gradlew --info --stacktrace build
 
       - name: Build Site
-        run: ./gradlew --info --stacktrace -x build buildSite -x apiDump
+        run: ./gradlew --info --stacktrace -x build buildSite
 
       - name: Check Build
         if: ${{ inputs.check_directory != '' }}

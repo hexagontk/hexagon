@@ -63,7 +63,7 @@ Check the details in the following code fragment:
 
 You can also check the [full test] for more details.
 
-[full test]: https://github.com/hexagonkt/hexagon/blob/master/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt
+[full test]: https://github.com/hexagonkt/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt
 
 # Multipart (forms and files)
 Using the HTTP client you can send MIME multipart parts to the server. You can use it to post forms

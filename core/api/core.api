@@ -135,11 +135,12 @@ public final class com/hexagonkt/core/Jvm {
 	public static final field INSTANCE Lcom/hexagonkt/core/Jvm;
 	public final fun getCharset ()Ljava/nio/charset/Charset;
 	public final fun getCpuCount ()I
-	public final fun getHostname ()Ljava/lang/String;
+	public final fun getHostName ()Ljava/lang/String;
 	public final fun getIp ()Ljava/lang/String;
 	public final fun getLocale ()Ljava/util/Locale;
 	public final fun getLocaleCode ()Ljava/lang/String;
 	public final fun getName ()Ljava/lang/String;
+	public final fun getRuntime ()Ljava/lang/Runtime;
 	public final fun getTimeZone ()Ljava/util/TimeZone;
 	public final fun getVersion ()Ljava/lang/String;
 	public final fun getZoneId ()Ljava/time/ZoneId;

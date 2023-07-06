@@ -3,7 +3,6 @@ package com.hexagonkt.http.server.async
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.Jvm.charset
 import com.hexagonkt.core.Jvm.cpuCount
-import com.hexagonkt.core.Jvm.hostname
 import com.hexagonkt.core.Jvm.ip
 import com.hexagonkt.core.Jvm.name
 import com.hexagonkt.core.Jvm.version
@@ -19,6 +18,7 @@ import com.hexagonkt.core.Ansi.DEFAULT
 import com.hexagonkt.core.Ansi.MAGENTA
 import com.hexagonkt.core.Ansi.RESET
 import com.hexagonkt.core.Ansi.UNDERLINE
+import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.Jvm.timeZone
 import com.hexagonkt.core.Jvm.totalMemory
 import com.hexagonkt.core.Jvm.usedMemory
@@ -166,7 +166,7 @@ data class HttpServer(
             .map { (k, v) -> "$k($v)" }
             .joinToString("$RESET, $CYAN", CYAN, RESET)
 
-        val hostnameValue = "$BLUE$hostname$RESET"
+        val hostnameValue = "$BLUE${Jvm.hostName}$RESET"
         val cpuCountValue = "$BLUE$cpuCount$RESET"
 
         val javaVersionValue = "$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]"

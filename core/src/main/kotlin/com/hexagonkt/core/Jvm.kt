@@ -11,7 +11,8 @@ import kotlin.reflect.KClass
  * Object with utilities to gather information about the running JVM.
  */
 object Jvm {
-    private val runtime: Runtime by lazy { Runtime.getRuntime() }
+    /** Current JVM runtime. */
+    val runtime: Runtime by lazy { Runtime.getRuntime() }
 
     /** Default timezone. */
     val timeZone: TimeZone by lazy { TimeZone.getDefault() }
@@ -25,8 +26,8 @@ object Jvm {
     /** Default locale for this instance of the Java Virtual Machine. */
     val locale: Locale by lazy { Locale.getDefault() }
 
-    /** The hostname of the machine running this program. */
-    val hostname: String by lazy { InetAddress.getLocalHost().hostName }
+    /** The host name of the machine running this program. */
+    val hostName: String by lazy { InetAddress.getLocalHost().hostName }
 
     /** The IP address of the machine running this program. */
     val ip: String by lazy { InetAddress.getLocalHost().hostAddress }

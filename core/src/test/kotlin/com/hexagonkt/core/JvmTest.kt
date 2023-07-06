@@ -35,8 +35,8 @@ internal class JvmTest {
         val ipv4Regex = Regex("\\d{1,3}(\\.\\d{1,3}){3}")
 
         assert(Jvm.ip.matches(ipv4Regex) || Jvm.ip.matches(ipv6Regex))
-        assert(Jvm.hostname.isNotBlank())
-        assert(Inet4Address.getAllByName(Jvm.hostname).isNotEmpty())
+        assert(Jvm.hostName.isNotBlank())
+        assert(Inet4Address.getAllByName(Jvm.hostName).isNotEmpty())
         assert(Inet4Address.getAllByName(Jvm.ip).isNotEmpty())
     }
 

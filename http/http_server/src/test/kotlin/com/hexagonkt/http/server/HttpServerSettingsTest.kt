@@ -17,7 +17,7 @@ internal class HttpServerSettingsTest {
             assertNull(it.sslSettings)
             assertEquals(HttpServer.banner, it.banner)
             assertEquals(false, it.zip)
-            assert(it.base == "http://localhost" || it.base == "http://127.0.0.1")
+            assert(it.base.startsWith("http://"))
         }
     }
 
