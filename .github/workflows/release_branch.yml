@@ -19,6 +19,7 @@ jobs:
       - name: Set Up Java
         uses: graalvm/setup-graalvm@v1
         with:
+          java-version: 20
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: gradle
 

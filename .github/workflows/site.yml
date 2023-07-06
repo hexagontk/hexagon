@@ -17,7 +17,7 @@ on:
       java:
         type: string
         description: Java version used to run Gradle.
-        default: 17
+        default: 20
 
       check_directory:
         type: string

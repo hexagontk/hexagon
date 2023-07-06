@@ -12,12 +12,14 @@ jobs:
     name: Sample Keystores
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
+      java: 20
       tasks: createCa createIdentities
 
   native_test:
     name: Native Test
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
+      java: 20
       tasks: nativeTest
 
   build_site:
@@ -28,5 +30,6 @@ jobs:
     name: Test Publishing
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
+      java: 20
       check_directory: core/build
       tasks: publishToMavenLocal -x test
