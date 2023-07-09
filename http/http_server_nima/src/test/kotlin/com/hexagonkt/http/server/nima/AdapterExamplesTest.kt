@@ -21,8 +21,9 @@ val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)
 internal class AdapterErrorsTest : ErrorsTest(clientAdapter, serverAdapter)
 internal class AdapterFiltersTest : FiltersTest(clientAdapter, serverAdapter)
-@Disabled
-internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter, formats)
+internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter, formats) {
+    @Test @Disabled override fun `Form parameters are sent correctly`() {}
+}
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter) {
     @Test override fun `Use ZIP encoding without enabling the feature example`() {

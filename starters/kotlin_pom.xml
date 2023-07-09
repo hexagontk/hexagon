@@ -150,18 +150,19 @@
               <goals>
                 <goal>single</goal>
               </goals>
-              <configuration>
-                <archive>
-                  <manifest>
-                    <mainClass>${exec.mainClass}</mainClass>
-                  </manifest>
-                </archive>
-                <descriptorRefs>
-                  <descriptorRef>jar-with-dependencies</descriptorRef>
-                </descriptorRefs>
-              </configuration>
             </execution>
           </executions>
+          <!-- This block must be outside executions for native compile to work properly -->
+          <configuration>
+            <archive>
+              <manifest>
+                <mainClass>${exec.mainClass}</mainClass>
+              </manifest>
+            </archive>
+            <descriptorRefs>
+              <descriptorRef>jar-with-dependencies</descriptorRef>
+            </descriptorRefs>
+          </configuration>
         </plugin>
 
         <plugin>
@@ -174,21 +175,22 @@
               <goals>
                 <goal>shade</goal>
               </goals>
-              <configuration>
-                <transformers>
-                  <transformer
-                    implementation=
-                      "org.apache.maven.plugins.shade.resource.ServicesResourceTransformer">
-                  </transformer>
-                  <transformer
-                    implementation=
-                      "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                    <mainClass>${exec.mainClass}</mainClass>
-                  </transformer>
-                </transformers>
-              </configuration>
             </execution>
           </executions>
+          <!-- This block must be outside executions for native compile to work properly -->
+          <configuration>
+            <transformers>
+              <transformer
+                implementation=
+                  "org.apache.maven.plugins.shade.resource.ServicesResourceTransformer">
+              </transformer>
+              <transformer
+                implementation=
+                  "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                <mainClass>${exec.mainClass}</mainClass>
+              </transformer>
+            </transformers>
+          </configuration>
         </plugin>
 
         <plugin>
