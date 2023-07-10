@@ -89,7 +89,7 @@ jobs:
           distribution: graalvm-community
           cache: gradle
       - name: Build Project
-        run: ./gradlew --info --stacktrace nativeTest
+        run: ./gradlew --stacktrace nativeTest
 
   build_site:
     name: Build Site
