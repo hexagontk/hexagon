@@ -32,7 +32,7 @@ import org.eclipse.jetty.server.Server as JettyServer
 /**
  * Implements [HttpServerPort] using [JettyServer].
  */
-<span class="pc" id="L35">class JettyServletAdapter(</span>
+<span class="fc" id="L35">class JettyServletAdapter(</span>
 <span class="fc" id="L36">    private val maxThreads: Int = 200,</span>
 <span class="fc" id="L37">    private val minThreads: Int = 8,</span>
 
@@ -63,8 +63,8 @@ import org.eclipse.jetty.server.Server as JettyServer
 <span class="fc" id="L63">    init {</span>
 <span class="fc bfc" id="L64" title="All 2 branches covered.">        if (useVirtualThreads)</span>
 <span class="pc bpc" id="L65" title="1 of 2 branches missed.">            check(VirtualThreads.areSupported()) {</span>
-<span class="fc" id="L66">                val jvm = &quot;JVM: ${Jvm.version}&quot;</span>
-<span class="fc" id="L67">                &quot;Virtual threads not supported or not enabled (--enable-preview) $jvm&quot;</span>
+<span class="nc" id="L66">                val jvm = &quot;JVM: ${Jvm.version}&quot;</span>
+<span class="nc" id="L67">                &quot;Virtual threads not supported or not enabled (--enable-preview) $jvm&quot;</span>
             }
 <span class="fc" id="L69">    }</span>
 
@@ -201,5 +201,5 @@ import org.eclipse.jetty.server.Server as JettyServer
             )
         }
     }
-<span class="nc" id="L204">}</span>
+<span class="fc" id="L204">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

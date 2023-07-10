@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NimaServerAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.nima</a> &gt; <span class="el_source">NimaServerAdapter.kt</span></div><h1>NimaServerAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.nima
+
+import com.hexagonkt.core.fieldsMapOf
+import com.hexagonkt.core.security.loadKeyStore
+import com.hexagonkt.core.toText
+import com.hexagonkt.http.SslSettings
+import com.hexagonkt.http.bodyToBytes
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.model.HttpProtocol
+import com.hexagonkt.http.model.HttpProtocol.*
+import com.hexagonkt.http.model.HttpResponse
+import com.hexagonkt.http.model.HttpResponsePort
+import com.hexagonkt.http.server.HttpServer
+import com.hexagonkt.http.server.HttpServerFeature
+import com.hexagonkt.http.server.HttpServerFeature.ZIP
+import com.hexagonkt.http.server.HttpServerPort
+import io.helidon.common.http.Http.*
+import io.helidon.common.http.HttpMediaType
+import io.helidon.common.http.SetCookie
+import io.helidon.nima.common.tls.Tls
+import io.helidon.nima.webserver.WebServer
+import io.helidon.nima.webserver.http.ServerResponse
+import java.security.SecureRandom
+import java.time.Duration
+import javax.net.ssl.KeyManagerFactory
+import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLParameters
+import javax.net.ssl.TrustManagerFactory
+
+/**
+ * Implements [HttpServerPort] using Helidon Nima.
+ */
+<span class="fc" id="L33">class NimaServerAdapter : HttpServerPort {</span>
+
+    private companion object {
+        const val startErrorMessage = &quot;Nima server not started correctly&quot;
+    }
+
+    private var nimaServer: WebServer? = null
+
+    override fun runtimePort(): Int {
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        return nimaServer?.port() ?: error(startErrorMessage)</span>
+    }
+
+    override fun started() =
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        nimaServer?.isRunning ?: false</span>
+
+    override fun startUp(server: HttpServer) {
+<span class="fc" id="L49">        val settings = server.settings</span>
+<span class="fc" id="L50">        val sslSettings = settings.sslSettings</span>
+
+<span class="fc" id="L52">        val handlers: Map&lt;Method, HttpHandler&gt; =</span>
+<span class="fc" id="L53">            server.handler.addPrefix(settings.contextPath)</span>
+<span class="fc" id="L54">                .byMethod()</span>
+<span class="fc" id="L55">                .mapKeys { Method.create(it.key.toString()) }</span>
+
+<span class="fc" id="L57">        nimaServer = WebServer</span>
+<span class="fc" id="L58">            .builder()</span>
+<span class="fc" id="L59">            .host(settings.bindAddress.hostName)</span>
+<span class="fc" id="L60">            .port(settings.bindPort)</span>
+<span class="fc" id="L61">            .defaultSocket {</span>
+<span class="fc" id="L62">                val b = it</span>
+<span class="fc" id="L63">                    .port(settings.bindPort)</span>
+<span class="fc" id="L64">                    .host(settings.bindAddress.hostName)</span>
+<span class="fc" id="L65">                    .backlog(8192)</span>
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                if (sslSettings == null)</span>
+<span class="fc" id="L68">                    b</span>
+                else
+<span class="fc" id="L70">                    b.tls(</span>
+<span class="fc" id="L71">                        Tls.builder()</span>
+<span class="fc" id="L72">                            .sslParameters(</span>
+<span class="fc" id="L73">                                SSLParameters().apply { needClientAuth = sslSettings.clientAuth }</span>
+                            )
+<span class="fc" id="L75">                            .sslContext(sslContext(sslSettings))</span>
+<span class="fc" id="L76">                            .build()</span>
+                    )
+<span class="fc" id="L78">            }</span>
+<span class="fc" id="L79">            .routing {</span>
+<span class="fc" id="L80">                it.any({ nimaRequest, nimaResponse -&gt;</span>
+<span class="fc" id="L81">                    val method = nimaRequest.prologue().method()</span>
+<span class="fc" id="L82">                    val request = NimaRequestAdapter(method, nimaRequest)</span>
+<span class="pc bpc" id="L83" title="3 of 6 branches missed.">                    val response = handlers[method]?.process(request)?.response ?: HttpResponse()</span>
+<span class="fc" id="L84">                    setResponse(response, nimaResponse)</span>
+<span class="fc" id="L85">                })</span>
+<span class="fc" id="L86">            }</span>
+<span class="fc" id="L87">            .build()</span>
+
+<span class="pc bpc" id="L89" title="2 of 4 branches missed.">        nimaServer?.start() ?: error(startErrorMessage)</span>
+<span class="fc" id="L90">    }</span>
+
+    override fun shutDown() {
+<span class="pc bpc" id="L93" title="2 of 4 branches missed.">        nimaServer?.stop() ?: error(startErrorMessage)</span>
+<span class="fc" id="L94">    }</span>
+
+    override fun supportedProtocols(): Set&lt;HttpProtocol&gt; =
+<span class="fc" id="L97">        setOf(HTTP, HTTPS, HTTP2)</span>
+
+    override fun supportedFeatures(): Set&lt;HttpServerFeature&gt; =
+<span class="fc" id="L100">        setOf(ZIP)</span>
+
+    override fun options(): Map&lt;String, *&gt; =
+<span class="fc" id="L103">        fieldsMapOf&lt;NimaServerAdapter&gt;()</span>
+
+    private fun setResponse(response: HttpResponsePort, nimaResponse: ServerResponse) {
+<span class="fc" id="L106">        try {</span>
+<span class="fc" id="L107">            nimaResponse.status(Status.create(response.status.code))</span>
+
+<span class="fc" id="L109">            response.headers.values.forEach {</span>
+<span class="fc" id="L110">                nimaResponse.header(Header.create(Header.create(it.name), it.strings()))</span>
+<span class="fc" id="L111">            }</span>
+
+<span class="fc" id="L113">            val headers = nimaResponse.headers()</span>
+<span class="fc" id="L114">            response.cookies.forEach {</span>
+<span class="fc" id="L115">                val cookie = SetCookie</span>
+<span class="fc" id="L116">                    .builder(it.name, it.value)</span>
+<span class="fc" id="L117">                    .maxAge(Duration.ofSeconds(it.maxAge))</span>
+<span class="fc" id="L118">                    .path(it.path)</span>
+<span class="fc" id="L119">                    .httpOnly(it.httpOnly)</span>
+<span class="fc" id="L120">                    .secure(it.secure)</span>
+
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">                if (it.expires != null)</span>
+<span class="nc" id="L123">                    cookie.expires(it.expires)</span>
+
+<span class="fc bfc" id="L125" title="All 2 branches covered.">                if (it.deleted)</span>
+<span class="fc" id="L126">                    headers.clearCookie(it.name)</span>
+                else
+<span class="fc" id="L128">                    headers.addCookie(cookie.build())</span>
+<span class="fc" id="L129">            }</span>
+
+<span class="fc bfc" id="L131" title="All 2 branches covered.">            response.contentType?.let { ct -&gt; headers.contentType(HttpMediaType.create(ct.text)) }</span>
+
+<span class="fc" id="L133">            nimaResponse.send(bodyToBytes(response.body))</span>
+        }
+<span class="fc" id="L135">        catch (e: Exception) {</span>
+<span class="fc" id="L136">            nimaResponse.status(Status.INTERNAL_SERVER_ERROR_500)</span>
+<span class="fc" id="L137">            nimaResponse.send(bodyToBytes(e.toText()))</span>
+        }
+<span class="fc" id="L139">    }</span>
+
+    private fun sslContext(sslSettings: SslSettings): SSLContext {
+<span class="fc" id="L142">        val keyManager = createKeyManagerFactory(sslSettings)</span>
+<span class="fc" id="L143">        val trustManager = createTrustManagerFactory(sslSettings)</span>
+
+<span class="fc" id="L145">        val eng = SSLContext.getDefault().createSSLEngine()</span>
+<span class="fc" id="L146">        eng.needClientAuth = sslSettings.clientAuth</span>
+<span class="fc" id="L147">        val context = SSLContext.getInstance(&quot;TLSv1.3&quot;)</span>
+<span class="fc" id="L148">        context.init(</span>
+<span class="fc" id="L149">            keyManager.keyManagers,</span>
+<span class="pc bpc" id="L150" title="1 of 4 branches missed.">            trustManager?.trustManagers ?: emptyArray(),</span>
+<span class="fc" id="L151">            SecureRandom.getInstanceStrong()</span>
+        )
+<span class="fc" id="L153">        return context</span>
+    }
+
+    private fun createTrustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        val trustStoreUrl = sslSettings.trustStore ?: return null</span>
+
+<span class="fc" id="L159">        val trustStorePassword = sslSettings.trustStorePassword</span>
+<span class="fc" id="L160">        val trustStore = loadKeyStore(trustStoreUrl, trustStorePassword)</span>
+<span class="fc" id="L161">        val trustAlgorithm = TrustManagerFactory.getDefaultAlgorithm()</span>
+<span class="fc" id="L162">        val trustManager = TrustManagerFactory.getInstance(trustAlgorithm)</span>
+
+<span class="fc" id="L164">        trustManager.init(trustStore)</span>
+<span class="fc" id="L165">        return trustManager</span>
+    }
+
+    private fun createKeyManagerFactory(sslSettings: SslSettings): KeyManagerFactory {
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">        val keyStoreUrl = sslSettings.keyStore ?: error(&quot;&quot;)</span>
+<span class="fc" id="L170">        val keyStorePassword = sslSettings.keyStorePassword</span>
+<span class="fc" id="L171">        val keyStore = loadKeyStore(keyStoreUrl, keyStorePassword)</span>
+<span class="fc" id="L172">        val keyManager = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm())</span>
+<span class="fc" id="L173">        keyManager.init(keyStore, keyStorePassword.toCharArray())</span>
+<span class="fc" id="L174">        return keyManager</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
