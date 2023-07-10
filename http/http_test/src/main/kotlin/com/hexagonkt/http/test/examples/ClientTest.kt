@@ -86,7 +86,7 @@ abstract class ClientTest(
         assertTrue(response.bodyString().contains("failure"))
     }
 
-    @Test fun `Form parameters are sent correctly`() {
+    @Test open fun `Form parameters are sent correctly`() {
         callback = {
             val headers = Headers(formParameters.httpFields.map { (k, v) -> Header(k, v.values) })
             ok(headers = headers)
@@ -102,7 +102,9 @@ abstract class ClientTest(
         )
 
         val expectedHeaders = Headers(Header("p1", "v11"), Header("p2", "v21", "v22"))
-        val actualHeaders = response.headers - "transfer-encoding" - "content-length" - "connection"
+        val actualHeaders =
+            response.headers - "transfer-encoding" - "content-length" - "connection" - "date"
+
         assertEquals(expectedHeaders, actualHeaders)
     }
 

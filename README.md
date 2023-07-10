@@ -354,15 +354,15 @@ private val path: PathHandler = path {
         methods = setOf(GET),
         pattern = "/*",
         status = NOT_FOUND_404,
-        callback = UrlCallback(URL("classpath:public"))
+        callback = UrlCallback(urlOf("classpath:public"))
     )
 
     path("/static") {
-        get("/files/*", UrlCallback(URL("classpath:assets")))
+        get("/files/*", UrlCallback(urlOf("classpath:assets")))
         get("/resources/*", FileCallback(File(directory)))
     }
 
-    get("/html/*", UrlCallback(URL("classpath:assets"))) // Serve `assets` files on `/html/*`
+    get("/html/*", UrlCallback(urlOf("classpath:assets"))) // Serve `assets` files on `/html/*`
     get("/pub/*", FileCallback(File(directory))) // Serve `test` folder on `/pub/*`
 
     post("/multipart") {

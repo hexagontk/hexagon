@@ -14,10 +14,15 @@ on:
         description: GraalVM version used to run Gradle.
         default: latest
 
+      distribution:
+        type: string
+        description: GraalVM distribution used to run Gradle.
+        default: graalvm-community
+
       java:
         type: string
         description: Java version used to run Gradle.
-        default: 17
+        default: 20
 
       check_directory:
         type: string
@@ -51,14 +56,15 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           version: ${{ inputs.version }}
+          distribution: ${{ inputs.distribution }}
           java-version: ${{ inputs.java }}
           cache: gradle
 
       - name: Build Project
-        run: ./gradlew --info --stacktrace build
+        run: ./gradlew --stacktrace build
 
       - name: Build Site
-        run: ./gradlew --info --stacktrace -x build buildSite
+        run: ./gradlew --stacktrace -x build buildSite
 
       - name: Check Build
         if: ${{ inputs.check_directory != '' }}

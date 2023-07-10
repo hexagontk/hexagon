@@ -235,6 +235,7 @@ public final class com/hexagonkt/core/logging/LoggingLevel : java/lang/Enum {
 	public static final field OFF Lcom/hexagonkt/core/logging/LoggingLevel;
 	public static final field TRACE Lcom/hexagonkt/core/logging/LoggingLevel;
 	public static final field WARN Lcom/hexagonkt/core/logging/LoggingLevel;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/core/logging/LoggingLevel;
 	public static fun values ()[Lcom/hexagonkt/core/logging/LoggingLevel;
 }
@@ -314,6 +315,7 @@ public final class com/hexagonkt/core/media/MediaTypeGroup : java/lang/Enum {
 	public static final field MULTIPART Lcom/hexagonkt/core/media/MediaTypeGroup;
 	public static final field TEXT Lcom/hexagonkt/core/media/MediaTypeGroup;
 	public static final field VIDEO Lcom/hexagonkt/core/media/MediaTypeGroup;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public final fun getText ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/core/media/MediaTypeGroup;
 	public static fun values ()[Lcom/hexagonkt/core/media/MediaTypeGroup;
