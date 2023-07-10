@@ -34,6 +34,7 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
+      java: 20
       check_directory: core/build
       ref: develop
 
@@ -43,6 +44,7 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: macos-latest
+      java: 20
       check_directory: core/build
       ref: develop
       tasks: -x jacocoTestReport
@@ -57,6 +59,7 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
+      java: 20
       ref: develop
       tasks: createCa createIdentities
 
@@ -82,7 +85,7 @@ jobs:
       - name: Set Up Java
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: 17
+          java-version: 20
           cache: gradle
       - name: Build Project
         run: ./gradlew --info --stacktrace nativeTest
@@ -91,7 +94,6 @@ jobs:
     name: Build Site
     uses: hexagonkt/hexagon/.github/workflows/site.yml@master
     with:
-      version: 22.3.1
       ref: develop
 
   test_publishing:
@@ -104,6 +106,7 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
+      java: 20
       ref: develop
       check_directory: core/build
       tasks: publishToMavenLocal -x test

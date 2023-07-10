@@ -58,7 +58,7 @@ abstract class ZipTest(
         server.stop()
     }
 
-    @Test fun `Use ZIP encoding without enabling the feature example`() {
+    @Test open fun `Use ZIP encoding without enabling the feature example`() {
 
         val server = HttpServer(serverAdapter(), serverSettings.copy(bindPort = 0)) {
             get("/hello") {

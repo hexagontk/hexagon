@@ -17,7 +17,7 @@ import com.github.jk1.license.render.ReportRenderer
  */
 
 plugins {
-    kotlin("jvm") version("1.8.22") apply(false)
+    kotlin("jvm") version("1.9.0") apply(false)
 
     id("idea")
     id("eclipse")
@@ -145,6 +145,7 @@ apiValidation {
             "http_server_async",
             "http_server_netty_async",
             "http_server_netty_epoll_async",
+            "http_server_nima",
             "rest",
             "rest_tools",
             "web",

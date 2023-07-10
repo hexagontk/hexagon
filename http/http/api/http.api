@@ -310,6 +310,7 @@ public final class com/hexagonkt/http/model/HttpMethod : java/lang/Enum {
 	public static final field POST Lcom/hexagonkt/http/model/HttpMethod;
 	public static final field PUT Lcom/hexagonkt/http/model/HttpMethod;
 	public static final field TRACE Lcom/hexagonkt/http/model/HttpMethod;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/http/model/HttpMethod;
 	public static fun values ()[Lcom/hexagonkt/http/model/HttpMethod;
 }
@@ -348,6 +349,7 @@ public final class com/hexagonkt/http/model/HttpProtocol : java/lang/Enum {
 	public static final field HTTP Lcom/hexagonkt/http/model/HttpProtocol;
 	public static final field HTTP2 Lcom/hexagonkt/http/model/HttpProtocol;
 	public static final field HTTPS Lcom/hexagonkt/http/model/HttpProtocol;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public final fun getSchema ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/http/model/HttpProtocol;
 	public static fun values ()[Lcom/hexagonkt/http/model/HttpProtocol;
@@ -563,6 +565,7 @@ public final class com/hexagonkt/http/model/HttpStatusType : java/lang/Enum {
 	public static final field REDIRECTION Lcom/hexagonkt/http/model/HttpStatusType;
 	public static final field SERVER_ERROR Lcom/hexagonkt/http/model/HttpStatusType;
 	public static final field SUCCESS Lcom/hexagonkt/http/model/HttpStatusType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/http/model/HttpStatusType;
 	public static fun values ()[Lcom/hexagonkt/http/model/HttpStatusType;
 }

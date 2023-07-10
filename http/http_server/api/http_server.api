@@ -29,6 +29,7 @@ public final class com/hexagonkt/http/server/HttpServerFeature : java/lang/Enum 
 	public static final field SSE Lcom/hexagonkt/http/server/HttpServerFeature;
 	public static final field WEB_SOCKETS Lcom/hexagonkt/http/server/HttpServerFeature;
 	public static final field ZIP Lcom/hexagonkt/http/server/HttpServerFeature;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/http/server/HttpServerFeature;
 	public static fun values ()[Lcom/hexagonkt/http/server/HttpServerFeature;
 }

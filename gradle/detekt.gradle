@@ -17,6 +17,7 @@ detekt {
 tasks.named("detekt") {
     dependsOn("detektMain", "detektTest")
 
+    jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
     reports {
         sarif.required.set(false)
         html.required.set(false)
@@ -26,6 +27,7 @@ tasks.named("detekt") {
 }
 
 tasks.named("detektMain") {
+    jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
     reports {
         sarif.required.set(false)
         html.required.set(false)
@@ -35,6 +37,7 @@ tasks.named("detektMain") {
 }
 
 tasks.named("detektTest") {
+    jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
     reports {
         sarif.required.set(false)
         html.required.set(false)
