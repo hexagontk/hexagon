@@ -86,6 +86,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           java-version: 20
+          distribution: graalvm-community
           cache: gradle
       - name: Build Project
         run: ./gradlew --info --stacktrace nativeTest
