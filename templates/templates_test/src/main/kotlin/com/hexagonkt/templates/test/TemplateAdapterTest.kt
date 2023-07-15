@@ -1,5 +1,6 @@
 package com.hexagonkt.templates.test
 
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.templates.TemplateManager
 import com.hexagonkt.templates.TemplatePort
 import org.junit.jupiter.api.BeforeAll
@@ -64,7 +65,7 @@ abstract class TemplateAdapterTest(private val url: URL, private val adapter: Te
 
         // TODO Decide if return a Toolkit exception, or leave the template engine handle it
         assertFails {
-            TemplateManager.render(URL("classpath:invalid.html"), context)
+            TemplateManager.render(urlOf("classpath:invalid.html"), context)
         }
     }
 }

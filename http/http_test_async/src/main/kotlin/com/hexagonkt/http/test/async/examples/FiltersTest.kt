@@ -1,6 +1,7 @@
 package com.hexagonkt.http.test.async.examples
 
 import com.hexagonkt.core.decodeBase64
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.handlers.async.done
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
@@ -18,7 +19,6 @@ import com.hexagonkt.http.handlers.async.HttpHandler
 import com.hexagonkt.http.handlers.async.path
 import com.hexagonkt.http.test.async.BaseTest
 import org.junit.jupiter.api.Test
-import java.net.URL
 import kotlin.test.assertEquals
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
@@ -133,7 +133,7 @@ abstract class FiltersTest(
 
     private fun authorizedClient(user: String, password: String): HttpClient {
         val settings = HttpClientSettings(
-            baseUrl = URL("http://localhost:${server.runtimePort}"),
+            baseUrl = urlOf("http://localhost:${server.runtimePort}"),
             headers = Headers(Header("authorization", basicAuth(user, password)))
         )
         return HttpClient(clientAdapter(), settings).apply { start() }

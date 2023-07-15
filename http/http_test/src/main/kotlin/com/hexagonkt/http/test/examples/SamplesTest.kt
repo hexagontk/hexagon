@@ -7,6 +7,7 @@ import com.hexagonkt.core.media.APPLICATION_JSON
 import com.hexagonkt.core.media.APPLICATION_XML
 import com.hexagonkt.core.media.TEXT_CSS
 import com.hexagonkt.core.media.TEXT_HTML
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
@@ -32,7 +33,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.InetAddress
-import java.net.URL
 import kotlin.test.assertEquals
 
 @TestInstance(PER_CLASS)
@@ -72,7 +72,7 @@ abstract class SamplesTest(
 
         // Servers implement closeable, you can use them inside a block assuring they will be closed
         runningServer.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
                 it.start()
                 assert(s.started())
                 assertEquals("Hello World!", it.get("/context/hello").body)
@@ -86,7 +86,7 @@ abstract class SamplesTest(
         // serverCreation
 
         defaultSettingsServer.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
                 it.start()
                 assert(s.started())
                 assertEquals("Hello World!", it.get("/hello").body)
@@ -108,7 +108,7 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
                 it.start()
                 assertEquals("Get greeting", it.get("/hello").body)
                 assertEquals("Put greeting", it.put("/hello").body)
@@ -135,7 +135,7 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
                 it.start()
                 assertEquals("Greeting", it.get("/nested/hello").body)
                 assertEquals("Second level greeting", it.get("/nested/secondLevel/hello").body)
@@ -160,7 +160,7 @@ abstract class SamplesTest(
 
         server.use { s ->
             s.start()
-            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${server.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))).use {
                 it.start()
 
                 assertEquals("Get client", it.get("/clients").body)
@@ -328,7 +328,7 @@ abstract class SamplesTest(
 
         server.use { s ->
             s.start()
-            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
                 it.cookies += Cookie("foo", "bar")
                 it.start()
 
@@ -346,7 +346,7 @@ abstract class SamplesTest(
                 assertEquals(OK_200, it.get("/cookie").status)
                 assertEquals(INTERNAL_SERVER_ERROR_500, it.get("/halt").status)
 
-                val stream = URL("classpath:assets/index.html").readBytes()
+                val stream = urlOf("classpath:assets/index.html").readBytes()
                 val parts = listOf(HttpPart("file", stream, "index.html"))
                 val response = it.send(HttpRequest(POST, path = "/file", parts = parts))
                 assert(response.bodyString().contains("<title>Hexagon</title>"))
@@ -401,7 +401,7 @@ abstract class SamplesTest(
         server.use { s ->
             s.start()
 
-            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${server.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))).use {
                 it.start()
                 assertResponse(it.get("/filters/route"), "filters route", "b-filters", "a-filters")
                 assertResponse(it.get("/filters"), "filters")
@@ -454,7 +454,7 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
                 it.start()
 
                 val errors = it.get("/errors")
@@ -486,17 +486,17 @@ abstract class SamplesTest(
             on(
                 status = NOT_FOUND_404,
                 pattern = "/web/*",
-                callback = UrlCallback(URL("classpath:public"))
+                callback = UrlCallback(urlOf("classpath:public"))
             )
 
             // Maps resources on 'assets' on the server root (assets/f.css -> /f.css)
             // '/public/css/style.css' resource would be: 'http://{host}:{port}/css/style.css'
-            on(status = NOT_FOUND_404, pattern = "/*", callback = UrlCallback(URL("classpath:assets")))
+            on(status = NOT_FOUND_404, pattern = "/*", callback = UrlCallback(urlOf("classpath:assets")))
             // files
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
                 it.start()
 
                 assert(it.get("/web/file.txt").bodyString().startsWith("It matches this route"))
@@ -525,7 +525,7 @@ abstract class SamplesTest(
         val server = serve(serverAdapter(), router, serverSettings)
 
         server.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(URL("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
                 it.start()
                 assertEquals("Hi!", it.get("/hello").body)
             }

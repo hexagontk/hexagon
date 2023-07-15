@@ -73,7 +73,7 @@ fun URL.firstVariant(vararg suffixes: String): URL {
     val fileName = file.removeSuffix(".$extension")
 
     suffixes.forEach {
-        val u = URL("$protocol:$fileName$it.$extension")
+        val u = urlOf("$protocol:$fileName$it.$extension")
         if (u.exists())
             return u
     }

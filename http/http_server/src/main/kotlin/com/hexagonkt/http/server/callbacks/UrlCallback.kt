@@ -4,6 +4,7 @@ import com.hexagonkt.core.ResourceNotFoundException
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.mediaTypeOfOrNull
 import com.hexagonkt.core.require
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.handlers.HttpContext
 import java.net.URL
@@ -31,7 +32,7 @@ class UrlCallback(private val url: URL) : (HttpContext) -> HttpContext {
                 else -> "$url/$requestPath"
             }
 
-            val resource = URL(url)
+            val resource = urlOf(url)
             val bytes = resource.readBytes()
             val mediaType = mediaTypeOfOrNull(resource)
             context.ok(bytes, contentType = mediaType?.let { ContentType(it) })

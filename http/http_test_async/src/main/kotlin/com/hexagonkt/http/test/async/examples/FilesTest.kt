@@ -2,6 +2,7 @@ package com.hexagonkt.http.test.async.examples
 
 import com.hexagonkt.core.media.TEXT_CSS
 import com.hexagonkt.core.media.TEXT_HTML
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.handlers.async.done
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.HttpRequest
@@ -22,7 +23,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.File
-import java.net.URL
 import kotlin.test.assertEquals
 
 @TestInstance(PER_CLASS)
@@ -46,15 +46,15 @@ abstract class FilesTest(
             methods = setOf(GET),
             pattern = "/*",
             status = NOT_FOUND_404,
-            callback = UrlCallback(URL("classpath:public"))
+            callback = UrlCallback(urlOf("classpath:public"))
         )
 
         path("/static") {
-            get("/files/*", UrlCallback(URL("classpath:assets")))
+            get("/files/*", UrlCallback(urlOf("classpath:assets")))
             get("/resources/*", FileCallback(File(directory)))
         }
 
-        get("/html/*", UrlCallback(URL("classpath:assets"))) // Serve `assets` files on `/html/*`
+        get("/html/*", UrlCallback(urlOf("classpath:assets"))) // Serve `assets` files on `/html/*`
         get("/pub/*", FileCallback(File(directory))) // Serve `test` folder on `/pub/*`
 
         post("/multipart") {
@@ -154,7 +154,7 @@ abstract class FilesTest(
 
     @Test fun `Sending files works properly`() {
         // clientFile
-        val stream = URL("classpath:assets/index.html").readBytes()
+        val stream = urlOf("classpath:assets/index.html").readBytes()
         val parts = listOf(HttpPart("file", stream, "index.html"))
         val response = client.send(HttpRequest(POST, path = "/file", parts = parts))
         // clientFile
