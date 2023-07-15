@@ -142,7 +142,7 @@ data class HttpServer(
 
         val startUpTime = "%,.0f".format(startUpTimestamp / 1e6)
         val protocol = settings.protocol
-        val binding = "${settings.base}:$runtimePort"
+        val binding = "${settings.bindUrl}:$runtimePort"
         val banner = settings.banner ?: return " at $binding ($startUpTime ms)"
 
         val jvmMemoryValue = "$BLUE${totalMemory()} KB$RESET"
