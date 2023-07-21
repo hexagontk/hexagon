@@ -33,7 +33,7 @@ a project from scratch following these steps:
 
 @code http/http_test/src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt?hello_world
 
-5. Run the service and view the results at: [http://localhost:2010/hello][Endpoint]
+5. Run the service and view the results at: [http://localhost:2010/hello/hex][Endpoint]
 
 # Dependencies Verification
 Hexagon's dependencies are signed, you can get the public key at the
