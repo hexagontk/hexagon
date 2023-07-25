@@ -119,6 +119,9 @@ from scratch following these steps:
 
 ```kotlin
 // hello_world
+import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.jetty.serve
 
 lateinit var server: HttpServer
