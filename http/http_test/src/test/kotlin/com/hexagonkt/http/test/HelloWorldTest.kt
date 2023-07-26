@@ -1,12 +1,9 @@
 package com.hexagonkt.http.test
 
-import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.OK_200
-import com.hexagonkt.http.server.HttpServer
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -16,6 +13,9 @@ import java.net.URL
 import kotlin.test.assertEquals
 
 // hello_world
+import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.jetty.serve
 
 lateinit var server: HttpServer
