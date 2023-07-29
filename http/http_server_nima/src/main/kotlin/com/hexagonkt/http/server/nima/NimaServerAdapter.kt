@@ -17,7 +17,6 @@ import com.hexagonkt.http.server.HttpServerPort
 import io.helidon.common.http.Http.*
 import io.helidon.common.http.HttpMediaType
 import io.helidon.common.http.SetCookie
-import io.helidon.nima.common.tls.Tls
 import io.helidon.nima.webserver.WebServer
 import io.helidon.nima.webserver.http.ServerResponse
 import java.security.SecureRandom
@@ -54,28 +53,10 @@ class NimaServerAdapter : HttpServerPort {
                 .byMethod()
                 .mapKeys { Method.create(it.key.toString()) }
 
-        nimaServer = WebServer
+        val serverBuilder = WebServer
             .builder()
             .host(settings.bindAddress.hostName)
             .port(settings.bindPort)
-            .defaultSocket {
-                val b = it
-                    .port(settings.bindPort)
-                    .host(settings.bindAddress.hostName)
-                    .backlog(8192)
-
-                if (sslSettings == null)
-                    b
-                else
-                    b.tls(
-                        Tls.builder()
-                            .sslParameters(
-                                SSLParameters().apply { needClientAuth = sslSettings.clientAuth }
-                            )
-                            .sslContext(sslContext(sslSettings))
-                            .build()
-                    )
-            }
             .routing {
                 it.any({ nimaRequest, nimaResponse ->
                     val method = nimaRequest.prologue().method()
@@ -84,7 +65,16 @@ class NimaServerAdapter : HttpServerPort {
                     setResponse(response, nimaResponse)
                 })
             }
-            .build()
+
+        if (sslSettings != null)
+            serverBuilder.tls {
+                val sslClientAuth = sslSettings.clientAuth
+                it
+                    .sslParameters(SSLParameters().apply { needClientAuth = sslClientAuth })
+                    .sslContext(sslContext(sslSettings))
+            }
+
+        nimaServer = serverBuilder.build()
 
         nimaServer?.start() ?: error(startErrorMessage)
     }
