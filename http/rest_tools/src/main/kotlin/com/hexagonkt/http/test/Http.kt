@@ -1,6 +1,7 @@
 package com.hexagonkt.http.test
 
 import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
@@ -53,7 +54,7 @@ data class Http(
 
     private val settings =
         HttpClientSettings(
-            baseUrl = url?.let(::URL),
+            baseUrl = url?.let(::urlOf),
             contentType = contentType,
             useCookies = true,
             headers = toHeaders(headers),
