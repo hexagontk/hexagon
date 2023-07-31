@@ -6,10 +6,10 @@ import com.hexagonkt.core.media.TEXT_HTML
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.media.TEXT_RICHTEXT
 import com.hexagonkt.core.security.loadKeyStore
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.model.HttpMethod.POST
 import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.HttpProtocol.*
-import java.net.URL
 import java.security.cert.X509Certificate
 import kotlin.test.*
 
@@ -116,7 +116,7 @@ internal class HttpRequestTest {
     }
 
     private val keyStoreResource = "hexagonkt.p12"
-    private val keyStoreUrl = URL("classpath:$keyStoreResource")
+    private val keyStoreUrl = urlOf("classpath:$keyStoreResource")
     private val keyStore = loadKeyStore(keyStoreUrl, keyStoreResource.reversed())
     private val certificate = keyStore.getCertificate("hexagonkt")
     private val certificates = listOf(certificate as X509Certificate)
@@ -239,11 +239,11 @@ internal class HttpRequestTest {
     }
 
     @Test fun `URL is generated correctly`() {
-        assertEquals(URL("http://localhost/path?qp1=value1&qp1=value2"), TestRequest.url())
+        assertEquals(urlOf("http://localhost/path?qp1=value1&qp1=value2"), TestRequest.url())
         testPort = 9999
-        assertEquals(URL("http://localhost:9999/path?qp1=value1&qp1=value2"), TestRequest.url())
+        assertEquals(urlOf("http://localhost:9999/path?qp1=value1&qp1=value2"), TestRequest.url())
         testQueryParameters = QueryParameters()
-        assertEquals(URL("http://localhost:9999/path"), TestRequest.url())
+        assertEquals(urlOf("http://localhost:9999/path"), TestRequest.url())
     }
 
     @Test fun `HTTP Request operators work ok`() {

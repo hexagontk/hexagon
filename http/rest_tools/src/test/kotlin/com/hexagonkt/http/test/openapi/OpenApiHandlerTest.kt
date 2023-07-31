@@ -1,5 +1,6 @@
 package com.hexagonkt.http.test.openapi
 
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
@@ -7,7 +8,6 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import org.junit.jupiter.api.*
-import java.net.URL
 import kotlin.test.assertEquals
 
 @Disabled // TODO Fix this functionality
@@ -19,7 +19,7 @@ internal class OpenApiHandlerTest {
     }
 
     private val client by lazy {
-        val settings = HttpClientSettings(URL("http://localhost:${server.runtimePort}"))
+        val settings = HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))
         HttpClient(JettyClientAdapter(), settings)
     }
 

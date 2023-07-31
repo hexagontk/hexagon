@@ -2,10 +2,10 @@ package com.hexagonkt.serialization
 
 import com.hexagonkt.core.media.APPLICATION_JSON
 import com.hexagonkt.core.toStream
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.serialization.jackson.json.Json
 import org.junit.jupiter.api.Test
 import java.io.File
-import java.net.URL
 import java.nio.file.Path
 import kotlin.test.assertFailsWith
 
@@ -16,16 +16,16 @@ internal class SerializationHelpersTest {
     }
 
     @Test fun `Parse URL helpers fails if parsed type does not match`() {
-        assertFailsWith<IllegalStateException> {  URL("classpath:companies.json").parseMap() }
+        assertFailsWith<IllegalStateException> {  urlOf("classpath:companies.json").parseMap() }
             .apply { assert(message?.endsWith("cannot be cast to Map") ?: false) }
 
-        assertFailsWith<IllegalStateException> {  URL("classpath:company.json").parseList() }
+        assertFailsWith<IllegalStateException> {  urlOf("classpath:company.json").parseList() }
             .apply { assert(message?.endsWith("cannot be cast to List") ?: false) }
     }
 
     @Test fun `Parse URL helpers generates the correct collection`() {
-        assert(URL("classpath:companies.json").parseList().isNotEmpty())
-        assert(URL("classpath:company.json").parseMap().isNotEmpty())
+        assert(urlOf("classpath:companies.json").parseList().isNotEmpty())
+        assert(urlOf("classpath:company.json").parseMap().isNotEmpty())
     }
 
     @Test fun `Parse file helpers generates the correct collection`() {

@@ -1,5 +1,6 @@
 package com.hexagonkt.web
 
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
@@ -16,7 +17,6 @@ import org.junit.jupiter.api.BeforeAll
 import kotlin.test.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
-import java.net.URL
 import java.time.LocalDateTime
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -29,7 +29,7 @@ internal class WebTest {
     private val router: PathHandler = path {
         get("/template") {
             template(
-                url = URL("classpath:templates/pebble_template.html"),
+                url = urlOf("classpath:templates/pebble_template.html"),
                 context = callContext() + ("date" to LocalDateTime.now())
             )
         }
@@ -37,7 +37,7 @@ internal class WebTest {
         get("/template/adapter") {
             template(
                 templateEngine = templateEngine,
-                url = URL("classpath:templates/pebble_template.html"),
+                url = urlOf("classpath:templates/pebble_template.html"),
                 context = callContext() + ("date" to LocalDateTime.now())
             )
         }
@@ -48,7 +48,7 @@ internal class WebTest {
     }
 
     private val client by lazy {
-        val settings = HttpClientSettings(URL("http://localhost:${server.runtimePort}"))
+        val settings = HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))
         HttpClient(JettyClientAdapter(), settings)
     }
 

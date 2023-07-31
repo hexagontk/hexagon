@@ -3,6 +3,7 @@ package com.hexagonkt.serialization.jackson.yaml
 import com.hexagonkt.core.fieldsMapOfNotNull
 import com.hexagonkt.core.require
 import com.hexagonkt.core.requirePath
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.serialization.*
 import com.hexagonkt.serialization.test.SerializationTest
 import org.junit.jupiter.api.BeforeAll
@@ -16,8 +17,8 @@ internal class YamlTest : SerializationTest() {
 
     override val format: SerializationFormat = Yaml
     override val urls: List<URL> = listOf(
-        URL("classpath:data/companies.yml"),
-        URL("classpath:data/company.yml"),
+        urlOf("classpath:data/companies.yml"),
+        urlOf("classpath:data/company.yml"),
     )
 
     data class Player(val name: String, val number: Int, val category: ClosedRange<Int>)

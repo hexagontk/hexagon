@@ -3,6 +3,7 @@ package com.hexagonkt.serialization
 import com.hexagonkt.core.decodeBase64
 import com.hexagonkt.core.media.APPLICATION_PHP
 import com.hexagonkt.core.media.APPLICATION_AVRO
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.serialization.Department.DESIGN
 import com.hexagonkt.serialization.Department.DEVELOPMENT
 import com.hexagonkt.serialization.jackson.json.Json
@@ -10,7 +11,6 @@ import kotlin.test.Test
 import java.io.File
 import java.net.InetAddress
 import kotlin.IllegalStateException
-import java.net.URL
 import java.nio.ByteBuffer
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -78,8 +78,8 @@ internal class SerializationTest {
         assertEquals("string".parse(TextTestFormat), "string".parse(APPLICATION_PHP))
         assertEquals("string".parse(BinaryTestFormat), "string".parse(APPLICATION_AVRO))
 
-        assertEquals(listOf("text"), URL("classpath:data/company.php").parse())
-        assertEquals(listOf("bytes"), URL("classpath:data/company.avro").parse())
+        assertEquals(listOf("text"), urlOf("classpath:data/company.php").parse())
+        assertEquals(listOf("bytes"), urlOf("classpath:data/company.avro").parse())
 
         val resources = "src/test/resources"
         val phpFile = File("$resources/data/company.php").let {
@@ -99,25 +99,25 @@ internal class SerializationTest {
     @Test fun `Data serialization helpers convert data properly`() {
         SerializationManager.formats = setOf(Json)
 
-        URL("classpath:data/company.json").parse().toData(::Company).first().apply {
+        urlOf("classpath:data/company.json").parse().toData(::Company).first().apply {
             assertEquals("id1", id)
             assertEquals(LocalDate.of(2014, 1, 25), foundation)
             assertEquals(LocalTime.of(11, 42), closeTime)
             assertEquals(LocalTime.of(8, 30)..LocalTime.of(14, 51), openTime)
-            assertEquals(URL("http://example.org"), web)
+            assertEquals(urlOf("http://example.org"), web)
             assertEquals(setOf(Person("John"), Person("Mike")), people)
             assertEquals(LocalDateTime.of(2016, 1, 1, 0, 0), creationDate)
             assertEquals(InetAddress.getByName("127.0.0.1"), host)
         }
 
-        URL("classpath:data/companies.json").parse().toData(::Company).first().apply {
-            val clientList = listOf(URL("http://c1.example.org"), URL("http://c2.example.org"))
+        urlOf("classpath:data/companies.json").parse().toData(::Company).first().apply {
+            val clientList = listOf(urlOf("http://c1.example.org"), urlOf("http://c2.example.org"))
 
             assertEquals("id", id)
             assertEquals(LocalDate.of(2014, 1, 25), foundation)
             assertEquals(LocalTime.of(11, 42), closeTime)
             assertEquals(LocalTime.of(8, 30)..LocalTime.of(14, 51), openTime)
-            assertEquals(URL("http://example.org"), web)
+            assertEquals(urlOf("http://example.org"), web)
             assertEquals(clientList, clients)
             assertEquals(ByteBuffer.wrap("AAEC".decodeBase64()), logo)
             assertEquals("notes", notes)

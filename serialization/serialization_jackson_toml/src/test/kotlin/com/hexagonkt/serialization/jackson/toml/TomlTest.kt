@@ -3,6 +3,7 @@ package com.hexagonkt.serialization.jackson.toml
 import com.hexagonkt.core.fieldsMapOfNotNull
 import com.hexagonkt.core.require
 import com.hexagonkt.core.requirePath
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.serialization.*
 import com.hexagonkt.serialization.test.SerializationTest
 import org.junit.jupiter.api.BeforeAll
@@ -16,8 +17,8 @@ internal class TomlTest : SerializationTest() {
 
     override val format: SerializationFormat = Toml
     override val urls: List<URL> = listOf(
-        URL("classpath:data/companies.toml"),
-        URL("classpath:data/company.toml"),
+        urlOf("classpath:data/companies.toml"),
+        urlOf("classpath:data/company.toml"),
     )
 
     data class Player(val name: String, val number: Int, val category: ClosedRange<Int>)

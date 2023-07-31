@@ -1,6 +1,7 @@
 package com.hexagonkt.templates.examples
 
 import com.hexagonkt.core.Glob
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.templates.SampleTemplateAdapter
 import com.hexagonkt.templates.TemplateManager
 import com.hexagonkt.templates.TemplatePort
@@ -39,7 +40,7 @@ class TemplatesTest {
 
         // templateUsage
         val context = mapOf("key1" to "value1", "key2" to "value2")
-        val rendered = TemplateManager.render(URL("classpath:template.txt"), context)
+        val rendered = TemplateManager.render(urlOf("classpath:template.txt"), context)
         // templateUsage
 
         assert(rendered.startsWith("classpath:template.txt {key1=value1, key2=value2"))
@@ -49,9 +50,9 @@ class TemplatesTest {
 
     private fun checkRegisteredAdapters() {
         val context = mapOf<String, Any>()
-        val html = TemplateManager.render(URL("classpath:template.html"), context)
-        val plain = TemplateManager.render(URL("classpath:template.txt"), context)
-        val others = TemplateManager.render(URL("classpath:template.other"), context)
+        val html = TemplateManager.render(urlOf("classpath:template.html"), context)
+        val plain = TemplateManager.render(urlOf("classpath:template.txt"), context)
+        val others = TemplateManager.render(urlOf("classpath:template.other"), context)
 
         assertEquals("html:classpath:template.html", html)
         assertEquals("text:classpath:template.txt", plain)

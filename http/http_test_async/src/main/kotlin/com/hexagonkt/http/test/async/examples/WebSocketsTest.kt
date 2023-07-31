@@ -2,6 +2,7 @@ package com.hexagonkt.http.test.async.examples
 
 import com.hexagonkt.core.logging.logger
 import com.hexagonkt.core.require
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.handlers.async.done
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.client.HttpClient
@@ -18,7 +19,6 @@ import com.hexagonkt.http.server.async.HttpServerSettings
 import com.hexagonkt.http.test.async.BaseTest
 import org.junit.jupiter.api.Test
 import kotlin.IllegalStateException
-import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
@@ -33,8 +33,8 @@ abstract class WebSocketsTest(
 
     private val identity = "hexagonkt.p12"
     private val trust = "trust.p12"
-    private val keyStore = URL("classpath:ssl/$identity")
-    private val trustStore = URL("classpath:ssl/$trust")
+    private val keyStore = urlOf("classpath:ssl/$identity")
+    private val trustStore = urlOf("classpath:ssl/$trust")
     private val keyStorePassword = identity.reversed()
     private val trustStorePassword = trust.reversed()
 
@@ -108,7 +108,7 @@ abstract class WebSocketsTest(
     // ws_server
 
     @Test fun `WebSockets client check start and stop states`() {
-        val settings = clientSettings.copy(baseUrl = URL("https://localhost:9999"))
+        val settings = clientSettings.copy(baseUrl = urlOf("https://localhost:9999"))
         val client = HttpClient(clientAdapter(), settings)
 
         assertEquals(
@@ -152,7 +152,7 @@ abstract class WebSocketsTest(
     ) {
         val server = serve(serverAdapter(), handler, serverSettings)
 
-        val contextPath = URL("$protocol://localhost:${server.runtimePort}")
+        val contextPath = urlOf("$protocol://localhost:${server.runtimePort}")
         val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
         client.start()
 
