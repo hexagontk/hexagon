@@ -30,7 +30,7 @@ class UrlCallback(private val url: URL) : (HttpContext) -> CompletableFuture<Htt
 
             val url = when {
                 requestPath.isEmpty() -> url.toString()
-                url.toString() == "classpath:" -> "$url$requestPath"
+                url.toString() == "classpath:/" -> "classpath:$requestPath"
                 else -> "$url/$requestPath"
             }
 

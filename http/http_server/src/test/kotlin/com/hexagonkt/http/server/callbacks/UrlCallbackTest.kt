@@ -1,13 +1,13 @@
 package com.hexagonkt.http.server.callbacks
 
 import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.patterns.TemplatePathPattern
 import com.hexagonkt.http.handlers.HttpContext
 import com.hexagonkt.http.handlers.HttpPredicate
 import kotlin.test.Test
 import kotlin.IllegalStateException
-import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
@@ -16,7 +16,7 @@ internal class UrlCallbackTest {
 
     @Test fun `Request referencing parent directories raises an error`() {
         val e = assertFailsWith<IllegalStateException> {
-            processUrlCallback("classpath:", "/params/../1", "/params/*")
+            processUrlCallback("classpath:/", "/params/../1", "/params/*")
         }
 
         assertEquals("Requested path cannot contain '..': ../1", e.message)
@@ -31,7 +31,7 @@ internal class UrlCallbackTest {
     }
 
     @Test fun `Filter with one parameter resolves to content`() {
-        val result = processUrlCallback("classpath:", "/params/hexagonkt.p12", "/params/*")
+        val result = processUrlCallback("classpath:/", "/params/hexagonkt.p12", "/params/*")
 
         assertEquals(OK_200, result.status)
         assertNull(result.contentType)
@@ -45,14 +45,14 @@ internal class UrlCallbackTest {
     }
 
     @Test fun `Filter with one parameter resolves to missing content`() {
-        val result = processUrlCallback("classpath:", "/params/foo.bar", "/params/*")
+        val result = processUrlCallback("classpath:/", "/params/foo.bar", "/params/*")
 
         assertEquals(NOT_FOUND_404, result.status)
         assertEquals("classpath:foo.bar cannot be open", result.bodyString())
     }
 
     @Test fun `Filter with a directory resolves to missing content`() {
-        val result = processUrlCallback("classpath:", "/params/foo/", "/params/*")
+        val result = processUrlCallback("classpath:/", "/params/foo/", "/params/*")
 
         assertEquals(NOT_FOUND_404, result.status)
         assertEquals("foo/ not found (folder)", result.bodyString())
@@ -70,7 +70,7 @@ internal class UrlCallbackTest {
         requestPath: String,
         pathPattern: String
     ): HttpResponsePort =
-        UrlCallback(URL(url))(
+        UrlCallback(urlOf(url))(
             HttpContext(
                 HttpCall(HttpRequest(path = requestPath)),
                 HttpPredicate(pathPattern = TemplatePathPattern(pathPattern))
