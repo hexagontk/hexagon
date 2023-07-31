@@ -7,7 +7,6 @@ import kotlin.test.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.MalformedURLException
-import java.net.URL
 import kotlin.test.assertFailsWith
 
 @TestInstance(PER_CLASS)
@@ -23,26 +22,26 @@ internal class ClasspathHandlerProviderTest {
     }
 
     @Test fun `Require classpath resource`() {
-        val resource = URL("classpath:application_test.yml")
+        val resource = urlOf("classpath:application_test.yml")
         assert(resource.file == resource.file)
         val e = assertFailsWith<ResourceNotFoundException> {
-            URL("classpath:foo.txt").openConnection()
+            urlOf("classpath:foo.txt").openConnection()
         }
         assert(e.message == "classpath:foo.txt cannot be open")
     }
 
     @Test fun `Classpath resource folder`() {
-        assert(URL("classpath:data").readText().lines().isNotEmpty())
+        assert(urlOf("classpath:data").readText().lines().isNotEmpty())
     }
 
     @Test fun `Read classpath resource returns resource's text` () {
-        val resourceText = URL("classpath:sample.properties").readText()
+        val resourceText = urlOf("classpath:sample.properties").readText()
         assert(resourceText.contains("handlers=com.hexagonkt.core.logging.jul.SystemStreamHandler"))
     }
 
     @Test fun `Unknown protocol throws exception`() {
         val e = assertFailsWith<MalformedURLException> {
-            assert(URL("unknown:data").readText().lines().isNotEmpty())
+            assert(urlOf("unknown:data").readText().lines().isNotEmpty())
         }
 
         val errorJvm = "unknown protocol: unknown"
@@ -52,7 +51,7 @@ internal class ClasspathHandlerProviderTest {
     }
 
     @Test fun `Resource loading using URL returns data`() {
-        assert(URL("classpath:data/companies.json").readText().isNotBlank())
-        assert(URL("file:README.md").readText().isNotBlank())
+        assert(urlOf("classpath:data/companies.json").readText().isNotBlank())
+        assert(urlOf("file:README.md").readText().isNotBlank())
     }
 }

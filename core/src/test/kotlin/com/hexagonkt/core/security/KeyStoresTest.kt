@@ -1,10 +1,10 @@
 package com.hexagonkt.core.security
 
+import com.hexagonkt.core.urlOf
 import kotlin.test.Test
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
 import java.io.File
-import java.net.URL
 import java.security.cert.X509Certificate
 import kotlin.test.assertEquals
 
@@ -18,7 +18,7 @@ internal class KeyStoresTest {
         val pwd = f.reversed()
         val p = if (File("http_test").exists()) "http/http_test" else "../http/http_test"
 
-        val ks = loadKeyStore(URL("file:$p/src/main/resources/ssl/$f"), pwd)
+        val ks = loadKeyStore(urlOf("file:$p/src/main/resources/ssl/$f"), pwd)
         val public = ks.getPublicKey(n)
         val private = ks.getPrivateKey(n, pwd)
         val cert = ks.getCertificate(n) as X509Certificate
