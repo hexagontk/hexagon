@@ -2,6 +2,7 @@
 module com.hexagonkt.http_client_jetty_ws {
 
     requires transitive kotlin.stdlib;
+    requires transitive com.hexagonkt.core;
     requires transitive com.hexagonkt.http_client_jetty;
     requires transitive org.eclipse.jetty.io;
     requires transitive org.eclipse.jetty.util;
