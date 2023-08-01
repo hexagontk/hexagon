@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import kotlin.test.assertEquals
+import com.hexagonkt.core.urlOf
 
 // hello_world
 import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.jetty.serve
