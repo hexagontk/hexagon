@@ -12,6 +12,8 @@ interface Context<T : Any> {
     val nextHandler: Int
     val exception: Exception?
     val attributes: Map<*, *>
+    val handled: Boolean
+    // TODO Add 'handled' flag set on OnHandler and not in BeforeHandler
 
     fun with(
         event: T = this.event,

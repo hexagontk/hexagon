@@ -8,6 +8,8 @@ import com.hexagonkt.core.filter
  * No splat support (you can use named parameters though).
  *
  * Delimiter is {var} to conform with [RFC 6570](https://tools.ietf.org/html/rfc6570).
+ *
+ * TODO Allow {var:regex} syntax
  */
 data class TemplatePathPattern(
     override val pattern: String,
