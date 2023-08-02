@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpRequestPort.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.model</a> &gt; <span class="el_source">HttpRequestPort.kt</span></div><h1>HttpRequestPort.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.model
 
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.formatQueryString
 import java.net.URL
 import java.security.cert.X509Certificate
 
 // TODO 'formParameters' are a kind of 'part' and both are handled as part of the 'body'
 //  they could be handled as a special kind of type in body processing (List&lt;HttpPartPort&gt;)
-<span class="fc" id="L9">interface HttpRequestPort : HttpMessage {</span>
+<span class="fc" id="L10">interface HttpRequestPort : HttpMessage {</span>
     val method: HttpMethod                        // &quot;GET&quot;
     val protocol: HttpProtocol                    // &quot;http&quot;
     val host: String                              // &quot;example.com&quot;
@@ -21,77 +22,77 @@ import java.security.cert.X509Certificate
     val certificateChain: List&lt;X509Certificate&gt;
     val contentLength: Long                       // length of request.body (or 0)
 
-<span class="fc" id="L24">    fun with(</span>
-<span class="fc" id="L25">        body: Any = this.body,</span>
-<span class="fc" id="L26">        headers: Headers = this.headers,</span>
-<span class="fc" id="L27">        contentType: ContentType? = this.contentType,</span>
-<span class="fc" id="L28">        method: HttpMethod = this.method,</span>
-<span class="fc" id="L29">        protocol: HttpProtocol = this.protocol,</span>
-<span class="fc" id="L30">        host: String = this.host,</span>
-<span class="fc" id="L31">        port: Int = this.port,</span>
-<span class="fc" id="L32">        path: String = this.path,</span>
-<span class="fc" id="L33">        queryParameters: QueryParameters = this.queryParameters,</span>
-<span class="fc" id="L34">        parts: List&lt;HttpPart&gt; = this.parts,</span>
-<span class="fc" id="L35">        formParameters: FormParameters = this.formParameters,</span>
-<span class="fc" id="L36">        cookies: List&lt;Cookie&gt; = this.cookies,</span>
-<span class="fc" id="L37">        accept: List&lt;ContentType&gt; = this.accept,</span>
-<span class="fc" id="L38">        authorization: Authorization? = this.authorization,</span>
-<span class="fc" id="L39">        certificateChain: List&lt;X509Certificate&gt; = this.certificateChain,</span>
+<span class="fc" id="L25">    fun with(</span>
+<span class="fc" id="L26">        body: Any = this.body,</span>
+<span class="fc" id="L27">        headers: Headers = this.headers,</span>
+<span class="fc" id="L28">        contentType: ContentType? = this.contentType,</span>
+<span class="fc" id="L29">        method: HttpMethod = this.method,</span>
+<span class="fc" id="L30">        protocol: HttpProtocol = this.protocol,</span>
+<span class="fc" id="L31">        host: String = this.host,</span>
+<span class="fc" id="L32">        port: Int = this.port,</span>
+<span class="fc" id="L33">        path: String = this.path,</span>
+<span class="fc" id="L34">        queryParameters: QueryParameters = this.queryParameters,</span>
+<span class="fc" id="L35">        parts: List&lt;HttpPart&gt; = this.parts,</span>
+<span class="fc" id="L36">        formParameters: FormParameters = this.formParameters,</span>
+<span class="fc" id="L37">        cookies: List&lt;Cookie&gt; = this.cookies,</span>
+<span class="fc" id="L38">        accept: List&lt;ContentType&gt; = this.accept,</span>
+<span class="fc" id="L39">        authorization: Authorization? = this.authorization,</span>
+<span class="fc" id="L40">        certificateChain: List&lt;X509Certificate&gt; = this.certificateChain,</span>
     ): HttpRequestPort
 
     operator fun plus(header: Header): HttpRequestPort =
-<span class="fc" id="L43">        with(headers = headers + header)</span>
+<span class="fc" id="L44">        with(headers = headers + header)</span>
 
     operator fun plus(queryParameter: QueryParameter): HttpRequestPort =
-<span class="fc" id="L46">        with(queryParameters = queryParameters + queryParameter)</span>
+<span class="fc" id="L47">        with(queryParameters = queryParameters + queryParameter)</span>
 
     operator fun plus(part: HttpPart): HttpRequestPort =
-<span class="fc" id="L49">        with(parts = parts + part)</span>
+<span class="fc" id="L50">        with(parts = parts + part)</span>
 
     operator fun plus(formParameter: FormParameter): HttpRequestPort =
-<span class="fc" id="L52">        with(formParameters = formParameters + formParameter)</span>
+<span class="fc" id="L53">        with(formParameters = formParameters + formParameter)</span>
 
     operator fun plus(cookie: Cookie): HttpRequestPort =
-<span class="fc" id="L55">        with(cookies = cookies + cookie)</span>
+<span class="fc" id="L56">        with(cookies = cookies + cookie)</span>
 
     operator fun plus(headers: Headers): HttpRequestPort =
-<span class="fc" id="L58">        with(headers = this.headers + headers)</span>
+<span class="fc" id="L59">        with(headers = this.headers + headers)</span>
 
     operator fun plus(queryParameters: QueryParameters): HttpRequestPort =
-<span class="fc" id="L61">        with(queryParameters = this.queryParameters + queryParameters)</span>
+<span class="fc" id="L62">        with(queryParameters = this.queryParameters + queryParameters)</span>
 
     operator fun plus(parts: List&lt;HttpPart&gt;): HttpRequestPort =
-<span class="fc" id="L64">        with(parts = this.parts + parts)</span>
+<span class="fc" id="L65">        with(parts = this.parts + parts)</span>
 
     operator fun plus(formParameters: FormParameters): HttpRequestPort =
-<span class="fc" id="L67">        with(formParameters = this.formParameters + formParameters)</span>
+<span class="fc" id="L68">        with(formParameters = this.formParameters + formParameters)</span>
 
     fun certificate(): X509Certificate? =
-<span class="fc" id="L70">        certificateChain.firstOrNull()</span>
+<span class="fc" id="L71">        certificateChain.firstOrNull()</span>
 
     fun partsMap(): Map&lt;String, HttpPart&gt; =
-<span class="fc" id="L73">        parts.associateBy { it.name }</span>
+<span class="fc" id="L74">        parts.associateBy { it.name }</span>
 
     fun url(): URL =
-<span class="fc" id="L76">        when {</span>
-<span class="fc bfc" id="L77" title="All 4 branches covered.">            queryParameters.isEmpty() &amp;&amp; port == 80 -&gt; &quot;${protocol.schema}://$host/$path&quot;</span>
-<span class="fc bfc" id="L78" title="All 2 branches covered.">            queryParameters.isEmpty() -&gt; &quot;${protocol.schema}://$host:$port/$path&quot;</span>
-<span class="fc" id="L79">            else -&gt; &quot;${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}&quot;</span>
+<span class="fc" id="L77">        when {</span>
+<span class="fc bfc" id="L78" title="All 4 branches covered.">            queryParameters.isEmpty() &amp;&amp; port == 80 -&gt; &quot;${protocol.schema}://$host/$path&quot;</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">            queryParameters.isEmpty() -&gt; &quot;${protocol.schema}://$host:$port/$path&quot;</span>
+<span class="fc" id="L80">            else -&gt; &quot;${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}&quot;</span>
         }
-<span class="fc" id="L81">        .let(::URL)</span>
+<span class="fc" id="L82">        .let(::urlOf)</span>
 
     fun userAgent(): String? =
-<span class="fc bfc" id="L84" title="All 4 branches covered.">        headers[&quot;user-agent&quot;]?.value as? String</span>
+<span class="fc bfc" id="L85" title="All 4 branches covered.">        headers[&quot;user-agent&quot;]?.value as? String</span>
 
     fun referer(): String? =
-<span class="fc bfc" id="L87" title="All 4 branches covered.">        headers[&quot;referer&quot;]?.value as? String</span>
+<span class="fc bfc" id="L88" title="All 4 branches covered.">        headers[&quot;referer&quot;]?.value as? String</span>
 
     fun origin(): String? =
-<span class="fc bfc" id="L90" title="All 4 branches covered.">        headers[&quot;origin&quot;]?.value as? String</span>
+<span class="fc bfc" id="L91" title="All 4 branches covered.">        headers[&quot;origin&quot;]?.value as? String</span>
 
     fun authorization(): Authorization? =
-<span class="fc bfc" id="L93" title="All 4 branches covered.">        (headers[&quot;authorization&quot;]?.value as? String)</span>
-<span class="fc bfc" id="L94" title="All 2 branches covered.">            ?.split(&quot; &quot;, limit = 2)</span>
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            ?.let { Authorization(it.first(), it.last()) }</span>
-<span class="fc" id="L96">}</span>
+<span class="fc bfc" id="L94" title="All 4 branches covered.">        (headers[&quot;authorization&quot;]?.value as? String)</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">            ?.split(&quot; &quot;, limit = 2)</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            ?.let { Authorization(it.first(), it.last()) }</span>
+<span class="fc" id="L97">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

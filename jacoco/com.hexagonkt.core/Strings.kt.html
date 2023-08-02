@@ -123,7 +123,7 @@ fun &lt;T : Any&gt; String.parse(type: KClass&lt;T&gt;): T =
 <span class="fc bfc" id="L123" title="All 2 branches covered.">            Double::class -&gt; this.toDoubleOrNull()</span>
 <span class="fc bfc" id="L124" title="All 2 branches covered.">            String::class -&gt; this</span>
 <span class="fc bfc" id="L125" title="All 2 branches covered.">            InetAddress::class -&gt; this.let(InetAddress::getByName)</span>
-<span class="fc bfc" id="L126" title="All 2 branches covered.">            URL::class -&gt; this.let(::URL)</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">            URL::class -&gt; this.let(::urlOf)</span>
 <span class="fc bfc" id="L127" title="All 2 branches covered.">            URI::class -&gt; this.let(::URI)</span>
 <span class="fc bfc" id="L128" title="All 2 branches covered.">            File::class -&gt; this.let(::File)</span>
 <span class="fc bfc" id="L129" title="All 2 branches covered.">            LocalDate::class -&gt; LocalDate.parse(this)</span>

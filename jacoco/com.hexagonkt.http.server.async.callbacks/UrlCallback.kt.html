@@ -4,42 +4,43 @@ import com.hexagonkt.core.ResourceNotFoundException
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.mediaTypeOfOrNull
 import com.hexagonkt.core.require
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.handlers.async.done
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.handlers.async.HttpContext
 import java.net.URL
 import java.util.concurrent.CompletableFuture
 
-<span class="fc" id="L13">class UrlCallback(private val url: URL) : (HttpContext) -&gt; CompletableFuture&lt;HttpContext&gt; {</span>
-<span class="fc" id="L14">    private val logger: Logger = Logger(UrlCallback::class)</span>
+<span class="fc" id="L14">class UrlCallback(private val url: URL) : (HttpContext) -&gt; CompletableFuture&lt;HttpContext&gt; {</span>
+<span class="fc" id="L15">    private val logger: Logger = Logger(UrlCallback::class)</span>
 
     override fun invoke(context: HttpContext): CompletableFuture&lt;HttpContext&gt; {
-<span class="fc bfc" id="L17" title="All 3 branches covered.">        val requestPath = when (context.pathParameters.size) {</span>
-<span class="fc" id="L18">            0 -&gt; &quot;&quot;</span>
-<span class="fc" id="L19">            1 -&gt; context.pathParameters.require(&quot;0&quot;)</span>
-<span class="fc" id="L20">            else -&gt; error(&quot;URL loading require a single path parameter or none&quot;)</span>
+<span class="fc bfc" id="L18" title="All 3 branches covered.">        val requestPath = when (context.pathParameters.size) {</span>
+<span class="fc" id="L19">            0 -&gt; &quot;&quot;</span>
+<span class="fc" id="L20">            1 -&gt; context.pathParameters.require(&quot;0&quot;)</span>
+<span class="fc" id="L21">            else -&gt; error(&quot;URL loading require a single path parameter or none&quot;)</span>
         }
 
-<span class="fc bfc" id="L23" title="All 4 branches covered.">        check(!requestPath.contains(&quot;..&quot;)) { &quot;Requested path cannot contain '..': $requestPath&quot; }</span>
-<span class="fc" id="L24">        logger.debug { &quot;Resolving resource: $requestPath&quot; }</span>
+<span class="fc bfc" id="L24" title="All 4 branches covered.">        check(!requestPath.contains(&quot;..&quot;)) { &quot;Requested path cannot contain '..': $requestPath&quot; }</span>
+<span class="fc" id="L25">        logger.debug { &quot;Resolving resource: $requestPath&quot; }</span>
 
-<span class="fc" id="L26">        return try {</span>
-<span class="fc bfc" id="L27" title="All 2 branches covered.">            if (requestPath.endsWith(&quot;/&quot;))</span>
-<span class="fc" id="L28">                throw ResourceNotFoundException(&quot;$requestPath not found (folder)&quot;)</span>
+<span class="fc" id="L27">        return try {</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">            if (requestPath.endsWith(&quot;/&quot;))</span>
+<span class="fc" id="L29">                throw ResourceNotFoundException(&quot;$requestPath not found (folder)&quot;)</span>
 
-<span class="fc" id="L30">            val url = when {</span>
-<span class="fc bfc" id="L31" title="All 4 branches covered.">                requestPath.isEmpty() -&gt; url.toString()</span>
-<span class="fc bfc" id="L32" title="All 2 branches covered.">                url.toString() == &quot;classpath:&quot; -&gt; &quot;$url$requestPath&quot;</span>
-<span class="fc" id="L33">                else -&gt; &quot;$url/$requestPath&quot;</span>
+<span class="fc" id="L31">            val url = when {</span>
+<span class="fc bfc" id="L32" title="All 4 branches covered.">                requestPath.isEmpty() -&gt; url.toString()</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">                url.toString() == &quot;classpath:/&quot; -&gt; &quot;classpath:$requestPath&quot;</span>
+<span class="fc" id="L34">                else -&gt; &quot;$url/$requestPath&quot;</span>
             }
 
-<span class="fc" id="L36">            val resource = URL(url)</span>
-<span class="fc" id="L37">            val bytes = resource.readBytes()</span>
-<span class="fc" id="L38">            val mediaType = mediaTypeOfOrNull(resource)</span>
-<span class="fc bfc" id="L39" title="All 2 branches covered.">            context.ok(bytes, contentType = mediaType?.let { ContentType(it) }).done()</span>
+<span class="fc" id="L37">            val resource = urlOf(url)</span>
+<span class="fc" id="L38">            val bytes = resource.readBytes()</span>
+<span class="fc" id="L39">            val mediaType = mediaTypeOfOrNull(resource)</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            context.ok(bytes, contentType = mediaType?.let { ContentType(it) }).done()</span>
         }
-<span class="fc" id="L41">        catch (e: ResourceNotFoundException) {</span>
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            context.notFound(e.message ?: &quot;&quot;).done()</span>
+<span class="fc" id="L42">        catch (e: ResourceNotFoundException) {</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">            context.notFound(e.message ?: &quot;&quot;).done()</span>
         }
     }
 }

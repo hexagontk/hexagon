@@ -21,7 +21,7 @@
         <link rel="next" href="../http_client/">
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.18">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.eebd395e.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ecc896b0.min.css">
@@ -1563,7 +1563,7 @@ methods.</p>
 
 <span class="c1">// Servers implement closeable, you can use them inside a block assuring they will be closed</span>
 <span class="n">runningServer</span><span class="p">.</span><span class="na">use</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">urlOf</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nb">it</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="na">started</span><span class="p">())</span>
 <span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/context/hello&quot;</span><span class="p">).</span><span class="na">body</span><span class="p">)</span>
@@ -2087,12 +2087,12 @@ have a parameter to provide the file to be fetched inside the folder.</p>
 <span class="n">on</span><span class="p">(</span>
 <span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND_404</span><span class="p">,</span>
 <span class="w">    </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/web/*&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UrlCallback</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:public&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UrlCallback</span><span class="p">(</span><span class="n">urlOf</span><span class="p">(</span><span class="s">&quot;classpath:public&quot;</span><span class="p">))</span>
 <span class="p">)</span>
 
 <span class="c1">// Maps resources on &#39;assets&#39; on the server root (assets/f.css -&gt; /f.css)</span>
 <span class="c1">// &#39;/public/css/style.css&#39; resource would be: &#39;http://{host}:{port}/css/style.css&#39;</span>
-<span class="n">on</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND_404</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UrlCallback</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">)))</span>
+<span class="n">on</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOT_FOUND_404</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UrlCallback</span><span class="p">(</span><span class="n">urlOf</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">)))</span>
 </code></pre></div></td></tr></table></div>
 <h3 id="media-types">Media Types<a class="headerlink" href="#media-types" title="Permanent link">&para;</a></h3>
 <p>The media types of static files are computed from the file extension using the utility methods of
@@ -2222,8 +2222,8 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="kd">val</span><span class="w"> </span><span class="nv">trustStorePassword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trust</span><span class="p">.</span><span class="na">reversed</span><span class="p">()</span>
 
 <span class="c1">// Key stores can be set as URIs to classpath resources (the triple slash is needed)</span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">keyStore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/</span><span class="si">$</span><span class="n">identity</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">trustStore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/</span><span class="si">$</span><span class="n">trust</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">keyStore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">urlOf</span><span class="p">(</span><span class="s">&quot;classpath:ssl/</span><span class="si">$</span><span class="n">identity</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">trustStore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">urlOf</span><span class="p">(</span><span class="s">&quot;classpath:ssl/</span><span class="si">$</span><span class="n">trust</span><span class="s">&quot;</span><span class="p">)</span>
 
 <span class="kd">val</span><span class="w"> </span><span class="nv">sslSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SslSettings</span><span class="p">(</span>
 <span class="w">    </span><span class="n">keyStore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">keyStore</span><span class="p">,</span>
@@ -2253,7 +2253,7 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="kd">val</span><span class="w"> </span><span class="nv">clientSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">sslSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sslSettings</span><span class="p">)</span>
 
 <span class="c1">// Create an HTTP client and make an HTTPS request</span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">contextPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;https://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">contextPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">urlOf</span><span class="p">(</span><span class="s">&quot;https://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">clientSettings</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">contextPath</span><span class="p">))</span>
 <span class="n">client</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
@@ -2415,7 +2415,7 @@ code below for an example:</p>
 <span class="p">}</span>
 <span class="n">server</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="nv">settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">urlOf</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))</span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">settings</span><span class="p">)</span>
 <span class="n">client</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 
@@ -2456,7 +2456,7 @@ This will pick a random free port which you can check later:</p>
 <span class="kd">val</span><span class="w"> </span><span class="nv">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serve</span><span class="p">(</span><span class="n">serverAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">router</span><span class="p">,</span><span class="w"> </span><span class="n">serverSettings</span><span class="p">)</span>
 
 <span class="n">server</span><span class="p">.</span><span class="na">use</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">urlOf</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nb">it</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hi!&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">body</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>

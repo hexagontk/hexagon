@@ -142,7 +142,7 @@ import java.lang.System.nanoTime
 
 <span class="fc" id="L143">        val startUpTime = &quot;%,.0f&quot;.format(startUpTimestamp / 1e6)</span>
 <span class="fc" id="L144">        val protocol = settings.protocol</span>
-<span class="fc" id="L145">        val binding = &quot;${settings.base}:$runtimePort&quot;</span>
+<span class="fc" id="L145">        val binding = &quot;${settings.bindUrl}:$runtimePort&quot;</span>
 <span class="fc bfc" id="L146" title="All 2 branches covered.">        val banner = settings.banner ?: return &quot; at $binding ($startUpTime ms)&quot;</span>
 
 <span class="fc" id="L148">        val jvmMemoryValue = &quot;$BLUE${totalMemory()} KB$RESET&quot;</span>
