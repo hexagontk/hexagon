@@ -1,5 +1,6 @@
 package com.hexagonkt.http.model
 
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.formatQueryString
 import java.net.URL
 import java.security.cert.X509Certificate
@@ -78,7 +79,7 @@ interface HttpRequestPort : HttpMessage {
             queryParameters.isEmpty() -> "${protocol.schema}://$host:$port/$path"
             else -> "${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}"
         }
-        .let(::URL)
+        .let(::urlOf)
 
     fun userAgent(): String? =
         headers["user-agent"]?.value as? String

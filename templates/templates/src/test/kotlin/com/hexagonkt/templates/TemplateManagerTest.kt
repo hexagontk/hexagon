@@ -1,10 +1,10 @@
 package com.hexagonkt.templates
 
 import com.hexagonkt.core.Glob
+import com.hexagonkt.core.urlOf
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 import org.junit.jupiter.api.assertThrows
-import java.net.URL
 import kotlin.test.assertFailsWith
 
 internal class TemplateManagerTest {
@@ -15,8 +15,8 @@ internal class TemplateManagerTest {
 
         TemplateManager.adapters = mapOf(Regex(".*") to SampleTemplateAdapter("default"))
 
-        val html = TemplateManager.render(URL("classpath:template.html"), context)
-        val plain = TemplateManager.render(URL("classpath:template.txt"), context)
+        val html = TemplateManager.render(urlOf("classpath:template.html"), context)
+        val plain = TemplateManager.render(urlOf("classpath:template.txt"), context)
 
         assertEquals("default:classpath:template.html", html)
         assertEquals("default:classpath:template.txt", plain)
@@ -28,11 +28,11 @@ internal class TemplateManagerTest {
 
         TemplateManager.adapters = mapOf(Regex(".*\\.html") to SampleTemplateAdapter("html"))
 
-        val html = TemplateManager.render(URL("classpath:template.html"), context)
+        val html = TemplateManager.render(urlOf("classpath:template.html"), context)
         assertEquals("html:classpath:template.html", html)
 
         assertFailsWith<IllegalStateException> {
-            TemplateManager.render(URL("classpath:template.txt"), context)
+            TemplateManager.render(urlOf("classpath:template.txt"), context)
         }
     }
 
@@ -45,14 +45,14 @@ internal class TemplateManagerTest {
             Regex(".*\\.txt") to SampleTemplateAdapter("text")
         )
 
-        val html = TemplateManager.render(URL("classpath:template.html"), context)
-        val plain = TemplateManager.render(URL("classpath:template.txt"), context)
+        val html = TemplateManager.render(urlOf("classpath:template.html"), context)
+        val plain = TemplateManager.render(urlOf("classpath:template.txt"), context)
 
         assertEquals("html:classpath:template.html", html)
         assertEquals("text:classpath:template.txt", plain)
 
         assertFailsWith<IllegalStateException> {
-            TemplateManager.render(URL("classpath:template.svg"), context)
+            TemplateManager.render(urlOf("classpath:template.svg"), context)
         }
     }
 
@@ -65,8 +65,8 @@ internal class TemplateManagerTest {
             Regex(".*") to SampleTemplateAdapter("*"),
         )
 
-        val html = TemplateManager.render(URL("classpath:template.txt"), context)
-        val plain = TemplateManager.render(URL("classpath:template.txz"), context)
+        val html = TemplateManager.render(urlOf("classpath:template.txt"), context)
+        val plain = TemplateManager.render(urlOf("classpath:template.txz"), context)
 
         assertEquals("txt:classpath:template.txt", html)
         assertEquals("*:classpath:template.txz", plain)
@@ -76,7 +76,7 @@ internal class TemplateManagerTest {
             Glob("*.txt").regex to SampleTemplateAdapter("txt"),
         )
 
-        val render = TemplateManager.render(URL("classpath:template.txt"), context)
+        val render = TemplateManager.render(urlOf("classpath:template.txt"), context)
         assertEquals("*:classpath:template.txt", render)
     }
 
@@ -85,7 +85,7 @@ internal class TemplateManagerTest {
         val resource = "classpath:test.pebble.html"
 
         assertThrows<IllegalStateException> {
-            TemplateManager.render(URL(resource), mapOf<String, Any>())
+            TemplateManager.render(urlOf(resource), mapOf<String, Any>())
         }
     }
 }

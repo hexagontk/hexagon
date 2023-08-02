@@ -1,6 +1,7 @@
 package com.hexagonkt.templates.freemarker
 
 import com.hexagonkt.core.ResourceNotFoundException
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.templates.TemplatePort
 import freemarker.cache.StringTemplateLoader
 import freemarker.cache.TemplateLookupContext
@@ -22,7 +23,7 @@ class FreeMarkerAdapter : TemplatePort {
         override fun lookup(ctx: TemplateLookupContext): TemplateLookupResult =
             try {
                 val templateName = ctx.templateName
-                URL(templateName)
+                urlOf(templateName)
                 ctx.lookupWithAcquisitionStrategy(templateName)
             }
             catch (e: ResourceNotFoundException) {
@@ -32,7 +33,7 @@ class FreeMarkerAdapter : TemplatePort {
 
     object AdapterTemplateLoader : URLTemplateLoader() {
         override fun getURL(name: String): URL =
-            URL(name)
+            urlOf(name)
     }
 
     override fun render(url: URL, context: Map<String, *>, locale: Locale): String {

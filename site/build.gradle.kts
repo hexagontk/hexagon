@@ -210,7 +210,7 @@ fun insertSamplesCode(parent: File, content: String): String =
     content.replace("@code (.*)".toRegex()) {
         try {
             val sampleLocation = it.groups[1]?.value?.trim() ?: error("Location expected")
-            val url = java.net.URL("file:${parent.absolutePath}/$sampleLocation")
+            val url = java.net.URI("file:${parent.absolutePath}/$sampleLocation").toURL()
             val tag = "// ${url.query}"
             val lines = url.readText().lines()
             val text = lines.slice(lines.rangeOf(tag)).joinToString("\n").trimIndent()

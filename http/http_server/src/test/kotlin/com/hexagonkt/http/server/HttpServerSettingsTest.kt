@@ -17,7 +17,7 @@ internal class HttpServerSettingsTest {
             assertNull(it.sslSettings)
             assertEquals(HttpServer.banner, it.banner)
             assertEquals(false, it.zip)
-            assert(it.base.startsWith("http://"))
+            assert(it.bindUrl.toString().startsWith("http://"))
         }
     }
 
@@ -30,7 +30,7 @@ internal class HttpServerSettingsTest {
             assertNull(it.sslSettings)
             assertEquals(HttpServer.banner, it.banner)
             assertEquals(true, it.zip)
-            assertEquals("https://192.168.0.1", it.base)
+            assertEquals("https://192.168.0.1", it.bindUrl.toString())
         }
     }
 }

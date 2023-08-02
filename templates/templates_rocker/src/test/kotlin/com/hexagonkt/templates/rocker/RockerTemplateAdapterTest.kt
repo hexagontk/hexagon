@@ -1,7 +1,7 @@
 package com.hexagonkt.templates.rocker
 
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.templates.test.TemplateAdapterTest
-import java.net.URL
 
 internal class RockerTemplateAdapterTest :
-    TemplateAdapterTest(URL("classpath:templates/test.rocker.html"), RockerAdapter())
+    TemplateAdapterTest(urlOf("classpath:templates/test.rocker.html"), RockerAdapter())

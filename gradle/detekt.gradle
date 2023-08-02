@@ -4,6 +4,10 @@
 
 apply(plugin: "io.gitlab.arturbosch.detekt")
 
+check {
+    dependsOn(dependsOn.findAll { it != "detekt" })
+}
+
 detekt {
     final String detektConfigPath = findProperty("detektConfigPath")
 

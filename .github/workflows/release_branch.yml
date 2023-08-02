@@ -31,5 +31,5 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
-          ./gradlew --info build
-          ./gradlew --info --no-daemon -x test release
+          ./gradlew build
+          ./gradlew --no-daemon -x test release

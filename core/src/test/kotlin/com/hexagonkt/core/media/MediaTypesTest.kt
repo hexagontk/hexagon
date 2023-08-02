@@ -1,12 +1,12 @@
 package com.hexagonkt.core.media
 
 import com.hexagonkt.core.media.MediaTypeGroup.*
+import com.hexagonkt.core.urlOf
 import kotlin.test.Test
 import java.io.File
 import java.net.URI
 import kotlin.IllegalArgumentException
 import kotlin.IllegalStateException
-import java.net.URL
 import java.nio.file.Path
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -44,14 +44,14 @@ internal class MediaTypesTest {
 
     @Test fun `Media types of files and URLs can be retrieved`() {
         assertEquals(APPLICATION_TOML, mediaTypeOfOrNull(URI("http://localhost/file.toml")))
-        assertEquals(TEXT_PLAIN, mediaTypeOfOrNull(URL("http://localhost/file.txt")))
-        assertEquals(APPLICATION_JSON, mediaTypeOfOrNull(URL("http://localhost/file.json")))
+        assertEquals(TEXT_PLAIN, mediaTypeOfOrNull(urlOf("http://localhost/file.txt")))
+        assertEquals(APPLICATION_JSON, mediaTypeOfOrNull(urlOf("http://localhost/file.json")))
         assertEquals(APPLICATION_TOML, mediaTypeOf(URI("http://localhost/file.toml")))
-        assertEquals(TEXT_PLAIN, mediaTypeOf(URL("http://localhost/file.txt")))
-        assertEquals(APPLICATION_JSON, mediaTypeOf(URL("http://localhost/file.json")))
+        assertEquals(TEXT_PLAIN, mediaTypeOf(urlOf("http://localhost/file.txt")))
+        assertEquals(APPLICATION_JSON, mediaTypeOf(urlOf("http://localhost/file.json")))
         assertEquals(APPLICATION_AVRO, mediaTypeOf("avro"))
-        assertNull(mediaTypeOfOrNull(URL("http://localhost/file")))
-        assertNull(mediaTypeOfOrNull(URL("http://localhost/file.foo")))
+        assertNull(mediaTypeOfOrNull(urlOf("http://localhost/file")))
+        assertNull(mediaTypeOfOrNull(urlOf("http://localhost/file.foo")))
 
         assertEquals(TEXT_HTML, mediaTypeOfOrNull(File("file.html")))
         assertEquals(TEXT_HTML, mediaTypeOfOrNull(File("file.htm")))
@@ -64,7 +64,7 @@ internal class MediaTypesTest {
         assertNull(mediaTypeOfOrNull(File("file")))
         assertNull(mediaTypeOfOrNull(File("file.baz")))
         assertNull(mediaTypeOfOrNull(URI("http://localhost/file.baz")))
-        assertNull(mediaTypeOfOrNull(URL("http://localhost/file.baz")))
+        assertNull(mediaTypeOfOrNull(urlOf("http://localhost/file.baz")))
         assertEquals(TEXT_HTML, mediaTypeOfOrNull(Path.of("file.html")))
         assertEquals(TEXT_HTML, mediaTypeOfOrNull(Path.of("file.htm")))
         assertEquals(APPLICATION_YAML, mediaTypeOfOrNull(Path.of("file.yaml")))
@@ -80,12 +80,12 @@ internal class MediaTypesTest {
     @Test fun `Exception is thrown if the media type is not found`() {
         assertEquals(
             "Media type not found for: 'http://host/f' URL",
-            assertFailsWith<IllegalStateException> { mediaTypeOf(URL("http://host/f")) }.message
+            assertFailsWith<IllegalStateException> { mediaTypeOf(urlOf("http://host/f")) }.message
         )
 
         assertEquals(
             "Media type not found for: 'http://host/f.foo' URL",
-            assertFailsWith<IllegalStateException> { mediaTypeOf(URL("http://host/f.foo")) }.message
+            assertFailsWith<IllegalStateException> { mediaTypeOf(urlOf("http://host/f.foo")) }.message
         )
 
         assertEquals(

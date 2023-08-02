@@ -1,10 +1,10 @@
 package com.hexagonkt.http.client.jetty
 
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.model.ws.WsSession
 import org.eclipse.jetty.websocket.client.WebSocketClient
 import java.net.URI
-import java.net.URL
 
 /**
  * Client to use other REST services.
@@ -34,7 +34,7 @@ class JettyWsClientAdapter : JettyClientAdapter() {
         onClose: WsSession.(status: Int, reason: String) -> Unit,
     ): WsSession {
 
-        val baseUrl = httpClient.settings.baseUrl ?: URL(path)
+        val baseUrl = httpClient.settings.baseUrl ?: urlOf(path)
         val scheme = if (baseUrl.protocol.lowercase() == "https") "wss" else "ws"
         val uri = URI("$scheme://${baseUrl.host}:${baseUrl.port}${baseUrl.path}$path")
         val adapter =

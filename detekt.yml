@@ -164,7 +164,7 @@ style:
     active: true
   ForbiddenComment:
     active: true
-    values: [ TODO, FIXME ]
+    comments: [ TODO, FIXME ]
   ForbiddenVoid:
     active: true
     ignoreOverridden: false
@@ -197,8 +197,10 @@ style:
     active: true
   OptionalUnit:
     active: true
-  OptionalWhenBraces:
+  BracesOnWhenStatements:
     active: true
+    singleLine: necessary
+    multiLine: necessary
   PreferToOverPairSyntax:
     active: true
   RedundantExplicitType:

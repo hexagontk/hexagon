@@ -1,7 +1,7 @@
 package com.hexagonkt.templates.pebble
 
+import com.hexagonkt.core.urlOf
 import kotlin.test.Test
-import java.net.URL
 import java.time.LocalDateTime
 import java.util.Locale
 
@@ -12,7 +12,7 @@ internal class PebbleAdapterTest {
     @Test fun `Dates are converted properly`() {
         val context = mapOf("localDate" to LocalDateTime.of(2000, 12, 31, 23, 45))
         val resource = "classpath:templates/test.pebble.html"
-        val html = PebbleAdapter().render(URL(resource), context, locale)
+        val html = PebbleAdapter().render(urlOf(resource), context, locale)
         assert(html.contains("23:45"))
         assert(html.contains("2000"))
         assert(html.contains("31"))
@@ -21,7 +21,7 @@ internal class PebbleAdapterTest {
     @Test fun `Templates can be extended`() {
         val context = mapOf("localDate" to LocalDateTime.of(2000, 12, 31, 23, 45))
         val resource = "classpath:templates/index.pebble.html"
-        val html = PebbleAdapter().render(URL(resource), context, locale)
+        val html = PebbleAdapter().render(urlOf(resource), context, locale)
         assert(html.contains("23:45"))
         assert(html.contains("2000"))
         assert(html.contains("31"))
@@ -31,9 +31,9 @@ internal class PebbleAdapterTest {
     @Test fun `Templates can be loaded from custom sources`() {
         val context = mapOf("localDate" to LocalDateTime.of(2000, 12, 31, 23, 45))
         val resources = listOf(
-            URL("classpath:templates/index.pebble.html"),
-            URL("classpath:templates/main.pebble.html"),
-            URL("classpath:templates/test.pebble.html"),
+            urlOf("classpath:templates/index.pebble.html"),
+            urlOf("classpath:templates/main.pebble.html"),
+            urlOf("classpath:templates/test.pebble.html"),
         )
         val name = resources.first().path
         val templates = resources.map { it.path to it.readText() }

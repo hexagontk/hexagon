@@ -1,11 +1,11 @@
 package com.hexagonkt.http.client
 
 import com.hexagonkt.core.media.TEXT_CSV
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.handlers.FilterHandler
 import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.model.*
 import java.lang.StringBuilder
-import java.net.URL
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription
 import kotlin.test.*
@@ -19,7 +19,7 @@ internal class HttpClientTest {
         assertFalse(HttpClient(VoidAdapter, noCookiesSettings).settings.useCookies)
 
         val base = "http://example.org"
-        val baseUrl = URL(base)
+        val baseUrl = urlOf(base)
         assertEquals(
             baseUrl,
             HttpClient(VoidAdapter, HttpClientSettings(baseUrl)).settings.baseUrl
@@ -32,7 +32,7 @@ internal class HttpClientTest {
             HttpClient(VoidAdapter, noCookiesSettings.copy(baseUrl = baseUrl)).settings.useCookies
         )
 
-        val settingsBaseUrl = URL("http://server.com")
+        val settingsBaseUrl = urlOf("http://server.com")
         val baseUrlSettings = HttpClientSettings(baseUrl = settingsBaseUrl)
         assertEquals(
             baseUrl,

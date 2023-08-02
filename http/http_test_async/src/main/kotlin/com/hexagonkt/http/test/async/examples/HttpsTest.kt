@@ -5,6 +5,7 @@ import com.hexagonkt.core.require
 import com.hexagonkt.core.security.getPrivateKey
 import com.hexagonkt.core.security.getPublicKey
 import com.hexagonkt.core.security.loadKeyStore
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.handlers.async.done
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.client.HttpClient
@@ -20,7 +21,6 @@ import com.hexagonkt.http.handlers.async.path
 import com.hexagonkt.http.server.async.HttpServerSettings
 import com.hexagonkt.http.test.async.BaseTest
 import org.junit.jupiter.api.Test
-import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertNotNull
@@ -34,8 +34,8 @@ abstract class HttpsTest(
 
     private val identity = "hexagonkt.p12"
     private val trust = "trust.p12"
-    private val keyStore = URL("classpath:ssl/$identity")
-    private val trustStore = URL("classpath:ssl/$trust")
+    private val keyStore = urlOf("classpath:ssl/$identity")
+    private val trustStore = urlOf("classpath:ssl/$trust")
     private val keyStorePassword = identity.reversed()
     private val trustStorePassword = trust.reversed()
 
@@ -77,8 +77,8 @@ abstract class HttpsTest(
         val trustStorePassword = trust.reversed()
 
         // Key stores can be set as URIs to classpath resources (the triple slash is needed)
-        val keyStore = URL("classpath:ssl/$identity")
-        val trustStore = URL("classpath:ssl/$trust")
+        val keyStore = urlOf("classpath:ssl/$identity")
+        val trustStore = urlOf("classpath:ssl/$trust")
 
         val sslSettings = SslSettings(
             keyStore = keyStore,
@@ -108,7 +108,7 @@ abstract class HttpsTest(
         val clientSettings = HttpClientSettings(sslSettings = sslSettings)
 
         // Create an HTTP client and make an HTTPS request
-        val contextPath = URL("https://localhost:${server.runtimePort}")
+        val contextPath = urlOf("https://localhost:${server.runtimePort}")
         val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
         client.start()
         client.get("/hello").apply {
@@ -126,7 +126,7 @@ abstract class HttpsTest(
 
         val server = serve(serverAdapter(), handler, http2ServerSettings.copy(protocol = HTTPS))
 
-        val contextPath = URL("https://localhost:${server.runtimePort}")
+        val contextPath = urlOf("https://localhost:${server.runtimePort}")
         val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
         client.start()
         client.get("/hello").apply {
@@ -142,7 +142,7 @@ abstract class HttpsTest(
 
         val server = serve(serverAdapter(), handler, http2ServerSettings)
 
-        val contextPath = URL("https://localhost:${server.runtimePort}")
+        val contextPath = urlOf("https://localhost:${server.runtimePort}")
         val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
         client.start()
         client.get("/hello").apply {
@@ -161,7 +161,7 @@ abstract class HttpsTest(
 
         // keyStoreSettings
         val keyStoreSettings = SslSettings(
-            keyStore = URL("classpath:ssl/$identity"),
+            keyStore = urlOf("classpath:ssl/$identity"),
             keyStorePassword = identity.reversed()
         )
         // keyStoreSettings
@@ -181,7 +181,7 @@ abstract class HttpsTest(
 
         // trustStoreSettings
         val trustStoreSettings = SslSettings(
-            trustStore = URL("classpath:ssl/$trust"),
+            trustStore = urlOf("classpath:ssl/$trust"),
             trustStorePassword = trust.reversed()
         )
         // trustStoreSettings
@@ -191,7 +191,7 @@ abstract class HttpsTest(
         )
 
         // Create an HTTP client and make an HTTPS request
-        val contextPath = URL("https://localhost:${server.runtimePort}")
+        val contextPath = urlOf("https://localhost:${server.runtimePort}")
         val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
         client.start()
         client.get("/hello").apply {
@@ -209,7 +209,7 @@ abstract class HttpsTest(
 
         assertFails {
             val adapter = clientAdapter()
-            val contextPath1 = URL("https://127.0.0.1:${server.runtimePort}")
+            val contextPath1 = urlOf("https://127.0.0.1:${server.runtimePort}")
             HttpClient(adapter, clientSettings.copy(baseUrl = contextPath1)).use {
                 it.start()
                 it.get("/hello")

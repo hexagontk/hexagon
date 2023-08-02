@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server.jetty
 
 import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.jetty.JettyWsClientAdapter
@@ -11,7 +12,6 @@ import kotlin.test.Test
 import org.junit.jupiter.api.condition.EnabledForJreRange
 import org.junit.jupiter.api.condition.JRE.JAVA_17
 import org.junit.jupiter.api.condition.JRE.JAVA_19
-import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
@@ -53,7 +53,7 @@ internal class JettyServletAdapterTest {
         val server = serve(handlers = path)
 
         server.use { s ->
-            val settings = HttpClientSettings(URL("http://localhost:${s.runtimePort}"))
+            val settings = HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))
             HttpClient(JettyWsClientAdapter(), settings).use {
                 it.start()
                 val result = it.get("/hello/Ada")

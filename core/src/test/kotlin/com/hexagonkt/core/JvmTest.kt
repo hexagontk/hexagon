@@ -4,7 +4,6 @@ import kotlin.test.Test
 import kotlin.IllegalArgumentException
 import java.net.Inet4Address
 import java.net.URI
-import java.net.URL
 import kotlin.test.*
 
 internal class JvmTest {
@@ -58,7 +57,7 @@ internal class JvmTest {
         System.setProperty("validFloat", 0.5F.toString())
         System.setProperty("validDouble", 1.5.toString())
         System.setProperty("validInetAddress", LOOPBACK_INTERFACE.hostName)
-        System.setProperty("validURL", URL("http://localhost:1234/path").toString())
+        System.setProperty("validURL", urlOf("http://localhost:1234/path").toString())
         System.setProperty("validURI", URI("ws://localhost:1234/path").toString())
         System.setProperty("invalidBoolean", "_")
         System.setProperty("invalidInt", "_")
@@ -77,7 +76,7 @@ internal class JvmTest {
         assertEquals(0.5F, Jvm.systemSetting("validFloat"))
         assertEquals(1.5, Jvm.systemSetting("validDouble"))
         assertEquals(LOOPBACK_INTERFACE, Jvm.systemSetting("validInetAddress"))
-        assertEquals(URL("http://localhost:1234/path"), Jvm.systemSetting("validURL"))
+        assertEquals(urlOf("http://localhost:1234/path"), Jvm.systemSetting("validURL"))
         assertEquals(URI("ws://localhost:1234/path"), Jvm.systemSetting("validURI"))
 
         assertNull(Jvm.systemSettingOrNull<Int>("invalidInt"))

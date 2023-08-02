@@ -1,21 +1,21 @@
 package com.hexagonkt.http.test
 
-import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.OK_200
-import com.hexagonkt.http.server.HttpServer
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
-import java.net.URL
 import kotlin.test.assertEquals
+import com.hexagonkt.core.urlOf
 
 // hello_world
+import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.jetty.serve
 
 lateinit var server: HttpServer
@@ -37,7 +37,7 @@ fun main() {
 internal class HelloWorldTest {
 
     private val client: HttpClient by lazy {
-        val settings = HttpClientSettings(URL("http://localhost:${server.runtimePort}"))
+        val settings = HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))
         HttpClient(JettyClientAdapter(), settings)
     }
 

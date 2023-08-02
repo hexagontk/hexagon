@@ -1,5 +1,6 @@
 package com.hexagonkt.http.test.async.examples
 
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.handlers.async.done
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
@@ -12,7 +13,6 @@ import com.hexagonkt.http.handlers.async.path
 import com.hexagonkt.http.server.async.HttpServerSettings
 import com.hexagonkt.http.test.async.BaseTest
 import org.junit.jupiter.api.Test
-import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -40,7 +40,7 @@ abstract class ZipTest(
         }
         server.start()
 
-        val settings = HttpClientSettings(URL("http://localhost:${server.runtimePort}"))
+        val settings = HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))
         val client = HttpClient(clientAdapter(), settings)
         client.start()
 
@@ -69,7 +69,7 @@ abstract class ZipTest(
         }
         server.start()
 
-        val settings = HttpClientSettings(URL("http://localhost:${server.runtimePort}"))
+        val settings = HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))
         val client = HttpClient(clientAdapter(), settings)
         client.start()
 

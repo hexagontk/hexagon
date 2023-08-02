@@ -1,5 +1,6 @@
 package com.hexagonkt.serialization.dsl.json
 
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.test.SerializationTest
@@ -14,13 +15,13 @@ internal class JsonTest : SerializationTest() {
 
     override val format: SerializationFormat = Json
     override val urls: List<URL> = listOf(
-        URL("classpath:data/companies.json"),
-        URL("classpath:data/company.json"),
+        urlOf("classpath:data/companies.json"),
+        urlOf("classpath:data/company.json"),
     )
 
     @Test fun `Parse URL generates the correct collection`() {
-        assert(URL("classpath:data/companies.json").parse() is List<*>)
-        assert(URL("classpath:data/company.json").parse() is Map<*, *>)
+        assert(urlOf("classpath:data/companies.json").parse() is List<*>)
+        assert(urlOf("classpath:data/company.json").parse() is Map<*, *>)
     }
 
     @Test fun `Test Jackson text format`() {

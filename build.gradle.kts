@@ -26,7 +26,7 @@ plugins {
     id("com.github.jk1.dependency-license-report") version("2.5")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.2")
     id("org.graalvm.buildtools.native") version("0.9.23") apply(false)
-    id("io.gitlab.arturbosch.detekt") version("1.23.0") apply(false)
+    id("io.gitlab.arturbosch.detekt") version("1.23.1") apply(false)
     id("me.champeau.jmh") version("0.7.1") apply(false)
 }
 

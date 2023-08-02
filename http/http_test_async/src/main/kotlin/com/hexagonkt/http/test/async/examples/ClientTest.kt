@@ -3,6 +3,7 @@ package com.hexagonkt.http.test.async.examples
 import com.hexagonkt.core.require
 import com.hexagonkt.core.media.APPLICATION_JSON
 import com.hexagonkt.core.media.APPLICATION_YAML
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.handlers.async.done
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.client.HttpClient
@@ -30,7 +31,6 @@ import com.hexagonkt.serialization.serialize
 import org.junit.jupiter.api.*
 
 import java.math.BigInteger
-import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
@@ -151,13 +151,13 @@ abstract class ClientTest(
 
         // clientCreation
         HttpClient(adapter)
-        HttpClient(adapter, HttpClientSettings(URL("http://host:1234/base")))
+        HttpClient(adapter, HttpClientSettings(urlOf("http://host:1234/base")))
         // clientCreation
 
         // clientSettingsCreation
         // All client settings parameters are optionals and provide default values
         HttpClient(adapter, HttpClientSettings(
-            baseUrl = URL("http://host:1234/base"),
+            baseUrl = urlOf("http://host:1234/base"),
             contentType = ContentType(APPLICATION_JSON),
             useCookies = true,
             headers = Headers(Header("x-api-Key", "cafebabe")), // Headers used in all requests
@@ -276,7 +276,7 @@ abstract class ClientTest(
     @Test fun `Parameters are set properly` () {
         val clientHeaders = Headers(Header("header1", "val1", "val2"))
         val settings = HttpClientSettings(
-            baseUrl = URL("http://localhost:${server.runtimePort}"),
+            baseUrl = urlOf("http://localhost:${server.runtimePort}"),
             contentType = ContentType(APPLICATION_JSON),
             useCookies = false,
             headers = clientHeaders,
@@ -374,8 +374,8 @@ abstract class ClientTest(
         val trustStorePassword = trust.reversed()
 
         // Key stores can be set as URIs to classpath resources (the triple slash is needed)
-        val keyStore = URL("classpath:ssl/$identity")
-        val trustStore = URL("classpath:ssl/$trust")
+        val keyStore = urlOf("classpath:ssl/$identity")
+        val trustStore = urlOf("classpath:ssl/$trust")
 
         val sslSettings = SslSettings(
             keyStore = keyStore,
@@ -401,7 +401,7 @@ abstract class ClientTest(
 
         // We'll use the same certificate for the client (in a real scenario it would be different)
         val clientSettings = HttpClientSettings(
-            baseUrl = URL("https://localhost:${server.runtimePort}"),
+            baseUrl = urlOf("https://localhost:${server.runtimePort}"),
             sslSettings = sslSettings
         )
 

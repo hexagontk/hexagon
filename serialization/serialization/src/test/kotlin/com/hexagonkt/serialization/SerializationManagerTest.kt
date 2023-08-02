@@ -1,6 +1,7 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.core.media.*
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.SerializationManager.formatOfOrNull
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import java.io.File
-import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
@@ -88,7 +88,7 @@ internal class SerializationManagerTest {
     @Test fun `Searching serialization format for content types, URLs, files and resources works`() {
         assertEquals(TextTestFormat, formatOf(APPLICATION_PHP))
         assertEquals(TextTestFormat, formatOf(mediaTypeOf("php")))
-        assertEquals(TextTestFormat, formatOf(mediaTypeOf(URL("http://l/a.php"))))
+        assertEquals(TextTestFormat, formatOf(mediaTypeOf(urlOf("http://l/a.php"))))
         assertEquals(TextTestFormat, formatOf(mediaTypeOf(File("f.php"))))
     }
 }

@@ -26,10 +26,9 @@ fun HttpContext.callContext(): Map<String, *> =
  * TODO Review order precedence and complete code (now only taking request attribute)
  *
  * 1. Request
- * 2. Session
+ * 2. Accept-language
  * 3. Cookie
- * 4. Accept-language
- * 5. Server default locale
+ * 4. Server default locale
  */
 fun HttpContext.obtainLocale(): Locale = when {
     attributes["lang"] as? String != null -> localeFor(attributes["lang"] as String)

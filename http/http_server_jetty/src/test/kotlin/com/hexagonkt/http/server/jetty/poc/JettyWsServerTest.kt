@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server.jetty.poc
 
+import com.hexagonkt.core.urlOf
 import jakarta.servlet.*
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.ServerConnector
@@ -22,7 +23,6 @@ import org.junit.jupiter.api.condition.DisabledInNativeImage
 import kotlin.test.Test
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
-import java.net.URL
 import kotlin.test.assertEquals
 
 @DisabledOnOs(WINDOWS) // TODO Investigate what makes this test fail on Windows
@@ -85,7 +85,7 @@ internal class JettyWsServerTest {
 
         var result = ""
 
-        val settings = HttpClientSettings(URL("http://localhost:8080"))
+        val settings = HttpClientSettings(urlOf("http://localhost:8080"))
         val httpClient = HttpClient(JettyWsClientAdapter(), settings)
         httpClient.start()
         val ws = httpClient.ws(

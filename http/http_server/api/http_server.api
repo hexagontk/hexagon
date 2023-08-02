@@ -59,9 +59,9 @@ public final class com/hexagonkt/http/server/HttpServerSettings {
 	public static synthetic fun copy$default (Lcom/hexagonkt/http/server/HttpServerSettings;Ljava/net/InetAddress;ILjava/lang/String;Lcom/hexagonkt/http/model/HttpProtocol;Lcom/hexagonkt/http/SslSettings;Ljava/lang/String;ZILjava/lang/Object;)Lcom/hexagonkt/http/server/HttpServerSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBanner ()Ljava/lang/String;
-	public final fun getBase ()Ljava/lang/String;
 	public final fun getBindAddress ()Ljava/net/InetAddress;
 	public final fun getBindPort ()I
+	public final fun getBindUrl ()Ljava/net/URL;
 	public final fun getContextPath ()Ljava/lang/String;
 	public final fun getProtocol ()Lcom/hexagonkt/http/model/HttpProtocol;
 	public final fun getSslSettings ()Lcom/hexagonkt/http/SslSettings;

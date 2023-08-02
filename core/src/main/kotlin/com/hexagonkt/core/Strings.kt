@@ -123,7 +123,7 @@ fun <T : Any> String.parse(type: KClass<T>): T =
             Double::class -> this.toDoubleOrNull()
             String::class -> this
             InetAddress::class -> this.let(InetAddress::getByName)
-            URL::class -> this.let(::URL)
+            URL::class -> this.let(::urlOf)
             URI::class -> this.let(::URI)
             File::class -> this.let(::File)
             LocalDate::class -> LocalDate.parse(this)

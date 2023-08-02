@@ -7,6 +7,7 @@ import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.media.APPLICATION_JSON
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.logging.jul.JulLoggingAdapter
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientSettings
@@ -22,7 +23,6 @@ import org.junit.jupiter.api.BeforeAll
 import kotlin.test.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
-import java.net.URL
 import kotlin.test.assertEquals
 
 /**
@@ -145,7 +145,7 @@ abstract class TodoTest(adapter: HttpServerPort) {
         HttpClient(
             JettyClientAdapter(),
             HttpClientSettings(
-                baseUrl = URL("http://localhost:${server.runtimePort}"),
+                baseUrl = urlOf("http://localhost:${server.runtimePort}"),
                 contentType = ContentType(APPLICATION_JSON)
             )
         )

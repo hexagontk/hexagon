@@ -45,7 +45,7 @@ internal data class Company(
         foundation = LocalDate.now(),
         closeTime = LocalTime.now(),
         openTime = LocalTime.now()..LocalTime.now(),
-        web = URL("http://example.com"),
+        web = urlOf("http://example.com"),
         people = emptySet(),
         host = InetAddress.getLocalHost(),
         averageMargin = 0.0F,
@@ -81,8 +81,8 @@ internal data class Company(
                         start..end
                     }
                     ?: openTime,
-            web = data.getString(Company::web)?.let(::URL) ?: web,
-            clients = data.getStrings(Company::clients)?.map(::URL) ?: clients,
+            web = data.getString(Company::web)?.let(::urlOf) ?: web,
+            clients = data.getStrings(Company::clients)?.map(::urlOf) ?: clients,
             logo =
                 data.getString(Company::logo)?.let { ByteBuffer.wrap(it.decodeBase64()) } ?: logo,
             notes = data[Company::notes],
