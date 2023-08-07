@@ -110,16 +110,18 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
     fun <T : Exception> exception(
         exception: KClass<T>? = null,
         status: HttpStatus? = null,
+        clear: Boolean = true,
         callback: HttpExceptionCallback<T>,
     ) {
-        use(Exception(exception, status, callback))
+        use(Exception(exception, status, clear, callback))
     }
 
     inline fun <reified T : Exception> exception(
         status: HttpStatus? = null,
+        clear: Boolean = true,
         noinline callback: HttpExceptionCallback<T>,
     ) {
-        use(Exception(T::class, status, callback))
+        use(Exception(T::class, status, clear, callback))
     }
 
     fun get(pattern: String = "", callback: HttpCallback) {
