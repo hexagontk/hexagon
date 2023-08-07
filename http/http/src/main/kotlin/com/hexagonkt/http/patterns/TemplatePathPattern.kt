@@ -21,7 +21,7 @@ data class TemplatePathPattern(
         private const val PARAMETER_SUFFIX = "}"
 
         internal const val WILDCARD = "*"
-        private const val PARAMETER = "\\$PARAMETER_PREFIX\\w+$PARAMETER_SUFFIX"
+        private const val PARAMETER = "\\$PARAMETER_PREFIX\\w+(:.+?)?$PARAMETER_SUFFIX"
 
         private val REGEX_CHARACTERS = listOf('(', ')', '|', '?', '+', '[', ']')
 
@@ -34,7 +34,6 @@ data class TemplatePathPattern(
             REGEX_CHARACTERS.any { pattern.contains(it) } || PLACEHOLDER_REGEX in pattern
 
         fun patternToRegex(pattern: String, prefix: Boolean): String {
-            checkPathPatternVariables(pattern)
             return pattern
                 .replace(WILDCARD, "(.*?)")
                 .replaceParameters(parameters(pattern))
@@ -43,13 +42,19 @@ data class TemplatePathPattern(
 
         private fun parameters(pattern: String): List<String> =
             PARAMETER_REGEX.findAll(pattern)
-                .map { it.value.removePrefix(PARAMETER_PREFIX).removeSuffix(PARAMETER_SUFFIX) }
+                .map {
+                    it.value
+                        .removePrefix(PARAMETER_PREFIX)
+                        .removeSuffix(PARAMETER_SUFFIX)
+                        .substringBefore(':')
+                }
                 .toList()
 
         private fun String.replaceParameters(parameters: List<String>): String =
             parameters
                 .fold(this) { accumulator, item ->
-                    accumulator.replace("$PARAMETER_PREFIX$item$PARAMETER_SUFFIX", "(?<$item>$VARIABLE_PATTERN?)")
+                    val itemRegex = Regex("\\$PARAMETER_PREFIX$item(:(.*)+)?$PARAMETER_SUFFIX")
+                    accumulator.replace(itemRegex, "(?<$item>$VARIABLE_PATTERN?)")
                 }
     }
 

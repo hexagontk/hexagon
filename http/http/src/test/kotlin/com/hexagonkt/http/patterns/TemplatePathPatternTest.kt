@@ -5,6 +5,13 @@ import kotlin.test.*
 
 internal class TemplatePathPatternTest {
 
+    @Test fun `Regex parameters are allowed`() {
+        val path = TemplatePathPattern("/alpha/{param:\\d+}/tango/{arg:(a|b|c)}")
+        assertEquals(listOf("param", "arg"), path.parameters)
+//        val parameters = mapOf("param" to "v1", "arg" to "v2")
+//        assertEquals("/alpha/v1/tango/v2", path.insertParameters(parameters))
+    }
+
     @Test fun `Insert parameters fails on invalid parameters`() {
         fun testInvalid(template: String, vararg params: Pair<String, Any>) {
             val path = TemplatePathPattern(template)
@@ -150,10 +157,6 @@ internal class TemplatePathPatternTest {
     @Test fun `Invalid path parameters`() {
         assertFailsWith<IllegalArgumentException> {
             TemplatePathPattern("alpha/bravo")
-        }
-
-        assertFailsWith<IllegalArgumentException> {
-            TemplatePathPattern("/alpha/bravo/:id")
         }
     }
 
