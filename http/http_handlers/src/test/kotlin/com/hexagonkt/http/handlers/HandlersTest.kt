@@ -2,6 +2,7 @@ package com.hexagonkt.http.handlers
 
 import com.hexagonkt.http.model.HttpRequest
 import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
+import com.hexagonkt.http.model.NOT_FOUND_404
 import com.hexagonkt.http.model.OK_200
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -68,6 +69,16 @@ internal class HandlersTest {
         .process(HttpRequest())
         .let {
             assertEquals(OK_200, it.status)
+            assertNull(it.exception)
+        }
+
+        PathHandler(
+            Exception<Exception> { this },
+            OnHandler { error("Error") }
+        )
+        .process(HttpRequest())
+        .let {
+            assertEquals(NOT_FOUND_404, it.status)
             assertNull(it.exception)
         }
 

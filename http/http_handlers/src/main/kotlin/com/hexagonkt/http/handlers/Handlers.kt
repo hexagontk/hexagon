@@ -78,7 +78,6 @@ fun path(contextPath: String = "", handlers: List<HttpHandler>): PathHandler =
                 PathHandler(contextPath, it)
         }
 
-// TODO Optionally (with flag) clear exception after callback
 fun <T : Exception> Exception(
     exception: KClass<T>? = null,
     status: HttpStatus? = null,

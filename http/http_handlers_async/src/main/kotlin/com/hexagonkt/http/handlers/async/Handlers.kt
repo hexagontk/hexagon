@@ -84,17 +84,22 @@ fun path(contextPath: String = "", handlers: List<HttpHandler>): PathHandler =
 fun <T : Exception> Exception(
     exception: KClass<T>? = null,
     status: HttpStatus? = null,
+    clear: Boolean = true,
     callback: HttpExceptionCallback<T>,
 ): AfterHandler =
     AfterHandler(emptySet(), "*", exception, status) {
-        callback(this.exception.castException(exception))
+        callback(this.exception.castException(exception)).let {
+            if (clear) it.thenApply { copy(exception = null) }
+            else it
+        }
     }
 
 inline fun <reified T : Exception> Exception(
     status: HttpStatus? = null,
+    clear: Boolean = true,
     noinline callback: HttpExceptionCallback<T>,
 ): AfterHandler =
-    Exception(T::class, status, callback)
+    Exception(T::class, status, clear, callback)
 
 internal fun <T : Exception> Exception?.castException(exception: KClass<T>?) =
     this?.let { exception?.cast(this) } ?: error("Exception 'null' or incorrect type")
