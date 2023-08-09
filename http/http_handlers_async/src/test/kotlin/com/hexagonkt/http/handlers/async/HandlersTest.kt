@@ -1,10 +1,13 @@
 package com.hexagonkt.http.handlers.async
 
 import com.hexagonkt.handlers.async.done
+import com.hexagonkt.http.model.HttpRequest
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.reflect.KClass
+import kotlin.test.assertNull
 
 internal class HandlersTest {
 
@@ -55,6 +58,28 @@ internal class HandlersTest {
 
         val ise = IllegalStateException()
         assertEquals(ise, ise.castException(RuntimeException::class))
+    }
+
+    @Test fun `Exceptions are cleared properly`() {
+        PathHandler(
+            Exception<Exception> { ok().done() },
+            OnHandler { error("Error") }
+        )
+        .process(HttpRequest())
+        .get()
+        .let { assertNull(it.exception) }
+
+        PathHandler(
+            Exception<Exception>(clear = false) { ok().done() },
+            OnHandler { error("Error") }
+        )
+        .process(HttpRequest())
+        .get()
+        .let {
+            assertEquals(INTERNAL_SERVER_ERROR_500, it.status)
+            assertEquals("Error", it.exception?.message)
+            assert(it.exception is IllegalStateException)
+        }
     }
 
     private fun PathHandler.handlersPredicates(): List<HttpPredicate> =

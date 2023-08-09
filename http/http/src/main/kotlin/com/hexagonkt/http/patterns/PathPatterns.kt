@@ -20,11 +20,3 @@ internal fun checkPathPatternPrefix(pattern: String, allowedPrefixes: List<Strin
             "'$pattern' must be empty or start with '/'"
         }
 }
-
-internal fun checkPathPatternVariables(pattern: String) {
-    if (assertEnabled) {
-        require(!pattern.contains(":")) {
-            "Variables have {var} format. Path cannot have ':' $pattern"
-        }
-    }
-}

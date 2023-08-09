@@ -432,7 +432,7 @@ abstract class SamplesTest(
             on(pattern = "*", status = HttpStatus(512)) { send(INTERNAL_SERVER_ERROR_500, "Ouch").done() }
             // errors
 
-            exception<NumberException> { e ->
+            exception<NumberException>(clear = false) { e ->
                 internalServerError(e.number.toString()).done()
             }
 

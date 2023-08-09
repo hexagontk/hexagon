@@ -5,6 +5,49 @@ import kotlin.test.*
 
 internal class TemplatePathPatternTest {
 
+    @Test fun `Regex parameters are allowed`() {
+        val path = TemplatePathPattern("/alpha/{param:\\d+}/tango/{arg:a|b|c}")
+        assertEquals(listOf("param", "arg"), path.parameters)
+        val parameters = mapOf("param" to "v1", "arg" to "v2")
+        assertEquals("/alpha/v1/tango/v2", path.insertParameters(parameters))
+
+        assert(path.matches("/alpha/0/tango/a"))
+        assert(path.matches("/alpha/0/tango/b"))
+        assert(path.matches("/alpha/0/tango/c"))
+        assert(path.matches("/alpha/10/tango/a"))
+        assert(path.matches("/alpha/10/tango/b"))
+        assert(path.matches("/alpha/10/tango/c"))
+
+        assertEquals(
+            mapOf("param" to "0", "arg" to "a", "0" to "0", "1" to "a"),
+            path.extractParameters("/alpha/0/tango/a")
+        )
+        assertEquals(
+            mapOf("param" to "0", "arg" to "b", "0" to "0", "1" to "b"),
+            path.extractParameters("/alpha/0/tango/b")
+        )
+        assertEquals(
+            mapOf("param" to "0", "arg" to "c", "0" to "0", "1" to "c"),
+            path.extractParameters("/alpha/0/tango/c")
+        )
+        assertEquals(
+            mapOf("param" to "10", "arg" to "a", "0" to "10", "1" to "a"),
+            path.extractParameters("/alpha/10/tango/a")
+        )
+        assertEquals(
+            mapOf("param" to "10", "arg" to "b", "0" to "10", "1" to "b"),
+            path.extractParameters("/alpha/10/tango/b")
+        )
+        assertEquals(
+            mapOf("param" to "10", "arg" to "c", "0" to "10", "1" to "c"),
+            path.extractParameters("/alpha/10/tango/c")
+        )
+
+        assert(!path.matches("/alpha/10/tango/abc"))
+        assert(!path.matches("/alpha/10/tango/z"))
+        assert(!path.matches("/alpha/x/tango/a"))
+    }
+
     @Test fun `Insert parameters fails on invalid parameters`() {
         fun testInvalid(template: String, vararg params: Pair<String, Any>) {
             val path = TemplatePathPattern(template)
@@ -150,10 +193,6 @@ internal class TemplatePathPatternTest {
     @Test fun `Invalid path parameters`() {
         assertFailsWith<IllegalArgumentException> {
             TemplatePathPattern("alpha/bravo")
-        }
-
-        assertFailsWith<IllegalArgumentException> {
-            TemplatePathPattern("/alpha/bravo/:id")
         }
     }
 

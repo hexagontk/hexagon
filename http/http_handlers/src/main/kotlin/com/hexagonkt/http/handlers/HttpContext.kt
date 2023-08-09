@@ -22,6 +22,7 @@ data class HttpContext(
     override val nextHandler: Int = 0,
     override val exception: Exception? = null,
     override val attributes: Map<*, *> = emptyMap<Any, Any>(),
+    override val handled: Boolean = false,
 ): Context<HttpCall> {
     val request: HttpRequestPort = event.request
     val response: HttpResponsePort = event.response
