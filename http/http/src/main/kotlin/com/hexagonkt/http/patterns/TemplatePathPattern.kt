@@ -1,7 +1,5 @@
 package com.hexagonkt.http.patterns
 
-import com.hexagonkt.core.filter
-
 /**
  * A path definition. It parses path patterns and extract values for parameters.
  *
@@ -9,7 +7,7 @@ import com.hexagonkt.core.filter
  *
  * Delimiter is {var} to conform with [RFC 6570](https://tools.ietf.org/html/rfc6570).
  *
- * TODO Allow {var:regex} syntax
+ * It supports the {var:regex} format to match only parameters with a specific pattern.
  */
 data class TemplatePathPattern(
     override val pattern: String,
@@ -21,7 +19,7 @@ data class TemplatePathPattern(
         private const val PARAMETER_SUFFIX = "}"
 
         internal const val WILDCARD = "*"
-        private const val PARAMETER = "\\$PARAMETER_PREFIX\\w+(:.+?)?$PARAMETER_SUFFIX"
+        private const val PARAMETER = "\\$PARAMETER_PREFIX(\\w+)(:.+?)?$PARAMETER_SUFFIX"
 
         private val REGEX_CHARACTERS = listOf('(', ')', '|', '?', '+', '[', ']')
 
@@ -40,25 +38,26 @@ data class TemplatePathPattern(
                 .let { if (prefix) it else "$it$" }
         }
 
-        private fun parameters(pattern: String): List<String> =
+        private fun parameters(pattern: String): Map<String, String> =
             PARAMETER_REGEX.findAll(pattern)
                 .map {
-                    it.value
-                        .removePrefix(PARAMETER_PREFIX)
-                        .removeSuffix(PARAMETER_SUFFIX)
-                        .substringBefore(':')
+                    val (_, k, re) = it.groupValues
+                    k to re.ifEmpty { VARIABLE_PATTERN }
                 }
-                .toList()
+                .toMap()
 
-        private fun String.replaceParameters(parameters: List<String>): String =
+        private fun String.replaceParameters(parameters: Map<String, String>): String =
             parameters
-                .fold(this) { accumulator, item ->
-                    val itemRegex = Regex("\\$PARAMETER_PREFIX$item(:(.*)+)?$PARAMETER_SUFFIX")
-                    accumulator.replace(itemRegex, "(?<$item>$VARIABLE_PATTERN?)")
+                .entries
+                .fold(this) { accumulator, (k, v) ->
+                    val re = if (v == VARIABLE_PATTERN) "" else v
+                    val search = "$PARAMETER_PREFIX$k$re$PARAMETER_SUFFIX"
+                    val replacement = "(?<$k>${v.removePrefix(":")}?)"
+                    accumulator.replace(search, replacement)
                 }
     }
 
-    val parameters: List<String> = parameters(pattern)
+    val parameters: List<String> = parameters(pattern).keys.toList()
 
     init {
         checkPathPatternPrefix(pattern, listOf("*"))
@@ -72,6 +71,9 @@ data class TemplatePathPattern(
             "Parameters must match pattern's parameters($patternParameters). Provided: $keys"
         }
 
-        return pattern.filter(PARAMETER_PREFIX, PARAMETER_SUFFIX, parameters)
+        return parameters.entries.fold(pattern) { accumulator, (k, v) ->
+            val re = Regex("\\$PARAMETER_PREFIX$k(:.+?)?$PARAMETER_SUFFIX")
+            accumulator.replace(re, v.toString())
+        }
     }
 }
