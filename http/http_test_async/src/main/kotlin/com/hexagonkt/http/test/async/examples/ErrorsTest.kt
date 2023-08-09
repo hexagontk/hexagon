@@ -33,17 +33,17 @@ abstract class ErrorsTest(
          * Catching `Exception` handles any unhandled exception, has to be the last executed (first
          * declared)
          */
-        exception<Exception>(NOT_FOUND_404) {
+        exception<Exception>(NOT_FOUND_404, clear = false) {
             internalServerError("Root handler").done()
         }
 
-        exception<IllegalArgumentException> {
+        exception<IllegalArgumentException>(clear = false) {
             val error = exception?.message ?: exception?.javaClass?.name ?: fail
             val newHeaders = response.headers + Header("runtime-error", error)
             send(HttpStatus(598), "Runtime", headers = newHeaders).done()
         }
 
-        exception<UnsupportedOperationException> {
+        exception<UnsupportedOperationException>(clear = false) {
             val error = exception?.message ?: exception?.javaClass?.name ?: fail
             val newHeaders = response.headers + Header("error", error)
             send(HttpStatus(599), "Unsupported", headers = newHeaders).done()

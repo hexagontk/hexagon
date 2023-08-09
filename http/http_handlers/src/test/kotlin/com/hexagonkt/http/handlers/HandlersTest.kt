@@ -1,9 +1,14 @@
 package com.hexagonkt.http.handlers
 
+import com.hexagonkt.http.model.HttpRequest
+import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
+import com.hexagonkt.http.model.NOT_FOUND_404
+import com.hexagonkt.http.model.OK_200
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.reflect.KClass
+import kotlin.test.assertNull
 
 internal class HandlersTest {
 
@@ -54,6 +59,39 @@ internal class HandlersTest {
 
         val ise = IllegalStateException()
         assertEquals(ise, ise.castException(RuntimeException::class))
+    }
+
+    @Test fun `Exceptions are cleared properly`() {
+        PathHandler(
+            Exception<Exception> { ok() },
+            OnHandler { error("Error") }
+        )
+        .process(HttpRequest())
+        .let {
+            assertEquals(OK_200, it.status)
+            assertNull(it.exception)
+        }
+
+        PathHandler(
+            Exception<Exception> { this },
+            OnHandler { error("Error") }
+        )
+        .process(HttpRequest())
+        .let {
+            assertEquals(NOT_FOUND_404, it.status)
+            assertNull(it.exception)
+        }
+
+        PathHandler(
+            Exception<Exception>(clear = false) { ok() },
+            OnHandler { error("Error") }
+        )
+        .process(HttpRequest())
+        .let {
+            assertEquals(INTERNAL_SERVER_ERROR_500, it.status)
+            assertEquals("Error", it.exception?.message)
+            assert(it.exception is IllegalStateException)
+        }
     }
 
     private fun PathHandler.handlersPredicates(): List<HttpPredicate> =

@@ -194,7 +194,7 @@ abstract class SamplesTest(
             // callbackRequest
             get("/request") {
                 // URL Information
-                request.method                   // The HTTP method (GET, ..etc)
+                request.method                   // The HTTP method (GET, etc.)
                 request.protocol                 // HTTP or HTTPS
                 request.host                     // The host, e.g. "example.com"
                 request.port                     // The server port
@@ -454,7 +454,8 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
+            val settings = HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))
+            HttpClient(clientAdapter(), settings).use {
                 it.start()
 
                 val errors = it.get("/errors")
