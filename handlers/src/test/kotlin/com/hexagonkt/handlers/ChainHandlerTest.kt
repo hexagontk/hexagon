@@ -13,8 +13,8 @@ internal class ChainHandlerTest {
     private val testChain = ChainHandler(
         AfterHandler { println("last"); it },
         AfterHandler { println("last2"); it },
-        OnHandler { println("1"); it },
-        OnHandler({ false }) { println("2"); it },
+        BeforeHandler { println("1"); it },
+        BeforeHandler({ false }) { println("2"); it },
         ChainHandler(
             FilterHandler {
                 println("3")
@@ -22,7 +22,7 @@ internal class ChainHandlerTest {
                 println("3")
                 n
             },
-            OnHandler { println("4"); it },
+            BeforeHandler { println("4"); it },
         )
     )
 
@@ -30,10 +30,10 @@ internal class ChainHandlerTest {
         var flags = listOf(true, true, true, true)
 
         val chain = ChainHandler(
-            OnHandler({ flags[0] }) { it.with(event = "a") },
-            OnHandler({ flags[1] }) { it.with(event = "b") },
-            OnHandler({ flags[2] }) { it.with(event = "c") },
-            OnHandler({ flags[3] }) { it.with(event = "d") },
+            BeforeHandler({ flags[0] }) { it.with(event = "a") },
+            BeforeHandler({ flags[1] }) { it.with(event = "b") },
+            BeforeHandler({ flags[2] }) { it.with(event = "c") },
+            BeforeHandler({ flags[3] }) { it.with(event = "d") },
         )
 
         assertEquals("d", chain.process("_"))
@@ -77,11 +77,11 @@ internal class ChainHandlerTest {
                     assertEquals(filterBF, it.predicate)
                     it.appendText("<A2>")
                 },
-                OnHandler(filterCG) {
+                BeforeHandler(filterCG) {
                     assertEquals(filterCG, it.predicate)
                     it.appendText("<B1>")
                 },
-                OnHandler(filterDH) {
+                BeforeHandler(filterDH) {
                     assertEquals(filterDH, it.predicate)
                     it.appendText("<B2>")
                 },
@@ -95,10 +95,10 @@ internal class ChainHandlerTest {
         fun createChainHandler() =
             ChainHandler(
                 AfterHandler { it },
-                OnHandler { it },
+                BeforeHandler { it },
                 ChainHandler(
                     FilterHandler { it.next() },
-                    OnHandler { it },
+                    BeforeHandler { it },
                 )
             )
 
@@ -129,18 +129,18 @@ internal class ChainHandlerTest {
             ChainHandler<String>(
                 AfterHandler({ it.hasLetters('a', 'e') }) { it.appendText("<A1>") },
                 AfterHandler({ it.hasLetters('b', 'f') }) { it.appendText("<A2>") },
-                OnHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>") },
-                OnHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>") },
+                BeforeHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>") },
+                BeforeHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>") },
             ),
             ChainHandler<String>(
-                OnHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>") },
+                BeforeHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>") },
                 AfterHandler({ it.hasLetters('a', 'e') }) { it.appendText("<A1>") },
-                OnHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>") },
+                BeforeHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>") },
                 AfterHandler({ it.hasLetters('b', 'f') }) { it.appendText("<A2>") },
             ),
             ChainHandler<String>(
-                OnHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>") },
-                OnHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>") },
+                BeforeHandler({ it.hasLetters('c', 'g') }) { it.appendText("<B1>") },
+                BeforeHandler({ it.hasLetters('d', 'h') }) { it.appendText("<B2>") },
                 AfterHandler({ it.hasLetters('a', 'e') }) { it.appendText("<A1>") },
                 AfterHandler({ it.hasLetters('b', 'f') }) { it.appendText("<A2>") },
             ),
@@ -196,14 +196,14 @@ internal class ChainHandlerTest {
     @Test fun `Filters allow passing and halting`() {
         val chain = ChainHandler<String>(
             AfterHandler { it.appendText("<A1>") },
-            OnHandler { it.appendText("<B1>")},
+            BeforeHandler { it.appendText("<B1>")},
             FilterHandler({ it.hasLetters('a', 'b') }) {
                 if (it.event.startsWith("a"))
                     it.with(event = it.event + "<PASS>").next()
                 else
                     it.with(event = it.event + "<HALT>")
             },
-            OnHandler { it.appendText("<B2>")},
+            BeforeHandler { it.appendText("<B2>")},
         )
 
         // Filter passing
@@ -216,10 +216,10 @@ internal class ChainHandlerTest {
 
     @Test fun `Chained handlers are executed as blocks`() {
         val chain = ChainHandler<String>(
-            OnHandler { it.appendText("<B0>") },
+            BeforeHandler { it.appendText("<B0>") },
             AfterHandler { it.appendText("<A0>") },
             ChainHandler({ it.hasLetters('a', 'b', 'c') },
-                OnHandler { it.appendText("<B1>")},
+                BeforeHandler { it.appendText("<B1>")},
                 AfterHandler { it.appendText("<A1>") },
                 FilterHandler({ it.hasLetters('a', 'b') }) {
                     if (it.event.startsWith("a"))
@@ -227,7 +227,7 @@ internal class ChainHandlerTest {
                     else
                         it.with(event = it.event + "<HALT>")
                 },
-                OnHandler { it.appendText("<B2>")},
+                BeforeHandler { it.appendText("<B2>")},
             ),
         )
 
@@ -244,15 +244,15 @@ internal class ChainHandlerTest {
 
     @Test fun `Many chained handlers are processed properly`() {
         val chain = ChainHandler<String>(
-            OnHandler { it.appendText("<B0>") },
+            BeforeHandler { it.appendText("<B0>") },
             ChainHandler({ it.hasLetters('a', 'b') },
-                OnHandler { it.appendText("<B1>")},
+                BeforeHandler { it.appendText("<B1>")},
             ),
             ChainHandler({ it.hasLetters('a') },
-                OnHandler { it.appendText("<B2>")},
+                BeforeHandler { it.appendText("<B2>")},
             ),
             ChainHandler({ it.hasLetters('c') },
-                OnHandler { it.appendText("<B3>")},
+                BeforeHandler { it.appendText("<B3>")},
             ),
         )
 
@@ -269,19 +269,19 @@ internal class ChainHandlerTest {
 
     @Test fun `Chained handlers are executed as blocks bug`() {
         val chain = ChainHandler<String>(
-            OnHandler { it.appendText("<B0>") },
+            BeforeHandler { it.appendText("<B0>") },
             ChainHandler({ it.hasLetters('a', 'b', 'c') },
-                OnHandler { it.appendText("<B1>")},
+                BeforeHandler { it.appendText("<B1>")},
                 FilterHandler({ it.hasLetters('a', 'b') }) {
                     if (it.event.startsWith("a"))
                         it.with(event = it.event + "<PASS>").next()
                     else
                         it.with(event = it.event + "<HALT>")
                 },
-                OnHandler { it.appendText("<B2>")},
-                OnHandler { it.appendText("<A1>") },
+                BeforeHandler { it.appendText("<B2>")},
+                BeforeHandler { it.appendText("<A1>") },
             ),
-            OnHandler { it.appendText("<A0>") },
+            BeforeHandler { it.appendText("<A0>") },
         )
 
         // Chained filter
@@ -297,11 +297,11 @@ internal class ChainHandlerTest {
 
     @Test fun `Exceptions don't prevent handlers execution`() {
         val chain = ChainHandler<String>(
-            OnHandler { error("Fail") },
+            BeforeHandler { error("Fail") },
             AfterHandler { it.appendText("<A0>") },
             ChainHandler(
                 { it.hasLetters('a', 'b', 'c') },
-                OnHandler { it.appendText("<B1>") },
+                BeforeHandler { it.appendText("<B1>") },
                 AfterHandler {
                     assertTrue(it.exception is IllegalStateException)
                     it.appendText("<A1>")
@@ -312,7 +312,7 @@ internal class ChainHandlerTest {
                     else
                         it.with(event = it.event + "<HALT>")
                 },
-                OnHandler { it.appendText("<B2>") },
+                BeforeHandler { it.appendText("<B2>") },
             ),
         )
 
@@ -349,7 +349,7 @@ internal class ChainHandlerTest {
     @Test fun `Exceptions don't prevent handlers execution in filters`() {
         val chain = ChainHandler<String>(
             FilterHandler { error("Fail") },
-            OnHandler { it.appendText("<B0>") },
+            BeforeHandler { it.appendText("<B0>") },
         )
 
         val actual = chain.process(EventContext("a", chain.predicate))
@@ -359,11 +359,11 @@ internal class ChainHandlerTest {
 
     @Test fun `Context attributes are passed correctly`() {
         val chain = ChainHandler<String>(
-            OnHandler { error("Fail") },
+            BeforeHandler { error("Fail") },
             AfterHandler { it.with(attributes = it.attributes + ("A0" to "A0")) },
             ChainHandler(
                 { it.hasLetters('a', 'b', 'c') },
-                OnHandler { it.with(attributes = it.attributes + ("B1" to "B1")) },
+                BeforeHandler { it.with(attributes = it.attributes + ("B1" to "B1")) },
                 AfterHandler {
                     assertTrue(it.exception is IllegalStateException)
                     it.with(attributes = it.attributes + ("A1" to "A1"))
@@ -377,7 +377,7 @@ internal class ChainHandlerTest {
                     else
                         it.with(event = it.event + "<HALT>")
                 },
-                OnHandler {
+                BeforeHandler {
                     if (it.event.startsWith("a"))
                         assertEquals(true, it.attributes["passed"])
                     it.with(attributes = it.attributes + ("B2" to "B2") - "passed")

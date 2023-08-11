@@ -28,14 +28,14 @@ interface Context<T : Any> {
         for (index in nextHandler until nextHandlers.size) {
             val handler = nextHandlers[index]
             val p = handler.predicate
-//            if (handler is OnHandler)
-//                if ((!handled) && p(this))
-//                    return handler.process(with(predicate = p, nextHandler = index + 1))
-//            else
-//                if (p(this))
-//                    return handler.process(with(predicate = p, nextHandler = index + 1))
-            if (p(this))
-                return handler.process(with(predicate = p, nextHandler = index + 1))
+            if (handler is OnHandler) {
+                if ((!handled) && p(this))
+                    return handler.process(with(predicate = p, nextHandler = index + 1))
+            }
+            else {
+                if (p(this))
+                    return handler.process(with(predicate = p, nextHandler = index + 1))
+            }
         }
 
         return this
