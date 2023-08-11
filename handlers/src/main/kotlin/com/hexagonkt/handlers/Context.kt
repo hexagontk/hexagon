@@ -13,7 +13,6 @@ interface Context<T : Any> {
     val exception: Exception?
     val attributes: Map<*, *>
     val handled: Boolean
-    // TODO Add 'handled' flag set on OnHandler and not in BeforeHandler
 
     fun with(
         event: T = this.event,
@@ -22,12 +21,19 @@ interface Context<T : Any> {
         nextHandler: Int = this.nextHandler,
         exception: Exception? = this.exception,
         attributes: Map<*, *> = this.attributes,
+        handled: Boolean = this.handled,
     ): Context<T>
 
     fun next(): Context<T> {
         for (index in nextHandler until nextHandlers.size) {
             val handler = nextHandlers[index]
             val p = handler.predicate
+//            if (handler is OnHandler)
+//                if ((!handled) && p(this))
+//                    return handler.process(with(predicate = p, nextHandler = index + 1))
+//            else
+//                if (p(this))
+//                    return handler.process(with(predicate = p, nextHandler = index + 1))
             if (p(this))
                 return handler.process(with(predicate = p, nextHandler = index + 1))
         }

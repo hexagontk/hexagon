@@ -83,7 +83,8 @@ data class HttpContext(
         nextHandlers: List<Handler<HttpCall>>,
         nextHandler: Int,
         exception: Exception?,
-        attributes: Map<*, *>
+        attributes: Map<*, *>,
+        handled: Boolean,
     ): Context<HttpCall> =
         copy(
             event = event,
@@ -92,6 +93,7 @@ data class HttpContext(
             nextHandler = nextHandler,
             exception = exception,
             attributes = attributes,
+            handled = handled,
         )
 
     fun unauthorized(

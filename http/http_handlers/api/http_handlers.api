@@ -215,8 +215,8 @@ public final class com/hexagonkt/http/handlers/HttpContext : com/hexagonkt/handl
 	public fun toString ()Ljava/lang/String;
 	public final fun unauthorized (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public static synthetic fun unauthorized$default (Lcom/hexagonkt/http/handlers/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/HttpContext;
-	public fun with (Lcom/hexagonkt/http/model/HttpCall;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;)Lcom/hexagonkt/handlers/Context;
-	public synthetic fun with (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;)Lcom/hexagonkt/handlers/Context;
+	public fun with (Lcom/hexagonkt/http/model/HttpCall;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;Z)Lcom/hexagonkt/handlers/Context;
+	public synthetic fun with (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;Z)Lcom/hexagonkt/handlers/Context;
 }
 
 public abstract interface class com/hexagonkt/http/handlers/HttpHandler : com/hexagonkt/handlers/Handler {

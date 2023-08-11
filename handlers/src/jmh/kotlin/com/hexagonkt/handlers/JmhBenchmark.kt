@@ -1,6 +1,5 @@
 package com.hexagonkt.handlers
 
-import com.hexagonkt.handlers.*
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.State
@@ -26,6 +25,7 @@ open class JmhBenchmark {
             nextHandler: Int,
             exception: Exception?,
             attributes: Map<*, *>,
+            handled: Boolean,
         ): EventContext<T> =
             copy(
                 event = event,
@@ -34,6 +34,7 @@ open class JmhBenchmark {
                 nextHandler = nextHandler,
                 exception = exception,
                 attributes = attributes,
+                handled = handled,
             )
     }
 
