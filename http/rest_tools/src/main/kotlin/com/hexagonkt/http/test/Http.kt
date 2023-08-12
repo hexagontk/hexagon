@@ -6,15 +6,14 @@ import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
+import com.hexagonkt.http.handlers.BeforeHandler
 import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.handlers.OnHandler
 import com.hexagonkt.http.model.HttpRequest
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpStatusType.SUCCESS
 import com.hexagonkt.http.patterns.createPathPattern
 import com.hexagonkt.rest.serializeCallback
-import java.net.URL
 
 data class Http(
     val adapter: HttpClientPort,
@@ -25,7 +24,7 @@ data class Http(
     val handler: HttpHandler? = serializeHandler,
 ) {
     companion object {
-        val serializeHandler: HttpHandler = OnHandler("*", serializeCallback)
+        val serializeHandler: HttpHandler = BeforeHandler("*", serializeCallback)
 
         fun http(
             adapter: HttpClientPort,

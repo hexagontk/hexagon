@@ -33,6 +33,9 @@ sealed interface HttpHandler : Handler<HttpCall> {
 
             is AfterHandler ->
                 copy(handlerPredicate = handlerPredicate.clearMethods())
+
+            is BeforeHandler ->
+                copy(handlerPredicate = handlerPredicate.clearMethods())
         }
 
     fun process(request: HttpRequestPort): HttpContext =
