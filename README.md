@@ -265,7 +265,7 @@ private val path: PathHandler = path {
     get("/588") { send(HttpStatus(588)) }
 
     // It is possible to execute a handler upon a given status code before returning
-    on(pattern = "*", status = HttpStatus(588)) {
+    before(pattern = "*", status = HttpStatus(588)) {
         send(HttpStatus(578), "588 -> 578")
     }
 }

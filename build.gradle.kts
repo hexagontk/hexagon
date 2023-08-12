@@ -135,17 +135,10 @@ apiValidation {
 
             // Test modules
             "http_test",
-            "http_test_async",
             "serialization_test",
             "templates_test",
 
             // Experimental modules
-            "handlers_async",
-            "http_handlers_async",
-            "http_server_async",
-            "http_server_netty_async",
-            "http_server_netty_epoll_async",
-            "http_server_nima",
             "rest",
             "rest_tools",
             "web",

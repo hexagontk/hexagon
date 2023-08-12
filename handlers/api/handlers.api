@@ -56,12 +56,12 @@ public abstract interface class com/hexagonkt/handlers/Context {
 	public abstract fun getNextHandlers ()Ljava/util/List;
 	public abstract fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public abstract fun next ()Lcom/hexagonkt/handlers/Context;
-	public abstract fun with (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;)Lcom/hexagonkt/handlers/Context;
+	public abstract fun with (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;Z)Lcom/hexagonkt/handlers/Context;
 }
 
 public final class com/hexagonkt/handlers/Context$DefaultImpls {
 	public static fun next (Lcom/hexagonkt/handlers/Context;)Lcom/hexagonkt/handlers/Context;
-	public static synthetic fun with$default (Lcom/hexagonkt/handlers/Context;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/handlers/Context;
+	public static synthetic fun with$default (Lcom/hexagonkt/handlers/Context;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;ZILjava/lang/Object;)Lcom/hexagonkt/handlers/Context;
 }
 
 public final class com/hexagonkt/handlers/FilterHandler : com/hexagonkt/handlers/Handler {

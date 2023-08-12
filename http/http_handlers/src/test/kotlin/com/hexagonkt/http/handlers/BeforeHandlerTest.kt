@@ -5,13 +5,13 @@ import com.hexagonkt.http.model.HttpRequest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class OnHandlerTest {
+internal class BeforeHandlerTest {
 
     @Test fun `OnHandler constructors works properly`() {
-        val handler1 = OnHandler(GET) { ok() }
-        val handler2 = OnHandler(setOf(GET)) { ok() }
+        val handler1 = BeforeHandler(GET) { ok() }
+        val handler2 = BeforeHandler(setOf(GET)) { ok() }
 
         assertEquals(handler1.predicate, handler2.predicate)
-        assert(handler1.process(HttpRequest()).handled)
+        assert(!handler1.process(HttpRequest()).handled)
     }
 }
