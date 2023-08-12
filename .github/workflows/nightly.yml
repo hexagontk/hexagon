@@ -92,7 +92,7 @@ jobs:
         run: ./gradlew --stacktrace nativeTest
 
   jmh:
-    name: Native Test
+    name: JMH Benchmark
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       java: 20
