@@ -8,7 +8,7 @@ tasks.compileJmhKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptio
 tasks.compileJmhKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
 
 jmh {
-    final String jhmVersion = findProperty("jhmVersion") ?: "1.36"
+    final String jhmVersion = findProperty("jhmVersion") ?: "1.37"
 
     jmhVersion.set(jhmVersion)
     benchmarkMode.set(["thrpt"])

@@ -17,6 +17,7 @@ data class EventContext<T : Any>(
         nextHandler: Int,
         exception: Exception?,
         attributes: Map<*, *>,
+        handled: Boolean,
     ): EventContext<T> =
         copy(
             event = event,
@@ -25,5 +26,6 @@ data class EventContext<T : Any>(
             nextHandler = nextHandler,
             exception = exception,
             attributes = attributes,
+            handled = handled,
         )
 }

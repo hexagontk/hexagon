@@ -7,7 +7,7 @@ data class OnHandler<T : Any>(
 
     override fun process(context: Context<T>): Context<T> =
         try {
-            callback(context).next()
+            callback(context).with(handled = true).next()
         }
         catch (e: Exception) {
             context.with(exception = e).next()

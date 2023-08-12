@@ -1,0 +1,58 @@
+public final class com/hexagonkt/http/server/nima/NimaKt {
+	public static final fun serve (Lcom/hexagonkt/http/server/HttpServerSettings;Lcom/hexagonkt/http/handlers/HttpHandler;)Lcom/hexagonkt/http/server/HttpServer;
+	public static final fun serve (Lcom/hexagonkt/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;)Lcom/hexagonkt/http/server/HttpServer;
+	public static synthetic fun serve$default (Lcom/hexagonkt/http/server/HttpServerSettings;Lcom/hexagonkt/http/handlers/HttpHandler;ILjava/lang/Object;)Lcom/hexagonkt/http/server/HttpServer;
+	public static synthetic fun serve$default (Lcom/hexagonkt/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagonkt/http/server/HttpServer;
+}
+
+public final class com/hexagonkt/http/server/nima/NimaRequestAdapter : com/hexagonkt/http/model/HttpRequestPort {
+	public fun <init> (Lio/helidon/common/http/Http$Method;Lio/helidon/nima/webserver/http/ServerRequest;)V
+	public fun authorization ()Lcom/hexagonkt/http/model/Authorization;
+	public fun bodyString ()Ljava/lang/String;
+	public fun certificate ()Ljava/security/cert/X509Certificate;
+	public fun cookiesMap ()Ljava/util/Map;
+	public fun getAccept ()Ljava/util/List;
+	public fun getAuthorization ()Lcom/hexagonkt/http/model/Authorization;
+	public fun getBody ()Ljava/lang/Object;
+	public fun getCertificateChain ()Ljava/util/List;
+	public fun getContentLength ()J
+	public fun getContentType ()Lcom/hexagonkt/http/model/ContentType;
+	public fun getCookies ()Ljava/util/List;
+	public fun getFormParameters ()Lcom/hexagonkt/http/model/FormParameters;
+	public fun getHeaders ()Lcom/hexagonkt/http/model/Headers;
+	public fun getHost ()Ljava/lang/String;
+	public fun getMethod ()Lcom/hexagonkt/http/model/HttpMethod;
+	public fun getParts ()Ljava/util/List;
+	public fun getPath ()Ljava/lang/String;
+	public fun getPort ()I
+	public fun getProtocol ()Lcom/hexagonkt/http/model/HttpProtocol;
+	public fun getQueryParameters ()Lcom/hexagonkt/http/model/QueryParameters;
+	public fun origin ()Ljava/lang/String;
+	public fun partsMap ()Ljava/util/Map;
+	public fun plus (Lcom/hexagonkt/http/model/Cookie;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/FormParameter;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/FormParameters;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/Header;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/Headers;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/HttpPart;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/QueryParameter;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagonkt/http/model/QueryParameters;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun plus (Ljava/util/List;)Lcom/hexagonkt/http/model/HttpRequestPort;
+	public fun referer ()Ljava/lang/String;
+	public fun url ()Ljava/net/URL;
+	public fun userAgent ()Ljava/lang/String;
+	public fun with (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Lcom/hexagonkt/http/model/HttpMethod;Lcom/hexagonkt/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagonkt/http/model/QueryParameters;Ljava/util/List;Lcom/hexagonkt/http/model/FormParameters;Ljava/util/List;Ljava/util/List;Lcom/hexagonkt/http/model/Authorization;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpRequestPort;
+}
+
+public final class com/hexagonkt/http/server/nima/NimaServerAdapter : com/hexagonkt/http/server/HttpServerPort {
+	public static final field startErrorMessage Ljava/lang/String;
+	public fun <init> ()V
+	public fun options ()Ljava/util/Map;
+	public fun runtimePort ()I
+	public fun shutDown ()V
+	public fun startUp (Lcom/hexagonkt/http/server/HttpServer;)V
+	public fun started ()Z
+	public fun supportedFeatures ()Ljava/util/Set;
+	public fun supportedProtocols ()Ljava/util/Set;
+}
+

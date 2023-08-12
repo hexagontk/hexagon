@@ -91,6 +91,14 @@ jobs:
       - name: Build Project
         run: ./gradlew --stacktrace nativeTest
 
+  jmh:
+    name: JMH Benchmark
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
+    with:
+      java: 20
+      ref: develop
+      tasks: jmh
+
   build_site:
     name: Build Site
     uses: hexagonkt/hexagon/.github/workflows/site.yml@master

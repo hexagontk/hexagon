@@ -107,6 +107,31 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         use(AfterHandler(pattern, callback))
     }
 
+    fun before(
+        predicate: HttpPredicate = HttpPredicate(),
+        callback: HttpCallback
+    ) {
+        use(BeforeHandler(predicate, callback))
+    }
+
+    fun before(
+        methods: Set<HttpMethod> = emptySet(),
+        pattern: String = "",
+        exception: KClass<out Exception>? = null,
+        status: HttpStatus? = null,
+        callback: HttpCallback,
+    ) {
+        use(BeforeHandler(methods, pattern, exception, status, callback))
+    }
+
+    fun before(method: HttpMethod, pattern: String = "", callback: HttpCallback) {
+        use(BeforeHandler(method, pattern, callback))
+    }
+
+    fun before(pattern: String, callback: HttpCallback) {
+        use(BeforeHandler(pattern, callback))
+    }
+
     fun <T : Exception> exception(
         exception: KClass<T>? = null,
         status: HttpStatus? = null,

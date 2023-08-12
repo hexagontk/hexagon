@@ -377,17 +377,17 @@ abstract class SamplesTest(
 
         val server = HttpServer(serverAdapter()) {
             // filters
-            on("/*") { send(response + Header("b-all", "true")) }
+            before("/*") { send(response + Header("b-all", "true")) }
 
-            on("/filters/*") { send(response + Header("b-filters", "true")) }
+            before("/filters/*") { send(response + Header("b-filters", "true")) }
             get("/filters/route") { ok("filters route") }
             after("/filters/*") { send(response + Header("a-filters", "true")) }
 
             get("/filters") { ok("filters") }
 
             path("/nested") {
-                on("*") { send(response + Header("b-nested", "true")) }
-                on { send(response + Header("b-nested-2", "true")) }
+                before("*") { send(response + Header("b-nested", "true")) }
+                before { send(response + Header("b-nested-2", "true")) }
                 get("/filters") { ok("nested filters") }
                 get("/halted") { send(HttpStatus(499), "halted") }
                 get { ok("nested also") }
@@ -428,7 +428,7 @@ abstract class SamplesTest(
             // Register handler for routes halted with 512 code
             get("/errors") { send(HttpStatus(512)) }
 
-            on(pattern = "*", status = HttpStatus(512)) { send(INTERNAL_SERVER_ERROR_500, "Ouch") }
+            before(pattern = "*", status = HttpStatus(512)) { send(INTERNAL_SERVER_ERROR_500, "Ouch") }
             // errors
 
             exception<NumberException> { e ->
@@ -444,10 +444,10 @@ abstract class SamplesTest(
             get("/exceptions") { error("Message") }
             get("/codedExceptions") { send(HttpStatus(509), "code") }
 
-            on(pattern = "*", status = HttpStatus(509)) {
+            before(pattern = "*", status = HttpStatus(509)) {
                 send(HttpStatus(599))
             }
-            on(pattern = "*", exception = IllegalStateException::class) {
+            before(pattern = "*", exception = IllegalStateException::class) {
                 send(HTTP_VERSION_NOT_SUPPORTED_505, exception?.message ?: "empty")
             }
             // exceptions
