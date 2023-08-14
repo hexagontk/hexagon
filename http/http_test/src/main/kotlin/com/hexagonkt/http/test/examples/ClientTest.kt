@@ -116,7 +116,8 @@ abstract class ClientTest(
             assertNull(cookiesMap["c3"]) // Secure headers only sent through HTTPS
             ok(cookies = listOf(
                 Cookie("c4", "v4", 60),
-                Cookie("c5", "v5", secure = true),
+                Cookie("c5", "v5", secure = false),
+                Cookie("c6", "v6", secure = true),
             ))
         }
 
@@ -134,12 +135,14 @@ abstract class ClientTest(
         val responseC4 = response.cookiesMap().require("c4")
         assertEquals("v4", responseC4.value)
         assertTrue(responseC4.maxAge in 59..60)
-        assertEquals(Cookie("c5", "v5", secure = true), response.cookiesMap()["c5"])
+        assertEquals(Cookie("c5", "v5", secure = false), response.cookiesMap()["c5"])
+        assertNull(response.cookiesMap()["c6"])
 
         val clientC4 = client.cookiesMap().require("c4")
         assertEquals("v4", clientC4.value)
         assertTrue(clientC4.maxAge in 59..60)
-        assertEquals(Cookie("c5", "v5", secure = true), client.cookiesMap()["c5"])
+        assertEquals(Cookie("c5", "v5", secure = false), client.cookiesMap()["c5"])
+        assertNull(client.cookiesMap()["c6"])
     }
 
     @Test fun `Create HTTP clients`() {

@@ -2,7 +2,6 @@ package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
-import jakarta.servlet.MultipartConfigElement
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.Part
 import java.security.cert.X509Certificate
@@ -15,12 +14,10 @@ internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletReque
     }
 
     override val parts: List<HttpPart> by lazy {
-        req.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfig)
         req.parts.map { servletPartAdapter(it) }
     }
 
     override val formParameters: FormParameters by lazy {
-        req.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfig)
         val fields = parameters
             .filter { it.key !in queryParameters.httpFields.keys }
             .map { (k, v) -> FormParameter(k, v) }
@@ -46,8 +43,6 @@ internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletReque
         certificateChain: List<X509Certificate>,
     ): HttpRequestPort =
         throw UnsupportedOperationException()
-
-    private val multipartConfig: MultipartConfigElement by lazy { MultipartConfigElement("/tmp") }
 
     override val body: Any by lazy {
         req.inputStream.readAllBytes()

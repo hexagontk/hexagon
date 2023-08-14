@@ -3,30 +3,31 @@ package com.hexagonkt.http.server.jetty
 import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.fieldsMapOf
 import com.hexagonkt.http.model.HttpProtocol
-import com.hexagonkt.http.model.HttpProtocol.HTTP
-import com.hexagonkt.http.model.HttpProtocol.HTTP2
-import com.hexagonkt.http.model.HttpProtocol.HTTPS
-import com.hexagonkt.http.server.servlet.ServletFilter
+import com.hexagonkt.http.model.HttpProtocol.*
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerFeature
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
+import com.hexagonkt.http.server.servlet.ServletFilter
+import jakarta.servlet.DispatcherType
+import jakarta.servlet.MultipartConfigElement
 import org.eclipse.jetty.alpn.server.ALPNServerConnectionFactory
+import org.eclipse.jetty.ee10.servlet.DefaultServlet
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler.NO_SESSIONS
+import org.eclipse.jetty.ee10.servlet.ServletHolder
 import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory
 import org.eclipse.jetty.server.*
 import org.eclipse.jetty.server.handler.gzip.GzipHandler
-import org.eclipse.jetty.servlet.ServletContextHandler
-import org.eclipse.jetty.servlet.ServletContextHandler.NO_SESSIONS
-import org.eclipse.jetty.util.ssl.SslContextFactory
-import org.eclipse.jetty.util.thread.QueuedThreadPool
-import java.security.KeyStore
-import java.util.EnumSet
-import jakarta.servlet.DispatcherType
 import org.eclipse.jetty.util.VirtualThreads
 import org.eclipse.jetty.util.VirtualThreads.getDefaultVirtualThreadsExecutor
+import org.eclipse.jetty.util.ssl.SslContextFactory
 import org.eclipse.jetty.util.thread.ExecutorThreadPool
+import org.eclipse.jetty.util.thread.QueuedThreadPool
 import org.eclipse.jetty.util.thread.ThreadPool
+import java.security.KeyStore
+import java.util.*
 import org.eclipse.jetty.server.Server as JettyServer
 
 /**
@@ -100,6 +101,10 @@ class JettyServletAdapter(
         val filterBind = context.servletContext.addFilter("filters", filter)
         val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
         filterBind.addMappingForUrlPatterns(dispatcherTypes, true, "/*")
+
+        val servletHolder = ServletHolder("default", DefaultServlet())
+        servletHolder.registration.setMultipartConfig(MultipartConfigElement("/tmp"))
+        context.addServlet(servletHolder, "/*")
 
         val serverConnector =
             if (settings.sslSettings != null) setupSsl(settings, serverInstance)
