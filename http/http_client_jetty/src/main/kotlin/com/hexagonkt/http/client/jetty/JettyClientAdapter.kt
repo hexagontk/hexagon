@@ -12,28 +12,30 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ws.WsSession
 import com.hexagonkt.http.parseContentType
 import org.eclipse.jetty.client.HttpResponseException
-import org.eclipse.jetty.client.api.ContentResponse
-import org.eclipse.jetty.client.api.Request
-import org.eclipse.jetty.client.api.Response
-import org.eclipse.jetty.client.dynamic.HttpClientTransportDynamic
-import org.eclipse.jetty.client.http.HttpClientConnectionFactory.HTTP11
-import org.eclipse.jetty.client.util.BytesRequestContent
-import org.eclipse.jetty.client.util.MultiPartRequestContent
-import org.eclipse.jetty.client.util.StringRequestContent
+import org.eclipse.jetty.client.ContentResponse
+import org.eclipse.jetty.client.Request
+import org.eclipse.jetty.client.Response
+import org.eclipse.jetty.client.transport.HttpClientTransportDynamic
+import org.eclipse.jetty.client.transport.HttpClientConnectionFactory.HTTP11
+import org.eclipse.jetty.client.BytesRequestContent
+import org.eclipse.jetty.client.MultiPartRequestContent
+import org.eclipse.jetty.client.StringRequestContent
+import org.eclipse.jetty.http.HttpCookie
+import org.eclipse.jetty.http.HttpCookieStore
 import org.eclipse.jetty.http.HttpFields
 import org.eclipse.jetty.http.HttpFields.EMPTY
 import org.eclipse.jetty.http.HttpMethod
+import org.eclipse.jetty.http.MultiPart.ContentSourcePart
 import org.eclipse.jetty.io.ClientConnector
 import java.lang.StringBuilder
 import java.lang.UnsupportedOperationException
-import java.net.CookieStore
 import java.net.URI
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
 import java.util.concurrent.Flow.Publisher
 import java.util.concurrent.SubmissionPublisher
 import org.eclipse.jetty.http2.client.HTTP2Client as JettyHttp2Client
-import org.eclipse.jetty.http2.client.http.ClientConnectionFactoryOverHTTP2.HTTP2
+import org.eclipse.jetty.http2.client.transport.ClientConnectionFactoryOverHTTP2.HTTP2
 import org.eclipse.jetty.client.HttpClient as JettyHttpClient
 import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFactory
 
@@ -138,8 +140,8 @@ open class JettyClientAdapter : HttpClientPort {
         val settings = adapterHttpClient.settings
 
         if (settings.useCookies)
-            adapterHttpClient.cookies = adapterJettyClient.cookieStore.cookies.map {
-                Cookie(it.name, it.value, it.maxAge, it.secure)
+            adapterHttpClient.cookies = adapterJettyClient.httpCookieStore.all().map {
+                Cookie(it.name, it.value, it.maxAge, it.isSecure)
             }
 
         return HttpResponse(
@@ -174,7 +176,7 @@ open class JettyClientAdapter : HttpClientPort {
 
         if (settings.useCookies) {
             val uri = (baseUrl ?: request.url()).toURI()
-            addCookies(uri, adapterJettyClient.cookieStore, request.cookies)
+            addCookies(uri, adapterJettyClient.httpCookieStore, request.cookies)
         }
 
         val jettyRequest = adapterJettyClient
@@ -208,19 +210,25 @@ open class JettyClientAdapter : HttpClientPort {
         request.parts.forEach { p ->
             if (p.submittedFileName == null)
                 // TODO Add content type if present
-                multiPart.addFieldPart(p.name, StringRequestContent(p.bodyString()), EMPTY)
+                multiPart.addPart(
+                    ContentSourcePart(p.name, null, EMPTY, StringRequestContent(p.bodyString()))
+                )
             else
-                multiPart.addFilePart(
-                    p.name,
-                    p.submittedFileName,
-                    BytesRequestContent(bodyToBytes(p.body)),
-                    EMPTY
+                multiPart.addPart(
+                    ContentSourcePart(
+                        p.name,
+                        p.submittedFileName,
+                        EMPTY,
+                        BytesRequestContent(bodyToBytes(p.body)),
+                    )
                 )
         }
 
         request.formParameters
             .forEach { (k, v) ->
-                v.strings().forEach { multiPart.addFieldPart(k, StringRequestContent(it), EMPTY) }
+                v.strings().forEach {
+                    multiPart.addPart(ContentSourcePart(k, null, EMPTY, StringRequestContent(it)))
+                }
             }
 
         multiPart.close()
@@ -228,12 +236,12 @@ open class JettyClientAdapter : HttpClientPort {
         return multiPart
     }
 
-    private fun addCookies(uri: URI, store: CookieStore, cookies: List<Cookie>) {
+    private fun addCookies(uri: URI, store: HttpCookieStore, cookies: List<Cookie>) {
         cookies.forEach {
             val httpCookie = java.net.HttpCookie(it.name, it.value)
             httpCookie.secure = it.secure
             httpCookie.maxAge = it.maxAge
-            store.add(uri, httpCookie)
+            store.add(uri, HttpCookie.from(httpCookie))
         }
     }
 

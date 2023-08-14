@@ -2,6 +2,7 @@ package com.hexagonkt.http.client.jetty
 
 import com.hexagonkt.http.model.HttpRequestPort
 import com.hexagonkt.http.model.ws.WsSession
+import org.eclipse.jetty.websocket.api.Callback.NOOP
 import org.eclipse.jetty.websocket.api.Session
 import java.net.URI
 import java.nio.ByteBuffer
@@ -21,22 +22,22 @@ class JettyClientWsSession(
         get() = throw UnsupportedOperationException()
 
     override fun send(data: ByteArray) {
-        session.remote.sendBytes(ByteBuffer.wrap(data))
+        session.sendBinary(ByteBuffer.wrap(data), NOOP)
     }
 
     override fun send(text: String) {
-        session.remote.sendString(text)
+        session.sendText(text, NOOP)
     }
 
     override fun ping(data: ByteArray) {
-        session.remote.sendPing(ByteBuffer.wrap(data))
+        session.sendPing(ByteBuffer.wrap(data), NOOP)
     }
 
     override fun pong(data: ByteArray) {
-        session.remote.sendPong(ByteBuffer.wrap(data))
+        session.sendPong(ByteBuffer.wrap(data), NOOP)
     }
 
     override fun close(status: Int, reason: String) {
-        session.close(status, reason)
+        session.close(status, reason, NOOP)
     }
 }

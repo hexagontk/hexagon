@@ -12,13 +12,12 @@ public final class com/hexagonkt/http/client/jetty/JettyClientWsSession : com/he
 	public fun send ([B)V
 }
 
-public final class com/hexagonkt/http/client/jetty/JettyWebSocketAdapter : org/eclipse/jetty/websocket/api/WebSocketAdapter {
+public final class com/hexagonkt/http/client/jetty/JettyWebSocketAdapter {
 	public fun <init> (Ljava/net/URI;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)V
-	public fun onWebSocketBinary ([BII)V
-	public fun onWebSocketClose (ILjava/lang/String;)V
-	public fun onWebSocketConnect (Lorg/eclipse/jetty/websocket/api/Session;)V
-	public fun onWebSocketError (Ljava/lang/Throwable;)V
-	public fun onWebSocketText (Ljava/lang/String;)V
+	public final fun onWebSocketBinary (Lorg/eclipse/jetty/websocket/api/Session;Ljava/nio/ByteBuffer;Lorg/eclipse/jetty/websocket/api/Callback;)V
+	public final fun onWebSocketClose (Lorg/eclipse/jetty/websocket/api/Session;ILjava/lang/String;)V
+	public final fun onWebSocketConnect (Lorg/eclipse/jetty/websocket/api/Session;)V
+	public final fun onWebSocketText (Lorg/eclipse/jetty/websocket/api/Session;Ljava/lang/String;)V
 }
 
 public final class com/hexagonkt/http/client/jetty/JettyWsClientAdapter : com/hexagonkt/http/client/jetty/JettyClientAdapter {
