@@ -7,6 +7,7 @@ data class EventContext<T : Any>(
     override val nextHandler: Int = 0,
     override val exception: Exception? = null,
     override val attributes: Map<*, *> = emptyMap<Any, Any>(),
+    override val handled: Boolean = false,
 ) : Context<T> {
 
     override fun with(
@@ -16,6 +17,7 @@ data class EventContext<T : Any>(
         nextHandler: Int,
         exception: Exception?,
         attributes: Map<*, *>,
+        handled: Boolean,
     ): EventContext<T> =
         copy(
             event = event,
@@ -24,5 +26,6 @@ data class EventContext<T : Any>(
             nextHandler = nextHandler,
             exception = exception,
             attributes = attributes,
+            handled = handled,
         )
 }

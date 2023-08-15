@@ -10,7 +10,8 @@ import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.NOT_FOUND_404
 import com.hexagonkt.http.handlers.path
-import org.eclipse.jetty.webapp.WebAppContext
+import jakarta.servlet.MultipartConfigElement
+import org.eclipse.jetty.ee10.webapp.WebAppContext
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import kotlin.test.Test
@@ -18,6 +19,8 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.InetSocketAddress
 import jakarta.servlet.annotation.WebListener
+import org.eclipse.jetty.ee10.servlet.DefaultServlet
+import org.eclipse.jetty.ee10.servlet.ServletHolder
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import org.eclipse.jetty.server.Server as JettyServer
@@ -45,6 +48,10 @@ internal class ServletServerTest {
         context.contextPath = "/"
         context.war = "."
         context.addEventListener(WebAppServer())
+
+        val servletHolder = ServletHolder("default", DefaultServlet())
+        servletHolder.registration.setMultipartConfig(MultipartConfigElement("/tmp"))
+        context.addServlet(servletHolder, "/*")
 
         jettyServer.handler = context
         jettyServer.start()

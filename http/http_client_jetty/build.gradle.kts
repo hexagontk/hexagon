@@ -14,5 +14,5 @@ dependencies {
 
     "api"(project(":http:http_client"))
     "api"(platform("org.eclipse.jetty:jetty-bom:$jettyVersion"))
-    "api"("org.eclipse.jetty.http2:http2-http-client-transport") { exclude(group = "org.slf4j") }
+    "api"("org.eclipse.jetty.http2:jetty-http2-client-transport") { exclude(group = "org.slf4j") }
 }

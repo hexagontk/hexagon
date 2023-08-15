@@ -6,6 +6,8 @@ import org.jetbrains.dokka.gradle.DokkaTaskPartial
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
 
+val venv: String = "build/mkdocs"
+
 tasks.register<JacocoReport>("jacocoRootReport") {
     dependsOn(":dokkaHtmlMultiModule")
 
@@ -125,19 +127,20 @@ task("checkDocs") {
 tasks.register("installMkDocs") {
     doLast {
         val mkdocsMaterialVersion = properties["mkdocsMaterialVersion"]
-        exec { commandLine("pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
-        exec { commandLine("pip install mkdocs-htmlproofer-plugin".split(" ")) }
+        exec { commandLine("python -m venv $venv".split(" ")) }
+        exec { commandLine("$venv/bin/pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
+        exec { commandLine("$venv/bin/pip install mkdocs-htmlproofer-plugin".split(" ")) }
     }
 }
 
 tasks.register<Exec>("serveSite") {
     dependsOn("checkDocs", "installMkDocs")
-    commandLine("mkdocs serve".split(" "))
+    commandLine("$venv/bin/mkdocs serve".split(" "))
 }
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs", "installMkDocs")
-    commandLine("mkdocs build -cs".split(" "))
+    commandLine("$venv/bin/mkdocs build -cs".split(" "))
 }
 
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }

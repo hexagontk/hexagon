@@ -24,25 +24,25 @@ internal class ErrorsTest {
         get("/halt") { internalServerError("halted") }
         get("/588") { send(HttpStatus(588)) }
 
-        on(pattern = "*", exception = UnsupportedOperationException::class) {
+        before(pattern = "*", exception = UnsupportedOperationException::class) {
             val error = exception?.message ?: exception?.javaClass?.name ?: fail
             val newHeaders = response.headers + Header("error", error)
             send(HttpStatus(599), "Unsupported", headers = newHeaders)
         }
 
-        on(pattern = "*", exception = IllegalArgumentException::class) {
+        before(pattern = "*", exception = IllegalArgumentException::class) {
             val error = exception?.message ?: exception?.javaClass?.name ?: fail
             val newHeaders = response.headers + Header("runtime-error", error)
             send(HttpStatus(598), "Runtime", headers = newHeaders)
         }
 
         // Catching `Exception` handles any unhandled exception before (it has to be the last)
-        on(pattern = "*", exception = Exception::class, status = NOT_FOUND_404) {
+        before(pattern = "*", exception = Exception::class, status = NOT_FOUND_404) {
             internalServerError("Root handler")
         }
 
         // It is possible to execute a handler upon a given status code before returning
-        on(pattern = "*", status = HttpStatus(588)) {
+        before(pattern = "*", status = HttpStatus(588)) {
             send(HttpStatus(578), "588 -> 578")
         }
     }

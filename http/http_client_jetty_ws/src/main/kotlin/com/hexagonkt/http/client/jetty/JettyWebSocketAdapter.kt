@@ -1,10 +1,17 @@
 package com.hexagonkt.http.client.jetty
 
 import com.hexagonkt.http.model.ws.WsSession
+import org.eclipse.jetty.websocket.api.Callback
 import org.eclipse.jetty.websocket.api.Session
-import org.eclipse.jetty.websocket.api.WebSocketAdapter
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketOpen
+import org.eclipse.jetty.websocket.api.annotations.WebSocket
 import java.net.URI
+import java.nio.ByteBuffer
 
+@WebSocket
+@Suppress("UNUSED_PARAMETER", "UNUSED") // Signatures must match the annotation expected parameters
 class JettyWebSocketAdapter(
     private val uri: URI,
     private val onConnect: WsSession.() -> Unit,
@@ -13,30 +20,29 @@ class JettyWebSocketAdapter(
     private val onPing: WsSession.(data: ByteArray) -> Unit,
     private val onPong: WsSession.(data: ByteArray) -> Unit,
     private val onClose: WsSession.(status: Int, reason: String) -> Unit,
-) : WebSocketAdapter() {
-
+) {
+    private lateinit var session: Session
     private val wsSession by lazy { JettyClientWsSession(uri, session) }
 
-    override fun onWebSocketText(message: String) {
+    @OnWebSocketMessage
+    fun onWebSocketText(session: Session, message: String) {
         wsSession.onText(message)
     }
 
     // TODO Handle 'onPing' and 'onPong' (messages probably arriving here)
-    override fun onWebSocketBinary(payload: ByteArray, offset: Int, len: Int) {
-        wsSession.onBinary(payload)
+    @OnWebSocketMessage
+    fun onWebSocketBinary(session: Session, payload: ByteBuffer, callback: Callback) {
+        wsSession.onBinary(payload.array())
     }
 
-    override fun onWebSocketClose(statusCode: Int, reason: String) {
+    @OnWebSocketClose
+    fun onWebSocketClose(session: Session, statusCode: Int, reason: String) {
         wsSession.onClose(statusCode, reason)
-        super.onWebSocketClose(statusCode, reason)
     }
 
-    override fun onWebSocketConnect(sess: Session) {
-        super.onWebSocketConnect(sess)
+    @OnWebSocketOpen
+    fun onWebSocketConnect(connectSession: Session) {
+        session = connectSession
         wsSession.onConnect()
-    }
-
-    override fun onWebSocketError(cause: Throwable?) {
-        super.onWebSocketError(cause)
     }
 }

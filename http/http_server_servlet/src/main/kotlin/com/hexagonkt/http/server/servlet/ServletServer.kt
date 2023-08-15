@@ -47,14 +47,15 @@ abstract class ServletServer(
 
         val servletFilter = ServletFilter(pathHandler)
         // Let's be a good JEE citizen
+        val servletContext = sce.servletContext
         servletFilter.init(object : FilterConfig {
             val params = Hashtable<String, String>(1).apply { put("filterName", filterName) }
             override fun getFilterName(): String = ServletFilter::class.java.name
-            override fun getServletContext(): ServletContext = sce.servletContext
+            override fun getServletContext(): ServletContext = servletContext
             override fun getInitParameter(name: String): String = params.require(name)
             override fun getInitParameterNames(): Enumeration<String> = params.keys()
         })
-        val filter = sce.servletContext.addFilter("filters", servletFilter)
+        val filter = servletContext.addFilter("filters", servletFilter)
         filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, "/*")
 
         logger.info { "Server started\n${createBanner(System.nanoTime() - startTimestamp)}" }

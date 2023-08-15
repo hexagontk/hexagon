@@ -15,13 +15,13 @@ internal class HttpServerTest {
 
     @Test fun `Handlers proof of concept`() {
         val path = PathHandler(
-            OnHandler { ok() },
+            BeforeHandler { ok() },
             AfterHandler { this },
             FilterHandler { next() },
 
             PathHandler("/a",
-                OnHandler { notFound() },
-                OnHandler("/{p}") {
+                BeforeHandler { notFound() },
+                BeforeHandler("/{p}") {
                     send(HttpResponse(
                         status = OK_200,
                         body = pathParameters.require("p")
@@ -29,9 +29,9 @@ internal class HttpServerTest {
                 },
 
                 PathHandler("/b",
-                    OnHandler { send(status = METHOD_NOT_ALLOWED_405) },
-                    OnHandler(GET) { send(status = NO_CONTENT_204) },
-                    OnHandler("/{p}") {
+                    BeforeHandler { send(status = METHOD_NOT_ALLOWED_405) },
+                    BeforeHandler(GET) { send(status = NO_CONTENT_204) },
+                    BeforeHandler("/{p}") {
                         send(HttpResponse(
                             status = OK_200,
                             body = pathParameters.require("p")

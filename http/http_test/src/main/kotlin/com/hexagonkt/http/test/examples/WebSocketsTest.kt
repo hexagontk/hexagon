@@ -91,7 +91,7 @@ abstract class WebSocketsTest(
                 onPing = { bytes -> pong(bytes) },
 
                 // Pong handlers should be used to check sent pings
-                onPong= { bytes -> send(bytes) },
+                onPong = { bytes -> send(bytes) },
 
                 // Callback executed when WS sessions are closed (on the server or client side)
                 onClose = { status, reason ->

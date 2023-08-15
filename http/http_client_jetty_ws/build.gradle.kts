@@ -11,5 +11,5 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 
 dependencies {
     "api"(project(":http:http_client_jetty"))
-    "api"("org.eclipse.jetty.websocket:websocket-jetty-client")
+    "api"("org.eclipse.jetty.websocket:jetty-websocket-jetty-client")
 }

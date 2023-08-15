@@ -22,6 +22,7 @@ data class HttpContext(
     override val nextHandler: Int = 0,
     override val exception: Exception? = null,
     override val attributes: Map<*, *> = emptyMap<Any, Any>(),
+    override val handled: Boolean = false,
 ): Context<HttpCall> {
     val request: HttpRequestPort = event.request
     val response: HttpResponsePort = event.response
@@ -73,8 +74,22 @@ data class HttpContext(
         attributes: Map<*, *> = emptyMap<Any, Any>(),
     ) : this(HttpCall(request, response), predicate, attributes = attributes)
 
-    override fun next(): HttpContext =
-        super.next() as HttpContext
+    override fun next(): HttpContext {
+        for (index in nextHandler until nextHandlers.size) {
+            val handler = nextHandlers[index]
+            val p = handler.predicate
+            if (handler is OnHandler) {
+                if ((!handled) && p(this))
+                    return handler.process(with(predicate = p, nextHandler = index + 1)) as HttpContext
+            }
+            else {
+                if (p(this))
+                    return handler.process(with(predicate = p, nextHandler = index + 1)) as HttpContext
+            }
+        }
+
+        return this
+    }
 
     override fun with(
         event: HttpCall,
@@ -82,7 +97,8 @@ data class HttpContext(
         nextHandlers: List<Handler<HttpCall>>,
         nextHandler: Int,
         exception: Exception?,
-        attributes: Map<*, *>
+        attributes: Map<*, *>,
+        handled: Boolean,
     ): Context<HttpCall> =
         copy(
             event = event,
@@ -91,6 +107,7 @@ data class HttpContext(
             nextHandler = nextHandler,
             exception = exception,
             attributes = attributes,
+            handled = handled,
         )
 
     fun unauthorized(
