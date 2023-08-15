@@ -7,7 +7,7 @@
 
     override fun process(context: Context&lt;T&gt;): Context&lt;T&gt; =
 <span class="fc" id="L9">        try {</span>
-<span class="fc" id="L10">            callback(context).next()</span>
+<span class="fc" id="L10">            callback(context).with(handled = true).next()</span>
         }
 <span class="fc" id="L12">        catch (e: Exception) {</span>
 <span class="fc" id="L13">            context.with(exception = e).next()</span>

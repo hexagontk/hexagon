@@ -2,30 +2,27 @@
 
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
-import jakarta.servlet.MultipartConfigElement
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.Part
 import java.security.cert.X509Certificate
 import kotlin.UnsupportedOperationException
 
-<span class="fc" id="L11">internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletRequestAdapter(req) {</span>
+<span class="fc" id="L10">internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletRequestAdapter(req) {</span>
 
-<span class="fc" id="L13">    private val parameters: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
-<span class="fc" id="L14">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
+<span class="fc" id="L12">    private val parameters: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
+<span class="fc" id="L13">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
     }
 
-<span class="fc" id="L17">    override val parts: List&lt;HttpPart&gt; by lazy {</span>
-<span class="fc" id="L18">        req.setAttribute(&quot;org.eclipse.jetty.multipartConfig&quot;, multipartConfig)</span>
-<span class="fc" id="L19">        req.parts.map { servletPartAdapter(it) }</span>
+<span class="fc" id="L16">    override val parts: List&lt;HttpPart&gt; by lazy {</span>
+<span class="fc" id="L17">        req.parts.map { servletPartAdapter(it) }</span>
     }
 
-<span class="fc" id="L22">    override val formParameters: FormParameters by lazy {</span>
-<span class="fc" id="L23">        req.setAttribute(&quot;org.eclipse.jetty.multipartConfig&quot;, multipartConfig)</span>
-<span class="fc" id="L24">        val fields = parameters</span>
-<span class="fc bfc" id="L25" title="All 2 branches covered.">            .filter { it.key !in queryParameters.httpFields.keys }</span>
-<span class="fc" id="L26">            .map { (k, v) -&gt; FormParameter(k, v) }</span>
+<span class="fc" id="L20">    override val formParameters: FormParameters by lazy {</span>
+<span class="fc" id="L21">        val fields = parameters</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">            .filter { it.key !in queryParameters.httpFields.keys }</span>
+<span class="fc" id="L23">            .map { (k, v) -&gt; FormParameter(k, v) }</span>
 
-<span class="fc" id="L28">        FormParameters(fields)</span>
+<span class="fc" id="L25">        FormParameters(fields)</span>
     }
 
     override fun with(
@@ -45,23 +42,21 @@ import kotlin.UnsupportedOperationException
         authorization: Authorization?,
         certificateChain: List&lt;X509Certificate&gt;,
     ): HttpRequestPort =
-<span class="nc" id="L48">        throw UnsupportedOperationException()</span>
+<span class="nc" id="L45">        throw UnsupportedOperationException()</span>
 
-<span class="fc" id="L50">    private val multipartConfig: MultipartConfigElement by lazy { MultipartConfigElement(&quot;/tmp&quot;) }</span>
-
-<span class="fc" id="L52">    override val body: Any by lazy {</span>
-<span class="fc" id="L53">        req.inputStream.readAllBytes()</span>
+<span class="fc" id="L47">    override val body: Any by lazy {</span>
+<span class="fc" id="L48">        req.inputStream.readAllBytes()</span>
     }
 
     private fun servletPartAdapter(part: Part) : HttpPart {
-<span class="fc" id="L57">        val headerNames = part.headerNames.filterNotNull()</span>
-<span class="fc" id="L58">        return HttpPart(</span>
-<span class="fc" id="L59">            name = part.name,</span>
-<span class="fc" id="L60">            body = part.inputStream.readAllBytes(),</span>
-<span class="fc" id="L61">            headers = Headers(headerNames.map { Header(it, part.getHeaders(it).toList()) }),</span>
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">            contentType = part.contentType?.let { parseContentType(it) },</span>
-<span class="fc" id="L63">            size = part.size,</span>
-<span class="fc" id="L64">            submittedFileName = part.submittedFileName,</span>
+<span class="fc" id="L52">        val headerNames = part.headerNames.filterNotNull()</span>
+<span class="fc" id="L53">        return HttpPart(</span>
+<span class="fc" id="L54">            name = part.name,</span>
+<span class="fc" id="L55">            body = part.inputStream.readAllBytes(),</span>
+<span class="fc" id="L56">            headers = Headers(headerNames.map { Header(it, part.getHeaders(it).toList()) }),</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">            contentType = part.contentType?.let { parseContentType(it) },</span>
+<span class="fc" id="L58">            size = part.size,</span>
+<span class="fc" id="L59">            submittedFileName = part.submittedFileName,</span>
         )
     }
 }

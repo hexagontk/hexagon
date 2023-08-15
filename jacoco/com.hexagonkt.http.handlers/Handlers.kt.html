@@ -81,45 +81,50 @@ internal fun toCallback(block: HttpCallback): (Context&lt;HttpCall&gt;) -&gt; Co
 <span class="nc" id="L81">fun &lt;T : Exception&gt; Exception(</span>
 <span class="nc" id="L82">    exception: KClass&lt;T&gt;? = null,</span>
 <span class="nc" id="L83">    status: HttpStatus? = null,</span>
+<span class="nc" id="L84">    clear: Boolean = true,</span>
     callback: HttpExceptionCallback&lt;T&gt;,
 ): AfterHandler =
-<span class="fc" id="L86">    AfterHandler(emptySet(), &quot;*&quot;, exception, status) {</span>
-<span class="fc" id="L87">        callback(this.exception.castException(exception))</span>
-<span class="fc" id="L88">    }</span>
+<span class="fc" id="L87">    AfterHandler(emptySet(), &quot;*&quot;, exception, status) {</span>
+<span class="fc" id="L88">        callback(this.exception.castException(exception)).let {</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">            if (clear) it.copy(exception = null)</span>
+<span class="fc" id="L90">            else it</span>
+        }
+<span class="fc" id="L92">    }</span>
 
-<span class="nc" id="L90">inline fun &lt;reified T : Exception&gt; Exception(</span>
-<span class="nc" id="L91">    status: HttpStatus? = null,</span>
+<span class="nc" id="L94">inline fun &lt;reified T : Exception&gt; Exception(</span>
+<span class="nc" id="L95">    status: HttpStatus? = null,</span>
+<span class="nc" id="L96">    clear: Boolean = true,</span>
     noinline callback: HttpExceptionCallback&lt;T&gt;,
 ): AfterHandler =
-<span class="nc" id="L94">    Exception(T::class, status, callback)</span>
+<span class="nc" id="L99">    Exception(T::class, status, clear, callback)</span>
 
 internal fun &lt;T : Exception&gt; Exception?.castException(exception: KClass&lt;T&gt;?) =
-<span class="fc bfc" id="L97" title="All 6 branches covered.">    this?.let { exception?.cast(this) } ?: error(&quot;Exception 'null' or incorrect type&quot;)</span>
+<span class="fc bfc" id="L102" title="All 6 branches covered.">    this?.let { exception?.cast(this) } ?: error(&quot;Exception 'null' or incorrect type&quot;)</span>
 
-<span class="nc" id="L99">fun Get(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L100">    OnHandler(GET, pattern, callback)</span>
+<span class="nc" id="L104">fun Get(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L105">    OnHandler(GET, pattern, callback)</span>
 
-<span class="nc" id="L102">fun Ws(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L103">    Get(pattern, callback)</span>
+<span class="nc" id="L107">fun Ws(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L108">    Get(pattern, callback)</span>
 
-<span class="nc" id="L105">fun Head(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L106">    OnHandler(HEAD, pattern, callback)</span>
+<span class="nc" id="L110">fun Head(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L111">    OnHandler(HEAD, pattern, callback)</span>
 
-<span class="nc" id="L108">fun Post(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L109">    OnHandler(POST, pattern, callback)</span>
+<span class="nc" id="L113">fun Post(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L114">    OnHandler(POST, pattern, callback)</span>
 
-<span class="nc" id="L111">fun Put(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L112">    OnHandler(PUT, pattern, callback)</span>
+<span class="nc" id="L116">fun Put(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L117">    OnHandler(PUT, pattern, callback)</span>
 
-<span class="nc" id="L114">fun Delete(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L115">    OnHandler(DELETE, pattern, callback)</span>
+<span class="nc" id="L119">fun Delete(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L120">    OnHandler(DELETE, pattern, callback)</span>
 
-<span class="nc" id="L117">fun Trace(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L118">    OnHandler(TRACE, pattern, callback)</span>
+<span class="nc" id="L122">fun Trace(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L123">    OnHandler(TRACE, pattern, callback)</span>
 
-<span class="nc" id="L120">fun Options(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L121">    OnHandler(OPTIONS, pattern, callback)</span>
+<span class="nc" id="L125">fun Options(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L126">    OnHandler(OPTIONS, pattern, callback)</span>
 
-<span class="nc" id="L123">fun Patch(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
-<span class="fc" id="L124">    OnHandler(PATCH, pattern, callback)</span>
+<span class="nc" id="L128">fun Patch(pattern: String = &quot;&quot;, callback: HttpCallback): OnHandler =</span>
+<span class="fc" id="L129">    OnHandler(PATCH, pattern, callback)</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

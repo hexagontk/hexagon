@@ -47,62 +47,63 @@ import java.util.*
 
 <span class="fc" id="L48">        val servletFilter = ServletFilter(pathHandler)</span>
         // Let's be a good JEE citizen
-<span class="fc" id="L50">        servletFilter.init(object : FilterConfig {</span>
-<span class="pc" id="L51">            val params = Hashtable&lt;String, String&gt;(1).apply { put(&quot;filterName&quot;, filterName) }</span>
-<span class="fc" id="L52">            override fun getFilterName(): String = ServletFilter::class.java.name</span>
-<span class="fc" id="L53">            override fun getServletContext(): ServletContext = sce.servletContext</span>
-<span class="fc" id="L54">            override fun getInitParameter(name: String): String = params.require(name)</span>
-<span class="fc" id="L55">            override fun getInitParameterNames(): Enumeration&lt;String&gt; = params.keys()</span>
+<span class="fc" id="L50">        val servletContext = sce.servletContext</span>
+<span class="fc" id="L51">        servletFilter.init(object : FilterConfig {</span>
+<span class="pc" id="L52">            val params = Hashtable&lt;String, String&gt;(1).apply { put(&quot;filterName&quot;, filterName) }</span>
+<span class="fc" id="L53">            override fun getFilterName(): String = ServletFilter::class.java.name</span>
+<span class="fc" id="L54">            override fun getServletContext(): ServletContext = servletContext</span>
+<span class="fc" id="L55">            override fun getInitParameter(name: String): String = params.require(name)</span>
+<span class="fc" id="L56">            override fun getInitParameterNames(): Enumeration&lt;String&gt; = params.keys()</span>
         })
-<span class="fc" id="L57">        val filter = sce.servletContext.addFilter(&quot;filters&quot;, servletFilter)</span>
-<span class="fc" id="L58">        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, &quot;/*&quot;)</span>
+<span class="fc" id="L58">        val filter = servletContext.addFilter(&quot;filters&quot;, servletFilter)</span>
+<span class="fc" id="L59">        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, &quot;/*&quot;)</span>
 
-<span class="fc" id="L60">        logger.info { &quot;Server started\n${createBanner(System.nanoTime() - startTimestamp)}&quot; }</span>
-<span class="fc" id="L61">    }</span>
+<span class="fc" id="L61">        logger.info { &quot;Server started\n${createBanner(System.nanoTime() - startTimestamp)}&quot; }</span>
+<span class="fc" id="L62">    }</span>
 
     override fun contextDestroyed(sce: ServletContextEvent?) {
-<span class="fc" id="L64">        logger.info { &quot;Server context destroyed&quot; }</span>
-<span class="fc" id="L65">    }</span>
+<span class="fc" id="L65">        logger.info { &quot;Server context destroyed&quot; }</span>
+<span class="fc" id="L66">    }</span>
 
     private fun createBanner(startUpTimestamp: Long): String {
 
-<span class="fc" id="L69">        val heap = ManagementFactory.getMemoryMXBean().heapMemoryUsage</span>
-<span class="fc" id="L70">        val jvmMemory = &quot;%,d&quot;.format(heap.init / 1024)</span>
-<span class="fc" id="L71">        val usedMemory = &quot;%,d&quot;.format(heap.used / 1024)</span>
-<span class="fc" id="L72">        val bootTime = &quot;%01.3f&quot;.format(ManagementFactory.getRuntimeMXBean().uptime / 1e3)</span>
-<span class="fc" id="L73">        val startUpTime = &quot;%,.0f&quot;.format(startUpTimestamp / 1e6)</span>
+<span class="fc" id="L70">        val heap = ManagementFactory.getMemoryMXBean().heapMemoryUsage</span>
+<span class="fc" id="L71">        val jvmMemory = &quot;%,d&quot;.format(heap.init / 1024)</span>
+<span class="fc" id="L72">        val usedMemory = &quot;%,d&quot;.format(heap.used / 1024)</span>
+<span class="fc" id="L73">        val bootTime = &quot;%01.3f&quot;.format(ManagementFactory.getRuntimeMXBean().uptime / 1e3)</span>
+<span class="fc" id="L74">        val startUpTime = &quot;%,.0f&quot;.format(startUpTimestamp / 1e6)</span>
 
-<span class="fc" id="L75">        val serverAdapterValue = &quot;$BOLD$CYAN${javaClass.simpleName}$RESET&quot;</span>
+<span class="fc" id="L76">        val serverAdapterValue = &quot;$BOLD$CYAN${javaClass.simpleName}$RESET&quot;</span>
 
-<span class="fc" id="L77">        val hostnameValue = &quot;$BLUE${Jvm.hostName}$RESET&quot;</span>
-<span class="fc" id="L78">        val cpuCountValue = &quot;$BLUE${Jvm.cpuCount}$RESET&quot;</span>
-<span class="fc" id="L79">        val jvmMemoryValue = &quot;$BLUE$jvmMemory$RESET&quot;</span>
+<span class="fc" id="L78">        val hostnameValue = &quot;$BLUE${Jvm.hostName}$RESET&quot;</span>
+<span class="fc" id="L79">        val cpuCountValue = &quot;$BLUE${Jvm.cpuCount}$RESET&quot;</span>
+<span class="fc" id="L80">        val jvmMemoryValue = &quot;$BLUE$jvmMemory$RESET&quot;</span>
 
-<span class="fc" id="L81">        val javaVersionValue = &quot;$BOLD${BLUE}Java ${Jvm.version}$RESET [$BLUE${Jvm.name}$RESET]&quot;</span>
+<span class="fc" id="L82">        val javaVersionValue = &quot;$BOLD${BLUE}Java ${Jvm.version}$RESET [$BLUE${Jvm.name}$RESET]&quot;</span>
 
-<span class="fc" id="L83">        val localeValue = &quot;$BLUE${Jvm.localeCode}$RESET&quot;</span>
-<span class="fc" id="L84">        val timezoneValue = &quot;$BLUE${Jvm.timeZone.id}$RESET&quot;</span>
-<span class="fc" id="L85">        val charsetValue = &quot;$BLUE${Jvm.charset}$RESET&quot;</span>
+<span class="fc" id="L84">        val localeValue = &quot;$BLUE${Jvm.localeCode}$RESET&quot;</span>
+<span class="fc" id="L85">        val timezoneValue = &quot;$BLUE${Jvm.timeZone.id}$RESET&quot;</span>
+<span class="fc" id="L86">        val charsetValue = &quot;$BLUE${Jvm.charset}$RESET&quot;</span>
 
-<span class="fc" id="L87">        val bootTimeValue = &quot;$BOLD$MAGENTA$bootTime s$RESET&quot;</span>
-<span class="fc" id="L88">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
-<span class="fc" id="L89">        val usedMemoryValue = &quot;$BOLD$MAGENTA$usedMemory KB$RESET&quot;</span>
+<span class="fc" id="L88">        val bootTimeValue = &quot;$BOLD$MAGENTA$bootTime s$RESET&quot;</span>
+<span class="fc" id="L89">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
+<span class="fc" id="L90">        val usedMemoryValue = &quot;$BOLD$MAGENTA$usedMemory KB$RESET&quot;</span>
 
-<span class="fc" id="L91">        val information = &quot;&quot;&quot;</span>
+<span class="fc" id="L92">        val information = &quot;&quot;&quot;</span>
 
-<span class="fc" id="L93">            Server Adapter: $serverAdapterValue</span>
+<span class="fc" id="L94">            Server Adapter: $serverAdapterValue</span>
 
-<span class="fc" id="L95">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
-<span class="fc" id="L96">            🛠 Using $javaVersionValue</span>
-<span class="fc" id="L97">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
+<span class="fc" id="L96">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
+<span class="fc" id="L97">            🛠 Using $javaVersionValue</span>
+<span class="fc" id="L98">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
 
-<span class="fc" id="L99">            ⏱ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
+<span class="fc" id="L100">            ⏱ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
             🚀 Served at a JEE Server
 
-<span class="fc" id="L102">        &quot;&quot;&quot;.trimIndent()</span>
+<span class="fc" id="L103">        &quot;&quot;&quot;.trimIndent()</span>
 
-<span class="pc bpc" id="L104" title="2 of 4 branches missed.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: HttpServer.banner) + information</span>
-<span class="fc" id="L105">        return banner.prependIndent()</span>
+<span class="pc bpc" id="L105" title="2 of 4 branches missed.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: HttpServer.banner) + information</span>
+<span class="fc" id="L106">        return banner.prependIndent()</span>
     }
-<span class="nc" id="L107">}</span>
+<span class="nc" id="L108">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

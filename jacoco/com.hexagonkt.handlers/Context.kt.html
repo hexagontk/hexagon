@@ -12,25 +12,33 @@ interface Context&lt;T : Any&gt; {
     val nextHandler: Int
     val exception: Exception?
     val attributes: Map&lt;*, *&gt;
+    val handled: Boolean
 
-<span class="fc" id="L16">    fun with(</span>
-<span class="fc" id="L17">        event: T = this.event,</span>
-<span class="fc" id="L18">        predicate: (Context&lt;T&gt;) -&gt; Boolean = this.predicate,</span>
-<span class="fc" id="L19">        nextHandlers: List&lt;Handler&lt;T&gt;&gt; = this.nextHandlers,</span>
-<span class="fc" id="L20">        nextHandler: Int = this.nextHandler,</span>
-<span class="fc" id="L21">        exception: Exception? = this.exception,</span>
-<span class="fc" id="L22">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
+<span class="fc" id="L17">    fun with(</span>
+<span class="fc" id="L18">        event: T = this.event,</span>
+<span class="fc" id="L19">        predicate: (Context&lt;T&gt;) -&gt; Boolean = this.predicate,</span>
+<span class="fc" id="L20">        nextHandlers: List&lt;Handler&lt;T&gt;&gt; = this.nextHandlers,</span>
+<span class="fc" id="L21">        nextHandler: Int = this.nextHandler,</span>
+<span class="fc" id="L22">        exception: Exception? = this.exception,</span>
+<span class="fc" id="L23">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
+<span class="fc" id="L24">        handled: Boolean = this.handled,</span>
     ): Context&lt;T&gt;
 
     fun next(): Context&lt;T&gt; {
-<span class="fc bfc" id="L26" title="All 2 branches covered.">        for (index in nextHandler until nextHandlers.size) {</span>
-<span class="fc" id="L27">            val handler = nextHandlers[index]</span>
-<span class="fc" id="L28">            val p = handler.predicate</span>
-<span class="fc bfc" id="L29" title="All 2 branches covered.">            if (p(this))</span>
-<span class="fc" id="L30">                return handler.process(with(predicate = p, nextHandler = index + 1))</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        for (index in nextHandler until nextHandlers.size) {</span>
+<span class="fc" id="L29">            val handler = nextHandlers[index]</span>
+<span class="fc" id="L30">            val p = handler.predicate</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">            if (handler is OnHandler) {</span>
+<span class="fc bfc" id="L32" title="All 4 branches covered.">                if ((!handled) &amp;&amp; p(this))</span>
+<span class="fc" id="L33">                    return handler.process(with(predicate = p, nextHandler = index + 1))</span>
+            }
+            else {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">                if (p(this))</span>
+<span class="fc" id="L37">                    return handler.process(with(predicate = p, nextHandler = index + 1))</span>
+            }
         }
 
-<span class="fc" id="L33">        return this</span>
+<span class="fc" id="L41">        return this</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

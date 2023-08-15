@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JettyWebSocketAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.client.jetty</a> &gt; <span class="el_source">JettyWebSocketAdapter.kt</span></div><h1>JettyWebSocketAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.client.jetty
 
 import com.hexagonkt.http.model.ws.WsSession
+import org.eclipse.jetty.websocket.api.Callback
 import org.eclipse.jetty.websocket.api.Session
-import org.eclipse.jetty.websocket.api.WebSocketAdapter
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketOpen
+import org.eclipse.jetty.websocket.api.annotations.WebSocket
 import java.net.URI
+import java.nio.ByteBuffer
 
-<span class="fc" id="L8">class JettyWebSocketAdapter(</span>
-<span class="fc" id="L9">    private val uri: URI,</span>
-<span class="fc" id="L10">    private val onConnect: WsSession.() -&gt; Unit,</span>
-<span class="fc" id="L11">    private val onBinary: WsSession.(data: ByteArray) -&gt; Unit,</span>
-<span class="fc" id="L12">    private val onText: WsSession.(text: String) -&gt; Unit,</span>
-<span class="fc" id="L13">    private val onPing: WsSession.(data: ByteArray) -&gt; Unit,</span>
-<span class="fc" id="L14">    private val onPong: WsSession.(data: ByteArray) -&gt; Unit,</span>
-<span class="fc" id="L15">    private val onClose: WsSession.(status: Int, reason: String) -&gt; Unit,</span>
-<span class="fc" id="L16">) : WebSocketAdapter() {</span>
+<span class="fc" id="L13">@WebSocket</span>
+@Suppress(&quot;UNUSED_PARAMETER&quot;, &quot;UNUSED&quot;) // Signatures must match the annotation expected parameters
+<span class="fc" id="L15">class JettyWebSocketAdapter(</span>
+<span class="fc" id="L16">    private val uri: URI,</span>
+<span class="fc" id="L17">    private val onConnect: WsSession.() -&gt; Unit,</span>
+<span class="fc" id="L18">    private val onBinary: WsSession.(data: ByteArray) -&gt; Unit,</span>
+<span class="fc" id="L19">    private val onText: WsSession.(text: String) -&gt; Unit,</span>
+<span class="fc" id="L20">    private val onPing: WsSession.(data: ByteArray) -&gt; Unit,</span>
+<span class="fc" id="L21">    private val onPong: WsSession.(data: ByteArray) -&gt; Unit,</span>
+<span class="fc" id="L22">    private val onClose: WsSession.(status: Int, reason: String) -&gt; Unit,</span>
+) {
+    private lateinit var session: Session
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">    private val wsSession by lazy { JettyClientWsSession(uri, session) }</span>
 
-<span class="fc" id="L18">    private val wsSession by lazy { JettyClientWsSession(uri, session) }</span>
-
-    override fun onWebSocketText(message: String) {
-<span class="fc" id="L21">        wsSession.onText(message)</span>
-<span class="fc" id="L22">    }</span>
+    @OnWebSocketMessage
+    fun onWebSocketText(session: Session, message: String) {
+<span class="fc" id="L29">        wsSession.onText(message)</span>
+<span class="fc" id="L30">    }</span>
 
     // TODO Handle 'onPing' and 'onPong' (messages probably arriving here)
-    override fun onWebSocketBinary(payload: ByteArray, offset: Int, len: Int) {
-<span class="nc" id="L26">        wsSession.onBinary(payload)</span>
-<span class="nc" id="L27">    }</span>
+    @OnWebSocketMessage
+    fun onWebSocketBinary(session: Session, payload: ByteBuffer, callback: Callback) {
+<span class="nc" id="L35">        wsSession.onBinary(payload.array())</span>
+<span class="nc" id="L36">    }</span>
 
-    override fun onWebSocketClose(statusCode: Int, reason: String) {
-<span class="fc" id="L30">        wsSession.onClose(statusCode, reason)</span>
-<span class="fc" id="L31">        super.onWebSocketClose(statusCode, reason)</span>
-<span class="fc" id="L32">    }</span>
-
-    override fun onWebSocketConnect(sess: Session) {
-<span class="fc" id="L35">        super.onWebSocketConnect(sess)</span>
-<span class="fc" id="L36">        wsSession.onConnect()</span>
-<span class="fc" id="L37">    }</span>
-
-    override fun onWebSocketError(cause: Throwable?) {
-<span class="fc" id="L40">        super.onWebSocketError(cause)</span>
+    @OnWebSocketClose
+    fun onWebSocketClose(session: Session, statusCode: Int, reason: String) {
+<span class="fc" id="L40">        wsSession.onClose(statusCode, reason)</span>
 <span class="fc" id="L41">    }</span>
+
+    @OnWebSocketOpen
+    fun onWebSocketConnect(connectSession: Session) {
+<span class="fc" id="L45">        session = connectSession</span>
+<span class="fc" id="L46">        wsSession.onConnect()</span>
+<span class="fc" id="L47">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

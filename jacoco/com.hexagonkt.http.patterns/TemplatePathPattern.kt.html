@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TemplatePathPattern.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.patterns</a> &gt; <span class="el_source">TemplatePathPattern.kt</span></div><h1>TemplatePathPattern.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.patterns
 
-import com.hexagonkt.core.filter
-
 /**
  * A path definition. It parses path patterns and extract values for parameters.
  *
  * No splat support (you can use named parameters though).
  *
  * Delimiter is {var} to conform with [RFC 6570](https://tools.ietf.org/html/rfc6570).
+ *
+ * It supports the {var:regex} format to match only parameters with a specific pattern.
  */
 <span class="fc" id="L12">data class TemplatePathPattern(</span>
 <span class="fc" id="L13">    override val pattern: String,</span>
@@ -19,7 +19,7 @@ import com.hexagonkt.core.filter
         private const val PARAMETER_SUFFIX = &quot;}&quot;
 
         internal const val WILDCARD = &quot;*&quot;
-        private const val PARAMETER = &quot;\\$PARAMETER_PREFIX\\w+$PARAMETER_SUFFIX&quot;
+        private const val PARAMETER = &quot;\\$PARAMETER_PREFIX(\\w+)(:.+?)?$PARAMETER_SUFFIX&quot;
 
 <span class="fc" id="L24">        private val REGEX_CHARACTERS = listOf('(', ')', '|', '?', '+', '[', ']')</span>
 
@@ -32,40 +32,49 @@ import com.hexagonkt.core.filter
 <span class="fc bfc" id="L32" title="All 2 branches covered.">            REGEX_CHARACTERS.any { pattern.contains(it) } || PLACEHOLDER_REGEX in pattern</span>
 
         fun patternToRegex(pattern: String, prefix: Boolean): String {
-<span class="fc" id="L35">            checkPathPatternVariables(pattern)</span>
-<span class="fc" id="L36">            return pattern</span>
-<span class="fc" id="L37">                .replace(WILDCARD, &quot;(.*?)&quot;)</span>
-<span class="fc" id="L38">                .replaceParameters(parameters(pattern))</span>
-<span class="fc bfc" id="L39" title="All 2 branches covered.">                .let { if (prefix) it else &quot;$it$&quot; }</span>
+<span class="fc" id="L35">            return pattern</span>
+<span class="fc" id="L36">                .replace(WILDCARD, &quot;(.*?)&quot;)</span>
+<span class="fc" id="L37">                .replaceParameters(parameters(pattern))</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">                .let { if (prefix) it else &quot;$it$&quot; }</span>
         }
 
-        private fun parameters(pattern: String): List&lt;String&gt; =
-<span class="fc" id="L43">            PARAMETER_REGEX.findAll(pattern)</span>
-<span class="fc" id="L44">                .map { it.value.removePrefix(PARAMETER_PREFIX).removeSuffix(PARAMETER_SUFFIX) }</span>
-<span class="fc" id="L45">                .toList()</span>
+        private fun parameters(pattern: String): Map&lt;String, String&gt; =
+<span class="fc" id="L42">            PARAMETER_REGEX.findAll(pattern)</span>
+<span class="fc" id="L43">                .map {</span>
+<span class="fc" id="L44">                    val (_, k, re) = it.groupValues</span>
+<span class="fc bfc" id="L45" title="All 4 branches covered.">                    k to re.ifEmpty { VARIABLE_PATTERN }</span>
+                }
+<span class="fc" id="L47">                .toMap()</span>
 
-        private fun String.replaceParameters(parameters: List&lt;String&gt;): String =
-<span class="fc" id="L48">            parameters</span>
-<span class="fc" id="L49">                .fold(this) { accumulator, item -&gt;</span>
-<span class="fc" id="L50">                    accumulator.replace(&quot;$PARAMETER_PREFIX$item$PARAMETER_SUFFIX&quot;, &quot;(?&lt;$item&gt;$VARIABLE_PATTERN?)&quot;)</span>
-<span class="fc" id="L51">                }</span>
+        private fun String.replaceParameters(parameters: Map&lt;String, String&gt;): String =
+<span class="fc" id="L50">            parameters</span>
+<span class="fc" id="L51">                .entries</span>
+<span class="fc" id="L52">                .fold(this) { accumulator, (k, v) -&gt;</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                    val re = if (v == VARIABLE_PATTERN) &quot;&quot; else v</span>
+<span class="fc" id="L54">                    val search = &quot;$PARAMETER_PREFIX$k$re$PARAMETER_SUFFIX&quot;</span>
+<span class="fc" id="L55">                    val replacement = &quot;(?&lt;$k&gt;${v.removePrefix(&quot;:&quot;)}?)&quot;</span>
+<span class="fc" id="L56">                    accumulator.replace(search, replacement)</span>
+<span class="fc" id="L57">                }</span>
     }
 
-<span class="fc" id="L54">    val parameters: List&lt;String&gt; = parameters(pattern)</span>
+<span class="fc" id="L60">    val parameters: List&lt;String&gt; = parameters(pattern).keys.toList()</span>
 
-<span class="fc" id="L56">    init {</span>
-<span class="fc" id="L57">        checkPathPatternPrefix(pattern, listOf(&quot;*&quot;))</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L62">    init {</span>
+<span class="fc" id="L63">        checkPathPatternPrefix(pattern, listOf(&quot;*&quot;))</span>
+<span class="fc" id="L64">    }</span>
 
     override fun insertParameters(parameters: Map&lt;String, Any&gt;): String {
-<span class="fc" id="L61">        val keys = parameters.keys</span>
-<span class="fc" id="L62">        val patternParameters = this.parameters</span>
+<span class="fc" id="L67">        val keys = parameters.keys</span>
+<span class="fc" id="L68">        val patternParameters = this.parameters</span>
 
-<span class="fc bfc" id="L64" title="All 2 branches covered.">        require(keys.toSet() == patternParameters.toSet()) {</span>
-<span class="fc" id="L65">            &quot;Parameters must match pattern's parameters($patternParameters). Provided: $keys&quot;</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        require(keys.toSet() == patternParameters.toSet()) {</span>
+<span class="fc" id="L71">            &quot;Parameters must match pattern's parameters($patternParameters). Provided: $keys&quot;</span>
         }
 
-<span class="fc" id="L68">        return pattern.filter(PARAMETER_PREFIX, PARAMETER_SUFFIX, parameters)</span>
+<span class="fc" id="L74">        return parameters.entries.fold(pattern) { accumulator, (k, v) -&gt;</span>
+<span class="fc" id="L75">            val re = Regex(&quot;\\$PARAMETER_PREFIX$k(:.+?)?$PARAMETER_SUFFIX&quot;)</span>
+<span class="fc" id="L76">            accumulator.replace(re, v.toString())</span>
+        }
     }
-<span class="fc" id="L70">}</span>
+<span class="fc" id="L79">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
