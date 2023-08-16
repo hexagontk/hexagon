@@ -9,7 +9,7 @@ apply(from = "$rootDir/gradle/dokka.gradle")
 apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
-description = "Test cases for HTTP client and server adapters."
+description = "Tools to test and document REST services."
 
 dependencies {
     val swaggerParserVersion = properties["swaggerParserVersion"]

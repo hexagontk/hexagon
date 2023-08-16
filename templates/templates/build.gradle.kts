@@ -9,6 +9,10 @@ apply(from = "$rootDir/gradle/dokka.gradle")
 apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
+description =
+    "Template processing port. Supports template loading and context passing. " +
+    "Allow multiple adapters at once."
+
 dependencies {
     "api"(project(":core"))
 

@@ -92,12 +92,8 @@ task("nativeTestModules") {
                     {
                       "minimum_version": "${sp.version}",
                       "test_level": "fully-tested"
-                      "metadata_locations": [
-                        "$spd"
-                      ],
-                      "tests_locations": [
-                        "$spd"
-                      ],
+                      "metadata_locations": [ "$spd" ],
+                      "tests_locations": [ "$spd" ],
                     }
                   ]
                 }

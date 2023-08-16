@@ -9,6 +9,8 @@ apply(from = "$rootDir/gradle/dokka.gradle")
 apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
+description = "HTTP server adapter for Helidon Nima (using Java Virtual Threads)."
+
 dependencies {
     val nimaVersion = properties["nimaVersion"]
 

@@ -9,6 +9,8 @@ apply(from = "$rootDir/gradle/dokka.gradle")
 apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
+description = "Template processor adapter for Freemarker."
+
 dependencies {
     "api"(project(":templates:templates"))
     "api"("org.freemarker:freemarker:${properties["freemarkerVersion"]}")
