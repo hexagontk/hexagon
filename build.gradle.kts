@@ -91,7 +91,7 @@ task("nativeTestModules") {
                 if (r.exists())
                     """
                     {
-                      "artifact": "${sp.group}:${sp.name}",
+                      "artifact": "$g:$n",
                       "description": "${sp.description}",
                       "details": [
                         {
@@ -111,7 +111,7 @@ task("nativeTestModules") {
                 else
                     """
                     {
-                      "artifact": "${sp.group}:${sp.name}",
+                      "artifact": "$g:$n",
                       "description": "${sp.description}",
                       "details": [
                         {
@@ -126,6 +126,8 @@ task("nativeTestModules") {
                     }
                     """.trimIndent()
             }
+            .lines()
+            .joinToString("") { "  $it\n" }
         println("[\n$entries\n]")
     }
 }
