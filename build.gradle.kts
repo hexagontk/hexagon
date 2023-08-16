@@ -88,28 +88,43 @@ task("nativeTestModules") {
                 val d = gitHub + sp.projectDir.absolutePath.removePrefix(rootDir.absolutePath)
                 val r = sp.projectDir.resolve("src/main/resources/META-INF/native-image/$g/$n")
                 val t = "$d/src/test"
-                val m =
-                    if (r.exists())
-                        " \"$gitHub${r.absolutePath.removePrefix(rootDir.absolutePath)}\" "
-                    else
-                        ""
-                """
-                {
-                  "artifact": "${sp.group}:${sp.name}",
-                  "description": "${sp.description}",
-                  "details": [
+                if (r.exists())
+                    """
                     {
-                      "minimum_version": "${sp.version}",
-                      "test_level": "fully-tested",
-                      "metadata_locations": [$m],
-                      "tests_locations": [
-                        "$t",
-                        "https://github.com/hexagonkt/hexagon/actions/workflows/nightly.yml"
+                      "artifact": "${sp.group}:${sp.name}",
+                      "description": "${sp.description}",
+                      "details": [
+                        {
+                          "minimum_version": "${sp.version}",
+                          "test_level": "fully-tested",
+                          "metadata_locations": [
+                            "$gitHub${r.absolutePath.removePrefix(rootDir.absolutePath)}"
+                          ],
+                          "tests_locations": [
+                            "$t",
+                            "https://github.com/hexagonkt/hexagon/actions/workflows/nightly.yml"
+                          ]
+                        }
                       ]
                     }
-                  ]
-                }
-                """.trimIndent()
+                    """.trimIndent()
+                else
+                    """
+                    {
+                      "artifact": "${sp.group}:${sp.name}",
+                      "description": "${sp.description}",
+                      "details": [
+                        {
+                          "minimum_version": "${sp.version}",
+                          "test_level": "fully-tested",
+                          "tests_locations": [
+                            "$t",
+                            "https://github.com/hexagonkt/hexagon/actions/workflows/nightly.yml"
+                          ]
+                        }
+                      ]
+                    }
+                    """.trimIndent()
             }
         println("[\n$entries\n]")
     }
