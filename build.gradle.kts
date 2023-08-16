@@ -83,7 +83,16 @@ task("nativeTestModules") {
         val entries = subprojects
             .filter { sp -> sp.tasks.any { t -> t.name == "nativeTest" } }
             .joinToString(",\n") { sp ->
-                val spd = gitHub + sp.projectDir.absolutePath.removePrefix(rootDir.absolutePath)
+                val n = sp.name
+                val g = sp.group
+                val d = gitHub + sp.projectDir.absolutePath.removePrefix(rootDir.absolutePath)
+                val r = sp.projectDir.resolve("src/main/resources/META-INF/native-image/$g/$n")
+                val t = "$d/src/test"
+                val m =
+                    if (r.exists())
+                        " \"$gitHub${r.absolutePath.removePrefix(rootDir.absolutePath)}\" "
+                    else
+                        ""
                 """
                 {
                   "artifact": "${sp.group}:${sp.name}",
@@ -91,15 +100,18 @@ task("nativeTestModules") {
                   "details": [
                     {
                       "minimum_version": "${sp.version}",
-                      "test_level": "fully-tested"
-                      "metadata_locations": [ "$spd" ],
-                      "tests_locations": [ "$spd" ],
+                      "test_level": "fully-tested",
+                      "metadata_locations": [$m],
+                      "tests_locations": [
+                        "$t",
+                        "https://github.com/hexagonkt/hexagon/actions/workflows/nightly.yml"
+                      ]
                     }
                   ]
                 }
                 """.trimIndent()
             }
-        println(entries)
+        println("[\n$entries\n]")
     }
 }
 
