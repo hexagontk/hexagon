@@ -9,6 +9,8 @@ apply(from = "$rootDir/gradle/dokka.gradle")
 apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
+description = "HTTP server adapter for Jetty (using Servlets under the hood)."
+
 dependencies {
     val jettyVersion = properties["jettyVersion"]
 

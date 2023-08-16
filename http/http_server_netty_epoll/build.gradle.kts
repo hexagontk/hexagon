@@ -9,6 +9,8 @@ apply(from = "$rootDir/gradle/dokka.gradle")
 apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
+description = "HTTP server adapter for Netty (using Linux Epoll)."
+
 dependencies {
     "api"(project(":http:http_server_netty"))
     "api"("io.netty:netty-transport-native-epoll")

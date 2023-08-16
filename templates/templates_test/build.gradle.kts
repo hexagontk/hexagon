@@ -8,6 +8,8 @@ apply(from = "$rootDir/gradle/publish.gradle")
 apply(from = "$rootDir/gradle/dokka.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
+description = "Test suite to verify template processing adapters."
+
 dependencies {
     val junitVersion = properties["junitVersion"]
 

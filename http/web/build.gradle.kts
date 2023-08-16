@@ -9,6 +9,8 @@ apply(from = "$rootDir/gradle/dokka.gradle")
 apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
+description = "HTTP server extensions to ease the development of dynamic Web applications."
+
 dependencies {
     "api"(project(":http:http_server"))
     "api"(project(":templates:templates"))

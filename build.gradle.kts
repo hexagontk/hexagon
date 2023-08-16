@@ -83,27 +83,52 @@ task("nativeTestModules") {
         val entries = subprojects
             .filter { sp -> sp.tasks.any { t -> t.name == "nativeTest" } }
             .joinToString(",\n") { sp ->
-                val spd = gitHub + sp.projectDir.absolutePath.removePrefix(rootDir.absolutePath)
-                """
-                {
-                  "artifact": "${sp.group}:${sp.name}",
-                  "description": "${sp.description}",
-                  "details": [
+                val n = sp.name
+                val g = sp.group
+                val d = gitHub + sp.projectDir.absolutePath.removePrefix(rootDir.absolutePath)
+                val r = sp.projectDir.resolve("src/main/resources/META-INF/native-image/$g/$n")
+                val t = "$d/src/test"
+                if (r.exists())
+                    """
                     {
-                      "minimum_version": "${sp.version}",
-                      "test_level": "fully-tested"
-                      "metadata_locations": [
-                        "$spd"
-                      ],
-                      "tests_locations": [
-                        "$spd"
-                      ],
+                      "artifact": "$g:$n",
+                      "description": "${sp.description}",
+                      "details": [
+                        {
+                          "minimum_version": "${sp.version}",
+                          "test_level": "fully-tested",
+                          "metadata_locations": [
+                            "$gitHub${r.absolutePath.removePrefix(rootDir.absolutePath)}"
+                          ],
+                          "tests_locations": [
+                            "$t",
+                            "https://github.com/hexagonkt/hexagon/actions/workflows/nightly.yml"
+                          ]
+                        }
+                      ]
                     }
-                  ]
-                }
-                """.trimIndent()
+                    """.trimIndent()
+                else
+                    """
+                    {
+                      "artifact": "$g:$n",
+                      "description": "${sp.description}",
+                      "details": [
+                        {
+                          "minimum_version": "${sp.version}",
+                          "test_level": "fully-tested",
+                          "tests_locations": [
+                            "$t",
+                            "https://github.com/hexagonkt/hexagon/actions/workflows/nightly.yml"
+                          ]
+                        }
+                      ]
+                    }
+                    """.trimIndent()
             }
-        println(entries)
+            .lines()
+            .joinToString("") { "  $it\n" }
+        println("[\n$entries\n]")
     }
 }
 
