@@ -38,14 +38,14 @@ fun HttpContext.obtainLocale(): Locale = when {
 fun HttpContext.template(
     templateEngine: TemplatePort,
     url: URL,
-    context: Map<String, *> = callContext(),
+    context: Map<String, *> = emptyMap<String, Any>(),
     locale: Locale = obtainLocale(),
 ): HttpContext =
-    ok(templateEngine.render(url, context, locale), contentType = templateType(url))
+    ok(templateEngine.render(url, callContext() + context, locale), contentType = templateType(url))
 
 fun HttpContext.template(
     url: URL,
-    context: Map<String, *> = callContext(),
+    context: Map<String, *> = emptyMap<String, Any>(),
     locale: Locale = obtainLocale(),
 ): HttpContext =
-    ok(TemplateManager.render(url, context, locale), contentType = templateType(url))
+    ok(TemplateManager.render(url, callContext() + context, locale), contentType = templateType(url))
