@@ -5,6 +5,7 @@ public final class com/hexagonkt/http/server/HttpServer : java/io/Closeable {
 	public fun <init> (Lcom/hexagonkt/http/server/HttpServerPort;Lcom/hexagonkt/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun <init> (Lcom/hexagonkt/http/server/HttpServerPort;Lcom/hexagonkt/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
+	public final fun component1 ()Lcom/hexagonkt/http/server/HttpServerPort;
 	public final fun component2 ()Lcom/hexagonkt/http/handlers/HttpHandler;
 	public final fun component3 ()Lcom/hexagonkt/http/server/HttpServerSettings;
 	public final fun copy (Lcom/hexagonkt/http/server/HttpServerPort;Lcom/hexagonkt/http/handlers/HttpHandler;Lcom/hexagonkt/http/server/HttpServerSettings;)Lcom/hexagonkt/http/server/HttpServer;
