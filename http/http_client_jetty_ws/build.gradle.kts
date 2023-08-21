@@ -12,6 +12,8 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "HTTP client adapter for Jetty (with WebSockets support)."
 
 dependencies {
+    val jettyVersion = properties["jettyVersion"]
+
     "api"(project(":http:http_client_jetty"))
-    "api"("org.eclipse.jetty.websocket:jetty-websocket-jetty-client")
+    "api"("org.eclipse.jetty.websocket:jetty-websocket-jetty-client:$jettyVersion")
 }

@@ -344,7 +344,7 @@ public final class com/hexagonkt/http/model/HttpPart : com/hexagonkt/http/model/
 	public fun toString ()Ljava/lang/String;
 }
 
-public class com/hexagonkt/http/model/HttpProtocol : java/lang/Enum {
+public final class com/hexagonkt/http/model/HttpProtocol : java/lang/Enum {
 	public static final field H2C Lcom/hexagonkt/http/model/HttpProtocol;
 	public static final field HTTP Lcom/hexagonkt/http/model/HttpProtocol;
 	public static final field HTTP2 Lcom/hexagonkt/http/model/HttpProtocol;
