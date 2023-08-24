@@ -19,7 +19,7 @@ internal class LoggingCallbackTest {
     }
 
     @Test fun `Details are configurable for requests`() {
-        val prefix = "Request:\nGET"
+        val prefix = "GET"
 
         assertEquals("$prefix \n\nh: 42\n\nb", requestDetails(headers = true, body = true))
         assertEquals("$prefix \n\nh: 42", requestDetails(headers = true, body = false))
@@ -28,7 +28,7 @@ internal class LoggingCallbackTest {
     }
 
     @Test fun `Request headers are displayed properly`() {
-        val prefix = "Request:\nGET"
+        val prefix = "GET"
 
         assertEquals(
             "$prefix \n\naccept: text/plain, text/html",
@@ -45,7 +45,7 @@ internal class LoggingCallbackTest {
     }
 
     @Test fun `Details are configurable for responses`() {
-        val prefix = "Response (partial headers):\nGET  -> CLIENT_ERROR(404) (1.0 ms)"
+        val prefix = "GET  -> CLIENT_ERROR(404) (1.0 ms)"
 
         assertEquals("$prefix\n\nh: 42\n\nb", responseDetails(headers = true, body = true))
         assertEquals("$prefix\n\nh: 42", responseDetails(headers = true, body = false))
@@ -54,7 +54,7 @@ internal class LoggingCallbackTest {
     }
 
     @Test fun `Response headers are displayed properly`() {
-        val prefix = "Response (partial headers):\nGET  -> CLIENT_ERROR(404) (1.0 ms)"
+        val prefix = "GET  -> CLIENT_ERROR(404) (1.0 ms)"
 
         assertEquals(
             "$prefix\n\ncontent-type: application/json",

@@ -37,7 +37,7 @@ class LoggingCallback(
         }
 
         val body = m.formatBody()
-        return "Request:\n${m.method} ${m.path}$headers$body".trim()
+        return "${m.method} ${m.path}$headers$body".trim()
     }
 
     internal fun details(n: HttpRequestPort, m: HttpResponsePort, ns: Long): String {
@@ -52,7 +52,7 @@ class LoggingCallback(
         val result = "${m.status.type}(${m.status.code})"
         val time = "(${ns / 10e5} ms)"
         val body = m.formatBody()
-        return "Response (partial headers):\n$path -> $result $time$headers$body".trim()
+        return "$path -> $result $time$headers$body".trim()
     }
 
     private fun HttpMessage.formatBody(): String =
