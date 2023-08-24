@@ -10,6 +10,7 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.model.ServerEvent
 import com.hexagonkt.http.model.ws.WsSession
+import java.net.URI
 import java.net.URL
 import java.security.cert.X509Certificate
 import java.util.concurrent.Flow.Publisher
@@ -200,6 +201,20 @@ data class HttpContext(
         attributes: Map<*, *> = this.attributes,
     ): HttpContext =
         send(CREATED_201, body, headers, contentType, cookies, attributes)
+
+    fun redirect(
+        status: HttpStatus,
+        location: URI,
+        headers: Headers = response.headers,
+        cookies: List<Cookie> = response.cookies,
+        attributes: Map<*, *> = this.attributes,
+    ): HttpContext =
+        send(
+            status,
+            headers = headers + Header("location", location),
+            cookies = cookies,
+            attributes = attributes
+        )
 
     fun accepted(
         onConnect: WsSession.() -> Unit = {},
