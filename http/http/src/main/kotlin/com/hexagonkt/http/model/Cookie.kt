@@ -4,7 +4,7 @@ import java.time.Instant
 
 data class Cookie(
     val name: String,
-    val value: String,
+    val value: String = "",
     val maxAge: Long = -1,
     val secure: Boolean = false,
     val path: String = "/",
