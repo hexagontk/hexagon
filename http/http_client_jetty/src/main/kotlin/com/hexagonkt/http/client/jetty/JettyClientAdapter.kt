@@ -60,6 +60,7 @@ open class JettyClientAdapter : HttpClientPort {
         httpClient = client
 
         jettyClient.userAgentField = null // Disable default user agent header
+        jettyClient.isFollowRedirects = client.settings.followRedirects
         jettyClient.start()
         started = true
     }

@@ -12,8 +12,10 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "HTTP server adapter for Netty (using Linux Epoll)."
 
 dependencies {
+    val nettyVersion = properties["nettyVersion"]
+
     "api"(project(":http:http_server_netty"))
-    "api"("io.netty:netty-transport-native-epoll")
+    "api"("io.netty:netty-transport-native-epoll:$nettyVersion")
 
     "testImplementation"(project(":http:http_test"))
     "testImplementation"(project(":http:http_client_jetty"))

@@ -29,5 +29,7 @@ internal class CookieTest {
         assertEquals(0, cookie.maxAge)
         assertTrue(cookie.secure)
         assertTrue(cookie.deleted)
+
+        assertEquals(cookie, Cookie("name", secure = true).delete())
     }
 }

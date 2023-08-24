@@ -27,6 +27,7 @@ import com.hexagonkt.serialization.serialize
 import org.junit.jupiter.api.*
 
 import java.math.BigInteger
+import java.net.URI
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
@@ -84,6 +85,25 @@ abstract class ClientTest(
 
         assertEquals(INTERNAL_SERVER_ERROR_500, response.status)
         assertTrue(response.bodyString().contains("failure"))
+    }
+
+    @Test open fun `Redirects are handled correctly correctly`() {
+        callback = {
+            if (queryParameters["ok"] != null) ok("redirected")
+            else redirect(FOUND_302, URI("/foo?ok"))
+        }
+
+        val response = client.get()
+        assertEquals(FOUND_302, response.status)
+        assertEquals("/foo?ok", response.headers["location"]?.value)
+
+        val baseUrl = urlOf("http://localhost:${server.runtimePort}")
+        val settings = HttpClientSettings(baseUrl, followRedirects = true)
+        val redirectClient = HttpClient(clientAdapter(), settings).apply { start() }
+
+        val redirectedResponse = redirectClient.get()
+        assertEquals(OK_200, redirectedResponse.status)
+        assertEquals("redirected", redirectedResponse.bodyString())
     }
 
     @Test open fun `Form parameters are sent correctly`() {

@@ -3,6 +3,8 @@ package com.hexagonkt.web
 import com.hexagonkt.core.media.mediaTypeOfOrNull
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.handlers.HttpContext
+import com.hexagonkt.http.model.Cookie
+import com.hexagonkt.http.model.Headers
 import com.hexagonkt.templates.TemplateManager
 import com.hexagonkt.templates.TemplatePort
 import java.net.URL
@@ -38,14 +40,32 @@ fun HttpContext.obtainLocale(): Locale = when {
 fun HttpContext.template(
     templateEngine: TemplatePort,
     url: URL,
-    context: Map<String, *> = callContext(),
+    context: Map<String, *> = emptyMap<String, Any>(),
     locale: Locale = obtainLocale(),
+    headers: Headers = response.headers,
+    cookies: List<Cookie> = response.cookies,
+    attributes: Map<*, *> = this.attributes,
 ): HttpContext =
-    ok(templateEngine.render(url, context, locale), contentType = templateType(url))
+    ok(
+        templateEngine.render(url, callContext() + context, locale),
+        headers,
+        templateType(url),
+        cookies,
+        attributes,
+    )
 
 fun HttpContext.template(
     url: URL,
-    context: Map<String, *> = callContext(),
+    context: Map<String, *> = emptyMap<String, Any>(),
     locale: Locale = obtainLocale(),
+    headers: Headers = response.headers,
+    cookies: List<Cookie> = response.cookies,
+    attributes: Map<*, *> = this.attributes,
 ): HttpContext =
-    ok(TemplateManager.render(url, context, locale), contentType = templateType(url))
+    ok(
+        TemplateManager.render(url, callContext() + context, locale),
+        headers,
+        templateType(url),
+        cookies,
+        attributes,
+    )

@@ -17,7 +17,7 @@ import com.github.jk1.license.render.ReportRenderer
  */
 
 plugins {
-    kotlin("jvm") version("1.9.0") apply(false)
+    kotlin("jvm") version("1.9.10") apply(false)
 
     id("idea")
     id("eclipse")
@@ -82,49 +82,36 @@ task("nativeTestModules") {
         val gitHub = "https://github.com/hexagonkt/hexagon/tree/master"
         val entries = subprojects
             .filter { sp -> sp.tasks.any { t -> t.name == "nativeTest" } }
+            .sortedBy { sp -> "${sp.group}:${sp.name}" }
             .joinToString(",\n") { sp ->
                 val n = sp.name
                 val g = sp.group
                 val d = gitHub + sp.projectDir.absolutePath.removePrefix(rootDir.absolutePath)
                 val r = sp.projectDir.resolve("src/main/resources/META-INF/native-image/$g/$n")
                 val t = "$d/src/test"
-                if (r.exists())
-                    """
+                val m =
+                    if (r.exists()) {
+                        val metadata = r.absolutePath.removePrefix(rootDir.absolutePath)
+                        "\n                        \"$gitHub$metadata\"\n                      "
+                    }
+                    else ""
+                """
+                {
+                  "artifact": "$g:$n",
+                  "description": "${sp.description}",
+                  "details": [
                     {
-                      "artifact": "$g:$n",
-                      "description": "${sp.description}",
-                      "details": [
-                        {
-                          "minimum_version": "${sp.version}",
-                          "test_level": "fully-tested",
-                          "metadata_locations": [
-                            "$gitHub${r.absolutePath.removePrefix(rootDir.absolutePath)}"
-                          ],
-                          "tests_locations": [
-                            "$t",
-                            "https://github.com/hexagonkt/hexagon/actions/workflows/nightly.yml"
-                          ]
-                        }
+                      "minimum_version": "${sp.version}",
+                      "test_level": "fully-tested",
+                      "metadata_locations": [$m],
+                      "tests_locations": [
+                        "$t",
+                        "https://github.com/hexagonkt/hexagon/actions/workflows/nightly.yml"
                       ]
                     }
-                    """.trimIndent()
-                else
-                    """
-                    {
-                      "artifact": "$g:$n",
-                      "description": "${sp.description}",
-                      "details": [
-                        {
-                          "minimum_version": "${sp.version}",
-                          "test_level": "fully-tested",
-                          "tests_locations": [
-                            "$t",
-                            "https://github.com/hexagonkt/hexagon/actions/workflows/nightly.yml"
-                          ]
-                        }
-                      ]
-                    }
-                    """.trimIndent()
+                  ]
+                }
+                """.trimIndent()
             }
             .lines()
             .joinToString("") { "  $it\n" }

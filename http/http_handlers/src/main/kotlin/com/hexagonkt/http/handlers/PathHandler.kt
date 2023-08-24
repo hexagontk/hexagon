@@ -1,5 +1,6 @@
 package com.hexagonkt.http.handlers
 
+import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.toText
 import com.hexagonkt.handlers.ChainHandler
@@ -18,6 +19,8 @@ data class PathHandler(
         handlerPredicate
     )
 {
+
+    private val logger: Logger = Logger(PathHandler::class)
 
     private companion object {
         fun nestedMethods(handlers: List<HttpHandler>): Set<HttpMethod> =
@@ -51,17 +54,26 @@ data class PathHandler(
             val response = event.response
             val exception = it.exception
 
-            if (exception != null && response.status.type != SERVER_ERROR)
-                it.with(
-                    event = event.copy(
-                        response = response.with(
-                            body = exception.toText(),
-                            contentType = ContentType(TEXT_PLAIN),
-                            status = INTERNAL_SERVER_ERROR_500,
+            if (exception != null) {
+                logger.error(exception) {
+                    "Exception received at call processing end. Clear/handle exception in a handler"
+                }
+                if (response.status.type != SERVER_ERROR)
+                    it.with(
+                        event = event.copy(
+                            response = response.with(
+                                body = exception.toText(),
+                                contentType = ContentType(TEXT_PLAIN),
+                                status = INTERNAL_SERVER_ERROR_500,
+                            )
                         )
                     )
-                )
-            else it
+                else
+                    it
+            }
+            else {
+                it
+            }
         } as HttpContext
 
     override fun addPrefix(prefix: String): HttpHandler =

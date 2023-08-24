@@ -20,7 +20,7 @@ fun includeNestedModules(vararg directories: String) {
 }
 
 fun includeNestedModules(directory: String) {
-    val dir = File(directory)
+    val dir = rootDir.resolve(directory)
 
     if (!dir.exists() || !dir.isDirectory)
         error("$directory directory must exist")
