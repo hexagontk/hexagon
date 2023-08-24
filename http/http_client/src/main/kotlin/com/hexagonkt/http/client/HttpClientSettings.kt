@@ -13,4 +13,5 @@ data class HttpClientSettings(
     val insecure: Boolean = false,
     val sslSettings: SslSettings? = null,
     val authorization: Authorization? = null,
+    val followRedirects: Boolean = false,
 )

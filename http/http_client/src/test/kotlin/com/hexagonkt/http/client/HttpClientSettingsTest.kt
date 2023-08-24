@@ -17,6 +17,7 @@ internal class HttpClientSettingsTest {
             assertEquals(Headers(), it.headers)
             assertFalse(it.insecure)
             assertNull(it.sslSettings)
+            assertFalse(it.followRedirects)
         }
     }
 }
