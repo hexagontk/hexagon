@@ -37,7 +37,7 @@ import kotlin.system.measureNanoTime
         }
 
 <span class="fc" id="L39">        val body = m.formatBody()</span>
-<span class="fc" id="L40">        return &quot;Request:\n${m.method} ${m.path}$headers$body&quot;.trim()</span>
+<span class="fc" id="L40">        return &quot;${m.method} ${m.path}$headers$body&quot;.trim()</span>
     }
 
     internal fun details(n: HttpRequestPort, m: HttpResponsePort, ns: Long): String {
@@ -52,7 +52,7 @@ import kotlin.system.measureNanoTime
 <span class="fc" id="L52">        val result = &quot;${m.status.type}(${m.status.code})&quot;</span>
 <span class="fc" id="L53">        val time = &quot;(${ns / 10e5} ms)&quot;</span>
 <span class="fc" id="L54">        val body = m.formatBody()</span>
-<span class="fc" id="L55">        return &quot;Response (partial headers):\n$path -&gt; $result $time$headers$body&quot;.trim()</span>
+<span class="fc" id="L55">        return &quot;$path -&gt; $result $time$headers$body&quot;.trim()</span>
     }
 
     private fun HttpMessage.formatBody(): String =

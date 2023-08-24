@@ -3,33 +3,35 @@
 import com.hexagonkt.core.logging.LoggingLevel.INFO
 import com.hexagonkt.core.require
 
-<span class="fc" id="L6">class PrintLoggingAdapter(defaultLevel: LoggingLevel = INFO) : LoggingPort {</span>
+// TODO Wrap these loggers using System.Logger:
+//  https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/System.Logger.html
+<span class="fc" id="L8">class PrintLoggingAdapter(defaultLevel: LoggingLevel = INFO) : LoggingPort {</span>
 
-<span class="fc" id="L8">    private val loggerLevels: MutableMap&lt;String, LoggingLevel&gt; = mutableMapOf(&quot;&quot; to defaultLevel)</span>
+<span class="fc" id="L10">    private val loggerLevels: MutableMap&lt;String, LoggingLevel&gt; = mutableMapOf(&quot;&quot; to defaultLevel)</span>
 
     override fun createLogger(name: String): LoggerPort =
-<span class="fc" id="L11">        PrintLogger(name)</span>
+<span class="fc" id="L13">        PrintLogger(name)</span>
 
     override fun setLoggerLevel(name: String, level: LoggingLevel) {
-<span class="fc" id="L14">        loggerLevels[name] = level</span>
-<span class="fc" id="L15">    }</span>
+<span class="fc" id="L16">        loggerLevels[name] = level</span>
+<span class="fc" id="L17">    }</span>
 
     override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =
-<span class="fc bfc" id="L18" title="All 2 branches covered.">        findLoggingLevel(name).ordinal &lt;= level.ordinal</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        findLoggingLevel(name).ordinal &lt;= level.ordinal</span>
 
     private fun findLoggingLevel(name: String): LoggingLevel {
-<span class="fc" id="L21">        var path = name</span>
+<span class="fc" id="L23">        var path = name</span>
 
         do {
-<span class="fc" id="L24">            val loggingLevel = loggerLevels[path]</span>
-<span class="fc bfc" id="L25" title="All 2 branches covered.">            if (loggingLevel != null)</span>
-<span class="fc" id="L26">                return loggingLevel</span>
+<span class="fc" id="L26">            val loggingLevel = loggerLevels[path]</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            if (loggingLevel != null)</span>
+<span class="fc" id="L28">                return loggingLevel</span>
 
-<span class="fc" id="L28">            path = path.substringBeforeLast('.')</span>
+<span class="fc" id="L30">            path = path.substringBeforeLast('.')</span>
         }
-<span class="fc bfc" id="L30" title="All 2 branches covered.">        while (path.contains('.'))</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        while (path.contains('.'))</span>
 
-<span class="fc" id="L32">        return loggerLevels.require(&quot;&quot;)</span>
+<span class="fc" id="L34">        return loggerLevels.require(&quot;&quot;)</span>
     }
-<span class="fc" id="L34">}</span>
+<span class="fc" id="L36">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
