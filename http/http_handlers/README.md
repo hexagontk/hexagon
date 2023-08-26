@@ -12,6 +12,11 @@ feature (as [http_server_jetty]) in order to create an HTTP server.
 
 [http_server_jetty]: /http_server_jetty
 
+# Chaining changes
+The response can be modified chaining `send` calls (or its utility methods). However, If calls are
+not chained, only the last one will be applied. I.e.: `send().send()` will apply both calls changes,
+while `send(); send()` will pass only the last send method result.
+
 # Context on HTTP processing
 An HTTP server is nothing more than a function that takes a request and returns a response. Requests
 and responses comply with several Web standards.

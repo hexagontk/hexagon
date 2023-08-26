@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.InetAddress
+import java.net.URI
 import kotlin.test.assertEquals
 
 @TestInstance(PER_CLASS)
@@ -240,20 +241,38 @@ abstract class SamplesTest(
 
             // callbackResponse
             get("/response") {
-                response.body                       // Get response content
-                response.status                     // Get the response status
-                response.contentType                // Get the content type
+                response.body                     // Get response content
+                response.status                   // Get the response status
+                response.contentType              // Get the content type
 
-                status                              // Shortcut of `response.status`
+                status                            // Shortcut of `response.status`
 
                 send(
                     status = UNAUTHORIZED_401,                  // Set status code to 401
                     body = "Hello",                             // Sets content to Hello
                     contentType = ContentType(APPLICATION_XML), // Set application/xml content type
                     headers = response.headers
-                        + Header("foo", "bar")      // Sets header FOO with single value bar
-                        + Header("baz", "1", "2")   // Sets header FOO values with [ bar ]
+                        + Header("foo", "bar")    // Sets header FOO with single value bar
+                        + Header("baz", "1", "2") // Sets header FOO values with [ bar ]
                 )
+
+                // Utility methods for generating common responses
+                unauthorized("401: authorization missing")
+                forbidden("403: access not granted")
+                internalServerError("500: server error")
+                serverError(NOT_IMPLEMENTED_501, RuntimeException("Error"))
+                ok("Correct")
+                badRequest("400: incorrect request")
+                notFound("404: Missing resource")
+                created("201: Created")
+                redirect(FOUND_302, URI("/location"))
+
+                // The response can be modified chaining send calls (or its utility methods)
+                ok("Replacing headers").send(headers = Headers())
+
+                // If calls are not chained, only the last one will be applied
+                ok("Intending to replace headers")
+                send(headers = Headers()) // This will be passed, but previous ok will be ignored
             }
             // callbackResponse
 
@@ -338,7 +357,7 @@ abstract class SamplesTest(
                 assertEquals("Invalid request", callResponse.body)
                 assertEquals(OK_200, it.get("/request", body = "body", contentType = json).status)
 
-                assertEquals(UNAUTHORIZED_401, it.get("/response").status)
+                assertEquals(NOT_FOUND_404, it.get("/response").status)
                 assertEquals(OK_200, it.get("/pathParam/param").status)
                 assertEquals(OK_200, it.get("/queryParam").status)
                 assertEquals(OK_200, it.get("/formParam").status)

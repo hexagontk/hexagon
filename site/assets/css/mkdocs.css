@@ -83,7 +83,10 @@ ul.md-source__facts {
 
 div.md-hero + nav.md-tabs {
   background: #31415C;
-  text-align: center;
+}
+
+ul.md-tabs__list {
+  justify-content: center;
 }
 
 .md-hero {
