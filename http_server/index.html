@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.3">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.4">
     
     
       
@@ -2112,21 +2112,57 @@ object:</p>
 <span class="normal">13</span>
 <span class="normal">14</span>
 <span class="normal">15</span>
-<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/response&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">body</span><span class="w">                       </span><span class="c1">// Get response content</span>
-<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">status</span><span class="w">                     </span><span class="c1">// Get the response status</span>
-<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">contentType</span><span class="w">                </span><span class="c1">// Get the content type</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/response&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">body</span><span class="w">                     </span><span class="c1">// Get response content</span>
+<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">status</span><span class="w">                   </span><span class="c1">// Get the response status</span>
+<span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">contentType</span><span class="w">              </span><span class="c1">// Get the content type</span>
 
-<span class="w">    </span><span class="n">status</span><span class="w">                              </span><span class="c1">// Shortcut of `response.status`</span>
+<span class="w">    </span><span class="n">status</span><span class="w">                            </span><span class="c1">// Shortcut of `response.status`</span>
 
 <span class="w">    </span><span class="n">send</span><span class="p">(</span>
 <span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UNAUTHORIZED_401</span><span class="p">,</span><span class="w">                  </span><span class="c1">// Set status code to 401</span>
 <span class="w">        </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w">                             </span><span class="c1">// Sets content to Hello</span>
 <span class="w">        </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">APPLICATION_XML</span><span class="p">),</span><span class="w"> </span><span class="c1">// Set application/xml content type</span>
 <span class="w">        </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span>
-<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// Sets header FOO with single value bar</span>
-<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// Sets header FOO values with [ bar ]</span>
+<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">)</span><span class="w">    </span><span class="c1">// Sets header FOO with single value bar</span>
+<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// Sets header FOO values with [ bar ]</span>
 <span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// Utility methods for generating common responses</span>
+<span class="w">    </span><span class="n">unauthorized</span><span class="p">(</span><span class="s">&quot;401: authorization missing&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">forbidden</span><span class="p">(</span><span class="s">&quot;403: access not granted&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">internalServerError</span><span class="p">(</span><span class="s">&quot;500: server error&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">serverError</span><span class="p">(</span><span class="n">NOT_IMPLEMENTED_501</span><span class="p">,</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;Error&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Correct&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">badRequest</span><span class="p">(</span><span class="s">&quot;400: incorrect request&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">notFound</span><span class="p">(</span><span class="s">&quot;404: Missing resource&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">created</span><span class="p">(</span><span class="s">&quot;201: Created&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">redirect</span><span class="p">(</span><span class="n">FOUND_302</span><span class="p">,</span><span class="w"> </span><span class="n">URI</span><span class="p">(</span><span class="s">&quot;/location&quot;</span><span class="p">))</span>
+
+<span class="w">    </span><span class="c1">// The response can be modified chaining send calls (or its utility methods)</span>
+<span class="w">    </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Replacing headers&quot;</span><span class="p">).</span><span class="na">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Headers</span><span class="p">())</span>
+
+<span class="w">    </span><span class="c1">// If calls are not chained, only the last one will be applied</span>
+<span class="w">    </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Intending to replace headers&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Headers</span><span class="p">())</span><span class="w"> </span><span class="c1">// This will be passed, but previous ok will be ignored</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <p>To send error responses:</p>
