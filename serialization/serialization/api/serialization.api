@@ -1,25 +1,6 @@
-public abstract interface class com/hexagonkt/serialization/Data : java/util/Map, kotlin/jvm/internal/markers/KMappedMarker {
-	public abstract fun containsKey (Ljava/lang/String;)Z
-	public abstract fun containsValue (Ljava/lang/Object;)Z
+public abstract interface class com/hexagonkt/serialization/Data {
 	public abstract fun data ()Ljava/util/Map;
-	public abstract fun get (Ljava/lang/String;)Ljava/lang/Object;
-	public abstract fun getEntries ()Ljava/util/Set;
-	public abstract fun getKeys ()Ljava/util/Set;
-	public abstract fun getSize ()I
-	public abstract fun getValues ()Ljava/util/Collection;
-	public abstract fun isEmpty ()Z
 	public abstract fun with (Ljava/util/Map;)Ljava/lang/Object;
-}
-
-public final class com/hexagonkt/serialization/Data$DefaultImpls {
-	public static fun containsKey (Lcom/hexagonkt/serialization/Data;Ljava/lang/String;)Z
-	public static fun containsValue (Lcom/hexagonkt/serialization/Data;Ljava/lang/Object;)Z
-	public static fun get (Lcom/hexagonkt/serialization/Data;Ljava/lang/String;)Ljava/lang/Object;
-	public static fun getEntries (Lcom/hexagonkt/serialization/Data;)Ljava/util/Set;
-	public static fun getKeys (Lcom/hexagonkt/serialization/Data;)Ljava/util/Set;
-	public static fun getSize (Lcom/hexagonkt/serialization/Data;)I
-	public static fun getValues (Lcom/hexagonkt/serialization/Data;)Ljava/util/Collection;
-	public static fun isEmpty (Lcom/hexagonkt/serialization/Data;)Z
 }
 
 public abstract interface class com/hexagonkt/serialization/SerializationFormat {
