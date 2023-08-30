@@ -1,13 +1,10 @@
 package com.hexagonkt.web.examples
 
-import com.hexagonkt.core.fieldsMapOfNotNull
-import com.hexagonkt.core.require
-import com.hexagonkt.core.requirePath
+import com.hexagonkt.core.*
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.media.APPLICATION_JSON
-import com.hexagonkt.core.urlOf
 import com.hexagonkt.logging.jul.JulLoggingAdapter
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientSettings
@@ -39,15 +36,16 @@ abstract class TodoTest(adapter: HttpServerPort) {
         val title: String = "",
         val description: String = ""
     ) : Data<Task> {
-        override fun data(): Map<String, *> =
-            fieldsMapOfNotNull(
+
+        override val data: Map<String, *> =
+            fieldsMapOf(
                 Task::description to description,
                 Task::number to number,
                 Task::title to title,
             )
 
-        override fun with(data: Map<String, *>): Task =
-            Task(
+        override fun copy(data: Map<String, *>): Task =
+            copy(
                 description = data.requirePath(Task::description),
                 number = data.requirePath(Task::number),
                 title = data.requirePath(Task::title),
@@ -79,13 +77,13 @@ abstract class TodoTest(adapter: HttpServerPort) {
 
             path("/tasks") {
                 post {
-                    val task = Task().with(request.bodyString().parseMap(Json))
+                    val task = Task().copy(request.bodyString().parseMap(Json))
                     tasks += task.number to task
                     send(CREATED_201, task.number.toString())
                 }
 
                 put {
-                    val task = Task().with(request.bodyString().parseMap(Json))
+                    val task = Task().copy(request.bodyString().parseMap(Json))
                     tasks += task.number to task
                     ok("Task with id '${task.number}' updated")
                 }
@@ -114,7 +112,7 @@ abstract class TodoTest(adapter: HttpServerPort) {
                         val task = tasks[taskId]
                         if (task != null)
                             ok(
-                                body = task.data().serialize(Json),
+                                body = task.data.serialize(Json),
                                 contentType = ContentType(APPLICATION_JSON)
                             )
                         else
@@ -133,7 +131,7 @@ abstract class TodoTest(adapter: HttpServerPort) {
                 }
 
                 get {
-                    val body = tasks.values.map { it.data() }.serialize(Json)
+                    val body = tasks.values.map { it.data }.serialize(Json)
                     ok(body, contentType = ContentType(APPLICATION_JSON))
                 }
             }
