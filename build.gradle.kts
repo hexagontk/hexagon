@@ -153,7 +153,7 @@ apiValidation {
             // Experimental modules
             "rest",
             "rest_tools",
-            "serverless",
+//            "serverless",
             "web",
         )
     )
