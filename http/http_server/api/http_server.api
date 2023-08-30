@@ -10,6 +10,7 @@ public final class com/hexagonkt/http/server/HttpServer : java/io/Closeable {
 	public final fun copy (Lcom/hexagonkt/http/server/HttpServerPort;Lcom/hexagonkt/http/handlers/HttpHandler;Lcom/hexagonkt/http/server/HttpServerSettings;)Lcom/hexagonkt/http/server/HttpServer;
 	public static synthetic fun copy$default (Lcom/hexagonkt/http/server/HttpServer;Lcom/hexagonkt/http/server/HttpServerPort;Lcom/hexagonkt/http/handlers/HttpHandler;Lcom/hexagonkt/http/server/HttpServerSettings;ILjava/lang/Object;)Lcom/hexagonkt/http/server/HttpServer;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBinding ()Ljava/net/URL;
 	public final fun getHandler ()Lcom/hexagonkt/http/handlers/HttpHandler;
 	public final fun getPortName ()Ljava/lang/String;
 	public final fun getRuntimePort ()I
@@ -23,6 +24,7 @@ public final class com/hexagonkt/http/server/HttpServer : java/io/Closeable {
 
 public final class com/hexagonkt/http/server/HttpServer$Companion {
 	public final fun getBanner ()Ljava/lang/String;
+	public final fun getLogger ()Lcom/hexagonkt/core/logging/Logger;
 }
 
 public final class com/hexagonkt/http/server/HttpServerFeature : java/lang/Enum {

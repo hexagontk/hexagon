@@ -20,9 +20,8 @@ data class PathHandler(
     )
 {
 
-    private val logger: Logger = Logger(PathHandler::class)
-
     private companion object {
+        val logger: Logger = Logger(PathHandler::class)
         fun nestedMethods(handlers: List<HttpHandler>): Set<HttpMethod> =
             handlers
                 .flatMap { it.handlerPredicate.methods.ifEmpty { ALL } }

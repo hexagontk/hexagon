@@ -10,7 +10,9 @@ import com.hexagonkt.http.handlers.HttpContext
 import java.net.URL
 
 class UrlCallback(private val url: URL) : (HttpContext) -> HttpContext {
-    private val logger: Logger = Logger(UrlCallback::class)
+    private companion object {
+        val logger: Logger = Logger(UrlCallback::class)
+    }
 
     override fun invoke(context: HttpContext): HttpContext {
         val requestPath = when (context.pathParameters.size) {
