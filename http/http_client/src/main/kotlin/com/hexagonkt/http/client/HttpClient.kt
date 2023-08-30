@@ -27,8 +27,6 @@ class HttpClient(
             path("*", listOf(it, sendHandler))
         }
 
-    private val acceptTypes: List<ContentType> = settings.contentType?.let(::listOf) ?: emptyList()
-
     var cookies: List<Cookie> = emptyList()
 
     override fun close() {
@@ -97,7 +95,7 @@ class HttpClient(
         headers: Headers = Headers(),
         body: Any? = null,
         contentType: ContentType? = settings.contentType,
-        accept: List<ContentType> = acceptTypes,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
             send(
                 HttpRequest(
@@ -117,7 +115,7 @@ class HttpClient(
         path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType,
-        accept: List<ContentType> = acceptTypes,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
         send(
             HttpRequest(
@@ -133,7 +131,7 @@ class HttpClient(
         path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType,
-        accept: List<ContentType> = acceptTypes,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
         send(
             HttpRequest(
@@ -149,7 +147,7 @@ class HttpClient(
         path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType,
-        accept: List<ContentType> = acceptTypes,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
         send(
             HttpRequest(
@@ -165,7 +163,7 @@ class HttpClient(
         path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType,
-        accept: List<ContentType> = acceptTypes,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
         send(
             HttpRequest(
@@ -182,7 +180,7 @@ class HttpClient(
         body: Any? = null,
         headers: Headers = Headers(),
         contentType: ContentType? = settings.contentType,
-        accept: List<ContentType> = acceptTypes,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
         send(
             HttpRequest(
@@ -199,7 +197,7 @@ class HttpClient(
         path: String = "",
         body: Any? = null,
         contentType: ContentType? = settings.contentType,
-        accept: List<ContentType> = acceptTypes,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
         send(
             HttpRequest(
