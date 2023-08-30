@@ -131,26 +131,24 @@ abstract class WebSocketsTest(
     }
 
     @Test fun `Serve WS works properly`() {
-        wsTest("http", serverSettings.copy(bindPort = 0), clientSettings)
+        wsTest(serverSettings.copy(bindPort = 0), clientSettings)
     }
 
     @Test fun `Serve WSS works properly`() {
-        wsTest("https", http2ServerSettings.copy(protocol = HTTPS), clientSettings)
+        wsTest(http2ServerSettings.copy(protocol = HTTPS), clientSettings)
     }
 
     @Test fun `Serve WSS over HTTP2 works properly`() {
-        wsTest("https", http2ServerSettings, clientSettings)
+        wsTest(http2ServerSettings, clientSettings)
     }
 
     private fun wsTest(
-        protocol: String,
         serverSettings: HttpServerSettings,
         clientSettings: HttpClientSettings,
     ) {
         val server = serve(serverAdapter(), handler, serverSettings)
 
-        val contextPath = urlOf("$protocol://localhost:${server.runtimePort}")
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
         client.start()
 
         // ws_client

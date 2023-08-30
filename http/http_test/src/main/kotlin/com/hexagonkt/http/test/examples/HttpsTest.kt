@@ -105,8 +105,7 @@ abstract class HttpsTest(
         val clientSettings = HttpClientSettings(sslSettings = sslSettings)
 
         // Create an HTTP client and make an HTTPS request
-        val contextPath = urlOf("https://localhost:${server.runtimePort}")
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
         client.start()
         client.get("/hello").apply {
             // Assure the certificate received (and returned) by the server is correct
@@ -123,8 +122,7 @@ abstract class HttpsTest(
 
         val server = serve(serverAdapter(), handler, http2ServerSettings.copy(protocol = HTTPS))
 
-        val contextPath = urlOf("https://localhost:${server.runtimePort}")
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
         client.start()
         client.get("/hello").apply {
             assert(headers.require("cert").string()?.startsWith("CN=hexagonkt.com") ?: false)
@@ -139,8 +137,7 @@ abstract class HttpsTest(
 
         val server = serve(serverAdapter(), handler, http2ServerSettings)
 
-        val contextPath = urlOf("https://localhost:${server.runtimePort}")
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
         client.start()
         client.get("/hello").apply {
             assert(headers.require("cert").string()?.startsWith("CN=hexagonkt.com") ?: false)
@@ -188,7 +185,7 @@ abstract class HttpsTest(
         )
 
         // Create an HTTP client and make an HTTPS request
-        val contextPath = urlOf("https://localhost:${server.runtimePort}")
+        val contextPath = server.binding
         val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
         client.start()
         client.get("/hello").apply {
