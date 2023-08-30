@@ -17,7 +17,9 @@ data class HttpPredicate(
     val status: HttpStatus? = null,
 ) : (Context<HttpCall>) -> Boolean {
 
-    private val logger: Logger = Logger(HttpPredicate::class)
+    private companion object {
+        val logger: Logger = Logger(HttpPredicate::class)
+    }
 
     private fun PathPattern.isEmpty(): Boolean =
         pattern.isEmpty()

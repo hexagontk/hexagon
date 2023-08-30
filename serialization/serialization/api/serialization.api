@@ -1,6 +1,32 @@
 public abstract interface class com/hexagonkt/serialization/Data : java/util/Map, kotlin/jvm/internal/markers/KMappedMarker {
 	public abstract fun containsKey (Ljava/lang/String;)Z
 	public abstract fun containsValue (Ljava/lang/Object;)Z
+	public abstract fun copy (Ljava/util/Map;)Ljava/lang/Object;
+	public abstract fun get (Ljava/lang/String;)Ljava/lang/Object;
+	public abstract fun get (Lkotlin/reflect/KProperty1;)Ljava/lang/Object;
+	public abstract fun getData ()Ljava/util/Map;
+	public abstract fun getEntries ()Ljava/util/Set;
+	public abstract fun getKeys ()Ljava/util/Set;
+	public abstract fun getSize ()I
+	public abstract fun getValues ()Ljava/util/Collection;
+	public abstract fun isEmpty ()Z
+}
+
+public final class com/hexagonkt/serialization/Data$DefaultImpls {
+	public static fun containsKey (Lcom/hexagonkt/serialization/Data;Ljava/lang/String;)Z
+	public static fun containsValue (Lcom/hexagonkt/serialization/Data;Ljava/lang/Object;)Z
+	public static fun get (Lcom/hexagonkt/serialization/Data;Ljava/lang/String;)Ljava/lang/Object;
+	public static fun get (Lcom/hexagonkt/serialization/Data;Lkotlin/reflect/KProperty1;)Ljava/lang/Object;
+	public static fun getEntries (Lcom/hexagonkt/serialization/Data;)Ljava/util/Set;
+	public static fun getKeys (Lcom/hexagonkt/serialization/Data;)Ljava/util/Set;
+	public static fun getSize (Lcom/hexagonkt/serialization/Data;)I
+	public static fun getValues (Lcom/hexagonkt/serialization/Data;)Ljava/util/Collection;
+	public static fun isEmpty (Lcom/hexagonkt/serialization/Data;)Z
+}
+
+public abstract interface class com/hexagonkt/serialization/MutableData : java/util/Map, kotlin/jvm/internal/markers/KMappedMarker {
+	public abstract fun containsKey (Ljava/lang/String;)Z
+	public abstract fun containsValue (Ljava/lang/Object;)Z
 	public abstract fun data ()Ljava/util/Map;
 	public abstract fun get (Ljava/lang/String;)Ljava/lang/Object;
 	public abstract fun getEntries ()Ljava/util/Set;
@@ -8,18 +34,18 @@ public abstract interface class com/hexagonkt/serialization/Data : java/util/Map
 	public abstract fun getSize ()I
 	public abstract fun getValues ()Ljava/util/Collection;
 	public abstract fun isEmpty ()Z
-	public abstract fun with (Ljava/util/Map;)Ljava/lang/Object;
+	public abstract fun with (Ljava/util/Map;)V
 }
 
-public final class com/hexagonkt/serialization/Data$DefaultImpls {
-	public static fun containsKey (Lcom/hexagonkt/serialization/Data;Ljava/lang/String;)Z
-	public static fun containsValue (Lcom/hexagonkt/serialization/Data;Ljava/lang/Object;)Z
-	public static fun get (Lcom/hexagonkt/serialization/Data;Ljava/lang/String;)Ljava/lang/Object;
-	public static fun getEntries (Lcom/hexagonkt/serialization/Data;)Ljava/util/Set;
-	public static fun getKeys (Lcom/hexagonkt/serialization/Data;)Ljava/util/Set;
-	public static fun getSize (Lcom/hexagonkt/serialization/Data;)I
-	public static fun getValues (Lcom/hexagonkt/serialization/Data;)Ljava/util/Collection;
-	public static fun isEmpty (Lcom/hexagonkt/serialization/Data;)Z
+public final class com/hexagonkt/serialization/MutableData$DefaultImpls {
+	public static fun containsKey (Lcom/hexagonkt/serialization/MutableData;Ljava/lang/String;)Z
+	public static fun containsValue (Lcom/hexagonkt/serialization/MutableData;Ljava/lang/Object;)Z
+	public static fun get (Lcom/hexagonkt/serialization/MutableData;Ljava/lang/String;)Ljava/lang/Object;
+	public static fun getEntries (Lcom/hexagonkt/serialization/MutableData;)Ljava/util/Set;
+	public static fun getKeys (Lcom/hexagonkt/serialization/MutableData;)Ljava/util/Set;
+	public static fun getSize (Lcom/hexagonkt/serialization/MutableData;)I
+	public static fun getValues (Lcom/hexagonkt/serialization/MutableData;)Ljava/util/Collection;
+	public static fun isEmpty (Lcom/hexagonkt/serialization/MutableData;)Z
 }
 
 public abstract interface class com/hexagonkt/serialization/SerializationFormat {
@@ -68,15 +94,21 @@ public final class com/hexagonkt/serialization/SerializationKt {
 	public static final fun parseMap (Ljava/nio/file/Path;)Ljava/util/Map;
 	public static synthetic fun parseMap$default (Ljava/io/InputStream;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/util/Map;
 	public static synthetic fun parseMap$default (Ljava/lang/String;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/util/Map;
+	public static final fun parseMaps (Ljava/io/File;)Ljava/util/List;
+	public static final fun parseMaps (Ljava/io/InputStream;Lcom/hexagonkt/core/media/MediaType;)Ljava/util/List;
+	public static final fun parseMaps (Ljava/io/InputStream;Lcom/hexagonkt/serialization/SerializationFormat;)Ljava/util/List;
+	public static final fun parseMaps (Ljava/lang/String;Lcom/hexagonkt/core/media/MediaType;)Ljava/util/List;
+	public static final fun parseMaps (Ljava/lang/String;Lcom/hexagonkt/serialization/SerializationFormat;)Ljava/util/List;
+	public static final fun parseMaps (Ljava/net/URL;)Ljava/util/List;
+	public static final fun parseMaps (Ljava/nio/file/Path;)Ljava/util/List;
+	public static synthetic fun parseMaps$default (Ljava/io/InputStream;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/util/List;
+	public static synthetic fun parseMaps$default (Ljava/lang/String;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/util/List;
 	public static final fun serialize (Ljava/lang/Object;Lcom/hexagonkt/core/media/MediaType;)Ljava/lang/String;
 	public static final fun serialize (Ljava/lang/Object;Lcom/hexagonkt/serialization/SerializationFormat;)Ljava/lang/String;
 	public static synthetic fun serialize$default (Ljava/lang/Object;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/lang/String;
 	public static final fun serializeBytes (Ljava/lang/Object;Lcom/hexagonkt/core/media/MediaType;)[B
 	public static final fun serializeBytes (Ljava/lang/Object;Lcom/hexagonkt/serialization/SerializationFormat;)[B
 	public static synthetic fun serializeBytes$default (Ljava/lang/Object;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)[B
-	public static final fun toData (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;)Ljava/util/List;
-	public static final fun toData (Ljava/util/List;Lkotlin/jvm/functions/Function0;)Ljava/util/List;
-	public static final fun toData (Ljava/util/Map;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
 public final class com/hexagonkt/serialization/SerializationManager {

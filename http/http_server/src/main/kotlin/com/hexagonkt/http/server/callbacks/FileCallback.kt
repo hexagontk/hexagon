@@ -18,7 +18,9 @@ import java.io.File
  * @param file Base file used to resolve paths passed on the request.
  */
 class FileCallback(private val file: File) : (HttpContext) -> HttpContext {
-    private val logger: Logger = Logger(FileCallback::class)
+    private companion object {
+        val logger: Logger = Logger(FileCallback::class)
+    }
 
     override fun invoke(context: HttpContext): HttpContext {
         val file = when (context.pathParameters.size) {

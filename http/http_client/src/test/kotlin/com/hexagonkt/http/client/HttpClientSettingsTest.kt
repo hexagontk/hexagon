@@ -13,6 +13,7 @@ internal class HttpClientSettingsTest {
         HttpClientSettings().let {
             assertNull(it.baseUrl)
             assertNull(it.contentType)
+            assertEquals(emptyList(), it.accept)
             assertTrue(it.useCookies)
             assertEquals(Headers(), it.headers)
             assertFalse(it.insecure)

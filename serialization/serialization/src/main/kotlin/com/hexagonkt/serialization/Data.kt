@@ -1,32 +1,36 @@
 package com.hexagonkt.serialization
 
 import kotlin.collections.Map.Entry
+import kotlin.reflect.KProperty1
 
 interface Data<T> : Map<String, Any?> {
-    fun data(): Map<String, *>
-    fun with(data: Map<String, *>): T
+    val data: Map<String, *>
+    fun copy(data: Map<String, *>): T
 
-    override val entries: Set<Entry<String, Any?>>
-        get() = data().entries
+    override val entries: Set<Entry<String, *>>
+        get() = data.entries
 
     override val keys: Set<String>
-        get() = data().keys
+        get() = data.keys
 
     override val size: Int
-        get() = data().size
+        get() = data.size
 
-    override val values: Collection<Any?>
-        get() = data().values
+    override val values: Collection<*>
+        get() = data.values
 
     override fun isEmpty(): Boolean =
-        data().isEmpty()
+        data.isEmpty()
 
     override fun get(key: String): Any? =
-        data()[key]
+        data[key]
 
     override fun containsValue(value: Any?): Boolean =
-        data().containsValue(value)
+        data.containsValue(value)
 
     override fun containsKey(key: String): Boolean =
-        data().containsKey(key)
+        data.containsKey(key)
+
+    operator fun get(key: KProperty1<T, *>): Any? =
+        data[key.name]
 }
