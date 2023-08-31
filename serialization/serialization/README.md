@@ -3,9 +3,10 @@
 This module holds serialization utilities.
 
 ### Install the Dependency
-This module is not meant to be imported directly. It will be included by using any other part of the
-toolkit. However, if you only want to use the utilities, logging or serialization (i.e., for a
-desktop application), you can import it with the following code:
+This module is not meant to be used directly. You should include an Adapter implementing this
+feature (as [serialization_dsl_json]) in order to parse/serialize data.
+
+[serialization_dsl_json]: /serialization_dsl_json
 
 === "build.gradle"
 
