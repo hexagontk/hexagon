@@ -47,6 +47,6 @@ using this approach is that it differs of the standard one.
 [lean layout POM]: https://search.maven.org/search?q=a:kotlin_lean_pom
 
 [JUnit 5]: https://junit.org/junit5
-[Kotlin Test]: https://kotlinlang.org/api/latest/kotlin.test
+[Kotlin Test]: https://kotlinlang.org/api/latest/kotlin.test/
 [MockK]: https://mockk.io
 [Jacoco]: https://www.eclemma.org/jacoco
