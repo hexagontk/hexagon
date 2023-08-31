@@ -1,7 +1,6 @@
 package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.decodeBase64
-import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
@@ -132,7 +131,7 @@ abstract class FiltersTest(
 
     private fun authorizedClient(user: String, password: String): HttpClient {
         val settings = HttpClientSettings(
-            baseUrl = urlOf("http://localhost:${server.runtimePort}"),
+            baseUrl = server.binding,
             headers = Headers(Header("authorization", basicAuth(user, password)))
         )
         return HttpClient(clientAdapter(), settings).apply { start() }

@@ -27,7 +27,9 @@ abstract class ServletServer(
     private val settings: HttpServerSettings = HttpServerSettings(),
 ) : ServletContextListener {
 
-    private val logger: Logger = Logger(ServletServer::class)
+    private companion object {
+        val logger: Logger = Logger(ServletServer::class)
+    }
 
     private val pathHandler: PathHandler = path(settings.contextPath, handlers)
 

@@ -1,13 +1,20 @@
 package com.hexagonkt.http.test
 
+import com.hexagonkt.core.logging.info
+import com.hexagonkt.core.media.APPLICATION_JSON
 import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.core.require
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.model.HttpResponsePort
+import com.hexagonkt.http.model.HttpStatusType.SUCCESS
+import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import com.hexagonkt.http.test.Http.Companion.http
+import com.hexagonkt.rest.bodyMap
+import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.jackson.json.Json
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import kotlin.test.Test
@@ -29,7 +36,7 @@ class DynamicServerTest {
     }
 
     @Test fun `Do HTTP requests`() {
-        dynamicServer.path = path {
+        dynamicServer.path {
             get("/hello/{name}") {
                 val name = pathParameters["name"]
 
@@ -37,7 +44,7 @@ class DynamicServerTest {
             }
         }
 
-        http(JettyClientAdapter(), "http://localhost:${dynamicServer.runtimePort}") {
+        Http(JettyClientAdapter(), "http://localhost:${dynamicServer.runtimePort}").request {
             get("/hello/mike")
             assertEquals(OK_200, response.status)
         }
@@ -77,7 +84,7 @@ class DynamicServerTest {
         val port = dynamicServer.runtimePort
         val adapter = JettyClientAdapter()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
-        val http = Http(adapter, headers = headers)
+        val http = Http(adapter, httpHeaders = headers)
 
         http.get("http://localhost:$port/hello/mike").assertBody("GET /hello/mike", headers)
         http.get("http://localhost:$port").assertBody("GET / ", headers)
@@ -102,8 +109,8 @@ class DynamicServerTest {
     }
 
     @Test fun `Check all HTTP methods`() {
-        dynamicServer.path = path {
-            on("*") {
+        dynamicServer.path {
+            before("*") {
                 ok("$method $path ${request.headers}", contentType = ContentType(TEXT_PLAIN))
             }
         }
@@ -111,7 +118,7 @@ class DynamicServerTest {
         val url = "http://localhost:${dynamicServer.runtimePort}"
         val adapter = JettyClientAdapter()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
-        val http = Http(adapter, url, headers = headers)
+        val http = Http(adapter, url, httpHeaders = headers)
 
         http.get("/hello/mike").assertBody("GET /hello/mike", headers)
         http.get().assertBody("GET / ", headers)
@@ -133,6 +140,119 @@ class DynamicServerTest {
 
         http.trace("/hello/mike").assertBody("TRACE /hello/mike", headers)
         http.trace().assertBody("TRACE / ", headers)
+
+        http.request {
+            get("/hello/mike").assertBody("GET /hello/mike", headers)
+            get().assertBody("GET / ", headers)
+
+            put("/hello/mike").assertBody("PUT /hello/mike", headers)
+            put().assertBody("PUT / ", headers)
+
+            post("/hello/mike").assertBody("POST /hello/mike", headers)
+            post().assertBody("POST / ", headers)
+
+            options("/hello/mike").assertBody("OPTIONS /hello/mike", headers)
+            options().assertBody("OPTIONS / ", headers)
+
+            delete("/hello/mike").assertBody("DELETE /hello/mike", headers)
+            delete().assertBody("DELETE / ", headers)
+
+            patch("/hello/mike").assertBody("PATCH /hello/mike", headers)
+            patch().assertBody("PATCH / ", headers)
+
+            trace("/hello/mike").assertBody("TRACE /hello/mike", headers)
+            trace().assertBody("TRACE / ", headers)
+        }
+    }
+
+    @Suppress("unused") // Object only used for serialization
+    @Test fun `Check HTTP helper`() {
+        SerializationManager.formats = linkedSetOf(Json)
+
+        val settings = HttpServerSettings(bindPort = 0)
+        val server = DynamicServer(JettyServletAdapter(), settings).apply(DynamicServer::start)
+        val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
+        val text = ContentType(TEXT_PLAIN)
+        val json = ContentType(APPLICATION_JSON)
+        val binding = server.binding.toString()
+        val adapter = JettyClientAdapter()
+        val http = Http(adapter, url = binding, httpHeaders = headers, httpContentType = json)
+
+        server.path {
+            before("*") {
+                ok("$method $path ${request.headers}", contentType = text)
+            }
+
+            put("/data/{id}") {
+                val id = pathParameters.require("id")
+                val data = request.bodyMap()
+                val content = mapOf(id to data)
+
+                ok(content, contentType = json)
+            }
+        }
+
+        http.request {
+            put("/data/{id}", mapOf("id" to 102030)) {
+                object {
+                    val title = "Casino Royale"
+                    val tags = listOf("007", "action")
+                }
+            }
+
+            assertOk()
+            response.body.info("BODY: ")
+            response.contentType.info("CONTENT TYPE: ")
+        }
+
+        http.request {
+            get("/hello/mike")
+            assertBody("GET /hello/mike", headers)
+            get()
+            assertBody("GET / ", headers)
+
+            put("/hello/mike")
+            assertBody("PUT /hello/mike", headers)
+            put()
+            assertBody("PUT / ", headers)
+
+            post("/hello/mike")
+            assertBody("POST /hello/mike", headers)
+            post()
+            assertBody("POST / ", headers)
+
+            options("/hello/mike")
+            assertBody("OPTIONS /hello/mike", headers)
+            options()
+            assertBody("OPTIONS / ", headers)
+
+            delete("/hello/mike")
+            assertBody("DELETE /hello/mike", headers)
+            delete()
+            assertBody("DELETE / ", headers)
+
+            patch("/hello/mike")
+            assertBody("PATCH /hello/mike", headers)
+            patch()
+            assertBody("PATCH / ", headers)
+
+            trace("/hello/mike")
+            assertBody("TRACE /hello/mike", headers)
+            trace()
+            assertBody("TRACE / ", headers)
+        }
+    }
+
+    private fun Http.assertBody(expectedBody: String, checkedHeaders: Map<String, *>) {
+        assertOk()
+        assertSuccess()
+        assertStatus(OK_200)
+        assertStatus(SUCCESS)
+        assertBodyContains(expectedBody)
+
+        for ((k, v) in checkedHeaders.entries) {
+            assertBodyContains(k, v.toString())
+        }
     }
 
     private fun HttpResponsePort.assertBody(

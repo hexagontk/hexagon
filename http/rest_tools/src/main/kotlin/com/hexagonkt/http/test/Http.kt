@@ -13,50 +13,28 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpStatusType.SUCCESS
 import com.hexagonkt.http.patterns.createPathPattern
-import com.hexagonkt.rest.serializeCallback
+import com.hexagonkt.rest.SerializeRequestCallback
 
 data class Http(
     val adapter: HttpClientPort,
     val url: String? = null,
-    val contentType: ContentType? = null,
-    val headers: Map<String, *> = emptyMap<String, Any>(),
+    val httpContentType: ContentType? = null,
+    val httpAccept: List<ContentType> = emptyList(),
+    val httpHeaders: Map<String, *> = emptyMap<String, Any>(),
     val sslSettings: SslSettings? = SslSettings(),
     val handler: HttpHandler? = serializeHandler,
 ) {
     companion object {
-        val serializeHandler: HttpHandler = BeforeHandler("*", serializeCallback)
-
-        fun http(
-            adapter: HttpClientPort,
-            url: String? = null,
-            contentType: ContentType? = null,
-            headers: Map<String, *> = emptyMap<String, Any>(),
-            sslSettings: SslSettings? = SslSettings(),
-            handler: HttpHandler? = serializeHandler,
-            block: Http.() -> Unit
-        ) {
-           Http(adapter, url, contentType, headers, sslSettings, handler).request(block)
-        }
-
-        fun http(
-            adapter: HttpClientPort,
-            url: String? = null,
-            mediaType: MediaType,
-            headers: Map<String, *> = emptyMap<String, Any>(),
-            sslSettings: SslSettings? = SslSettings(),
-            handler: HttpHandler? = serializeHandler,
-            block: Http.() -> Unit
-        ) {
-            Http(adapter, url, mediaType, headers, sslSettings, handler).request(block)
-        }
+        val serializeHandler: HttpHandler = BeforeHandler("*", SerializeRequestCallback())
     }
 
     private val settings =
         HttpClientSettings(
             baseUrl = url?.let(::urlOf),
-            contentType = contentType,
+            contentType = httpContentType,
+            accept = httpAccept,
             useCookies = true,
-            headers = toHeaders(headers),
+            headers = toHeaders(httpHeaders),
             insecure = true,
             sslSettings = sslSettings,
         )
@@ -68,15 +46,29 @@ data class Http(
     val request: HttpRequest get() = lastRequest
     val attributes: Map<String, *> get() = lastAttributes
     val response: HttpResponsePort get() = lastResponse
+    val status: HttpStatus get() = lastResponse.status
+    val body: Any get() = lastResponse.body
+    val cookies: Map<String, Cookie> get() = lastResponse.cookiesMap()
+    val headers: Headers get() = lastResponse.headers
+    val contentType: ContentType? get() = lastResponse.contentType
 
     constructor(
         adapter: HttpClientPort,
         url: String? = null,
         mediaType: MediaType,
+        accept: List<MediaType> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         sslSettings: SslSettings? = SslSettings(),
         handler: HttpHandler? = serializeHandler,
-    ) : this(adapter, url, ContentType(mediaType), headers, sslSettings, handler)
+    ) : this(
+        adapter,
+        url,
+        ContentType(mediaType),
+        accept.map(::ContentType),
+        headers,
+        sslSettings,
+        handler
+    )
 
     fun start() {
         if (!client.started())
@@ -135,7 +127,8 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
         attributes: Map<String, Any> = emptyMap(),
     ): HttpResponsePort =
         client
@@ -152,6 +145,7 @@ data class Http(
                     formParameters = FormParameters(formParameters),
                     parts = parts,
                     contentType = contentType,
+                    accept = accept,
                 )
             }
             .send(lastRequest, attributes = attributes)
@@ -165,7 +159,8 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
         attributes: Map<String, Any> = emptyMap(),
     ): HttpResponsePort =
         send(
@@ -176,6 +171,7 @@ data class Http(
             formParameters = formParameters,
             parts = parts,
             contentType = contentType,
+            accept = accept,
             attributes = attributes
                 + mapOf("pathPattern" to pathPattern, "pathParameters" to pathParameters),
         )
@@ -186,9 +182,10 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(GET, path, headers, body, formParameters, parts, contentType)
+        send(GET, path, headers, body, formParameters, parts, contentType, accept)
 
     fun put(
         path: String = "/",
@@ -196,19 +193,21 @@ data class Http(
         headers: Map<String, *> = emptyMap<String, Any>(),
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(PUT, path, headers, body, formParameters, parts, contentType)
+        send(PUT, path, headers, body, formParameters, parts, contentType, accept)
 
     fun put(
         path: String = "/",
         formParameters: List<FormParameter> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
         body: () -> Any,
     ): HttpResponsePort =
-        send(PUT, path, headers, body(), formParameters, parts, contentType)
+        send(PUT, path, headers, body(), formParameters, parts, contentType, accept)
 
     fun post(
         path: String = "/",
@@ -216,9 +215,10 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(POST, path, headers, body, formParameters, parts, contentType)
+        send(POST, path, headers, body, formParameters, parts, contentType, accept)
 
     fun options(
         path: String = "/",
@@ -226,9 +226,10 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(OPTIONS, path, headers, body, formParameters, parts, contentType)
+        send(OPTIONS, path, headers, body, formParameters, parts, contentType, accept)
 
     fun delete(
         path: String = "/",
@@ -236,9 +237,10 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(DELETE, path, headers, body, formParameters, parts, contentType)
+        send(DELETE, path, headers, body, formParameters, parts, contentType, accept)
 
     fun patch(
         path: String = "/",
@@ -246,9 +248,10 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(PATCH, path, headers, body, formParameters, parts, contentType)
+        send(PATCH, path, headers, body, formParameters, parts, contentType, accept)
 
     fun trace(
         path: String = "/",
@@ -256,9 +259,10 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(TRACE, path, headers, body, formParameters, parts, contentType)
+        send(TRACE, path, headers, body, formParameters, parts, contentType, accept)
 
     fun get(
         pathPattern: String,
@@ -267,9 +271,12 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(GET, pathPattern, pathParameters, headers, body, formParameters, parts, contentType)
+        send(
+            GET, pathPattern, pathParameters, headers, body, formParameters, parts, contentType, accept
+        )
 
     fun put(
         pathPattern: String,
@@ -278,19 +285,25 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(PUT, pathPattern, pathParameters, headers, body, formParameters, parts, contentType)
+        send(
+            PUT, pathPattern, pathParameters, headers, body, formParameters, parts, contentType, accept
+        )
 
     fun put(
         pathPattern: String,
         pathParameters: Map<String, Any>,
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
         body: () -> Any,
     ): HttpResponsePort =
-        send(PUT, pathPattern, pathParameters, headers, body(), formParameters, parts, contentType)
+        send(
+            PUT, pathPattern, pathParameters, Headers(), body(), formParameters, parts, contentType, accept
+        )
 
     fun post(
         pathPattern: String,
@@ -299,9 +312,12 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(POST, pathPattern, pathParameters, headers, body, formParameters, parts, contentType)
+        send(
+            POST, pathPattern, pathParameters, headers, body, formParameters, parts, contentType, accept
+        )
 
     fun options(
         pathPattern: String,
@@ -310,9 +326,12 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(OPTIONS, pathPattern, pathParameters, headers, body, formParameters, parts, contentType)
+        send(
+            OPTIONS, pathPattern, pathParameters, headers, body, formParameters, parts, contentType, accept
+        )
 
     fun delete(
         pathPattern: String,
@@ -321,9 +340,12 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(DELETE, pathPattern, pathParameters, headers, body, formParameters, parts, contentType)
+        send(
+            DELETE, pathPattern, pathParameters, headers, body, formParameters, parts, contentType, accept
+        )
 
     fun patch(
         pathPattern: String,
@@ -332,9 +354,12 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(PATCH, pathPattern, pathParameters, headers, body, formParameters, parts, contentType)
+        send(
+            PATCH, pathPattern, pathParameters, headers, body, formParameters, parts, contentType, accept
+        )
 
     fun trace(
         pathPattern: String,
@@ -343,7 +368,10 @@ data class Http(
         body: Any = "",
         formParameters: List<FormParameter> = emptyList(),
         parts: List<HttpPart> = emptyList(),
-        contentType: ContentType? = this.contentType,
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(TRACE, pathPattern, pathParameters, headers, body, formParameters, parts, contentType)
+        send(
+            TRACE, pathPattern, pathParameters, headers, body, formParameters, parts, contentType, accept
+        )
 }

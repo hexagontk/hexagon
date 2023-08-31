@@ -3,11 +3,11 @@ package com.hexagonkt.core.logging
 import kotlin.reflect.KClass
 
 /**
- * Manages Logs using [PrintLoggingAdapter]
+ * Manages Logs using [SystemLoggingAdapter]
  */
 object LoggingManager {
     var useColor: Boolean = true
-    var adapter: LoggingPort = PrintLoggingAdapter()
+    var adapter: LoggingPort = SystemLoggingAdapter()
     var defaultLoggerName: String = "com.hexagonkt.core.logging"
         set(value) {
             require(value.isNotEmpty()) { "Default logger name cannot be empty string" }

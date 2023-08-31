@@ -50,9 +50,9 @@ internal class SerializationTest {
             }
             """
 
-        val company = jsonCompany.parseMap(Json).toData(::Company)
+        val company = jsonCompany.parseMap(Json).let { Company().copy(it) }
         val serializedCompany = company.copy(notes = "${company.notes} updated").serialize(Json)
-        val parsedCompany = serializedCompany.parseMap(Json).toData(::Company)
+        val parsedCompany = serializedCompany.parseMap(Json).let { Company().copy(it) }
 
         assertEquals(setOf(DESIGN, DEVELOPMENT), company.departments)
         assertEquals(0.13782355F, company.averageMargin)
@@ -99,7 +99,7 @@ internal class SerializationTest {
     @Test fun `Data serialization helpers convert data properly`() {
         SerializationManager.formats = setOf(Json)
 
-        urlOf("classpath:data/company.json").parse().toData(::Company).first().apply {
+        urlOf("classpath:data/company.json").parseMap().let { Company().copy(it) }.apply {
             assertEquals("id1", id)
             assertEquals(LocalDate.of(2014, 1, 25), foundation)
             assertEquals(LocalTime.of(11, 42), closeTime)
@@ -110,7 +110,7 @@ internal class SerializationTest {
             assertEquals(InetAddress.getByName("127.0.0.1"), host)
         }
 
-        urlOf("classpath:data/companies.json").parse().toData(::Company).first().apply {
+        urlOf("classpath:data/companies.json").parseMaps().map { Company().copy(it) }.first().apply {
             val clientList = listOf(urlOf("http://c1.example.org"), urlOf("http://c2.example.org"))
 
             assertEquals("id", id)
@@ -126,8 +126,5 @@ internal class SerializationTest {
             assertEquals(LocalDateTime.of(2016, 1, 1, 0, 0), creationDate)
             assertEquals(InetAddress.getByName("127.0.0.1"), host)
         }
-
-        val e = assertFailsWith<IllegalStateException> { "text".toData(::Company) }
-        assertEquals("Instance of type: String cannot be transformed to data", e.message)
     }
 }

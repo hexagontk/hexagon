@@ -172,6 +172,7 @@ open class JettyClientAdapter : HttpClientPort {
 
         val settings = adapterHttpClient.settings
         val contentType = request.contentType ?: settings.contentType
+        val accept = request.accept.ifEmpty(settings::accept)
         val authorization = request.authorization ?: settings.authorization
         val baseUrl = settings.baseUrl
 
@@ -193,7 +194,7 @@ open class JettyClientAdapter : HttpClientPort {
                     .forEach { (k, v) -> it.put(k, v.map(Any::toString)) }
             }
             .body(createBody(request))
-            .accept(*request.accept.map { it.text }.toTypedArray())
+            .accept(*accept.map { it.text }.toTypedArray())
 
         request.queryParameters
             .forEach { (k, v) -> v.strings().forEach { jettyRequest.param(k, it) } }

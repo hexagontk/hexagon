@@ -3,23 +3,23 @@ public final class com/hexagonkt/http/client/HttpClient : java/io/Closeable {
 	public synthetic fun <init> (Lcom/hexagonkt/http/client/HttpClientPort;Lcom/hexagonkt/http/client/HttpClientSettings;Lcom/hexagonkt/http/handlers/HttpHandler;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
 	public final fun cookiesMap ()Ljava/util/Map;
-	public final fun delete (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public static synthetic fun delete$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public final fun get (Ljava/lang/String;Lcom/hexagonkt/http/model/Headers;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public static synthetic fun get$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Lcom/hexagonkt/http/model/Headers;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public final fun delete (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public static synthetic fun delete$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public final fun get (Ljava/lang/String;Lcom/hexagonkt/http/model/Headers;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public static synthetic fun get$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Lcom/hexagonkt/http/model/Headers;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
 	public final fun getCookies ()Ljava/util/List;
 	public final fun getHandler ()Lcom/hexagonkt/http/handlers/HttpHandler;
 	public final fun getSettings ()Lcom/hexagonkt/http/client/HttpClientSettings;
 	public final fun head (Ljava/lang/String;Lcom/hexagonkt/http/model/Headers;)Lcom/hexagonkt/http/model/HttpResponsePort;
 	public static synthetic fun head$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Lcom/hexagonkt/http/model/Headers;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public final fun options (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public static synthetic fun options$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public final fun patch (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public static synthetic fun patch$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public final fun post (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public static synthetic fun post$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public final fun put (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public static synthetic fun put$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public final fun options (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public static synthetic fun options$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public final fun patch (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public static synthetic fun patch$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public final fun post (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public static synthetic fun post$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public final fun put (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public static synthetic fun put$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
 	public final fun request (Lkotlin/jvm/functions/Function1;)V
 	public final fun send (Lcom/hexagonkt/http/model/HttpRequest;Ljava/util/Map;)Lcom/hexagonkt/http/model/HttpResponsePort;
 	public static synthetic fun send$default (Lcom/hexagonkt/http/client/HttpClient;Lcom/hexagonkt/http/model/HttpRequest;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
@@ -29,8 +29,8 @@ public final class com/hexagonkt/http/client/HttpClient : java/io/Closeable {
 	public final fun start ()V
 	public final fun started ()Z
 	public final fun stop ()V
-	public final fun trace (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;)Lcom/hexagonkt/http/model/HttpResponsePort;
-	public static synthetic fun trace$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public final fun trace (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public static synthetic fun trace$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/model/HttpResponsePort;
 	public final fun ws (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagonkt/http/model/ws/WsSession;
 	public static synthetic fun ws$default (Lcom/hexagonkt/http/client/HttpClient;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)Lcom/hexagonkt/http/model/ws/WsSession;
 }
@@ -50,19 +50,21 @@ public final class com/hexagonkt/http/client/HttpClientPort$DefaultImpls {
 
 public final class com/hexagonkt/http/client/HttpClientSettings {
 	public fun <init> ()V
-	public fun <init> (Ljava/net/URL;Lcom/hexagonkt/http/model/ContentType;ZLcom/hexagonkt/http/model/Headers;ZLcom/hexagonkt/http/SslSettings;Lcom/hexagonkt/http/model/Authorization;Z)V
-	public synthetic fun <init> (Ljava/net/URL;Lcom/hexagonkt/http/model/ContentType;ZLcom/hexagonkt/http/model/Headers;ZLcom/hexagonkt/http/SslSettings;Lcom/hexagonkt/http/model/Authorization;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/net/URL;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;ZLcom/hexagonkt/http/model/Headers;ZLcom/hexagonkt/http/SslSettings;Lcom/hexagonkt/http/model/Authorization;Z)V
+	public synthetic fun <init> (Ljava/net/URL;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;ZLcom/hexagonkt/http/model/Headers;ZLcom/hexagonkt/http/SslSettings;Lcom/hexagonkt/http/model/Authorization;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/net/URL;
 	public final fun component2 ()Lcom/hexagonkt/http/model/ContentType;
-	public final fun component3 ()Z
-	public final fun component4 ()Lcom/hexagonkt/http/model/Headers;
-	public final fun component5 ()Z
-	public final fun component6 ()Lcom/hexagonkt/http/SslSettings;
-	public final fun component7 ()Lcom/hexagonkt/http/model/Authorization;
-	public final fun component8 ()Z
-	public final fun copy (Ljava/net/URL;Lcom/hexagonkt/http/model/ContentType;ZLcom/hexagonkt/http/model/Headers;ZLcom/hexagonkt/http/SslSettings;Lcom/hexagonkt/http/model/Authorization;Z)Lcom/hexagonkt/http/client/HttpClientSettings;
-	public static synthetic fun copy$default (Lcom/hexagonkt/http/client/HttpClientSettings;Ljava/net/URL;Lcom/hexagonkt/http/model/ContentType;ZLcom/hexagonkt/http/model/Headers;ZLcom/hexagonkt/http/SslSettings;Lcom/hexagonkt/http/model/Authorization;ZILjava/lang/Object;)Lcom/hexagonkt/http/client/HttpClientSettings;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Z
+	public final fun component5 ()Lcom/hexagonkt/http/model/Headers;
+	public final fun component6 ()Z
+	public final fun component7 ()Lcom/hexagonkt/http/SslSettings;
+	public final fun component8 ()Lcom/hexagonkt/http/model/Authorization;
+	public final fun component9 ()Z
+	public final fun copy (Ljava/net/URL;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;ZLcom/hexagonkt/http/model/Headers;ZLcom/hexagonkt/http/SslSettings;Lcom/hexagonkt/http/model/Authorization;Z)Lcom/hexagonkt/http/client/HttpClientSettings;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/client/HttpClientSettings;Ljava/net/URL;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;ZLcom/hexagonkt/http/model/Headers;ZLcom/hexagonkt/http/SslSettings;Lcom/hexagonkt/http/model/Authorization;ZILjava/lang/Object;)Lcom/hexagonkt/http/client/HttpClientSettings;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAccept ()Ljava/util/List;
 	public final fun getAuthorization ()Lcom/hexagonkt/http/model/Authorization;
 	public final fun getBaseUrl ()Ljava/net/URL;
 	public final fun getContentType ()Lcom/hexagonkt/http/model/ContentType;

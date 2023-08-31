@@ -24,7 +24,7 @@ internal class SerializationHelpersTest {
     }
 
     @Test fun `Parse URL helpers generates the correct collection`() {
-        assert(urlOf("classpath:companies.json").parseList().isNotEmpty())
+        assert(urlOf("classpath:companies.json").parseMaps().isNotEmpty())
         assert(urlOf("classpath:company.json").parseMap().isNotEmpty())
     }
 
@@ -34,28 +34,28 @@ internal class SerializationHelpersTest {
             else "src/test/resources"
         }
 
-        assert(File("$baseDir/companies.json").parseList().isNotEmpty())
+        assert(File("$baseDir/companies.json").parseMaps().isNotEmpty())
         assert(File("$baseDir/company.json").parseMap().isNotEmpty())
 
-        assert(Path.of("$baseDir/companies.json").parseList().isNotEmpty())
+        assert(Path.of("$baseDir/companies.json").parseMaps().isNotEmpty())
         assert(Path.of("$baseDir/company.json").parseMap().isNotEmpty())
     }
 
     @Test fun `Parse string helpers generates the correct collection`() {
-        assert("""[ { "a": "b" } ]""".parseList().isNotEmpty())
+        assert("""[ { "a": "b" } ]""".parseMaps().isNotEmpty())
         assert("""{ "a": "b" }""".parseMap().isNotEmpty())
-        assert("""[ { "a": "b" } ]""".parseList(Json).isNotEmpty())
+        assert("""[ { "a": "b" } ]""".parseMaps(Json).isNotEmpty())
         assert("""{ "a": "b" }""".parseMap(Json).isNotEmpty())
-        assert("""[ { "a": "b" } ]""".parseList(APPLICATION_JSON).isNotEmpty())
+        assert("""[ { "a": "b" } ]""".parseMaps(APPLICATION_JSON).isNotEmpty())
         assert("""{ "a": "b" }""".parseMap(APPLICATION_JSON).isNotEmpty())
     }
 
     @Test fun `Parse stream helpers generates the correct collection`() {
-        assert("""[ { "a": "b" } ]""".toStream().parseList().isNotEmpty())
+        assert("""[ { "a": "b" } ]""".toStream().parseMaps().isNotEmpty())
         assert("""{ "a": "b" }""".toStream().parseMap().isNotEmpty())
-        assert("""[ { "a": "b" } ]""".toStream().parseList(Json).isNotEmpty())
+        assert("""[ { "a": "b" } ]""".toStream().parseMaps(Json).isNotEmpty())
         assert("""{ "a": "b" }""".toStream().parseMap(Json).isNotEmpty())
-        assert("""[ { "a": "b" } ]""".toStream().parseList(APPLICATION_JSON).isNotEmpty())
+        assert("""[ { "a": "b" } ]""".toStream().parseMaps(APPLICATION_JSON).isNotEmpty())
         assert("""{ "a": "b" }""".toStream().parseMap(APPLICATION_JSON).isNotEmpty())
     }
 }

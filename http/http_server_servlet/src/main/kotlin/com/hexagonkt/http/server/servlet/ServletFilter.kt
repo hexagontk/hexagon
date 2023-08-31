@@ -15,7 +15,9 @@ import jakarta.servlet.http.HttpServletResponse
 
 class ServletFilter(pathHandler: HttpHandler) : HttpFilter() {
 
-    private val logger: Logger = Logger(ServletFilter::class)
+    private companion object {
+        val logger: Logger = Logger(ServletFilter::class)
+    }
 
     private val handlers: Map<String, HttpHandler> =
         pathHandler.byMethod().mapKeys { it.key.toString() }

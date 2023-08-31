@@ -94,14 +94,18 @@ class HttpClient(
         path: String = "",
         headers: Headers = Headers(),
         body: Any? = null,
-        contentType: ContentType? = settings.contentType): HttpResponsePort =
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
+    ): HttpResponsePort =
             send(
                 HttpRequest(
                     method = GET,
                     path = path,
                     body = body ?: "",
                     headers = headers,
-                    contentType = contentType)
+                    contentType = contentType,
+                    accept = accept,
+                )
             )
 
     fun head(path: String = "", headers: Headers = Headers()): HttpResponsePort =
@@ -110,36 +114,73 @@ class HttpClient(
     fun post(
         path: String = "",
         body: Any? = null,
-        contentType: ContentType? = settings.contentType
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(HttpRequest(POST, path = path, body = body ?: "", contentType = contentType))
+        send(
+            HttpRequest(
+                method = POST,
+                path = path,
+                body = body ?: "",
+                contentType = contentType,
+                accept = accept,
+            )
+        )
 
     fun put(
         path: String = "",
         body: Any? = null,
-        contentType: ContentType? = settings.contentType
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(HttpRequest(PUT, path = path, body = body ?: "", contentType = contentType))
+        send(
+            HttpRequest(
+                method = PUT,
+                path = path,
+                body = body ?: "",
+                contentType = contentType,
+                accept = accept,
+            )
+        )
 
     fun delete(
         path: String = "",
         body: Any? = null,
-        contentType: ContentType? = settings.contentType
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(HttpRequest(DELETE, path = path, body = body ?: "", contentType = contentType))
+        send(
+            HttpRequest(
+                method = DELETE,
+                path = path,
+                body = body ?: "",
+                contentType = contentType,
+                accept = accept,
+            )
+        )
 
     fun trace(
         path: String = "",
         body: Any? = null,
-        contentType: ContentType? = settings.contentType
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(HttpRequest(TRACE, path = path, body = body ?: "", contentType = contentType))
+        send(
+            HttpRequest(
+                method = TRACE,
+                path = path,
+                body = body ?: "",
+                contentType = contentType,
+                accept = accept,
+            )
+        )
 
     fun options(
         path: String = "",
         body: Any? = null,
         headers: Headers = Headers(),
-        contentType: ContentType? = settings.contentType
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
         send(
             HttpRequest(
@@ -147,16 +188,26 @@ class HttpClient(
                 path = path,
                 body = body ?: "",
                 headers = headers,
-                contentType = contentType
+                contentType = contentType,
+                accept = accept,
             )
         )
 
     fun patch(
         path: String = "",
         body: Any? = null,
-        contentType: ContentType? = settings.contentType
+        contentType: ContentType? = settings.contentType,
+        accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-        send(HttpRequest(PATCH, path = path, body = body ?: "", contentType = contentType))
+        send(
+            HttpRequest(
+                method = PATCH,
+                path = path,
+                body = body ?: "",
+                contentType = contentType,
+                accept = accept,
+            )
+        )
 
     private fun HttpHandler.process(
         request: HttpRequestPort, attributes: Map<String, Any>

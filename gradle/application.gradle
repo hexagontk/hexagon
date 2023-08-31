@@ -66,7 +66,7 @@ tasks.register("jpackage") {
 
         final String options = findProperty("options")
         final String icon = findProperty("icon")
-        final String modules = findProperty("modules") ?: "java.logging"
+        final String modules = findProperty("modules")
         final String jarAllName = "$name-all-${version}.jar"
         final java.nio.file.Path jarAll = buildDir.resolve("libs/$jarAllName")
         final java.nio.file.Path jpackageJar = buildDir.resolve("jpackage/$jarAllName")
@@ -78,9 +78,11 @@ tasks.register("jpackage") {
             "--description", project.description ?: name,
             "--name", name,
             "--input", tmp.absolutePath,
-            "--add-modules", modules,
             "--main-jar", jarAllName
         ]
+
+        if (modules != null)
+            command += [ "--add-modules", modules ]
 
         if (options != null)
             command += [ "--java-options", options ]

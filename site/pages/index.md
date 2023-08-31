@@ -3,7 +3,7 @@ template: index.html
 ---
 
 The Hexagon Toolkit provides several libraries to build server applications. These libraries provide
-single standalone features[^1] and are referred to as ["Ports"][Ports and Adapters Architecture].
+single standalone features and are referred to as ["Ports"][Ports and Adapters Architecture].
 
 The main ports are:
 
@@ -11,6 +11,8 @@ The main ports are:
   upload), forms processing, cookies, CORS and more.
 * [The HTTP client]: which supports mutual TLS, HTTP/2, WebSockets, cookies, form fields and files
   among other features.
+* [Serialization]: provides a common way of using different data formats. Data formats are pluggable
+  and are handled in the same way regardless of their library.
 * [Template Processing]: allows template processing from URLs (local files, resources or HTTP
   content) binding name patterns to different engines.
 
@@ -21,11 +23,9 @@ Hexagon is designed to fit in applications that conform to the [Hexagonal Archit
 [Clean Architecture], [Onion Architecture] or [Ports and Adapters Architecture]). Its design
 principles also fit into this architecture.
 
-[^1]: Except the Core module that contains a set of utilities like logging. However, some of these
-capacities can be replaced by other third party libraries.
-
 [The HTTP server]: /http_server
 [The HTTP client]: /http_client
+[Serialization]: /serialization
 [Template Processing]: /templates
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
@@ -93,16 +93,21 @@ engines.
 [http_client_jetty], and [http_server_jetty] are examples of this type of module. Adapter names must
 start with their Port name.
 
+## Composite Port
+These modules provide functionality on top of a set of ports combining them, but without relying on
+any specific adapters. An example would be the [Web] module that uses [http_server] and
+[template][Template Processing] Ports, but leaves clients the decision of picking the adapters they
+want.
+
 ## Library
-Module that provide functionality that does not depend on different implementations, like [core].
-These modules can depend on several Ports, but never on Adapters. An example would be the [Web]
-module that uses [http_server] and [template][Template Processing] Ports, but leaves clients the
-decission of picking the adapters they want.
+Module that provide functionality that does not depend on different implementations, like [core] and
+[handlers].
 
 ## Manager
 Singleton object to manage a cross toolkit aspect. I.e., Serialization, Logging or Templates.
 
 [core]: /core
+[handlers]: /handlers
 
 [http_server]: /http_server
 [templates]: /templates
@@ -111,12 +116,9 @@ Singleton object to manage a cross toolkit aspect. I.e., Serialization, Logging 
 [http_server_jetty]: /http_server_jetty
 
 # Hexagon Extras
-The libraries inside the `hexagon_extra` repository provide extra features not bound to different
-implementations (rely on ports to work). They will not use dependencies outside the Hexagon
-toolkit.
+The libraries inside the `hexagon_extra` repository provide extra features. They may be useful to
+develop applications, but not strictly required. Some of these modules are:
 
-* [Web]: this module is meant to ease web application development. Provides helpers for
-  generating HTML and depends on the [HTTP Server] and [Templates] ports.
 * [Schedulers]: Provides repeated tasks execution based on [Cron] expressions.
 * [Models]: Contain classes that model common data objects.
 
@@ -138,18 +140,19 @@ How Hexagon fits in your architecture in a picture.
 # Ports
 Ports with their provided implementations (Adapters).
 
-| PORT                    | ADAPTERS                                   |
-|-------------------------|--------------------------------------------|
-| [HTTP Server]           | [Netty], [Netty Epoll], [Jetty], [Servlet] |
-| [HTTP Client]           | [Jetty][Jetty Client]                      |
-| [Templates]             | [Pebble], [FreeMarker], [Rocker]           |
-| [Serialization Formats] | [JSON], [YAML], [CSV], [XML], [TOML]       |
+| PORT                    | ADAPTERS                                           |
+|-------------------------|----------------------------------------------------|
+| [HTTP Server]           | [Netty], [Netty Epoll], [Jetty], [Servlet], [Nima] |
+| [HTTP Client]           | [Jetty][Jetty Client]                              |
+| [Templates]             | [Pebble], [FreeMarker], [Rocker]                   |
+| [Serialization Formats] | [JSON], [YAML], [CSV], [XML], [TOML]               |
 
 [HTTP Server]: /http_server
 [Netty]: /http_server_netty
 [Netty Epoll]: /http_server_netty_epoll
 [Jetty]: /http_server_jetty
 [Servlet]: /http_server_servlet
+[Nima]: /http_server_nima
 [HTTP Client]: /http_client
 [Jetty Client]: /http_client_jetty
 [Templates]: /templates
@@ -168,10 +171,13 @@ Module dependencies (including extra modules):
 
 ```mermaid
 graph TD
-  http_server -->|uses| http
-  http_client -->|uses| http
+  http_handlers -->|uses| http
+  http_handlers -->|uses| handlers
+  http_server -->|uses| http_handlers
+  http_client -->|uses| http_handlers
   web -->|uses| http_server
   web -->|uses| templates
   rest -->|uses| http_server
   rest -->|uses| serialization
+  rest_tools -->|uses| rest
 ```

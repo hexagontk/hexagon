@@ -8,6 +8,7 @@ import java.net.URL
 data class HttpClientSettings(
     val baseUrl: URL? = null,
     val contentType: ContentType? = null,
+    val accept: List<ContentType> = emptyList(),
     val useCookies: Boolean = true,
     val headers: Headers = Headers(),
     val insecure: Boolean = false,

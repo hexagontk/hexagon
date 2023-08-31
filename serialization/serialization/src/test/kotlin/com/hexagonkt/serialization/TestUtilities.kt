@@ -17,10 +17,10 @@ import java.time.format.DateTimeFormatter.*
 internal enum class Department { DESIGN, DEVELOPMENT }
 
 internal data class Person(val name: String) : Data<Person> {
-    override fun data(): Map<String, *> =
-        fieldsMapOfNotNull(Person::name to name)
 
-    override fun with(data: Map<String, *>): Person =
+    override val data: Map<String, *> = fieldsMapOf(Person::name to name)
+
+    override fun copy(data: Map<String, *>): Person =
         copy(name = data.getOrDefault(Person::name, name))
 }
 
@@ -51,8 +51,8 @@ internal data class Company(
         averageMargin = 0.0F,
     )
 
-    override fun data(): Map<String, *> =
-        fieldsMapOfNotNull(
+    override val data: Map<String, *> =
+        fieldsMapOf(
             Company::id to id,
             Company::foundation to ISO_LOCAL_DATE.format(foundation),
             Company::closeTime to ISO_LOCAL_TIME.format(closeTime),
@@ -68,7 +68,7 @@ internal data class Company(
             Company::averageMargin to averageMargin,
         )
 
-    override fun with(data: Map<String, *>): Company =
+    override fun copy(data: Map<String, *>): Company =
         copy(
             id = data.getString(Company::id) ?: id,
             foundation = data.getString(Company::foundation)?.let(LocalDate::parse) ?: foundation,

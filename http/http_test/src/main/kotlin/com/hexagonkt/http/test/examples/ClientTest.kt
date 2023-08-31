@@ -97,8 +97,7 @@ abstract class ClientTest(
         assertEquals(FOUND_302, response.status)
         assertEquals("/foo?ok", response.headers["location"]?.value)
 
-        val baseUrl = urlOf("http://localhost:${server.runtimePort}")
-        val settings = HttpClientSettings(baseUrl, followRedirects = true)
+        val settings = HttpClientSettings(server.binding, followRedirects = true)
         val redirectClient = HttpClient(clientAdapter(), settings).apply { start() }
 
         val redirectedResponse = redirectClient.get()
@@ -301,7 +300,7 @@ abstract class ClientTest(
     @Test fun `Parameters are set properly` () {
         val clientHeaders = Headers(Header("header1", "val1", "val2"))
         val settings = HttpClientSettings(
-            baseUrl = urlOf("http://localhost:${server.runtimePort}"),
+            baseUrl = server.binding,
             contentType = ContentType(APPLICATION_JSON),
             useCookies = false,
             headers = clientHeaders,
@@ -425,10 +424,7 @@ abstract class ClientTest(
         }
 
         // We'll use the same certificate for the client (in a real scenario it would be different)
-        val clientSettings = HttpClientSettings(
-            baseUrl = urlOf("https://localhost:${server.runtimePort}"),
-            sslSettings = sslSettings
-        )
+        val clientSettings = HttpClientSettings(baseUrl = server.binding, sslSettings = sslSettings)
 
         // Create an HTTP client and make an HTTPS request
         val client = HttpClient(clientAdapter(), clientSettings)

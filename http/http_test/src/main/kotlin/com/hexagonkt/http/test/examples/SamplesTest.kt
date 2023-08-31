@@ -73,7 +73,7 @@ abstract class SamplesTest(
 
         // Servers implement closeable, you can use them inside a block assuring they will be closed
         runningServer.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(s.binding)).use {
                 it.start()
                 assert(s.started())
                 assertEquals("Hello World!", it.get("/context/hello").body)
@@ -87,7 +87,7 @@ abstract class SamplesTest(
         // serverCreation
 
         defaultSettingsServer.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(s.binding)).use {
                 it.start()
                 assert(s.started())
                 assertEquals("Hello World!", it.get("/hello").body)
@@ -109,7 +109,7 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(s.binding)).use {
                 it.start()
                 assertEquals("Get greeting", it.get("/hello").body)
                 assertEquals("Put greeting", it.put("/hello").body)
@@ -136,7 +136,7 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(s.binding)).use {
                 it.start()
                 assertEquals("Greeting", it.get("/nested/hello").body)
                 assertEquals("Second level greeting", it.get("/nested/secondLevel/hello").body)
@@ -161,7 +161,7 @@ abstract class SamplesTest(
 
         server.use { s ->
             s.start()
-            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(s.binding)).use {
                 it.start()
 
                 assertEquals("Get client", it.get("/clients").body)
@@ -347,7 +347,7 @@ abstract class SamplesTest(
 
         server.use { s ->
             s.start()
-            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(s.binding)).use {
                 it.cookies += Cookie("foo", "bar")
                 it.start()
 
@@ -420,7 +420,7 @@ abstract class SamplesTest(
         server.use { s ->
             s.start()
 
-            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(s.binding)).use {
                 it.start()
                 assertResponse(it.get("/filters/route"), "filters route", "b-filters", "a-filters")
                 assertResponse(it.get("/filters"), "filters")
@@ -473,7 +473,7 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            val settings = HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))
+            val settings = HttpClientSettings(s.binding)
             HttpClient(clientAdapter(), settings).use {
                 it.start()
 
@@ -516,7 +516,7 @@ abstract class SamplesTest(
         }
 
         server.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(s.binding)).use {
                 it.start()
 
                 assert(it.get("/web/file.txt").bodyString().startsWith("It matches this route"))
@@ -545,7 +545,7 @@ abstract class SamplesTest(
         val server = serve(serverAdapter(), router, serverSettings)
 
         server.use { s ->
-            HttpClient(clientAdapter(), HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))).use {
+            HttpClient(clientAdapter(), HttpClientSettings(s.binding)).use {
                 it.start()
                 assertEquals("Hi!", it.get("/hello").body)
             }

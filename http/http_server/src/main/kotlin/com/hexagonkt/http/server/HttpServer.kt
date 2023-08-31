@@ -21,12 +21,14 @@ import com.hexagonkt.core.Jvm.timeZone
 import com.hexagonkt.core.Jvm.totalMemory
 import com.hexagonkt.core.Jvm.usedMemory
 import com.hexagonkt.core.prependIndent
+import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.HandlerBuilder
 import com.hexagonkt.http.handlers.path
 import java.io.Closeable
 import java.lang.System.nanoTime
+import java.net.URL
 
 /**
  * Server that listen to HTTP connections on a port and address and route requests to handlers.
@@ -38,6 +40,8 @@ data class HttpServer(
 ) : Closeable {
 
     companion object {
+        private val logger: Logger = Logger(this::class)
+
         val banner: String = """
         $CYAN          _________
         $CYAN         /         \
@@ -53,8 +57,6 @@ data class HttpServer(
         $RESET
         """.trimIndent()
     }
-
-    private val logger: Logger = Logger(this::class)
 
     /**
      * Create a server with a builder ([HandlerBuilder]) to set up handlers.
@@ -94,8 +96,16 @@ data class HttpServer(
      *
      * @exception IllegalStateException Throw an exception if the server hasn't been started.
      */
-    val runtimePort
+    val runtimePort: Int
         get() = if (started()) adapter.runtimePort() else error("Server is not running")
+
+    /**
+     * Runtime binding of the server.
+     *
+     * @exception IllegalStateException Throw an exception if the server hasn't been started.
+     */
+    val binding: URL
+        get() = urlOf("${settings.bindUrl}:$runtimePort")
 
     /**
      * The port name of the server.
@@ -142,7 +152,6 @@ data class HttpServer(
 
         val startUpTime = "%,.0f".format(startUpTimestamp / 1e6)
         val protocol = settings.protocol
-        val binding = "${settings.bindUrl}:$runtimePort"
         val banner = settings.banner ?: return " at $binding ($startUpTime ms)"
 
         val jvmMemoryValue = "$BLUE${totalMemory()} KB$RESET"
