@@ -4,10 +4,10 @@ The build process and imported build scripts (like the ones documented here) use
 customize their behavior. It is possible to add/change variables of a build from the following
 places:
 
-1. In the project's `gradle.properties` file.
-2. In your user's gradle configuration: `~/.gradle/gradle.properties`.
-3. Passing them from the command line with the following switch: `-Pkey=val`.
-4. Defining a project's extra property inside `build.gradle`. Ie: `project.ext.key='val'`.
+1. Passing them from the command line with the following switch: `-P key=val`.
+2. In the project's `gradle.properties` file.
+3. Defining a project's extra property inside `build.gradle.kts`. Ie: `project.ext["key"] = "val"`.
+4. In your user's gradle configuration: `~/.gradle/gradle.properties`.
 
 For examples and reference, check [build.gradle.kts] and [gradle.properties].
 
@@ -20,25 +20,29 @@ These scripts can be added to your build to include a whole new capability to yo
 To use them, you can import the online versions, or copy them to your `gradle` directory before
 importing the script.
 
-You can import these scripts by adding `apply from: $gradleScripts/$script.gradle` to your
-`build.gradle` file some of them may require additional plugins inside the `plugins` section in the
-root `build.gradle`. Check toolkit `build.gradle` files for examples.
+You can import these scripts by adding `apply(from = "$gradleScripts/$script.gradle")` to your
+`build.gradle.kts`, some of them may require additional plugins inside the `plugins` section in the
+root `build.gradle.kts`. Check toolkit `build.gradle.kts` files for examples.
 
 ## Publish
 This script set up the project/module for publishing in [Maven Central].
 
 It publishes all artifacts attached to the `mavenJava` publication (check [kotlin.gradle] publishing
-section) at the bare minimum binaries are published. For an Open Source project, you must include
-sources and javadoc.
+section).
+
+The binaries are always published. For an Open Source project, you must also include sources and
+javadoc.
 
 To use it, apply `$gradleScripts/publish.gradle`.
 
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
-* bintrayKey (REQUIRED): if not defined will try to load BINTRAY_KEY environment variable.
-* bintrayUser (REQUIRED): or BINTRAY_USER environment variable if not defined.
-* license (REQUIRED): the license used in published POMs.
-* vcsUrl (REQUIRED): code repository location.
+* signingKey (REQUIRED): if not defined will try to load SIGNING_KEY environment variable.
+* signingPassword (REQUIRED): or SIGNING_PASSWORD environment variable if not defined.
+* ossrhUsername (REQUIRED): or OSSRH_USERNAME if not found.
+* ossrhPassword (REQUIRED): or OSSRH_PASSWORD if not found.
+* licenses (REQUIRED): the licenses used in published POMs.
+* siteHost (REQUIRED): project's website.
 
 [Maven Central]: https://search.maven.org
 [kotlin.gradle]: https://github.com/hexagonkt/hexagon/blob/master/gradle/kotlin.gradle
@@ -54,7 +58,7 @@ All modules' Markdown files are added to the documentation and test classes endi
 are available to be referenced as samples.
 
 To use it, apply `$gradleScripts/dokka.gradle` and add the
-`id 'org.jetbrains.dokka' version 'VERSION'` plugin to the root `build.gradle`.
+`id("org.jetbrains.dokka") version("VERSION")` plugin to the root `build.gradle.kts`.
 
 The format for the generated documentation will be `javadoc` to make it compatible with current
 IDEs.
@@ -67,7 +71,7 @@ Create web icons (favicon and thumbnails for browsers/mobile) from SVG images (l
 For image rendering you will need [rsvg] (librsvg2-bin) and [imagemagick] installed in the
 development machine.
 
-To use it, apply `$gradleScripts/icons.gradle` to your `build.gradle`.
+To use it, apply `$gradleScripts/icons.gradle` to your `build.gradle.kts`.
 
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
@@ -97,7 +101,7 @@ It sets up:
 - Published artifacts (binaries and sources): sourcesJar task
 
 To use it, apply `$gradleScripts/kotlin.gradle` and add the
-`id 'org.jetbrains.kotlin.jvm' version 'VERSION'` plugin to the root `build.gradle`.
+`id("org.jetbrains.kotlin.jvm") version("VERSION")` plugin to the root `build.gradle.kts`.
 
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
@@ -121,17 +125,16 @@ Gradle's script for a service or application. It adds these extra tasks:
 * jpackage: create a jpackage distribution including a JVM with a subset of the modules.
 * tarJlink: compress Jpackage distribution in a single file.
 
-To use it, apply `$gradleScripts/application.gradle` to your `build.gradle`.
+To use it, apply `$gradleScripts/application.gradle` to your `build.gradle.kts`.
 
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
-* modules: comma separated list of modules to include in the generated JRE. By default:
-  `java.logging,java.management`.
+* modules: comma separated list of modules to include in the generated JRE.
 * options: JVM options passed to the jpackage generated launcher.
 * icon: icon to be used in the jpackage distribution.
 * applicationClass (REQUIRED): fully qualified name of the main class of the application.
 
-To set up this script you need to add the main class name to your `build.gradle` file with the
+To set up this script you need to add the main class name to your `build.gradle.kts` file with the
 following code:
 
 ```groovy
@@ -163,7 +166,7 @@ The defined tasks are:
 * createCa: creates `ca.p12` and import its public certificate inside `trust.p12`.
 * createIdentities: creates the `<domain>.p12` store for all `sslDomain` variables.
 
-To use it, apply `$gradleScripts/certificates.gradle` to your `build.gradle`.
+To use it, apply `$gradleScripts/certificates.gradle` to your `build.gradle.kts`.
 
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
@@ -186,7 +189,7 @@ To set up this script's parameters, check the [build variables section]. These h
 
 ## Lean
 This script changes the default Gradle source layout to be less bulky. To use it you must apply the
-`$gradleScripts/lean.gradle` script to your `build.gradle` file. It must be applied after the
+`$gradleScripts/lean.gradle` script to your `build.gradle.kts` file. It must be applied after the
 Kotlin plugin.
 
 After applying this script, the source folders will be `${projectDir}/main` and
@@ -194,7 +197,7 @@ After applying this script, the source folders will be `${projectDir}/main` and
 
 ## Detekt
 This script sets up the build to analyze the code with the [Detekt] static code analyzer. To use it
-you must apply the `$gradleScripts/detekt.gradle` script to your `build.gradle` file. It must be
+you must apply the `$gradleScripts/detekt.gradle` script to your `build.gradle.kts` file. It must be
 applied after the Kotlin plugin.
 
 For the script to work you need to add the plugin to the plugins build section before importing the
@@ -202,7 +205,7 @@ script. I.e.:
 
 ```kotlin
 plugins {
-    id("io.gitlab.arturbosch.detekt") version "VERSION" apply false
+    id("io.gitlab.arturbosch.detekt") version("VERSION") apply(false)
 }
 ```
 
@@ -223,8 +226,8 @@ The defined tasks are:
 * upx: compress the native executable using 'upx'. NOTE: Makes binaries use more RAM!!!
 * tarNative: compress native executable into a TAR file.
 
-To use it you must apply the `$gradleScripts/native.gradle` script to your `build.gradle` file. It
-must be applied after the Kotlin plugin.
+To use it you must apply the `$gradleScripts/native.gradle` script to your `build.gradle.kts` file.
+It must be applied after the Kotlin plugin.
 
 For the script to work you need to add the plugin to the plugins build section before importing the
 script. I.e.:
@@ -235,22 +238,30 @@ plugins {
 }
 ```
 
-To add configuration metadata in your libraries. you should run these commands:
+If you want to create a native image for your application you should execute:
 
 ```bash
-./gradlew -Pagent build
-./gradlew metadataCopy
-# After including the metadata you can publish your artifacts. I.e.:
-./gradlew publishToMavenLocal
-```
-
-And if you want to create a native image for your application you should execute:
-
-```bash
-./gradlew -Pagent nativeCompile
+./gradlew nativeCompile
 ```
 
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
 [GraalVM]: https://www.graalvm.org
 [native image]: https://graalvm.github.io/native-build-tools/latest/index.html
+
+## JMH
+Sets up the build to run JMH benchmarks. To use it you must apply the `$gradleScripts/jmh.gradle`
+script to your `build.gradle.kts` file.
+
+For the script to work you need to add the plugin to the plugins build section before importing the
+script. I.e.:
+
+```kotlin
+plugins {
+    id("me.champeau.jmh") version("VERSION") apply(false)
+}
+```
+
+To set up this script's parameters, check the [build variables section]. These helper settings are:
+
+* jmhVersion: JMH version to be used. If not specified a tested JMH version will be used.

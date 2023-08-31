@@ -10,11 +10,11 @@ on the directory schema you want to use):
 * The [lean layout POM]
 
 ## Standard Parent POM
-This layout is the well-known standard one, it has more directories but its widely used.
+This layout is the well-known standard one, it has more directories but its widely used. These are
+the features it provides:
 
 * Set up the Kotlin plugin
-* Define Hexagon dependencies' versions
-* Use [JUnit 5] and [MockK] for testing
+* Use [JUnit 5] and [Kotlin Test] for testing
 * Configure [Jacoco] coverage report
 
 ```xml
@@ -47,5 +47,6 @@ using this approach is that it differs of the standard one.
 [lean layout POM]: https://search.maven.org/search?q=a:kotlin_lean_pom
 
 [JUnit 5]: https://junit.org/junit5
+[Kotlin Test]: https://kotlinlang.org/api/latest/kotlin.test
 [MockK]: https://mockk.io
 [Jacoco]: https://www.eclemma.org/jacoco

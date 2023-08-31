@@ -17,7 +17,7 @@ internal class LoggingManagerTest {
     // TODO Repeat this test on other logging adapters
     @Test fun `Loggers are enabled and disabled at runtime`() {
 
-        LoggingManager.adapter = PrintLoggingAdapter()
+        LoggingManager.adapter = SystemLoggingAdapter()
         val allLevels = LoggingLevel.values()
 
         val ch = Logger("com.hx")

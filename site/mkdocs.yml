@@ -53,6 +53,7 @@ nav:
     - Core: core.md
     - HTTP Server: http_server.md
     - HTTP Client: http_client.md
+    - Serialization: serialization.md
     - Templates: templates.md
     - Gradle Helpers: gradle.md
     - Maven Parent POM: maven.md
