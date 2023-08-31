@@ -24,7 +24,6 @@ public final class com/hexagonkt/http/server/HttpServer : java/io/Closeable {
 
 public final class com/hexagonkt/http/server/HttpServer$Companion {
 	public final fun getBanner ()Ljava/lang/String;
-	public final fun getLogger ()Lcom/hexagonkt/core/logging/Logger;
 }
 
 public final class com/hexagonkt/http/server/HttpServerFeature : java/lang/Enum {

@@ -40,7 +40,7 @@ data class HttpServer(
 ) : Closeable {
 
     companion object {
-        val logger: Logger = Logger(this::class)
+        private val logger: Logger = Logger(this::class)
 
         val banner: String = """
         $CYAN          _________
