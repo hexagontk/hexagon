@@ -28,7 +28,7 @@ object SerializationManager {
 <span class="fc" id="L28">        }</span>
 
     fun requireDefaultFormat(): SerializationFormat =
-<span class="fc bfc" id="L31" title="All 2 branches covered.">        defaultFormat ?: error(&quot;Default serialization format not set&quot;)</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        defaultFormat ?: error(&quot;Default serialization format not set&quot;)</span>
 
     fun formatOfOrNull(mediaType: MediaType): SerializationFormat? =
 <span class="fc" id="L34">        formatsMap[mediaType]</span>

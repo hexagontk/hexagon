@@ -172,108 +172,109 @@ import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFa
 
 <span class="fc" id="L173">        val settings = adapterHttpClient.settings</span>
 <span class="fc bfc" id="L174" title="All 2 branches covered.">        val contentType = request.contentType ?: settings.contentType</span>
-<span class="pc bpc" id="L175" title="1 of 2 branches missed.">        val authorization = request.authorization ?: settings.authorization</span>
-<span class="fc" id="L176">        val baseUrl = settings.baseUrl</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        val accept = request.accept.ifEmpty(settings::accept)</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        val authorization = request.authorization ?: settings.authorization</span>
+<span class="fc" id="L177">        val baseUrl = settings.baseUrl</span>
 
-<span class="fc bfc" id="L178" title="All 2 branches covered.">        if (settings.useCookies) {</span>
-<span class="fc bfc" id="L179" title="All 2 branches covered.">            val uri = (baseUrl ?: request.url()).toURI()</span>
-<span class="fc" id="L180">            addCookies(uri, adapterJettyClient.httpCookieStore, request.cookies)</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        if (settings.useCookies) {</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">            val uri = (baseUrl ?: request.url()).toURI()</span>
+<span class="fc" id="L181">            addCookies(uri, adapterJettyClient.httpCookieStore, request.cookies)</span>
         }
 
-<span class="fc" id="L183">        val jettyRequest = adapterJettyClient</span>
-<span class="pc bpc" id="L184" title="1 of 4 branches missed.">            .newRequest(URI((baseUrl?.toString() ?: &quot;&quot;) + request.path))</span>
-<span class="fc" id="L185">            .method(HttpMethod.valueOf(request.method.toString()))</span>
-<span class="fc" id="L186">            .headers {</span>
-<span class="fc" id="L187">                it.remove(&quot;accept-encoding&quot;) // Don't send encoding by default</span>
-<span class="fc bfc" id="L188" title="All 2 branches covered.">                if (contentType != null)</span>
-<span class="fc" id="L189">                    it.put(&quot;content-type&quot;, contentType.text)</span>
-<span class="pc bpc" id="L190" title="1 of 2 branches missed.">                if (authorization != null)</span>
-<span class="nc" id="L191">                    it.put(&quot;authorization&quot;, authorization.text)</span>
-<span class="fc" id="L192">                (settings.headers + request.headers).values</span>
-<span class="fc" id="L193">                    .forEach { (k, v) -&gt; it.put(k, v.map(Any::toString)) }</span>
-<span class="fc" id="L194">            }</span>
-<span class="fc" id="L195">            .body(createBody(request))</span>
-<span class="fc" id="L196">            .accept(*request.accept.map { it.text }.toTypedArray())</span>
+<span class="fc" id="L184">        val jettyRequest = adapterJettyClient</span>
+<span class="pc bpc" id="L185" title="1 of 4 branches missed.">            .newRequest(URI((baseUrl?.toString() ?: &quot;&quot;) + request.path))</span>
+<span class="fc" id="L186">            .method(HttpMethod.valueOf(request.method.toString()))</span>
+<span class="fc" id="L187">            .headers {</span>
+<span class="fc" id="L188">                it.remove(&quot;accept-encoding&quot;) // Don't send encoding by default</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">                if (contentType != null)</span>
+<span class="fc" id="L190">                    it.put(&quot;content-type&quot;, contentType.text)</span>
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">                if (authorization != null)</span>
+<span class="nc" id="L192">                    it.put(&quot;authorization&quot;, authorization.text)</span>
+<span class="fc" id="L193">                (settings.headers + request.headers).values</span>
+<span class="fc" id="L194">                    .forEach { (k, v) -&gt; it.put(k, v.map(Any::toString)) }</span>
+<span class="fc" id="L195">            }</span>
+<span class="fc" id="L196">            .body(createBody(request))</span>
+<span class="fc" id="L197">            .accept(*accept.map { it.text }.toTypedArray())</span>
 
-<span class="fc" id="L198">        request.queryParameters</span>
-<span class="fc" id="L199">            .forEach { (k, v) -&gt; v.strings().forEach { jettyRequest.param(k, it) } }</span>
+<span class="fc" id="L199">        request.queryParameters</span>
+<span class="fc" id="L200">            .forEach { (k, v) -&gt; v.strings().forEach { jettyRequest.param(k, it) } }</span>
 
-<span class="fc" id="L201">        return jettyRequest</span>
+<span class="fc" id="L202">        return jettyRequest</span>
     }
 
     private fun createBody(request: HttpRequestPort): Request.Content {
 
-<span class="fc bfc" id="L206" title="All 4 branches covered.">        if (request.parts.isEmpty() &amp;&amp; request.formParameters.isEmpty())</span>
-<span class="fc" id="L207">            return BytesRequestContent(bodyToBytes(request.body))</span>
+<span class="fc bfc" id="L207" title="All 4 branches covered.">        if (request.parts.isEmpty() &amp;&amp; request.formParameters.isEmpty())</span>
+<span class="fc" id="L208">            return BytesRequestContent(bodyToBytes(request.body))</span>
 
-<span class="fc" id="L209">        val multiPart = MultiPartRequestContent()</span>
+<span class="fc" id="L210">        val multiPart = MultiPartRequestContent()</span>
 
-<span class="fc" id="L211">        request.parts.forEach { p -&gt;</span>
-<span class="fc bfc" id="L212" title="All 2 branches covered.">            if (p.submittedFileName == null)</span>
+<span class="fc" id="L212">        request.parts.forEach { p -&gt;</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">            if (p.submittedFileName == null)</span>
                 // TODO Add content type if present
-<span class="fc" id="L214">                multiPart.addPart(</span>
-<span class="fc" id="L215">                    ContentSourcePart(p.name, null, EMPTY, StringRequestContent(p.bodyString()))</span>
+<span class="fc" id="L215">                multiPart.addPart(</span>
+<span class="fc" id="L216">                    ContentSourcePart(p.name, null, EMPTY, StringRequestContent(p.bodyString()))</span>
                 )
             else
-<span class="fc" id="L218">                multiPart.addPart(</span>
-<span class="fc" id="L219">                    ContentSourcePart(</span>
-<span class="fc" id="L220">                        p.name,</span>
-<span class="fc" id="L221">                        p.submittedFileName,</span>
-<span class="fc" id="L222">                        EMPTY,</span>
-<span class="fc" id="L223">                        BytesRequestContent(bodyToBytes(p.body)),</span>
+<span class="fc" id="L219">                multiPart.addPart(</span>
+<span class="fc" id="L220">                    ContentSourcePart(</span>
+<span class="fc" id="L221">                        p.name,</span>
+<span class="fc" id="L222">                        p.submittedFileName,</span>
+<span class="fc" id="L223">                        EMPTY,</span>
+<span class="fc" id="L224">                        BytesRequestContent(bodyToBytes(p.body)),</span>
                     )
                 )
-<span class="fc" id="L226">        }</span>
+<span class="fc" id="L227">        }</span>
 
-<span class="fc" id="L228">        request.formParameters</span>
-<span class="fc" id="L229">            .forEach { (k, v) -&gt;</span>
-<span class="fc" id="L230">                v.strings().forEach {</span>
-<span class="fc" id="L231">                    multiPart.addPart(ContentSourcePart(k, null, EMPTY, StringRequestContent(it)))</span>
-<span class="fc" id="L232">                }</span>
-<span class="fc" id="L233">            }</span>
+<span class="fc" id="L229">        request.formParameters</span>
+<span class="fc" id="L230">            .forEach { (k, v) -&gt;</span>
+<span class="fc" id="L231">                v.strings().forEach {</span>
+<span class="fc" id="L232">                    multiPart.addPart(ContentSourcePart(k, null, EMPTY, StringRequestContent(it)))</span>
+<span class="fc" id="L233">                }</span>
+<span class="fc" id="L234">            }</span>
 
-<span class="fc" id="L235">        multiPart.close()</span>
+<span class="fc" id="L236">        multiPart.close()</span>
 
-<span class="fc" id="L237">        return multiPart</span>
+<span class="fc" id="L238">        return multiPart</span>
     }
 
     private fun addCookies(uri: URI, store: HttpCookieStore, cookies: List&lt;Cookie&gt;) {
-<span class="fc" id="L241">        cookies.forEach {</span>
-<span class="fc" id="L242">            val httpCookie = java.net.HttpCookie(it.name, it.value)</span>
-<span class="fc" id="L243">            httpCookie.secure = it.secure</span>
-<span class="fc" id="L244">            httpCookie.maxAge = it.maxAge</span>
-<span class="fc" id="L245">            store.add(uri, HttpCookie.from(httpCookie))</span>
-<span class="fc" id="L246">        }</span>
-<span class="fc" id="L247">    }</span>
+<span class="fc" id="L242">        cookies.forEach {</span>
+<span class="fc" id="L243">            val httpCookie = java.net.HttpCookie(it.name, it.value)</span>
+<span class="fc" id="L244">            httpCookie.secure = it.secure</span>
+<span class="fc" id="L245">            httpCookie.maxAge = it.maxAge</span>
+<span class="fc" id="L246">            store.add(uri, HttpCookie.from(httpCookie))</span>
+<span class="fc" id="L247">        }</span>
+<span class="fc" id="L248">    }</span>
 
     private fun sslContext(settings: HttpClientSettings): ClientSslContextFactory =
-<span class="fc" id="L250">        when {</span>
-<span class="fc bfc" id="L251" title="All 2 branches covered.">            settings.insecure -&gt;</span>
-<span class="fc" id="L252">                ClientSslContextFactory().apply { isTrustAll = true }</span>
+<span class="fc" id="L251">        when {</span>
+<span class="fc bfc" id="L252" title="All 2 branches covered.">            settings.insecure -&gt;</span>
+<span class="fc" id="L253">                ClientSslContextFactory().apply { isTrustAll = true }</span>
 
-<span class="fc bfc" id="L254" title="All 2 branches covered.">            settings.sslSettings != null -&gt; {</span>
-<span class="pc bpc" id="L255" title="1 of 2 branches missed.">                val sslSettings = settings.sslSettings ?: error(&quot;SSL settings cannot be 'null'&quot;)</span>
-<span class="fc" id="L256">                val keyStore = sslSettings.keyStore</span>
-<span class="fc" id="L257">                val trustStore = sslSettings.trustStore</span>
-<span class="fc" id="L258">                val sslContextBuilder = ClientSslContextFactory()</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">            settings.sslSettings != null -&gt; {</span>
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">                val sslSettings = settings.sslSettings ?: error(&quot;SSL settings cannot be 'null'&quot;)</span>
+<span class="fc" id="L257">                val keyStore = sslSettings.keyStore</span>
+<span class="fc" id="L258">                val trustStore = sslSettings.trustStore</span>
+<span class="fc" id="L259">                val sslContextBuilder = ClientSslContextFactory()</span>
 
-<span class="fc bfc" id="L260" title="All 2 branches covered.">                if (keyStore != null) {</span>
-<span class="fc" id="L261">                    val store = loadKeyStore(keyStore, sslSettings.keyStorePassword)</span>
-<span class="fc" id="L262">                    sslContextBuilder.keyStore = store</span>
-<span class="fc" id="L263">                    sslContextBuilder.keyStorePassword = sslSettings.keyStorePassword</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">                if (keyStore != null) {</span>
+<span class="fc" id="L262">                    val store = loadKeyStore(keyStore, sslSettings.keyStorePassword)</span>
+<span class="fc" id="L263">                    sslContextBuilder.keyStore = store</span>
+<span class="fc" id="L264">                    sslContextBuilder.keyStorePassword = sslSettings.keyStorePassword</span>
                 }
 
-<span class="fc bfc" id="L266" title="All 2 branches covered.">                if (trustStore != null) {</span>
-<span class="fc" id="L267">                    val store = loadKeyStore(trustStore, sslSettings.trustStorePassword)</span>
-<span class="fc" id="L268">                    sslContextBuilder.trustStore = store</span>
-<span class="fc" id="L269">                    sslContextBuilder.setTrustStorePassword(sslSettings.trustStorePassword)</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">                if (trustStore != null) {</span>
+<span class="fc" id="L268">                    val store = loadKeyStore(trustStore, sslSettings.trustStorePassword)</span>
+<span class="fc" id="L269">                    sslContextBuilder.trustStore = store</span>
+<span class="fc" id="L270">                    sslContextBuilder.setTrustStorePassword(sslSettings.trustStorePassword)</span>
                 }
 
-<span class="fc" id="L272">                sslContextBuilder</span>
+<span class="fc" id="L273">                sslContextBuilder</span>
             }
 
             else -&gt;
-<span class="fc" id="L276">                ClientSslContextFactory()</span>
-<span class="fc" id="L277">        }</span>
+<span class="fc" id="L277">                ClientSslContextFactory()</span>
+<span class="fc" id="L278">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

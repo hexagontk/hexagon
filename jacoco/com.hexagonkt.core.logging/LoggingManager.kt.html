@@ -3,11 +3,11 @@
 import kotlin.reflect.KClass
 
 /**
- * Manages Logs using [PrintLoggingAdapter]
+ * Manages Logs using [SystemLoggingAdapter]
  */
 object LoggingManager {
 <span class="fc" id="L9">    var useColor: Boolean = true</span>
-<span class="fc" id="L10">    var adapter: LoggingPort = PrintLoggingAdapter()</span>
+<span class="fc" id="L10">    var adapter: LoggingPort = SystemLoggingAdapter()</span>
 <span class="fc" id="L11">    var defaultLoggerName: String = &quot;com.hexagonkt.core.logging&quot;</span>
         set(value) {
 <span class="fc bfc" id="L13" title="All 4 branches covered.">            require(value.isNotEmpty()) { &quot;Default logger name cannot be empty string&quot; }</span>

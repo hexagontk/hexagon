@@ -20,78 +20,77 @@ import com.hexagonkt.http.model.HttpStatusType.SERVER_ERROR
     )
 {
 
-<span class="fc" id="L23">    private val logger: Logger = Logger(PathHandler::class)</span>
-
     private companion object {
+<span class="pc" id="L24">        val logger: Logger = Logger(PathHandler::class)</span>
         fun nestedMethods(handlers: List&lt;HttpHandler&gt;): Set&lt;HttpMethod&gt; =
-<span class="fc" id="L27">            handlers</span>
-<span class="fc bfc" id="L28" title="All 2 branches covered.">                .flatMap { it.handlerPredicate.methods.ifEmpty { ALL } }</span>
-<span class="fc" id="L29">                .toSet()</span>
+<span class="fc" id="L26">            handlers</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">                .flatMap { it.handlerPredicate.methods.ifEmpty { ALL } }</span>
+<span class="fc" id="L28">                .toSet()</span>
     }
 
     constructor(vararg handlers: HttpHandler) :
-<span class="fc" id="L33">        this(</span>
-<span class="fc" id="L34">            HttpPredicate(methods = nestedMethods(handlers.toList())),</span>
-<span class="fc" id="L35">            handlers.toList()</span>
-<span class="fc" id="L36">        )</span>
+<span class="fc" id="L32">        this(</span>
+<span class="fc" id="L33">            HttpPredicate(methods = nestedMethods(handlers.toList())),</span>
+<span class="fc" id="L34">            handlers.toList()</span>
+<span class="fc" id="L35">        )</span>
 
     constructor(pattern: String, handlers: List&lt;HttpHandler&gt;) :
-<span class="fc" id="L39">        this(</span>
-<span class="fc" id="L40">            HttpPredicate(</span>
-<span class="fc" id="L41">                methods = nestedMethods(handlers.toList()),</span>
-<span class="fc" id="L42">                pattern = pattern,</span>
-<span class="fc" id="L43">                prefix = true,</span>
+<span class="fc" id="L38">        this(</span>
+<span class="fc" id="L39">            HttpPredicate(</span>
+<span class="fc" id="L40">                methods = nestedMethods(handlers.toList()),</span>
+<span class="fc" id="L41">                pattern = pattern,</span>
+<span class="fc" id="L42">                prefix = true,</span>
             ),
-<span class="fc" id="L45">            handlers</span>
-<span class="fc" id="L46">        )</span>
+<span class="fc" id="L44">            handlers</span>
+<span class="fc" id="L45">        )</span>
 
     constructor(pattern: String, vararg handlers: HttpHandler) :
-<span class="fc" id="L49">        this(pattern, handlers.toList())</span>
+<span class="fc" id="L48">        this(pattern, handlers.toList())</span>
 
     override fun process(request: HttpRequestPort): HttpContext =
-<span class="fc" id="L52">        process(HttpContext(HttpCall(request = request), predicate)).let {</span>
-<span class="fc" id="L53">            val event = it.event</span>
-<span class="fc" id="L54">            val response = event.response</span>
-<span class="fc" id="L55">            val exception = it.exception</span>
+<span class="fc" id="L51">        process(HttpContext(HttpCall(request = request), predicate)).let {</span>
+<span class="fc" id="L52">            val event = it.event</span>
+<span class="fc" id="L53">            val response = event.response</span>
+<span class="fc" id="L54">            val exception = it.exception</span>
 
-<span class="fc bfc" id="L57" title="All 2 branches covered.">            if (exception != null) {</span>
-<span class="fc" id="L58">                logger.error(exception) {</span>
-<span class="fc" id="L59">                    &quot;Exception received at call processing end. Clear/handle exception in a handler&quot;</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">            if (exception != null) {</span>
+<span class="fc" id="L57">                logger.error(exception) {</span>
+<span class="fc" id="L58">                    &quot;Exception received at call processing end. Clear/handle exception in a handler&quot;</span>
                 }
-<span class="fc bfc" id="L61" title="All 2 branches covered.">                if (response.status.type != SERVER_ERROR)</span>
-<span class="fc" id="L62">                    it.with(</span>
-<span class="fc" id="L63">                        event = event.copy(</span>
-<span class="fc" id="L64">                            response = response.with(</span>
-<span class="fc" id="L65">                                body = exception.toText(),</span>
-<span class="fc" id="L66">                                contentType = ContentType(TEXT_PLAIN),</span>
-<span class="fc" id="L67">                                status = INTERNAL_SERVER_ERROR_500,</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">                if (response.status.type != SERVER_ERROR)</span>
+<span class="fc" id="L61">                    it.with(</span>
+<span class="fc" id="L62">                        event = event.copy(</span>
+<span class="fc" id="L63">                            response = response.with(</span>
+<span class="fc" id="L64">                                body = exception.toText(),</span>
+<span class="fc" id="L65">                                contentType = ContentType(TEXT_PLAIN),</span>
+<span class="fc" id="L66">                                status = INTERNAL_SERVER_ERROR_500,</span>
                             )
                         )
                     )
                 else
-<span class="fc" id="L72">                    it</span>
+<span class="fc" id="L71">                    it</span>
             }
             else {
-<span class="fc" id="L75">                it</span>
+<span class="fc" id="L74">                it</span>
             }
-<span class="fc" id="L77">        } as HttpContext</span>
+<span class="fc" id="L76">        } as HttpContext</span>
 
     override fun addPrefix(prefix: String): HttpHandler =
-<span class="fc" id="L80">        copy(handlerPredicate = handlerPredicate.addPrefix(prefix))</span>
+<span class="fc" id="L79">        copy(handlerPredicate = handlerPredicate.addPrefix(prefix))</span>
 
     fun describe(): String =
-<span class="fc" id="L83">        listOf(</span>
-<span class="fc" id="L84">            listOf(handlerPredicate.describe()),</span>
-<span class="fc" id="L85">            handlers</span>
-<span class="fc" id="L86">                .map {</span>
-<span class="fc" id="L87">                    when (it) {</span>
-<span class="fc bfc" id="L88" title="All 2 branches covered.">                        is PathHandler -&gt; it.describe()</span>
-<span class="fc" id="L89">                        else -&gt; it.handlerPredicate.describe()</span>
+<span class="fc" id="L82">        listOf(</span>
+<span class="fc" id="L83">            listOf(handlerPredicate.describe()),</span>
+<span class="fc" id="L84">            handlers</span>
+<span class="fc" id="L85">                .map {</span>
+<span class="fc" id="L86">                    when (it) {</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">                        is PathHandler -&gt; it.describe()</span>
+<span class="fc" id="L88">                        else -&gt; it.handlerPredicate.describe()</span>
                     }
                 }
-<span class="fc" id="L92">                .map {it.prependIndent(&quot; &quot;.repeat(4)) }</span>
+<span class="fc" id="L91">                .map {it.prependIndent(&quot; &quot;.repeat(4)) }</span>
         )
-<span class="fc" id="L94">        .flatten()</span>
-<span class="fc" id="L95">        .joinToString(&quot;\n&quot;) { it }</span>
+<span class="fc" id="L93">        .flatten()</span>
+<span class="fc" id="L94">        .joinToString(&quot;\n&quot;) { it }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

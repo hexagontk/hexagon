@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="favicon.png">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.4">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.6">
     
     
       
@@ -486,6 +486,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#composite-port" class="md-nav__link">
+    Composite Port
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#library" class="md-nav__link">
     Library
   </a>
@@ -612,6 +619,26 @@
   
   <span class="md-ellipsis">
     HTTP Client
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="serialization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Serialization
   </span>
   
 
@@ -1119,6 +1146,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#composite-port" class="md-nav__link">
+    Composite Port
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#library" class="md-nav__link">
     Library
   </a>
@@ -1183,13 +1217,15 @@
   <h1>Home</h1>
 
 <p>The Hexagon Toolkit provides several libraries to build server applications. These libraries provide
-single standalone features<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> and are referred to as <a href="https://herbertograca.com/2017/09/14/ports-adapters-architecture">"Ports"</a>.</p>
+single standalone features and are referred to as <a href="https://herbertograca.com/2017/09/14/ports-adapters-architecture">"Ports"</a>.</p>
 <p>The main ports are:</p>
 <ul>
 <li><a href="/http_server">The HTTP server</a>: supports HTTPS, HTTP/2, WebSockets, mutual TLS, static files (serve and
   upload), forms processing, cookies, CORS and more.</li>
 <li><a href="/http_client">The HTTP client</a>: which supports mutual TLS, HTTP/2, WebSockets, cookies, form fields and files
   among other features.</li>
+<li><a href="/serialization">Serialization</a>: provides a common way of using different data formats. Data formats are pluggable
+  and are handled in the same way regardless of their library.</li>
 <li><a href="/templates">Template Processing</a>: allows template processing from URLs (local files, resources or HTTP
   content) binding name patterns to different engines.</li>
 </ul>
@@ -1287,20 +1323,20 @@ single application. For example, you could use many Template adapters to support
 engines.</p>
 <p><a href="/http_client_jetty">http_client_jetty</a>, and <a href="/http_server_jetty">http_server_jetty</a> are examples of this type of module. Adapter names must
 start with their Port name.</p>
+<h3 id="composite-port">Composite Port<a class="headerlink" href="#composite-port" title="Permanent link">&para;</a></h3>
+<p>These modules provide functionality on top of a set of ports combining them, but without relying on
+any specific adapters. An example would be the <a href="/web">Web</a> module that uses <a href="/http_server">http_server</a> and
+<a href="/templates">template</a> Ports, but leaves clients the decision of picking the adapters they
+want.</p>
 <h3 id="library">Library<a class="headerlink" href="#library" title="Permanent link">&para;</a></h3>
-<p>Module that provide functionality that does not depend on different implementations, like <a href="/core">core</a>.
-These modules can depend on several Ports, but never on Adapters. An example would be the <a href="/web">Web</a>
-module that uses <a href="/http_server">http_server</a> and <a href="/templates">template</a> Ports, but leaves clients the
-decission of picking the adapters they want.</p>
+<p>Module that provide functionality that does not depend on different implementations, like <a href="/core">core</a> and
+<a href="/handlers">handlers</a>.</p>
 <h3 id="manager">Manager<a class="headerlink" href="#manager" title="Permanent link">&para;</a></h3>
 <p>Singleton object to manage a cross toolkit aspect. I.e., Serialization, Logging or Templates.</p>
 <h2 id="hexagon-extras">Hexagon Extras<a class="headerlink" href="#hexagon-extras" title="Permanent link">&para;</a></h2>
-<p>The libraries inside the <code>hexagon_extra</code> repository provide extra features not bound to different
-implementations (rely on ports to work). They will not use dependencies outside the Hexagon
-toolkit.</p>
+<p>The libraries inside the <code>hexagon_extra</code> repository provide extra features. They may be useful to
+develop applications, but not strictly required. Some of these modules are:</p>
 <ul>
-<li><a href="/web">Web</a>: this module is meant to ease web application development. Provides helpers for
-  generating HTML and depends on the <a href="/http_server">HTTP Server</a> and <a href="/templates">Templates</a> ports.</li>
 <li><a href="/scheduler">Schedulers</a>: Provides repeated tasks execution based on <a href="https://en.wikipedia.org/wiki/Cron">Cron</a> expressions.</li>
 <li><a href="/models">Models</a>: Contain classes that model common data objects.</li>
 </ul>
@@ -1324,7 +1360,7 @@ nature, no tool can do that), you have to provide a layer of abstraction by your
 <tbody>
 <tr>
 <td><a href="/http_server">HTTP Server</a></td>
-<td><a href="/http_server_netty">Netty</a>, <a href="/http_server_netty_epoll">Netty Epoll</a>, <a href="/http_server_jetty">Jetty</a>, <a href="/http_server_servlet">Servlet</a></td>
+<td><a href="/http_server_netty">Netty</a>, <a href="/http_server_netty_epoll">Netty Epoll</a>, <a href="/http_server_jetty">Jetty</a>, <a href="/http_server_servlet">Servlet</a>, <a href="/http_server_nima">Nima</a></td>
 </tr>
 <tr>
 <td><a href="/http_client">HTTP Client</a></td>
@@ -1343,21 +1379,15 @@ nature, no tool can do that), you have to provide a layer of abstraction by your
 <h2 id="module-dependencies">Module Dependencies<a class="headerlink" href="#module-dependencies" title="Permanent link">&para;</a></h2>
 <p>Module dependencies (including extra modules):</p>
 <pre class="mermaid"><code>graph TD
-  http_server --&gt;|uses| http
-  http_client --&gt;|uses| http
+  http_handlers --&gt;|uses| http
+  http_handlers --&gt;|uses| handlers
+  http_server --&gt;|uses| http_handlers
+  http_client --&gt;|uses| http_handlers
   web --&gt;|uses| http_server
   web --&gt;|uses| templates
   rest --&gt;|uses| http_server
-  rest --&gt;|uses| serialization</code></pre>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:1">
-<p>Except the Core module that contains a set of utilities like logging. However, some of these
-capacities can be replaced by other third party libraries.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-</ol>
-</div>
+  rest --&gt;|uses| serialization
+  rest_tools --&gt;|uses| rest</code></pre>
 
 
   

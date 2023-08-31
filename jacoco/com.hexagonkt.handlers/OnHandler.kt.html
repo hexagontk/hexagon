@@ -7,10 +7,14 @@
 
     override fun process(context: Context&lt;T&gt;): Context&lt;T&gt; =
 <span class="fc" id="L9">        try {</span>
-<span class="fc" id="L10">            callback(context).with(handled = true).next()</span>
+<span class="fc" id="L10">            val callbackContext = callback(context)</span>
+<span class="pc bpc" id="L11" title="1 of 2 branches missed.">            if (callbackContext.handled)</span>
+<span class="nc" id="L12">                callbackContext.next()</span>
+            else
+<span class="fc" id="L14">                callbackContext.with(handled = true).next()</span>
         }
-<span class="fc" id="L12">        catch (e: Exception) {</span>
-<span class="fc" id="L13">            context.with(exception = e).next()</span>
-<span class="fc" id="L14">        }</span>
-<span class="fc" id="L15">}</span>
+<span class="fc" id="L16">        catch (e: Exception) {</span>
+<span class="fc" id="L17">            context.with(exception = e).next()</span>
+<span class="fc" id="L18">        }</span>
+<span class="fc" id="L19">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

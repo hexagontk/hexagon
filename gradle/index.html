@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.4">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.6">
     
     
       
@@ -469,6 +469,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../serialization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Serialization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../templates/" class="md-nav__link">
         
   
@@ -604,6 +624,13 @@
           <li class="md-nav__item">
   <a href="#native" class="md-nav__link">
     Native
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jmh" class="md-nav__link">
+    JMH
   </a>
   
 </li>
@@ -1114,6 +1141,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#jmh" class="md-nav__link">
+    JMH
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1141,31 +1175,34 @@
 customize their behavior. It is possible to add/change variables of a build from the following
 places:</p>
 <ol>
+<li>Passing them from the command line with the following switch: <code>-P key=val</code>.</li>
 <li>In the project's <code>gradle.properties</code> file.</li>
+<li>Defining a project's extra property inside <code>build.gradle.kts</code>. Ie: <code>project.ext["key"] = "val"</code>.</li>
 <li>In your user's gradle configuration: <code>~/.gradle/gradle.properties</code>.</li>
-<li>Passing them from the command line with the following switch: <code>-Pkey=val</code>.</li>
-<li>Defining a project's extra property inside <code>build.gradle</code>. Ie: <code>project.ext.key='val'</code>.</li>
 </ol>
 <p>For examples and reference, check <a href="https://github.com/hexagonkt/hexagon/blob/master/build.gradle.kts">build.gradle.kts</a> and <a href="https://github.com/hexagonkt/hexagon/blob/master/gradle.properties">gradle.properties</a>.</p>
 <h2 id="helper-scripts">Helper scripts<a class="headerlink" href="#helper-scripts" title="Permanent link">&para;</a></h2>
 <p>These scripts can be added to your build to include a whole new capability to your building logic.</p>
 <p>To use them, you can import the online versions, or copy them to your <code>gradle</code> directory before
 importing the script.</p>
-<p>You can import these scripts by adding <code>apply from: $gradleScripts/$script.gradle</code> to your
-<code>build.gradle</code> file some of them may require additional plugins inside the <code>plugins</code> section in the
-root <code>build.gradle</code>. Check toolkit <code>build.gradle</code> files for examples.</p>
+<p>You can import these scripts by adding <code>apply(from = "$gradleScripts/$script.gradle")</code> to your
+<code>build.gradle.kts</code>, some of them may require additional plugins inside the <code>plugins</code> section in the
+root <code>build.gradle.kts</code>. Check toolkit <code>build.gradle.kts</code> files for examples.</p>
 <h3 id="publish">Publish<a class="headerlink" href="#publish" title="Permanent link">&para;</a></h3>
 <p>This script set up the project/module for publishing in <a href="https://search.maven.org">Maven Central</a>.</p>
 <p>It publishes all artifacts attached to the <code>mavenJava</code> publication (check <a href="https://github.com/hexagonkt/hexagon/blob/master/gradle/kotlin.gradle">kotlin.gradle</a> publishing
-section) at the bare minimum binaries are published. For an Open Source project, you must include
-sources and javadoc.</p>
+section).</p>
+<p>The binaries are always published. For an Open Source project, you must also include sources and
+javadoc.</p>
 <p>To use it, apply <code>$gradleScripts/publish.gradle</code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
-<li>bintrayKey (REQUIRED): if not defined will try to load BINTRAY_KEY environment variable.</li>
-<li>bintrayUser (REQUIRED): or BINTRAY_USER environment variable if not defined.</li>
-<li>license (REQUIRED): the license used in published POMs.</li>
-<li>vcsUrl (REQUIRED): code repository location.</li>
+<li>signingKey (REQUIRED): if not defined will try to load SIGNING_KEY environment variable.</li>
+<li>signingPassword (REQUIRED): or SIGNING_PASSWORD environment variable if not defined.</li>
+<li>ossrhUsername (REQUIRED): or OSSRH_USERNAME if not found.</li>
+<li>ossrhPassword (REQUIRED): or OSSRH_PASSWORD if not found.</li>
+<li>licenses (REQUIRED): the licenses used in published POMs.</li>
+<li>siteHost (REQUIRED): project's website.</li>
 </ul>
 <h3 id="dokka">Dokka<a class="headerlink" href="#dokka" title="Permanent link">&para;</a></h3>
 <p>This script set up <a href="https://github.com/Kotlin/dokka">Dokka</a> tool and add a JAR with the project's code documentation to the published
@@ -1176,14 +1213,14 @@ JARs. It adds the following extra task:</p>
 <p>All modules' Markdown files are added to the documentation and test classes ending in <code>SamplesTest</code>
 are available to be referenced as samples.</p>
 <p>To use it, apply <code>$gradleScripts/dokka.gradle</code> and add the
-<code>id 'org.jetbrains.dokka' version 'VERSION'</code> plugin to the root <code>build.gradle</code>.</p>
+<code>id("org.jetbrains.dokka") version("VERSION")</code> plugin to the root <code>build.gradle.kts</code>.</p>
 <p>The format for the generated documentation will be <code>javadoc</code> to make it compatible with current
 IDEs.</p>
 <h3 id="icons">Icons<a class="headerlink" href="#icons" title="Permanent link">&para;</a></h3>
 <p>Create web icons (favicon and thumbnails for browsers/mobile) from SVG images (logos).</p>
 <p>For image rendering you will need <a href="https://github.com/GNOME/librsvg">rsvg</a> (librsvg2-bin) and <a href="https://imagemagick.org/index.php">imagemagick</a> installed in the
 development machine.</p>
-<p>To use it, apply <code>$gradleScripts/icons.gradle</code> to your <code>build.gradle</code>.</p>
+<p>To use it, apply <code>$gradleScripts/icons.gradle</code> to your <code>build.gradle.kts</code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>logo (REQUIRED): SVG file used to render the logos. Used for the favicon.</li>
@@ -1207,7 +1244,7 @@ development machine.</p>
 <li>Published artifacts (binaries and sources): sourcesJar task</li>
 </ul>
 <p>To use it, apply <code>$gradleScripts/kotlin.gradle</code> and add the
-<code>id 'org.jetbrains.kotlin.jvm' version 'VERSION'</code> plugin to the root <code>build.gradle</code>.</p>
+<code>id("org.jetbrains.kotlin.jvm") version("VERSION")</code> plugin to the root <code>build.gradle.kts</code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.</li>
@@ -1227,16 +1264,15 @@ development machine.</p>
 <li>jpackage: create a jpackage distribution including a JVM with a subset of the modules.</li>
 <li>tarJlink: compress Jpackage distribution in a single file.</li>
 </ul>
-<p>To use it, apply <code>$gradleScripts/application.gradle</code> to your <code>build.gradle</code>.</p>
+<p>To use it, apply <code>$gradleScripts/application.gradle</code> to your <code>build.gradle.kts</code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
-<li>modules: comma separated list of modules to include in the generated JRE. By default:
-  <code>java.logging,java.management</code>.</li>
+<li>modules: comma separated list of modules to include in the generated JRE.</li>
 <li>options: JVM options passed to the jpackage generated launcher.</li>
 <li>icon: icon to be used in the jpackage distribution.</li>
 <li>applicationClass (REQUIRED): fully qualified name of the main class of the application.</li>
 </ul>
-<p>To set up this script you need to add the main class name to your <code>build.gradle</code> file with the
+<p>To set up this script you need to add the main class name to your <code>build.gradle.kts</code> file with the
 following code:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -1266,7 +1302,7 @@ used for production environments.</p>
 <li>createCa: creates <code>ca.p12</code> and import its public certificate inside <code>trust.p12</code>.</li>
 <li>createIdentities: creates the <code>&lt;domain&gt;.p12</code> store for all <code>sslDomain</code> variables.</li>
 </ul>
-<p>To use it, apply <code>$gradleScripts/certificates.gradle</code> to your <code>build.gradle</code>.</p>
+<p>To use it, apply <code>$gradleScripts/certificates.gradle</code> to your <code>build.gradle.kts</code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>sslDomain[1-9] (REQUIRED): the main domain for the identity store. You can create up to ten (from
@@ -1286,20 +1322,20 @@ used for production environments.</p>
 </ul>
 <h3 id="lean">Lean<a class="headerlink" href="#lean" title="Permanent link">&para;</a></h3>
 <p>This script changes the default Gradle source layout to be less bulky. To use it you must apply the
-<code>$gradleScripts/lean.gradle</code> script to your <code>build.gradle</code> file. It must be applied after the
+<code>$gradleScripts/lean.gradle</code> script to your <code>build.gradle.kts</code> file. It must be applied after the
 Kotlin plugin.</p>
 <p>After applying this script, the source folders will be <code>${projectDir}/main</code> and
 <code>${projectDir}/test</code>, and the resources will be stored also in these folders.</p>
 <h3 id="detekt">Detekt<a class="headerlink" href="#detekt" title="Permanent link">&para;</a></h3>
 <p>This script sets up the build to analyze the code with the <a href="https://detekt.github.io/detekt">Detekt</a> static code analyzer. To use it
-you must apply the <code>$gradleScripts/detekt.gradle</code> script to your <code>build.gradle</code> file. It must be
+you must apply the <code>$gradleScripts/detekt.gradle</code> script to your <code>build.gradle.kts</code> file. It must be
 applied after the Kotlin plugin.</p>
 <p>For the script to work you need to add the plugin to the plugins build section before importing the
 script. I.e.:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">id</span><span class="p">(</span><span class="s">&quot;io.gitlab.arturbosch.detekt&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s">&quot;VERSION&quot;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="n">id</span><span class="p">(</span><span class="s">&quot;io.gitlab.arturbosch.detekt&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="p">(</span><span class="s">&quot;VERSION&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
@@ -1316,8 +1352,8 @@ application.</p>
 <li>upx: compress the native executable using 'upx'. NOTE: Makes binaries use more RAM!!!</li>
 <li>tarNative: compress native executable into a TAR file.</li>
 </ul>
-<p>To use it you must apply the <code>$gradleScripts/native.gradle</code> script to your <code>build.gradle</code> file. It
-must be applied after the Kotlin plugin.</p>
+<p>To use it you must apply the <code>$gradleScripts/native.gradle</code> script to your <code>build.gradle.kts</code> file.
+It must be applied after the Kotlin plugin.</p>
 <p>For the script to work you need to add the plugin to the plugins build section before importing the
 script. I.e.:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -1326,19 +1362,25 @@ script. I.e.:</p>
 <span class="w">    </span><span class="n">id</span><span class="p">(</span><span class="s">&quot;org.graalvm.buildtools.native&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="p">(</span><span class="s">&quot;VERSION&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-<p>To add configuration metadata in your libraries. you should run these commands:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>./gradlew<span class="w"> </span>-Pagent<span class="w"> </span>build
-./gradlew<span class="w"> </span>metadataCopy
-<span class="c1"># After including the metadata you can publish your artifacts. I.e.:</span>
-./gradlew<span class="w"> </span>publishToMavenLocal
-</code></pre></div></td></tr></table></div>
-<p>And if you want to create a native image for your application you should execute:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>./gradlew<span class="w"> </span>-Pagent<span class="w"> </span>nativeCompile
+<p>If you want to create a native image for your application you should execute:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>./gradlew<span class="w"> </span>nativeCompile
 </code></pre></div></td></tr></table></div>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<h3 id="jmh">JMH<a class="headerlink" href="#jmh" title="Permanent link">&para;</a></h3>
+<p>Sets up the build to run JMH benchmarks. To use it you must apply the <code>$gradleScripts/jmh.gradle</code>
+script to your <code>build.gradle.kts</code> file.</p>
+<p>For the script to work you need to add the plugin to the plugins build section before importing the
+script. I.e.:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">id</span><span class="p">(</span><span class="s">&quot;me.champeau.jmh&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="p">(</span><span class="s">&quot;VERSION&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<ul>
+<li>jmhVersion: JMH version to be used. If not specified a tested JMH version will be used.</li>
+</ul>
 
 
   

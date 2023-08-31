@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SystemLogger.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.logging</a> &gt; <span class="el_source">SystemLogger.kt</span></div><h1>SystemLogger.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.logging
+
+import com.hexagonkt.core.logging.LoggingLevel.*
+
+<span class="pc" id="L5">data class SystemLogger(val name: String) : LoggerPort {</span>
+
+<span class="fc" id="L7">    private val logger: System.Logger = System.getLogger(name)</span>
+
+    override fun &lt;E : Throwable&gt; log(level: LoggingLevel, exception: E, message: (E) -&gt; Any?) {
+<span class="pc bpc" id="L10" title="1 of 2 branches missed.">        if (LoggingManager.isLoggerLevelEnabled(name, level))</span>
+<span class="fc" id="L11">            logger.log(level(level), message(exception).toString(), exception)</span>
+<span class="fc" id="L12">    }</span>
+
+    override fun log(level: LoggingLevel, message: () -&gt; Any?) {
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        if (LoggingManager.isLoggerLevelEnabled(name, level))</span>
+<span class="fc" id="L16">            logger.log(level(level), message())</span>
+<span class="fc" id="L17">    }</span>
+
+    private fun level(level: LoggingLevel): System.Logger.Level =
+<span class="pc bpc" id="L20" title="1 of 6 branches missed.">        when (level) {</span>
+<span class="fc" id="L21">            TRACE -&gt; System.Logger.Level.TRACE</span>
+<span class="fc" id="L22">            DEBUG -&gt; System.Logger.Level.DEBUG</span>
+<span class="fc" id="L23">            INFO -&gt; System.Logger.Level.INFO</span>
+<span class="fc" id="L24">            WARN -&gt; System.Logger.Level.WARNING</span>
+<span class="fc" id="L25">            ERROR -&gt; System.Logger.Level.ERROR</span>
+<span class="nc" id="L26">            OFF -&gt; System.Logger.Level.OFF</span>
+<span class="fc" id="L27">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

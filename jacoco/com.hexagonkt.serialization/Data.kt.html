@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Data.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.serialization</a> &gt; <span class="el_source">Data.kt</span></div><h1>Data.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.serialization
 
 import kotlin.collections.Map.Entry
+import kotlin.reflect.KProperty1
 
 interface Data&lt;T&gt; : Map&lt;String, Any?&gt; {
-    fun data(): Map&lt;String, *&gt;
-    fun with(data: Map&lt;String, *&gt;): T
+    val data: Map&lt;String, *&gt;
+    fun copy(data: Map&lt;String, *&gt;): T
 
-    override val entries: Set&lt;Entry&lt;String, Any?&gt;&gt;
-<span class="fc" id="L10">        get() = data().entries</span>
+    override val entries: Set&lt;Entry&lt;String, *&gt;&gt;
+<span class="fc" id="L11">        get() = data.entries</span>
 
     override val keys: Set&lt;String&gt;
-<span class="nc" id="L13">        get() = data().keys</span>
+<span class="nc" id="L14">        get() = data.keys</span>
 
     override val size: Int
-<span class="nc" id="L16">        get() = data().size</span>
+<span class="nc" id="L17">        get() = data.size</span>
 
-    override val values: Collection&lt;Any?&gt;
-<span class="nc" id="L19">        get() = data().values</span>
+    override val values: Collection&lt;*&gt;
+<span class="nc" id="L20">        get() = data.values</span>
 
     override fun isEmpty(): Boolean =
-<span class="fc" id="L22">        data().isEmpty()</span>
+<span class="fc" id="L23">        data.isEmpty()</span>
 
     override fun get(key: String): Any? =
-<span class="nc" id="L25">        data()[key]</span>
+<span class="nc" id="L26">        data[key]</span>
 
     override fun containsValue(value: Any?): Boolean =
-<span class="nc" id="L28">        data().containsValue(value)</span>
+<span class="nc" id="L29">        data.containsValue(value)</span>
 
     override fun containsKey(key: String): Boolean =
-<span class="nc" id="L31">        data().containsKey(key)</span>
+<span class="nc" id="L32">        data.containsKey(key)</span>
+
+    operator fun get(key: KProperty1&lt;T, *&gt;): Any? =
+<span class="nc" id="L35">        data[key.name]</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -15,10 +15,14 @@
         <link rel="canonical" href="https://hexagonkt.com/serialization/">
       
       
+        <link rel="prev" href="../http_client/">
+      
+      
+        <link rel="next" href="../templates/">
       
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.4">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.6">
     
     
       
@@ -209,10 +213,12 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href=".." class="md-tabs__link">
           
   
@@ -325,17 +331,19 @@
       
   
   
+    
+  
   
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
             
@@ -348,7 +356,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             Documentation
@@ -450,6 +458,103 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Serialization
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Serialization
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#module-serialization" class="md-nav__link">
+    Module serialization
+  </a>
+  
+    <nav class="md-nav" aria-label="Module serialization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defined-ports" class="md-nav__link">
+    Defined Ports
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serialization" class="md-nav__link">
+    Serialization
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonktserialization" class="md-nav__link">
+    Package com.hexagonkt.serialization
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -970,9 +1075,8 @@
 <h2 id="module-serialization">Module serialization<a class="headerlink" href="#module-serialization" title="Permanent link">&para;</a></h2>
 <p>This module holds serialization utilities.</p>
 <h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
-<p>This module is not meant to be imported directly. It will be included by using any other part of the
-toolkit. However, if you only want to use the utilities, logging or serialization (i.e., for a
-desktop application), you can import it with the following code:</p>
+<p>This module is not meant to be used directly. You should include an Adapter implementing this
+feature (as <a href="/serialization_dsl_json">serialization_dsl_json</a>) in order to parse/serialize data.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">build.gradle</label><label for="__tabbed_1_2">pom.xml</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1029,6 +1133,41 @@ snippet for details:</p>
       
 <footer class="md-footer">
 
+  
+  <nav class="md-footer__inner md-grid" aria-label="footer.title">
+
+    
+    <a
+      href="../http_client/"
+      class="md-footer__link md-footer__link--prev"
+      rel="prev">
+
+      <div class="md-footer__button md-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg></div>
+      <div class="md-footer__title">
+        <div class="md-ellipsis">
+          <span class="md-footer__direction">Previous</span>
+          HTTP Client
+        </div>
+      </div>
+    </a>
+    
+
+    
+    <a
+      href="../templates/"
+      class="md-footer__link md-footer__link--next"
+      rel="next">
+
+      <div class="md-footer__title">
+        <div class="md-ellipsis">
+          <span class="md-footer__direction">Next</span>
+          Templates
+        </div>
+      </div>
+      <div class="md-footer__button md-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></div>
+    </a>
+    
+  </nav>
   
 
   <!-- Sponsors -->

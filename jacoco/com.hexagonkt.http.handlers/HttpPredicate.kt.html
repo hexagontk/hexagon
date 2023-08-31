@@ -17,78 +17,80 @@ import kotlin.reflect.KClass
 <span class="pc" id="L17">    val status: HttpStatus? = null,</span>
 ) : (Context&lt;HttpCall&gt;) -&gt; Boolean {
 
-<span class="fc" id="L20">    private val logger: Logger = Logger(HttpPredicate::class)</span>
+    private companion object {
+<span class="fc" id="L21">        val logger: Logger = Logger(HttpPredicate::class)</span>
+    }
 
     private fun PathPattern.isEmpty(): Boolean =
-<span class="fc bfc" id="L23" title="All 2 branches covered.">        pattern.isEmpty()</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        pattern.isEmpty()</span>
 
-<span class="fc" id="L25">    val predicate: (Context&lt;HttpCall&gt;) -&gt; Boolean =</span>
-<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (methods.isEmpty()) log(::filterWithoutMethod)</span>
-<span class="fc" id="L27">        else log(::filterWithMethod)</span>
+<span class="fc" id="L27">    val predicate: (Context&lt;HttpCall&gt;) -&gt; Boolean =</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (methods.isEmpty()) log(::filterWithoutMethod)</span>
+<span class="fc" id="L29">        else log(::filterWithMethod)</span>
 
-<span class="fc" id="L29">    constructor(</span>
-<span class="fc" id="L30">        methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
-<span class="nc" id="L31">        pattern: String = &quot;&quot;,</span>
-<span class="fc" id="L32">        exception: KClass&lt;out Exception&gt;? = null,</span>
-<span class="fc" id="L33">        status: HttpStatus? = null,</span>
-<span class="fc" id="L34">        prefix: Boolean = false,</span>
+<span class="fc" id="L31">    constructor(</span>
+<span class="fc" id="L32">        methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
+<span class="nc" id="L33">        pattern: String = &quot;&quot;,</span>
+<span class="fc" id="L34">        exception: KClass&lt;out Exception&gt;? = null,</span>
+<span class="fc" id="L35">        status: HttpStatus? = null,</span>
+<span class="fc" id="L36">        prefix: Boolean = false,</span>
     ) :
-<span class="fc" id="L36">        this(methods, createPathPattern(pattern, prefix), exception, status)</span>
+<span class="fc" id="L38">        this(methods, createPathPattern(pattern, prefix), exception, status)</span>
 
     override fun invoke(context: Context&lt;HttpCall&gt;): Boolean =
-<span class="fc" id="L39">        predicate(context)</span>
+<span class="fc" id="L41">        predicate(context)</span>
 
     fun clearMethods(): HttpPredicate =
-<span class="fc" id="L42">        copy(methods = emptySet())</span>
+<span class="fc" id="L44">        copy(methods = emptySet())</span>
 
     private fun log(
         predicate: (Context&lt;HttpCall&gt;) -&gt; Boolean
     ): (Context&lt;HttpCall&gt;) -&gt; Boolean {
-<span class="fc bfc" id="L47" title="All 2 branches covered.">        return if (logger.isDebugEnabled()) {</span>
-<span class="fc" id="L48">            {</span>
-<span class="fc" id="L49">                val allowed = predicate(it)</span>
-<span class="fc bfc" id="L50" title="All 2 branches covered.">                logger.debug { &quot;${describe()} -&gt; ${if (allowed) &quot;ALLOWED&quot; else &quot;DENIED&quot;}&quot; }</span>
-<span class="fc" id="L51">                allowed</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        return if (logger.isDebugEnabled()) {</span>
+<span class="fc" id="L50">            {</span>
+<span class="fc" id="L51">                val allowed = predicate(it)</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">                logger.debug { &quot;${describe()} -&gt; ${if (allowed) &quot;ALLOWED&quot; else &quot;DENIED&quot;}&quot; }</span>
+<span class="fc" id="L53">                allowed</span>
             }
         }
         else
-<span class="fc" id="L55">            predicate</span>
+<span class="fc" id="L57">            predicate</span>
     }
 
     private fun filterMethod(context: Context&lt;HttpCall&gt;): Boolean =
-<span class="fc" id="L59">        context.event.request.method in methods</span>
+<span class="fc" id="L61">        context.event.request.method in methods</span>
 
     private fun filterPattern(context: Context&lt;HttpCall&gt;): Boolean =
-<span class="fc bfc" id="L62" title="All 4 branches covered.">        if (pathPattern.isEmpty() &amp;&amp; context.event.request.path == &quot;/&quot;) true</span>
-<span class="fc" id="L63">        else pathPattern.matches(context.event.request.path)</span>
+<span class="fc bfc" id="L64" title="All 4 branches covered.">        if (pathPattern.isEmpty() &amp;&amp; context.event.request.path == &quot;/&quot;) true</span>
+<span class="fc" id="L65">        else pathPattern.matches(context.event.request.path)</span>
 
     private fun filterException(context: Context&lt;HttpCall&gt;): Boolean {
-<span class="pc bpc" id="L66" title="1 of 4 branches missed.">        val exceptionClass = context.exception?.javaClass ?: return false</span>
-<span class="pc bpc" id="L67" title="2 of 4 branches missed.">        return exception?.java?.isAssignableFrom(exceptionClass) ?: false</span>
+<span class="pc bpc" id="L68" title="1 of 4 branches missed.">        val exceptionClass = context.exception?.javaClass ?: return false</span>
+<span class="pc bpc" id="L69" title="2 of 4 branches missed.">        return exception?.java?.isAssignableFrom(exceptionClass) ?: false</span>
     }
 
     private fun filterStatus(context: Context&lt;HttpCall&gt;): Boolean =
-<span class="fc" id="L71">        status == context.event.response.status</span>
+<span class="fc" id="L73">        status == context.event.response.status</span>
 
     private fun filterWithoutMethod(context: Context&lt;HttpCall&gt;): Boolean =
-<span class="fc bfc" id="L74" title="All 2 branches covered.">        filterPattern(context)</span>
-<span class="fc bfc" id="L75" title="All 4 branches covered.">            &amp;&amp; (exception == null || filterException(context))</span>
-<span class="fc bfc" id="L76" title="All 4 branches covered.">            &amp;&amp; (status == null || filterStatus(context))</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        filterPattern(context)</span>
+<span class="fc bfc" id="L77" title="All 4 branches covered.">            &amp;&amp; (exception == null || filterException(context))</span>
+<span class="fc bfc" id="L78" title="All 4 branches covered.">            &amp;&amp; (status == null || filterStatus(context))</span>
 
     private fun filterWithMethod(context: Context&lt;HttpCall&gt;): Boolean =
-<span class="fc bfc" id="L79" title="All 4 branches covered.">        filterMethod(context) &amp;&amp; filterWithoutMethod(context)</span>
+<span class="fc bfc" id="L81" title="All 4 branches covered.">        filterMethod(context) &amp;&amp; filterWithoutMethod(context)</span>
 
     fun addPrefix(prefix: String): HttpPredicate =
-<span class="fc" id="L82">        copy(pathPattern = pathPattern.addPrefix(prefix))</span>
+<span class="fc" id="L84">        copy(pathPattern = pathPattern.addPrefix(prefix))</span>
 
     fun describe(): String =
-<span class="fc" id="L85">        methods</span>
-<span class="fc" id="L86">            .map { it.name }</span>
-<span class="fc bfc" id="L87" title="All 2 branches covered.">            .ifEmpty { listOf(&quot;ANY&quot;) }</span>
-<span class="fc" id="L88">            .joinToString(</span>
-<span class="fc" id="L89">                separator = &quot;, &quot;,</span>
-<span class="fc" id="L90">                postfix = pathPattern.describe().prependIndent(&quot; &quot;),</span>
-<span class="fc" id="L91">                transform = { it }</span>
-<span class="fc" id="L92">            )</span>
-<span class="fc" id="L93">}</span>
+<span class="fc" id="L87">        methods</span>
+<span class="fc" id="L88">            .map { it.name }</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">            .ifEmpty { listOf(&quot;ANY&quot;) }</span>
+<span class="fc" id="L90">            .joinToString(</span>
+<span class="fc" id="L91">                separator = &quot;, &quot;,</span>
+<span class="fc" id="L92">                postfix = pathPattern.describe().prependIndent(&quot; &quot;),</span>
+<span class="fc" id="L93">                transform = { it }</span>
+<span class="fc" id="L94">            )</span>
+<span class="fc" id="L95">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

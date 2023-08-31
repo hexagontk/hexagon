@@ -35,7 +35,7 @@
     <div class="library-name">
 <a href="../../index.html">
 <span>hexagon</span>            </a>    </div>
-    <div>3.0.3
+    <div>3.0.4
     </div>
     <div class="pull-right d-flex">
         <div class="filter-section" id="filter-section">
@@ -54,7 +54,7 @@
   <div class="breadcrumbs"></div>
   <div class="cover ">
     <h1 class="cover"><span><span>serialization</span></span></h1>
-    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization:dokkaHtmlPartial/main"><p class="paragraph">This module holds serialization utilities.</p><h3 class=""> Install the Dependency</h3><p class="paragraph">This module is not meant to be imported directly. It will be included by using any other part of the toolkit. However, if you only want to use the utilities, logging or serialization (i.e., for a desktop application), you can import it with the following code:</p><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization:dokkaHtmlPartial/main"><p class="paragraph">This module holds serialization utilities.</p><h3 class=""> Install the Dependency</h3><p class="paragraph">This module is not meant to be used directly. You should include an Adapter implementing this feature (as /serialization_dsl_json) in order to parse/serialize data.</p><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
 repositories {
     mavenCentral()
 }

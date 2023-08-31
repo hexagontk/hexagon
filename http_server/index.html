@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.4">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.6">
     
     
       
@@ -818,6 +818,26 @@
   
   <span class="md-ellipsis">
     HTTP Client
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serialization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Serialization
   </span>
   
 
@@ -1728,7 +1748,7 @@ methods.</p>
 
 <span class="c1">// Servers implement closeable, you can use them inside a block assuring they will be closed</span>
 <span class="n">runningServer</span><span class="p">.</span><span class="na">use</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">urlOf</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="na">binding</span><span class="p">)).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nb">it</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="na">started</span><span class="p">())</span>
 <span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/context/hello&quot;</span><span class="p">).</span><span class="na">body</span><span class="p">)</span>
@@ -2413,8 +2433,7 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Key store files</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Key store files</span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">identity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;hexagonkt.p12&quot;</span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">trust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;trust.p12&quot;</span>
 
@@ -2454,8 +2473,7 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="kd">val</span><span class="w"> </span><span class="nv">clientSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">sslSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sslSettings</span><span class="p">)</span>
 
 <span class="c1">// Create an HTTP client and make an HTTPS request</span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">contextPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">urlOf</span><span class="p">(</span><span class="s">&quot;https://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">clientSettings</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">contextPath</span><span class="p">))</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">clientSettings</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="na">binding</span><span class="p">))</span>
 <span class="n">client</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Assure the certificate received (and returned) by the server is correct</span>
@@ -2657,7 +2675,7 @@ This will pick a random free port which you can check later:</p>
 <span class="kd">val</span><span class="w"> </span><span class="nv">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serve</span><span class="p">(</span><span class="n">serverAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">router</span><span class="p">,</span><span class="w"> </span><span class="n">serverSettings</span><span class="p">)</span>
 
 <span class="n">server</span><span class="p">.</span><span class="na">use</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">urlOf</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">))).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="na">binding</span><span class="p">)).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nb">it</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hi!&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">body</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
