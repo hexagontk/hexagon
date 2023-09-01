@@ -11,7 +11,7 @@ apply(plugin: "maven-publish")
 defaultTasks("build")
 
 java {
-    sourceCompatibility = JavaVersion.toVersion(findProperty("jvmTarget") ?: "17")
+    sourceCompatibility = JavaVersion.toVersion(findProperty("jvmTarget") ?: "11")
     targetCompatibility = sourceCompatibility
 }
 
