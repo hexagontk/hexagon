@@ -22,6 +22,7 @@ import io.netty.handler.codec.http.HttpMethod.GET
 import io.netty.handler.codec.http.HttpRequest
 import io.netty.handler.codec.http.HttpResponseStatus.*
 import io.netty.handler.codec.http.HttpVersion.HTTP_1_1
+import io.netty.handler.codec.http.cookie.CookieHeaderNames.SameSite.Strict
 import io.netty.handler.codec.http.cookie.DefaultCookie
 import io.netty.handler.codec.http.cookie.ServerCookieEncoder.STRICT
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory
@@ -211,6 +212,13 @@ internal class NettyServerHandler(
                 if (it.maxAge != -1L)
                     setMaxAge(it.maxAge)
                 isSecure = it.secure
+                setPath(it.path)
+                setDomain(it.domain)
+                isHttpOnly = it.httpOnly
+                if (it.domain.isNotBlank())
+                    setDomain(it.domain)
+                if (it.sameSite)
+                    setSameSite(Strict)
             }
         }
 

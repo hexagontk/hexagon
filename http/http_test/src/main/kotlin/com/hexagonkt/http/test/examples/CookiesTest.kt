@@ -12,7 +12,9 @@ import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
+import java.time.Instant
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 @TestMethodOrder(OrderAnnotation::class)
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
@@ -32,7 +34,26 @@ abstract class CookiesTest(
         post("/addCookie") {
             val name = queryParameters.require("cookieName").string() ?: return@post badRequest("No cookie name")
             val value = queryParameters.require("cookieValue").string() ?: return@post badRequest("No cookie value")
-            ok(cookies = response.cookies + Cookie(name, value))
+            val maxAge = queryParameters["maxAge"]?.string()
+            val secure = queryParameters["secure"]?.string()
+            val cookiePath = queryParameters["path"]?.string()
+            val httpOnly = queryParameters["httpOnly"]?.string()
+            val domain = queryParameters["domain"]?.string()
+            val sameSite = queryParameters["sameSite"]?.string()
+            val expires = queryParameters["expires"]?.string()
+            ok(
+                cookies = response.cookies + Cookie(
+                    name,
+                    value,
+                    maxAge?.toLong() ?: -1,
+                    secure?.toBooleanStrict() ?: false,
+                    cookiePath ?: "/",
+                    httpOnly?.toBooleanStrict() ?: true,
+                    domain ?: "",
+                    sameSite?.toBooleanStrict() ?: true,
+                    expires?.let { Instant.parse(it) },
+                )
+            )
         }
 
         post("/assertHasCookie") {
@@ -110,7 +131,7 @@ abstract class CookiesTest(
         val cookieValue = "sampleCookieValue"
 
         // Set the cookie in the client
-        client.cookies = client.cookies + Cookie(cookieName, cookieValue)
+        client.cookies += Cookie(cookieName, cookieValue)
 
         // Assert that it is received in the server and change its value afterward
         client.post("/assertHasCookie?cookieName=$cookieName")
@@ -123,5 +144,39 @@ abstract class CookiesTest(
         client.post("/assertHasCookie?cookieName=$cookieName")
         assertEquals(cookieValue + "_changed", client.cookiesMap()[cookieName]?.value)
         // clientCookies
+    }
+
+    @Test
+    @Order(6)
+    fun `Cookies contain correct values`() {
+        client.cookies = emptyList()
+        assert(client.cookies.isEmpty())
+
+        val c = mapOf(
+            "cookieName" to "fullCookie",
+            "cookieValue" to "val",
+            "maxAge" to 50,
+            "path" to "/cook",
+            "httpOnly" to false,
+//            "sameSite" to false, // TODO
+        ).entries.joinToString("&") { (k, v) -> "$k=$v" }
+
+        client.post("/addCookie?cookieName=cookieName&cookieValue=val")
+        client.post("/addCookie?$c")
+
+        // Verify that the client cookie is updated
+        val cm = client.cookiesMap()
+        assertEquals("val", cm["cookieName"]?.value)
+        assertEquals("val", cm["fullCookie"]?.value)
+        assert(cm.require("fullCookie").maxAge in 45..50)
+        assertEquals("/cook", cm["fullCookie"]?.path)
+        assertFalse(cm.require("fullCookie").httpOnly)
+//        assertFalse(cm.require("fullCookie").sameSite)
+
+        // The cookie is persisted along calls
+        client.post("/assertHasCookie?cookieName=cookieName")
+        client.post("/assertHasCookie?cookieName=fullCookie")
+
+        assertEquals("val", cm["cookieName"]?.value)
     }
 }

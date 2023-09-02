@@ -76,6 +76,10 @@ class ServletFilter(pathHandler: HttpHandler) : HttpFilter() {
             val cookie = Cookie(it.name, it.value).apply {
                 maxAge = it.maxAge.toInt()
                 secure = it.secure
+                path = it.path
+                isHttpOnly = it.httpOnly
+                if (it.domain.isNotBlank())
+                    domain = it.domain
             }
             servletResponse.addCookie(cookie)
         }

@@ -142,7 +142,17 @@ open class JettyClientAdapter : HttpClientPort {
 
         if (settings.useCookies)
             adapterHttpClient.cookies = adapterJettyClient.httpCookieStore.all().map {
-                Cookie(it.name, it.value, it.maxAge, it.isSecure)
+                Cookie(
+                    it.name,
+                    it.value,
+                    it.maxAge,
+                    it.isSecure,
+                    it.path,
+                    it.isHttpOnly,
+                    it.domain ?: "",
+//                    it.attributes["SameSite"]?.lowercase() == "strict",
+                    expires = it.expires,
+                )
             }
 
         return HttpResponse(
@@ -243,7 +253,15 @@ open class JettyClientAdapter : HttpClientPort {
             val httpCookie = java.net.HttpCookie(it.name, it.value)
             httpCookie.secure = it.secure
             httpCookie.maxAge = it.maxAge
-            store.add(uri, HttpCookie.from(httpCookie))
+            httpCookie.path = it.path
+            httpCookie.isHttpOnly = it.httpOnly
+            if (it.domain.isNotBlank())
+                httpCookie.domain = it.domain
+            val from = HttpCookie.build(httpCookie)
+//                .sameSite(if (it.sameSite) STRICT else null)
+                .expires(it.expires)
+                .build()
+            store.add(uri, from)
         }
     }
 

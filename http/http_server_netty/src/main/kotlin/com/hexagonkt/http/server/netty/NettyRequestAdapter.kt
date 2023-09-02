@@ -87,7 +87,7 @@ class NettyRequestAdapter(
         val cookieHeader: String = nettyHeaders.get(COOKIE)
             ?: return@lazy emptyList<com.hexagonkt.http.model.Cookie>()
 
-        val cookies: Set<Cookie> = ServerCookieDecoder.STRICT.decode(cookieHeader)
+        val cookies: Set<Cookie> = ServerCookieDecoder.LAX.decode(cookieHeader)
 
         cookies.map {
             Cookie(
@@ -95,6 +95,10 @@ class NettyRequestAdapter(
                 value = it.value(),
                 maxAge = if (it.maxAge() == Long.MIN_VALUE) -1 else it.maxAge(),
                 secure = it.isSecure,
+                path = it.path() ?: "/",
+//                httpOnly = it.isHttpOnly, // TODO
+//                sameSite = (it as? DefaultCookie)?.sameSite() == SameSite.Strict,
+                domain = it.domain() ?: "",
             )
         }
     }
