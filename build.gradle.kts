@@ -22,7 +22,7 @@ plugins {
     id("idea")
     id("eclipse")
     id("project-report")
-    id("org.jetbrains.dokka") version("1.8.20")
+    id("org.jetbrains.dokka") version("1.9.0")
     id("com.github.jk1.dependency-license-report") version("2.5")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.2")
     id("org.graalvm.buildtools.native") version("0.9.25") apply(false)
@@ -153,7 +153,6 @@ apiValidation {
             // Experimental modules
             "rest",
             "rest_tools",
-//            "serverless",
             "web",
         )
     )

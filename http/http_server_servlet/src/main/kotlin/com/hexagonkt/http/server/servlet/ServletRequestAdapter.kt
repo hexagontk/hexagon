@@ -45,7 +45,17 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpReq
 
     override val cookies: List<Cookie> by lazy {
         req.cookies
-            ?.map { Cookie(it.name, it.value, it.maxAge.toLong(), it.secure) }
+            ?.map {
+                Cookie(
+                    it.name,
+                    it.value,
+                    it.maxAge.toLong(),
+                    it.secure,
+                    it.path ?: "/",
+                    it.isHttpOnly,
+                    it.domain,
+                )
+            }
             ?: emptyList()
     }
 

@@ -70,8 +70,8 @@ public final class com/hexagonkt/http/model/ContentType {
 }
 
 public final class com/hexagonkt/http/model/Cookie {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;ZLjava/time/Instant;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;ZLjava/time/Instant;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;Lcom/hexagonkt/http/model/CookieSameSite;Ljava/time/Instant;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;Lcom/hexagonkt/http/model/CookieSameSite;Ljava/time/Instant;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()J
@@ -79,10 +79,10 @@ public final class com/hexagonkt/http/model/Cookie {
 	public final fun component5 ()Ljava/lang/String;
 	public final fun component6 ()Z
 	public final fun component7 ()Ljava/lang/String;
-	public final fun component8 ()Z
+	public final fun component8 ()Lcom/hexagonkt/http/model/CookieSameSite;
 	public final fun component9 ()Ljava/time/Instant;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;ZLjava/time/Instant;)Lcom/hexagonkt/http/model/Cookie;
-	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/Cookie;Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;ZLjava/time/Instant;ILjava/lang/Object;)Lcom/hexagonkt/http/model/Cookie;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;Lcom/hexagonkt/http/model/CookieSameSite;Ljava/time/Instant;)Lcom/hexagonkt/http/model/Cookie;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/model/Cookie;Ljava/lang/String;Ljava/lang/String;JZLjava/lang/String;ZLjava/lang/String;Lcom/hexagonkt/http/model/CookieSameSite;Ljava/time/Instant;ILjava/lang/Object;)Lcom/hexagonkt/http/model/Cookie;
 	public final fun delete ()Lcom/hexagonkt/http/model/Cookie;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeleted ()Z
@@ -92,11 +92,20 @@ public final class com/hexagonkt/http/model/Cookie {
 	public final fun getMaxAge ()J
 	public final fun getName ()Ljava/lang/String;
 	public final fun getPath ()Ljava/lang/String;
-	public final fun getSameSite ()Z
+	public final fun getSameSite ()Lcom/hexagonkt/http/model/CookieSameSite;
 	public final fun getSecure ()Z
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/model/CookieSameSite : java/lang/Enum {
+	public static final field LAX Lcom/hexagonkt/http/model/CookieSameSite;
+	public static final field NONE Lcom/hexagonkt/http/model/CookieSameSite;
+	public static final field STRICT Lcom/hexagonkt/http/model/CookieSameSite;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/http/model/CookieSameSite;
+	public static fun values ()[Lcom/hexagonkt/http/model/CookieSameSite;
 }
 
 public final class com/hexagonkt/http/model/FormParameter : com/hexagonkt/http/model/HttpField {

@@ -6,6 +6,7 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.Cookie
 import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.HttpContext
+import com.hexagonkt.http.model.CookieSameSite.*
 import com.hexagonkt.http.model.HttpCall
 import com.hexagonkt.http.model.HttpResponse
 import io.netty.buffer.Unpooled
@@ -22,8 +23,9 @@ import io.netty.handler.codec.http.HttpMethod.GET
 import io.netty.handler.codec.http.HttpRequest
 import io.netty.handler.codec.http.HttpResponseStatus.*
 import io.netty.handler.codec.http.HttpVersion.HTTP_1_1
+import io.netty.handler.codec.http.cookie.CookieHeaderNames.SameSite.*
 import io.netty.handler.codec.http.cookie.DefaultCookie
-import io.netty.handler.codec.http.cookie.ServerCookieEncoder.STRICT
+import io.netty.handler.codec.http.cookie.ServerCookieEncoder.STRICT as STRICT_ENCODER
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory
 import io.netty.handler.ssl.SslHandler
 import io.netty.handler.ssl.SslHandshakeCompletionEvent
@@ -94,7 +96,7 @@ internal class NettyServerHandler(
 
         val hexagonCookies = response.cookies
         if (hexagonCookies.isNotEmpty())
-            headers[SET_COOKIE] = STRICT.encode(nettyCookies(hexagonCookies))
+            headers[SET_COOKIE] = STRICT_ENCODER.encode(nettyCookies(hexagonCookies))
 
         val contentType = response.contentType
         if (contentType != null)
@@ -189,7 +191,7 @@ internal class NettyServerHandler(
 
         val hexagonCookies = hexagonResponse.cookies
         if (hexagonCookies.isNotEmpty())
-            headers[SET_COOKIE] = STRICT.encode(nettyCookies(hexagonCookies))
+            headers[SET_COOKIE] = STRICT_ENCODER.encode(nettyCookies(hexagonCookies))
 
         val contentType = hexagonResponse.contentType
         if (contentType != null)
@@ -211,6 +213,19 @@ internal class NettyServerHandler(
                 if (it.maxAge != -1L)
                     setMaxAge(it.maxAge)
                 isSecure = it.secure
+                setPath(it.path)
+                setDomain(it.domain)
+                isHttpOnly = it.httpOnly
+                it.domain?.let(::setDomain)
+                it.sameSite
+                    ?.let { ss ->
+                        when (ss) {
+                            STRICT -> Strict
+                            LAX -> Lax
+                            NONE -> None
+                        }
+                    }
+                    ?.let(::setSameSite)
             }
         }
 

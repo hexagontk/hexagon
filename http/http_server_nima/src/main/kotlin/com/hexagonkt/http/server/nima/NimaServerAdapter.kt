@@ -32,13 +32,13 @@ import javax.net.ssl.TrustManagerFactory
 class NimaServerAdapter : HttpServerPort {
 
     private companion object {
-        const val startErrorMessage = "Nima server not started correctly"
+        const val START_ERROR_MESSAGE = "Nima server not started correctly"
     }
 
     private var nimaServer: WebServer? = null
 
     override fun runtimePort(): Int {
-        return nimaServer?.port() ?: error(startErrorMessage)
+        return nimaServer?.port() ?: error(START_ERROR_MESSAGE)
     }
 
     override fun started() =
@@ -76,11 +76,11 @@ class NimaServerAdapter : HttpServerPort {
 
         nimaServer = serverBuilder.build()
 
-        nimaServer?.start() ?: error(startErrorMessage)
+        nimaServer?.start() ?: error(START_ERROR_MESSAGE)
     }
 
     override fun shutDown() {
-        nimaServer?.stop() ?: error(startErrorMessage)
+        nimaServer?.stop() ?: error(START_ERROR_MESSAGE)
     }
 
     override fun supportedProtocols(): Set<HttpProtocol> =

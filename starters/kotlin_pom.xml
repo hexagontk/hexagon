@@ -32,6 +32,13 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.3.1</version>
+        <configuration>
+          <nonFilteredFileExtensions>
+            <extension>p12</extension>
+            <extension>jks</extension>
+            <extension>ttf</extension>
+          </nonFilteredFileExtensions>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

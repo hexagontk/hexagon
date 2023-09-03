@@ -45,7 +45,7 @@ public final class com/hexagonkt/http/server/nima/NimaRequestAdapter : com/hexag
 }
 
 public final class com/hexagonkt/http/server/nima/NimaServerAdapter : com/hexagonkt/http/server/HttpServerPort {
-	public static final field startErrorMessage Ljava/lang/String;
+	public static final field START_ERROR_MESSAGE Ljava/lang/String;
 	public fun <init> ()V
 	public fun options ()Ljava/util/Map;
 	public fun runtimePort ()I
