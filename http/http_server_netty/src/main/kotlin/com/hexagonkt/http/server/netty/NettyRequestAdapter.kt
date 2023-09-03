@@ -17,6 +17,7 @@ import io.netty.handler.codec.http.HttpRequest
 import java.net.InetSocketAddress
 import java.net.URI
 import java.security.cert.X509Certificate
+import kotlin.Long.Companion.MIN_VALUE
 import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 
 class NettyRequestAdapter(
@@ -87,18 +88,18 @@ class NettyRequestAdapter(
         val cookieHeader: String = nettyHeaders.get(COOKIE)
             ?: return@lazy emptyList<com.hexagonkt.http.model.Cookie>()
 
-        val cookies: Set<Cookie> = ServerCookieDecoder.LAX.decode(cookieHeader)
+        val cookies: Set<Cookie> = ServerCookieDecoder.STRICT.decode(cookieHeader)
 
         cookies.map {
             Cookie(
                 name = it.name(),
                 value = it.value(),
-                maxAge = if (it.maxAge() == Long.MIN_VALUE) -1 else it.maxAge(),
+                maxAge = if (it.maxAge() == MIN_VALUE) -1 else it.maxAge(),
                 secure = it.isSecure,
                 path = it.path() ?: "/",
 //                httpOnly = it.isHttpOnly, // TODO
 //                sameSite = (it as? DefaultCookie)?.sameSite() == SameSite.Strict,
-                domain = it.domain() ?: "",
+                domain = it.domain(),
             )
         }
     }

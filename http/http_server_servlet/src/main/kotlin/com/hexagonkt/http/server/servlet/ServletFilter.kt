@@ -78,8 +78,7 @@ class ServletFilter(pathHandler: HttpHandler) : HttpFilter() {
                 secure = it.secure
                 path = it.path
                 isHttpOnly = it.httpOnly
-                if (it.domain.isNotBlank())
-                    domain = it.domain
+                it.domain?.let { d -> domain = d }
             }
             servletResponse.addCookie(cookie)
         }

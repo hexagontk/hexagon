@@ -9,6 +9,7 @@ import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.handlers.PathHandler
 import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.path
+import com.hexagonkt.http.model.CookieSameSite.*
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
@@ -50,8 +51,8 @@ abstract class CookiesTest(
                     cookiePath ?: "/",
                     httpOnly?.toBooleanStrict() ?: true,
                     domain ?: "",
-                    sameSite?.toBooleanStrict() ?: true,
-                    expires?.let { Instant.parse(it) },
+                    sameSite?.let(::valueOf),
+                    expires?.let(Instant::parse),
                 )
             )
         }

@@ -149,7 +149,7 @@ open class JettyClientAdapter : HttpClientPort {
                     it.isSecure,
                     it.path,
                     it.isHttpOnly,
-                    it.domain ?: "",
+                    it.domain,
 //                    it.attributes["SameSite"]?.lowercase() == "strict",
                     expires = it.expires,
                 )
@@ -255,8 +255,7 @@ open class JettyClientAdapter : HttpClientPort {
             httpCookie.maxAge = it.maxAge
             httpCookie.path = it.path
             httpCookie.isHttpOnly = it.httpOnly
-            if (it.domain.isNotBlank())
-                httpCookie.domain = it.domain
+            it.domain?.let(httpCookie::setDomain)
             val from = HttpCookie.build(httpCookie)
 //                .sameSite(if (it.sameSite) STRICT else null)
                 .expires(it.expires)
