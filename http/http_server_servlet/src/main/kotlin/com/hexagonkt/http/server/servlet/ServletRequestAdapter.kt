@@ -52,7 +52,7 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpReq
                     it.maxAge.toLong(),
                     it.secure,
                     it.path ?: "/",
-                    false, //it.isHttpOnly, // TODO Fix this issue
+                    it.isHttpOnly,
                     it.domain,
                 )
             }

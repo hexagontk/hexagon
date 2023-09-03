@@ -14,6 +14,8 @@ import io.netty.handler.codec.http.cookie.Cookie
 import io.netty.handler.codec.http.cookie.ServerCookieDecoder
 import io.netty.handler.codec.http.multipart.*
 import io.netty.handler.codec.http.HttpRequest
+import io.netty.handler.codec.http.cookie.CookieHeaderNames.SameSite.*
+import io.netty.handler.codec.http.cookie.DefaultCookie
 import java.net.InetSocketAddress
 import java.net.URI
 import java.security.cert.X509Certificate
@@ -97,8 +99,14 @@ class NettyRequestAdapter(
                 maxAge = if (it.maxAge() == MIN_VALUE) -1 else it.maxAge(),
                 secure = it.isSecure,
                 path = it.path() ?: "/",
-//                httpOnly = it.isHttpOnly, // TODO
-//                sameSite = (it as? DefaultCookie)?.sameSite() == SameSite.Strict,
+                httpOnly = it.isHttpOnly,
+                sameSite = (it as? DefaultCookie)?.sameSite()?.let { ss ->
+                    when (ss) {
+                        Strict -> CookieSameSite.STRICT
+                        Lax -> CookieSameSite.LAX
+                        None -> CookieSameSite.NONE
+                    }
+                },
                 domain = it.domain(),
             )
         }

@@ -9,6 +9,7 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.model.HttpResponse
 import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.CookieSameSite.*
 import com.hexagonkt.http.model.ws.WsSession
 import com.hexagonkt.http.parseContentType
 import org.eclipse.jetty.client.HttpResponseException
@@ -21,6 +22,7 @@ import org.eclipse.jetty.client.BytesRequestContent
 import org.eclipse.jetty.client.MultiPartRequestContent
 import org.eclipse.jetty.client.StringRequestContent
 import org.eclipse.jetty.http.HttpCookie
+import org.eclipse.jetty.http.HttpCookie.SameSite
 import org.eclipse.jetty.http.HttpCookieStore
 import org.eclipse.jetty.http.HttpFields
 import org.eclipse.jetty.http.HttpFields.EMPTY
@@ -150,7 +152,7 @@ open class JettyClientAdapter : HttpClientPort {
                     it.path,
                     it.isHttpOnly,
                     it.domain,
-//                    it.attributes["SameSite"]?.lowercase() == "strict",
+                    it.attributes["SameSite"]?.uppercase()?.let(CookieSameSite::valueOf),
                     expires = it.expires,
                 )
             }
@@ -256,11 +258,18 @@ open class JettyClientAdapter : HttpClientPort {
             httpCookie.path = it.path
             httpCookie.isHttpOnly = it.httpOnly
             it.domain?.let(httpCookie::setDomain)
-            val from = HttpCookie.build(httpCookie)
-//                .sameSite(if (it.sameSite) STRICT else null)
-                .expires(it.expires)
-                .build()
-            store.add(uri, from)
+
+            val from = HttpCookie.build(httpCookie).expires(it.expires)
+
+            it.sameSite?.let { ss ->
+                when(ss){
+                    STRICT -> SameSite.STRICT
+                    LAX -> SameSite.LAX
+                    NONE -> SameSite.NONE
+                }
+            }?.let { ss -> from.sameSite(ss) }
+
+            store.add(uri, from.build())
         }
     }
 
