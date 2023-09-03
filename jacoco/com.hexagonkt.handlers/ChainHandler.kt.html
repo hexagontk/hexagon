@@ -15,15 +15,14 @@
 <span class="fc" id="L15">    constructor(vararg handlers: Handler&lt;T&gt;) : this(handlers.toList(), { true })</span>
 
     override fun process(context: Context&lt;T&gt;): Context&lt;T&gt; {
-<span class="fc" id="L18">        val event = context.event</span>
-<span class="fc" id="L19">        val nestedContext = context.with(event = event, nextHandlers = handlers, nextHandler = 0)</span>
-<span class="fc" id="L20">        val nestedResult = nestedContext.next()</span>
-<span class="fc" id="L21">        val followUpContext = nestedResult.with(</span>
-<span class="fc" id="L22">            predicate = predicate,</span>
-<span class="fc" id="L23">            nextHandlers = context.nextHandlers,</span>
-<span class="fc" id="L24">            nextHandler = context.nextHandler</span>
+<span class="fc" id="L18">        val nestedContext = context.with(nextHandlers = handlers, nextHandler = 0)</span>
+<span class="fc" id="L19">        val nestedResult = nestedContext.next()</span>
+<span class="fc" id="L20">        val followUpContext = nestedResult.with(</span>
+<span class="fc" id="L21">            predicate = predicate,</span>
+<span class="fc" id="L22">            nextHandlers = context.nextHandlers,</span>
+<span class="fc" id="L23">            nextHandler = context.nextHandler</span>
         )
-<span class="fc" id="L26">        return followUpContext.next()</span>
+<span class="fc" id="L25">        return followUpContext.next()</span>
     }
-<span class="fc" id="L28">}</span>
+<span class="fc" id="L27">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

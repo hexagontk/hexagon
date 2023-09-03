@@ -2,24 +2,37 @@
 
 import java.time.Instant
 
-<span class="fc" id="L5">data class Cookie(</span>
-<span class="fc" id="L6">    val name: String,</span>
-<span class="fc" id="L7">    val value: String = &quot;&quot;,</span>
-<span class="fc" id="L8">    val maxAge: Long = -1,</span>
-<span class="fc" id="L9">    val secure: Boolean = false,</span>
-<span class="fc" id="L10">    val path: String = &quot;/&quot;,</span>
-<span class="fc" id="L11">    val httpOnly: Boolean = true,</span>
-<span class="pc" id="L12">    val domain: String = &quot;&quot;,</span>
-<span class="pc" id="L13">    val sameSite: Boolean = true,</span>
-<span class="fc" id="L14">    val expires: Instant? = null,</span>
+/**
+ * TODO .
+ *
+ * @property name
+ * @property value
+ * @property maxAge '-1' is the same as empty
+ * @property secure
+ * @property path '/' is the same as empty
+ * @property httpOnly
+ * @property domain
+ * @property sameSite
+ * @property expires
+ */
+<span class="fc" id="L18">data class Cookie(</span>
+<span class="fc" id="L19">    val name: String,</span>
+<span class="fc" id="L20">    val value: String = &quot;&quot;,</span>
+<span class="fc" id="L21">    val maxAge: Long = -1,</span>
+<span class="fc" id="L22">    val secure: Boolean = false,</span>
+<span class="fc" id="L23">    val path: String = &quot;/&quot;,</span>
+<span class="fc" id="L24">    val httpOnly: Boolean = false,</span>
+<span class="fc" id="L25">    val domain: String? = null,</span>
+<span class="fc" id="L26">    val sameSite: CookieSameSite? = null,</span>
+<span class="fc" id="L27">    val expires: Instant? = null,</span>
 ) {
-<span class="pc bpc" id="L16" title="1 of 4 branches missed.">    val deleted: Boolean by lazy { value == &quot;&quot; &amp;&amp; maxAge &lt;= 0L }</span>
+<span class="pc bpc" id="L29" title="1 of 4 branches missed.">    val deleted: Boolean by lazy { value == &quot;&quot; &amp;&amp; maxAge &lt;= 0L }</span>
 
-<span class="fc" id="L18">    init {</span>
-<span class="fc bfc" id="L19" title="All 4 branches covered.">        require(name.isNotBlank()) { &quot;Cookie name can not be blank: $name&quot; }</span>
-<span class="fc" id="L20">    }</span>
+<span class="fc" id="L31">    init {</span>
+<span class="fc bfc" id="L32" title="All 4 branches covered.">        require(name.isNotBlank()) { &quot;Cookie name can not be blank: $name&quot; }</span>
+<span class="fc" id="L33">    }</span>
 
     fun delete(): Cookie =
-<span class="fc" id="L23">        copy(value = &quot;&quot;, maxAge = 0)</span>
-<span class="fc" id="L24">}</span>
+<span class="fc" id="L36">        copy(value = &quot;&quot;, maxAge = 0)</span>
+<span class="fc" id="L37">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

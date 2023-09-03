@@ -32,13 +32,13 @@ import javax.net.ssl.TrustManagerFactory
 <span class="fc" id="L32">class NimaServerAdapter : HttpServerPort {</span>
 
     private companion object {
-        const val startErrorMessage = &quot;Nima server not started correctly&quot;
+        const val START_ERROR_MESSAGE = &quot;Nima server not started correctly&quot;
     }
 
     private var nimaServer: WebServer? = null
 
     override fun runtimePort(): Int {
-<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        return nimaServer?.port() ?: error(startErrorMessage)</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        return nimaServer?.port() ?: error(START_ERROR_MESSAGE)</span>
     }
 
     override fun started() =
@@ -76,11 +76,11 @@ import javax.net.ssl.TrustManagerFactory
 
 <span class="fc" id="L77">        nimaServer = serverBuilder.build()</span>
 
-<span class="pc bpc" id="L79" title="2 of 4 branches missed.">        nimaServer?.start() ?: error(startErrorMessage)</span>
+<span class="pc bpc" id="L79" title="2 of 4 branches missed.">        nimaServer?.start() ?: error(START_ERROR_MESSAGE)</span>
 <span class="fc" id="L80">    }</span>
 
     override fun shutDown() {
-<span class="pc bpc" id="L83" title="2 of 4 branches missed.">        nimaServer?.stop() ?: error(startErrorMessage)</span>
+<span class="pc bpc" id="L83" title="2 of 4 branches missed.">        nimaServer?.stop() ?: error(START_ERROR_MESSAGE)</span>
 <span class="fc" id="L84">    }</span>
 
     override fun supportedProtocols(): Set&lt;HttpProtocol&gt; =

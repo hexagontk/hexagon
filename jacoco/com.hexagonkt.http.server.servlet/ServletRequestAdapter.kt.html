@@ -45,21 +45,31 @@ import jakarta.servlet.http.HttpServletRequest
 
 <span class="fc" id="L46">    override val cookies: List&lt;Cookie&gt; by lazy {</span>
 <span class="fc" id="L47">        req.cookies</span>
-<span class="fc bfc" id="L48" title="All 2 branches covered.">            ?.map { Cookie(it.name, it.value, it.maxAge.toLong(), it.secure) }</span>
-<span class="fc" id="L49">            ?: emptyList()</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            ?.map {</span>
+<span class="fc" id="L49">                Cookie(</span>
+<span class="fc" id="L50">                    it.name,</span>
+<span class="fc" id="L51">                    it.value,</span>
+<span class="fc" id="L52">                    it.maxAge.toLong(),</span>
+<span class="fc" id="L53">                    it.secure,</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">                    it.path ?: &quot;/&quot;,</span>
+<span class="fc" id="L55">                    it.isHttpOnly,</span>
+<span class="fc" id="L56">                    it.domain,</span>
+                )
+            }
+<span class="fc" id="L59">            ?: emptyList()</span>
     }
 
-<span class="fc" id="L52">    override val headers: Headers by lazy {</span>
-<span class="fc" id="L53">        Headers(</span>
-<span class="fc" id="L54">            req.headerNames</span>
-<span class="fc" id="L55">                .toList()</span>
-<span class="fc" id="L56">                .map { it.lowercase() }</span>
-<span class="fc" id="L57">                .map { Header(it, req.getHeaders(it).toList()) }</span>
+<span class="fc" id="L62">    override val headers: Headers by lazy {</span>
+<span class="fc" id="L63">        Headers(</span>
+<span class="fc" id="L64">            req.headerNames</span>
+<span class="fc" id="L65">                .toList()</span>
+<span class="fc" id="L66">                .map { it.lowercase() }</span>
+<span class="fc" id="L67">                .map { Header(it, req.getHeaders(it).toList()) }</span>
         )
     }
 
-<span class="fc" id="L61">    override val contentType: ContentType? by lazy {</span>
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        req.contentType?.let { parseContentType(it) }</span>
+<span class="fc" id="L71">    override val contentType: ContentType? by lazy {</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        req.contentType?.let { parseContentType(it) }</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
