@@ -12,10 +12,10 @@ import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.model.CookieSameSite.*
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import java.time.Instant
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 
 @TestMethodOrder(OrderAnnotation::class)
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
@@ -33,8 +33,11 @@ abstract class CookiesTest(
         }
 
         post("/addCookie") {
-            val name = queryParameters.require("cookieName").string() ?: return@post badRequest("No cookie name")
-            val value = queryParameters.require("cookieValue").string() ?: return@post badRequest("No cookie value")
+            val name = queryParameters.require("cookieName").string()
+                ?: return@post badRequest("No cookie name")
+            val value = queryParameters.require("cookieValue").string()
+                ?: return@post badRequest("No cookie value")
+
             val maxAge = queryParameters["maxAge"]?.string()
             val secure = queryParameters["secure"]?.string()
             val cookiePath = queryParameters["path"]?.string()
@@ -42,6 +45,7 @@ abstract class CookiesTest(
             val domain = queryParameters["domain"]?.string()
             val sameSite = queryParameters["sameSite"]?.string()
             val expires = queryParameters["expires"]?.string()
+
             ok(
                 cookies = response.cookies + Cookie(
                     name,
@@ -158,8 +162,7 @@ abstract class CookiesTest(
             "cookieValue" to "val",
             "maxAge" to 50,
             "path" to "/cook",
-            "httpOnly" to false,
-//            "sameSite" to false, // TODO
+            "httpOnly" to true,
         ).entries.joinToString("&") { (k, v) -> "$k=$v" }
 
         client.post("/addCookie?cookieName=cookieName&cookieValue=val")
@@ -171,8 +174,7 @@ abstract class CookiesTest(
         assertEquals("val", cm["fullCookie"]?.value)
         assert(cm.require("fullCookie").maxAge in 45..50)
         assertEquals("/cook", cm["fullCookie"]?.path)
-        assertFalse(cm.require("fullCookie").httpOnly)
-//        assertFalse(cm.require("fullCookie").sameSite)
+        assertTrue(cm.require("fullCookie").httpOnly)
 
         // The cookie is persisted along calls
         client.post("/assertHasCookie?cookieName=cookieName")
