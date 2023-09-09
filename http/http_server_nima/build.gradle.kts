@@ -15,9 +15,9 @@ dependencies {
     val nimaVersion = properties["nimaVersion"]
 
     "api"(project(":http:http_server"))
-    "api"("io.helidon.nima.http2:helidon-nima-http2-webserver:$nimaVersion")
-    "api"("io.helidon.nima.http.encoding:helidon-nima-http-encoding-gzip:$nimaVersion")
-    "api"("io.helidon.nima.http.media:helidon-nima-http-media-multipart:$nimaVersion")
+    "api"("io.helidon.webserver:helidon-webserver-http2:$nimaVersion")
+    "api"("io.helidon.http.encoding:helidon-http-encoding-gzip:$nimaVersion")
+    "api"("io.helidon.http.media:helidon-http-media-multipart:$nimaVersion")
 
     "testImplementation"(project(":http:http_test"))
     "testImplementation"(project(":http:http_client_jetty"))
