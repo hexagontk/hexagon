@@ -17,12 +17,12 @@ on:
       distribution:
         type: string
         description: GraalVM distribution used to run Gradle.
-        default: graalvm-community
+        default: graalvm
 
       java:
         type: string
         description: Java version used to run Gradle.
-        default: 20
+        default: dev
 
       check_directory:
         type: string

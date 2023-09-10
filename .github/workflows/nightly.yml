@@ -34,7 +34,8 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
-      java: 20
+      java: dev
+      distribution: graalvm
       check_directory: core/build
       ref: develop
 
@@ -44,7 +45,8 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: macos-latest
-      java: 20
+      java: dev
+      distribution: graalvm
       check_directory: core/build
       ref: develop
       tasks: -x jacocoTestReport
@@ -59,7 +61,8 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
-      java: 20
+      java: dev
+      distribution: graalvm
       ref: develop
       tasks: createCa createIdentities
 
@@ -95,7 +98,8 @@ jobs:
     name: JMH Benchmark
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: 20
+      java: dev
+      distribution: graalvm
       ref: develop
       tasks: jmh
 
@@ -115,7 +119,8 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
-      java: 20
+      java: dev
+      distribution: graalvm
       ref: develop
       check_directory: core/build
       tasks: publishToMavenLocal -x test

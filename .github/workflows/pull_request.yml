@@ -12,21 +12,24 @@ jobs:
     name: Sample Keystores
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: 20
+      java: dev
+      distribution: graalvm
       tasks: createCa createIdentities
 
   native_test:
     name: Native Test
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: 20
+      java: dev
+      distribution: graalvm
       tasks: nativeTest
 
   jmh:
     name: JMH Benchmark
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: 20
+      java: dev
+      distribution: graalvm
       tasks: jmh
 
   build_site:
@@ -37,6 +40,7 @@ jobs:
     name: Test Publishing
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: 20
+      java: dev
+      distribution: graalvm
       check_directory: core/build
       tasks: publishToMavenLocal -x test
