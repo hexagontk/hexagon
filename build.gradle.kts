@@ -147,10 +147,17 @@ apiValidation {
 
             // Test modules
             "http_test",
+            "http_test_coroutines",
             "serialization_test",
             "templates_test",
 
             // Experimental modules
+            "handlers_coroutines",
+            "http_handlers_coroutines",
+            "http_server_coroutines",
+            "http_server_netty_coroutines",
+            "http_server_netty_epoll_coroutines",
+            "http_test_coroutines",
             "rest",
             "rest_tools",
             "web",

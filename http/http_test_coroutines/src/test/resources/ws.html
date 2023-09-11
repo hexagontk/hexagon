@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<meta charset="utf-8">
+<title>WS</title>
+
+<script type="text/javascript">
+  const sse = new EventSource("http://localhost:2010/sse");
+  const ws = new WebSocket("ws://localhost:2010/ws");
+
+  sse.onmessage = (event) => {
+    var messageFromServer = event.data;
+    document.getElementById("output").append(`sse: ${messageFromServer}`);
+  }
+
+  ws.onmessage = (event) => {
+    var messageFromServer = event.data;
+    document.getElementById("output").append(`received: ${messageFromServer}`);
+  }
+
+  function send(message) {
+    ws.send(message);
+  }
+</script>
+
+<form onsubmit="return false">
+  <input type="text" name="message" value="Hi!"/>
+  <input type="button" value="Send Web Socket Data" onclick="send(this.form.message.value)"/>
+</form>
+
+<div id="output"></div>
+
+</html>

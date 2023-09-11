@@ -4,6 +4,7 @@ rootProject.name = "hexagon"
 include(
     "core",
     "handlers",
+    "handlers_coroutines",
     "site",
     "starters",
 )

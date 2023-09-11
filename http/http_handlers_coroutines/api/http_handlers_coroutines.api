@@ -1,0 +1,346 @@
+public final class com/hexagonkt/http/handlers/coroutines/AfterHandler : com/hexagonkt/handlers/coroutines/Handler, com/hexagonkt/http/handlers/coroutines/HttpHandler {
+	public fun <init> (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public fun byMethod ()Ljava/util/Map;
+	public final fun component1 ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public final fun component2 ()Lkotlin/jvm/functions/Function2;
+	public final fun copy (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/AfterHandler;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/handlers/coroutines/AfterHandler;Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/AfterHandler;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun filter (Lcom/hexagonkt/http/model/HttpMethod;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public final fun getBlock ()Lkotlin/jvm/functions/Function2;
+	public fun getCallback ()Lkotlin/jvm/functions/Function2;
+	public fun getHandlerPredicate ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
+	public fun hashCode ()I
+	public fun process (Lcom/hexagonkt/handlers/coroutines/Context;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/handlers/coroutines/BeforeHandler : com/hexagonkt/handlers/coroutines/Handler, com/hexagonkt/http/handlers/coroutines/HttpHandler {
+	public fun <init> (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public fun byMethod ()Ljava/util/Map;
+	public final fun component1 ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public final fun component2 ()Lkotlin/jvm/functions/Function2;
+	public final fun copy (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/BeforeHandler;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/handlers/coroutines/BeforeHandler;Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/BeforeHandler;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun filter (Lcom/hexagonkt/http/model/HttpMethod;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public final fun getBlock ()Lkotlin/jvm/functions/Function2;
+	public fun getCallback ()Lkotlin/jvm/functions/Function2;
+	public fun getHandlerPredicate ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
+	public fun hashCode ()I
+	public fun process (Lcom/hexagonkt/handlers/coroutines/Context;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/handlers/coroutines/FilterHandler : com/hexagonkt/handlers/coroutines/Handler, com/hexagonkt/http/handlers/coroutines/HttpHandler {
+	public fun <init> (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public fun byMethod ()Ljava/util/Map;
+	public final fun component1 ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public final fun component2 ()Lkotlin/jvm/functions/Function2;
+	public final fun copy (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/FilterHandler;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/handlers/coroutines/FilterHandler;Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/FilterHandler;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun filter (Lcom/hexagonkt/http/model/HttpMethod;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public final fun getBlock ()Lkotlin/jvm/functions/Function2;
+	public fun getCallback ()Lkotlin/jvm/functions/Function2;
+	public fun getHandlerPredicate ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
+	public fun hashCode ()I
+	public fun process (Lcom/hexagonkt/handlers/coroutines/Context;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/handlers/coroutines/HandlerBuilder {
+	public fun <init> ()V
+	public fun <init> (Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun after (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)V
+	public final fun after (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public final fun after (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public final fun after (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun after$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun after$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun after$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun before (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)V
+	public final fun before (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public final fun before (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public final fun before (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun before$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun before$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun before$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun delete (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun delete$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun exception (Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;ZLkotlin/jvm/functions/Function3;)V
+	public static synthetic fun exception$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;ZLkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
+	public final fun filter (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)V
+	public final fun filter (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public final fun filter (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public final fun filter (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun filter$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun filter$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun filter$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun get (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun get$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun getHandlers ()Ljava/util/List;
+	public final fun handler (Ljava/lang/String;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public static synthetic fun handler$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public final fun head (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun head$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun on (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)V
+	public final fun on (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public final fun on (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public final fun on (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun on$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun on$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun on$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun options (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun options$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun patch (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun patch$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun path (Ljava/lang/String;Lcom/hexagonkt/http/handlers/coroutines/PathHandler;)V
+	public final fun path (Ljava/lang/String;Ljava/util/List;)V
+	public final fun path (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public final fun path (Ljava/lang/String;[Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;)V
+	public final fun post (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun post$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun put (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun put$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun setHandlers (Ljava/util/List;)V
+	public final fun trace (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun trace$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun use (Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;)V
+	public final fun ws (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun ws$default (Lcom/hexagonkt/http/handlers/coroutines/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+}
+
+public final class com/hexagonkt/http/handlers/coroutines/HandlersKt {
+	public static final fun Delete (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static synthetic fun Delete$default (Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static final fun Exception (Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;ZLkotlin/jvm/functions/Function3;)Lcom/hexagonkt/http/handlers/coroutines/AfterHandler;
+	public static synthetic fun Exception$default (Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;ZLkotlin/jvm/functions/Function3;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/AfterHandler;
+	public static final fun Get (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static synthetic fun Get$default (Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static final fun Head (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static synthetic fun Head$default (Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static final fun Options (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static synthetic fun Options$default (Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static final fun Patch (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static synthetic fun Patch$default (Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static final fun Post (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static synthetic fun Post$default (Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static final fun Put (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static synthetic fun Put$default (Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static final fun Trace (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static synthetic fun Trace$default (Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static final fun Ws (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static synthetic fun Ws$default (Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static final fun path (Ljava/lang/String;Ljava/util/List;)Lcom/hexagonkt/http/handlers/coroutines/PathHandler;
+	public static final fun path (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lcom/hexagonkt/http/handlers/coroutines/PathHandler;
+	public static synthetic fun path$default (Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/PathHandler;
+	public static synthetic fun path$default (Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/PathHandler;
+	public static final fun process (Lkotlin/jvm/functions/Function2;Lcom/hexagonkt/http/model/HttpMethod;Lcom/hexagonkt/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagonkt/http/model/QueryParameters;Lcom/hexagonkt/http/model/Headers;Ljava/lang/Object;Ljava/util/List;Lcom/hexagonkt/http/model/FormParameters;Ljava/util/List;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/List;JLjava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun process (Lkotlin/jvm/functions/Function2;Lcom/hexagonkt/http/model/HttpRequest;Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun process$default (Lkotlin/jvm/functions/Function2;Lcom/hexagonkt/http/model/HttpMethod;Lcom/hexagonkt/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagonkt/http/model/QueryParameters;Lcom/hexagonkt/http/model/Headers;Ljava/lang/Object;Ljava/util/List;Lcom/hexagonkt/http/model/FormParameters;Ljava/util/List;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/List;JLjava/util/Map;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public static synthetic fun process$default (Lkotlin/jvm/functions/Function2;Lcom/hexagonkt/http/model/HttpRequest;Ljava/util/Map;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/hexagonkt/http/handlers/coroutines/HttpContext : com/hexagonkt/handlers/coroutines/Context {
+	public fun <init> (Lcom/hexagonkt/handlers/coroutines/Context;)V
+	public fun <init> (Lcom/hexagonkt/http/model/HttpCall;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;Z)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/model/HttpCall;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/HttpResponsePort;Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Ljava/util/Map;)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/model/HttpRequestPort;Lcom/hexagonkt/http/model/HttpResponsePort;Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun accepted (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun accepted$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun badRequest (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun badRequest$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun component1 ()Lcom/hexagonkt/http/model/HttpCall;
+	public final fun component2 ()Lkotlin/jvm/functions/Function1;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()I
+	public final fun component5 ()Ljava/lang/Exception;
+	public final fun component6 ()Ljava/util/Map;
+	public final fun component7 ()Z
+	public final fun copy (Lcom/hexagonkt/http/model/HttpCall;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;Z)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Lcom/hexagonkt/http/model/HttpCall;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;ZILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun created (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun created$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun forbidden (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun forbidden$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun getAccept ()Ljava/util/List;
+	public fun getAttributes ()Ljava/util/Map;
+	public final fun getAuthorization ()Lcom/hexagonkt/http/model/Authorization;
+	public final fun getCertificate ()Ljava/security/cert/X509Certificate;
+	public final fun getCertificateChain ()Ljava/util/List;
+	public fun getEvent ()Lcom/hexagonkt/http/model/HttpCall;
+	public synthetic fun getEvent ()Ljava/lang/Object;
+	public fun getException ()Ljava/lang/Exception;
+	public final fun getFormParameters ()Lcom/hexagonkt/http/model/FormParameters;
+	public fun getHandled ()Z
+	public final fun getHost ()Ljava/lang/String;
+	public final fun getMethod ()Lcom/hexagonkt/http/model/HttpMethod;
+	public fun getNextHandler ()I
+	public fun getNextHandlers ()Ljava/util/List;
+	public final fun getOrigin ()Ljava/lang/String;
+	public final fun getParts ()Ljava/util/List;
+	public final fun getPartsMap ()Ljava/util/Map;
+	public final fun getPath ()Ljava/lang/String;
+	public final fun getPathParameters ()Ljava/util/Map;
+	public final fun getPort ()I
+	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
+	public final fun getProtocol ()Lcom/hexagonkt/http/model/HttpProtocol;
+	public final fun getQueryParameters ()Lcom/hexagonkt/http/model/QueryParameters;
+	public final fun getReferer ()Ljava/lang/String;
+	public final fun getRequest ()Lcom/hexagonkt/http/model/HttpRequestPort;
+	public final fun getResponse ()Lcom/hexagonkt/http/model/HttpResponsePort;
+	public final fun getStatus ()Lcom/hexagonkt/http/model/HttpStatus;
+	public final fun getUrl ()Ljava/net/URL;
+	public final fun getUserAgent ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun internalServerError (Ljava/lang/Exception;Lcom/hexagonkt/http/model/Headers;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun internalServerError (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun internalServerError$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Ljava/lang/Exception;Lcom/hexagonkt/http/model/Headers;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun internalServerError$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public fun next (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun notFound (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun notFound$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun ok (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun ok$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun redirect (Lcom/hexagonkt/http/model/HttpStatus;Ljava/net/URI;Lcom/hexagonkt/http/model/Headers;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun redirect$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Lcom/hexagonkt/http/model/HttpStatus;Ljava/net/URI;Lcom/hexagonkt/http/model/Headers;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun request (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun request$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun send (Lcom/hexagonkt/http/model/HttpRequestPort;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun send (Lcom/hexagonkt/http/model/HttpResponsePort;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun send (Lcom/hexagonkt/http/model/HttpStatus;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun send$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Lcom/hexagonkt/http/model/HttpRequestPort;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun send$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Lcom/hexagonkt/http/model/HttpResponsePort;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun send$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Lcom/hexagonkt/http/model/HttpStatus;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun serverError (Lcom/hexagonkt/http/model/HttpStatus;Ljava/lang/Exception;Lcom/hexagonkt/http/model/Headers;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun serverError$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Lcom/hexagonkt/http/model/HttpStatus;Ljava/lang/Exception;Lcom/hexagonkt/http/model/Headers;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public final fun sse (Ljava/util/concurrent/Flow$Publisher;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public fun toString ()Ljava/lang/String;
+	public final fun unauthorized (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public static synthetic fun unauthorized$default (Lcom/hexagonkt/http/handlers/coroutines/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpContext;
+	public fun with (Lcom/hexagonkt/http/model/HttpCall;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;Z)Lcom/hexagonkt/handlers/coroutines/Context;
+	public synthetic fun with (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILjava/lang/Exception;Ljava/util/Map;Z)Lcom/hexagonkt/handlers/coroutines/Context;
+}
+
+public abstract interface class com/hexagonkt/http/handlers/coroutines/HttpHandler : com/hexagonkt/handlers/coroutines/Handler {
+	public abstract fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public abstract fun byMethod ()Ljava/util/Map;
+	public abstract fun filter (Lcom/hexagonkt/http/model/HttpMethod;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public abstract fun getHandlerPredicate ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public abstract fun process (Lcom/hexagonkt/http/model/HttpRequestPort;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/hexagonkt/http/handlers/coroutines/HttpHandler$DefaultImpls {
+	public static fun byMethod (Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;)Ljava/util/Map;
+	public static fun filter (Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;Lcom/hexagonkt/http/model/HttpMethod;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public static fun process (Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;Lcom/hexagonkt/http/model/HttpRequestPort;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/hexagonkt/http/handlers/coroutines/HttpPredicate : kotlin/jvm/functions/Function1 {
+	public fun <init> ()V
+	public fun <init> (Ljava/util/Set;Lcom/hexagonkt/http/patterns/PathPattern;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;)V
+	public synthetic fun <init> (Ljava/util/Set;Lcom/hexagonkt/http/patterns/PathPattern;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Z)V
+	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public final fun clearMethods ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public final fun component1 ()Ljava/util/Set;
+	public final fun component2 ()Lcom/hexagonkt/http/patterns/PathPattern;
+	public final fun component3 ()Lkotlin/reflect/KClass;
+	public final fun component4 ()Lcom/hexagonkt/http/model/HttpStatus;
+	public final fun copy (Ljava/util/Set;Lcom/hexagonkt/http/patterns/PathPattern;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;)Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Ljava/util/Set;Lcom/hexagonkt/http/patterns/PathPattern;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public final fun describe ()Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getException ()Lkotlin/reflect/KClass;
+	public final fun getMethods ()Ljava/util/Set;
+	public final fun getPathPattern ()Lcom/hexagonkt/http/patterns/PathPattern;
+	public final fun getPredicate ()Lkotlin/jvm/functions/Function1;
+	public final fun getStatus ()Lcom/hexagonkt/http/model/HttpStatus;
+	public fun hashCode ()I
+	public fun invoke (Lcom/hexagonkt/handlers/coroutines/Context;)Ljava/lang/Boolean;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/handlers/coroutines/OnHandler : com/hexagonkt/handlers/coroutines/Handler, com/hexagonkt/http/handlers/coroutines/HttpHandler {
+	public fun <init> (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Lcom/hexagonkt/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagonkt/http/model/HttpStatus;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public fun byMethod ()Ljava/util/Map;
+	public final fun component1 ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public final fun component2 ()Lkotlin/jvm/functions/Function2;
+	public final fun copy (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/handlers/coroutines/OnHandler;Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/OnHandler;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun filter (Lcom/hexagonkt/http/model/HttpMethod;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public final fun getBlock ()Lkotlin/jvm/functions/Function2;
+	public fun getCallback ()Lkotlin/jvm/functions/Function2;
+	public fun getHandlerPredicate ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
+	public fun hashCode ()I
+	public fun process (Lcom/hexagonkt/handlers/coroutines/Context;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/http/handlers/coroutines/PathHandler : com/hexagonkt/handlers/coroutines/Handler, com/hexagonkt/http/handlers/coroutines/HttpHandler {
+	public fun <init> (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Ljava/util/List;)V
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public fun <init> (Ljava/lang/String;[Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;)V
+	public fun <init> ([Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;)V
+	public fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public fun byMethod ()Ljava/util/Map;
+	public final fun component1 ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Ljava/util/List;)Lcom/hexagonkt/http/handlers/coroutines/PathHandler;
+	public static synthetic fun copy$default (Lcom/hexagonkt/http/handlers/coroutines/PathHandler;Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/coroutines/PathHandler;
+	public final fun describe ()Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun filter (Lcom/hexagonkt/http/model/HttpMethod;)Lcom/hexagonkt/http/handlers/coroutines/HttpHandler;
+	public fun getCallback ()Lkotlin/jvm/functions/Function2;
+	public fun getHandlerPredicate ()Lcom/hexagonkt/http/handlers/coroutines/HttpPredicate;
+	public final fun getHandlers ()Ljava/util/List;
+	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
+	public fun hashCode ()I
+	public fun process (Lcom/hexagonkt/handlers/coroutines/Context;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+
