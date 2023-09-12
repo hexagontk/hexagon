@@ -1,6 +1,4 @@
 
-name: Build
-
 on:
   push:
     branches-ignore: [ master ]
@@ -10,7 +8,6 @@ permissions:
 
 jobs:
   build:
-    name: Build
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       java: dev

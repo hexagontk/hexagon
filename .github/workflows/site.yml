@@ -1,6 +1,4 @@
 
-name: Site
-
 on:
   workflow_call:
     inputs:
@@ -31,15 +29,13 @@ on:
 
 jobs:
   site:
-    name: Build Site
     runs-on: ubuntu-latest
     permissions:
       contents: read
     defaults:
       run: { shell: bash }
     steps:
-      - name: Restore MkDocs Cache
-        uses: actions/cache@v3
+      - uses: actions/cache@v3
         with:
           key: ${{ runner.os }}-mkdocs-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
           restore-keys: ${{ runner.os }}-mkdocs-
@@ -47,25 +43,20 @@ jobs:
             ~/.local/bin
             ~/.local/lib/python*/site-packages
 
-      - name: Check Out
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           ref: ${{ inputs.ref }}
 
-      - name: Set Up Java
-        uses: graalvm/setup-graalvm@v1
+      - uses: graalvm/setup-graalvm@v1
         with:
           version: ${{ inputs.version }}
           distribution: ${{ inputs.distribution }}
           java-version: ${{ inputs.java }}
           cache: gradle
 
-      - name: Build Project
-        run: ./gradlew --stacktrace build
+      - run: ./gradlew --stacktrace build
 
-      - name: Build Site
-        run: ./gradlew --stacktrace -x build buildSite
+      - run: ./gradlew --stacktrace -x build buildSite
 
-      - name: Check Build
-        if: ${{ inputs.check_directory != '' }}
+      - if: ${{ inputs.check_directory != '' }}
         run: ls -AlF "${{ inputs.check_directory }}"

@@ -1,6 +1,4 @@
 
-name: Nightly
-
 on:
   schedule:
     - cron: "59 23 * * *"
@@ -28,9 +26,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
-    name: Build (${{ matrix.os }})
+    name: build (${{ matrix.os }})
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
@@ -39,25 +37,13 @@ jobs:
       check_directory: core/build
       ref: develop
 
-  # TODO Delete this special case when Jacoco runs on macOS properly
-  build_macos:
-    name: Build (macos-latest)
-    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
-    with:
-      os: macos-latest
-      java: dev
-      distribution: graalvm
-      check_directory: core/build
-      ref: develop
-      tasks: -x jacocoTestReport
-
   sample_keystores:
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
-    name: Sample Keystores (${{ matrix.os }})
+    name: sample_keystores (${{ matrix.os }})
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
@@ -72,30 +58,25 @@ jobs:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
-    name: Native Test
+    name: native_test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Configure Page File
-        uses: al-cheb/configure-pagefile-action@v1.3
+      - uses: al-cheb/configure-pagefile-action@v1.3
         if: ${{ matrix.os == 'windows-latest' }}
         with:
           minimum-size: 16GB
           disk-root: "C:"
-      - name: Check Out
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           ref: develop
-      - name: Set Up Java
-        uses: graalvm/setup-graalvm@v1
+      - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: 20
-          distribution: graalvm-community
+          java-version: dev
+          distribution: graalvm
           cache: gradle
-      - name: Build Project
-        run: ./gradlew --stacktrace nativeTest
+      - run: ./gradlew --stacktrace nativeTest
 
   jmh:
-    name: JMH Benchmark
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       java: dev
@@ -104,7 +85,6 @@ jobs:
       tasks: jmh
 
   build_site:
-    name: Build Site
     uses: hexagonkt/hexagon/.github/workflows/site.yml@master
     with:
       ref: develop
@@ -115,7 +95,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
-    name: Test Publishing (${{ matrix.os }})
+    name: test_publishing (${{ matrix.os }})
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
