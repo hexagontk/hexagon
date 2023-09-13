@@ -1,18 +1,14 @@
 
-name: Release
-
 on:
   push:
     branches: [ master ]
 
 jobs:
   publish:
-    name: Publish
     runs-on: ubuntu-latest
     steps:
 
-      - name: Restore MkDocs Cache
-        uses: actions/cache@v3
+      - uses: actions/cache@v3
         with:
           key: ${{ runner.os }}-mkdocs-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
           restore-keys: ${{ runner.os }}-mkdocs-
@@ -20,21 +16,18 @@ jobs:
             ~/.local/bin
             ~/.local/lib/python*/site-packages
 
-      - name: Check Out
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set Up Java
-        uses: graalvm/setup-graalvm@v1
+      - uses: graalvm/setup-graalvm@v1
         with:
           java-version: 20
           distribution: graalvm-community
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: gradle
 
-      - name: Update Site
-        env:
+      - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export REMOTE="https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
@@ -44,16 +37,14 @@ jobs:
           ./gradlew -x build buildSite
           ls -AlF site/build/site
 
-      - name: Publish Packages
-        env:
+      - env:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: ./gradlew --no-daemon -x test release
 
-      - name: Publish Site
-        run: |
+      - run: |
           cp -rf site/build/site/* build/gh-pages/
           cd build/gh-pages
           git add --all

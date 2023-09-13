@@ -194,6 +194,8 @@ public final class com/hexagonkt/http/handlers/HttpContext : com/hexagonkt/handl
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun forbidden (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public static synthetic fun forbidden$default (Lcom/hexagonkt/http/handlers/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public final fun found (Ljava/lang/String;Lcom/hexagonkt/http/model/Headers;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public static synthetic fun found$default (Lcom/hexagonkt/http/handlers/HttpContext;Ljava/lang/String;Lcom/hexagonkt/http/model/Headers;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public final fun getAccept ()Ljava/util/List;
 	public fun getAttributes ()Ljava/util/Map;
 	public final fun getAuthorization ()Lcom/hexagonkt/http/model/Authorization;
@@ -234,8 +236,8 @@ public final class com/hexagonkt/http/handlers/HttpContext : com/hexagonkt/handl
 	public static synthetic fun notFound$default (Lcom/hexagonkt/http/handlers/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public final fun ok (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public static synthetic fun ok$default (Lcom/hexagonkt/http/handlers/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/HttpContext;
-	public final fun redirect (Lcom/hexagonkt/http/model/HttpStatus;Ljava/net/URI;Lcom/hexagonkt/http/model/Headers;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/HttpContext;
-	public static synthetic fun redirect$default (Lcom/hexagonkt/http/handlers/HttpContext;Lcom/hexagonkt/http/model/HttpStatus;Ljava/net/URI;Lcom/hexagonkt/http/model/Headers;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public final fun redirect (Lcom/hexagonkt/http/model/HttpStatus;Ljava/lang/String;Lcom/hexagonkt/http/model/Headers;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public static synthetic fun redirect$default (Lcom/hexagonkt/http/handlers/HttpContext;Lcom/hexagonkt/http/model/HttpStatus;Ljava/lang/String;Lcom/hexagonkt/http/model/Headers;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public final fun request (Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public static synthetic fun request$default (Lcom/hexagonkt/http/handlers/HttpContext;Ljava/lang/Object;Lcom/hexagonkt/http/model/Headers;Lcom/hexagonkt/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public final fun send (Lcom/hexagonkt/http/model/HttpRequestPort;Ljava/util/Map;)Lcom/hexagonkt/http/handlers/HttpContext;

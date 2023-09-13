@@ -1,15 +1,11 @@
 
-name: Pull Request
-
-on:
-  - pull_request
+on: pull_request
 
 permissions:
   contents: read
 
 jobs:
   sample_keystores:
-    name: Sample Keystores
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       java: dev
@@ -17,7 +13,6 @@ jobs:
       tasks: createCa createIdentities
 
   native_test:
-    name: Native Test
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       java: dev
@@ -25,7 +20,6 @@ jobs:
       tasks: nativeTest
 
   jmh:
-    name: JMH Benchmark
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       java: dev
@@ -33,11 +27,9 @@ jobs:
       tasks: jmh
 
   build_site:
-    name: Build Site
     uses: hexagonkt/hexagon/.github/workflows/site.yml@develop
 
   test_publishing:
-    name: Test Publishing
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       java: dev
