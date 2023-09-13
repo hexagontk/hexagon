@@ -1,11 +1,28 @@
 package com.hexagonkt.core
 
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class CheatSheetTest {
 
     @Test fun `Data utilities`() {
         // data
+        /*
+         * Utilities to ease the processing of collections, sets, and maps to ease mapping to
+         * classes.
+         */
+        val map = mapOf(
+            "map" to mapOf(
+                "list" to listOf(10, 20, 30),
+                "key" to "value",
+            ),
+        )
+
+        // Retrieve nested map elements
+        assertEquals(10, map.getPath("map", "list", 0))
+        assertEquals(20, map.getPath("map", "list", 1))
+        assertEquals("value", map.getPath("map", "key"))
+
         // data
     }
 
