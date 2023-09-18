@@ -14,17 +14,41 @@ internal class ChecksTest {
         val date: LocalDate? = LocalDate.now(),
         val integer: Int? = 1,
         val decimal: Double? = 1.0,
+        val date2: LocalDate? = date?.plusDays(1),
+        val integer2: Int? = integer?.let { it + 1 },
+        val decimal2: Double? = decimal?.let { it + 1.0 },
     )
 
     @Test fun `Require methods work properly`() {
         val data = DataClass()
         data.requireNotBlank(DataClass::text)
         data.requireNotBlanks(DataClass::texts)
-        data.requireBefore(DataClass::date, LocalDate.now().plusDays(1))
-        data.requireBeforeOrEquals(DataClass::date)
-        data.requireBeforeOrEquals(DataClass::date, LocalDate.now())
+        data.requireLower(DataClass::date, LocalDate.now().plusDays(1))
+        data.requireGreater(DataClass::date, LocalDate.now().minusDays(1))
+        data.requireLowerOrEquals(DataClass::date, LocalDate.now().plusDays(1))
+        data.requireGreaterOrEquals(DataClass::date, LocalDate.now().minusDays(1))
+        data.requireLowerOrEquals(DataClass::date, LocalDate.now())
+        data.requireGreaterOrEquals(DataClass::date, LocalDate.now())
         data.requireGreater(DataClass::integer, 0)
         data.requireGreater(DataClass::decimal, 0.0)
+        data.requireLower(DataClass::integer, 2)
+        data.requireLower(DataClass::decimal, 2.0)
+        data.requireGreaterOrEquals(DataClass::integer, 0)
+        data.requireGreaterOrEquals(DataClass::decimal, 0.0)
+        data.requireLowerOrEquals(DataClass::integer, 2)
+        data.requireLowerOrEquals(DataClass::decimal, 2.0)
+        data.requireGreaterOrEquals(DataClass::integer, 1)
+        data.requireGreaterOrEquals(DataClass::decimal, 1.0)
+        data.requireLowerOrEquals(DataClass::integer, 1)
+        data.requireLowerOrEquals(DataClass::decimal, 1.0)
+        data.requireGreaterOrEquals(DataClass::integer, DataClass::integer)
+        data.requireGreaterOrEquals(DataClass::decimal, DataClass::decimal)
+        data.requireLowerOrEquals(DataClass::integer, DataClass::integer)
+        data.requireLowerOrEquals(DataClass::decimal, DataClass::decimal)
+        data.requireLower(DataClass::integer, DataClass::integer2)
+        data.requireLower(DataClass::decimal, DataClass::decimal2)
+        data.requireGreater(DataClass::integer2, DataClass::integer)
+        data.requireGreater(DataClass::decimal2, DataClass::decimal)
     }
 
     @Test fun `Require methods throw exceptions for incorrect data`() {
@@ -40,9 +64,11 @@ internal class ChecksTest {
 
         fail("'text' cannot be blank") { data.requireNotBlank(DataClass::text) }
         fail("'texts' cannot contain blanks") { data.requireNotBlanks(DataClass::texts) }
-        fail("'date' must be before $today: $today") { data.requireBefore(DataClass::date, today) }
-        fail("'date' must be before $today: $today") {
-            data.requireBeforeOrEquals(DataClass::date, yesterday)
+        fail("'date' must be lower than $today: $today") {
+            data.requireLower(DataClass::date, today)
+        }
+        fail("'date' must be equals or lower than $yesterday: $today") {
+            data.requireLowerOrEquals(DataClass::date, yesterday)
         }
         fail("'integer' must be greater than 0: 0") {
             data.requireGreater(DataClass::integer, 0)
@@ -50,17 +76,44 @@ internal class ChecksTest {
         fail("'decimal' must be greater than 0.0: 0.0") {
             data.requireGreater(DataClass::decimal, 0.0)
         }
+        fail("'integer' must be equals or greater than 1: 0") {
+            data.requireGreaterOrEquals(DataClass::integer, 1)
+        }
+        fail("'decimal' must be equals or greater than 1.0: 0.0") {
+            data.requireGreaterOrEquals(DataClass::decimal, 1.0)
+        }
     }
 
     @Test fun `Require methods work properly with 'null' data`() {
         val data = DataClass(null, null, null, null, null)
         data.requireNotBlank(DataClass::text)
         data.requireNotBlanks(DataClass::texts)
-        data.requireBefore(DataClass::date, LocalDate.now().plusDays(1))
-        data.requireBeforeOrEquals(DataClass::date)
-        data.requireBeforeOrEquals(DataClass::date, LocalDate.now())
+        data.requireLower(DataClass::date, LocalDate.now().plusDays(1))
+        data.requireGreater(DataClass::date, LocalDate.now().minusDays(1))
+        data.requireLowerOrEquals(DataClass::date, LocalDate.now().plusDays(1))
+        data.requireGreaterOrEquals(DataClass::date, LocalDate.now().minusDays(1))
+        data.requireLowerOrEquals(DataClass::date, LocalDate.now())
+        data.requireGreaterOrEquals(DataClass::date, LocalDate.now())
         data.requireGreater(DataClass::integer, 0)
         data.requireGreater(DataClass::decimal, 0.0)
+        data.requireLower(DataClass::integer, 2)
+        data.requireLower(DataClass::decimal, 2.0)
+        data.requireGreaterOrEquals(DataClass::integer, 0)
+        data.requireGreaterOrEquals(DataClass::decimal, 0.0)
+        data.requireLowerOrEquals(DataClass::integer, 2)
+        data.requireLowerOrEquals(DataClass::decimal, 2.0)
+        data.requireGreaterOrEquals(DataClass::integer, 1)
+        data.requireGreaterOrEquals(DataClass::decimal, 1.0)
+        data.requireLowerOrEquals(DataClass::integer, 1)
+        data.requireLowerOrEquals(DataClass::decimal, 1.0)
+        data.requireGreaterOrEquals(DataClass::integer, DataClass::integer)
+        data.requireGreaterOrEquals(DataClass::decimal, DataClass::decimal)
+        data.requireLowerOrEquals(DataClass::integer, DataClass::integer)
+        data.requireLowerOrEquals(DataClass::decimal, DataClass::decimal)
+        data.requireLower(DataClass::integer, DataClass::integer2)
+        data.requireLower(DataClass::decimal, DataClass::decimal2)
+        data.requireGreater(DataClass::integer2, DataClass::integer)
+        data.requireGreater(DataClass::decimal2, DataClass::decimal)
     }
 
     @Test fun `Ensure fails if collection size is larger`() {

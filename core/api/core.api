@@ -69,11 +69,14 @@ public final class com/hexagonkt/core/CasesKt {
 
 public final class com/hexagonkt/core/ChecksKt {
 	public static final fun checkSize (Ljava/util/Collection;Lkotlin/ranges/IntRange;)Ljava/util/Collection;
-	public static final fun requireBefore (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/time/LocalDate;)V
-	public static synthetic fun requireBefore$default (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/time/LocalDate;ILjava/lang/Object;)V
-	public static final fun requireBeforeOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/time/LocalDate;)V
-	public static synthetic fun requireBeforeOrEquals$default (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/time/LocalDate;ILjava/lang/Object;)V
-	public static final fun requireGreater (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Number;)V
+	public static final fun requireGreater (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
+	public static final fun requireGreater (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
+	public static final fun requireGreaterOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
+	public static final fun requireGreaterOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
+	public static final fun requireLower (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
+	public static final fun requireLower (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
+	public static final fun requireLowerOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
+	public static final fun requireLowerOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
 	public static final fun requireNotBlank (Ljava/lang/Object;Lkotlin/reflect/KProperty1;)V
 	public static final fun requireNotBlanks (Ljava/lang/Object;Lkotlin/reflect/KProperty1;)V
 }

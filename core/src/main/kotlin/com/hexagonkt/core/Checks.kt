@@ -1,6 +1,5 @@
 package com.hexagonkt.core
 
-import java.time.LocalDate
 import kotlin.reflect.KProperty1
 
 fun <T : Any> T.requireNotBlank(field: KProperty1<T, CharSequence?>) {
@@ -13,25 +12,54 @@ fun <T : Any> T.requireNotBlanks(field: KProperty1<T, Collection<CharSequence>?>
     require(fieldValue.all { it.isNotBlank() }) { "'${field.name}' cannot contain blanks" }
 }
 
-fun <T : Any> T.requireBefore(field: KProperty1<T, LocalDate?>, date: LocalDate = LocalDate.now()) {
-    val fieldValue = field.get(this)
-    require(fieldValue?.isBefore(date) ?: true) {
-        "'${field.name}' must be before $date: $fieldValue"
-    }
-}
-
-fun <T : Any> T.requireBeforeOrEquals(
-    field: KProperty1<T, LocalDate?>,
-    date: LocalDate = LocalDate.now()
-) {
-    requireBefore(field, date.plusDays(1))
-}
-
-fun <T : Any, N : Number> T.requireGreater(field: KProperty1<T, Comparable<N>?>, min: N) {
+fun <T : Any, N> T.requireGreater(field: KProperty1<T, Comparable<N>?>, min: N) {
     val fieldValue = field.get(this)
     require((fieldValue?.compareTo(min) ?: 1) > 0) {
         "'${field.name}' must be greater than $min: $fieldValue"
     }
+}
+
+fun <T : Any, N> T.requireGreaterOrEquals(field: KProperty1<T, Comparable<N>?>, min: N) {
+    val fieldValue = field.get(this)
+    require((fieldValue?.compareTo(min) ?: 0) >= 0) {
+        "'${field.name}' must be equals or greater than $min: $fieldValue"
+    }
+}
+
+fun <T : Any, N> T.requireLower(field: KProperty1<T, Comparable<N>?>, min: N) {
+    val fieldValue = field.get(this)
+    require((fieldValue?.compareTo(min) ?: -1) < 0) {
+        "'${field.name}' must be lower than $min: $fieldValue"
+    }
+}
+
+fun <T : Any, N> T.requireLowerOrEquals(field: KProperty1<T, Comparable<N>?>, min: N) {
+    val fieldValue = field.get(this)
+    require((fieldValue?.compareTo(min) ?: 0) <= 0) {
+        "'${field.name}' must be equals or lower than $min: $fieldValue"
+    }
+}
+
+fun <T : Any, N> T.requireGreater(field: KProperty1<T, Comparable<N>?>, field2: KProperty1<T, N?>) {
+    field2.get(this)?.let { requireGreater(field, it) }
+}
+
+fun <T : Any, N> T.requireGreaterOrEquals(
+    field: KProperty1<T, Comparable<N>?>,
+    field2: KProperty1<T, N?>
+) {
+    field2.get(this)?.let { requireGreaterOrEquals(field, it) }
+}
+
+fun <T : Any, N> T.requireLower(field: KProperty1<T, Comparable<N>?>, field2: KProperty1<T, N?>) {
+    field2.get(this)?.let { requireLower(field, it) }
+}
+
+fun <T : Any, N> T.requireLowerOrEquals(
+    field: KProperty1<T, Comparable<N>?>,
+    field2: KProperty1<T, N?>
+) {
+    field2.get(this)?.let { requireLowerOrEquals(field, it) }
 }
 
 /**
