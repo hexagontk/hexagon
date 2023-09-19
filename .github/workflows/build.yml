@@ -10,6 +10,6 @@ jobs:
   build:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: dev
+      java: 21
       distribution: graalvm
       check_directory: core/build
