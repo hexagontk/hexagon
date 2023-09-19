@@ -8,22 +8,16 @@ jobs:
   sample_keystores:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: dev
-      distribution: graalvm
       tasks: createCa createIdentities
 
   native_test:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: dev
-      distribution: graalvm
       tasks: nativeTest
 
   jmh:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: dev
-      distribution: graalvm
       tasks: jmh
 
   build_site:
@@ -32,7 +26,5 @@ jobs:
   test_publishing:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: dev
-      distribution: graalvm
       check_directory: core/build
       tasks: publishToMavenLocal -x test

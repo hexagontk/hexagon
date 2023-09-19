@@ -32,8 +32,6 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
-      java: dev
-      distribution: graalvm
       check_directory: core/build
       ref: develop
 
@@ -47,8 +45,6 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
-      java: dev
-      distribution: graalvm
       ref: develop
       tasks: createCa createIdentities
 
@@ -71,16 +67,12 @@ jobs:
           ref: develop
       - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: dev
-          distribution: graalvm
           cache: gradle
       - run: ./gradlew --stacktrace nativeTest
 
   jmh:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
-      java: dev
-      distribution: graalvm
       ref: develop
       tasks: jmh
 
@@ -99,8 +91,6 @@ jobs:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       os: ${{ matrix.os }}
-      java: dev
-      distribution: graalvm
       ref: develop
       check_directory: core/build
       tasks: publishToMavenLocal -x test

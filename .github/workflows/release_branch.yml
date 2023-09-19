@@ -14,8 +14,6 @@ jobs:
 
       - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: dev
-          distribution: graalvm
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: gradle
 
