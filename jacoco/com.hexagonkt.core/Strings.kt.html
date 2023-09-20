@@ -7,6 +7,8 @@ import java.lang.System.getProperty
 import java.net.InetAddress
 import java.net.URI
 import java.net.URL
+import java.text.Normalizer
+import java.text.Normalizer.Form.NFD
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -16,16 +18,16 @@ import kotlin.reflect.KClass
 private const val VARIABLE_PREFIX = &quot;{{&quot;
 private const val VARIABLE_SUFFIX = &quot;}}&quot;
 
-<span class="fc" id="L19">private val base64Encoder: Base64.Encoder by lazy { Base64.getEncoder().withoutPadding() }</span>
-<span class="fc" id="L20">private val base64Decoder: Base64.Decoder by lazy { Base64.getDecoder() }</span>
+<span class="fc" id="L21">private val base64Encoder: Base64.Encoder by lazy { Base64.getEncoder().withoutPadding() }</span>
+<span class="fc" id="L22">private val base64Decoder: Base64.Decoder by lazy { Base64.getDecoder() }</span>
 
 /** Runtime specific end of line. */
-<span class="fc" id="L23">val eol: String by lazy { getProperty(&quot;line.separator&quot;) }</span>
+<span class="fc" id="L25">val eol: String by lazy { getProperty(&quot;line.separator&quot;) }</span>
 
 /** Supported types for the [parseOrNull] function. */
-<span class="fc" id="L26">val parsedClasses: Set&lt;KClass&lt;*&gt;&gt; by lazy {</span>
-<span class="fc" id="L27">    setOf(</span>
-<span class="fc" id="L28">        Boolean::class,</span>
+<span class="fc" id="L28">val parsedClasses: Set&lt;KClass&lt;*&gt;&gt; by lazy {</span>
+<span class="fc" id="L29">    setOf(</span>
+<span class="fc" id="L30">        Boolean::class,</span>
         Int::class,
         Long::class,
         Float::class,
@@ -52,14 +54,14 @@ private const val VARIABLE_SUFFIX = &quot;}}&quot;
  * @sample com.hexagonkt.core.StringsSamplesTest.filterVarsExample
  */
 fun String.filterVars(parameters: Map&lt;*, *&gt;): String =
-<span class="fc" id="L55">    this.filter(</span>
-<span class="fc" id="L56">        VARIABLE_PREFIX,</span>
-<span class="fc" id="L57">        VARIABLE_SUFFIX,</span>
-<span class="fc" id="L58">        parameters</span>
-<span class="fc bfc" id="L59" title="All 2 branches covered.">            .filterKeys { it != null }</span>
-<span class="fc" id="L60">            .map { (k, v) -&gt; k.toString() to v.toString() }</span>
-<span class="fc" id="L61">            .toMap()</span>
-<span class="fc" id="L62">    )</span>
+<span class="fc" id="L57">    this.filter(</span>
+<span class="fc" id="L58">        VARIABLE_PREFIX,</span>
+<span class="fc" id="L59">        VARIABLE_SUFFIX,</span>
+<span class="fc" id="L60">        parameters</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">            .filterKeys { it != null }</span>
+<span class="fc" id="L62">            .map { (k, v) -&gt; k.toString() to v.toString() }</span>
+<span class="fc" id="L63">            .toMap()</span>
+<span class="fc" id="L64">    )</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -71,9 +73,9 @@ fun String.filterVars(parameters: Map&lt;*, *&gt;): String =
  * @return .
  */
 fun String.filter(prefix: String, suffix: String, parameters: Map&lt;String, *&gt;): String =
-<span class="fc" id="L74">    parameters.entries.fold(this) { result, (first, second) -&gt;</span>
-<span class="fc" id="L75">        result.replace(prefix + first + suffix, second.toString())</span>
-<span class="fc" id="L76">    }</span>
+<span class="fc" id="L76">    parameters.entries.fold(this) { result, (first, second) -&gt;</span>
+<span class="fc" id="L77">        result.replace(prefix + first + suffix, second.toString())</span>
+<span class="fc" id="L78">    }</span>
 
 /**
  * Encode the content of this byteArray to base64.
@@ -82,7 +84,7 @@ fun String.filter(prefix: String, suffix: String, parameters: Map&lt;String, *&g
  * @return The base64 encoded string.
  */
 fun ByteArray.encodeToBase64(): String =
-<span class="fc" id="L85">    base64Encoder.encodeToString(this)</span>
+<span class="fc" id="L87">    base64Encoder.encodeToString(this)</span>
 
 /**
  * Encode this string to base64.
@@ -91,7 +93,7 @@ fun ByteArray.encodeToBase64(): String =
  * @return The base64 encoded string.
  */
 fun String.encodeToBase64(): String =
-<span class="fc" id="L94">    toByteArray().encodeToBase64()</span>
+<span class="fc" id="L96">    toByteArray().encodeToBase64()</span>
 
 /**
  * Decode this base64 encoded string.
@@ -100,7 +102,7 @@ fun String.encodeToBase64(): String =
  * @return The ByteArray result of decoding the base64 string.
  */
 fun String.decodeBase64(): ByteArray =
-<span class="fc" id="L103">    base64Decoder.decode(this)</span>
+<span class="fc" id="L105">    base64Decoder.decode(this)</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -112,26 +114,26 @@ fun String.decodeBase64(): ByteArray =
  */
 @Suppress(&quot;UNCHECKED_CAST&quot;) // All allowed types are checked at runtime
 fun &lt;T : Any&gt; String.parse(type: KClass&lt;T&gt;): T =
-<span class="fc" id="L115">    this.let {</span>
-<span class="fc bfc" id="L116" title="All 2 branches covered.">        require(type in parsedClasses) { &quot;Unsupported type: ${type.qualifiedName}&quot; }</span>
+<span class="fc" id="L117">    this.let {</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        require(type in parsedClasses) { &quot;Unsupported type: ${type.qualifiedName}&quot; }</span>
 
-<span class="fc" id="L118">        when (type) {</span>
-<span class="fc bfc" id="L119" title="All 2 branches covered.">            Boolean::class -&gt; this.toBooleanStrictOrNull()</span>
-<span class="fc bfc" id="L120" title="All 2 branches covered.">            Int::class -&gt; this.toIntOrNull()</span>
-<span class="fc bfc" id="L121" title="All 2 branches covered.">            Long::class -&gt; this.toLongOrNull()</span>
-<span class="fc bfc" id="L122" title="All 2 branches covered.">            Float::class -&gt; this.toFloatOrNull()</span>
-<span class="fc bfc" id="L123" title="All 2 branches covered.">            Double::class -&gt; this.toDoubleOrNull()</span>
-<span class="fc bfc" id="L124" title="All 2 branches covered.">            String::class -&gt; this</span>
-<span class="fc bfc" id="L125" title="All 2 branches covered.">            InetAddress::class -&gt; this.let(InetAddress::getByName)</span>
-<span class="fc bfc" id="L126" title="All 2 branches covered.">            URL::class -&gt; this.let(::urlOf)</span>
-<span class="fc bfc" id="L127" title="All 2 branches covered.">            URI::class -&gt; this.let(::URI)</span>
-<span class="fc bfc" id="L128" title="All 2 branches covered.">            File::class -&gt; this.let(::File)</span>
-<span class="fc bfc" id="L129" title="All 2 branches covered.">            LocalDate::class -&gt; LocalDate.parse(this)</span>
-<span class="fc bfc" id="L130" title="All 2 branches covered.">            LocalTime::class -&gt; LocalTime.parse(this)</span>
-<span class="pc bpc" id="L131" title="1 of 2 branches missed.">            LocalDateTime::class -&gt; LocalDateTime.parse(this)</span>
-<span class="nc" id="L132">            else -&gt; error(&quot;Unsupported type: ${type.qualifiedName}&quot;)</span>
+<span class="fc" id="L120">        when (type) {</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">            Boolean::class -&gt; this.toBooleanStrictOrNull()</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">            Int::class -&gt; this.toIntOrNull()</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">            Long::class -&gt; this.toLongOrNull()</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">            Float::class -&gt; this.toFloatOrNull()</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">            Double::class -&gt; this.toDoubleOrNull()</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">            String::class -&gt; this</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">            InetAddress::class -&gt; this.let(InetAddress::getByName)</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">            URL::class -&gt; this.let(::urlOf)</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">            URI::class -&gt; this.let(::URI)</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">            File::class -&gt; this.let(::File)</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">            LocalDate::class -&gt; LocalDate.parse(this)</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">            LocalTime::class -&gt; LocalTime.parse(this)</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">            LocalDateTime::class -&gt; LocalDateTime.parse(this)</span>
+<span class="nc" id="L134">            else -&gt; error(&quot;Unsupported type: ${type.qualifiedName}&quot;)</span>
         }
-<span class="fc" id="L134">    } as T</span>
+<span class="fc" id="L136">    } as T</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -142,18 +144,18 @@ fun &lt;T : Any&gt; String.parse(type: KClass&lt;T&gt;): T =
  * @return .
  */
 fun &lt;T : Any&gt; String?.parseOrNull(type: KClass&lt;T&gt;): T? =
-<span class="fc bfc" id="L145" title="All 2 branches covered.">    this?.let {</span>
-<span class="fc bfc" id="L146" title="All 2 branches covered.">        require(type in parsedClasses) { &quot;Unsupported type: ${type.qualifiedName}&quot; }</span>
-<span class="fc" id="L147">        try {</span>
-<span class="fc" id="L148">            parse(type)</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">    this?.let {</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        require(type in parsedClasses) { &quot;Unsupported type: ${type.qualifiedName}&quot; }</span>
+<span class="fc" id="L149">        try {</span>
+<span class="fc" id="L150">            parse(type)</span>
         }
-<span class="fc" id="L150">        catch (e: Exception) {</span>
-<span class="fc" id="L151">            null</span>
+<span class="fc" id="L152">        catch (e: Exception) {</span>
+<span class="fc" id="L153">            null</span>
         }
-<span class="fc" id="L153">    }</span>
+<span class="fc" id="L155">    }</span>
 
 fun String.stripAnsi(): String =
-<span class="fc" id="L156">    replace(Ansi.REGEX, &quot;&quot;)</span>
+<span class="fc" id="L158">    replace(Ansi.REGEX, &quot;&quot;)</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -162,7 +164,7 @@ fun String.stripAnsi(): String =
  * @return .
  */
 fun String.toStream(): InputStream =
-<span class="fc" id="L165">    ByteArrayInputStream(this.toByteArray())</span>
+<span class="fc" id="L167">    ByteArrayInputStream(this.toByteArray())</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -172,6 +174,85 @@ fun String.toStream(): InputStream =
  * @param pad .
  * @return .
  */
-<span class="fc" id="L175">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;): String =</span>
-<span class="fc" id="L176">    this.prependIndent(pad.repeat(count))</span>
+<span class="fc" id="L177">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;): String =</span>
+<span class="fc" id="L178">    this.prependIndent(pad.repeat(count))</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param T .
+ * @param converter .
+ * @return .
+ */
+fun &lt;T : Enum&lt;*&gt;&gt; String.toEnum(converter: (String) -&gt; T): T =
+<span class="fc" id="L189">    uppercase().replace(&quot; &quot;, &quot;_&quot;).let(converter)</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param T .
+ * @param converter .
+ * @return .
+ */
+fun &lt;T : Enum&lt;*&gt;&gt; String.toEnumOrNull(converter: (String) -&gt; T): T? =
+<span class="fc" id="L200">    try {</span>
+<span class="fc" id="L201">        toEnum(converter)</span>
+    }
+<span class="fc" id="L203">    catch (e: IllegalArgumentException) {</span>
+<span class="fc" id="L204">        null</span>
+<span class="fc" id="L205">    }</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param text .
+ * @return .
+ */
+fun Regex.findGroups(text: String): List&lt;MatchGroup&gt; =
+<span class="pc bpc" id="L215" title="1 of 4 branches missed.">    (this.find(text)?.groups ?: emptyList&lt;MatchGroup&gt;())</span>
+<span class="fc" id="L216">        .filterNotNull()</span>
+<span class="fc" id="L217">        .drop(1)</span>
+
+/**
+ * Format the string as a banner with a delimiter above and below text. The character used to
+ * render the delimiter is defined.
+ *
+ * @param bannerDelimiter Delimiter char for banners.
+ */
+<span class="fc" id="L225">fun String.banner(bannerDelimiter: String = &quot;*&quot;): String =</span>
+<span class="fc" id="L226">    bannerDelimiter</span>
+<span class="fc" id="L227">        .repeat(this</span>
+<span class="fc" id="L228">            .lines()</span>
+<span class="fc" id="L229">            .asSequence()</span>
+<span class="fc" id="L230">            .map { it.length }</span>
+<span class="fc" id="L231">            .maxOrElse(0)</span>
+        )
+<span class="fc" id="L233">        .let { &quot;$it$eol$this$eol$it&quot; }</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
+fun String.stripAccents(): String =
+<span class="fc" id="L242">    Normalizer.normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param bytes .
+ * @return .
+ */
+fun utf8(vararg bytes: Int): String =
+<span class="fc" id="L251">    String(bytes.map(Int::toByte).toByteArray())</span>
+
+fun String.toEnumValue(): String =
+<span class="fc" id="L254">    trim().uppercase().replace(&quot; &quot;, &quot;_&quot;)</span>
+
+internal fun Sequence&lt;Int&gt;.maxOrElse(fallback: Int): Int =
+<span class="fc bfc" id="L257" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

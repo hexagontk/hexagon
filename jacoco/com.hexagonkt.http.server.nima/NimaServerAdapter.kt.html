@@ -14,11 +14,11 @@ import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerFeature
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
-import io.helidon.common.http.Http.*
-import io.helidon.common.http.HttpMediaType
-import io.helidon.common.http.SetCookie
-import io.helidon.nima.webserver.WebServer
-import io.helidon.nima.webserver.http.ServerResponse
+import io.helidon.http.Http.*
+import io.helidon.http.HttpMediaType
+import io.helidon.http.SetCookie
+import io.helidon.webserver.WebServer
+import io.helidon.webserver.http.ServerResponse
 import java.security.SecureRandom
 import java.time.Duration
 import javax.net.ssl.KeyManagerFactory
@@ -97,7 +97,7 @@ import javax.net.ssl.TrustManagerFactory
 <span class="fc" id="L97">            nimaResponse.status(Status.create(response.status.code))</span>
 
 <span class="fc" id="L99">            response.headers.values.forEach {</span>
-<span class="fc" id="L100">                nimaResponse.header(Header.create(Header.create(it.name), it.strings()))</span>
+<span class="fc" id="L100">                nimaResponse.header(Headers.create(it.name, it.strings()))</span>
 <span class="fc" id="L101">            }</span>
 
 <span class="fc" id="L103">            val headers = nimaResponse.headers()</span>

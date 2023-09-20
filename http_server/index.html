@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.7">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.3.2">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.046329b4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.30068a00.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.85d0ee34.min.css">
@@ -2150,7 +2150,8 @@ object:</p>
 <span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
-<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/response&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="normal">34</span>
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/response&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">body</span><span class="w">                     </span><span class="c1">// Get response content</span>
 <span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">status</span><span class="w">                   </span><span class="c1">// Get the response status</span>
 <span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">contentType</span><span class="w">              </span><span class="c1">// Get the content type</span>
@@ -2175,7 +2176,8 @@ object:</p>
 <span class="w">    </span><span class="n">badRequest</span><span class="p">(</span><span class="s">&quot;400: incorrect request&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="n">notFound</span><span class="p">(</span><span class="s">&quot;404: Missing resource&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="n">created</span><span class="p">(</span><span class="s">&quot;201: Created&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="n">redirect</span><span class="p">(</span><span class="n">FOUND_302</span><span class="p">,</span><span class="w"> </span><span class="n">URI</span><span class="p">(</span><span class="s">&quot;/location&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="n">redirect</span><span class="p">(</span><span class="n">FOUND_302</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/location&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">found</span><span class="p">(</span><span class="s">&quot;/location&quot;</span><span class="p">)</span>
 
 <span class="w">    </span><span class="c1">// The response can be modified chaining send calls (or its utility methods)</span>
 <span class="w">    </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Replacing headers&quot;</span><span class="p">).</span><span class="na">send</span><span class="p">(</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Headers</span><span class="p">())</span>
