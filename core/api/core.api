@@ -47,10 +47,50 @@ public final class com/hexagonkt/core/Ansi {
 	public final fun getREGEX ()Lkotlin/text/Regex;
 }
 
+public final class com/hexagonkt/core/CasesKt {
+	public static final fun camelToSnake (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun camelToWords (Ljava/lang/String;)Ljava/util/List;
+	public static final fun getCAMEL_CASE ()Lkotlin/text/Regex;
+	public static final fun getKEBAB_CASE ()Lkotlin/text/Regex;
+	public static final fun getPASCAL_CASE ()Lkotlin/text/Regex;
+	public static final fun getSNAKE_CASE ()Lkotlin/text/Regex;
+	public static final fun kebabToWords (Ljava/lang/String;)Ljava/util/List;
+	public static final fun snakeToCamel (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun snakeToWords (Ljava/lang/String;)Ljava/util/List;
+	public static final fun toWords (Ljava/lang/Enum;)Ljava/lang/String;
+	public static final fun toWords (Ljava/util/List;)Ljava/util/List;
+	public static final fun wordsToCamel (Ljava/util/List;)Ljava/lang/String;
+	public static final fun wordsToKebab (Ljava/util/List;)Ljava/lang/String;
+	public static final fun wordsToPascal (Ljava/util/List;)Ljava/lang/String;
+	public static final fun wordsToSentence (Ljava/util/List;)Ljava/lang/String;
+	public static final fun wordsToSnake (Ljava/util/List;)Ljava/lang/String;
+	public static final fun wordsToTitle (Ljava/util/List;)Ljava/lang/String;
+}
+
+public final class com/hexagonkt/core/ChecksKt {
+	public static final fun checkSize (Ljava/util/Collection;Lkotlin/ranges/IntRange;)Ljava/util/Collection;
+	public static final fun requireGreater (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
+	public static final fun requireGreater (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
+	public static final fun requireGreaterOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
+	public static final fun requireGreaterOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
+	public static final fun requireLower (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
+	public static final fun requireLower (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
+	public static final fun requireLowerOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
+	public static final fun requireLowerOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
+	public static final fun requireNotBlank (Ljava/lang/Object;Lkotlin/reflect/KProperty1;)V
+	public static final fun requireNotBlanks (Ljava/lang/Object;Lkotlin/reflect/KProperty1;)V
+}
+
 public final class com/hexagonkt/core/ClasspathHandler : java/net/URLStreamHandler {
 	public static final field INSTANCE Lcom/hexagonkt/core/ClasspathHandler;
 	public final fun createURLStreamHandler (Ljava/lang/String;)Ljava/net/URLStreamHandler;
 	public final fun registerHandler ()V
+}
+
+public final class com/hexagonkt/core/CodedException : java/lang/RuntimeException {
+	public fun <init> (ILjava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getCode ()I
 }
 
 public final class com/hexagonkt/core/DataKt {
@@ -110,6 +150,25 @@ public final class com/hexagonkt/core/DataKt {
 	public static final fun requireStrings (Ljava/util/Map;Lkotlin/reflect/KProperty1;)Ljava/util/Collection;
 }
 
+public final class com/hexagonkt/core/DatesKt {
+	public static final fun parseDuration (Ljava/lang/String;)Ljava/time/Duration;
+	public static final fun parseLocalDate (Ljava/lang/String;)Ljava/time/LocalDate;
+	public static final fun parsePeriod (Ljava/lang/String;)Ljava/time/Period;
+	public static final fun toDate (Ljava/time/LocalDate;)Ljava/util/Date;
+	public static final fun toDate (Ljava/time/LocalDateTime;)Ljava/util/Date;
+	public static final fun toDate (Ljava/time/ZonedDateTime;)Ljava/util/Date;
+	public static final fun toLocalDate (I)Ljava/time/LocalDate;
+	public static final fun toLocalDate (Ljava/util/Date;)Ljava/time/LocalDate;
+	public static final fun toLocalDateTime (J)Ljava/time/LocalDateTime;
+	public static final fun toLocalDateTime (Ljava/util/Date;)Ljava/time/LocalDateTime;
+	public static final fun toLocalTime (I)Ljava/time/LocalTime;
+	public static final fun toNumber (Ljava/time/LocalDate;)I
+	public static final fun toNumber (Ljava/time/LocalDateTime;)J
+	public static final fun toNumber (Ljava/time/LocalTime;)I
+	public static final fun withZone (Ljava/time/LocalDateTime;Ljava/time/ZoneId;)Ljava/time/ZonedDateTime;
+	public static synthetic fun withZone$default (Ljava/time/LocalDateTime;Ljava/time/ZoneId;ILjava/lang/Object;)Ljava/time/ZonedDateTime;
+}
+
 public final class com/hexagonkt/core/ExceptionsKt {
 	public static final fun filterStackTrace (Ljava/lang/Throwable;Ljava/lang/String;)[Ljava/lang/StackTraceElement;
 	public static final fun getAssertEnabled ()Z
@@ -129,6 +188,37 @@ public final class com/hexagonkt/core/Glob {
 	public fun hashCode ()I
 	public final fun matches (Ljava/lang/String;)Z
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/core/HelpersKt {
+	public static final fun check (Ljava/lang/String;[Lkotlin/jvm/functions/Function0;)V
+	public static synthetic fun check$default (Ljava/lang/String;[Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)V
+	public static final fun exec (Ljava/lang/String;Ljava/io/File;JZ)Ljava/lang/String;
+	public static final fun exec (Ljava/util/List;Ljava/io/File;JZ)Ljava/lang/String;
+	public static synthetic fun exec$default (Ljava/lang/String;Ljava/io/File;JZILjava/lang/Object;)Ljava/lang/String;
+	public static synthetic fun exec$default (Ljava/util/List;Ljava/io/File;JZILjava/lang/Object;)Ljava/lang/String;
+	public static final fun properties (Ljava/net/URL;)Ljava/util/Map;
+	public static final fun retry (IJLkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+	public static final fun shell (Ljava/lang/String;Ljava/io/File;JZ)Ljava/lang/String;
+	public static synthetic fun shell$default (Ljava/lang/String;Ljava/io/File;JZILjava/lang/Object;)Ljava/lang/String;
+}
+
+public final class com/hexagonkt/core/I18nKt {
+	public static final fun countryOf (Ljava/lang/String;)Ljava/util/Locale;
+	public static final fun countryOfOrNull (Ljava/lang/String;)Ljava/util/Locale;
+	public static final fun getCountryCodes ()Ljava/util/Set;
+	public static final fun getCurrencyCodes ()Ljava/util/Set;
+	public static final fun getLanguageCodes ()Ljava/util/Set;
+	public static final fun languageOf (Ljava/lang/String;)Ljava/util/Locale;
+	public static final fun languageOfOrNull (Ljava/lang/String;)Ljava/util/Locale;
+	public static final fun localeOf (Ljava/lang/String;Ljava/lang/String;)Ljava/util/Locale;
+	public static synthetic fun localeOf$default (Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/util/Locale;
+	public static final fun localeOfOrNull (Ljava/lang/String;Ljava/lang/String;)Ljava/util/Locale;
+	public static synthetic fun localeOfOrNull$default (Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/util/Locale;
+	public static final fun parseLocale (Ljava/lang/String;)Ljava/util/Locale;
+	public static final fun parseLocaleOrNull (Ljava/lang/String;)Ljava/util/Locale;
+	public static final fun resourceBundle (Lkotlin/reflect/KClass;Ljava/util/Locale;)Ljava/util/ResourceBundle;
+	public static synthetic fun resourceBundle$default (Lkotlin/reflect/KClass;Ljava/util/Locale;ILjava/lang/Object;)Ljava/util/ResourceBundle;
 }
 
 public final class com/hexagonkt/core/Jvm {
@@ -151,6 +241,23 @@ public final class com/hexagonkt/core/Jvm {
 	public final fun usedMemory ()Ljava/lang/String;
 }
 
+public abstract class com/hexagonkt/core/MapResourceBundle : java/util/ListResourceBundle {
+	public fun <init> (Ljava/util/Map;)V
+	public fun <init> ([Lkotlin/Pair;)V
+	protected fun getContents ()[[Ljava/lang/Object;
+	public final fun getData ()[[Ljava/lang/Object;
+	public final fun getMap ()Ljava/util/Map;
+}
+
+public final class com/hexagonkt/core/MultipleException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public fun <init> (Ljava/lang/String;[Ljava/lang/Throwable;)V
+	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> ([Ljava/lang/Throwable;)V
+	public final fun getCauses ()Ljava/util/List;
+}
+
 public final class com/hexagonkt/core/NetworkKt {
 	public static final fun exists (Ljava/net/URL;)Z
 	public static final fun firstVariant (Ljava/net/URL;[Ljava/lang/String;)Ljava/net/URL;
@@ -171,19 +278,34 @@ public final class com/hexagonkt/core/ResourceNotFoundException : java/io/IOExce
 }
 
 public final class com/hexagonkt/core/StringsKt {
+	public static final fun banner (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static synthetic fun banner$default (Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
 	public static final fun decodeBase64 (Ljava/lang/String;)[B
 	public static final fun encodeToBase64 (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun encodeToBase64 ([B)Ljava/lang/String;
 	public static final fun filter (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Ljava/lang/String;
 	public static final fun filterVars (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/String;
+	public static final fun findGroups (Lkotlin/text/Regex;Ljava/lang/String;)Ljava/util/List;
 	public static final fun getEol ()Ljava/lang/String;
 	public static final fun getParsedClasses ()Ljava/util/Set;
 	public static final fun parse (Ljava/lang/String;Lkotlin/reflect/KClass;)Ljava/lang/Object;
 	public static final fun parseOrNull (Ljava/lang/String;Lkotlin/reflect/KClass;)Ljava/lang/Object;
 	public static final fun prependIndent (Ljava/lang/String;ILjava/lang/String;)Ljava/lang/String;
 	public static synthetic fun prependIndent$default (Ljava/lang/String;ILjava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun stripAccents (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun stripAnsi (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toEnum (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ljava/lang/Enum;
+	public static final fun toEnumOrNull (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ljava/lang/Enum;
+	public static final fun toEnumValue (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun toStream (Ljava/lang/String;)Ljava/io/InputStream;
+	public static final fun utf8 ([I)Ljava/lang/String;
+}
+
+public final class com/hexagonkt/core/UuidsKt {
+	public static final fun bytes (Ljava/util/UUID;)[B
+	public static final fun toBase64 (Ljava/util/UUID;)Ljava/lang/String;
+	public static final fun uuid (Ljava/lang/String;)Ljava/util/UUID;
+	public static final fun uuid ([B)Ljava/util/UUID;
 }
 
 public final class com/hexagonkt/core/logging/Logger {

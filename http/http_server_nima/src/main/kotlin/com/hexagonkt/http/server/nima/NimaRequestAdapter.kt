@@ -4,10 +4,9 @@ import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.core.media.MediaTypeGroup
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.Headers
-import io.helidon.common.http.Http.Header as NimaHeader
-import io.helidon.common.http.Http
-import io.helidon.nima.http.media.multipart.MultiPart
-import io.helidon.nima.webserver.http.ServerRequest
+import io.helidon.http.Http
+import io.helidon.http.media.multipart.MultiPart
+import io.helidon.webserver.http.ServerRequest
 import java.security.cert.X509Certificate
 import kotlin.jvm.optionals.getOrNull
 
@@ -33,7 +32,7 @@ class NimaRequestAdapter(
     }
 
     override val contentLength: Long by lazy {
-        req.headers().get(NimaHeader.CONTENT_LENGTH).value().toLong()
+        req.headers().get(Http.HeaderNames.CONTENT_LENGTH).get().toLong()
     }
 
     override val queryParameters: QueryParameters by lazy {

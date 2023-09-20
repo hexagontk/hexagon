@@ -15,6 +15,8 @@ import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS.WINDOWS
 import kotlin.IllegalStateException
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -134,11 +136,15 @@ abstract class WebSocketsTest(
         wsTest(serverSettings.copy(bindPort = 0), clientSettings)
     }
 
-    @Test fun `Serve WSS works properly`() {
+    @Test
+    @DisabledOnOs(WINDOWS) // TODO There are problems with certificates in Windows
+    fun `Serve WSS works properly`() {
         wsTest(http2ServerSettings.copy(protocol = HTTPS), clientSettings)
     }
 
-    @Test fun `Serve WSS over HTTP2 works properly`() {
+    @Test
+    @DisabledOnOs(WINDOWS) // TODO There are problems with certificates in Windows
+    fun `Serve WSS over HTTP2 works properly`() {
         wsTest(http2ServerSettings, clientSettings)
     }
 

@@ -234,7 +234,7 @@ fun mediaTypeOf(file: File): MediaType =
     mediaTypeOfOrNull(file) ?: error("Media type not found for: '$file' file")
 
 fun mediaTypeOf(path: Path): MediaType =
-    mediaTypeOfOrNull(path) ?: error("Media type not found for: '$path' extension")
+    mediaTypeOfOrNull(path) ?: error("Media type not found for: '$path' path")
 
 fun mediaTypeOf(extension: String): MediaType =
     mediaTypeOfOrNull(extension) ?: error("Media type not found for: '$extension' extension")
