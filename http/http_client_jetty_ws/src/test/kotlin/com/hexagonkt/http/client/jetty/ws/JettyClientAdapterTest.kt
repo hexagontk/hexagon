@@ -1,4 +1,4 @@
-package com.hexagonkt.http.client.jetty
+package com.hexagonkt.http.client.jetty.ws
 
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.model.HttpRequest

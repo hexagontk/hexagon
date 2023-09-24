@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.netty
 
-import com.hexagonkt.http.client.jetty.JettyWsClientAdapter
+import com.hexagonkt.http.client.jetty.ws.JettyWsClientAdapter
 import com.hexagonkt.http.test.examples.*
 import com.hexagonkt.serialization.jackson.JacksonTextFormat
 import com.hexagonkt.serialization.jackson.json.Json

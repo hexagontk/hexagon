@@ -8,7 +8,7 @@ import org.eclipse.jetty.ee10.servlet.ServletContextHandler
 import java.util.*
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.client.jetty.JettyWsClientAdapter
+import com.hexagonkt.http.client.jetty.ws.JettyWsClientAdapter
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.ws.NORMAL
 import com.hexagonkt.http.server.HttpServer
