@@ -8,7 +8,7 @@ import com.hexagonkt.http.client.jetty.ws.JettyWsClientAdapter
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.handlers.path
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledForJreRange
 import org.junit.jupiter.api.condition.JRE.JAVA_17
 import org.junit.jupiter.api.condition.JRE.JAVA_19

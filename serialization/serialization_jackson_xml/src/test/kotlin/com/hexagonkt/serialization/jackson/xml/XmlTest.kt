@@ -3,7 +3,7 @@ package com.hexagonkt.serialization.jackson.xml
 import com.hexagonkt.core.*
 import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.BeforeAll
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

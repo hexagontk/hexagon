@@ -1,6 +1,6 @@
 package com.hexagonkt.core
 
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 

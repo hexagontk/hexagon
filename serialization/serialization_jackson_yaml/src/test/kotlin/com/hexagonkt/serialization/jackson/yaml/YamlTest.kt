@@ -7,7 +7,7 @@ import com.hexagonkt.core.urlOf
 import com.hexagonkt.serialization.*
 import com.hexagonkt.serialization.test.SerializationTest
 import org.junit.jupiter.api.BeforeAll
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.net.URL
 import kotlin.test.assertEquals

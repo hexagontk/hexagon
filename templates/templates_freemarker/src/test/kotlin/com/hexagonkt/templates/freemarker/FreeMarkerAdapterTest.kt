@@ -1,7 +1,7 @@
 package com.hexagonkt.templates.freemarker
 
 import com.hexagonkt.core.urlOf
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import java.util.Locale
 

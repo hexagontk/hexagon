@@ -3,7 +3,7 @@ package com.hexagonkt.core
 import com.hexagonkt.core.logging.LoggingLevel
 import com.hexagonkt.core.logging.LoggingManager
 import org.junit.jupiter.api.BeforeAll
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.MalformedURLException

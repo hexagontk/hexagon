@@ -1,7 +1,7 @@
 package com.hexagonkt.templates.rocker
 
 import com.hexagonkt.core.urlOf
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import java.util.Locale
 import kotlin.test.assertEquals

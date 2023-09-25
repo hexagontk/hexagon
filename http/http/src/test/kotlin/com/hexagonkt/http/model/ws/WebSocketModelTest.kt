@@ -3,7 +3,7 @@ package com.hexagonkt.http.model.ws
 import com.hexagonkt.core.fail
 import com.hexagonkt.http.model.HttpRequestPort
 import java.net.URI
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class WebSocketModelTest {

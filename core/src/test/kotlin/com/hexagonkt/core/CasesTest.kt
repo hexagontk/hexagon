@@ -1,7 +1,7 @@
 package com.hexagonkt.core
 
 import com.hexagonkt.core.CasesTest.Size.X_L
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.*
 
 internal class CasesTest {

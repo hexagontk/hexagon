@@ -1,6 +1,6 @@
 package com.hexagonkt.core
 
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.util.Currency.getAvailableCurrencies
 import java.util.Locale.getISOCountries
 import java.util.Locale.getISOLanguages

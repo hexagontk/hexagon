@@ -6,7 +6,7 @@ import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class ErrorsTest {

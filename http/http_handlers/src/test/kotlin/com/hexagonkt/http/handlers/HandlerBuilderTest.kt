@@ -6,7 +6,7 @@ import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.patterns.LiteralPathPattern
 import com.hexagonkt.http.model.HttpRequest
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class HandlerBuilderTest {

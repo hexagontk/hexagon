@@ -1,7 +1,7 @@
 package com.hexagonkt.core.logging
 
 import com.hexagonkt.core.logging.LoggingLevel.*
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

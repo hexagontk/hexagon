@@ -3,7 +3,7 @@ package com.hexagonkt.http.server.netty
 import com.hexagonkt.http.model.*
 import io.netty.handler.codec.http.HttpResponseStatus
 import io.netty.handler.codec.http.HttpResponseStatus.*
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class NettyServerHandlerTest {

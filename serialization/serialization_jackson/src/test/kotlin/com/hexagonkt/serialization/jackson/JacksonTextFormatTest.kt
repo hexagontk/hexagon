@@ -2,7 +2,7 @@ package com.hexagonkt.serialization.jackson
 
 import com.hexagonkt.core.media.APPLICATION_JSON
 import com.hexagonkt.core.media.MediaType
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.IllegalStateException
 import kotlin.test.assertEquals

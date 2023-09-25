@@ -6,7 +6,7 @@ import io.mockk.mockk
 import org.junit.jupiter.api.condition.DisabledInNativeImage
 import kotlin.IllegalStateException
 import kotlin.reflect.KClass
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse

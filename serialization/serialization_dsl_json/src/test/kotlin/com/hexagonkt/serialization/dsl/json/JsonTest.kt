@@ -4,7 +4,7 @@ import com.hexagonkt.core.urlOf
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.test.SerializationTest
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import kotlin.IllegalStateException
 import java.net.URL

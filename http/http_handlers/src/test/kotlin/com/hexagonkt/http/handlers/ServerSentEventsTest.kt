@@ -6,7 +6,7 @@ import com.hexagonkt.core.media.TEXT_EVENT_STREAM
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.model.ServerEvent
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription
 import java.util.concurrent.SubmissionPublisher

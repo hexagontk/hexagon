@@ -1,7 +1,7 @@
 package com.hexagonkt.http.model
 
 import com.hexagonkt.http.model.HttpProtocol.*
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class HttpProtocolTest {

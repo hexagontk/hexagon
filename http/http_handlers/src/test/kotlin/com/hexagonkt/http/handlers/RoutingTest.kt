@@ -3,7 +3,7 @@ package com.hexagonkt.http.handlers
 import com.hexagonkt.core.require
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod.GET
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class RoutingTest {

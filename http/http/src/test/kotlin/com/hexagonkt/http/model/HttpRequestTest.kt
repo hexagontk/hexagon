@@ -11,6 +11,7 @@ import com.hexagonkt.http.model.HttpMethod.POST
 import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.HttpProtocol.*
 import java.security.cert.X509Certificate
+import org.junit.jupiter.api.Test
 import kotlin.test.*
 
 internal class HttpRequestTest {

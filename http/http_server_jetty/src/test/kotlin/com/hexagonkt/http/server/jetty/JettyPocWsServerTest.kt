@@ -24,7 +24,7 @@ import jakarta.websocket.server.ServerEndpoint
 import jakarta.websocket.Session
 import org.eclipse.jetty.ee10.websocket.jakarta.server.config.JakartaWebSocketServletContainerInitializer
 import org.junit.jupiter.api.condition.DisabledInNativeImage
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
 import kotlin.test.assertEquals

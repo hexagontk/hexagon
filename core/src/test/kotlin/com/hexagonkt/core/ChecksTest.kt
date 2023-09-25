@@ -1,6 +1,6 @@
 package com.hexagonkt.core
 
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.IllegalArgumentException
 import java.time.LocalDate
 import kotlin.test.assertEquals

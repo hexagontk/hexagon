@@ -8,6 +8,7 @@ import com.hexagonkt.http.model.*
 import java.lang.StringBuilder
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription
+import org.junit.jupiter.api.Test
 import kotlin.test.*
 
 internal class HttpClientTest {

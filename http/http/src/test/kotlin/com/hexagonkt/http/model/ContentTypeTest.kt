@@ -2,7 +2,7 @@ package com.hexagonkt.http.model
 
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.parseContentType
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.IllegalStateException
 import java.nio.charset.Charset
 import java.nio.charset.UnsupportedCharsetException

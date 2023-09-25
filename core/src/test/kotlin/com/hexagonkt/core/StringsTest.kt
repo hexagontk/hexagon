@@ -11,7 +11,7 @@ import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.*
 import kotlin.text.prependIndent
 import com.hexagonkt.core.StringsTest.Size.S

@@ -4,6 +4,7 @@ import com.hexagonkt.core.logging.LoggingLevel.*
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.condition.DisabledInNativeImage
+import org.junit.jupiter.api.Test
 import kotlin.IllegalStateException
 import kotlin.reflect.KClass
 import kotlin.test.*

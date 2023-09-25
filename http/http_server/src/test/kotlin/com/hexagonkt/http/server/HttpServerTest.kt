@@ -3,7 +3,7 @@ package com.hexagonkt.http.server
 import com.hexagonkt.http.model.HttpProtocol.H2C
 import com.hexagonkt.http.handlers.OnHandler
 import com.hexagonkt.http.handlers.PathHandler
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
