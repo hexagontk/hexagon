@@ -1,4 +1,4 @@
-package com.hexagonkt.http.handlers.examples
+package com.hexagonkt.http.handlers
 
 import com.hexagonkt.core.fail
 import com.hexagonkt.http.model.NOT_FOUND_404
@@ -6,8 +6,6 @@ import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
-import com.hexagonkt.http.handlers.PathHandler
-import com.hexagonkt.http.handlers.path
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -15,7 +13,7 @@ internal class ErrorsTest {
 
     class CustomException : IllegalArgumentException()
 
-    val path: PathHandler = path {
+    private val path: PathHandler = path {
 
         get("/exception") { throw UnsupportedOperationException("error message") }
         get("/baseException") { throw CustomException() }

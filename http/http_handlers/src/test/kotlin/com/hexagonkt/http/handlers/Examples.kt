@@ -1,9 +1,8 @@
-package com.hexagonkt.http.handlers.examples
+package com.hexagonkt.http.handlers
 
 import com.hexagonkt.core.encodeToBase64
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseQueryString
-import com.hexagonkt.http.handlers.HttpHandler
 import kotlin.test.assertEquals
 
 internal fun assertResponseContains(

@@ -1,4 +1,4 @@
-package com.hexagonkt.http.server.examples
+package com.hexagonkt.http.handlers
 
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.require
@@ -6,9 +6,6 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.CREATED_201
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.handlers.PathHandler
-import com.hexagonkt.http.handlers.path
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
