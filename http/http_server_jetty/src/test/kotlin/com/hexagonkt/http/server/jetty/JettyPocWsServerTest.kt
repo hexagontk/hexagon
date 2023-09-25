@@ -1,4 +1,4 @@
-package com.hexagonkt.http.server.jetty.poc
+package com.hexagonkt.http.server.jetty
 
 import com.hexagonkt.core.urlOf
 import jakarta.servlet.*
@@ -14,7 +14,6 @@ import com.hexagonkt.http.model.ws.NORMAL
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.handlers.AfterHandler
 import com.hexagonkt.http.handlers.PathHandler
-import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import jakarta.websocket.CloseReason
 import jakarta.websocket.CloseReason.CloseCodes
 import jakarta.websocket.OnClose
@@ -31,7 +30,7 @@ import org.junit.jupiter.api.condition.OS.WINDOWS
 import kotlin.test.assertEquals
 
 @DisabledOnOs(WINDOWS) // TODO Investigate what makes this test fail on Windows
-internal class JettyWsServerTest {
+internal class JettyPocWsServerTest {
 
     @ServerEndpoint("/ws")
     @Suppress("UNUSED_PARAMETER", "UNUSED") // Signatures must match the annotation expected parameters
