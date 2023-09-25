@@ -5,7 +5,7 @@ import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.QueryParameters
 import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.QueryParameter
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.math.BigInteger
 import java.time.*
 import kotlin.test.assertContentEquals

@@ -4,7 +4,7 @@ import com.hexagonkt.http.model.HttpProtocol.HTTP
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.net.InetAddress
 import kotlin.test.assertEquals
 import kotlin.test.assertNull

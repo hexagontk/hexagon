@@ -26,7 +26,6 @@ import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.callbacks.UrlCallback
 import com.hexagonkt.http.handlers.*
 import com.hexagonkt.http.server.serve
-import com.hexagonkt.logging.slf4j.jul.Slf4jJulLoggingAdapter
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -43,7 +42,6 @@ abstract class SamplesTest(
 ) {
 
     @BeforeAll fun startUp() {
-        LoggingManager.adapter = Slf4jJulLoggingAdapter()
         LoggingManager.setLoggerLevel("com.hexagonkt", DEBUG)
     }
 

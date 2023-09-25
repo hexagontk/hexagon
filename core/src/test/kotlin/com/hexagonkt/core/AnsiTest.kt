@@ -1,7 +1,7 @@
 package com.hexagonkt.core
 
 import com.hexagonkt.core.logging.Logger
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 
 internal class AnsiTest {
 

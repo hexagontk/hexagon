@@ -1,7 +1,7 @@
 package com.hexagonkt.http.patterns
 
 import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.VARIABLE_PATTERN as VP
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.*
 
 internal class RegexPathPatternTest {

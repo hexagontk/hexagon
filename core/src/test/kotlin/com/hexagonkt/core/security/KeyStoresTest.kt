@@ -1,7 +1,7 @@
 package com.hexagonkt.core.security
 
 import com.hexagonkt.core.urlOf
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
 import java.io.File

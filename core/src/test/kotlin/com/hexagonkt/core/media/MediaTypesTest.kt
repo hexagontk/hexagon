@@ -2,7 +2,7 @@ package com.hexagonkt.core.media
 
 import com.hexagonkt.core.media.MediaTypeGroup.*
 import com.hexagonkt.core.urlOf
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.io.File
 import java.net.URI
 import kotlin.IllegalArgumentException

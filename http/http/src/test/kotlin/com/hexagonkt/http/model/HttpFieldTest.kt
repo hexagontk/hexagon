@@ -1,6 +1,6 @@
 package com.hexagonkt.http.model
 
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class HttpFieldTest {

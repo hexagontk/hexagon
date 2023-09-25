@@ -1,7 +1,7 @@
 package com.hexagonkt.core
 
 import org.junit.jupiter.api.condition.DisabledInNativeImage
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class MapResourceBundleTest {

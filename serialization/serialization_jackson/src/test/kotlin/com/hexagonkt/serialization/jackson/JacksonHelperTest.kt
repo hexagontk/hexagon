@@ -3,7 +3,7 @@ package com.hexagonkt.serialization.jackson
 import com.fasterxml.jackson.databind.node.*
 import com.hexagonkt.serialization.jackson.JacksonHelper.mapNode
 import com.hexagonkt.serialization.jackson.JacksonHelper.nodeToCollection
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.math.BigInteger
 import kotlin.test.assertContentEquals

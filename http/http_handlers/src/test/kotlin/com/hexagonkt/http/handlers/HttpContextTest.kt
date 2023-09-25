@@ -12,7 +12,7 @@ import com.hexagonkt.http.patterns.TemplatePathPattern
 import com.hexagonkt.http.model.HttpCall
 import com.hexagonkt.http.model.HttpRequest
 import com.hexagonkt.http.model.HttpResponse
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.lang.RuntimeException
 import kotlin.test.assertEquals
 import kotlin.test.assertSame

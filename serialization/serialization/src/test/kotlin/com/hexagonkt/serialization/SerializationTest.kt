@@ -7,7 +7,7 @@ import com.hexagonkt.core.urlOf
 import com.hexagonkt.serialization.Department.DESIGN
 import com.hexagonkt.serialization.Department.DEVELOPMENT
 import com.hexagonkt.serialization.jackson.json.Json
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.io.File
 import java.net.InetAddress
 import kotlin.IllegalStateException

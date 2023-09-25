@@ -18,7 +18,8 @@ internal enum class Department { DESIGN, DEVELOPMENT }
 
 internal data class Person(val name: String) : Data<Person> {
 
-    override val data: Map<String, *> = fieldsMapOf(Person::name to name)
+    override val data: Map<String, *> =
+        fieldsMapOf(Person::name to name)
 
     override fun copy(data: Map<String, *>): Person =
         copy(name = data.getOrDefault(Person::name, name))

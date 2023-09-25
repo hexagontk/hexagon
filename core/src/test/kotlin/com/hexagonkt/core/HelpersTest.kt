@@ -2,7 +2,7 @@ package com.hexagonkt.core
 
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.*
 
 internal class HelpersTest {

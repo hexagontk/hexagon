@@ -17,7 +17,6 @@ dependencies {
     "api"(project(":http:http_server"))
     "compileOnly"("jakarta.servlet:jakarta.servlet-api:$servletVersion")
 
-    "testImplementation"(project(":logging:logging_jul"))
     "testImplementation"(project(":http:http_client_jetty"))
     "testImplementation"("org.eclipse.jetty.ee10:jetty-ee10-webapp:$jettyVersion")
 }

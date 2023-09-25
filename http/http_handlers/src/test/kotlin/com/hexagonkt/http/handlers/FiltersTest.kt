@@ -1,4 +1,4 @@
-package com.hexagonkt.http.server.examples
+package com.hexagonkt.http.handlers
 
 import com.hexagonkt.core.decodeBase64
 import com.hexagonkt.http.model.FORBIDDEN_403
@@ -7,9 +7,7 @@ import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod.GET
 import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.*
-import com.hexagonkt.http.handlers.PathHandler
-import com.hexagonkt.http.handlers.path
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class FiltersTest {

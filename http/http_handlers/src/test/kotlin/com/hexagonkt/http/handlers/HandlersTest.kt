@@ -4,7 +4,7 @@ import com.hexagonkt.http.model.HttpRequest
 import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.model.NOT_FOUND_404
 import com.hexagonkt.http.model.OK_200
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.reflect.KClass

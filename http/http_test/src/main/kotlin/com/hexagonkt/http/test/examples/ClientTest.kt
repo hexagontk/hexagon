@@ -25,6 +25,8 @@ import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS.WINDOWS
 
 import java.math.BigInteger
 import kotlin.test.assertEquals
@@ -384,7 +386,9 @@ abstract class ClientTest(
         assert(run)
     }
 
-    @Test fun `Request HTTPS example`() {
+    @Test
+    @DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
+    fun `Request HTTPS example`() {
 
         val serverAdapter = serverAdapter()
 

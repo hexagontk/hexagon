@@ -18,11 +18,14 @@ import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS.WINDOWS
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertNotNull
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
+@DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
 abstract class HttpsTest(
     final override val clientAdapter: () -> HttpClientPort,
     final override val serverAdapter: () -> HttpServerPort,

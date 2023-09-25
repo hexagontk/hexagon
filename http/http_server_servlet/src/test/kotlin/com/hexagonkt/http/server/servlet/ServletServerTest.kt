@@ -4,7 +4,6 @@ import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.urlOf
-import com.hexagonkt.logging.jul.JulLoggingAdapter
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
@@ -14,7 +13,7 @@ import jakarta.servlet.MultipartConfigElement
 import org.eclipse.jetty.ee10.webapp.WebAppContext
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.InetSocketAddress
@@ -42,7 +41,6 @@ internal class ServletServerTest {
     private val jettyServer = JettyServer(InetSocketAddress("127.0.0.1", 9897))
 
     @BeforeAll fun `Run server`() {
-        LoggingManager.adapter = JulLoggingAdapter()
         LoggingManager.setLoggerLevel("com.hexagonkt", DEBUG)
         val context = WebAppContext()
         context.contextPath = "/"

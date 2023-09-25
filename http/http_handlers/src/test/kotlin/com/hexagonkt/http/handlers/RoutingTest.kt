@@ -1,11 +1,9 @@
-package com.hexagonkt.http.handlers.examples
+package com.hexagonkt.http.handlers
 
 import com.hexagonkt.core.require
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.HttpMethod.GET
-import com.hexagonkt.http.handlers.PathHandler
-import com.hexagonkt.http.handlers.path
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class RoutingTest {

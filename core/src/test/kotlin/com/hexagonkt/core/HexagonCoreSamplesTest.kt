@@ -4,7 +4,7 @@ import com.hexagonkt.core.logging.logger
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.logging.LoggingLevel.*
 import com.hexagonkt.core.logging.LoggingManager
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertContains
 
 internal class HexagonCoreSamplesTest {

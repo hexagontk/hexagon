@@ -1,7 +1,8 @@
-package com.hexagonkt.http.client.jetty
+package com.hexagonkt.http.client.jetty.ws
 
 import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
+import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.ws.WsSession
 import org.eclipse.jetty.websocket.client.WebSocketClient
 import java.net.URI

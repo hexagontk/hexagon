@@ -5,7 +5,7 @@ import com.hexagonkt.core.require
 import com.hexagonkt.http.handlers.HttpContext
 import com.hexagonkt.http.toHttpFormat
 import java.time.Instant
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class DateCallbackTest {

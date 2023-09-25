@@ -8,7 +8,7 @@ import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpRequest
 import com.hexagonkt.http.model.HttpResponse
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class HttpServerTest {

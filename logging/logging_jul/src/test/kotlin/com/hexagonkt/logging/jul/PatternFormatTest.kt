@@ -3,7 +3,7 @@ package com.hexagonkt.logging.jul
 import com.hexagonkt.core.Ansi
 import com.hexagonkt.core.fail
 import org.junit.jupiter.api.Assertions
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import java.lang.RuntimeException
 import java.util.logging.Level.INFO
 import java.util.logging.Level.SEVERE
