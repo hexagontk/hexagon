@@ -18,7 +18,7 @@ com.hexagonkt.http.client
 module:http_client_jetty
 com.hexagonkt.http.client.jetty
 module:http_client_jetty_ws
-com.hexagonkt.http.client.jetty
+com.hexagonkt.http.client.jetty.ws
 module:http_handlers
 com.hexagonkt.http.handlers
 module:http_server
