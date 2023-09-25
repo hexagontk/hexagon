@@ -16,7 +16,6 @@ dependencies {
     val junitVersion = properties["junitVersion"]
     val gatlingVersion = properties["gatlingVersion"]
 
-    "api"(project(":logging:logging_slf4j_jul"))
     "api"(project(":serialization:serialization"))
     "api"(project(":http:http_client"))
     "api"(project(":http:http_server"))
