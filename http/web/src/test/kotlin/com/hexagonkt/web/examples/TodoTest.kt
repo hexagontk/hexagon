@@ -5,7 +5,6 @@ import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.media.APPLICATION_JSON
-import com.hexagonkt.logging.jul.JulLoggingAdapter
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
@@ -151,7 +150,6 @@ abstract class TodoTest(adapter: HttpServerPort) {
 
     @BeforeAll fun initialize() {
         SerializationManager.formats = linkedSetOf(Json)
-        LoggingManager.adapter = JulLoggingAdapter()
         LoggingManager.setLoggerLevel("com.hexagonkt", DEBUG)
         server.start()
         client.start()
