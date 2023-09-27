@@ -1,7 +1,6 @@
 
 plugins {
     id("java-library")
-    id("me.champeau.jmh")
 }
 
 apply(from = "$rootDir/gradle/kotlin.gradle")
