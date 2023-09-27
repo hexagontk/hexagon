@@ -23,7 +23,6 @@ dependencies {
 
     "testImplementation"(project(":http:http_client_jetty"))
     "testImplementation"(project(":http:http_server_jetty"))
-    "testImplementation"(project(":http:http_server_netty"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
     "testImplementation"(project(":serialization:serialization_jackson_yaml"))
 }
