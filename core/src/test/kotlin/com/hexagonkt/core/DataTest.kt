@@ -21,6 +21,27 @@ internal class DataTest {
         0 to 1
     )
 
+    @Test fun `Data utilities`() {
+        // data
+        // TODO
+        /*
+         * Utilities to ease the processing of collections, sets, and maps to ease mapping to
+         * classes.
+         */
+        val map = mapOf(
+            "map" to mapOf(
+                "list" to listOf(10, 20, 30),
+                "key" to "value",
+            ),
+        )
+
+        // Retrieve nested map elements
+        assertEquals(10, map.getPath("map", "list", 0))
+        assertEquals(20, map.getPath("map", "list", 1))
+        assertEquals("value", map.getPath("map", "key"))
+        // data
+    }
+
     @Test fun `Get nested keys inside a map returns the proper value`() {
         assert(m.getPath<String>("nested", "zulu") == "charlie")
         assert(m.getPath<Any>("nested", "zulu", "tango") == null)

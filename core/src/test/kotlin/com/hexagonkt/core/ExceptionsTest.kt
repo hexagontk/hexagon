@@ -5,6 +5,12 @@ import kotlin.test.*
 
 internal class ExceptionsTest {
 
+    @Test fun `Exceptions utilities`() {
+        // exceptions
+        // TODO
+        // exceptions
+    }
+
     @Test fun `Assure asserts are enabled in tests`() {
         assertEquals(true, assertEnabled)
     }

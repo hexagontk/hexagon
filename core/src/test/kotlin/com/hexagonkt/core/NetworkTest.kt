@@ -8,6 +8,12 @@ import kotlin.test.*
 
 internal class NetworkTest {
 
+    @Test fun `Network utilities`() {
+        // network
+        // TODO
+        // network
+    }
+
     // TODO Replace URL accesses by local started HTTP servers
     @Test fun `Check URL exists`() {
         assert(urlOf("http://example.com").exists())
