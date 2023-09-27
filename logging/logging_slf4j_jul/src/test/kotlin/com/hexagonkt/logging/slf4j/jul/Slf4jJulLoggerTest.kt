@@ -37,7 +37,6 @@ internal class Slf4jJulLoggerTest {
         logger.error { mapOf(0 to 1, 2 to 3) }
         logger.warn(RuntimeException()) { 'c' }
         logger.error(RuntimeException()) { 0..100 }
-        logger.flare { "message" }
     }
 
     private fun checkLoggerLevel(logger: Logger, level: LoggingLevel) {

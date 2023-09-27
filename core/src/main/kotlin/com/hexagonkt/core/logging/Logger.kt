@@ -1,9 +1,6 @@
 package com.hexagonkt.core.logging
 
 import kotlin.reflect.KClass
-import com.hexagonkt.core.text.Ansi.BLINK
-import com.hexagonkt.core.text.Ansi.BOLD
-import com.hexagonkt.core.text.Ansi.RESET
 import com.hexagonkt.core.logging.LoggingLevel.*
 
 /**
@@ -13,10 +10,6 @@ import com.hexagonkt.core.logging.LoggingLevel.*
  * @sample com.hexagonkt.core.HexagonCoreSamplesTest.loggerUsage
  */
 class Logger(val name: String) {
-
-    private companion object {
-        const val FLARE_PREFIX = ">>>>>>>>"
-    }
 
     internal val log: LoggerPort = LoggingManager.adapter.createLogger(name)
 
@@ -111,15 +104,6 @@ class Logger(val name: String) {
     fun <E : Throwable> error(exception: E?, message: (E?) -> Any? = { "" }) {
         if (exception == null) log.log(ERROR) { message(null) }
         else log.log(ERROR, exception, message)
-    }
-
-    /**
-     * Log a message using [TRACE] level.
-     *
-     * @param message The required message to log.
-     */
-    fun flare(message: () -> Any? = { "" }) {
-        log.log(TRACE) { "$BOLD$BLINK$FLARE_PREFIX$RESET ${message()}" }
     }
 
     /**

@@ -202,15 +202,12 @@ public final class com/hexagonkt/core/UuidsKt {
 }
 
 public final class com/hexagonkt/core/logging/Logger {
-	public static final field FLARE_PREFIX Ljava/lang/String;
 	public fun <init> (Ljava/lang/String;)V
 	public fun <init> (Lkotlin/reflect/KClass;)V
 	public final fun debug (Lkotlin/jvm/functions/Function0;)V
 	public final fun error (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 	public final fun error (Lkotlin/jvm/functions/Function0;)V
 	public static synthetic fun error$default (Lcom/hexagonkt/core/logging/Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-	public final fun flare (Lkotlin/jvm/functions/Function0;)V
-	public static synthetic fun flare$default (Lcom/hexagonkt/core/logging/Logger;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)V
 	public final fun getName ()Ljava/lang/String;
 	public final fun info (Lkotlin/jvm/functions/Function0;)V
 	public final fun isDebugEnabled ()Z

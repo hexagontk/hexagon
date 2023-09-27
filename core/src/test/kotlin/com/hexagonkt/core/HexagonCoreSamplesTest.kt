@@ -44,8 +44,6 @@ internal class HexagonCoreSamplesTest {
         classLogger.error(exception)
         classLogger.error { "Error without an exception" }
 
-        instanceLogger.flare { "Prints a log that stands out for ease searching" }
-
         // Logging level can be changed programmatically
         LoggingManager.setLoggerLevel(ERROR)
         LoggingManager.setLoggerLevel(classLogger::class, DEBUG)
