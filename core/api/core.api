@@ -1,72 +1,3 @@
-public final class com/hexagonkt/core/Ansi {
-	public static final field BLACK Ljava/lang/String;
-	public static final field BLACK_BG Ljava/lang/String;
-	public static final field BLINK Ljava/lang/String;
-	public static final field BLINK_OFF Ljava/lang/String;
-	public static final field BLUE Ljava/lang/String;
-	public static final field BLUE_BG Ljava/lang/String;
-	public static final field BOLD Ljava/lang/String;
-	public static final field BOLD_OFF Ljava/lang/String;
-	public static final field BRIGHT_BLACK Ljava/lang/String;
-	public static final field BRIGHT_BLACK_BG Ljava/lang/String;
-	public static final field BRIGHT_BLUE Ljava/lang/String;
-	public static final field BRIGHT_BLUE_BG Ljava/lang/String;
-	public static final field BRIGHT_CYAN Ljava/lang/String;
-	public static final field BRIGHT_CYAN_BG Ljava/lang/String;
-	public static final field BRIGHT_GREEN Ljava/lang/String;
-	public static final field BRIGHT_GREEN_BG Ljava/lang/String;
-	public static final field BRIGHT_MAGENTA Ljava/lang/String;
-	public static final field BRIGHT_MAGENTA_BG Ljava/lang/String;
-	public static final field BRIGHT_RED Ljava/lang/String;
-	public static final field BRIGHT_RED_BG Ljava/lang/String;
-	public static final field BRIGHT_WHITE Ljava/lang/String;
-	public static final field BRIGHT_WHITE_BG Ljava/lang/String;
-	public static final field BRIGHT_YELLOW Ljava/lang/String;
-	public static final field BRIGHT_YELLOW_BG Ljava/lang/String;
-	public static final field CSI Ljava/lang/String;
-	public static final field CYAN Ljava/lang/String;
-	public static final field CYAN_BG Ljava/lang/String;
-	public static final field DEFAULT Ljava/lang/String;
-	public static final field DEFAULT_BG Ljava/lang/String;
-	public static final field GREEN Ljava/lang/String;
-	public static final field GREEN_BG Ljava/lang/String;
-	public static final field INSTANCE Lcom/hexagonkt/core/Ansi;
-	public static final field INVERSE Ljava/lang/String;
-	public static final field INVERSE_OFF Ljava/lang/String;
-	public static final field MAGENTA Ljava/lang/String;
-	public static final field MAGENTA_BG Ljava/lang/String;
-	public static final field RED Ljava/lang/String;
-	public static final field RED_BG Ljava/lang/String;
-	public static final field RESET Ljava/lang/String;
-	public static final field UNDERLINE Ljava/lang/String;
-	public static final field UNDERLINE_OFF Ljava/lang/String;
-	public static final field WHITE Ljava/lang/String;
-	public static final field WHITE_BG Ljava/lang/String;
-	public static final field YELLOW Ljava/lang/String;
-	public static final field YELLOW_BG Ljava/lang/String;
-	public final fun getREGEX ()Lkotlin/text/Regex;
-}
-
-public final class com/hexagonkt/core/CasesKt {
-	public static final fun camelToSnake (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun camelToWords (Ljava/lang/String;)Ljava/util/List;
-	public static final fun getCAMEL_CASE ()Lkotlin/text/Regex;
-	public static final fun getKEBAB_CASE ()Lkotlin/text/Regex;
-	public static final fun getPASCAL_CASE ()Lkotlin/text/Regex;
-	public static final fun getSNAKE_CASE ()Lkotlin/text/Regex;
-	public static final fun kebabToWords (Ljava/lang/String;)Ljava/util/List;
-	public static final fun snakeToCamel (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun snakeToWords (Ljava/lang/String;)Ljava/util/List;
-	public static final fun toWords (Ljava/lang/Enum;)Ljava/lang/String;
-	public static final fun toWords (Ljava/util/List;)Ljava/util/List;
-	public static final fun wordsToCamel (Ljava/util/List;)Ljava/lang/String;
-	public static final fun wordsToKebab (Ljava/util/List;)Ljava/lang/String;
-	public static final fun wordsToPascal (Ljava/util/List;)Ljava/lang/String;
-	public static final fun wordsToSentence (Ljava/util/List;)Ljava/lang/String;
-	public static final fun wordsToSnake (Ljava/util/List;)Ljava/lang/String;
-	public static final fun wordsToTitle (Ljava/util/List;)Ljava/lang/String;
-}
-
 public final class com/hexagonkt/core/ChecksKt {
 	public static final fun checkSize (Ljava/util/Collection;Lkotlin/ranges/IntRange;)Ljava/util/Collection;
 	public static final fun requireGreater (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
@@ -177,22 +108,8 @@ public final class com/hexagonkt/core/ExceptionsKt {
 	public static synthetic fun toText$default (Ljava/lang/Throwable;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
 }
 
-public final class com/hexagonkt/core/Glob {
-	public fun <init> (Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;)Lcom/hexagonkt/core/Glob;
-	public static synthetic fun copy$default (Lcom/hexagonkt/core/Glob;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagonkt/core/Glob;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getPattern ()Ljava/lang/String;
-	public final fun getRegex ()Lkotlin/text/Regex;
-	public fun hashCode ()I
-	public final fun matches (Ljava/lang/String;)Z
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class com/hexagonkt/core/HelpersKt {
 	public static final fun check (Ljava/lang/String;[Lkotlin/jvm/functions/Function0;)V
-	public static synthetic fun check$default (Ljava/lang/String;[Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)V
 	public static final fun exec (Ljava/lang/String;Ljava/io/File;JZ)Ljava/lang/String;
 	public static final fun exec (Ljava/util/List;Ljava/io/File;JZ)Ljava/lang/String;
 	public static synthetic fun exec$default (Ljava/lang/String;Ljava/io/File;JZILjava/lang/Object;)Ljava/lang/String;
@@ -275,30 +192,6 @@ public final class com/hexagonkt/core/NetworkKt {
 
 public final class com/hexagonkt/core/ResourceNotFoundException : java/io/IOException {
 	public fun <init> (Ljava/lang/String;)V
-}
-
-public final class com/hexagonkt/core/StringsKt {
-	public static final fun banner (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public static synthetic fun banner$default (Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
-	public static final fun decodeBase64 (Ljava/lang/String;)[B
-	public static final fun encodeToBase64 (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun encodeToBase64 ([B)Ljava/lang/String;
-	public static final fun filter (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Ljava/lang/String;
-	public static final fun filterVars (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/String;
-	public static final fun findGroups (Lkotlin/text/Regex;Ljava/lang/String;)Ljava/util/List;
-	public static final fun getEol ()Ljava/lang/String;
-	public static final fun getParsedClasses ()Ljava/util/Set;
-	public static final fun parse (Ljava/lang/String;Lkotlin/reflect/KClass;)Ljava/lang/Object;
-	public static final fun parseOrNull (Ljava/lang/String;Lkotlin/reflect/KClass;)Ljava/lang/Object;
-	public static final fun prependIndent (Ljava/lang/String;ILjava/lang/String;)Ljava/lang/String;
-	public static synthetic fun prependIndent$default (Ljava/lang/String;ILjava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
-	public static final fun stripAccents (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun stripAnsi (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun toEnum (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ljava/lang/Enum;
-	public static final fun toEnumOrNull (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ljava/lang/Enum;
-	public static final fun toEnumValue (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun toStream (Ljava/lang/String;)Ljava/io/InputStream;
-	public static final fun utf8 ([I)Ljava/lang/String;
 }
 
 public final class com/hexagonkt/core/UuidsKt {
@@ -547,5 +440,111 @@ public final class com/hexagonkt/core/security/KeyStoresKt {
 	public static final fun getPrivateKey (Ljava/security/KeyStore;Ljava/lang/String;Ljava/lang/String;)Ljava/security/interfaces/RSAPrivateKey;
 	public static final fun getPublicKey (Ljava/security/KeyStore;Ljava/lang/String;)Ljava/security/interfaces/RSAPublicKey;
 	public static final fun loadKeyStore (Ljava/net/URL;Ljava/lang/String;)Ljava/security/KeyStore;
+}
+
+public final class com/hexagonkt/core/text/Ansi {
+	public static final field BLACK Ljava/lang/String;
+	public static final field BLACK_BG Ljava/lang/String;
+	public static final field BLINK Ljava/lang/String;
+	public static final field BLINK_OFF Ljava/lang/String;
+	public static final field BLUE Ljava/lang/String;
+	public static final field BLUE_BG Ljava/lang/String;
+	public static final field BOLD Ljava/lang/String;
+	public static final field BOLD_OFF Ljava/lang/String;
+	public static final field BRIGHT_BLACK Ljava/lang/String;
+	public static final field BRIGHT_BLACK_BG Ljava/lang/String;
+	public static final field BRIGHT_BLUE Ljava/lang/String;
+	public static final field BRIGHT_BLUE_BG Ljava/lang/String;
+	public static final field BRIGHT_CYAN Ljava/lang/String;
+	public static final field BRIGHT_CYAN_BG Ljava/lang/String;
+	public static final field BRIGHT_GREEN Ljava/lang/String;
+	public static final field BRIGHT_GREEN_BG Ljava/lang/String;
+	public static final field BRIGHT_MAGENTA Ljava/lang/String;
+	public static final field BRIGHT_MAGENTA_BG Ljava/lang/String;
+	public static final field BRIGHT_RED Ljava/lang/String;
+	public static final field BRIGHT_RED_BG Ljava/lang/String;
+	public static final field BRIGHT_WHITE Ljava/lang/String;
+	public static final field BRIGHT_WHITE_BG Ljava/lang/String;
+	public static final field BRIGHT_YELLOW Ljava/lang/String;
+	public static final field BRIGHT_YELLOW_BG Ljava/lang/String;
+	public static final field CSI Ljava/lang/String;
+	public static final field CYAN Ljava/lang/String;
+	public static final field CYAN_BG Ljava/lang/String;
+	public static final field DEFAULT Ljava/lang/String;
+	public static final field DEFAULT_BG Ljava/lang/String;
+	public static final field GREEN Ljava/lang/String;
+	public static final field GREEN_BG Ljava/lang/String;
+	public static final field INSTANCE Lcom/hexagonkt/core/text/Ansi;
+	public static final field INVERSE Ljava/lang/String;
+	public static final field INVERSE_OFF Ljava/lang/String;
+	public static final field MAGENTA Ljava/lang/String;
+	public static final field MAGENTA_BG Ljava/lang/String;
+	public static final field RED Ljava/lang/String;
+	public static final field RED_BG Ljava/lang/String;
+	public static final field RESET Ljava/lang/String;
+	public static final field UNDERLINE Ljava/lang/String;
+	public static final field UNDERLINE_OFF Ljava/lang/String;
+	public static final field WHITE Ljava/lang/String;
+	public static final field WHITE_BG Ljava/lang/String;
+	public static final field YELLOW Ljava/lang/String;
+	public static final field YELLOW_BG Ljava/lang/String;
+	public final fun getREGEX ()Lkotlin/text/Regex;
+}
+
+public final class com/hexagonkt/core/text/CasesKt {
+	public static final fun camelToSnake (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun camelToWords (Ljava/lang/String;)Ljava/util/List;
+	public static final fun getCAMEL_CASE ()Lkotlin/text/Regex;
+	public static final fun getKEBAB_CASE ()Lkotlin/text/Regex;
+	public static final fun getPASCAL_CASE ()Lkotlin/text/Regex;
+	public static final fun getSNAKE_CASE ()Lkotlin/text/Regex;
+	public static final fun kebabToWords (Ljava/lang/String;)Ljava/util/List;
+	public static final fun snakeToCamel (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun snakeToWords (Ljava/lang/String;)Ljava/util/List;
+	public static final fun toWords (Ljava/lang/Enum;)Ljava/lang/String;
+	public static final fun toWords (Ljava/util/List;)Ljava/util/List;
+	public static final fun wordsToCamel (Ljava/util/List;)Ljava/lang/String;
+	public static final fun wordsToKebab (Ljava/util/List;)Ljava/lang/String;
+	public static final fun wordsToPascal (Ljava/util/List;)Ljava/lang/String;
+	public static final fun wordsToSentence (Ljava/util/List;)Ljava/lang/String;
+	public static final fun wordsToSnake (Ljava/util/List;)Ljava/lang/String;
+	public static final fun wordsToTitle (Ljava/util/List;)Ljava/lang/String;
+}
+
+public final class com/hexagonkt/core/text/Glob {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/hexagonkt/core/text/Glob;
+	public static synthetic fun copy$default (Lcom/hexagonkt/core/text/Glob;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagonkt/core/text/Glob;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPattern ()Ljava/lang/String;
+	public final fun getRegex ()Lkotlin/text/Regex;
+	public fun hashCode ()I
+	public final fun matches (Ljava/lang/String;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagonkt/core/text/StringsKt {
+	public static final fun banner (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static synthetic fun banner$default (Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun decodeBase64 (Ljava/lang/String;)[B
+	public static final fun encodeToBase64 (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun encodeToBase64 ([B)Ljava/lang/String;
+	public static final fun filter (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Ljava/lang/String;
+	public static final fun filterVars (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/String;
+	public static final fun findGroups (Lkotlin/text/Regex;Ljava/lang/String;)Ljava/util/List;
+	public static final fun getEol ()Ljava/lang/String;
+	public static final fun getParsedClasses ()Ljava/util/Set;
+	public static final fun parse (Ljava/lang/String;Lkotlin/reflect/KClass;)Ljava/lang/Object;
+	public static final fun parseOrNull (Ljava/lang/String;Lkotlin/reflect/KClass;)Ljava/lang/Object;
+	public static final fun prependIndent (Ljava/lang/String;ILjava/lang/String;)Ljava/lang/String;
+	public static synthetic fun prependIndent$default (Ljava/lang/String;ILjava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun stripAccents (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun stripAnsi (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toEnum (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ljava/lang/Enum;
+	public static final fun toEnumOrNull (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ljava/lang/Enum;
+	public static final fun toEnumValue (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toStream (Ljava/lang/String;)Ljava/io/InputStream;
+	public static final fun utf8 ([I)Ljava/lang/String;
 }
 

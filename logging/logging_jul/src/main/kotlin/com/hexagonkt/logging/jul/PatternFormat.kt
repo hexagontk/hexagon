@@ -1,13 +1,13 @@
 package com.hexagonkt.logging.jul
 
-import com.hexagonkt.core.Ansi
-import com.hexagonkt.core.Ansi.BLUE
-import com.hexagonkt.core.Ansi.BRIGHT_BLACK
-import com.hexagonkt.core.Ansi.CYAN
-import com.hexagonkt.core.Ansi.MAGENTA
-import com.hexagonkt.core.Ansi.RED
-import com.hexagonkt.core.Ansi.RESET
-import com.hexagonkt.core.eol
+import com.hexagonkt.core.text.Ansi
+import com.hexagonkt.core.text.Ansi.BLUE
+import com.hexagonkt.core.text.Ansi.BRIGHT_BLACK
+import com.hexagonkt.core.text.Ansi.CYAN
+import com.hexagonkt.core.text.Ansi.MAGENTA
+import com.hexagonkt.core.text.Ansi.RED
+import com.hexagonkt.core.text.Ansi.RESET
+import com.hexagonkt.core.text.eol
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.toText
 import java.time.Instant

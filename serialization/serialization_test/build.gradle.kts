@@ -16,6 +16,4 @@ dependencies {
     "api"(project(":serialization:serialization"))
     "api"("org.jetbrains.kotlin:kotlin-test")
     "api"("org.junit.jupiter:junit-jupiter:$junitVersion")
-
-    "testImplementation"(project(":serialization:serialization_jackson_json"))
 }

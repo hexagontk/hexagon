@@ -1,6 +1,6 @@
 package com.hexagonkt.http.patterns
 
-import com.hexagonkt.core.filter
+import com.hexagonkt.core.text.filter
 import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.VARIABLE_PATTERN
 import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.patternToRegex
 

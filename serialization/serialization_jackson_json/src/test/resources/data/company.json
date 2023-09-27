@@ -1,10 +1,10 @@
 {
     "id" : "id1",
-    foundation : 20140125,
-    closeTime : 114200000,
+    foundation : "2014-01-25",
+    closeTime : "11:42",
     "openTime" : {
-        "start" : 83000000,
-        "endInclusive" : 143600000
+        "start" : "08:30",
+        "end" : "14:51:00"
     },
     "web" : "http://example.org",
     "people" : [
@@ -15,6 +15,6 @@
             "name" : "Mike"
         }
     ],
-    "creationDate" : 20160825171704210,
+    "creationDate" : "2016-01-01T00:00",
     "host" : "127.0.0.1",
 }

@@ -1,6 +1,6 @@
 package com.hexagonkt.http.handlers
 
-import com.hexagonkt.core.encodeToBase64
+import com.hexagonkt.core.text.encodeToBase64
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseQueryString
 import kotlin.test.assertEquals

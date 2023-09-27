@@ -31,7 +31,7 @@ a project from scratch following these steps:
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
-@code http/http_test/src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt?hello_world
+@code http/http_server_jetty/src/test/kotlin/com/hexagonkt/http/server/jetty/HelloWorldTest.kt?hello_world
 
 5. Run the service and view the results at: [http://localhost:2010/hello/hex][Endpoint]
 

@@ -1,9 +1,9 @@
 package com.hexagonkt.core.logging
 
 import kotlin.reflect.KClass
-import com.hexagonkt.core.Ansi.BLINK
-import com.hexagonkt.core.Ansi.BOLD
-import com.hexagonkt.core.Ansi.RESET
+import com.hexagonkt.core.text.Ansi.BLINK
+import com.hexagonkt.core.text.Ansi.BOLD
+import com.hexagonkt.core.text.Ansi.RESET
 import com.hexagonkt.core.logging.LoggingLevel.*
 
 /**

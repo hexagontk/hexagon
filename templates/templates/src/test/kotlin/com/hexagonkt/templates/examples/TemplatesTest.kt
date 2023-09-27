@@ -1,6 +1,6 @@
 package com.hexagonkt.templates.examples
 
-import com.hexagonkt.core.Glob
+import com.hexagonkt.core.text.Glob
 import com.hexagonkt.core.urlOf
 import com.hexagonkt.templates.SampleTemplateAdapter
 import com.hexagonkt.templates.TemplateManager

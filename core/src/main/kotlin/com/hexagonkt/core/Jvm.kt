@@ -1,5 +1,6 @@
 package com.hexagonkt.core
 
+import com.hexagonkt.core.text.parseOrNull
 import java.net.InetAddress
 import java.nio.charset.Charset
 import java.time.ZoneId
