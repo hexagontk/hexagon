@@ -1,4 +1,4 @@
-package com.hexagonkt.http.test
+package com.hexagonkt.http.rest.tools
 
 import com.hexagonkt.http.handlers.HandlerBuilder
 import com.hexagonkt.http.model.NOT_FOUND_404

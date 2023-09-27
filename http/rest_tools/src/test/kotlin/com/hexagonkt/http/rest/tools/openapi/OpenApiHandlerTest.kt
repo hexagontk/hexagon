@@ -1,4 +1,4 @@
-package com.hexagonkt.http.test.openapi
+package com.hexagonkt.http.rest.tools.openapi
 
 import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
