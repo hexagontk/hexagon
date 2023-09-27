@@ -5,6 +5,8 @@ import com.hexagonkt.http.test.examples.*
 import com.hexagonkt.serialization.jackson.JacksonTextFormat
 import com.hexagonkt.serialization.jackson.json.Json
 import com.hexagonkt.serialization.jackson.yaml.Yaml
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS.WINDOWS
 
 val clientAdapter: () -> JettyClientAdapter = ::JettyClientAdapter
 val serverAdapter: () -> JettyServletAdapter = ::JettyServletAdapter
@@ -14,6 +16,7 @@ internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)
 internal class AdapterErrorsTest : ErrorsTest(clientAdapter, serverAdapter)
 internal class AdapterFiltersTest : FiltersTest(clientAdapter, serverAdapter)
 internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter, formats)
+@DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
 internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)

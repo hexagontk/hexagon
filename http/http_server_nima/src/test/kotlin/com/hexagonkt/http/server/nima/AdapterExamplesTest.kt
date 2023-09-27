@@ -11,6 +11,8 @@ import com.hexagonkt.serialization.jackson.json.Json
 import com.hexagonkt.serialization.jackson.yaml.Yaml
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS.WINDOWS
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -24,6 +26,7 @@ internal class AdapterFiltersTest : FiltersTest(clientAdapter, serverAdapter)
 internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter, formats) {
     @Test @Disabled override fun `Form parameters are sent correctly`() {}
 }
+@DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter) {
     @Test override fun `Use ZIP encoding without enabling the feature example`() {

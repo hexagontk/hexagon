@@ -20,7 +20,6 @@ internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)
 internal class AdapterErrorsTest : ErrorsTest(clientAdapter, serverAdapter)
 internal class AdapterFiltersTest : FiltersTest(clientAdapter, serverAdapter)
 internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter, formats)
-@DisabledInNativeImage // TODO Fix this (works in Linux)
 @DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
