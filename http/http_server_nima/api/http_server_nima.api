@@ -6,7 +6,7 @@ public final class com/hexagonkt/http/server/nima/NimaKt {
 }
 
 public final class com/hexagonkt/http/server/nima/NimaRequestAdapter : com/hexagonkt/http/model/HttpRequestPort {
-	public fun <init> (Lio/helidon/http/Http$Method;Lio/helidon/webserver/http/ServerRequest;)V
+	public fun <init> (Lio/helidon/http/Method;Lio/helidon/webserver/http/ServerRequest;)V
 	public fun authorization ()Lcom/hexagonkt/http/model/Authorization;
 	public fun bodyString ()Ljava/lang/String;
 	public fun certificate ()Ljava/security/cert/X509Certificate;

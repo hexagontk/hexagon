@@ -1,4 +1,4 @@
-package com.hexagonkt.http.rest.tools
+package com.hexagonkt.rest.tools
 
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.core.urlOf

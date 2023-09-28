@@ -14,7 +14,9 @@ import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerFeature
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
-import io.helidon.http.Http.*
+import io.helidon.http.Method
+import io.helidon.http.Status
+import io.helidon.http.HeaderNames
 import io.helidon.http.HttpMediaType
 import io.helidon.http.SetCookie
 import io.helidon.webserver.WebServer
@@ -97,7 +99,7 @@ class NimaServerAdapter : HttpServerPort {
             nimaResponse.status(Status.create(response.status.code))
 
             response.headers.values.forEach {
-                nimaResponse.header(Headers.create(it.name, it.strings()))
+                nimaResponse.header(HeaderNames.create(it.name), *it.strings().toTypedArray())
             }
 
             val headers = nimaResponse.headers()

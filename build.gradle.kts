@@ -4,6 +4,7 @@ import com.github.jk1.license.render.CsvReportRenderer
 import com.github.jk1.license.render.InventoryHtmlReportRenderer
 import com.github.jk1.license.render.InventoryMarkdownReportRenderer
 import com.github.jk1.license.render.ReportRenderer
+import org.gradle.api.tasks.wrapper.Wrapper.DistributionType.ALL
 
 /*
  * Main build script, responsible for:
@@ -137,6 +138,11 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
         }
     }
 })
+
+tasks.wrapper {
+    gradleVersion = "8.4-rc-2"
+    distributionType = ALL
+}
 
 apiValidation {
     ignoredProjects.addAll(

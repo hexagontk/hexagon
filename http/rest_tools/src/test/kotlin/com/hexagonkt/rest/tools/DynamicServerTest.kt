@@ -1,4 +1,4 @@
-package com.hexagonkt.http.rest.tools
+package com.hexagonkt.rest.tools
 
 import com.hexagonkt.core.logging.info
 import com.hexagonkt.core.media.APPLICATION_JSON
