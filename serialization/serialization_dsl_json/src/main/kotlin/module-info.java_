@@ -1,0 +1,9 @@
+
+// TODO Rename this file when build script is able to handle automatic modules
+module com.hexagonkt.serialization_dsl_json {
+
+    requires transitive com.hexagonkt.serialization;
+    requires dsl.json;
+
+    exports com.hexagonkt.serialization.dsl.json;
+}
