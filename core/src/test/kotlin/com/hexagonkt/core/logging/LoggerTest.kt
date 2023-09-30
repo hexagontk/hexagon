@@ -22,6 +22,8 @@ internal class LoggerTest {
         logger.trace { 42 }
         logger.debug { true }
         logger.info { 0.0 }
+        logger.warn(RuntimeException())
+        logger.error(RuntimeException())
         logger.warn { listOf(0, 1) }
         logger.error { mapOf(0 to 1, 2 to 3) }
         logger.warn(RuntimeException()) { 'c' }
@@ -39,13 +41,46 @@ internal class LoggerTest {
 
     @Test fun `A logger level can be changed`() {
         val l = Logger("l")
-        l.setLoggerLevel(INFO)
+
+        l.setLoggerLevel(TRACE)
         assert(l.name == "l")
+        assert(l.isTraceEnabled())
+        assert(l.isDebugEnabled())
         assert(l.isInfoEnabled())
         assert(l.isWarnEnabled())
+        assert(l.isErrorEnabled())
+
+        l.setLoggerLevel(DEBUG)
+        assert(l.name == "l")
+        assertFalse(l.isTraceEnabled())
+        assert(l.isDebugEnabled())
+        assert(l.isInfoEnabled())
+        assert(l.isWarnEnabled())
+        assert(l.isErrorEnabled())
+
+        l.setLoggerLevel(INFO)
+        assert(l.name == "l")
+        assertFalse(l.isTraceEnabled())
+        assertFalse(l.isDebugEnabled())
+        assert(l.isInfoEnabled())
+        assert(l.isWarnEnabled())
+        assert(l.isErrorEnabled())
+
         l.setLoggerLevel(WARN)
+        assert(l.name == "l")
+        assertFalse(l.isTraceEnabled())
+        assertFalse(l.isDebugEnabled())
         assertFalse(l.isInfoEnabled())
         assert(l.isWarnEnabled())
+        assert(l.isErrorEnabled())
+
+        l.setLoggerLevel(ERROR)
+        assert(l.name == "l")
+        assertFalse(l.isTraceEnabled())
+        assertFalse(l.isDebugEnabled())
+        assertFalse(l.isInfoEnabled())
+        assertFalse(l.isWarnEnabled())
+        assert(l.isErrorEnabled())
     }
 
     @Test

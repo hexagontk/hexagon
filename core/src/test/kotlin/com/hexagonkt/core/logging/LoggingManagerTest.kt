@@ -18,7 +18,6 @@ internal class LoggingManagerTest {
     @Test fun `Loggers are enabled and disabled at runtime`() {
 
         LoggingManager.adapter = SystemLoggingAdapter()
-        val allLevels = LoggingLevel.values()
 
         val ch = Logger("com.hx")
         val chc = Logger("com.hx.core")
@@ -28,7 +27,7 @@ internal class LoggingManagerTest {
         assertTrue(Logger("z").isLoggerLevelEnabled(INFO))
         assertFalse(Logger("z").isLoggerLevelEnabled(DEBUG))
         assertTrue(
-            allLevels.all {
+            entries.all {
                 ch.isLoggerLevelEnabled(it)
                     && chc.isLoggerLevelEnabled(it)
                     && chl.isLoggerLevelEnabled(it)
@@ -41,7 +40,7 @@ internal class LoggingManagerTest {
         assertFalse(chc.isLoggerLevelEnabled(INFO) || chc.isInfoEnabled())
         assertFalse(chc.isLoggerLevelEnabled(DEBUG) || chc.isDebugEnabled())
         assertFalse(chc.isLoggerLevelEnabled(TRACE) || chc.isTraceEnabled())
-        assertTrue(allLevels.all { ch.isLoggerLevelEnabled(it) && chl.isLoggerLevelEnabled(it) })
+        assertTrue(entries.all { ch.isLoggerLevelEnabled(it) && chl.isLoggerLevelEnabled(it) })
 
         // TODO Check if parent level changes gets reflected on created loggers (com.hx -> TRACE)
         LoggingManager.setLoggerLevel("com.hx.core", TRACE)
