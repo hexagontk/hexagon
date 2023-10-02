@@ -36,7 +36,7 @@ TODO Document module exposed ports:
 The core module has utilities to serialize/parse data classes to JSON and YAML. Read the following
 snippet for details:
 
-@code core/src/test/kotlin/com/hexagonkt/core/HexagonCoreSamplesTest.kt?serializationUsage
+@code serialization/serialization_test/src/main/kotlin/com/hexagonkt/serialization/test/SerializationTest.kt?serializationUsage
 
 # Package com.hexagonkt.serialization
 Parse/serialize data in different formats to class instances.
