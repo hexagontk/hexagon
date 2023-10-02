@@ -22,6 +22,6 @@ enum class HttpMethod {
     PATCH;
 
     companion object {
-        val ALL: Set<HttpMethod> = values().toSet()
+        val ALL: Set<HttpMethod> = entries.toSet()
     }
 }
