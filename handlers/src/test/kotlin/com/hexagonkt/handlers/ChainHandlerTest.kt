@@ -26,6 +26,12 @@ internal class ChainHandlerTest {
         )
     )
 
+    @Test fun `Chain handler initial state is correct`() {
+        val ch = ChainHandler<String>(emptyList())
+        assertEquals("test", ch.callback(EventContext("test", { true })).event)
+        assert(ch.predicate(EventContext("test", { true })))
+    }
+
     @Test fun `Only the first 'on' handler is processed`() {
         var flags = listOf(true, true, true, true)
 
