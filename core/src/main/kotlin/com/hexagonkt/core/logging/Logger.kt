@@ -7,7 +7,7 @@ import com.hexagonkt.core.logging.LoggingLevel.*
  * Logger class with Kotlin improvements like lazy evaluation. It is backed by a logging port.
  *
  * @param name Logger name. It is shown in the logs messages and used for log filtering.
- * @sample com.hexagonkt.core.HexagonCoreSamplesTest.loggerUsage
+ * @sample com.hexagonkt.core.logging.LoggerTest.loggerUsage
  */
 class Logger(val name: String) {
 

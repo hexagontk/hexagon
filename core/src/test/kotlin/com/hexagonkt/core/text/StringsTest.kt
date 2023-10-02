@@ -26,6 +26,13 @@ internal class StringsTest {
         // strings
     }
 
+    @Test fun filterVarsExample() {
+        val template = "User {{user}}"
+        val parameters = mapOf<Any, Any>("user" to "John")
+
+        assert (template.filterVars(parameters) == "User John")
+    }
+
     @Test fun `Filter variables returns the given string if no parameters are set`() {
         val template = "User #{user}"
 

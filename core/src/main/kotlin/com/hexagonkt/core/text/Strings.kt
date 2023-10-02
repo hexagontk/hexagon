@@ -52,7 +52,7 @@ val parsedClasses: Set<KClass<*>> by lazy {
  *
  * @param parameters The map with the list of key/value tuples.
  * @return The filtered text or the same string if no values are passed or found in the text.
- * @sample com.hexagonkt.core.text.StringsSamplesTest.filterVarsExample
+ * @sample com.hexagonkt.core.text.StringsTest.filterVarsExample
  */
 fun String.filterVars(parameters: Map<*, *>): String =
     this.filter(

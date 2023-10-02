@@ -11,6 +11,39 @@ import kotlin.test.*
 
 internal class LoggerTest {
 
+    @Suppress("RedundantExplicitType", "UNUSED_VARIABLE") // Ignored for examples generation
+    @Test fun loggerUsage() {
+        // logger
+        val classLogger: Logger = Logger(Runtime::class) // Logger for the `Runtime` class
+        val instanceLogger: Logger = Logger(this::class) // Logger for this instance's class
+
+        logger.info {
+            """
+            You can add a quick log without declaring a Logger with
+            'com.hexagonkt.core.logging.logger'. It is a default logger created with a custom name
+            (same as `Logger(LoggingManager.defaultLoggerName)`).
+            """
+        }
+
+        classLogger.trace { "Message only evaluated if trace enabled" }
+        classLogger.debug { "Message only evaluated if debug enabled" }
+        classLogger.warn { "Message only evaluated if warn enabled" }
+        classLogger.info { "Message only evaluated if info enabled" }
+
+        val exception = IllegalStateException("Exception")
+        classLogger.warn(exception) { "Warning with exception" }
+        classLogger.error(exception) { "Error message with exception" }
+        classLogger.warn(exception)
+        classLogger.error(exception)
+        classLogger.error { "Error without an exception" }
+
+        // Logging level can be changed programmatically
+        LoggingManager.setLoggerLevel(ERROR)
+        LoggingManager.setLoggerLevel(classLogger::class, DEBUG)
+        LoggingManager.setLoggerLevel("com.hexagonkt", INFO)
+        // logger
+    }
+
     /**
      * As the logger is only a facade, and it is hard to check outputs, the only check is that no
      * exceptions are thrown.

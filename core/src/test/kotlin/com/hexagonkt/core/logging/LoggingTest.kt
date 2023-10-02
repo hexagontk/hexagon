@@ -9,12 +9,6 @@ import kotlin.test.assertTrue
 
 internal class LoggingTest {
 
-    @Test fun `Logging utilities`() {
-        // logging
-        // TODO
-        // logging
-    }
-
     @Test fun `Log helpers`() {
         LoggingManager.useColor = false
         assertEquals(LoggingManager.defaultLoggerName, logger.name)
