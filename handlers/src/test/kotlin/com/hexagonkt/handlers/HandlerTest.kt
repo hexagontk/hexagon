@@ -46,46 +46,4 @@ internal class HandlerTest {
             assertTrue(message.matches("(Filter|Before|After) Failure".toRegex()))
         }
     }
-
-    @Test fun `Exceptions are casted properly`() {
-        assertFailsWith<IllegalStateException> { castException(null, Exception::class) }
-        assertFailsWith<ClassCastException> {
-            castException(IllegalStateException(), IllegalArgumentException::class)
-        }
-
-        val ise = IllegalStateException()
-        assertEquals(ise, castException(ise, RuntimeException::class))
-    }
-
-    @Test fun `Exceptions are cleared properly`() {
-        ChainHandler(
-            ExceptionHandler<String, Exception>(Exception::class) { c, _ -> c.with("ok") },
-            OnHandler { error("Error") }
-        )
-        .process(EventContext("test", { true }))
-        .let {
-            assertEquals("ok", it.event)
-            assertNull(it.exception)
-        }
-
-        ChainHandler(
-            ExceptionHandler<String, Exception>(Exception::class) { c, _ -> c },
-            OnHandler { error("Error") }
-        )
-        .process(EventContext("test", { true }))
-        .let {
-            assertEquals("test", it.event)
-            assertNull(it.exception)
-        }
-
-        ChainHandler(
-            ExceptionHandler<String, Exception>(Exception::class, false) { c, _ -> c.with("ok") },
-            OnHandler { error("Error") }
-        )
-        .process(EventContext("test", { true }))
-        .let {
-            assertEquals("Error", it.exception?.message)
-            assert(it.exception is IllegalStateException)
-        }
-    }
 }

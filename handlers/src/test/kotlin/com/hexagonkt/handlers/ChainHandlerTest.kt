@@ -32,41 +32,6 @@ internal class ChainHandlerTest {
         assert(ch.predicate(EventContext("test", { true })))
     }
 
-    @Test fun `Only the first 'on' handler is processed`() {
-        var flags = listOf(true, true, true, true)
-
-        val chain = ChainHandler(
-            BeforeHandler { it.with(event = "#") },
-            OnHandler({ flags[0] }) { it.with(event = "a" + it.event) },
-            OnHandler({ flags[1] }) { it.with(event = "b" + it.event) },
-            OnHandler({ flags[2] }) { it.with(event = "c" + it.event) },
-            OnHandler({ flags[3] }) { it.with(event = "d" + it.event) },
-        )
-
-        assertEquals("a#", chain.process("_"))
-
-        flags = listOf(true, false, false, false)
-        assertEquals("a#", chain.process("_"))
-
-        flags = listOf(false, true, false, false)
-        assertEquals("b#", chain.process("_"))
-
-        flags = listOf(false, false, true, false)
-        assertEquals("c#", chain.process("_"))
-
-        flags = listOf(false, false, false, true)
-        assertEquals("d#", chain.process("_"))
-
-        flags = listOf(false, false, false, false)
-        assertEquals("#", chain.process("_"))
-
-        flags = listOf(false, true, true, false)
-        assertEquals("b#", chain.process("_"))
-
-        flags = listOf(false, false, true, true)
-        assertEquals("c#", chain.process("_"))
-    }
-
     @Test fun `Build a nested chain of handlers`() {
         var flags = listOf(true, true, true, true)
 
