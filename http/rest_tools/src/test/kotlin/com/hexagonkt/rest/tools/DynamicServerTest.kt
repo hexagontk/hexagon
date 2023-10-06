@@ -5,9 +5,12 @@ import com.hexagonkt.core.media.APPLICATION_JSON
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.require
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
+import com.hexagonkt.http.handlers.BeforeHandler
+import com.hexagonkt.http.handlers.PathHandler
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.handlers.path
+import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.model.HttpStatusType.SUCCESS
 import com.hexagonkt.http.server.HttpServerSettings
@@ -84,7 +87,13 @@ class DynamicServerTest {
         val port = dynamicServer.runtimePort
         val adapter = JettyClientAdapter()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
-        val http = Http(adapter, httpHeaders = headers)
+        val recordCallback = RecordCallback()
+        val recordHandler = BeforeHandler("*", recordCallback)
+        val http = Http(
+            adapter,
+            httpHeaders = headers,
+            handler = PathHandler(recordHandler, Http.serializeHandler)
+        )
 
         http.get("http://localhost:$port/hello/mike").assertBody("GET /hello/mike", headers)
         http.get("http://localhost:$port").assertBody("GET / ", headers)
@@ -106,6 +115,14 @@ class DynamicServerTest {
 
         http.trace("http://localhost:$port/hello/mike").assertBody("TRACE /hello/mike", headers)
         http.trace("http://localhost:$port").assertBody("TRACE / ", headers)
+
+        assertEquals(14, recordCallback.calls.size)
+        assertEquals(GET, recordCallback.calls[0].request.method)
+        assertEquals("http://localhost:$port/hello/mike", recordCallback.calls[0].request.path)
+        assertEquals(OPTIONS, recordCallback.calls[6].request.method)
+        assertEquals("http://localhost:$port/hello/mike", recordCallback.calls[6].request.path)
+        assertEquals(TRACE, recordCallback.calls[12].request.method)
+        assertEquals("http://localhost:$port/hello/mike", recordCallback.calls[12].request.path)
     }
 
     @Test fun `Check all HTTP methods`() {
