@@ -2,10 +2,10 @@
 
 <span class="fc" id="L3">data class ChainHandler&lt;T : Any&gt;(</span>
 <span class="fc" id="L4">    val handlers: List&lt;Handler&lt;T&gt;&gt;,</span>
-<span class="pc" id="L5">    override val predicate: (Context&lt;T&gt;) -&gt; Boolean = { true },</span>
+<span class="fc" id="L5">    override val predicate: (Context&lt;T&gt;) -&gt; Boolean = { true },</span>
 ) : Handler&lt;T&gt; {
 
-<span class="pc" id="L8">    override val callback: (Context&lt;T&gt;) -&gt; Context&lt;T&gt; = { it }</span>
+<span class="fc" id="L8">    override val callback: (Context&lt;T&gt;) -&gt; Context&lt;T&gt; = { it }</span>
 
     constructor(
         filter: (Context&lt;T&gt;) -&gt; Boolean,

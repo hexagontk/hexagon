@@ -10,7 +10,7 @@ import com.hexagonkt.core.logging.LoggingLevel.WARN
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager.useColor
 import com.hexagonkt.core.logging.LoggingPort
-import com.hexagonkt.core.stripAnsi
+import com.hexagonkt.core.text.stripAnsi
 import java.io.PrintStream
 import java.util.logging.Level
 import java.util.logging.Logger as JulLogger

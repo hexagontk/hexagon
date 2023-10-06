@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
     
     
       
@@ -30,10 +30,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.d451bc0e.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.bd3936ea.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.a5377069.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
       
       
 
@@ -1128,7 +1128,21 @@ feature (as <a href="/serialization_dsl_json">serialization_dsl_json</a>) in ord
 <h4 id="serialization">Serialization<a class="headerlink" href="#serialization" title="Permanent link">&para;</a></h4>
 <p>The core module has utilities to serialize/parse data classes to JSON and YAML. Read the following
 snippet for details:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">SerializationManager</span><span class="p">.</span><span class="na">formats</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">setOf</span><span class="p">(</span><span class="n">format</span><span class="p">)</span><span class="w"> </span><span class="c1">// Loads the serialization format</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">jason</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="s">&quot;Jason&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jackson&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="m">1989</span><span class="p">,</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="m">31</span><span class="p">))</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="nv">jasonJson</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">personToMap</span><span class="p">(</span><span class="n">jason</span><span class="p">).</span><span class="na">serialize</span><span class="p">(</span><span class="n">format</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">parsedJason</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapToPerson</span><span class="p">(</span><span class="n">jasonJson</span><span class="p">.</span><span class="na">parseMap</span><span class="p">(</span><span class="n">format</span><span class="p">))</span>
+
+<span class="n">assertEquals</span><span class="p">(</span><span class="n">parsedJason</span><span class="p">,</span><span class="w"> </span><span class="n">jason</span><span class="p">)</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">jason</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="n">parsedJason</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <h2 id="package-comhexagonktserialization">Package com.hexagonkt.serialization<a class="headerlink" href="#package-comhexagonktserialization" title="Permanent link">&para;</a></h2>
 <p>Parse/serialize data in different formats to class instances.</p>
@@ -1313,10 +1327,11 @@ snippet for details:</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.726fbb30.min.js"></script>
+      <script src="../assets/javascripts/bundle.94c44541.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

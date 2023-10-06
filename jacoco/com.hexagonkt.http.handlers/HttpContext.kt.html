@@ -274,22 +274,21 @@ import java.util.concurrent.Flow.Publisher
 <span class="fc" id="L274">            attributes = attributes</span>
 <span class="fc" id="L275">        )</span>
 
-    // TODO Change by receive?
-<span class="fc" id="L278">    fun request(</span>
-<span class="nc" id="L279">        body: Any = response.body,</span>
-<span class="fc" id="L280">        headers: Headers = response.headers,</span>
-<span class="fc" id="L281">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L282">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
-<span class="fc" id="L283">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
+<span class="fc" id="L277">    fun receive(</span>
+<span class="nc" id="L278">        body: Any = response.body,</span>
+<span class="fc" id="L279">        headers: Headers = response.headers,</span>
+<span class="fc" id="L280">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L281">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
+<span class="fc" id="L282">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
     ): HttpContext =
-<span class="fc" id="L285">        send(</span>
-<span class="fc" id="L286">            request.with(</span>
-<span class="fc" id="L287">                body = body,</span>
-<span class="fc" id="L288">                headers = headers,</span>
-<span class="fc" id="L289">                contentType = contentType,</span>
-<span class="fc" id="L290">                cookies = cookies,</span>
+<span class="fc" id="L284">        send(</span>
+<span class="fc" id="L285">            request.with(</span>
+<span class="fc" id="L286">                body = body,</span>
+<span class="fc" id="L287">                headers = headers,</span>
+<span class="fc" id="L288">                contentType = contentType,</span>
+<span class="fc" id="L289">                cookies = cookies,</span>
             ),
-<span class="fc" id="L292">            attributes</span>
-<span class="fc" id="L293">        )</span>
-<span class="fc" id="L294">}</span>
+<span class="fc" id="L291">            attributes</span>
+<span class="fc" id="L292">        )</span>
+<span class="fc" id="L293">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

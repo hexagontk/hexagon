@@ -6,6 +6,7 @@ com.hexagonkt.core
 com.hexagonkt.core.logging
 com.hexagonkt.core.media
 com.hexagonkt.core.security
+com.hexagonkt.core.text
 module:handlers
 com.hexagonkt.handlers
 module:http
@@ -40,7 +41,7 @@ com.hexagonkt.http.test.examples
 module:rest
 com.hexagonkt.rest
 module:rest_tools
-com.hexagonkt.http.test
+com.hexagonkt.rest.tools
 module:web
 com.hexagonkt.web
 module:logging_jul

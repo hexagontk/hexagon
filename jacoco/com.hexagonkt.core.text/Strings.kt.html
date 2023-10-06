@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Strings.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.text</a> &gt; <span class="el_source">Strings.kt</span></div><h1>Strings.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.text
+
+import com.hexagonkt.core.urlOf
+import java.io.ByteArrayInputStream
+import java.io.File
+import java.io.InputStream
+import java.lang.System.getProperty
+import java.net.InetAddress
+import java.net.URI
+import java.net.URL
+import java.text.Normalizer
+import java.text.Normalizer.Form.NFD
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.util.Base64
+import kotlin.reflect.KClass
+
+private const val VARIABLE_PREFIX = &quot;{{&quot;
+private const val VARIABLE_SUFFIX = &quot;}}&quot;
+
+<span class="fc" id="L22">private val base64Encoder: Base64.Encoder by lazy { Base64.getEncoder().withoutPadding() }</span>
+<span class="fc" id="L23">private val base64Decoder: Base64.Decoder by lazy { Base64.getDecoder() }</span>
+
+/** Runtime specific end of line. */
+<span class="fc" id="L26">val eol: String by lazy { getProperty(&quot;line.separator&quot;) }</span>
+
+/** Supported types for the [parseOrNull] function. */
+<span class="fc" id="L29">val parsedClasses: Set&lt;KClass&lt;*&gt;&gt; by lazy {</span>
+<span class="fc" id="L30">    setOf(</span>
+<span class="fc" id="L31">        Boolean::class,</span>
+        Int::class,
+        Long::class,
+        Float::class,
+        Double::class,
+        String::class,
+        InetAddress::class,
+        URL::class,
+        URI::class,
+        File::class,
+        LocalDate::class,
+        LocalTime::class,
+        LocalDateTime::class,
+    )
+}
+
+/**
+ * Filter the target string substituting each key by its value. The keys format resembles Mustache's
+ * one: `{{key}}` and all occurrences are replaced by the supplied value.
+ *
+ * If a variable does not have a parameter, it is left as it is.
+ *
+ * @param parameters The map with the list of key/value tuples.
+ * @return The filtered text or the same string if no values are passed or found in the text.
+ * @sample com.hexagonkt.core.text.StringsTest.filterVarsExample
+ */
+fun String.filterVars(parameters: Map&lt;*, *&gt;): String =
+<span class="fc" id="L58">    this.filter(</span>
+<span class="fc" id="L59">        VARIABLE_PREFIX,</span>
+<span class="fc" id="L60">        VARIABLE_SUFFIX,</span>
+<span class="fc" id="L61">        parameters</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            .filterKeys { it != null }</span>
+<span class="fc" id="L63">            .map { (k, v) -&gt; k.toString() to v.toString() }</span>
+<span class="fc" id="L64">            .toMap()</span>
+<span class="fc" id="L65">    )</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param prefix .
+ * @param suffix .
+ * @param parameters .
+ * @return .
+ */
+fun String.filter(prefix: String, suffix: String, parameters: Map&lt;String, *&gt;): String =
+<span class="fc" id="L77">    parameters.entries.fold(this) { result, (first, second) -&gt;</span>
+<span class="fc" id="L78">        result.replace(prefix + first + suffix, second.toString())</span>
+<span class="fc" id="L79">    }</span>
+
+/**
+ * Encode the content of this byteArray to base64.
+ *
+ * @receiver ByteArray to be encoded to base64.
+ * @return The base64 encoded string.
+ */
+fun ByteArray.encodeToBase64(): String =
+<span class="fc" id="L88">    base64Encoder.encodeToString(this)</span>
+
+/**
+ * Encode this string to base64.
+ *
+ * @receiver String to be encoded to base64.
+ * @return The base64 encoded string.
+ */
+fun String.encodeToBase64(): String =
+<span class="fc" id="L97">    toByteArray().encodeToBase64()</span>
+
+/**
+ * Decode this base64 encoded string.
+ *
+ * @receiver String encoded to base64.
+ * @return The ByteArray result of decoding the base64 string.
+ */
+fun String.decodeBase64(): ByteArray =
+<span class="fc" id="L106">    base64Decoder.decode(this)</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param T .
+ * @param type .
+ * @return .
+ */
+@Suppress(&quot;UNCHECKED_CAST&quot;) // All allowed types are checked at runtime
+fun &lt;T : Any&gt; String.parse(type: KClass&lt;T&gt;): T =
+<span class="fc" id="L118">    this.let {</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        require(type in parsedClasses) { &quot;Unsupported type: ${type.qualifiedName}&quot; }</span>
+
+<span class="fc" id="L121">        when (type) {</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">            Boolean::class -&gt; this.toBooleanStrictOrNull()</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">            Int::class -&gt; this.toIntOrNull()</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">            Long::class -&gt; this.toLongOrNull()</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">            Float::class -&gt; this.toFloatOrNull()</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">            Double::class -&gt; this.toDoubleOrNull()</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">            String::class -&gt; this</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">            InetAddress::class -&gt; this.let(InetAddress::getByName)</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">            URL::class -&gt; this.let(::urlOf)</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">            URI::class -&gt; this.let(::URI)</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">            File::class -&gt; this.let(::File)</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">            LocalDate::class -&gt; LocalDate.parse(this)</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">            LocalTime::class -&gt; LocalTime.parse(this)</span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">            LocalDateTime::class -&gt; LocalDateTime.parse(this)</span>
+<span class="nc" id="L135">            else -&gt; error(&quot;Unsupported type: ${type.qualifiedName}&quot;)</span>
+        }
+<span class="fc" id="L137">    } as T</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param T .
+ * @param type .
+ * @return .
+ */
+fun &lt;T : Any&gt; String?.parseOrNull(type: KClass&lt;T&gt;): T? =
+<span class="fc bfc" id="L148" title="All 2 branches covered.">    this?.let {</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        require(type in parsedClasses) { &quot;Unsupported type: ${type.qualifiedName}&quot; }</span>
+<span class="fc" id="L150">        try {</span>
+<span class="fc" id="L151">            parse(type)</span>
+        }
+<span class="fc" id="L153">        catch (e: Exception) {</span>
+<span class="fc" id="L154">            null</span>
+        }
+<span class="fc" id="L156">    }</span>
+
+fun String.stripAnsi(): String =
+<span class="fc" id="L159">    replace(Ansi.REGEX, &quot;&quot;)</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
+fun String.toStream(): InputStream =
+<span class="fc" id="L168">    ByteArrayInputStream(this.toByteArray())</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param count .
+ * @param pad .
+ * @return .
+ */
+<span class="fc" id="L178">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;): String =</span>
+<span class="fc" id="L179">    this.prependIndent(pad.repeat(count))</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param T .
+ * @param converter .
+ * @return .
+ */
+fun &lt;T : Enum&lt;*&gt;&gt; String.toEnum(converter: (String) -&gt; T): T =
+<span class="fc" id="L190">    uppercase().replace(&quot; &quot;, &quot;_&quot;).let(converter)</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param T .
+ * @param converter .
+ * @return .
+ */
+fun &lt;T : Enum&lt;*&gt;&gt; String.toEnumOrNull(converter: (String) -&gt; T): T? =
+<span class="fc" id="L201">    try {</span>
+<span class="fc" id="L202">        toEnum(converter)</span>
+    }
+<span class="fc" id="L204">    catch (e: IllegalArgumentException) {</span>
+<span class="fc" id="L205">        null</span>
+<span class="fc" id="L206">    }</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param text .
+ * @return .
+ */
+fun Regex.findGroups(text: String): List&lt;MatchGroup&gt; =
+<span class="pc bpc" id="L216" title="1 of 4 branches missed.">    (this.find(text)?.groups ?: emptyList&lt;MatchGroup&gt;())</span>
+<span class="fc" id="L217">        .filterNotNull()</span>
+<span class="fc" id="L218">        .drop(1)</span>
+
+/**
+ * Format the string as a banner with a delimiter above and below text. The character used to
+ * render the delimiter is defined.
+ *
+ * @param bannerDelimiter Delimiter char for banners.
+ */
+<span class="fc" id="L226">fun String.banner(bannerDelimiter: String = &quot;*&quot;): String =</span>
+<span class="fc" id="L227">    bannerDelimiter</span>
+<span class="fc" id="L228">        .repeat(this</span>
+<span class="fc" id="L229">            .lines()</span>
+<span class="fc" id="L230">            .asSequence()</span>
+<span class="fc" id="L231">            .map { it.length }</span>
+<span class="fc" id="L232">            .maxOrElse(0)</span>
+        )
+<span class="fc" id="L234">        .let { &quot;$it$eol$this$eol$it&quot; }</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
+fun String.stripAccents(): String =
+<span class="fc" id="L243">    Normalizer.normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param bytes .
+ * @return .
+ */
+fun utf8(vararg bytes: Int): String =
+<span class="fc" id="L252">    String(bytes.map(Int::toByte).toByteArray())</span>
+
+fun String.toEnumValue(): String =
+<span class="fc" id="L255">    trim().uppercase().replace(&quot; &quot;, &quot;_&quot;)</span>
+
+internal fun Sequence&lt;Int&gt;.maxOrElse(fallback: Int): Int =
+<span class="fc bfc" id="L258" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

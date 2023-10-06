@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cases.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.text</a> &gt; <span class="el_source">Cases.kt</span></div><h1>Cases.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.text
+
+<span class="fc" id="L3">val CAMEL_CASE: Regex = Regex(&quot;[a-z]+([A-Z][a-z0-9]+)+&quot;)</span>
+<span class="fc" id="L4">val PASCAL_CASE: Regex = Regex(&quot;([A-Z][a-z0-9]+)+&quot;)</span>
+<span class="fc" id="L5">val SNAKE_CASE: Regex = Regex(&quot;[A-Za-z]+(_[A-Za-z0-9]+)+&quot;)</span>
+<span class="fc" id="L6">val KEBAB_CASE: Regex = Regex(&quot;[A-Za-z]+(-[A-Za-z0-9]+)+&quot;)</span>
+
+fun String.camelToWords(): List&lt;String&gt; =
+<span class="fc" id="L9">    split(&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex()).toWords()</span>
+
+fun String.snakeToWords(): List&lt;String&gt; =
+<span class="fc" id="L12">    split(&quot;_&quot;).toWords()</span>
+
+fun String.kebabToWords(): List&lt;String&gt; =
+<span class="fc" id="L15">    split(&quot;-&quot;).toWords()</span>
+
+fun List&lt;String&gt;.toWords(): List&lt;String&gt; =
+<span class="fc bfc" id="L18" title="All 2 branches covered.">    filter(String::isNotEmpty).map(String::lowercase)</span>
+
+fun List&lt;String&gt;.wordsToCamel(): String =
+<span class="fc bfc" id="L21" title="All 4 branches covered.">    wordsToPascal().replaceFirstChar(Char::lowercase)</span>
+
+fun List&lt;String&gt;.wordsToPascal(): String =
+<span class="pc bpc" id="L24" title="2 of 4 branches missed.">    joinToString(&quot;&quot;) { it.replaceFirstChar(Char::uppercase) }</span>
+
+fun List&lt;String&gt;.wordsToSnake(): String =
+<span class="fc" id="L27">    joinToString(&quot;_&quot;)</span>
+
+fun List&lt;String&gt;.wordsToKebab(): String =
+<span class="fc" id="L30">    joinToString(&quot;-&quot;)</span>
+
+fun List&lt;String&gt;.wordsToTitle(): String =
+<span class="pc bpc" id="L33" title="2 of 4 branches missed.">    joinToString(&quot; &quot;) { it.replaceFirstChar(Char::uppercase) }</span>
+
+fun List&lt;String&gt;.wordsToSentence(): String =
+<span class="pc bpc" id="L36" title="2 of 4 branches missed.">    joinToString(&quot; &quot;).replaceFirstChar(Char::uppercase)</span>
+
+/**
+ * Transform the target string from snake case to camel case.
+ */
+fun String.snakeToCamel(): String =
+<span class="fc" id="L42">    snakeToWords().wordsToCamel()</span>
+
+fun Enum&lt;*&gt;.toWords(): String =
+<span class="fc" id="L45">    toString().lowercase().replace(&quot;_&quot;, &quot; &quot;)</span>
+
+/**
+ * Transform the target string from camel case to snake case.
+ */
+fun String.camelToSnake(): String =
+<span class="fc" id="L51">    camelToWords().wordsToSnake()</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

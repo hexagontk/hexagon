@@ -55,10 +55,10 @@ fun &lt;T&gt; retry(times: Int, delay: Long, block: () -&gt; T): T {
  *
  * TODO Assure JVM closes properly after process execution (dispose process resources, etc.)
  */
-<span class="nc" id="L58">fun List&lt;String&gt;.exec(</span>
-<span class="nc" id="L59">    workingDirectory: File = File(System.getProperty(&quot;user.dir&quot;)),</span>
-<span class="nc" id="L60">    timeout: Long = Long.MAX_VALUE,</span>
-<span class="nc" id="L61">    fail: Boolean = true,</span>
+<span class="fc" id="L58">fun List&lt;String&gt;.exec(</span>
+<span class="fc" id="L59">    workingDirectory: File = File(System.getProperty(&quot;user.dir&quot;)),</span>
+<span class="fc" id="L60">    timeout: Long = Long.MAX_VALUE,</span>
+<span class="fc" id="L61">    fail: Boolean = true,</span>
 ): String {
 
 <span class="fc bfc" id="L64" title="All 2 branches covered.">    val command = filter { it.isNotBlank() }.toTypedArray()</span>
@@ -76,7 +76,7 @@ fun &lt;T&gt; retry(times: Int, delay: Long, block: () -&gt; T): T {
 <span class="fc" id="L76">    val exitValue = process.exitValue()</span>
 <span class="fc" id="L77">    val output = BufferedReader(InputStreamReader(process.inputStream)).readText()</span>
 
-<span class="pc bpc" id="L79" title="1 of 4 branches missed.">    if (fail &amp;&amp; exitValue != 0)</span>
+<span class="fc bfc" id="L79" title="All 4 branches covered.">    if (fail &amp;&amp; exitValue != 0)</span>
 <span class="fc" id="L80">        throw CodedException(exitValue, output)</span>
 
 <span class="fc" id="L82">    return output</span>
@@ -135,7 +135,7 @@ fun &lt;T&gt; retry(times: Int, delay: Long, block: () -&gt; T): T {
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  */
-<span class="nc" id="L138">fun check(message: String = &quot;Multiple exceptions&quot;, vararg blocks: () -&gt; Unit) {</span>
+fun check(message: String, vararg blocks: () -&gt; Unit) {
 <span class="fc" id="L139">    val exceptions: List&lt;Exception&gt; = blocks.mapNotNull {</span>
 <span class="fc" id="L140">        try {</span>
 <span class="fc" id="L141">            it()</span>

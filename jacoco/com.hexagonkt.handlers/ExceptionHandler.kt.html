@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExceptionHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.handlers</a> &gt; <span class="el_source">ExceptionHandler.kt</span></div><h1>ExceptionHandler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.handlers
+
+import kotlin.reflect.KClass
+
+/**
+ * After handlers are executed even if a filter don't call next handler (if after was added before
+ * filter).
+ *
+ * After handlers' filters are always true because they are meant to be evaluated on the **return**.
+ * If they are not called in first place, they won't be executed on the return of the next handler.
+ * Their filter is evaluated after the `next` call, not before.
+ */
+<span class="fc" id="L13">data class ExceptionHandler&lt;T : Any, E : Exception&gt;(</span>
+<span class="fc" id="L14">    val exception: KClass&lt;E&gt;,</span>
+<span class="fc" id="L15">    val clear: Boolean = true,</span>
+<span class="fc" id="L16">    val exceptionCallback: (Context&lt;T&gt;, E) -&gt; Context&lt;T&gt;,</span>
+) : Handler&lt;T&gt; {
+
+<span class="fc" id="L19">    override val predicate: (Context&lt;T&gt;) -&gt; Boolean = { true }</span>
+<span class="fc" id="L20">    override val callback: (Context&lt;T&gt;) -&gt; Context&lt;T&gt; = { context -&gt;</span>
+<span class="fc" id="L21">        exceptionCallback(context, castException(context.exception, exception)).let {</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">            if (clear) it.with(exception = null)</span>
+<span class="fc" id="L23">            else it</span>
+        }
+    }
+
+    override fun process(context: Context&lt;T&gt;): Context&lt;T&gt; {
+<span class="fc" id="L28">        val next = context.next().with(predicate = ::afterPredicate)</span>
+<span class="fc" id="L29">        return try {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">            if (afterPredicate(next)) callback(next)</span>
+<span class="fc" id="L31">            else next</span>
+        }
+<span class="fc" id="L33">        catch (e: Exception) {</span>
+<span class="fc" id="L34">            next.with(exception = e)</span>
+        }
+    }
+
+    private fun afterPredicate(context: Context&lt;T&gt;): Boolean {
+<span class="pc bpc" id="L39" title="1 of 4 branches missed.">        val exceptionClass = context.exception?.javaClass ?: return false</span>
+<span class="fc" id="L40">        return exception.java.isAssignableFrom(exceptionClass)</span>
+    }
+<span class="fc" id="L42">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
