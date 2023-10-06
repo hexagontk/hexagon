@@ -10,6 +10,6 @@ class SerializeRequestCallback: (HttpContext) -> HttpContext {
     override fun invoke(context: HttpContext): HttpContext =
         context.request.contentType?.mediaType
             ?.let(SerializationManager::formatOfOrNull)
-            ?.let { context.request(body = context.request.body.serialize(it)) }
+            ?.let { context.receive(body = context.request.body.serialize(it)) }
             ?: context
 }

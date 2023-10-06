@@ -136,7 +136,7 @@ internal class HttpContextTest {
 
     @Test fun `Context can change the request`() {
         val path = PathHandler(
-            BeforeHandler("*") { request(body = request.bodyString() + "_modified") },
+            BeforeHandler("*") { receive(body = request.bodyString() + "_modified") },
             OnHandler("/test") { ok(body = request.body) },
         )
 
