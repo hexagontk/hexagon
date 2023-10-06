@@ -10,17 +10,17 @@ import com.hexagonkt.core.Jvm.localeCode
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
 
 import java.lang.Runtime.getRuntime
-import com.hexagonkt.core.Ansi.BLUE
-import com.hexagonkt.core.Ansi.BOLD
-import com.hexagonkt.core.Ansi.CYAN
-import com.hexagonkt.core.Ansi.DEFAULT
-import com.hexagonkt.core.Ansi.MAGENTA
-import com.hexagonkt.core.Ansi.RESET
-import com.hexagonkt.core.Ansi.UNDERLINE
+import com.hexagonkt.core.text.Ansi.BLUE
+import com.hexagonkt.core.text.Ansi.BOLD
+import com.hexagonkt.core.text.Ansi.CYAN
+import com.hexagonkt.core.text.Ansi.DEFAULT
+import com.hexagonkt.core.text.Ansi.MAGENTA
+import com.hexagonkt.core.text.Ansi.RESET
+import com.hexagonkt.core.text.Ansi.UNDERLINE
 import com.hexagonkt.core.Jvm.timeZone
 import com.hexagonkt.core.Jvm.totalMemory
 import com.hexagonkt.core.Jvm.usedMemory
-import com.hexagonkt.core.prependIndent
+import com.hexagonkt.core.text.prependIndent
 import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.handlers.HttpHandler

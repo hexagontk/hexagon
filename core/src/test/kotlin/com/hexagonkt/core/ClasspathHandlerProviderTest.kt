@@ -17,6 +17,16 @@ internal class ClasspathHandlerProviderTest {
         ClasspathHandler.registerHandler()
     }
 
+    @Test fun `Classpath utilities`() {
+        // classpath
+        // TODO
+        // classpath
+
+        // resourceNotFound
+        // TODO
+        // resourceNotFound
+    }
+
     @Test fun `Registering classpath handler twice does not fail`() {
         ClasspathHandler.registerHandler()
     }

@@ -65,7 +65,7 @@ project itself. These are internal modules not intended to be directly used by u
 [site]: https://github.com/hexagonkt/hexagon/blob/master/site/README.md
 
 ## Local Setup
-Hexagon build process requires a JDK 17+ to compile. You can check the required software, build the
+Hexagon build process requires a JDK 21+ to compile. You can check the required software, build the
 project, generate the documentation and install it in your local repository typing:
 
 ```bash

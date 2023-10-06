@@ -14,6 +14,12 @@ import kotlin.test.assertNull
 
 internal class MediaTypesTest {
 
+    @Test fun `Media types utilities`() {
+        // mediaTypes
+        // TODO
+        // mediaTypes
+    }
+
     @Test fun `Parse correct media types`() {
         MediaType("*/*").apply {
             assertEquals(ANY, group)
@@ -96,6 +102,16 @@ internal class MediaTypesTest {
         assertEquals(
             "Media type not found for: 'file.baz' file",
             assertFailsWith<IllegalStateException> { mediaTypeOf(File("file.baz")) }.message
+        )
+
+        assertEquals(
+            "Media type not found for: 'file' path",
+            assertFailsWith<IllegalStateException> { mediaTypeOf(Path.of("file")) }.message
+        )
+
+        assertEquals(
+            "Media type not found for: 'file.baz' path",
+            assertFailsWith<IllegalStateException> { mediaTypeOf(Path.of("file.baz")) }.message
         )
 
         assertEquals(

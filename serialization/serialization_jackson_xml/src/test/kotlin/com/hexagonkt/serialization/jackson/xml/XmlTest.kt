@@ -1,6 +1,7 @@
 package com.hexagonkt.serialization.jackson.xml
 
 import com.hexagonkt.core.*
+import com.hexagonkt.core.text.toStream
 import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

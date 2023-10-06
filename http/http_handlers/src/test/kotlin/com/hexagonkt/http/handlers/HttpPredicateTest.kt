@@ -44,7 +44,7 @@ internal class HttpPredicateTest {
 
     @Test fun `Predicate without filter works properly`() {
         setOf(HttpPredicate(pattern = "*"), HttpPredicate(ALL, "*")).forEach {
-            HttpMethod.values().forEach { method ->
+            entries.forEach { method ->
                 HttpStatus.codes.values.forEach { status ->
                     listOf("/", "/a").forEach { pattern ->
                         assertTrue(it.predicate(serverContext(method, pattern, status)))
@@ -75,7 +75,7 @@ internal class HttpPredicateTest {
 
     @Test fun `Predicate with exception filter works properly`() {
         HttpPredicate(pattern = "*", exception = RuntimeException::class).let {
-            HttpMethod.values().forEach { method ->
+            entries.forEach { method ->
                 HttpStatus.codes.values.forEach { status ->
                     listOf("/", "/a").forEach { pattern ->
                         val c1 = serverContext(method, pattern, status, RuntimeException())
@@ -94,7 +94,7 @@ internal class HttpPredicateTest {
 
     @Test fun `Predicate with status filter works properly`() {
         HttpPredicate(pattern = "*", status = OK_200).let {
-            HttpMethod.values().forEach { method ->
+            entries.forEach { method ->
                 listOf("/", "/a").forEach { pattern ->
                     assertTrue(it.predicate(serverContext(method, pattern, OK_200)))
                     (HttpStatus.codes.values.toList() - OK_200).forEach { status ->
@@ -111,12 +111,12 @@ internal class HttpPredicateTest {
             exception = RuntimeException::class,
             status = OK_200).let {
 
-            HttpMethod.values().forEach { method ->
+            entries.forEach { method ->
                 assertTrue(it.predicate(serverContext(method, "/a", OK_200, RuntimeException())))
                 assertTrue(it.predicate(serverContext(method, "/a", OK_200, IllegalStateException())))
             }
 
-            HttpMethod.values().forEach { method ->
+            entries.forEach { method ->
                 listOf("/b", "/c").forEach { pattern ->
                     listOf(null, IOException()).forEach { exception ->
                         (HttpStatus.codes.values.toList() - OK_200).forEach { status ->
@@ -132,7 +132,7 @@ internal class HttpPredicateTest {
             pathPattern = LiteralPathPattern("/a"),
             exception = RuntimeException::class).let {
 
-            HttpMethod.values().forEach { method ->
+            entries.forEach { method ->
                 HttpStatus.codes.values.toList().forEach { status ->
                     listOf(RuntimeException(), IllegalStateException()).forEach { exception ->
                         assertTrue(it.predicate(serverContext(method, "/a", status, exception)))
@@ -141,7 +141,7 @@ internal class HttpPredicateTest {
                 }
             }
 
-            HttpMethod.values().forEach { method ->
+            entries.forEach { method ->
                 listOf("/b", "/c").forEach { pattern ->
                     listOf(null, IOException()).forEach { exception ->
                         HttpStatus.codes.values.toList().forEach { status ->
@@ -170,7 +170,7 @@ internal class HttpPredicateTest {
                 assertFalse(it.predicate(serverContext(method, "/a", OK_200, IllegalStateException())))
             }
 
-            HttpMethod.values().forEach { method ->
+            entries.forEach { method ->
                 listOf("/b", "/c").forEach { pattern ->
                     listOf(null, IOException()).forEach { exception ->
                         (HttpStatus.codes.values.toList() - OK_200).forEach { status ->

@@ -18,7 +18,4 @@ dependencies {
     "api"("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 
     "testImplementation"("org.jetbrains.kotlin:kotlin-reflect")
-    "testImplementation"("com.fasterxml.jackson.module:jackson-module-kotlin") {
-        exclude("org.jetbrains.kotlin")
-    }
 }

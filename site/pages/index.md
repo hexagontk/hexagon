@@ -35,7 +35,7 @@ principles also fit into this architecture.
 # Hello World
 Simple Hello World HTTP example.
 
-@code http/http_test/src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt?hello_world
+@code http/http_server_jetty/src/test/kotlin/com/hexagonkt/http/server/jetty/HelloWorldTest.kt?hello_world
 
 You can check the [code examples] and [demo projects] for more complex use cases.
 

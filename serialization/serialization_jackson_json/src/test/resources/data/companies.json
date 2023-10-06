@@ -5,7 +5,7 @@
     closeTime : "11:42",
     openTime : {
       start : "08:30",
-      endInclusive : "14:51:00"
+      end : "14:51:00"
     },
     "web" : "http://example.org",
     "clients" : [

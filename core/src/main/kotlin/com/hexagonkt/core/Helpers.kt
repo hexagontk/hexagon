@@ -135,7 +135,7 @@ fun String.shell(
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  */
-fun check(message: String = "Multiple exceptions", vararg blocks: () -> Unit) {
+fun check(message: String, vararg blocks: () -> Unit) {
     val exceptions: List<Exception> = blocks.mapNotNull {
         try {
             it()

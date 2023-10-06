@@ -1,10 +1,7 @@
 package com.hexagonkt.handlers
 
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
-import kotlin.test.assertTrue
-import kotlin.test.fail
+import kotlin.test.*
 
 internal class HandlerTest {
 

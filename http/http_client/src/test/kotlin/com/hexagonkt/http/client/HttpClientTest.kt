@@ -141,7 +141,7 @@ internal class HttpClientTest {
 
     @Test fun `Handlers filter requests and responses`() {
         val handler = FilterHandler {
-            val next = request(body = "p_" + request.bodyString()).next()
+            val next = receive(body = "p_" + request.bodyString()).next()
             next.send(body = next.request.bodyString() + next.response.bodyString() + "_s")
         }
         val client = HttpClient(VoidAdapter, handler = handler)

@@ -3,10 +3,18 @@ package com.hexagonkt.core
 import org.junit.jupiter.api.Test
 import kotlin.IllegalArgumentException
 import java.net.Inet4Address
+import java.net.InetAddress
 import java.net.URI
+import java.net.URL
 import kotlin.test.*
 
 internal class JvmTest {
+
+    @Test fun `Jvm utilities`() {
+        // jvm
+        // TODO
+        // jvm
+    }
 
     @Test fun `'systemFlag' fails with a blank setting name`() {
         assertFailsWith<IllegalArgumentException> { Jvm.systemFlag("") }
@@ -69,6 +77,15 @@ internal class JvmTest {
         System.setProperty("invalidURI", "_")
         System.setProperty("string", "text")
         System.setProperty("error", "value")
+
+        assertEquals(true, Jvm.systemSetting(Boolean::class, "validBoolean"))
+        assertEquals(123, Jvm.systemSetting(Int::class, "validInt"))
+        assertEquals(456L, Jvm.systemSetting(Long::class, "validLong"))
+        assertEquals(0.5F, Jvm.systemSetting(Float::class, "validFloat"))
+        assertEquals(1.5, Jvm.systemSetting(Double::class, "validDouble"))
+        assertEquals(LOOPBACK_INTERFACE, Jvm.systemSetting(InetAddress::class, "validInetAddress"))
+        assertEquals(urlOf("http://localhost:1234/path"), Jvm.systemSetting(URL::class, "validURL"))
+        assertEquals(URI("ws://localhost:1234/path"), Jvm.systemSetting(URI::class, "validURI"))
 
         assertEquals(true, Jvm.systemSetting("validBoolean"))
         assertEquals(123, Jvm.systemSetting("validInt"))

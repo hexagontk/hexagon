@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.callbacks
 
-import com.hexagonkt.core.Glob
+import com.hexagonkt.core.text.Glob
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.HttpMethod.OPTIONS

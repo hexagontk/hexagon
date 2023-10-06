@@ -19,7 +19,10 @@ dependencies {
     "api"("org.eclipse.jetty.http2:jetty-http2-server:$jettyVersion")
     "api"("org.eclipse.jetty:jetty-alpn-java-server:$jettyVersion")
 
+    "testImplementation"(project(":http:http_test"))
     "testImplementation"(project(":http:http_client_jetty_ws"))
+    "testImplementation"(project(":serialization:serialization_jackson_json"))
+    "testImplementation"(project(":serialization:serialization_jackson_yaml"))
     "testImplementation"(
         "org.eclipse.jetty.ee10.websocket:jetty-ee10-websocket-jakarta-server:$jettyVersion"
     )

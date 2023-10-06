@@ -1,6 +1,6 @@
 package com.hexagonkt.logging.jul
 
-import com.hexagonkt.core.Ansi
+import com.hexagonkt.core.text.Ansi
 import com.hexagonkt.core.fail
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test

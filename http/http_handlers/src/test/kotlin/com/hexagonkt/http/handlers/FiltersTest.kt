@@ -1,6 +1,6 @@
 package com.hexagonkt.http.handlers
 
-import com.hexagonkt.core.decodeBase64
+import com.hexagonkt.core.text.decodeBase64
 import com.hexagonkt.http.model.FORBIDDEN_403
 import com.hexagonkt.http.model.UNAUTHORIZED_401
 import com.hexagonkt.http.model.Header

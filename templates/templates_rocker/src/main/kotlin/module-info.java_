@@ -1,0 +1,11 @@
+
+// TODO Rename this file when build script is able to handle automatic modules
+module com.hexagonkt.templates_rocker {
+
+    requires transitive kotlin.stdlib;
+    requires transitive com.hexagonkt.templates;
+
+    requires rocker.runtime;
+
+    exports com.hexagonkt.templates.rocker;
+}

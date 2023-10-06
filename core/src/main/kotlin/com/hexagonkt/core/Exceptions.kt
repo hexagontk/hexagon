@@ -1,5 +1,7 @@
 package com.hexagonkt.core
 
+import com.hexagonkt.core.text.eol
+
 /**
  * This flag is true when assertions are enabled in the JVM (`-ea` flag). Assertions are disabled by
  * default in the JVM, but they are enabled (and should be that way) on the tests.

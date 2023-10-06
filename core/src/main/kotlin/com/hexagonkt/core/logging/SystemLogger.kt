@@ -23,6 +23,6 @@ data class SystemLogger(val name: String) : LoggerPort {
             INFO -> System.Logger.Level.INFO
             WARN -> System.Logger.Level.WARNING
             ERROR -> System.Logger.Level.ERROR
-            OFF -> System.Logger.Level.OFF
+            OFF -> error("OFF Level not allowed for a logging message")
         }
 }

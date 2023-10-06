@@ -79,7 +79,6 @@ sourceSets.main.java.srcDirs = sourceSets.main.kotlin.srcDirs
 tasks.compileJava.destinationDirectory.set(tasks.compileKotlin.destinationDirectory)
 
 tasks.compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
-tasks.compileKotlin.kotlinOptions.apiVersion = "1.8"
 
 tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
 tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion

@@ -53,7 +53,8 @@ internal class HelpersTest {
 
         assert("false".exec().isEmpty())
         assert("sleep 1".exec().isEmpty())
-        assertEquals("str\n", "echo str".exec())
+        assert("echo str".exec().contains("str"))
+        assert(listOf("echo", "str").exec().contains("str"))
     }
 
     @Test

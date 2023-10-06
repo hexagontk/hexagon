@@ -97,10 +97,10 @@ task("mkDocs") {
 task("checkDocs") {
     dependsOn("mkDocs")
     doLast {
-        val src = "http/http_test/src"
         val readme = rootProject.file("README.md")
-        val service = rootProject.file("$src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt")
-        val examples = "$src/main/kotlin/com/hexagonkt/http/test/examples"
+        val helloWorld = "com/hexagonkt/http/server/jetty/HelloWorldTest.kt"
+        val service = rootProject.file("http/http_server_jetty/src/test/kotlin/$helloWorld")
+        val examples = "http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples"
 
         checkSampleCode(readme, rootProject.file(service), "hello_world")
         checkSampleCode(readme, rootProject.file("$examples/BooksTest.kt"), "books")

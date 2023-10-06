@@ -15,7 +15,6 @@ dependencies {
     "api"(project(":http:http_server"))
     "api"(project(":templates:templates"))
 
-    "testImplementation"(project(":logging:logging_jul"))
     "testImplementation"(project(":http:http_client_jetty"))
     "testImplementation"(project(":http:http_server_jetty"))
     "testImplementation"(project(":templates:templates_pebble"))
