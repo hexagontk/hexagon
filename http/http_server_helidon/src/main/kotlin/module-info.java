@@ -1,5 +1,5 @@
 
-module com.hexagonkt.http_server_nima {
+module com.hexagonkt.http_server_helidon {
 
     requires transitive kotlin.stdlib;
     requires transitive com.hexagonkt.http;
@@ -10,5 +10,5 @@ module com.hexagonkt.http_server_nima {
     requires transitive io.helidon.http.media.multipart;
     requires transitive io.helidon.webserver.http2;
 
-    exports com.hexagonkt.http.server.nima;
+    exports com.hexagonkt.http.server.helidon;
 }
