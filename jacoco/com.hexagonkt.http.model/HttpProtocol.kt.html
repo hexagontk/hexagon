@@ -3,14 +3,14 @@
 /**
  * Supported HTTP protocols.
  */
-<span class="fc" id="L6">enum class HttpProtocol(val schema: String) {</span>
+<span class="fc" id="L6">enum class HttpProtocol(val schema: String, val secure: Boolean) {</span>
     /** HTTP. */
-<span class="fc" id="L8">    HTTP(&quot;http&quot;),</span>
+<span class="fc" id="L8">    HTTP(&quot;http&quot;, false),</span>
     /** HTTPS. */
-<span class="fc" id="L10">    HTTPS(&quot;https&quot;),</span>
+<span class="fc" id="L10">    HTTPS(&quot;https&quot;, true),</span>
     /** HTTP/2. */
-<span class="fc" id="L12">    HTTP2(&quot;https&quot;),</span>
+<span class="fc" id="L12">    HTTP2(&quot;https&quot;, true),</span>
     /** HTTP/2 clear text. */
-<span class="fc" id="L14">    H2C(&quot;http&quot;),</span>
+<span class="fc" id="L14">    H2C(&quot;http&quot;, false),</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

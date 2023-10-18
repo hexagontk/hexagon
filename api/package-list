@@ -25,14 +25,14 @@ com.hexagonkt.http.handlers
 module:http_server
 com.hexagonkt.http.server
 com.hexagonkt.http.server.callbacks
+module:http_server_helidon
+com.hexagonkt.http.server.helidon
 module:http_server_jetty
 com.hexagonkt.http.server.jetty
 module:http_server_netty
 com.hexagonkt.http.server.netty
 module:http_server_netty_epoll
 com.hexagonkt.http.server.netty.epoll
-module:http_server_nima
-com.hexagonkt.http.server.nima
 module:http_server_servlet
 com.hexagonkt.http.server.servlet
 module:http_test

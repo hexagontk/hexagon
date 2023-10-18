@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.bd3936ea.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.35e1ed30.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
@@ -2298,7 +2298,7 @@ code below for an example:</p>
 
 <span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Headers</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;accept-encoding&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;gzip&quot;</span><span class="p">))).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">body</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">headers</span><span class="o">[</span><span class="s">&quot;content-encoding&quot;</span><span class="o">]?.</span><span class="na">string</span><span class="p">()</span><span class="o">?.</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;gzip&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// &#39;content-encoding&#39; cannot be checked, the header is removed when response is decoded</span>
 <span class="p">}</span>
 
 <span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
@@ -2555,7 +2555,7 @@ HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the H
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.94c44541.min.js"></script>
+      <script src="../assets/javascripts/bundle.aecac24b.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       
