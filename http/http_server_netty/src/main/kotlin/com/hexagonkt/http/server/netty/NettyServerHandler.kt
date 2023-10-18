@@ -32,6 +32,7 @@ import io.netty.handler.ssl.SslHandshakeCompletionEvent
 import java.net.InetSocketAddress
 import java.security.cert.X509Certificate
 import java.util.concurrent.Flow.*
+import com.hexagonkt.http.model.HttpRequest as HexagonHttpRequest
 
 internal class NettyServerHandler(
     private val handlers: Map<HttpMethod, HttpHandler>,
@@ -56,13 +57,13 @@ internal class NettyServerHandler(
         val method = nettyRequest.method()
         val pathHandler = handlers[method]
 
-        if (pathHandler == null) {
-            writeResponse(context, HttpResponse(), HttpUtil.isKeepAlive(nettyRequest))
-            return
-        }
-
         val headers = nettyRequest.headers()
         val request = NettyRequestAdapter(method, nettyRequest, certificates, address, headers)
+
+        if (pathHandler == null) {
+            writeResponse(context, request, HttpResponse(), HttpUtil.isKeepAlive(nettyRequest))
+            return
+        }
 
         val resultContext = pathHandler.process(request)
         val response = resultContext.event.response
@@ -78,14 +79,18 @@ internal class NettyServerHandler(
             && response.status == ACCEPTED_202
 
         when {
-            isSse -> handleSse(context, response, body)
+            isSse -> handleSse(context, request, response, body)
             isWebSocket -> handleWebSocket(context, resultContext, response, nettyRequest, channel)
-            else -> writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))
+            else -> writeResponse(context, request, response, HttpUtil.isKeepAlive(nettyRequest))
         }
     }
 
     @Suppress("UNCHECKED_CAST") // Body not cast to Publisher<HttpServerEvent> due to type erasure
-    private fun handleSse(context: ChannelHandlerContext, response: HttpResponsePort, body: Any) {
+    private fun handleSse(
+        context: ChannelHandlerContext,
+        hexagonRequest: HttpRequestPort,
+        response: HttpResponsePort, body: Any,
+    ) {
         val status = nettyStatus(response.status)
         val nettyResponse = DefaultHttpResponse(HTTP_1_1, status)
         val headers = nettyResponse.headers()
@@ -95,8 +100,10 @@ internal class NettyServerHandler(
             hexagonHeaders.values.map { (k, v) -> headers.add(k, v) }
 
         val hexagonCookies = response.cookies
-        if (hexagonCookies.isNotEmpty())
-            headers[SET_COOKIE] = STRICT_ENCODER.encode(nettyCookies(hexagonCookies))
+        if (hexagonCookies.isNotEmpty()) {
+            val cookies = nettyCookies(hexagonRequest.protocol.secure, hexagonCookies)
+            headers[SET_COOKIE] = STRICT_ENCODER.encode(cookies)
+        }
 
         val contentType = response.contentType
         if (contentType != null)
@@ -172,11 +179,12 @@ internal class NettyServerHandler(
     override fun exceptionCaught(context: ChannelHandlerContext, cause: Throwable) {
         val body = "Failure: $cause\n"
         val response = HttpResponse(body, status = INTERNAL_SERVER_ERROR_500)
-        writeResponse(context, response, false)
+        writeResponse(context, HexagonHttpRequest(), response, false)
     }
 
     private fun writeResponse(
         context: ChannelHandlerContext,
+        hexagonRequest: HttpRequestPort,
         hexagonResponse: HttpResponsePort,
         keepAlive: Boolean,
     ) {
@@ -190,8 +198,10 @@ internal class NettyServerHandler(
             hexagonHeaders.values.map { (k, v) -> headers.add(k, v) }
 
         val hexagonCookies = hexagonResponse.cookies
-        if (hexagonCookies.isNotEmpty())
-            headers[SET_COOKIE] = STRICT_ENCODER.encode(nettyCookies(hexagonCookies))
+        if (hexagonCookies.isNotEmpty()) {
+            val cookies = nettyCookies(hexagonRequest.protocol.secure, hexagonCookies)
+            headers[SET_COOKIE] = STRICT_ENCODER.encode(cookies)
+        }
 
         val contentType = hexagonResponse.contentType
         if (contentType != null)
@@ -207,27 +217,29 @@ internal class NettyServerHandler(
         }
     }
 
-    private fun nettyCookies(hexagonCookies: List<Cookie>) =
-        hexagonCookies.map {
-            DefaultCookie(it.name, it.value).apply {
-                if (it.maxAge != -1L)
-                    setMaxAge(it.maxAge)
-                isSecure = it.secure
-                setPath(it.path)
-                setDomain(it.domain)
-                isHttpOnly = it.httpOnly
-                it.domain?.let(::setDomain)
-                it.sameSite
-                    ?.let { ss ->
-                        when (ss) {
-                            STRICT -> Strict
-                            LAX -> Lax
-                            NONE -> None
+    private fun nettyCookies(secureRequest: Boolean, hexagonCookies: List<Cookie>) =
+        hexagonCookies
+            .filter { if (secureRequest) true else !it.secure }
+            .map {
+                DefaultCookie(it.name, it.value).apply {
+                    if (it.maxAge != -1L)
+                        setMaxAge(it.maxAge)
+                    isSecure = it.secure
+                    setPath(it.path)
+                    setDomain(it.domain)
+                    isHttpOnly = it.httpOnly
+                    it.domain?.let(::setDomain)
+                    it.sameSite
+                        ?.let { ss ->
+                            when (ss) {
+                                STRICT -> Strict
+                                LAX -> Lax
+                                NONE -> None
+                            }
                         }
-                    }
-                    ?.let(::setSameSite)
+                        ?.let(::setSameSite)
+                }
             }
-        }
 
     internal fun nettyStatus(status: HttpStatus): HttpResponseStatus =
         when (status) {

@@ -9,15 +9,15 @@ apply(from = "$rootDir/gradle/dokka.gradle")
 apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
-description = "HTTP server adapter for Helidon Nima (using Java Virtual Threads)."
+description = "HTTP server adapter for Helidon (using Java Virtual Threads)."
 
 dependencies {
-    val nimaVersion = properties["nimaVersion"]
+    val helidonVersion = properties["helidonVersion"]
 
     "api"(project(":http:http_server"))
-    "api"("io.helidon.webserver:helidon-webserver-http2:$nimaVersion")
-    "api"("io.helidon.http.encoding:helidon-http-encoding-gzip:$nimaVersion")
-    "api"("io.helidon.http.media:helidon-http-media-multipart:$nimaVersion")
+    "api"("io.helidon.webserver:helidon-webserver-http2:$helidonVersion")
+    "api"("io.helidon.http.encoding:helidon-http-encoding-gzip:$helidonVersion")
+    "api"("io.helidon.http.media:helidon-http-media-multipart:$helidonVersion")
 
     "testImplementation"(project(":http:http_test"))
     "testImplementation"(project(":http:http_client_jetty"))

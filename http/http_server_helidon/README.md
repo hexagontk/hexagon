@@ -1,10 +1,10 @@
 
-# Module http_server_nima
-[Helidon Nima] adapter for the [http_server] port.
+# Module http_server_helidon
+[Helidon] adapter for the [http_server] port.
 
 ## This adapter is in ALPHA state!
 
-[Helidon Nima]: https://helidon.io/nima
+[Helidon]: https://helidon.io
 [http_server]: /http_server
 
 ### Install the Dependency
@@ -17,7 +17,7 @@
     }
 
     dependencies {
-      implementation("com.hexagonkt:http_server_nima:$hexagonVersion")
+      implementation("com.hexagonkt:http_server_helidon:$hexagonVersion")
     }
     ```
 
@@ -26,10 +26,10 @@
     ```xml
     <dependency>
       <groupId>com.hexagonkt</groupId>
-      <artifactId>http_server_nima</artifactId>
+      <artifactId>http_server_helidon</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```
 
-# Package com.hexagonkt.http.server.nima
-Code implementing the Helidon Nima HTTP server adapter.
+# Package com.hexagonkt.http.server.helidon
+Code implementing the Helidon HTTP server adapter.

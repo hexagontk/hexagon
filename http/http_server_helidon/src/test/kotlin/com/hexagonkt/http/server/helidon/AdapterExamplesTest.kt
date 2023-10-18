@@ -1,4 +1,4 @@
-package com.hexagonkt.http.server.nima
+package com.hexagonkt.http.server.helidon
 
 import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
@@ -17,7 +17,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 val clientAdapter: () -> JettyClientAdapter = ::JettyClientAdapter
-val serverAdapter: () -> NimaServerAdapter = ::NimaServerAdapter
+val serverAdapter: () -> HelidonServerAdapter = ::HelidonServerAdapter
 val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 
 internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)

@@ -3,6 +3,8 @@ package com.hexagonkt.http.model
 import com.hexagonkt.http.model.HttpProtocol.*
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 internal class HttpProtocolTest {
 
@@ -11,5 +13,9 @@ internal class HttpProtocolTest {
         assertEquals("https", HTTPS.schema)
         assertEquals("https", HTTP2.schema)
         assertEquals("http", H2C.schema)
+        assertFalse(HTTP.secure)
+        assertTrue(HTTPS.secure)
+        assertTrue(HTTP2.secure)
+        assertFalse(H2C.secure)
     }
 }

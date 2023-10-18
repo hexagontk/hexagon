@@ -1,4 +1,4 @@
-package com.hexagonkt.http.server.nima
+package com.hexagonkt.http.server.helidon
 
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.core.media.MediaTypeGroup
@@ -11,7 +11,7 @@ import io.helidon.webserver.http.ServerRequest
 import java.security.cert.X509Certificate
 import kotlin.jvm.optionals.getOrNull
 
-class NimaRequestAdapter(
+class HelidonRequestAdapter(
     methodName: Method,
     req: ServerRequest,
 ) : HttpRequestPort {

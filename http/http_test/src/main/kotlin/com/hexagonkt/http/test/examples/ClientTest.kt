@@ -155,13 +155,13 @@ abstract class ClientTest(
         val responseC4 = response.cookiesMap().require("c4")
         assertEquals("v4", responseC4.value)
         assertTrue(responseC4.maxAge in 59..60)
-        assertEquals(Cookie("c5", "v5", domain = "localhost"), response.cookiesMap()["c5"])
+        assertEquals(Cookie("c5", "v5"), response.cookiesMap()["c5"])
         assertNull(response.cookiesMap()["c6"])
 
         val clientC4 = client.cookiesMap().require("c4")
         assertEquals("v4", clientC4.value)
         assertTrue(clientC4.maxAge in 59..60)
-        assertEquals(Cookie("c5", "v5", domain = "localhost"), client.cookiesMap()["c5"])
+        assertEquals(Cookie("c5", "v5"), client.cookiesMap()["c5"])
         assertNull(client.cookiesMap()["c6"])
     }
 

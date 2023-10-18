@@ -1,4 +1,4 @@
-package com.hexagonkt.http.server.nima
+package com.hexagonkt.http.server.helidon
 
 import com.hexagonkt.core.fieldsMapOf
 import com.hexagonkt.core.security.loadKeyStore
@@ -29,22 +29,22 @@ import javax.net.ssl.SSLParameters
 import javax.net.ssl.TrustManagerFactory
 
 /**
- * Implements [HttpServerPort] using Helidon Nima.
+ * Implements [HttpServerPort] using Helidon.
  */
-class NimaServerAdapter : HttpServerPort {
+class HelidonServerAdapter : HttpServerPort {
 
     private companion object {
-        const val START_ERROR_MESSAGE = "Nima server not started correctly"
+        const val START_ERROR_MESSAGE = "Helidon server not started correctly"
     }
 
-    private var nimaServer: WebServer? = null
+    private var helidonServer: WebServer? = null
 
     override fun runtimePort(): Int {
-        return nimaServer?.port() ?: error(START_ERROR_MESSAGE)
+        return helidonServer?.port() ?: error(START_ERROR_MESSAGE)
     }
 
     override fun started() =
-        nimaServer?.isRunning ?: false
+        helidonServer?.isRunning ?: false
 
     override fun startUp(server: HttpServer) {
         val settings = server.settings
@@ -60,11 +60,11 @@ class NimaServerAdapter : HttpServerPort {
             .host(settings.bindAddress.hostName)
             .port(settings.bindPort)
             .routing {
-                it.any({ nimaRequest, nimaResponse ->
-                    val method = nimaRequest.prologue().method()
-                    val request = NimaRequestAdapter(method, nimaRequest)
+                it.any({ helidonRequest, helidonResponse ->
+                    val method = helidonRequest.prologue().method()
+                    val request = HelidonRequestAdapter(method, helidonRequest)
                     val response = handlers[method]?.process(request)?.response ?: HttpResponse()
-                    setResponse(response, nimaResponse)
+                    setResponse(request.protocol.secure, response, helidonResponse)
                 })
             }
 
@@ -76,13 +76,13 @@ class NimaServerAdapter : HttpServerPort {
                     .sslContext(sslContext(sslSettings))
             }
 
-        nimaServer = serverBuilder.build()
+        helidonServer = serverBuilder.build()
 
-        nimaServer?.start() ?: error(START_ERROR_MESSAGE)
+        helidonServer?.start() ?: error(START_ERROR_MESSAGE)
     }
 
     override fun shutDown() {
-        nimaServer?.stop() ?: error(START_ERROR_MESSAGE)
+        helidonServer?.stop() ?: error(START_ERROR_MESSAGE)
     }
 
     override fun supportedProtocols(): Set<HttpProtocol> =
@@ -92,41 +92,47 @@ class NimaServerAdapter : HttpServerPort {
         setOf(ZIP)
 
     override fun options(): Map<String, *> =
-        fieldsMapOf<NimaServerAdapter>()
+        fieldsMapOf<HelidonServerAdapter>()
 
-    private fun setResponse(response: HttpResponsePort, nimaResponse: ServerResponse) {
+    private fun setResponse(
+        secureRequest: Boolean,
+        response: HttpResponsePort,
+        helidonResponse: ServerResponse
+    ) {
         try {
-            nimaResponse.status(Status.create(response.status.code))
+            helidonResponse.status(Status.create(response.status.code))
 
             response.headers.values.forEach {
-                nimaResponse.header(HeaderNames.create(it.name), *it.strings().toTypedArray())
+                helidonResponse.header(HeaderNames.create(it.name), *it.strings().toTypedArray())
             }
 
-            val headers = nimaResponse.headers()
-            response.cookies.forEach {
-                val cookie = SetCookie
-                    .builder(it.name, it.value)
-                    .maxAge(Duration.ofSeconds(it.maxAge))
-                    .path(it.path)
-                    .httpOnly(it.httpOnly)
-                    .secure(it.secure)
+            val headers = helidonResponse.headers()
+            response.cookies
+                .filter { if (secureRequest) true else !it.secure }
+                .forEach {
+                    val cookie = SetCookie
+                        .builder(it.name, it.value)
+                        .maxAge(Duration.ofSeconds(it.maxAge))
+                        .path(it.path)
+                        .httpOnly(it.httpOnly)
+                        .secure(it.secure)
 
-                if (it.expires != null)
-                    cookie.expires(it.expires)
+                    if (it.expires != null)
+                        cookie.expires(it.expires)
 
-                if (it.deleted)
-                    headers.clearCookie(it.name)
-                else
-                    headers.addCookie(cookie.build())
-            }
+                    if (it.deleted)
+                        headers.clearCookie(it.name)
+                    else
+                        headers.addCookie(cookie.build())
+                }
 
             response.contentType?.let { ct -> headers.contentType(HttpMediaType.create(ct.text)) }
 
-            nimaResponse.send(bodyToBytes(response.body))
+            helidonResponse.send(bodyToBytes(response.body))
         }
         catch (e: Exception) {
-            nimaResponse.status(Status.INTERNAL_SERVER_ERROR_500)
-            nimaResponse.send(bodyToBytes(e.toText()))
+            helidonResponse.status(Status.INTERNAL_SERVER_ERROR_500)
+            helidonResponse.send(bodyToBytes(e.toText()))
         }
     }
 
