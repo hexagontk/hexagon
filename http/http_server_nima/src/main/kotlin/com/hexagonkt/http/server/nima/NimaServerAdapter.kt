@@ -64,7 +64,7 @@ class NimaServerAdapter : HttpServerPort {
                     val method = nimaRequest.prologue().method()
                     val request = NimaRequestAdapter(method, nimaRequest)
                     val response = handlers[method]?.process(request)?.response ?: HttpResponse()
-                    setResponse(response, nimaResponse)
+                    setResponse(request.protocol.secure, response, nimaResponse)
                 })
             }
 
@@ -94,7 +94,11 @@ class NimaServerAdapter : HttpServerPort {
     override fun options(): Map<String, *> =
         fieldsMapOf<NimaServerAdapter>()
 
-    private fun setResponse(response: HttpResponsePort, nimaResponse: ServerResponse) {
+    private fun setResponse(
+        secureRequest: Boolean,
+        response: HttpResponsePort,
+        nimaResponse: ServerResponse
+    ) {
         try {
             nimaResponse.status(Status.create(response.status.code))
 
@@ -103,22 +107,24 @@ class NimaServerAdapter : HttpServerPort {
             }
 
             val headers = nimaResponse.headers()
-            response.cookies.forEach {
-                val cookie = SetCookie
-                    .builder(it.name, it.value)
-                    .maxAge(Duration.ofSeconds(it.maxAge))
-                    .path(it.path)
-                    .httpOnly(it.httpOnly)
-                    .secure(it.secure)
+            response.cookies
+                .filter { if (secureRequest) true else !it.secure }
+                .forEach {
+                    val cookie = SetCookie
+                        .builder(it.name, it.value)
+                        .maxAge(Duration.ofSeconds(it.maxAge))
+                        .path(it.path)
+                        .httpOnly(it.httpOnly)
+                        .secure(it.secure)
 
-                if (it.expires != null)
-                    cookie.expires(it.expires)
+                    if (it.expires != null)
+                        cookie.expires(it.expires)
 
-                if (it.deleted)
-                    headers.clearCookie(it.name)
-                else
-                    headers.addCookie(cookie.build())
-            }
+                    if (it.deleted)
+                        headers.clearCookie(it.name)
+                    else
+                        headers.addCookie(cookie.build())
+                }
 
             response.contentType?.let { ct -> headers.contentType(HttpMediaType.create(ct.text)) }
 

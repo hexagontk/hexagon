@@ -5,6 +5,7 @@ module com.hexagonkt.http_server_netty {
     requires transitive com.hexagonkt.http;
     requires transitive com.hexagonkt.http_server;
 
+    requires io.netty.common;
     requires io.netty.buffer;
     requires io.netty.codec;
     requires io.netty.codec.http;
