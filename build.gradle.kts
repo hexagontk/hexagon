@@ -18,7 +18,7 @@ import org.gradle.api.tasks.wrapper.Wrapper.DistributionType.ALL
  */
 
 plugins {
-    kotlin("jvm") version("1.9.10") apply(false)
+    kotlin("jvm") version("1.9.20-RC") apply(false)
 
     id("idea")
     id("eclipse")
@@ -26,7 +26,7 @@ plugins {
     id("org.jetbrains.dokka") version("1.9.10")
     id("com.github.jk1.dependency-license-report") version("2.5")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.2")
-    id("org.graalvm.buildtools.native") version("0.9.27") apply(false)
+    id("org.graalvm.buildtools.native") version("0.9.28") apply(false)
     id("io.gitlab.arturbosch.detekt") version("1.23.1") apply(false)
     id("me.champeau.jmh") version("0.7.1") apply(false)
 }
