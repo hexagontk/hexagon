@@ -577,7 +577,7 @@
           "store"
         ],
         "summary": "Find purchase order by ID",
-        "description": "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+        "description": "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
         "operationId": "getOrderById",
         "parameters": [
           {
@@ -620,7 +620,7 @@
           "store"
         ],
         "summary": "Delete purchase order by ID",
-        "description": "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
+        "description": "For valid response try integer IDs with value < 1000. Anything above 1000 or non-integers will generate API errors",
         "operationId": "deleteOrder",
         "parameters": [
           {
@@ -650,7 +650,7 @@
           "user"
         ],
         "summary": "Create user",
-        "description": "This can only be done by the logged in user.",
+        "description": "This can only be done by the logged-in user.",
         "operationId": "createUser",
         "requestBody": {
           "description": "Created user object",
@@ -745,7 +745,7 @@
           {
             "name": "username",
             "in": "query",
-            "description": "The user name for login",
+            "description": "The username for login",
             "required": false,
             "schema": {
               "type": "string"
@@ -773,7 +773,7 @@
                 }
               },
               "X-Expires-After": {
-                "description": "date in UTC when toekn expires",
+                "description": "date in UTC when token expires",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -804,7 +804,7 @@
         "tags": [
           "user"
         ],
-        "summary": "Logs out current logged in user session",
+        "summary": "Logs out current logged-in user session",
         "description": "",
         "operationId": "logoutUser",
         "parameters": [ ],
@@ -820,7 +820,7 @@
         "tags": [
           "user"
         ],
-        "summary": "Get user by user name",
+        "summary": "Get user by username",
         "description": "",
         "operationId": "getUserByName",
         "parameters": [
@@ -863,7 +863,7 @@
           "user"
         ],
         "summary": "Update user",
-        "description": "This can only be done by the logged in user.",
+        "description": "This can only be done by the logged-in user.",
         "operationId": "updateUser",
         "parameters": [
           {
@@ -907,7 +907,7 @@
           "user"
         ],
         "summary": "Delete user",
-        "description": "This can only be done by the logged in user.",
+        "description": "This can only be done by the logged-in user.",
         "operationId": "deleteUser",
         "parameters": [
           {
@@ -983,7 +983,7 @@
           },
           "username": {
             "type": "string",
-            "example": "fehguy"
+            "example": "guy"
           },
           "address": {
             "type": "array",
