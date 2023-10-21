@@ -160,6 +160,7 @@ apiValidation {
             "rest",
             "rest_tools",
             "web",
+            "templates_jte",
         )
     )
 }

@@ -51,5 +51,4 @@ On top of that, you must also declare the template parameters this way:
 `@args(java.util.Map<String, Object> context)` and use the data from the map.
 
 # Package com.hexagonkt.templates.rocker
-
 Classes that implement the Templates Port interface with the [Rocker] engine.
