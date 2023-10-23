@@ -10,6 +10,7 @@ import kotlin.reflect.KClass
 
 /**
  * Object with utilities to gather information about the running JVM.
+ * TODO Add OS checking utilities: enum OsFamily { WINDOWS, MACOS, LINUX, ANDROID, IOS }
  */
 object Jvm {
     /** Current JVM runtime. */
@@ -63,6 +64,22 @@ object Jvm {
     fun usedMemory(): String =
         (runtime.totalMemory() - runtime.freeMemory()).let { "%,d".format(it / 1024) }
 
+//    fun loadSystemSettings(url: URL) {
+//        loadSystemSettings(properties(url))
+//    }
+//
+//    // TODO Assure name matches [a-zA-Z_]+[a-zA-Z0-9_]*, try also with uppercase, if not found
+//    // TODO Add same method on serialization to load other formats (flattening nested list/maps)
+//    fun loadSystemSettings(settings: Map<String, String>) {
+//        settings.entries
+//            .fold(settings) { a, (k, v) ->
+//                a + (k to (System.getProperty(k) ?: v))
+//            }
+//            .forEach { (k, v) ->
+//                System.setProperty(k, v)
+//            }
+//    }
+
     /**
      * Retrieve a setting by name by looking in the JVM system properties first and in OS
      * environment variables if not found.
@@ -105,6 +122,7 @@ object Jvm {
     inline fun <reified T: Any> systemSetting(name: String): T =
         systemSetting(T::class, name)
 
+    // TODO Assure name matches [a-zA-Z_]+[a-zA-Z0-9_]*, try also with uppercase, if not found
     private fun systemSettingRaw(name: String): String? {
         require(name.isNotBlank()) { "Setting name can not be blank" }
         return System.getProperty(name, System.getenv(name))

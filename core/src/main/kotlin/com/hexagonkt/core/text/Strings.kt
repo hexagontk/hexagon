@@ -233,6 +233,9 @@ fun String.banner(bannerDelimiter: String = "*"): String =
         )
         .let { "$it$eol$this$eol$it" }
 
+// TODO Add `box` (create a rectangle text) and doubleSpace (add a space between letters)
+// TODO These and other implemented methods can fit in a Effects.kt file
+
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *

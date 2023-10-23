@@ -3,6 +3,8 @@ package com.hexagonkt.core.text
 /**
  * Constants for console formatting with [ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code)
  * codes. They can be used in strings to enable or disable a display option.
+ *
+ * TODO Refactor into AnsiColor and AnsiEffects
  */
 object Ansi {
     /** Regex that matches ANSI escape sequences. */
