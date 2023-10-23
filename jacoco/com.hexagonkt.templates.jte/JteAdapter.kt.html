@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JteAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.templates.jte</a> &gt; <span class="el_source">JteAdapter.kt</span></div><h1>JteAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.templates.jte
+
+import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.core.media.TEXT_HTML
+import com.hexagonkt.core.media.TEXT_PLAIN
+import com.hexagonkt.templates.TemplatePort
+import gg.jte.CodeResolver
+import gg.jte.ContentType
+import gg.jte.TemplateEngine
+import gg.jte.TemplateOutput
+import gg.jte.output.StringOutput
+import gg.jte.resolve.DirectoryCodeResolver
+import gg.jte.resolve.ResourceCodeResolver
+import java.net.URL
+import java.nio.file.Path
+import java.util.*
+
+<span class="pc" id="L18">class JteAdapter(</span>
+    mediaType: MediaType,
+<span class="fc" id="L20">    resolverBase: URL? = null,</span>
+<span class="fc" id="L21">    precompiled: Boolean = false</span>
+) : TemplatePort {
+
+    private companion object {
+<span class="pc" id="L25">        val allowedTypes: String = setOf(TEXT_HTML, TEXT_PLAIN).joinToString(&quot;, &quot;) { it.fullType }</span>
+    }
+
+<span class="fc" id="L28">    private val contentType = when (mediaType) {</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        TEXT_HTML -&gt; ContentType.Html</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        TEXT_PLAIN -&gt; ContentType.Plain</span>
+        else -&gt;
+<span class="fc" id="L32">            error(&quot;Unsupported media type not in: $allowedTypes (${mediaType.fullType})&quot;)</span>
+    }
+
+    private val resolver: CodeResolver =
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        when (resolverBase?.protocol) {</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            &quot;classpath&quot; -&gt; ResourceCodeResolver(resolverBase.path)</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">            &quot;file&quot; -&gt; DirectoryCodeResolver(Path.of(resolverBase.path))</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">            null -&gt; ResourceCodeResolver(&quot;&quot;)</span>
+<span class="fc" id="L40">            else -&gt; error(&quot;Invalid base schema not in: classpath, file (${resolverBase.protocol})&quot;)</span>
+        }
+
+    private val templateEngine: TemplateEngine =
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (precompiled) {</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            if (resolverBase === null) {</span>
+<span class="fc" id="L46">                TemplateEngine.createPrecompiled(contentType)</span>
+            }
+            else {
+<span class="fc" id="L49">                val protocol = resolverBase.protocol</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">                check(protocol == &quot;classpath&quot;) {</span>
+<span class="fc" id="L51">                    &quot;Precompiled base must be classpath URLs ($protocol)&quot;</span>
+                }
+<span class="fc" id="L53">                TemplateEngine.createPrecompiled(Path.of(resolverBase.path), contentType)</span>
+            }
+        }
+<span class="fc" id="L56">        else {</span>
+<span class="fc" id="L57">            TemplateEngine.create(resolver, contentType)</span>
+        }
+
+    override fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale): String {
+<span class="fc" id="L61">        val output: TemplateOutput = StringOutput()</span>
+<span class="fc" id="L62">        templateEngine.render(url.path, context, output)</span>
+<span class="fc" id="L63">        return output.toString()</span>
+    }
+
+    override fun render(
+        name: String, templates: Map&lt;String, String&gt;, context: Map&lt;String, *&gt;, locale: Locale
+    ): String =
+<span class="fc" id="L69">        throw UnsupportedOperationException(&quot;jte does not support memory templates&quot;)</span>
+<span class="fc" id="L70">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

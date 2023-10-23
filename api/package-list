@@ -72,6 +72,9 @@ module:templates
 com.hexagonkt.templates
 module:templates_freemarker
 com.hexagonkt.templates.freemarker
+module:templates_jte
+com.hexagonkt.templates.jte
+gg.jte.generated.precompiled
 module:templates_pebble
 com.hexagonkt.templates.pebble
 module:templates_rocker
