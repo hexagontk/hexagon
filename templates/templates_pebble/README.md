@@ -1,6 +1,5 @@
 
 # Module templates_pebble
-
 [Pebble] template engine adapter for Hexagon.
 
 For usage instructions, refer to the [Templates Port documentation](/templates/).
@@ -30,5 +29,4 @@ For usage instructions, refer to the [Templates Port documentation](/templates/)
     ```
 
 # Package com.hexagonkt.templates.pebble
-
 Classes that implement the Templates Port interface with the [Pebble] engine.
