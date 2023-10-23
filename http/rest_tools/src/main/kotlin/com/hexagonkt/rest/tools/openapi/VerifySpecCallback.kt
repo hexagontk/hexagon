@@ -1,40 +1,95 @@
 package com.hexagonkt.rest.tools.openapi
 
+import com.atlassian.oai.validator.OpenApiInteractionValidator
 import com.atlassian.oai.validator.OpenApiInteractionValidator.createForInlineApiSpecification
 import com.atlassian.oai.validator.model.Request
 import com.atlassian.oai.validator.model.Response
 import com.atlassian.oai.validator.model.Request.Method
 import com.atlassian.oai.validator.model.SimpleRequest
 import com.atlassian.oai.validator.model.SimpleResponse
+import com.atlassian.oai.validator.report.ValidationReport
 import com.hexagonkt.http.handlers.HttpContext
+import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.*
 import java.net.URL
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Callback that verifies server calls comply with a given OpenAPI spec.
  */
 class VerifySpecCallback(spec: URL) : (HttpContext) -> HttpContext {
 
-    private val validator = createForInlineApiSpecification(spec.readText()).build()
+    private val messagePrefix: String = "\n- "
+    private val validator: OpenApiInteractionValidator =
+        createForInlineApiSpecification(spec.readText()).build()
 
     override fun invoke(context: HttpContext): HttpContext {
-        validator.validateRequest(request(context))
+        val requestReport = validator.validateRequest(request(context))
 
         val result = context.next()
 
-        validator.validateResponse(result.path, method(result.method), response(result))
+        val resultMethod = method(result.method)
+        val responseReport = validator.validateResponse(result.path, resultMethod, response(result))
 
-        return result
+        responseReport.merge(requestReport)
+
+        return if (responseReport.hasErrors()) result.badRequest(message(responseReport))
+        else result
     }
 
-    private fun request(context: HttpContext): Request =
-        SimpleRequest.Builder(method(context.method), context.path, true)
-            .build()
+    private fun message(report: ValidationReport): String {
+        return report.messages.joinToString(messagePrefix, "Invalid request:$messagePrefix") {
+            val level = it.level
+            val key = it.key
+            val context = it.context
+                .map { c ->
+                    val op = c.apiOperation
+                        .getOrNull()
+                        ?.let { ao -> ao.method.toString() + ao.apiPath.toString() }
+                        ?: ""
 
-    private fun response(context: HttpContext): Response =
-        SimpleResponse.Builder(context.status.code)
-            .build()
+                    val loc = c.location.getOrNull()?.name ?: ""
+
+                    "$op $loc"
+                }
+                .orElse("")
+            val message = it.message
+            val additionalInfo = it.additionalInfo
+            val nestedMessages = it.nestedMessages
+
+            "$level: $key [$context] $message $additionalInfo $nestedMessages"
+        }
+    }
+
+    private fun request(context: HttpContext): Request {
+        val request = context.request
+        val builder = SimpleRequest.Builder(method(context.method), context.path, true)
+
+        builder.withBody(request.bodyString())
+
+        request.contentType?.text?.let(builder::withContentType)
+        request.headers.httpFields.values.forEach { builder.withHeader(it.name, it.strings()) }
+        request.accept.map(ContentType::text).forEach(builder::withAccept)
+        request.authorization?.text?.let(builder::withAuthorization)
+        request.queryParameters.httpFields.values.forEach {
+            builder.withQueryParam(it.name, it.strings())
+        }
+
+        return builder.build()
+    }
+
+    private fun response(context: HttpContext): Response {
+        val response = context.response
+        val builder = SimpleResponse.Builder(context.status.code)
+
+        builder.withBody(response.bodyString())
+
+        response.contentType?.text?.let(builder::withContentType)
+        response.headers.httpFields.values.forEach { builder.withHeader(it.name, it.strings()) }
+
+        return builder.build()
+    }
 
     private fun method(method: HttpMethod): Method =
         when (method) {
