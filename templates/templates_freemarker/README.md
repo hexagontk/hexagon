@@ -1,6 +1,5 @@
 
 # Module templates_freemarker
-
 This module provides an adapter for the templates Port supporting the Apache [FreeMarker] template
 engine.
 
@@ -31,5 +30,4 @@ For usage instructions, refer to the [Templates Port documentation](/templates/)
     ```
 
 # Package com.hexagonkt.templates.freemarker
-
 Classes that implement the Templates Port interface with the [FreeMarker] engine.

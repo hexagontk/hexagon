@@ -1,6 +1,5 @@
 
 # Module templates
-
 This port provides a common interface for rendering templates with multiple different template
 engines.
 
@@ -35,5 +34,4 @@ and `_now_` variables) are added to the context automatically. Check the code be
 [TemplateManager]: /api/templates/com.hexagonkt.templates/-template-manager/index.html
 
 # Package com.hexagonkt.templates
-
 Feature implementation code.

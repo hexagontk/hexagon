@@ -18,7 +18,7 @@ import org.gradle.api.tasks.wrapper.Wrapper.DistributionType.ALL
  */
 
 plugins {
-    kotlin("jvm") version("1.9.20-RC") apply(false)
+    kotlin("jvm") version("1.9.20-RC2") apply(false)
 
     id("idea")
     id("eclipse")
@@ -160,6 +160,7 @@ apiValidation {
             "rest",
             "rest_tools",
             "web",
+            "templates_jte",
         )
     )
 }

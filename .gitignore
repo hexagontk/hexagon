@@ -47,3 +47,6 @@ package-lock.json
 # System Files
 .DS_Store
 Thumbs.db
+
+# TODO Delete this when the folder is no longer generated
+jte-classes/
