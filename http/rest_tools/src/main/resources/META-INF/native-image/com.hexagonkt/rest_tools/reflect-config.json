@@ -1,0 +1,234 @@
+[
+  {
+    "name": "com.atlassian.oai.validator.schema.SwaggerV20Library$SyntaxBundle",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.atlassian.oai.validator.schema.SwaggerV20Library$ValidationBundle",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.atlassian.oai.validator.schema.keyword.DiscriminatorKeywordValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.atlassian.oai.validator.schema.keyword.Nullable$NullableKeywordValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jackson.jsonpointer.JsonPointerMessages",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.core.messages.JsonSchemaSyntaxMessageBundle",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.AdditionalItemsValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.AdditionalPropertiesValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.DependenciesValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.EnumValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.MaxItemsValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.MaxLengthValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.MaximumValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.MinItemsValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.MinLengthValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.MinimumValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.PatternValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.common.UniqueItemsValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv3.DisallowKeywordValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv3.DivisibleByValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv3.DraftV3TypeValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv3.ExtendsValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv3.PropertiesValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv4.AllOfValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv4.AnyOfValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv4.DraftV4TypeValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv4.MaxPropertiesValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv4.MinPropertiesValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv4.MultipleOfValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv4.NotValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv4.OneOfValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.keyword.validator.draftv4.RequiredKeywordValidator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.github.fge.jsonschema.messages.JsonSchemaValidationBundle",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.sun.crypto.provider.AESCipher$General",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.sun.crypto.provider.ARCFOURCipher",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.sun.crypto.provider.ChaCha20Cipher$ChaCha20Poly1305",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.sun.crypto.provider.DESCipher",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.sun.crypto.provider.DESedeCipher",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.sun.crypto.provider.DHParameters",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.sun.crypto.provider.GaloisCounterMode$AESGCM",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.sun.crypto.provider.TlsMasterSecretGenerator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "io.swagger.v3.core.jackson.mixin.ExtensionsMixin",
+    "queryAllDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "io.swagger.v3.core.jackson.mixin.SchemaMixin",
+    "queryAllDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "io.swagger.v3.oas.models.media.ArraySchema",
+    "queryAllDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "io.swagger.v3.oas.models.media.BooleanSchema",
+    "queryAllDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "io.swagger.v3.oas.models.media.DateTimeSchema",
+    "queryAllDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "io.swagger.v3.oas.models.media.IntegerSchema",
+    "queryAllDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "io.swagger.v3.oas.models.media.ObjectSchema",
+    "queryAllDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "io.swagger.v3.oas.models.media.Schema",
+    "allDeclaredFields": true,
+    "queryAllDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "io.swagger.v3.oas.models.media.StringSchema",
+    "queryAllDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "io.swagger.v3.oas.models.media.XML",
+    "allDeclaredFields": true,
+    "queryAllDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  }
+]
