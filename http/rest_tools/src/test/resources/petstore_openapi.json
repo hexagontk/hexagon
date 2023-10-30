@@ -230,6 +230,50 @@
       }
     },
     "/pet/findByTags": {
+      "patch": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Finds Pets by tags",
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Finds Pets by tags",
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "trace": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Finds Pets by tags",
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "head": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Finds Pets by tags",
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
       "get": {
         "tags": [
           "pet"

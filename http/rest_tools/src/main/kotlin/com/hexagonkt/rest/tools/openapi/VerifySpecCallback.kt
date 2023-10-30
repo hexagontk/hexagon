@@ -46,7 +46,11 @@ class VerifySpecCallback(spec: URL) : (HttpContext) -> HttpContext {
                 .map { c ->
                     val op = c.apiOperation
                         .getOrNull()
-                        ?.let { ao -> ao.method.toString() + ao.apiPath.toString() }
+                        ?.let { ao ->
+                            val method = ao.method
+                            val apiPath = ao.apiPath
+                            "$method ${apiPath.normalised()}"
+                        }
                         ?: ""
 
                     val loc = c.location.getOrNull()?.name ?: ""
@@ -66,7 +70,8 @@ class VerifySpecCallback(spec: URL) : (HttpContext) -> HttpContext {
         val request = context.request
         val builder = SimpleRequest.Builder(method(context.method), context.path, true)
 
-        builder.withBody(request.bodyString())
+        if (request.bodyString().isNotEmpty())
+            builder.withBody(request.bodyString())
 
         request.contentType?.text?.let(builder::withContentType)
         request.headers.httpFields.values.forEach { builder.withHeader(it.name, it.strings()) }
