@@ -1,11 +1,13 @@
 package com.hexagonkt.logging.jul
 
-import com.hexagonkt.core.text.Ansi
-import com.hexagonkt.core.text.Ansi.BLUE
-import com.hexagonkt.core.text.Ansi.BRIGHT_BLACK
-import com.hexagonkt.core.text.Ansi.CYAN
-import com.hexagonkt.core.text.Ansi.MAGENTA
-import com.hexagonkt.core.text.Ansi.RED
+import com.hexagonkt.core.text.AnsiColor.DEFAULT
+import com.hexagonkt.core.text.AnsiColor.YELLOW
+import com.hexagonkt.core.text.AnsiColor.BLUE
+import com.hexagonkt.core.text.AnsiColor.BRIGHT_BLACK
+import com.hexagonkt.core.text.AnsiColor.CYAN
+import com.hexagonkt.core.text.AnsiColor.MAGENTA
+import com.hexagonkt.core.text.AnsiColor.RED
+import com.hexagonkt.core.text.AnsiEffect.BOLD
 import com.hexagonkt.core.text.Ansi.RESET
 import com.hexagonkt.core.text.eol
 import com.hexagonkt.core.fail
@@ -41,11 +43,11 @@ class PatternFormat(
     private val pattern: String = if (useColor) COLOR_PATTERN else PATTERN
 
     private val levelColors: Map<Level, String> = mapOf(
-        Level.FINER to Ansi.DEFAULT,
-        Level.FINE to Ansi.DEFAULT,
+        Level.FINER to DEFAULT,
+        Level.FINE to DEFAULT,
         Level.INFO to BLUE,
-        Level.WARNING to Ansi.YELLOW,
-        Level.SEVERE to RED + Ansi.BOLD
+        Level.WARNING to YELLOW,
+        Level.SEVERE to RED + BOLD
     )
 
     private val levelNames: Map<Level, String> = mapOf(

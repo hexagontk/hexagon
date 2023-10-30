@@ -1,7 +1,7 @@
 package com.hexagonkt.logging.jul
 
-import com.hexagonkt.core.text.Ansi
 import com.hexagonkt.core.fail
+import com.hexagonkt.core.text.AnsiColor
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.lang.RuntimeException
@@ -17,12 +17,12 @@ internal class PatternFormatTest {
         val colorFormat = PatternFormat(true)
         val colorMessage = colorFormat.format(LogRecord(INFO, message))
         Assertions.assertTrue(colorMessage.contains(message))
-        Assertions.assertTrue(colorMessage.contains(Ansi.BLUE))
+        Assertions.assertTrue(colorMessage.contains(AnsiColor.BLUE))
 
         val plainFormat = PatternFormat(false)
         val plainMessage = plainFormat.format(LogRecord(INFO, message))
         Assertions.assertTrue(plainMessage.contains(message))
-        Assertions.assertFalse(plainMessage.contains(Ansi.BLUE))
+        Assertions.assertFalse(plainMessage.contains(AnsiColor.BLUE))
     }
 
     @Test fun `Formatting error messages render stack traces`() {
@@ -32,14 +32,14 @@ internal class PatternFormatTest {
 
         val colorMessage = PatternFormat(true).format(record)
         Assertions.assertTrue(colorMessage.contains(message))
-        Assertions.assertTrue(colorMessage.contains(Ansi.RED))
+        Assertions.assertTrue(colorMessage.contains(AnsiColor.RED))
         Assertions.assertTrue(colorMessage.contains("Tested failure"))
         Assertions.assertTrue(colorMessage.contains(RuntimeException::class.qualifiedName ?: fail))
         Assertions.assertTrue(colorMessage.contains(this::class.qualifiedName ?: fail))
 
         val plainMessage = PatternFormat(false).format(record)
         Assertions.assertTrue(plainMessage.contains(message))
-        Assertions.assertFalse(plainMessage.contains(Ansi.RED))
+        Assertions.assertFalse(plainMessage.contains(AnsiColor.RED))
         Assertions.assertTrue(plainMessage.contains("Tested failure"))
         Assertions.assertTrue(plainMessage.contains(RuntimeException::class.qualifiedName ?: fail))
         Assertions.assertTrue(plainMessage.contains(this::class.qualifiedName ?: fail))
@@ -52,12 +52,12 @@ internal class PatternFormatTest {
         val colorMessage = colorFormat.format(LogRecord(INFO, message))
         Assertions.assertTrue(colorMessage.contains(message))
         Assertions.assertFalse(colorMessage.contains("INFO"))
-        Assertions.assertFalse(colorMessage.contains(Ansi.BLUE))
+        Assertions.assertFalse(colorMessage.contains(AnsiColor.BLUE))
 
         val plainFormat = PatternFormat(useColor = false, messageOnly = true)
         val plainMessage = plainFormat.format(LogRecord(INFO, message))
         Assertions.assertTrue(plainMessage.contains(message))
         Assertions.assertFalse(colorMessage.contains("INFO"))
-        Assertions.assertFalse(plainMessage.contains(Ansi.BLUE))
+        Assertions.assertFalse(plainMessage.contains(AnsiColor.BLUE))
     }
 }

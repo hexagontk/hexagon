@@ -1,5 +1,9 @@
 package com.hexagonkt.core.text
 
+import com.hexagonkt.core.text.Ansi.RESET
+import com.hexagonkt.core.text.AnsiColor.BRIGHT_WHITE
+import com.hexagonkt.core.text.AnsiColor.RED_BG
+import com.hexagonkt.core.text.AnsiEffect.UNDERLINE
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.condition.DisabledInNativeImage
@@ -198,7 +202,7 @@ internal class StringsTest {
     }
 
     @Test fun `ANSI testing`() {
-        val message = "${Ansi.RED_BG}${Ansi.BRIGHT_WHITE}${Ansi.UNDERLINE}ANSI${Ansi.RESET} normal"
+        val message = "$RED_BG$BRIGHT_WHITE${UNDERLINE}ANSI$RESET normal"
         val noAnsiMessage = message.stripAnsi()
         assertNotEquals(message, noAnsiMessage)
         assertContentEquals(noAnsiMessage.toByteArray(), "ANSI normal".toByteArray())

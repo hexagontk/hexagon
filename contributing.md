@@ -138,3 +138,42 @@ git log 1.2.0...1.3.0 \
 
 git log 1.2.0...1.3.0 --date=iso8601 --reverse --pretty=format:'%an %ae'|sort|uniq >>CHANGELOG.md
 ```
+
+## Documentation Guidelines
+ONLY public members require documentation.
+
+Some hints to write the comments are:
+* Use the imperative form.
+* Capitalize descriptions (parameters, receivers, return types, etc.) and end sentences with a dot.
+* Complete all KDoc tags (I.e.: `@param`, `@receiver`, etc. for the methods that have them.
+* Focus on what they do, not how, neither what it is.
+* Not saying *method* or *property* (that is clear from the context).
+* Comments to ignore warnings (false positives) should include an explanation.
+* Explain corner cases, default values and allowed values/formats if it applies.
+* These are recommendations, feel free to make an exception if you think it is required to explain
+  the use/structure of the code better.
+
+## Logging Guidelines
+Take care of the level assigned to the log statements:
+* `error` some error stopped the correct processing of the request or the process.
+* `warn` something failed and was ignored (it wasn't a big deal to stop request or process), but it
+  could be an issue later or with other data.
+* `info` only for really useful information that is not written very often.
+* `debug` for information with useful information to diagnose problems or failures (that could be
+  used to diagnose client code bugs).
+* `trace` for low level details that are logged very often (information that could be used to fix
+  this library's bugs).
+
+Rules of thumb:
+* Prefer to group related information in a single log statement rather than using many of them.
+* Do not log re-thrown exceptions. If this is done, chances are that this exception is logged twice
+  (making diagnosis harder). All not handled exceptions are logged at entry points (main or request
+  handlers), there is no need to log them in every catch, or where they are thrown.
+* Catching an exception doesn't mean it is an error or warning. Assign categories based on the rules
+  above.
+* Generally is a good idea to log the places where the program makes a decision (adding the
+  information that lead to the program flow selection). I.e.: "User <id> not deleted (not found in
+  the data store)".
+* If some condition leads to default return values, it is a good place to put a logging statement to
+  add more information about it. I.e.: HTTP Request timeout (<relevant call information>), returning
+  empty array.

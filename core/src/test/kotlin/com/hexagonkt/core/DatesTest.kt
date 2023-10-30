@@ -52,6 +52,11 @@ internal class DatesTest {
         assertFailsWith<IllegalArgumentException> { (-1).toLocalTime() }
     }
 
+    @Test fun `Period days are calculated correctly`() {
+        assertEquals(1.0, parsePeriod("1d").toTotalDays())
+        assertEquals(403.6875, parsePeriod("1y 1m 1w 1d").toTotalDays())
+    }
+
     @Test fun `Parse periods work with not standard input`() {
         assertEquals(Period.parse("P1Y1W1D"), parsePeriod("P1Y1W1D"))
         assertEquals(Period.parse("P1Y1W1D"), parsePeriod("p1y1w1d"))

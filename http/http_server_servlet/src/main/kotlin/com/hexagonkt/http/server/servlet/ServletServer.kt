@@ -1,9 +1,9 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.core.text.Ansi.BLUE
-import com.hexagonkt.core.text.Ansi.BOLD
-import com.hexagonkt.core.text.Ansi.CYAN
-import com.hexagonkt.core.text.Ansi.MAGENTA
+import com.hexagonkt.core.text.AnsiColor.BLUE
+import com.hexagonkt.core.text.AnsiEffect.BOLD
+import com.hexagonkt.core.text.AnsiColor.CYAN
+import com.hexagonkt.core.text.AnsiColor.MAGENTA
 import com.hexagonkt.core.text.Ansi.RESET
 import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.text.prependIndent
