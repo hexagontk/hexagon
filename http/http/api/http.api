@@ -1,12 +1,7 @@
 public final class com/hexagonkt/http/HttpKt {
-	public static final fun bodyToBytes (Ljava/lang/Object;)[B
 	public static final fun checkHeaders (Lcom/hexagonkt/http/model/Headers;)V
 	public static final fun formatQueryString (Lcom/hexagonkt/http/model/QueryParameters;)Ljava/lang/String;
-	public static final fun getBODY_TYPES ()Ljava/util/Set;
-	public static final fun getBODY_TYPES_NAMES ()Ljava/lang/String;
 	public static final fun getCHECKED_HEADERS ()Ljava/util/List;
-	public static final fun getGMT_ZONE ()Ljava/time/ZoneId;
-	public static final fun getHTTP_DATE_FORMATTER ()Ljava/time/format/DateTimeFormatter;
 	public static final fun parseContentType (Ljava/lang/String;)Lcom/hexagonkt/http/model/ContentType;
 	public static final fun parseQueryString (Ljava/lang/String;)Lcom/hexagonkt/http/model/QueryParameters;
 	public static final fun toHttpFormat (Ljava/time/Instant;)Ljava/lang/String;

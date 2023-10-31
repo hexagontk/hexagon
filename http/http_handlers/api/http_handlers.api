@@ -160,6 +160,7 @@ public final class com/hexagonkt/http/handlers/HandlersKt {
 	public static synthetic fun Trace$default (Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/OnHandler;
 	public static final fun Ws (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lcom/hexagonkt/http/handlers/OnHandler;
 	public static synthetic fun Ws$default (Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/OnHandler;
+	public static final fun bodyToBytes (Ljava/lang/Object;)[B
 	public static final fun path (Ljava/lang/String;Ljava/util/List;)Lcom/hexagonkt/http/handlers/PathHandler;
 	public static final fun path (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lcom/hexagonkt/http/handlers/PathHandler;
 	public static synthetic fun path$default (Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagonkt/http/handlers/PathHandler;

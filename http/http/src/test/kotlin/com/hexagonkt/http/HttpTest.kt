@@ -1,14 +1,13 @@
 package com.hexagonkt.http
 
+import com.hexagonkt.core.GMT_ZONE
 import com.hexagonkt.core.Jvm
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.QueryParameters
 import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.QueryParameter
 import org.junit.jupiter.api.Test
-import java.math.BigInteger
 import java.time.*
-import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
@@ -32,15 +31,6 @@ internal class HttpTest {
         testParseFormat("", "    ")
         testParseFormat("a+=+b+", "a+=+b+")
         testParseFormat("a+=+b+", "a%20=%20b%20")
-    }
-
-    @Test fun `Basic types can be converted to byte arrays to be sent as bodies`() {
-        assertContentEquals("text".toByteArray(), bodyToBytes("text"))
-        assertContentEquals("text".toByteArray(), bodyToBytes("text".toByteArray()))
-        assertContentEquals(BigInteger.valueOf(42).toByteArray(), bodyToBytes(42))
-        assertContentEquals(BigInteger.valueOf(1_234_567L).toByteArray(), bodyToBytes(1_234_567L))
-
-        assertFailsWith<IllegalStateException> { bodyToBytes(LocalDate.now())  }
     }
 
     @Test fun `Check headers fails when using reserved headers when not in production mode` () {

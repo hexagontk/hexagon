@@ -82,6 +82,7 @@ public final class com/hexagonkt/core/DataKt {
 }
 
 public final class com/hexagonkt/core/DatesKt {
+	public static final fun getGMT_ZONE ()Ljava/time/ZoneId;
 	public static final fun parseDuration (Ljava/lang/String;)Ljava/time/Duration;
 	public static final fun parseLocalDate (Ljava/lang/String;)Ljava/time/LocalDate;
 	public static final fun parsePeriod (Ljava/lang/String;)Ljava/time/Period;

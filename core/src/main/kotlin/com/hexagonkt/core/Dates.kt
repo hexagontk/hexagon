@@ -12,6 +12,9 @@ private const val SECOND_OFFSET: Int = 1_000
 private const val NANO_OFFSET: Int = 1_000_000
 private const val DAYS_PER_MONTH: Double = 30.4375
 
+/** GMT zone ID. */
+val GMT_ZONE: ZoneId by lazy { ZoneId.of("GMT") }
+
 /**
  * Convert a date time to a number with the following format: `YYYYMMDDHHmmss`.
  *

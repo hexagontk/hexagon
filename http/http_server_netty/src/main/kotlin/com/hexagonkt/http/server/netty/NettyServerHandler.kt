@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.netty
 
 import com.hexagonkt.handlers.Context
-import com.hexagonkt.http.bodyToBytes
+import com.hexagonkt.http.handlers.bodyToBytes
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.Cookie
 import com.hexagonkt.http.handlers.HttpHandler

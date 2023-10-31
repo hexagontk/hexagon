@@ -2,18 +2,27 @@
 
 package com.hexagonkt.http.handlers
 
+import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.handlers.Context
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpProtocol.HTTP
 import com.hexagonkt.http.model.HttpCall
 import com.hexagonkt.http.model.HttpRequest
+import java.lang.IllegalStateException
+import java.math.BigInteger
 import java.security.cert.X509Certificate
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
 typealias HttpCallback = HttpContext.() -> HttpContext
 typealias HttpExceptionCallback<T> = HttpContext.(T) -> HttpContext
+
+private val logger: Logger by lazy { Logger(HttpHandler::class.java.packageName) }
+private val BODY_TYPES_NAMES: String by lazy {
+    val bodyTypes = setOf(String::class, ByteArray::class, Int::class, Long::class)
+    bodyTypes.joinToString(", ") { it.simpleName.toString() }
+}
 
 internal fun toCallback(block: HttpCallback): (Context<HttpCall>) -> Context<HttpCall> =
     { context -> HttpContext(context).block() }
@@ -127,3 +136,19 @@ fun Options(pattern: String = "", callback: HttpCallback): OnHandler =
 
 fun Patch(pattern: String = "", callback: HttpCallback): OnHandler =
     OnHandler(PATCH, pattern, callback)
+
+fun bodyToBytes(body: Any): ByteArray =
+    when (body) {
+        is String -> body.toByteArray()
+        is ByteArray -> body
+        is Int -> BigInteger.valueOf(body.toLong()).toByteArray()
+        is Long -> BigInteger.valueOf(body).toByteArray()
+        else -> {
+            val className = body.javaClass.simpleName
+            val message = "Unsupported body type: $className. Must be: $BODY_TYPES_NAMES"
+            val exception = IllegalStateException(message)
+
+            logger.error(exception)
+            throw exception
+        }
+    }
