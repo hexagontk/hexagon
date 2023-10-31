@@ -22,7 +22,6 @@ fun properties(url: URL): Map<String, String> =
         .mapKeys { it.key as String }
         .mapValues { it.value as String }
 
-// PROCESSES ///////////////////////////////////////////////////////////////////////////////////////
 /**
  * Execute a lambda until no exception is thrown or a number of times is reached.
  *
@@ -130,22 +129,3 @@ fun String.shell(
 ): String =
     listOf(getenv("SHELL") ?: "bash", "-c", replace("""(\s+\\\s*)?\n""".toRegex(), ""))
         .exec(workingDirectory, timeout, fail)
-
-// ERROR HANDLING //////////////////////////////////////////////////////////////////////////////////
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- */
-fun check(message: String, vararg blocks: () -> Unit) {
-    val exceptions: List<Exception> = blocks.mapNotNull {
-        try {
-            it()
-            null
-        }
-        catch(e: Exception) {
-            e
-        }
-    }
-
-    if (exceptions.isNotEmpty())
-        throw MultipleException(message, exceptions)
-}

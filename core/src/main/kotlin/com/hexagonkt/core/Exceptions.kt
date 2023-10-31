@@ -44,3 +44,21 @@ fun Throwable.toText(prefix: String = ""): String =
     this.filterStackTrace(prefix).joinToString(eol, eol) { "\tat $it" } +
     if (this.cause == null) ""
     else "${eol}Caused by: " + (this.cause as Throwable).toText(prefix)
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ */
+fun check(message: String, vararg blocks: () -> Unit) {
+    val exceptions: List<Exception> = blocks.mapNotNull {
+        try {
+            it()
+            null
+        }
+        catch(e: Exception) {
+            e
+        }
+    }
+
+    if (exceptions.isNotEmpty())
+        throw MultipleException(message, exceptions)
+}
