@@ -103,6 +103,7 @@ public final class com/hexagonkt/core/DatesKt {
 }
 
 public final class com/hexagonkt/core/ExceptionsKt {
+	public static final fun check (Ljava/lang/String;[Lkotlin/jvm/functions/Function0;)V
 	public static final fun filterStackTrace (Ljava/lang/Throwable;Ljava/lang/String;)[Ljava/lang/StackTraceElement;
 	public static final fun getAssertEnabled ()Z
 	public static final fun getFail ()Ljava/lang/Void;
@@ -111,7 +112,6 @@ public final class com/hexagonkt/core/ExceptionsKt {
 }
 
 public final class com/hexagonkt/core/HelpersKt {
-	public static final fun check (Ljava/lang/String;[Lkotlin/jvm/functions/Function0;)V
 	public static final fun exec (Ljava/lang/String;Ljava/io/File;JZ)Ljava/lang/String;
 	public static final fun exec (Ljava/util/List;Ljava/io/File;JZ)Ljava/lang/String;
 	public static synthetic fun exec$default (Ljava/lang/String;Ljava/io/File;JZILjava/lang/Object;)Ljava/lang/String;
