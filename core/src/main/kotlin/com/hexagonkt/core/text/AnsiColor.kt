@@ -1,5 +1,6 @@
 package com.hexagonkt.core.text
 
+// TODO Add RGB colors
 object AnsiColor {
     /** Set black as the foreground color. */
     const val BLACK = "${Ansi.CSI}30m"

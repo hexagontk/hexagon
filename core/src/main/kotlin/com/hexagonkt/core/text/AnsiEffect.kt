@@ -1,5 +1,6 @@
 package com.hexagonkt.core.text
 
+// TODO Add '2', '3', '6' and '9' codes
 object AnsiEffect {
     /** Enable bold text. */
     const val BOLD = "${Ansi.CSI}1m"
