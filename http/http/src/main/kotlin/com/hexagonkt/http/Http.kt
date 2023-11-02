@@ -1,30 +1,24 @@
 package com.hexagonkt.http
 
+import com.hexagonkt.core.GMT_ZONE
 import com.hexagonkt.core.assertEnabled
 import com.hexagonkt.core.Jvm
-import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.http.model.*
-import java.lang.IllegalStateException
-import java.math.BigInteger
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.Charset
 import java.time.*
+import java.time.ZoneOffset.UTC
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 
-val CHECKED_HEADERS: List<String> = listOf("content-type", "accept", "set-cookie", "authorization")
+/** Headers handled by HTTP model as headers with special meaning. */
+val CHECKED_HEADERS: List<String> by lazy {
+    listOf("content-type", "accept", "set-cookie", "authorization")
+}
 
-val GMT_ZONE: ZoneId = ZoneId.of("GMT")
-
-val HTTP_DATE_FORMATTER: DateTimeFormatter = RFC_1123_DATE_TIME.withZone(ZoneOffset.UTC)
-
-val BODY_TYPES = setOf(String::class, ByteArray::class, Int::class, Long::class)
-
-val BODY_TYPES_NAMES = BODY_TYPES.joinToString(", ") { it.simpleName.toString() }
-
-private val logger: Logger = Logger(SslSettings::class.java.packageName)
+internal val HTTP_DATE_FORMATTER: DateTimeFormatter by lazy { RFC_1123_DATE_TIME.withZone(UTC) }
 
 fun checkHeaders(headers: Headers) {
     if (!assertEnabled)
@@ -121,19 +115,3 @@ fun parseContentType(contentType: String): ContentType {
         else -> error("Invalid content type format: $contentType")
     }
 }
-
-fun bodyToBytes(body: Any): ByteArray =
-    when (body) {
-        is String -> body.toByteArray()
-        is ByteArray -> body
-        is Int -> BigInteger.valueOf(body.toLong()).toByteArray()
-        is Long -> BigInteger.valueOf(body).toByteArray()
-        else -> {
-            val className = body.javaClass.simpleName
-            val message = "Unsupported body type: $className. Must be: $BODY_TYPES_NAMES"
-            val exception = IllegalStateException(message)
-
-            logger.error(exception)
-            throw exception
-        }
-    }

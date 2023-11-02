@@ -5,9 +5,12 @@ import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.model.NOT_FOUND_404
 import com.hexagonkt.http.model.OK_200
 import org.junit.jupiter.api.Test
+import java.math.BigInteger
+import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.reflect.KClass
+import kotlin.test.assertContentEquals
 import kotlin.test.assertNull
 
 internal class HandlersTest {
@@ -92,6 +95,15 @@ internal class HandlersTest {
             assertEquals("Error", it.exception?.message)
             assert(it.exception is IllegalStateException)
         }
+    }
+
+    @Test fun `Basic types can be converted to byte arrays to be sent as bodies`() {
+        assertContentEquals("text".toByteArray(), bodyToBytes("text"))
+        assertContentEquals("text".toByteArray(), bodyToBytes("text".toByteArray()))
+        assertContentEquals(BigInteger.valueOf(42).toByteArray(), bodyToBytes(42))
+        assertContentEquals(BigInteger.valueOf(1_234_567L).toByteArray(), bodyToBytes(1_234_567L))
+
+        assertFailsWith<IllegalStateException> { bodyToBytes(LocalDate.now())  }
     }
 
     private fun PathHandler.handlersPredicates(): List<HttpPredicate> =

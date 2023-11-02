@@ -1,6 +1,7 @@
 package com.hexagonkt.core
 
 import com.hexagonkt.core.text.parseOrNull
+import java.io.Console
 import java.net.InetAddress
 import java.nio.charset.Charset
 import java.time.ZoneId
@@ -12,6 +13,25 @@ import kotlin.reflect.KClass
  * Object with utilities to gather information about the running JVM.
  */
 object Jvm {
+    private val systemSettingPattern: Regex by lazy { Regex("[a-zA-Z_]+[a-zA-Z0-9_]*") }
+
+    /** Operating system name ('os.name' property). If `null` throws an exception. */
+    val os: String by lazy { os() }
+
+    /** Operating system type. */
+    val osKind: OsKind by lazy { osKind() }
+
+    /**
+     * JVM Console, if the program don't have a console (i.e.: input or output redirected), an
+     * exception is thrown.
+     */
+    val console: Console by lazy {
+        System.console() ?: error("Program doesn't have a console (I/O may be redirected)")
+    }
+
+    /** True if the program has a console (terminal, TTY, PTY...), false if I/O is piped. */
+    val isConsole: Boolean by lazy { System.console() != null }
+
     /** Current JVM runtime. */
     val runtime: Runtime by lazy { Runtime.getRuntime() }
 
@@ -63,6 +83,21 @@ object Jvm {
     fun usedMemory(): String =
         (runtime.totalMemory() - runtime.freeMemory()).let { "%,d".format(it / 1024) }
 
+    fun loadSystemSettings(settings: Map<String, String>, overwrite: Boolean = false) {
+        settings.keys.forEach {
+            check(it.matches(systemSettingPattern)) {
+                "Property name must match $systemSettingPattern ($it)"
+            }
+        }
+
+        val systemProperties = System.getProperties()
+        val properties =
+            if (overwrite) settings.entries
+            else settings.entries.filter { !systemProperties.containsKey(it.key) }
+
+        properties.forEach { (k, v) -> System.setProperty(k, v) }
+    }
+
     /**
      * Retrieve a setting by name by looking in the JVM system properties first and in OS
      * environment variables if not found.
@@ -106,7 +141,24 @@ object Jvm {
         systemSetting(T::class, name)
 
     private fun systemSettingRaw(name: String): String? {
-        require(name.isNotBlank()) { "Setting name can not be blank" }
+        val correctName = name.matches(systemSettingPattern)
+        require(correctName) { "Setting name must match $systemSettingPattern" }
         return System.getProperty(name, System.getenv(name))
     }
+
+    /** Operating system name ('os.name' property). If `null` throws an exception. */
+    internal fun os(): String =
+        System.getProperty("os.name") ?: error("OS property ('os.name') not found")
+
+    /** Operating system type. */
+    internal fun osKind(): OsKind =
+        os().lowercase().let {
+            when {
+                it.contains("win") -> OsKind.WINDOWS
+                it.contains("mac") -> OsKind.MACOS
+                it.contains("nux") -> OsKind.LINUX
+                it.contains("nix") || it.contains("aix") -> OsKind.UNIX
+                else -> error("Unsupported OS: ${os()}")
+            }
+        }
 }

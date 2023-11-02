@@ -10,6 +10,10 @@ private const val HOUR_OFFSET: Int = 10_000_000
 private const val MINUTE_OFFSET: Int = 100_000
 private const val SECOND_OFFSET: Int = 1_000
 private const val NANO_OFFSET: Int = 1_000_000
+private const val DAYS_PER_MONTH: Double = 30.4375
+
+/** GMT zone ID. */
+val GMT_ZONE: ZoneId by lazy { ZoneId.of("GMT") }
 
 /**
  * Convert a date time to a number with the following format: `YYYYMMDDHHmmss`.
@@ -142,6 +146,15 @@ fun Date.toLocalDateTime(): LocalDateTime =
  */
 fun Date.toLocalDate(): LocalDate =
     this.toLocalDateTime().toLocalDate()
+
+/**
+ * Calculate the aproximate number of days comprised in a time period.
+ *
+ * @receiver Period from which calculate the number of days.
+ * @return Aproximate number of days of the period.
+ */
+fun Period.toTotalDays(): Double =
+    (toTotalMonths() * DAYS_PER_MONTH) + days
 
 /**
  * Parse a time period allowing a more relaxed format: with spaces or commas, lowercase characters

@@ -82,6 +82,7 @@ public final class com/hexagonkt/core/DataKt {
 }
 
 public final class com/hexagonkt/core/DatesKt {
+	public static final fun getGMT_ZONE ()Ljava/time/ZoneId;
 	public static final fun parseDuration (Ljava/lang/String;)Ljava/time/Duration;
 	public static final fun parseLocalDate (Ljava/lang/String;)Ljava/time/LocalDate;
 	public static final fun parsePeriod (Ljava/lang/String;)Ljava/time/Period;
@@ -96,11 +97,13 @@ public final class com/hexagonkt/core/DatesKt {
 	public static final fun toNumber (Ljava/time/LocalDate;)I
 	public static final fun toNumber (Ljava/time/LocalDateTime;)J
 	public static final fun toNumber (Ljava/time/LocalTime;)I
+	public static final fun toTotalDays (Ljava/time/Period;)D
 	public static final fun withZone (Ljava/time/LocalDateTime;Ljava/time/ZoneId;)Ljava/time/ZonedDateTime;
 	public static synthetic fun withZone$default (Ljava/time/LocalDateTime;Ljava/time/ZoneId;ILjava/lang/Object;)Ljava/time/ZonedDateTime;
 }
 
 public final class com/hexagonkt/core/ExceptionsKt {
+	public static final fun check (Ljava/lang/String;[Lkotlin/jvm/functions/Function0;)V
 	public static final fun filterStackTrace (Ljava/lang/Throwable;Ljava/lang/String;)[Ljava/lang/StackTraceElement;
 	public static final fun getAssertEnabled ()Z
 	public static final fun getFail ()Ljava/lang/Void;
@@ -109,7 +112,6 @@ public final class com/hexagonkt/core/ExceptionsKt {
 }
 
 public final class com/hexagonkt/core/HelpersKt {
-	public static final fun check (Ljava/lang/String;[Lkotlin/jvm/functions/Function0;)V
 	public static final fun exec (Ljava/lang/String;Ljava/io/File;JZ)Ljava/lang/String;
 	public static final fun exec (Ljava/util/List;Ljava/io/File;JZ)Ljava/lang/String;
 	public static synthetic fun exec$default (Ljava/lang/String;Ljava/io/File;JZILjava/lang/Object;)Ljava/lang/String;
@@ -141,16 +143,22 @@ public final class com/hexagonkt/core/I18nKt {
 public final class com/hexagonkt/core/Jvm {
 	public static final field INSTANCE Lcom/hexagonkt/core/Jvm;
 	public final fun getCharset ()Ljava/nio/charset/Charset;
+	public final fun getConsole ()Ljava/io/Console;
 	public final fun getCpuCount ()I
 	public final fun getHostName ()Ljava/lang/String;
 	public final fun getIp ()Ljava/lang/String;
 	public final fun getLocale ()Ljava/util/Locale;
 	public final fun getLocaleCode ()Ljava/lang/String;
 	public final fun getName ()Ljava/lang/String;
+	public final fun getOs ()Ljava/lang/String;
+	public final fun getOsKind ()Lcom/hexagonkt/core/OsKind;
 	public final fun getRuntime ()Ljava/lang/Runtime;
 	public final fun getTimeZone ()Ljava/util/TimeZone;
 	public final fun getVersion ()Ljava/lang/String;
 	public final fun getZoneId ()Ljava/time/ZoneId;
+	public final fun isConsole ()Z
+	public final fun loadSystemSettings (Ljava/util/Map;Z)V
+	public static synthetic fun loadSystemSettings$default (Lcom/hexagonkt/core/Jvm;Ljava/util/Map;ZILjava/lang/Object;)V
 	public final fun systemFlag (Ljava/lang/String;)Z
 	public final fun systemSetting (Lkotlin/reflect/KClass;Ljava/lang/String;)Ljava/lang/Object;
 	public final fun systemSettingOrNull (Lkotlin/reflect/KClass;Ljava/lang/String;)Ljava/lang/Object;
@@ -188,6 +196,16 @@ public final class com/hexagonkt/core/NetworkKt {
 	public static final fun responseFound (Ljava/net/URL;)Z
 	public static final fun responseSuccessful (Ljava/net/URL;)Z
 	public static final fun urlOf (Ljava/lang/String;)Ljava/net/URL;
+}
+
+public final class com/hexagonkt/core/OsKind : java/lang/Enum {
+	public static final field LINUX Lcom/hexagonkt/core/OsKind;
+	public static final field MACOS Lcom/hexagonkt/core/OsKind;
+	public static final field UNIX Lcom/hexagonkt/core/OsKind;
+	public static final field WINDOWS Lcom/hexagonkt/core/OsKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/core/OsKind;
+	public static fun values ()[Lcom/hexagonkt/core/OsKind;
 }
 
 public final class com/hexagonkt/core/ResourceNotFoundException : java/io/IOException {
@@ -440,14 +458,17 @@ public final class com/hexagonkt/core/security/KeyStoresKt {
 }
 
 public final class com/hexagonkt/core/text/Ansi {
+	public static final field CSI Ljava/lang/String;
+	public static final field INSTANCE Lcom/hexagonkt/core/text/Ansi;
+	public static final field RESET Ljava/lang/String;
+	public final fun getREGEX ()Lkotlin/text/Regex;
+}
+
+public final class com/hexagonkt/core/text/AnsiColor {
 	public static final field BLACK Ljava/lang/String;
 	public static final field BLACK_BG Ljava/lang/String;
-	public static final field BLINK Ljava/lang/String;
-	public static final field BLINK_OFF Ljava/lang/String;
 	public static final field BLUE Ljava/lang/String;
 	public static final field BLUE_BG Ljava/lang/String;
-	public static final field BOLD Ljava/lang/String;
-	public static final field BOLD_OFF Ljava/lang/String;
 	public static final field BRIGHT_BLACK Ljava/lang/String;
 	public static final field BRIGHT_BLACK_BG Ljava/lang/String;
 	public static final field BRIGHT_BLUE Ljava/lang/String;
@@ -464,28 +485,33 @@ public final class com/hexagonkt/core/text/Ansi {
 	public static final field BRIGHT_WHITE_BG Ljava/lang/String;
 	public static final field BRIGHT_YELLOW Ljava/lang/String;
 	public static final field BRIGHT_YELLOW_BG Ljava/lang/String;
-	public static final field CSI Ljava/lang/String;
 	public static final field CYAN Ljava/lang/String;
 	public static final field CYAN_BG Ljava/lang/String;
 	public static final field DEFAULT Ljava/lang/String;
 	public static final field DEFAULT_BG Ljava/lang/String;
 	public static final field GREEN Ljava/lang/String;
 	public static final field GREEN_BG Ljava/lang/String;
-	public static final field INSTANCE Lcom/hexagonkt/core/text/Ansi;
-	public static final field INVERSE Ljava/lang/String;
-	public static final field INVERSE_OFF Ljava/lang/String;
+	public static final field INSTANCE Lcom/hexagonkt/core/text/AnsiColor;
 	public static final field MAGENTA Ljava/lang/String;
 	public static final field MAGENTA_BG Ljava/lang/String;
 	public static final field RED Ljava/lang/String;
 	public static final field RED_BG Ljava/lang/String;
-	public static final field RESET Ljava/lang/String;
-	public static final field UNDERLINE Ljava/lang/String;
-	public static final field UNDERLINE_OFF Ljava/lang/String;
 	public static final field WHITE Ljava/lang/String;
 	public static final field WHITE_BG Ljava/lang/String;
 	public static final field YELLOW Ljava/lang/String;
 	public static final field YELLOW_BG Ljava/lang/String;
-	public final fun getREGEX ()Lkotlin/text/Regex;
+}
+
+public final class com/hexagonkt/core/text/AnsiEffect {
+	public static final field BLINK Ljava/lang/String;
+	public static final field BLINK_OFF Ljava/lang/String;
+	public static final field BOLD Ljava/lang/String;
+	public static final field BOLD_OFF Ljava/lang/String;
+	public static final field INSTANCE Lcom/hexagonkt/core/text/AnsiEffect;
+	public static final field INVERSE Ljava/lang/String;
+	public static final field INVERSE_OFF Ljava/lang/String;
+	public static final field UNDERLINE Ljava/lang/String;
+	public static final field UNDERLINE_OFF Ljava/lang/String;
 }
 
 public final class com/hexagonkt/core/text/CasesKt {

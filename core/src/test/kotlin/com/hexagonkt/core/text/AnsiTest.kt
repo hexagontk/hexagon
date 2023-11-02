@@ -1,19 +1,14 @@
 package com.hexagonkt.core.text
 
 import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.text.AnsiColor.BLACK
+import com.hexagonkt.core.text.AnsiColor.BLUE_BG
+import com.hexagonkt.core.text.AnsiEffect.UNDERLINE
 import org.junit.jupiter.api.Test
 
 internal class AnsiTest {
 
     private val logger: Logger by lazy { Logger(this::class) }
-
-    @Test fun `Ansi utilities`() {
-        // ansi
-        // TODO
-        // Apply effects
-        // Strip ANSI escape codes (stripAnsi)
-        // ansi
-    }
 
     @Test fun `ANSI codes are printed properly`() {
 
@@ -22,54 +17,54 @@ internal class AnsiTest {
         }
 
         test("${Ansi.CSI}30m black")
-        test("${Ansi.BLACK}black")
-        test("${Ansi.RED}red")
-        test("${Ansi.GREEN}green")
-        test("${Ansi.YELLOW}yellow")
-        test("${Ansi.BLUE}blue")
-        test("${Ansi.MAGENTA}magenta")
-        test("${Ansi.CYAN}cyan")
-        test("${Ansi.WHITE}white")
-        test("${Ansi.DEFAULT}default")
+        test("${BLACK}black")
+        test("${AnsiColor.RED}red")
+        test("${AnsiColor.GREEN}green")
+        test("${AnsiColor.YELLOW}yellow")
+        test("${AnsiColor.BLUE}blue")
+        test("${AnsiColor.MAGENTA}magenta")
+        test("${AnsiColor.CYAN}cyan")
+        test("${AnsiColor.WHITE}white")
+        test("${AnsiColor.DEFAULT}default")
 
-        test("${Ansi.BLACK_BG}${Ansi.BRIGHT_BLACK}black bg")
-        test("${Ansi.RED_BG}${Ansi.BRIGHT_BLACK}red bg")
-        test("${Ansi.GREEN_BG}${Ansi.BRIGHT_BLACK}green bg")
-        test("${Ansi.YELLOW_BG}${Ansi.BRIGHT_BLACK}yellow bg")
-        test("${Ansi.BLUE_BG}${Ansi.BRIGHT_BLACK}blue bg")
-        test("${Ansi.MAGENTA_BG}${Ansi.BRIGHT_BLACK}magenta bg")
-        test("${Ansi.CYAN_BG}${Ansi.BRIGHT_BLACK}cyan bg")
-        test("${Ansi.WHITE_BG}${Ansi.BRIGHT_BLACK}white bg")
-        test("${Ansi.DEFAULT_BG}${Ansi.BRIGHT_BLACK}default bg")
+        test("${AnsiColor.BLACK_BG}${AnsiColor.BRIGHT_BLACK}black bg")
+        test("${AnsiColor.RED_BG}${AnsiColor.BRIGHT_BLACK}red bg")
+        test("${AnsiColor.GREEN_BG}${AnsiColor.BRIGHT_BLACK}green bg")
+        test("${AnsiColor.YELLOW_BG}${AnsiColor.BRIGHT_BLACK}yellow bg")
+        test("$BLUE_BG${AnsiColor.BRIGHT_BLACK}blue bg")
+        test("${AnsiColor.MAGENTA_BG}${AnsiColor.BRIGHT_BLACK}magenta bg")
+        test("${AnsiColor.CYAN_BG}${AnsiColor.BRIGHT_BLACK}cyan bg")
+        test("${AnsiColor.WHITE_BG}${AnsiColor.BRIGHT_BLACK}white bg")
+        test("${AnsiColor.DEFAULT_BG}${AnsiColor.BRIGHT_BLACK}default bg")
 
-        test("${Ansi.BRIGHT_BLACK}bright black")
-        test("${Ansi.BRIGHT_RED}bright red")
-        test("${Ansi.BRIGHT_GREEN}bright green")
-        test("${Ansi.BRIGHT_YELLOW}bright yellow")
-        test("${Ansi.BRIGHT_BLUE}bright blue")
-        test("${Ansi.BRIGHT_MAGENTA}bright magenta")
-        test("${Ansi.BRIGHT_CYAN}bright cyan")
-        test("${Ansi.BRIGHT_WHITE}bright white")
+        test("${AnsiColor.BRIGHT_BLACK}bright black")
+        test("${AnsiColor.BRIGHT_RED}bright red")
+        test("${AnsiColor.BRIGHT_GREEN}bright green")
+        test("${AnsiColor.BRIGHT_YELLOW}bright yellow")
+        test("${AnsiColor.BRIGHT_BLUE}bright blue")
+        test("${AnsiColor.BRIGHT_MAGENTA}bright magenta")
+        test("${AnsiColor.BRIGHT_CYAN}bright cyan")
+        test("${AnsiColor.BRIGHT_WHITE}bright white")
 
-        test("${Ansi.BRIGHT_BLACK_BG}${Ansi.BRIGHT_BLACK}bright black bg")
-        test("${Ansi.BRIGHT_RED_BG}${Ansi.BRIGHT_BLACK}bright red bg")
-        test("${Ansi.BRIGHT_GREEN_BG}${Ansi.BRIGHT_BLACK}bright green bg")
-        test("${Ansi.BRIGHT_YELLOW_BG}${Ansi.BRIGHT_BLACK}bright yellow bg")
-        test("${Ansi.BRIGHT_BLUE_BG}${Ansi.BRIGHT_BLACK}bright blue bg")
-        test("${Ansi.BRIGHT_MAGENTA_BG}${Ansi.BRIGHT_BLACK}bright magenta bg")
-        test("${Ansi.BRIGHT_CYAN_BG}${Ansi.BRIGHT_BLACK}bright cyan bg")
-        test("${Ansi.BRIGHT_WHITE_BG}${Ansi.BRIGHT_BLACK}bright white bg")
+        test("${AnsiColor.BRIGHT_BLACK_BG}${AnsiColor.BRIGHT_BLACK}bright black bg")
+        test("${AnsiColor.BRIGHT_RED_BG}${AnsiColor.BRIGHT_BLACK}bright red bg")
+        test("${AnsiColor.BRIGHT_GREEN_BG}${AnsiColor.BRIGHT_BLACK}bright green bg")
+        test("${AnsiColor.BRIGHT_YELLOW_BG}${AnsiColor.BRIGHT_BLACK}bright yellow bg")
+        test("${AnsiColor.BRIGHT_BLUE_BG}${AnsiColor.BRIGHT_BLACK}bright blue bg")
+        test("${AnsiColor.BRIGHT_MAGENTA_BG}${AnsiColor.BRIGHT_BLACK}bright magenta bg")
+        test("${AnsiColor.BRIGHT_CYAN_BG}${AnsiColor.BRIGHT_BLACK}bright cyan bg")
+        test("${AnsiColor.BRIGHT_WHITE_BG}${AnsiColor.BRIGHT_BLACK}bright white bg")
 
-        test("${Ansi.BOLD}bold")
-        test("${Ansi.UNDERLINE}underline")
-        test("${Ansi.BLINK}blink")
-        test("${Ansi.INVERSE}inverse")
+        test("${AnsiEffect.BOLD}bold")
+        test("${UNDERLINE}underline")
+        test("${AnsiEffect.BLINK}blink")
+        test("${AnsiEffect.INVERSE}inverse")
 
-        test("${Ansi.BOLD_OFF}bold off")
-        test("${Ansi.UNDERLINE_OFF}underline off")
-        test("${Ansi.BLINK_OFF}blink off")
-        test("${Ansi.INVERSE_OFF}inverse off")
+        test("${AnsiEffect.BOLD_OFF}bold off")
+        test("${AnsiEffect.UNDERLINE_OFF}underline off")
+        test("${AnsiEffect.BLINK_OFF}blink off")
+        test("${AnsiEffect.INVERSE_OFF}inverse off")
 
-        test("${Ansi.BLACK}${Ansi.BLUE_BG}${Ansi.UNDERLINE}black fg blue bg underline")
+        test("$BLACK$BLUE_BG${UNDERLINE}black fg blue bg underline")
     }
 }
