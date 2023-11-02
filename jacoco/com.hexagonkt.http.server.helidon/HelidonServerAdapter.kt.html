@@ -4,7 +4,7 @@ import com.hexagonkt.core.fieldsMapOf
 import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.core.toText
 import com.hexagonkt.http.SslSettings
-import com.hexagonkt.http.bodyToBytes
+import com.hexagonkt.http.handlers.bodyToBytes
 import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.model.HttpProtocol
 import com.hexagonkt.http.model.HttpProtocol.*

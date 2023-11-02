@@ -10,6 +10,10 @@ private const val HOUR_OFFSET: Int = 10_000_000
 private const val MINUTE_OFFSET: Int = 100_000
 private const val SECOND_OFFSET: Int = 1_000
 private const val NANO_OFFSET: Int = 1_000_000
+private const val DAYS_PER_MONTH: Double = 30.4375
+
+/** GMT zone ID. */
+<span class="fc" id="L16">val GMT_ZONE: ZoneId by lazy { ZoneId.of(&quot;GMT&quot;) }</span>
 
 /**
  * Convert a date time to a number with the following format: `YYYYMMDDHHmmss`.
@@ -18,7 +22,7 @@ private const val NANO_OFFSET: Int = 1_000_000
  * @return Numeric representation of the given date.
  */
 fun LocalDateTime.toNumber(): Long =
-<span class="fc" id="L21">    (this.toLocalDate().toNumber() * DATE_OFFSET) + this.toLocalTime().toNumber()</span>
+<span class="fc" id="L25">    (this.toLocalDate().toNumber() * DATE_OFFSET) + this.toLocalTime().toNumber()</span>
 
 /**
  * Convert a date to an integer with the following format: `YYYYMMDD`.
@@ -27,9 +31,9 @@ fun LocalDateTime.toNumber(): Long =
  * @return Numeric representation of the given date.
  */
 fun LocalDate.toNumber(): Int =
-<span class="fc" id="L30">    (this.year * YEAR_OFFSET) +</span>
-<span class="fc" id="L31">    (this.monthValue * MONTH_OFFSET) +</span>
-<span class="fc" id="L32">    this.dayOfMonth</span>
+<span class="fc" id="L34">    (this.year * YEAR_OFFSET) +</span>
+<span class="fc" id="L35">    (this.monthValue * MONTH_OFFSET) +</span>
+<span class="fc" id="L36">    this.dayOfMonth</span>
 
 /**
  * Convert a time to an integer with the following format: `HHmmssSSS`.
@@ -38,10 +42,10 @@ fun LocalDate.toNumber(): Int =
  * @return Numeric representation of the given time.
  */
 fun LocalTime.toNumber(): Int =
-<span class="fc" id="L41">    (this.hour * HOUR_OFFSET) +</span>
-<span class="fc" id="L42">    (this.minute * MINUTE_OFFSET) +</span>
-<span class="fc" id="L43">    (this.second * SECOND_OFFSET) +</span>
-<span class="fc" id="L44">    (this.nano / NANO_OFFSET) // Nanos to millis</span>
+<span class="fc" id="L45">    (this.hour * HOUR_OFFSET) +</span>
+<span class="fc" id="L46">    (this.minute * MINUTE_OFFSET) +</span>
+<span class="fc" id="L47">    (this.second * SECOND_OFFSET) +</span>
+<span class="fc" id="L48">    (this.nano / NANO_OFFSET) // Nanos to millis</span>
 
 /**
  * Return the date time in a given time zone for a local date time.
@@ -50,8 +54,8 @@ fun LocalTime.toNumber(): Int =
  * @param zoneId Id of the target zone of the passed local date time.
  * @return Received date time at the given [zoneId].
  */
-<span class="fc" id="L53">fun LocalDateTime.withZone(zoneId: ZoneId = Jvm.timeZone.toZoneId()): ZonedDateTime =</span>
-<span class="fc" id="L54">    ZonedDateTime.of(this, zoneId)</span>
+<span class="fc" id="L57">fun LocalDateTime.withZone(zoneId: ZoneId = Jvm.timeZone.toZoneId()): ZonedDateTime =</span>
+<span class="fc" id="L58">    ZonedDateTime.of(this, zoneId)</span>
 
 /**
  * Parse a date time from a formatted number with this format: `YYYYMMDDHHmmss`.
@@ -60,11 +64,11 @@ fun LocalTime.toNumber(): Int =
  * @return Local date time representation of the given number.
  */
 fun Long.toLocalDateTime(): LocalDateTime {
-<span class="fc bfc" id="L63" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing timestamp must be positive (format: YYYYMMDDHHmmss)&quot; }</span>
-<span class="fc" id="L64">    return (this / DATE_OFFSET)</span>
-<span class="fc" id="L65">        .toInt()</span>
-<span class="fc" id="L66">        .toLocalDate()</span>
-<span class="fc" id="L67">        .atTime((this % DATE_OFFSET).toInt().toLocalTime())</span>
+<span class="fc bfc" id="L67" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing timestamp must be positive (format: YYYYMMDDHHmmss)&quot; }</span>
+<span class="fc" id="L68">    return (this / DATE_OFFSET)</span>
+<span class="fc" id="L69">        .toInt()</span>
+<span class="fc" id="L70">        .toLocalDate()</span>
+<span class="fc" id="L71">        .atTime((this % DATE_OFFSET).toInt().toLocalTime())</span>
 }
 
 /**
@@ -74,11 +78,11 @@ fun Long.toLocalDateTime(): LocalDateTime {
  * @return Local date representation of the given number.
  */
 fun Int.toLocalDate(): LocalDate {
-<span class="fc bfc" id="L77" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing date must be positive (format: YYYYMMDD)&quot; }</span>
-<span class="fc" id="L78">    return LocalDate.of(</span>
-<span class="fc" id="L79">        this / YEAR_OFFSET,</span>
-<span class="fc" id="L80">        (this % YEAR_OFFSET) / MONTH_OFFSET,</span>
-<span class="fc" id="L81">        this % MONTH_OFFSET</span>
+<span class="fc bfc" id="L81" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing date must be positive (format: YYYYMMDD)&quot; }</span>
+<span class="fc" id="L82">    return LocalDate.of(</span>
+<span class="fc" id="L83">        this / YEAR_OFFSET,</span>
+<span class="fc" id="L84">        (this % YEAR_OFFSET) / MONTH_OFFSET,</span>
+<span class="fc" id="L85">        this % MONTH_OFFSET</span>
     )
 }
 
@@ -89,12 +93,12 @@ fun Int.toLocalDate(): LocalDate {
  * @return Local time representation of the given number.
  */
 fun Int.toLocalTime(): LocalTime {
-<span class="fc bfc" id="L92" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing time must be positive (format: HHmmssSSS)&quot; }</span>
-<span class="fc" id="L93">    return LocalTime.of(</span>
-<span class="fc" id="L94">        (this / HOUR_OFFSET),</span>
-<span class="fc" id="L95">        ((this % HOUR_OFFSET) / MINUTE_OFFSET),</span>
-<span class="fc" id="L96">        ((this % MINUTE_OFFSET) / SECOND_OFFSET),</span>
-<span class="fc" id="L97">        ((this % SECOND_OFFSET) * NANO_OFFSET) // Millis to nanos</span>
+<span class="fc bfc" id="L96" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing time must be positive (format: HHmmssSSS)&quot; }</span>
+<span class="fc" id="L97">    return LocalTime.of(</span>
+<span class="fc" id="L98">        (this / HOUR_OFFSET),</span>
+<span class="fc" id="L99">        ((this % HOUR_OFFSET) / MINUTE_OFFSET),</span>
+<span class="fc" id="L100">        ((this % MINUTE_OFFSET) / SECOND_OFFSET),</span>
+<span class="fc" id="L101">        ((this % SECOND_OFFSET) * NANO_OFFSET) // Millis to nanos</span>
     )
 }
 
@@ -105,7 +109,7 @@ fun Int.toLocalTime(): LocalTime {
  * @return Date representation of the given zoned date time.
  */
 fun ZonedDateTime.toDate(): Date =
-<span class="fc" id="L108">    Date.from(this.toInstant())</span>
+<span class="fc" id="L112">    Date.from(this.toInstant())</span>
 
 /**
  * Convert a local date time to a date.
@@ -114,7 +118,7 @@ fun ZonedDateTime.toDate(): Date =
  * @return Date representation of the given local date time.
  */
 fun LocalDateTime.toDate(): Date =
-<span class="fc" id="L117">    this.atZone(Jvm.timeZone.toZoneId()).toDate()</span>
+<span class="fc" id="L121">    this.atZone(Jvm.timeZone.toZoneId()).toDate()</span>
 
 /**
  * Convert a local date to a date.
@@ -123,7 +127,7 @@ fun LocalDateTime.toDate(): Date =
  * @return Date representation of the given local date.
  */
 fun LocalDate.toDate(): Date =
-<span class="fc" id="L126">    this.atStartOfDay(Jvm.timeZone.toZoneId()).toDate()</span>
+<span class="fc" id="L130">    this.atStartOfDay(Jvm.timeZone.toZoneId()).toDate()</span>
 
 /**
  * Convert a date to a local date time.
@@ -132,7 +136,7 @@ fun LocalDate.toDate(): Date =
  * @return Local date time representation of the given date.
  */
 fun Date.toLocalDateTime(): LocalDateTime =
-<span class="fc" id="L135">    LocalDateTime.ofInstant(Instant.ofEpochMilli(this.time), ZoneId.systemDefault())</span>
+<span class="fc" id="L139">    LocalDateTime.ofInstant(Instant.ofEpochMilli(this.time), ZoneId.systemDefault())</span>
 
 /**
  * Convert a date to a local date.
@@ -141,7 +145,16 @@ fun Date.toLocalDateTime(): LocalDateTime =
  * @return Local date representation of the given date.
  */
 fun Date.toLocalDate(): LocalDate =
-<span class="fc" id="L144">    this.toLocalDateTime().toLocalDate()</span>
+<span class="fc" id="L148">    this.toLocalDateTime().toLocalDate()</span>
+
+/**
+ * Calculate the aproximate number of days comprised in a time period.
+ *
+ * @receiver Period from which calculate the number of days.
+ * @return Aproximate number of days of the period.
+ */
+fun Period.toTotalDays(): Double =
+<span class="fc" id="L157">    (toTotalMonths() * DAYS_PER_MONTH) + days</span>
 
 /**
  * Parse a time period allowing a more relaxed format: with spaces or commas, lowercase characters
@@ -151,7 +164,7 @@ fun Date.toLocalDate(): LocalDate =
  * @return Time period parsed from the supplied text.
  */
 fun parsePeriod(text: String): Period =
-<span class="fc" id="L154">    Period.parse(formatDuration(text))</span>
+<span class="fc" id="L167">    Period.parse(formatDuration(text))</span>
 
 /**
  * Parse a time duration allowing a more relaxed format: with spaces or commas, lowercase characters
@@ -162,14 +175,14 @@ fun parsePeriod(text: String): Period =
  * @return Time duration parsed from the supplied text.
  */
 fun parseDuration(text: String): Duration =
-<span class="fc" id="L165">    Duration.parse(formatDuration(text))</span>
+<span class="fc" id="L178">    Duration.parse(formatDuration(text))</span>
 
 private fun formatDuration(text: String): String =
-<span class="fc" id="L168">    text</span>
-<span class="fc" id="L169">        .replace(&quot;,&quot;, &quot;&quot;)</span>
-<span class="fc" id="L170">        .replace(&quot; &quot;, &quot;&quot;)</span>
-<span class="fc" id="L171">        .uppercase()</span>
-<span class="fc bfc" id="L172" title="All 2 branches covered.">        .let { if (it.startsWith(&quot;P&quot;)) it else &quot;P$it&quot; }</span>
+<span class="fc" id="L181">    text</span>
+<span class="fc" id="L182">        .replace(&quot;,&quot;, &quot;&quot;)</span>
+<span class="fc" id="L183">        .replace(&quot; &quot;, &quot;&quot;)</span>
+<span class="fc" id="L184">        .uppercase()</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        .let { if (it.startsWith(&quot;P&quot;)) it else &quot;P$it&quot; }</span>
 
 /**
  * Parse a local date allowing only to specify the year or the year and the month. Missing month and
@@ -179,9 +192,9 @@ private fun formatDuration(text: String): String =
  * @return Local date parsed from the supplied text.
  */
 fun parseLocalDate(text: String): LocalDate =
-<span class="fc bfc" id="L182" title="All 3 branches covered.">    when (text.length) {</span>
-<span class="fc" id="L183">        4 -&gt; Year.parse(text).atMonth(1).atDay(1)</span>
-<span class="fc" id="L184">        7 -&gt; YearMonth.parse(text).atDay(1)</span>
-<span class="fc" id="L185">        else -&gt; LocalDate.parse(text)</span>
-<span class="fc" id="L186">    }</span>
+<span class="fc bfc" id="L195" title="All 3 branches covered.">    when (text.length) {</span>
+<span class="fc" id="L196">        4 -&gt; Year.parse(text).atMonth(1).atDay(1)</span>
+<span class="fc" id="L197">        7 -&gt; YearMonth.parse(text).atDay(1)</span>
+<span class="fc" id="L198">        else -&gt; LocalDate.parse(text)</span>
+<span class="fc" id="L199">    }</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PatternFormat.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.logging.jul</a> &gt; <span class="el_source">PatternFormat.kt</span></div><h1>PatternFormat.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.logging.jul
 
-import com.hexagonkt.core.text.Ansi
-import com.hexagonkt.core.text.Ansi.BLUE
-import com.hexagonkt.core.text.Ansi.BRIGHT_BLACK
-import com.hexagonkt.core.text.Ansi.CYAN
-import com.hexagonkt.core.text.Ansi.MAGENTA
-import com.hexagonkt.core.text.Ansi.RED
+import com.hexagonkt.core.text.AnsiColor.DEFAULT
+import com.hexagonkt.core.text.AnsiColor.YELLOW
+import com.hexagonkt.core.text.AnsiColor.BLUE
+import com.hexagonkt.core.text.AnsiColor.BRIGHT_BLACK
+import com.hexagonkt.core.text.AnsiColor.CYAN
+import com.hexagonkt.core.text.AnsiColor.MAGENTA
+import com.hexagonkt.core.text.AnsiColor.RED
+import com.hexagonkt.core.text.AnsiEffect.BOLD
 import com.hexagonkt.core.text.Ansi.RESET
 import com.hexagonkt.core.text.eol
 import com.hexagonkt.core.fail
@@ -22,10 +24,10 @@ import java.util.logging.LogRecord
  *
  * @property useColor Use colors in log messages.
  */
-<span class="fc" id="L25">class PatternFormat(</span>
-<span class="fc" id="L26">    private val useColor: Boolean,</span>
-<span class="fc" id="L27">    private val messageOnly: Boolean = false,</span>
-<span class="fc" id="L28">) : Formatter() {</span>
+<span class="fc" id="L27">class PatternFormat(</span>
+<span class="fc" id="L28">    private val useColor: Boolean,</span>
+<span class="fc" id="L29">    private val messageOnly: Boolean = false,</span>
+<span class="fc" id="L30">) : Formatter() {</span>
 
     internal companion object {
         private const val TIMESTAMP = &quot;%tH:%&lt;tM:%&lt;tS,%&lt;tL&quot;
@@ -38,47 +40,47 @@ import java.util.logging.LogRecord
             &quot;$BRIGHT_BLACK$TIMESTAMP %s$LEVEL$RESET $MAGENTA$THREAD $CYAN$LOGGER$RESET | %s%n$RESET&quot;
     }
 
-<span class="fc bfc" id="L41" title="All 2 branches covered.">    private val pattern: String = if (useColor) COLOR_PATTERN else PATTERN</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">    private val pattern: String = if (useColor) COLOR_PATTERN else PATTERN</span>
 
-<span class="fc" id="L43">    private val levelColors: Map&lt;Level, String&gt; = mapOf(</span>
-<span class="fc" id="L44">        Level.FINER to Ansi.DEFAULT,</span>
-<span class="fc" id="L45">        Level.FINE to Ansi.DEFAULT,</span>
-<span class="fc" id="L46">        Level.INFO to BLUE,</span>
-<span class="fc" id="L47">        Level.WARNING to Ansi.YELLOW,</span>
-<span class="fc" id="L48">        Level.SEVERE to RED + Ansi.BOLD</span>
+<span class="fc" id="L45">    private val levelColors: Map&lt;Level, String&gt; = mapOf(</span>
+<span class="fc" id="L46">        Level.FINER to DEFAULT,</span>
+<span class="fc" id="L47">        Level.FINE to DEFAULT,</span>
+<span class="fc" id="L48">        Level.INFO to BLUE,</span>
+<span class="fc" id="L49">        Level.WARNING to YELLOW,</span>
+<span class="fc" id="L50">        Level.SEVERE to RED + BOLD</span>
     )
 
-<span class="fc" id="L51">    private val levelNames: Map&lt;Level, String&gt; = mapOf(</span>
-<span class="fc" id="L52">        Level.FINER to &quot;TRACE&quot;,</span>
-<span class="fc" id="L53">        Level.FINE to &quot;DEBUG&quot;,</span>
-<span class="fc" id="L54">        Level.INFO to &quot;INFO&quot;,</span>
-<span class="fc" id="L55">        Level.WARNING to &quot;WARN&quot;,</span>
-<span class="fc" id="L56">        Level.SEVERE to &quot;ERROR&quot;</span>
+<span class="fc" id="L53">    private val levelNames: Map&lt;Level, String&gt; = mapOf(</span>
+<span class="fc" id="L54">        Level.FINER to &quot;TRACE&quot;,</span>
+<span class="fc" id="L55">        Level.FINE to &quot;DEBUG&quot;,</span>
+<span class="fc" id="L56">        Level.INFO to &quot;INFO&quot;,</span>
+<span class="fc" id="L57">        Level.WARNING to &quot;WARN&quot;,</span>
+<span class="fc" id="L58">        Level.SEVERE to &quot;ERROR&quot;</span>
     )
 
     override fun format(record: LogRecord): String {
-<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (messageOnly)</span>
-<span class="fc" id="L61">            return record.message + &quot;\n&quot;</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (messageOnly)</span>
+<span class="fc" id="L63">            return record.message + &quot;\n&quot;</span>
 
-<span class="fc" id="L63">        val instant = Instant.ofEpochMilli(record.millis)</span>
-<span class="fc" id="L64">        val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())</span>
-<span class="fc" id="L65">        val thrown = record.thrown</span>
-<span class="fc" id="L66">        val trace = when {</span>
-<span class="fc bfc" id="L67" title="All 2 branches covered.">            thrown == null -&gt; &quot;&quot;</span>
-<span class="fc bfc" id="L68" title="All 2 branches covered.">            useColor -&gt; &quot;$eol${thrown.toText()}&quot;.replace(&quot;\n&quot;, &quot;\n$RED&quot;)</span>
-<span class="fc" id="L69">            else -&gt; &quot;$eol${thrown.toText()}&quot;</span>
+<span class="fc" id="L65">        val instant = Instant.ofEpochMilli(record.millis)</span>
+<span class="fc" id="L66">        val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())</span>
+<span class="fc" id="L67">        val thrown = record.thrown</span>
+<span class="fc" id="L68">        val trace = when {</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">            thrown == null -&gt; &quot;&quot;</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            useColor -&gt; &quot;$eol${thrown.toText()}&quot;.replace(&quot;\n&quot;, &quot;\n$RED&quot;)</span>
+<span class="fc" id="L71">            else -&gt; &quot;$eol${thrown.toText()}&quot;</span>
         }
-<span class="fc" id="L71">        val level = record.level</span>
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        val levelName = levelNames[level] ?: fail</span>
-<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        val levelColor = levelColors[level] ?: BLUE</span>
-<span class="fc" id="L74">        val message = record.message</span>
-<span class="fc" id="L75">        val loggerName = record.loggerName</span>
-<span class="fc" id="L76">        val threadName = Thread.currentThread().name</span>
+<span class="fc" id="L73">        val level = record.level</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        val levelName = levelNames[level] ?: fail</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        val levelColor = levelColors[level] ?: BLUE</span>
+<span class="fc" id="L76">        val message = record.message</span>
+<span class="fc" id="L77">        val loggerName = record.loggerName</span>
+<span class="fc" id="L78">        val threadName = Thread.currentThread().name</span>
 
-<span class="fc bfc" id="L78" title="All 2 branches covered.">        return if (useColor)</span>
-<span class="fc" id="L79">            pattern.format(dateTime, levelColor, levelName, threadName, loggerName, message + trace)</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        return if (useColor)</span>
+<span class="fc" id="L81">            pattern.format(dateTime, levelColor, levelName, threadName, loggerName, message + trace)</span>
         else
-<span class="fc" id="L81">            pattern.format(dateTime, levelName, threadName, loggerName, message + trace)</span>
+<span class="fc" id="L83">            pattern.format(dateTime, levelName, threadName, loggerName, message + trace)</span>
     }
-<span class="fc" id="L83">}</span>
+<span class="fc" id="L85">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

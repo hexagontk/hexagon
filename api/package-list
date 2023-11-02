@@ -42,6 +42,7 @@ module:rest
 com.hexagonkt.rest
 module:rest_tools
 com.hexagonkt.rest.tools
+com.hexagonkt.rest.tools.openapi
 module:web
 com.hexagonkt.web
 module:logging_jul
