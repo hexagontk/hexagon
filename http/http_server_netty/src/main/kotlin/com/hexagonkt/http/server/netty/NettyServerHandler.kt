@@ -47,10 +47,10 @@ internal class NettyServerHandler(
     }
 
     private fun readHttpRequest(context: ChannelHandlerContext, nettyRequest: HttpRequest) {
-        val result = nettyRequest.decoderResult()
-
-        if (result.isFailure)
-            throw IllegalStateException(result.cause())
+//        val result = nettyRequest.decoderResult()
+//
+//        if (result.isFailure)
+//            throw IllegalStateException(result.cause())
 
         val channel = context.channel()
         val address = channel.remoteAddress() as InetSocketAddress

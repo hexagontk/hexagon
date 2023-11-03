@@ -59,13 +59,3 @@ public class com/hexagonkt/http/server/netty/NettyServerAdapter : com/hexagonkt/
 	public fun supportedProtocols ()Ljava/util/Set;
 }
 
-public final class com/hexagonkt/http/server/netty/NettyServerAdapter$HttpChannelInitializer : io/netty/channel/ChannelInitializer {
-	public fun <init> (Ljava/util/Map;Lio/netty/util/concurrent/EventExecutorGroup;Lcom/hexagonkt/http/server/HttpServerSettings;)V
-	public synthetic fun initChannel (Lio/netty/channel/Channel;)V
-}
-
-public final class com/hexagonkt/http/server/netty/NettyServerAdapter$HttpsChannelInitializer : io/netty/channel/ChannelInitializer {
-	public fun <init> (Ljava/util/Map;Lio/netty/handler/ssl/SslContext;Lcom/hexagonkt/http/SslSettings;Lio/netty/util/concurrent/EventExecutorGroup;Lcom/hexagonkt/http/server/HttpServerSettings;)V
-	public synthetic fun initChannel (Lio/netty/channel/Channel;)V
-}
-

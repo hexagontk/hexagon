@@ -2,7 +2,7 @@ package com.hexagonkt.core.logging
 
 import com.hexagonkt.core.logging.LoggingLevel.*
 
-data class SystemLogger(val name: String) : LoggerPort {
+internal data class SystemLogger(val name: String) : LoggerPort {
 
     private val logger: System.Logger = System.getLogger(name)
 
