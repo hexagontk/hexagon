@@ -29,7 +29,6 @@ import io.netty.handler.codec.http.cookie.ServerCookieEncoder.STRICT as STRICT_E
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory
 import io.netty.handler.ssl.SslHandler
 import io.netty.handler.ssl.SslHandshakeCompletionEvent
-import java.net.InetSocketAddress
 import java.security.cert.X509Certificate
 import java.util.concurrent.Flow.*
 import com.hexagonkt.http.model.HttpRequest as HexagonHttpRequest
@@ -37,6 +36,7 @@ import com.hexagonkt.http.model.HttpRequest as HexagonHttpRequest
 internal class NettyServerHandler(
     private val handlers: Map<HttpMethod, HttpHandler>,
     private val sslHandler: SslHandler?,
+    private val enableWebsockets: Boolean = true,
 ) : ChannelInboundHandlerAdapter() {
 
     private var certificates: List<X509Certificate> = emptyList()
@@ -53,12 +53,11 @@ internal class NettyServerHandler(
             throw IllegalStateException(result.cause())
 
         val channel = context.channel()
-        val address = channel.remoteAddress() as InetSocketAddress
         val method = nettyRequest.method()
         val pathHandler = handlers[method]
 
         val headers = nettyRequest.headers()
-        val request = NettyRequestAdapter(method, nettyRequest, certificates, address, headers)
+        val request = NettyRequestAdapter(method, nettyRequest, certificates, channel, headers)
 
         if (pathHandler == null) {
             writeResponse(context, request, HttpResponse(), HttpUtil.isKeepAlive(nettyRequest))
@@ -68,21 +67,27 @@ internal class NettyServerHandler(
         val resultContext = pathHandler.process(request)
         val response = resultContext.event.response
 
-        val body = response.body
-        val connection = headers[CONNECTION]?.lowercase()
-        val upgrade = headers[UPGRADE]?.lowercase()
+        val isWebSocket =
+            if (enableWebsockets) isWebsocket(headers, method, response.status)
+            else false
 
+        val body = response.body
         val isSse = body is Publisher<*>
-        val isWebSocket = connection == "upgrade"
-            && upgrade == "websocket"
-            && method == GET
-            && response.status == ACCEPTED_202
 
         when {
             isSse -> handleSse(context, request, response, body)
             isWebSocket -> handleWebSocket(context, resultContext, response, nettyRequest, channel)
             else -> writeResponse(context, request, response, HttpUtil.isKeepAlive(nettyRequest))
         }
+    }
+
+    private fun isWebsocket(headers: HttpHeaders, method: HttpMethod, status: HttpStatus): Boolean {
+        val connection = headers[CONNECTION]?.lowercase()
+        val upgrade = headers[UPGRADE]?.lowercase()
+        return connection == "upgrade"
+            && upgrade == "websocket"
+            && method == GET
+            && status == ACCEPTED_202
     }
 
     @Suppress("UNCHECKED_CAST") // Body not cast to Publisher<HttpServerEvent> due to type erasure

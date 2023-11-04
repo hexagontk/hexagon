@@ -15,21 +15,17 @@ import com.hexagonkt.http.handlers.HttpHandler
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.*
 import io.netty.channel.nio.NioEventLoopGroup
-import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.codec.http.*
 import io.netty.handler.ssl.ClientAuth.OPTIONAL
 import io.netty.handler.ssl.ClientAuth.REQUIRE
 import io.netty.handler.ssl.SslContext
 import io.netty.handler.ssl.SslContextBuilder
-import io.netty.handler.stream.ChunkedWriteHandler
 import io.netty.util.concurrent.DefaultEventExecutorGroup
-import io.netty.util.concurrent.EventExecutorGroup
 import java.net.InetSocketAddress
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.TrustManagerFactory
-import kotlin.Int.Companion.MAX_VALUE
 
 /**
  * Implements [HttpServerPort] using Netty [Channel].
@@ -43,6 +39,10 @@ open class NettyServerAdapter(
     private val soKeepAlive: Boolean = true,
     private val shutdownQuietSeconds: Long = 0,
     private val shutdownTimeoutSeconds: Long = 0,
+    private val keepAliveHandler: Boolean = true,
+    private val httpAggregatorHandler: Boolean = true,
+    private val chunkedHandler: Boolean = true,
+    private val enableWebsockets: Boolean = true,
 ) : HttpServerPort {
 
     private var nettyChannel: Channel? = null
@@ -124,7 +124,15 @@ open class NettyServerAdapter(
     ) =
         when {
             sslSettings != null -> sslInitializer(sslSettings, handlers, group, settings)
-            else -> HttpChannelInitializer(handlers, group, settings)
+            else -> HttpChannelInitializer(
+                handlers,
+                group,
+                settings,
+                keepAliveHandler,
+                httpAggregatorHandler,
+                chunkedHandler,
+                enableWebsockets,
+            )
         }
 
     private fun sslInitializer(
@@ -133,7 +141,17 @@ open class NettyServerAdapter(
         group: DefaultEventExecutorGroup?,
         settings: HttpServerSettings
     ): HttpsChannelInitializer =
-        HttpsChannelInitializer(handlers, sslContext(sslSettings), sslSettings, group, settings)
+        HttpsChannelInitializer(
+            handlers,
+            sslContext(sslSettings),
+            sslSettings,
+            group,
+            settings,
+            keepAliveHandler,
+            httpAggregatorHandler,
+            chunkedHandler,
+            enableWebsockets,
+        )
 
     private fun sslContext(sslSettings: SslSettings): SslContext {
         val keyManager = createKeyManagerFactory(sslSettings)
@@ -195,58 +213,9 @@ open class NettyServerAdapter(
             NettyServerAdapter::soKeepAlive to soKeepAlive,
             NettyServerAdapter::shutdownQuietSeconds to shutdownQuietSeconds,
             NettyServerAdapter::shutdownTimeoutSeconds to shutdownTimeoutSeconds,
+            NettyServerAdapter::keepAliveHandler to keepAliveHandler,
+            NettyServerAdapter::httpAggregatorHandler to httpAggregatorHandler,
+            NettyServerAdapter::chunkedHandler to chunkedHandler,
+            NettyServerAdapter::enableWebsockets to enableWebsockets,
         )
-
-    class HttpChannelInitializer(
-        private val handlers: Map<HttpMethod, HttpHandler>,
-        private val executorGroup: EventExecutorGroup?,
-        private val settings: HttpServerSettings,
-    ) : ChannelInitializer<SocketChannel>() {
-
-        override fun initChannel(channel: SocketChannel) {
-            val pipeline = channel.pipeline()
-
-            pipeline.addLast(HttpServerCodec())
-            pipeline.addLast(HttpServerKeepAliveHandler())
-            pipeline.addLast(HttpObjectAggregator(MAX_VALUE))
-            pipeline.addLast(ChunkedWriteHandler())
-
-            if (settings.zip)
-                pipeline.addLast(HttpContentCompressor())
-
-            if (executorGroup == null)
-                pipeline.addLast(NettyServerHandler(handlers, null))
-            else
-                pipeline.addLast(executorGroup, NettyServerHandler(handlers, null))
-        }
-    }
-
-    class HttpsChannelInitializer(
-        private val handlers: Map<HttpMethod, HttpHandler>,
-        private val sslContext: SslContext,
-        private val sslSettings: SslSettings,
-        private val executorGroup: EventExecutorGroup?,
-        private val settings: HttpServerSettings,
-    ) : ChannelInitializer<SocketChannel>() {
-
-        override fun initChannel(channel: SocketChannel) {
-            val pipeline = channel.pipeline()
-            val sslHandler = sslContext.newHandler(channel.alloc())
-            val handlerSsl = if (sslSettings.clientAuth) sslHandler else null
-
-            pipeline.addLast(sslHandler)
-            pipeline.addLast(HttpServerCodec())
-            pipeline.addLast(HttpServerKeepAliveHandler())
-            pipeline.addLast(HttpObjectAggregator(MAX_VALUE))
-            pipeline.addLast(ChunkedWriteHandler())
-
-            if (settings.zip)
-                pipeline.addLast(HttpContentCompressor())
-
-            if (executorGroup == null)
-                pipeline.addLast(NettyServerHandler(handlers, handlerSsl))
-            else
-                pipeline.addLast(executorGroup, NettyServerHandler(handlers, handlerSsl))
-        }
-    }
 }

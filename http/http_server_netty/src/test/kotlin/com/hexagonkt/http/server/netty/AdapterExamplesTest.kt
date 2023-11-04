@@ -31,3 +31,23 @@ internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)
 internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
 @DisabledInNativeImage // TODO Fix this
 internal class AdapterWebSocketsTest : WebSocketsTest(clientAdapter, serverAdapter)
+
+val liteServerAdapter: () -> NettyServerAdapter = {
+    NettyServerAdapter(
+        keepAliveHandler = false,
+        httpAggregatorHandler = false,
+        chunkedHandler = false,
+        enableWebsockets = false,
+    )
+}
+
+internal class LiteAdapterBooksTest : BooksTest(clientAdapter, liteServerAdapter)
+internal class LiteAdapterErrorsTest : ErrorsTest(clientAdapter, liteServerAdapter)
+internal class LiteAdapterFiltersTest : FiltersTest(clientAdapter, liteServerAdapter)
+@DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
+internal class LiteAdapterHttpsTest : HttpsTest(clientAdapter, liteServerAdapter)
+internal class LiteAdapterZipTest : ZipTest(clientAdapter, liteServerAdapter)
+internal class LiteAdapterCookiesTest : CookiesTest(clientAdapter, liteServerAdapter)
+internal class LiteAdapterCorsTest : CorsTest(clientAdapter, liteServerAdapter)
+internal class LiteAdapterBenchmarkIT : BenchmarkIT(clientAdapter, liteServerAdapter)
+internal class LiteAdapterSseTest : SseTest(clientAdapter, liteServerAdapter)

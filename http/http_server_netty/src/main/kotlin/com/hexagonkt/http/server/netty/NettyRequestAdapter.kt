@@ -7,6 +7,7 @@ import com.hexagonkt.http.parseContentType
 import io.netty.buffer.ByteBufHolder
 import io.netty.buffer.ByteBufUtil
 import io.netty.buffer.Unpooled
+import io.netty.channel.Channel
 import io.netty.handler.codec.http.HttpHeaderNames.*
 import io.netty.handler.codec.http.HttpHeaders
 import io.netty.handler.codec.http.QueryStringDecoder
@@ -26,9 +27,11 @@ class NettyRequestAdapter(
     methodName: NettyHttpMethod,
     req: HttpRequest,
     override val certificateChain: List<X509Certificate>,
-    address: InetSocketAddress,
+    channel: Channel,
     nettyHeaders: HttpHeaders,
 ) : HttpRequestPort {
+
+    private val address: InetSocketAddress by lazy { channel.remoteAddress() as InetSocketAddress }
 
     override val accept: List<ContentType> by lazy {
         nettyHeaders.getAll(ACCEPT).flatMap { it.split(",") }.map { parseContentType(it) }
