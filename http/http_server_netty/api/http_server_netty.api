@@ -6,7 +6,7 @@ public final class com/hexagonkt/http/server/netty/NettyKt {
 }
 
 public final class com/hexagonkt/http/server/netty/NettyRequestAdapter : com/hexagonkt/http/model/HttpRequestPort {
-	public fun <init> (Lio/netty/handler/codec/http/HttpMethod;Lio/netty/handler/codec/http/HttpRequest;Ljava/util/List;Ljava/net/InetSocketAddress;Lio/netty/handler/codec/http/HttpHeaders;)V
+	public fun <init> (Lio/netty/handler/codec/http/HttpMethod;Lio/netty/handler/codec/http/HttpRequest;Ljava/util/List;Lio/netty/channel/Channel;Lio/netty/handler/codec/http/HttpHeaders;)V
 	public fun authorization ()Lcom/hexagonkt/http/model/Authorization;
 	public fun bodyString ()Ljava/lang/String;
 	public fun certificate ()Ljava/security/cert/X509Certificate;
@@ -46,8 +46,8 @@ public final class com/hexagonkt/http/server/netty/NettyRequestAdapter : com/hex
 
 public class com/hexagonkt/http/server/netty/NettyServerAdapter : com/hexagonkt/http/server/HttpServerPort {
 	public fun <init> ()V
-	public fun <init> (IIIIZZJJ)V
-	public synthetic fun <init> (IIIIZZJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (IIIIZZJJZZZZ)V
+	public synthetic fun <init> (IIIIZZJJZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun groupSupplier (I)Lio/netty/channel/MultithreadEventLoopGroup;
 	public fun options ()Ljava/util/Map;
 	public fun runtimePort ()I

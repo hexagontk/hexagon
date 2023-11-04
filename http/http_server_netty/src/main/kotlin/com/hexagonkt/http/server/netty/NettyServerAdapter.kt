@@ -39,6 +39,10 @@ open class NettyServerAdapter(
     private val soKeepAlive: Boolean = true,
     private val shutdownQuietSeconds: Long = 0,
     private val shutdownTimeoutSeconds: Long = 0,
+    private val keepAliveHandler: Boolean = true,
+    private val httpAggregatorHandler: Boolean = true,
+    private val chunkedHandler: Boolean = true,
+    private val enableWebsockets: Boolean = true,
 ) : HttpServerPort {
 
     private var nettyChannel: Channel? = null
@@ -120,7 +124,15 @@ open class NettyServerAdapter(
     ) =
         when {
             sslSettings != null -> sslInitializer(sslSettings, handlers, group, settings)
-            else -> HttpChannelInitializer(handlers, group, settings)
+            else -> HttpChannelInitializer(
+                handlers,
+                group,
+                settings,
+                keepAliveHandler,
+                httpAggregatorHandler,
+                chunkedHandler,
+                enableWebsockets,
+            )
         }
 
     private fun sslInitializer(
@@ -129,7 +141,17 @@ open class NettyServerAdapter(
         group: DefaultEventExecutorGroup?,
         settings: HttpServerSettings
     ): HttpsChannelInitializer =
-        HttpsChannelInitializer(handlers, sslContext(sslSettings), sslSettings, group, settings)
+        HttpsChannelInitializer(
+            handlers,
+            sslContext(sslSettings),
+            sslSettings,
+            group,
+            settings,
+            keepAliveHandler,
+            httpAggregatorHandler,
+            chunkedHandler,
+            enableWebsockets,
+        )
 
     private fun sslContext(sslSettings: SslSettings): SslContext {
         val keyManager = createKeyManagerFactory(sslSettings)
@@ -191,5 +213,9 @@ open class NettyServerAdapter(
             NettyServerAdapter::soKeepAlive to soKeepAlive,
             NettyServerAdapter::shutdownQuietSeconds to shutdownQuietSeconds,
             NettyServerAdapter::shutdownTimeoutSeconds to shutdownTimeoutSeconds,
+            NettyServerAdapter::keepAliveHandler to keepAliveHandler,
+            NettyServerAdapter::httpAggregatorHandler to httpAggregatorHandler,
+            NettyServerAdapter::chunkedHandler to chunkedHandler,
+            NettyServerAdapter::enableWebsockets to enableWebsockets,
         )
 }
