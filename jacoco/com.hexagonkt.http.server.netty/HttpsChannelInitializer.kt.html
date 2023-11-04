@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpsChannelInitializer.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.netty</a> &gt; <span class="el_source">HttpsChannelInitializer.kt</span></div><h1>HttpsChannelInitializer.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.netty
+
+import com.hexagonkt.http.SslSettings
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.server.HttpServerSettings
+import io.netty.channel.ChannelInitializer
+import io.netty.channel.socket.SocketChannel
+import io.netty.handler.codec.http.*
+import io.netty.handler.ssl.SslContext
+import io.netty.handler.stream.ChunkedWriteHandler
+import io.netty.util.concurrent.EventExecutorGroup
+
+<span class="pc" id="L13">internal class HttpsChannelInitializer(</span>
+<span class="fc" id="L14">    private val handlers: Map&lt;HttpMethod, HttpHandler&gt;,</span>
+<span class="fc" id="L15">    private val sslContext: SslContext,</span>
+<span class="fc" id="L16">    private val sslSettings: SslSettings,</span>
+<span class="fc" id="L17">    private val executorGroup: EventExecutorGroup?,</span>
+<span class="fc" id="L18">    private val settings: HttpServerSettings,</span>
+<span class="pc" id="L19">    private val keepAliveHandler: Boolean = true,</span>
+<span class="pc" id="L20">    private val httpAggregatorHandler: Boolean = true,</span>
+<span class="pc" id="L21">    private val chunkedHandler: Boolean = true,</span>
+<span class="pc" id="L22">    private val enableWebsockets: Boolean = true,</span>
+<span class="fc" id="L23">) : ChannelInitializer&lt;SocketChannel&gt;() {</span>
+
+    override fun initChannel(channel: SocketChannel) {
+<span class="fc" id="L26">        val pipeline = channel.pipeline()</span>
+<span class="fc" id="L27">        val sslHandler = sslContext.newHandler(channel.alloc())</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        val handlerSsl = if (sslSettings.clientAuth) sslHandler else null</span>
+
+<span class="fc" id="L30">        pipeline.addLast(sslHandler)</span>
+<span class="fc" id="L31">        pipeline.addLast(HttpServerCodec())</span>
+
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (keepAliveHandler)</span>
+<span class="fc" id="L34">            pipeline.addLast(HttpServerKeepAliveHandler())</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (httpAggregatorHandler)</span>
+<span class="fc" id="L36">            pipeline.addLast(HttpObjectAggregator(Int.MAX_VALUE))</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (chunkedHandler)</span>
+<span class="fc" id="L38">            pipeline.addLast(ChunkedWriteHandler())</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if (settings.zip)</span>
+<span class="nc" id="L40">            pipeline.addLast(HttpContentCompressor())</span>
+
+<span class="fc" id="L42">        val serverHandler = NettyServerHandler(handlers, handlerSsl, enableWebsockets)</span>
+
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if (executorGroup == null)</span>
+<span class="nc" id="L45">            pipeline.addLast(serverHandler)</span>
+        else
+<span class="fc" id="L47">            pipeline.addLast(executorGroup, serverHandler)</span>
+<span class="fc" id="L48">    }</span>
+<span class="nc" id="L49">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

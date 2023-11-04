@@ -15,34 +15,34 @@ import com.hexagonkt.http.handlers.HttpHandler
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.*
 import io.netty.channel.nio.NioEventLoopGroup
-import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.codec.http.*
 import io.netty.handler.ssl.ClientAuth.OPTIONAL
 import io.netty.handler.ssl.ClientAuth.REQUIRE
 import io.netty.handler.ssl.SslContext
 import io.netty.handler.ssl.SslContextBuilder
-import io.netty.handler.stream.ChunkedWriteHandler
 import io.netty.util.concurrent.DefaultEventExecutorGroup
-import io.netty.util.concurrent.EventExecutorGroup
 import java.net.InetSocketAddress
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.TrustManagerFactory
-import kotlin.Int.Companion.MAX_VALUE
 
 /**
  * Implements [HttpServerPort] using Netty [Channel].
  */
-<span class="fc" id="L37">open class NettyServerAdapter(</span>
-<span class="pc" id="L38">    private val bossGroupThreads: Int = 1,</span>
-<span class="pc" id="L39">    private val workerGroupThreads: Int = 0,</span>
-<span class="pc" id="L40">    private val executorThreads: Int = Jvm.cpuCount * 2,</span>
-<span class="pc" id="L41">    private val soBacklog: Int = 4 * 1_024,</span>
-<span class="pc" id="L42">    private val soReuseAddr: Boolean = true,</span>
-<span class="pc" id="L43">    private val soKeepAlive: Boolean = true,</span>
-<span class="fc" id="L44">    private val shutdownQuietSeconds: Long = 0,</span>
-<span class="fc" id="L45">    private val shutdownTimeoutSeconds: Long = 0,</span>
+<span class="fc" id="L33">open class NettyServerAdapter(</span>
+<span class="fc" id="L34">    private val bossGroupThreads: Int = 1,</span>
+<span class="fc" id="L35">    private val workerGroupThreads: Int = 0,</span>
+<span class="fc" id="L36">    private val executorThreads: Int = Jvm.cpuCount * 2,</span>
+<span class="fc" id="L37">    private val soBacklog: Int = 4 * 1_024,</span>
+<span class="fc" id="L38">    private val soReuseAddr: Boolean = true,</span>
+<span class="fc" id="L39">    private val soKeepAlive: Boolean = true,</span>
+<span class="fc" id="L40">    private val shutdownQuietSeconds: Long = 0,</span>
+<span class="fc" id="L41">    private val shutdownTimeoutSeconds: Long = 0,</span>
+<span class="fc" id="L42">    private val keepAliveHandler: Boolean = true,</span>
+<span class="fc" id="L43">    private val httpAggregatorHandler: Boolean = true,</span>
+<span class="fc" id="L44">    private val chunkedHandler: Boolean = true,</span>
+<span class="fc" id="L45">    private val enableWebsockets: Boolean = true,</span>
 ) : HttpServerPort {
 
     private var nettyChannel: Channel? = null
@@ -124,8 +124,16 @@ import kotlin.Int.Companion.MAX_VALUE
     ) =
 <span class="fc" id="L125">        when {</span>
 <span class="fc bfc" id="L126" title="All 2 branches covered.">            sslSettings != null -&gt; sslInitializer(sslSettings, handlers, group, settings)</span>
-<span class="fc" id="L127">            else -&gt; HttpChannelInitializer(handlers, group, settings)</span>
-<span class="fc" id="L128">        }</span>
+<span class="fc" id="L127">            else -&gt; HttpChannelInitializer(</span>
+<span class="fc" id="L128">                handlers,</span>
+<span class="fc" id="L129">                group,</span>
+<span class="fc" id="L130">                settings,</span>
+<span class="fc" id="L131">                keepAliveHandler,</span>
+<span class="fc" id="L132">                httpAggregatorHandler,</span>
+<span class="fc" id="L133">                chunkedHandler,</span>
+<span class="fc" id="L134">                enableWebsockets,</span>
+            )
+<span class="fc" id="L136">        }</span>
 
     private fun sslInitializer(
         sslSettings: SslSettings,
@@ -133,121 +141,82 @@ import kotlin.Int.Companion.MAX_VALUE
         group: DefaultEventExecutorGroup?,
         settings: HttpServerSettings
     ): HttpsChannelInitializer =
-<span class="fc" id="L136">        HttpsChannelInitializer(handlers, sslContext(sslSettings), sslSettings, group, settings)</span>
+<span class="fc" id="L144">        HttpsChannelInitializer(</span>
+<span class="fc" id="L145">            handlers,</span>
+<span class="fc" id="L146">            sslContext(sslSettings),</span>
+<span class="fc" id="L147">            sslSettings,</span>
+<span class="fc" id="L148">            group,</span>
+<span class="fc" id="L149">            settings,</span>
+<span class="fc" id="L150">            keepAliveHandler,</span>
+<span class="fc" id="L151">            httpAggregatorHandler,</span>
+<span class="fc" id="L152">            chunkedHandler,</span>
+<span class="fc" id="L153">            enableWebsockets,</span>
+<span class="fc" id="L154">        )</span>
 
     private fun sslContext(sslSettings: SslSettings): SslContext {
-<span class="fc" id="L139">        val keyManager = createKeyManagerFactory(sslSettings)</span>
+<span class="fc" id="L157">        val keyManager = createKeyManagerFactory(sslSettings)</span>
 
-<span class="fc" id="L141">        val sslContextBuilder = SslContextBuilder</span>
-<span class="fc" id="L142">            .forServer(keyManager)</span>
-<span class="fc bfc" id="L143" title="All 2 branches covered.">            .clientAuth(if (sslSettings.clientAuth) REQUIRE else OPTIONAL)</span>
+<span class="fc" id="L159">        val sslContextBuilder = SslContextBuilder</span>
+<span class="fc" id="L160">            .forServer(keyManager)</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">            .clientAuth(if (sslSettings.clientAuth) REQUIRE else OPTIONAL)</span>
 
-<span class="fc" id="L145">        val trustManager = createTrustManagerFactory(sslSettings)</span>
+<span class="fc" id="L163">        val trustManager = createTrustManagerFactory(sslSettings)</span>
 
-<span class="fc bfc" id="L147" title="All 2 branches covered.">        return if (trustManager == null) sslContextBuilder.build()</span>
-<span class="fc" id="L148">            else sslContextBuilder.trustManager(trustManager).build()</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        return if (trustManager == null) sslContextBuilder.build()</span>
+<span class="fc" id="L166">            else sslContextBuilder.trustManager(trustManager).build()</span>
     }
 
     private fun createTrustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
-<span class="fc bfc" id="L152" title="All 2 branches covered.">        val trustStoreUrl = sslSettings.trustStore ?: return null</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        val trustStoreUrl = sslSettings.trustStore ?: return null</span>
 
-<span class="fc" id="L154">        val trustStorePassword = sslSettings.trustStorePassword</span>
-<span class="fc" id="L155">        val trustStore = loadKeyStore(trustStoreUrl, trustStorePassword)</span>
-<span class="fc" id="L156">        val trustAlgorithm = TrustManagerFactory.getDefaultAlgorithm()</span>
-<span class="fc" id="L157">        val trustManager = TrustManagerFactory.getInstance(trustAlgorithm)</span>
+<span class="fc" id="L172">        val trustStorePassword = sslSettings.trustStorePassword</span>
+<span class="fc" id="L173">        val trustStore = loadKeyStore(trustStoreUrl, trustStorePassword)</span>
+<span class="fc" id="L174">        val trustAlgorithm = TrustManagerFactory.getDefaultAlgorithm()</span>
+<span class="fc" id="L175">        val trustManager = TrustManagerFactory.getInstance(trustAlgorithm)</span>
 
-<span class="fc" id="L159">        trustManager.init(trustStore)</span>
-<span class="fc" id="L160">        return trustManager</span>
+<span class="fc" id="L177">        trustManager.init(trustStore)</span>
+<span class="fc" id="L178">        return trustManager</span>
     }
 
     private fun createKeyManagerFactory(sslSettings: SslSettings): KeyManagerFactory {
-<span class="pc bpc" id="L164" title="1 of 2 branches missed.">        val keyStoreUrl = sslSettings.keyStore ?: error(&quot;&quot;)</span>
-<span class="fc" id="L165">        val keyStorePassword = sslSettings.keyStorePassword</span>
-<span class="fc" id="L166">        val keyStore = loadKeyStore(keyStoreUrl, keyStorePassword)</span>
-<span class="fc" id="L167">        val keyManager = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm())</span>
-<span class="fc" id="L168">        keyManager.init(keyStore, keyStorePassword.toCharArray())</span>
-<span class="fc" id="L169">        return keyManager</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">        val keyStoreUrl = sslSettings.keyStore ?: error(&quot;&quot;)</span>
+<span class="fc" id="L183">        val keyStorePassword = sslSettings.keyStorePassword</span>
+<span class="fc" id="L184">        val keyStore = loadKeyStore(keyStoreUrl, keyStorePassword)</span>
+<span class="fc" id="L185">        val keyManager = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm())</span>
+<span class="fc" id="L186">        keyManager.init(keyStore, keyStorePassword.toCharArray())</span>
+<span class="fc" id="L187">        return keyManager</span>
     }
 
     override fun shutDown() {
-<span class="fc" id="L173">        workerEventLoop</span>
-<span class="pc bpc" id="L174" title="2 of 4 branches missed.">            ?.shutdownGracefully(shutdownQuietSeconds, shutdownTimeoutSeconds, SECONDS)?.sync()</span>
-<span class="fc" id="L175">        bossEventLoop</span>
-<span class="pc bpc" id="L176" title="2 of 4 branches missed.">            ?.shutdownGracefully(shutdownQuietSeconds, shutdownTimeoutSeconds, SECONDS)?.sync()</span>
+<span class="fc" id="L191">        workerEventLoop</span>
+<span class="pc bpc" id="L192" title="2 of 4 branches missed.">            ?.shutdownGracefully(shutdownQuietSeconds, shutdownTimeoutSeconds, SECONDS)?.sync()</span>
+<span class="fc" id="L193">        bossEventLoop</span>
+<span class="pc bpc" id="L194" title="2 of 4 branches missed.">            ?.shutdownGracefully(shutdownQuietSeconds, shutdownTimeoutSeconds, SECONDS)?.sync()</span>
 
-<span class="fc" id="L178">        nettyChannel = null</span>
-<span class="fc" id="L179">        bossEventLoop = null</span>
-<span class="fc" id="L180">        workerEventLoop = null</span>
-<span class="fc" id="L181">    }</span>
+<span class="fc" id="L196">        nettyChannel = null</span>
+<span class="fc" id="L197">        bossEventLoop = null</span>
+<span class="fc" id="L198">        workerEventLoop = null</span>
+<span class="fc" id="L199">    }</span>
 
     override fun supportedProtocols(): Set&lt;HttpProtocol&gt; =
-<span class="fc" id="L184">        setOf(HTTP, HTTPS, HTTP2, H2C)</span>
+<span class="fc" id="L202">        setOf(HTTP, HTTPS, HTTP2, H2C)</span>
 
     override fun supportedFeatures(): Set&lt;HttpServerFeature&gt; =
-<span class="fc" id="L187">        setOf(ZIP, WEB_SOCKETS, SSE)</span>
+<span class="fc" id="L205">        setOf(ZIP, WEB_SOCKETS, SSE)</span>
 
     override fun options(): Map&lt;String, *&gt; =
-<span class="fc" id="L190">        fieldsMapOf(</span>
-<span class="fc" id="L191">            NettyServerAdapter::bossGroupThreads to bossGroupThreads,</span>
-<span class="fc" id="L192">            NettyServerAdapter::workerGroupThreads to workerGroupThreads,</span>
-<span class="fc" id="L193">            NettyServerAdapter::executorThreads to executorThreads,</span>
-<span class="fc" id="L194">            NettyServerAdapter::soBacklog to soBacklog,</span>
-<span class="fc" id="L195">            NettyServerAdapter::soKeepAlive to soKeepAlive,</span>
-<span class="fc" id="L196">            NettyServerAdapter::shutdownQuietSeconds to shutdownQuietSeconds,</span>
-<span class="fc" id="L197">            NettyServerAdapter::shutdownTimeoutSeconds to shutdownTimeoutSeconds,</span>
-<span class="fc" id="L198">        )</span>
-
-<span class="fc" id="L200">    class HttpChannelInitializer(</span>
-<span class="fc" id="L201">        private val handlers: Map&lt;HttpMethod, HttpHandler&gt;,</span>
-<span class="fc" id="L202">        private val executorGroup: EventExecutorGroup?,</span>
-<span class="fc" id="L203">        private val settings: HttpServerSettings,</span>
-<span class="fc" id="L204">    ) : ChannelInitializer&lt;SocketChannel&gt;() {</span>
-
-        override fun initChannel(channel: SocketChannel) {
-<span class="fc" id="L207">            val pipeline = channel.pipeline()</span>
-
-<span class="fc" id="L209">            pipeline.addLast(HttpServerCodec())</span>
-<span class="fc" id="L210">            pipeline.addLast(HttpServerKeepAliveHandler())</span>
-<span class="fc" id="L211">            pipeline.addLast(HttpObjectAggregator(MAX_VALUE))</span>
-<span class="fc" id="L212">            pipeline.addLast(ChunkedWriteHandler())</span>
-
-<span class="fc bfc" id="L214" title="All 2 branches covered.">            if (settings.zip)</span>
-<span class="fc" id="L215">                pipeline.addLast(HttpContentCompressor())</span>
-
-<span class="pc bpc" id="L217" title="1 of 2 branches missed.">            if (executorGroup == null)</span>
-<span class="nc" id="L218">                pipeline.addLast(NettyServerHandler(handlers, null))</span>
-            else
-<span class="fc" id="L220">                pipeline.addLast(executorGroup, NettyServerHandler(handlers, null))</span>
-<span class="fc" id="L221">        }</span>
-    }
-
-<span class="fc" id="L224">    class HttpsChannelInitializer(</span>
-<span class="fc" id="L225">        private val handlers: Map&lt;HttpMethod, HttpHandler&gt;,</span>
-<span class="fc" id="L226">        private val sslContext: SslContext,</span>
-<span class="fc" id="L227">        private val sslSettings: SslSettings,</span>
-<span class="fc" id="L228">        private val executorGroup: EventExecutorGroup?,</span>
-<span class="fc" id="L229">        private val settings: HttpServerSettings,</span>
-<span class="fc" id="L230">    ) : ChannelInitializer&lt;SocketChannel&gt;() {</span>
-
-        override fun initChannel(channel: SocketChannel) {
-<span class="fc" id="L233">            val pipeline = channel.pipeline()</span>
-<span class="fc" id="L234">            val sslHandler = sslContext.newHandler(channel.alloc())</span>
-<span class="fc bfc" id="L235" title="All 2 branches covered.">            val handlerSsl = if (sslSettings.clientAuth) sslHandler else null</span>
-
-<span class="fc" id="L237">            pipeline.addLast(sslHandler)</span>
-<span class="fc" id="L238">            pipeline.addLast(HttpServerCodec())</span>
-<span class="fc" id="L239">            pipeline.addLast(HttpServerKeepAliveHandler())</span>
-<span class="fc" id="L240">            pipeline.addLast(HttpObjectAggregator(MAX_VALUE))</span>
-<span class="fc" id="L241">            pipeline.addLast(ChunkedWriteHandler())</span>
-
-<span class="pc bpc" id="L243" title="1 of 2 branches missed.">            if (settings.zip)</span>
-<span class="nc" id="L244">                pipeline.addLast(HttpContentCompressor())</span>
-
-<span class="pc bpc" id="L246" title="1 of 2 branches missed.">            if (executorGroup == null)</span>
-<span class="nc" id="L247">                pipeline.addLast(NettyServerHandler(handlers, handlerSsl))</span>
-            else
-<span class="fc" id="L249">                pipeline.addLast(executorGroup, NettyServerHandler(handlers, handlerSsl))</span>
-<span class="fc" id="L250">        }</span>
-    }
-<span class="fc" id="L252">}</span>
+<span class="fc" id="L208">        fieldsMapOf(</span>
+<span class="fc" id="L209">            NettyServerAdapter::bossGroupThreads to bossGroupThreads,</span>
+<span class="fc" id="L210">            NettyServerAdapter::workerGroupThreads to workerGroupThreads,</span>
+<span class="fc" id="L211">            NettyServerAdapter::executorThreads to executorThreads,</span>
+<span class="fc" id="L212">            NettyServerAdapter::soBacklog to soBacklog,</span>
+<span class="fc" id="L213">            NettyServerAdapter::soKeepAlive to soKeepAlive,</span>
+<span class="fc" id="L214">            NettyServerAdapter::shutdownQuietSeconds to shutdownQuietSeconds,</span>
+<span class="fc" id="L215">            NettyServerAdapter::shutdownTimeoutSeconds to shutdownTimeoutSeconds,</span>
+<span class="fc" id="L216">            NettyServerAdapter::keepAliveHandler to keepAliveHandler,</span>
+<span class="fc" id="L217">            NettyServerAdapter::httpAggregatorHandler to httpAggregatorHandler,</span>
+<span class="fc" id="L218">            NettyServerAdapter::chunkedHandler to chunkedHandler,</span>
+<span class="fc" id="L219">            NettyServerAdapter::enableWebsockets to enableWebsockets,</span>
+<span class="fc" id="L220">        )</span>
+<span class="fc" id="L221">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
