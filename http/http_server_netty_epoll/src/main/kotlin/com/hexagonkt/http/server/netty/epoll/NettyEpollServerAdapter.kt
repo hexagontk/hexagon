@@ -21,6 +21,12 @@ class NettyEpollServerAdapter(
     private val soBacklog: Int = 4 * 1_024,
     private val soReuseAddr: Boolean = true,
     private val soKeepAlive: Boolean = true,
+    shutdownQuietSeconds: Long = 0,
+    shutdownTimeoutSeconds: Long = 0,
+    keepAliveHandler: Boolean = true,
+    httpAggregatorHandler: Boolean = true,
+    chunkedHandler: Boolean = true,
+    enableWebsockets: Boolean = true,
 ) : NettyServerAdapter(
     bossGroupThreads,
     workerGroupThreads,
@@ -28,9 +34,16 @@ class NettyEpollServerAdapter(
     soBacklog,
     soReuseAddr,
     soKeepAlive,
+    shutdownQuietSeconds,
+    shutdownTimeoutSeconds,
+    keepAliveHandler,
+    httpAggregatorHandler,
+    chunkedHandler,
+    enableWebsockets,
 ) {
 
-    constructor() : this(1, 0, Jvm.cpuCount * 2, 4 * 1_024, true, true)
+    constructor() :
+        this(1, 0, Jvm.cpuCount * 2, 4 * 1_024, true, true, 0, 0, true, true, true, true)
 
     override fun groupSupplier(it: Int): MultithreadEventLoopGroup =
         EpollEventLoopGroup(it)

@@ -58,6 +58,10 @@ open class NettyServerAdapter(
         soKeepAlive = true,
         shutdownQuietSeconds = 0,
         shutdownTimeoutSeconds = 0,
+        keepAliveHandler = true,
+        httpAggregatorHandler = true,
+        chunkedHandler = true,
+        enableWebsockets = true,
     )
 
     override fun runtimePort(): Int =
