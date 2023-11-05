@@ -21,30 +21,43 @@ import io.netty.channel.epoll.EpollServerSocketChannel
 <span class="pc" id="L21">    private val soBacklog: Int = 4 * 1_024,</span>
 <span class="pc" id="L22">    private val soReuseAddr: Boolean = true,</span>
 <span class="pc" id="L23">    private val soKeepAlive: Boolean = true,</span>
-<span class="fc" id="L24">) : NettyServerAdapter(</span>
-<span class="fc" id="L25">    bossGroupThreads,</span>
-<span class="fc" id="L26">    workerGroupThreads,</span>
-<span class="fc" id="L27">    executorThreads,</span>
-<span class="fc" id="L28">    soBacklog,</span>
-<span class="fc" id="L29">    soReuseAddr,</span>
-<span class="fc" id="L30">    soKeepAlive,</span>
+<span class="nc" id="L24">    shutdownQuietSeconds: Long = 0,</span>
+<span class="nc" id="L25">    shutdownTimeoutSeconds: Long = 0,</span>
+<span class="nc" id="L26">    keepAliveHandler: Boolean = true,</span>
+<span class="nc" id="L27">    httpAggregatorHandler: Boolean = true,</span>
+<span class="nc" id="L28">    chunkedHandler: Boolean = true,</span>
+<span class="nc" id="L29">    enableWebsockets: Boolean = true,</span>
+<span class="fc" id="L30">) : NettyServerAdapter(</span>
+<span class="fc" id="L31">    bossGroupThreads,</span>
+<span class="fc" id="L32">    workerGroupThreads,</span>
+<span class="fc" id="L33">    executorThreads,</span>
+<span class="fc" id="L34">    soBacklog,</span>
+<span class="fc" id="L35">    soReuseAddr,</span>
+<span class="fc" id="L36">    soKeepAlive,</span>
+<span class="fc" id="L37">    shutdownQuietSeconds,</span>
+<span class="fc" id="L38">    shutdownTimeoutSeconds,</span>
+<span class="fc" id="L39">    keepAliveHandler,</span>
+<span class="fc" id="L40">    httpAggregatorHandler,</span>
+<span class="fc" id="L41">    chunkedHandler,</span>
+<span class="fc" id="L42">    enableWebsockets,</span>
 ) {
 
-<span class="fc" id="L33">    constructor() : this(1, 0, Jvm.cpuCount * 2, 4 * 1_024, true, true)</span>
+    constructor() :
+<span class="fc" id="L46">        this(1, 0, Jvm.cpuCount * 2, 4 * 1_024, true, true, 0, 0, true, true, true, true)</span>
 
     override fun groupSupplier(it: Int): MultithreadEventLoopGroup =
-<span class="fc" id="L36">        EpollEventLoopGroup(it)</span>
+<span class="fc" id="L49">        EpollEventLoopGroup(it)</span>
 
     override fun serverBootstrapSupplier(
         bossGroup: MultithreadEventLoopGroup,
         workerGroup: MultithreadEventLoopGroup,
     ): ServerBootstrap =
-<span class="fc" id="L42">        ServerBootstrap().group(bossGroup, workerGroup)</span>
-<span class="fc" id="L43">            .channel(EpollServerSocketChannel::class.java)</span>
-<span class="fc" id="L44">            .option(EpollChannelOption.SO_REUSEPORT, true)</span>
-<span class="fc" id="L45">            .option(ChannelOption.SO_BACKLOG, soBacklog)</span>
-<span class="fc" id="L46">            .option(ChannelOption.SO_REUSEADDR, soReuseAddr)</span>
-<span class="fc" id="L47">            .childOption(ChannelOption.SO_KEEPALIVE, soKeepAlive)</span>
-<span class="fc" id="L48">            .childOption(ChannelOption.SO_REUSEADDR, soReuseAddr)</span>
-<span class="nc" id="L49">}</span>
+<span class="fc" id="L55">        ServerBootstrap().group(bossGroup, workerGroup)</span>
+<span class="fc" id="L56">            .channel(EpollServerSocketChannel::class.java)</span>
+<span class="fc" id="L57">            .option(EpollChannelOption.SO_REUSEPORT, true)</span>
+<span class="fc" id="L58">            .option(ChannelOption.SO_BACKLOG, soBacklog)</span>
+<span class="fc" id="L59">            .option(ChannelOption.SO_REUSEADDR, soReuseAddr)</span>
+<span class="fc" id="L60">            .childOption(ChannelOption.SO_KEEPALIVE, soKeepAlive)</span>
+<span class="fc" id="L61">            .childOption(ChannelOption.SO_REUSEADDR, soReuseAddr)</span>
+<span class="nc" id="L62">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
