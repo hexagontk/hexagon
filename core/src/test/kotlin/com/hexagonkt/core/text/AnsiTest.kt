@@ -1,6 +1,8 @@
 package com.hexagonkt.core.text
 
 import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.text.Ansi.OSC
+import com.hexagonkt.core.text.Ansi.ST
 import com.hexagonkt.core.text.AnsiColor.BLACK
 import com.hexagonkt.core.text.AnsiColor.BLUE_BG
 import com.hexagonkt.core.text.AnsiEffect.UNDERLINE
@@ -9,6 +11,45 @@ import org.junit.jupiter.api.Test
 internal class AnsiTest {
 
     private val logger: Logger by lazy { Logger(this::class) }
+
+    @Test fun `True colors`() {
+        fun background(r: Int, g: Int, b: Int) {
+            val bg = AnsiColor.bg(r.toByte(), g.toByte(), b.toByte())
+            print("${bg}X${Ansi.RESET}")
+        }
+
+        fun foreground(r: Int, g: Int, b: Int) {
+            val fg = AnsiColor.fg(r.toByte(), g.toByte(), b.toByte())
+            print("${fg}X${Ansi.RESET}")
+        }
+
+        for (r in 0..255 step 4)
+            background(r, 0, 0)
+
+        println()
+        for (r in 0..255 step 4)
+            background(0, r, 0)
+
+        println()
+        for (r in 0..255 step 4)
+            background(0, 0, r)
+
+        println()
+        for (r in 0..255 step 4)
+            foreground(r, 0, 0)
+
+        println()
+        for (r in 0..255 step 4)
+            foreground(0, r, 0)
+
+        println()
+        for (r in 0..255 step 4)
+            foreground(0, 0, r)
+    }
+
+    @Test fun `Switch terminal emulator title`() {
+        print("${OSC}2;TEST$ST")
+    }
 
     @Test fun `ANSI codes are printed properly`() {
 
@@ -64,6 +105,15 @@ internal class AnsiTest {
         test("${AnsiEffect.UNDERLINE_OFF}underline off")
         test("${AnsiEffect.BLINK_OFF}blink off")
         test("${AnsiEffect.INVERSE_OFF}inverse off")
+
+        test("${AnsiEffect.DIM}dim")
+        test("${AnsiEffect.ITALIC}italic")
+        test("${AnsiEffect.FAST_BLINK}fast blink")
+        test("${AnsiEffect.STRIKE}strike")
+
+        test("${AnsiEffect.DIM_OFF}dim off")
+        test("${AnsiEffect.ITALIC_OFF}italic off")
+        test("${AnsiEffect.STRIKE_OFF}strike off")
 
         test("$BLACK$BLUE_BG${UNDERLINE}black fg blue bg underline")
     }

@@ -83,6 +83,12 @@ object Jvm {
     fun usedMemory(): String =
         (runtime.totalMemory() - runtime.freeMemory()).let { "%,d".format(it / 1024) }
 
+    /**
+     * Add a map to system properties, optionally overriding them.
+     *
+     * @param settings Data to be added to system properties.
+     * @param overwrite If true, overwrite existing entries with supplied data.
+     */
     fun loadSystemSettings(settings: Map<String, String>, overwrite: Boolean = false) {
         settings.keys.forEach {
             check(it.matches(systemSettingPattern)) {
