@@ -78,24 +78,37 @@ object AnsiColor {
     /**
      * Set true color (24 bit) foreground.
      *
-     * @param r .
-     * @param g .
-     * @param b .
+     * @param r Red intensity. Must be in the 0..255 range.
+     * @param g Green intensity. Must be in the 0..255 range.
+     * @param b Blue intensity. Must be in the 0..255 range.
      *
      * @return Escape code to set the foreground color.
      */
-    fun fg(r: Byte, g: Byte, b: Byte): String =
-        "${CSI}38;2;$r;$g;${b}m"
+    fun fg(r: Int = 0, g: Int = 0, b: Int = 0): String {
+        requireRange(r, 0..255, "Red")
+        requireRange(g, 0..255, "Green")
+        requireRange(b, 0..255, "Blue")
+        return "${CSI}38;2;$r;$g;${b}m"
+    }
 
     /**
      * Set true color (24 bit) background.
      *
-     * @param r .
-     * @param g .
-     * @param b .
+     * @param r Red intensity. Must be in the 0..255 range.
+     * @param g Green intensity. Must be in the 0..255 range.
+     * @param b Blue intensity. Must be in the 0..255 range.
      *
      * @return Escape code to set the background color.
      */
-    fun bg(r: Byte, g: Byte, b: Byte): String =
-        "${CSI}48;2;$r;$g;${b}m"
+    fun bg(r: Int = 0, g: Int = 0, b: Int = 0): String {
+        requireRange(r, 0..255, "Red")
+        requireRange(g, 0..255, "Green")
+        requireRange(b, 0..255, "Blue")
+        return "${CSI}48;2;$r;$g;${b}m"
+    }
+
+    // TODO Move to checks generalizing to 'Number'
+    private fun requireRange(value: Int, range: IntRange, name: String) {
+        require(value in range) { "$name value must be in the $range range: $value" }
+    }
 }

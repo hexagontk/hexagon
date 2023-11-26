@@ -489,8 +489,10 @@ public final class com/hexagonkt/core/text/AnsiColor {
 	public static final field WHITE_BG Ljava/lang/String;
 	public static final field YELLOW Ljava/lang/String;
 	public static final field YELLOW_BG Ljava/lang/String;
-	public final fun bg (BBB)Ljava/lang/String;
-	public final fun fg (BBB)Ljava/lang/String;
+	public final fun bg (III)Ljava/lang/String;
+	public static synthetic fun bg$default (Lcom/hexagonkt/core/text/AnsiColor;IIIILjava/lang/Object;)Ljava/lang/String;
+	public final fun fg (III)Ljava/lang/String;
+	public static synthetic fun fg$default (Lcom/hexagonkt/core/text/AnsiColor;IIIILjava/lang/Object;)Ljava/lang/String;
 }
 
 public final class com/hexagonkt/core/text/AnsiEffect {
