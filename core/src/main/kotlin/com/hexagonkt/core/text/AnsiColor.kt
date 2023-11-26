@@ -107,7 +107,6 @@ object AnsiColor {
         return "${CSI}48;2;$r;$g;${b}m"
     }
 
-    // TODO Move to checks generalizing to 'Number'
     private fun requireRange(value: Int, range: IntRange, name: String) {
         require(value in range) { "$name value must be in the $range range: $value" }
     }
