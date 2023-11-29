@@ -1,19 +1,93 @@
 package com.hexagonkt.core.text
 
 import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.text.Ansi.OSC
+import com.hexagonkt.core.text.Ansi.RESET
+import com.hexagonkt.core.text.Ansi.ST
 import com.hexagonkt.core.text.AnsiColor.BLACK
 import com.hexagonkt.core.text.AnsiColor.BLUE_BG
 import com.hexagonkt.core.text.AnsiEffect.UNDERLINE
 import org.junit.jupiter.api.Test
+import java.lang.IllegalArgumentException
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 internal class AnsiTest {
 
     private val logger: Logger by lazy { Logger(this::class) }
 
+    @Test fun `Color edge values`() {
+        println("${AnsiColor.bg(0, 0, 0)}${AnsiColor.fg(0, 0, 0)}TEST$RESET")
+        println("${AnsiColor.bg(255, 255, 255)}${AnsiColor.fg(255, 255, 255)}TEST$RESET")
+        assertEquals(
+            "Red value must be in the 0..255 range: -1",
+            assertFailsWith<IllegalArgumentException> { AnsiColor.bg(-1, 0, 0) }.message
+        )
+        assertEquals(
+            "Red value must be in the 0..255 range: 256",
+            assertFailsWith<IllegalArgumentException> { AnsiColor.bg(256, 0, 0) }.message
+        )
+        assertEquals(
+            "Green value must be in the 0..255 range: -1",
+            assertFailsWith<IllegalArgumentException> { AnsiColor.bg(0, -1, 0) }.message
+        )
+        assertEquals(
+            "Green value must be in the 0..255 range: 256",
+            assertFailsWith<IllegalArgumentException> { AnsiColor.bg(0, 256, 0) }.message
+        )
+        assertEquals(
+            "Blue value must be in the 0..255 range: -1",
+            assertFailsWith<IllegalArgumentException> { AnsiColor.bg(0, 0, -1) }.message
+        )
+        assertEquals(
+            "Blue value must be in the 0..255 range: 256",
+            assertFailsWith<IllegalArgumentException> { AnsiColor.bg(0, 0, 256) }.message
+        )
+    }
+
+    @Test fun `True colors`() {
+        fun background(r: Int, g: Int, b: Int) {
+            val bg = AnsiColor.bg(r, g, b)
+            print("${bg}X$RESET")
+        }
+
+        fun foreground(r: Int, g: Int, b: Int) {
+            val fg = AnsiColor.fg(r, g, b)
+            print("${fg}X$RESET")
+        }
+
+        for (r in 0..255 step 4)
+            background(r, 0, 0)
+
+        println()
+        for (r in 0..255 step 4)
+            background(0, r, 0)
+
+        println()
+        for (r in 0..255 step 4)
+            background(0, 0, r)
+
+        println()
+        for (r in 0..255 step 4)
+            foreground(r, 0, 0)
+
+        println()
+        for (r in 0..255 step 4)
+            foreground(0, r, 0)
+
+        println()
+        for (r in 0..255 step 4)
+            foreground(0, 0, r)
+    }
+
+    @Test fun `Switch terminal emulator title`() {
+        print("${OSC}2;TEST$ST")
+    }
+
     @Test fun `ANSI codes are printed properly`() {
 
         fun test(message: String) {
-            logger.info { "${message}${Ansi.RESET} | normal text" }
+            logger.info { "${message}$RESET | normal text" }
         }
 
         test("${Ansi.CSI}30m black")
@@ -64,6 +138,15 @@ internal class AnsiTest {
         test("${AnsiEffect.UNDERLINE_OFF}underline off")
         test("${AnsiEffect.BLINK_OFF}blink off")
         test("${AnsiEffect.INVERSE_OFF}inverse off")
+
+        test("${AnsiEffect.DIM}dim")
+        test("${AnsiEffect.ITALIC}italic")
+        test("${AnsiEffect.FAST_BLINK}fast blink")
+        test("${AnsiEffect.STRIKE}strike")
+
+        test("${AnsiEffect.DIM_OFF}dim off")
+        test("${AnsiEffect.ITALIC_OFF}italic off")
+        test("${AnsiEffect.STRIKE_OFF}strike off")
 
         test("$BLACK$BLUE_BG${UNDERLINE}black fg blue bg underline")
     }

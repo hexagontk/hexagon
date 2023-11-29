@@ -447,7 +447,9 @@ public final class com/hexagonkt/core/security/KeyStoresKt {
 public final class com/hexagonkt/core/text/Ansi {
 	public static final field CSI Ljava/lang/String;
 	public static final field INSTANCE Lcom/hexagonkt/core/text/Ansi;
+	public static final field OSC Ljava/lang/String;
 	public static final field RESET Ljava/lang/String;
+	public static final field ST Ljava/lang/String;
 	public final fun getREGEX ()Lkotlin/text/Regex;
 }
 
@@ -487,6 +489,10 @@ public final class com/hexagonkt/core/text/AnsiColor {
 	public static final field WHITE_BG Ljava/lang/String;
 	public static final field YELLOW Ljava/lang/String;
 	public static final field YELLOW_BG Ljava/lang/String;
+	public final fun bg (III)Ljava/lang/String;
+	public static synthetic fun bg$default (Lcom/hexagonkt/core/text/AnsiColor;IIIILjava/lang/Object;)Ljava/lang/String;
+	public final fun fg (III)Ljava/lang/String;
+	public static synthetic fun fg$default (Lcom/hexagonkt/core/text/AnsiColor;IIIILjava/lang/Object;)Ljava/lang/String;
 }
 
 public final class com/hexagonkt/core/text/AnsiEffect {
@@ -494,9 +500,16 @@ public final class com/hexagonkt/core/text/AnsiEffect {
 	public static final field BLINK_OFF Ljava/lang/String;
 	public static final field BOLD Ljava/lang/String;
 	public static final field BOLD_OFF Ljava/lang/String;
+	public static final field DIM Ljava/lang/String;
+	public static final field DIM_OFF Ljava/lang/String;
+	public static final field FAST_BLINK Ljava/lang/String;
 	public static final field INSTANCE Lcom/hexagonkt/core/text/AnsiEffect;
 	public static final field INVERSE Ljava/lang/String;
 	public static final field INVERSE_OFF Ljava/lang/String;
+	public static final field ITALIC Ljava/lang/String;
+	public static final field ITALIC_OFF Ljava/lang/String;
+	public static final field STRIKE Ljava/lang/String;
+	public static final field STRIKE_OFF Ljava/lang/String;
 	public static final field UNDERLINE Ljava/lang/String;
 	public static final field UNDERLINE_OFF Ljava/lang/String;
 }

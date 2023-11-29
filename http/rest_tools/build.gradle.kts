@@ -12,12 +12,12 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Tools to test and document REST services."
 
 dependencies {
-    val swaggerValidatorVersion = properties["swaggerValidatorVersion"]
+    val swaggerRequestValidatorVersion = properties["swaggerRequestValidatorVersion"]
 
     "api"(project(":http:rest"))
     "api"(project(":http:http_server"))
     "api"(project(":http:http_client"))
-    "api"("com.atlassian.oai:swagger-request-validator-core:$swaggerValidatorVersion")
+    "api"("com.atlassian.oai:swagger-request-validator-core:$swaggerRequestValidatorVersion")
 
     "testImplementation"(project(":http:http_client_jetty"))
     "testImplementation"(project(":http:http_server_jetty"))
