@@ -3,15 +3,17 @@
 /**
  * Constants for console formatting with [ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code)
  * codes. They can be used in strings to enable or disable a display option.
- *
- * TODO Add other sequences (like OSC)
  */
 object Ansi {
     /** Regex that matches ANSI escape sequences. */
-<span class="fc" id="L11">    val REGEX: Regex = &quot;&quot;&quot;\u001B\[\d+?m&quot;&quot;&quot;.toRegex()</span>
+<span class="fc" id="L9">    val REGEX: Regex = &quot;&quot;&quot;\u001B\[\d+?m&quot;&quot;&quot;.toRegex()</span>
 
     /** Control Sequence Introducer. */
     const val CSI = &quot;\u001B[&quot;
+    /** Operating System Command. */
+    const val OSC = &quot;\u001B]&quot;
+    /** String Terminator. */
+    const val ST = &quot;\u001B\\&quot;
 
     /** Disable all options applied before. */
     const val RESET = &quot;${CSI}0m&quot;

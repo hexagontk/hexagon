@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AnsiColor.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.text</a> &gt; <span class="el_source">AnsiColor.kt</span></div><h1>AnsiColor.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.text
+
+import com.hexagonkt.core.text.Ansi.CSI
+
+object AnsiColor {
+    /** Set black as the foreground color. */
+    const val BLACK = &quot;${CSI}30m&quot;
+    /** Set red as the foreground color. */
+    const val RED = &quot;${CSI}31m&quot;
+    /** Set green as the foreground color. */
+    const val GREEN = &quot;${CSI}32m&quot;
+    /** Set yellow as the foreground color. */
+    const val YELLOW = &quot;${CSI}33m&quot;
+    /** Set blue as the foreground color. */
+    const val BLUE = &quot;${CSI}34m&quot;
+    /** Set magenta as the foreground color. */
+    const val MAGENTA = &quot;${CSI}35m&quot;
+    /** Set cyan as the foreground color. */
+    const val CYAN = &quot;${CSI}36m&quot;
+    /** Set white as the foreground color. */
+    const val WHITE = &quot;${CSI}37m&quot;
+    /** Set back the default foreground color. */
+    const val DEFAULT = &quot;${CSI}39m&quot;
+
+    /** Set black as the background color. */
+    const val BLACK_BG = &quot;${CSI}40m&quot;
+    /** Set red as the background color. */
+    const val RED_BG = &quot;${CSI}41m&quot;
+    /** Set green as the background color. */
+    const val GREEN_BG = &quot;${CSI}42m&quot;
+    /** Set yellow as the background color. */
+    const val YELLOW_BG = &quot;${CSI}43m&quot;
+    /** Set blue as the background color. */
+    const val BLUE_BG = &quot;${CSI}44m&quot;
+    /** Set magenta as the background color. */
+    const val MAGENTA_BG = &quot;${CSI}45m&quot;
+    /** Set cyan as the background color. */
+    const val CYAN_BG = &quot;${CSI}46m&quot;
+    /** Set white as the background color. */
+    const val WHITE_BG = &quot;${CSI}47m&quot;
+    /** Set back the default background color. */
+    const val DEFAULT_BG = &quot;${CSI}49m&quot;
+
+    /** Set bright black as the foreground color. */
+    const val BRIGHT_BLACK = &quot;${CSI}90m&quot;
+    /** Set bright red as the foreground color. */
+    const val BRIGHT_RED = &quot;${CSI}91m&quot;
+    /** Set bright green as the foreground color. */
+    const val BRIGHT_GREEN = &quot;${CSI}92m&quot;
+    /** Set bright yellow as the foreground color. */
+    const val BRIGHT_YELLOW = &quot;${CSI}93m&quot;
+    /** Set bright blue as the foreground color. */
+    const val BRIGHT_BLUE = &quot;${CSI}94m&quot;
+    /** Set bright magenta as the foreground color. */
+    const val BRIGHT_MAGENTA = &quot;${CSI}95m&quot;
+    /** Set bright cyan as the foreground color. */
+    const val BRIGHT_CYAN = &quot;${CSI}96m&quot;
+    /** Set bright white as the foreground color. */
+    const val BRIGHT_WHITE = &quot;${CSI}97m&quot;
+
+    /** Set bright black as the background color. */
+    const val BRIGHT_BLACK_BG = &quot;${CSI}100m&quot;
+    /** Set bright red as the background color. */
+    const val BRIGHT_RED_BG = &quot;${CSI}101m&quot;
+    /** Set bright green as the background color. */
+    const val BRIGHT_GREEN_BG = &quot;${CSI}102m&quot;
+    /** Set bright yellow as the background color. */
+    const val BRIGHT_YELLOW_BG = &quot;${CSI}103m&quot;
+    /** Set bright blue as the background color. */
+    const val BRIGHT_BLUE_BG = &quot;${CSI}104m&quot;
+    /** Set bright magenta as the background color. */
+    const val BRIGHT_MAGENTA_BG = &quot;${CSI}105m&quot;
+    /** Set bright cyan as the background color. */
+    const val BRIGHT_CYAN_BG = &quot;${CSI}106m&quot;
+    /** Set bright white as the background color. */
+    const val BRIGHT_WHITE_BG = &quot;${CSI}107m&quot;
+
+    /**
+     * Set true color (24 bit) foreground.
+     *
+     * @param r Red intensity. Must be in the 0..255 range.
+     * @param g Green intensity. Must be in the 0..255 range.
+     * @param b Blue intensity. Must be in the 0..255 range.
+     *
+     * @return Escape code to set the foreground color.
+     */
+<span class="nc" id="L87">    fun fg(r: Int = 0, g: Int = 0, b: Int = 0): String {</span>
+<span class="fc" id="L88">        requireRange(r, 0..255, &quot;Red&quot;)</span>
+<span class="fc" id="L89">        requireRange(g, 0..255, &quot;Green&quot;)</span>
+<span class="fc" id="L90">        requireRange(b, 0..255, &quot;Blue&quot;)</span>
+<span class="fc" id="L91">        return &quot;${CSI}38;2;$r;$g;${b}m&quot;</span>
+    }
+
+    /**
+     * Set true color (24 bit) background.
+     *
+     * @param r Red intensity. Must be in the 0..255 range.
+     * @param g Green intensity. Must be in the 0..255 range.
+     * @param b Blue intensity. Must be in the 0..255 range.
+     *
+     * @return Escape code to set the background color.
+     */
+<span class="nc" id="L103">    fun bg(r: Int = 0, g: Int = 0, b: Int = 0): String {</span>
+<span class="fc" id="L104">        requireRange(r, 0..255, &quot;Red&quot;)</span>
+<span class="fc" id="L105">        requireRange(g, 0..255, &quot;Green&quot;)</span>
+<span class="fc" id="L106">        requireRange(b, 0..255, &quot;Blue&quot;)</span>
+<span class="fc" id="L107">        return &quot;${CSI}48;2;$r;$g;${b}m&quot;</span>
+    }
+
+    private fun requireRange(value: Int, range: IntRange, name: String) {
+<span class="fc bfc" id="L111" title="All 6 branches covered.">        require(value in range) { &quot;$name value must be in the $range range: $value&quot; }</span>
+<span class="fc" id="L112">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
