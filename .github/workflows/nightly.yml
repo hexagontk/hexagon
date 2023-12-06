@@ -70,7 +70,9 @@ jobs:
           java-version: 21
           distribution: graalvm-community
           cache: gradle
-      - run: ./gradlew --stacktrace nativeTest
+      - run: echo "COMMIT_COUNT=$(git log --oneline --since '24 hours ago' | wc -l)" >> $GITHUB_ENV
+      - if: ${{ env.COMMIT_COUNT > 0 }}
+        run: ./gradlew --stacktrace nativeTest
 
   jmh:
     uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
