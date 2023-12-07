@@ -41,18 +41,6 @@ internal class HelpersTest {
         assertEquals("test", "echo test".shell().trim())
     }
 
-    @Test fun `System setting works ok`() {
-        System.setProperty("system_property", "value")
-
-        assert(Jvm.systemSetting<String>("system_property") == "value")
-
-        assert(Jvm.systemSetting<String>("PATH").isNotEmpty())
-        assertNull(Jvm.systemSettingOrNull<String>("_not_defined_"))
-
-        System.setProperty("PATH", "path override")
-        assert(Jvm.systemSetting<String>("PATH") == "path override")
-    }
-
     @Test fun `Multiple retry errors throw an exception`() {
         val retries = 3
         try {

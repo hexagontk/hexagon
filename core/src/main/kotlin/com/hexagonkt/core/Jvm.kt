@@ -105,14 +105,14 @@ object Jvm {
     }
 
     /**
-     * Retrieve a setting by name by looking in the JVM system properties first and in OS
-     * environment variables if not found.
+     * Retrieve a setting by name by looking in OS environment variables first and in the JVM system
+     * properties if not found.
      *
      * @param type Type of the requested parameter. Supported types are: boolean, int, long, float,
      *   double and string, throw an error if other type is supplied.
      * @param name Name of the searched parameter, can not be blank.
      * @return Value of the searched parameter in the requested type, `null` if the parameter is not
-     *   found on the JVM system properties and in OS environment variables.
+     *   found on the OS environment variables or in JVM system properties.
      */
     fun <T: Any> systemSettingOrNull(type: KClass<T>, name: String): T? =
         systemSettingRaw(name).let { it.parseOrNull(type) }
@@ -122,8 +122,8 @@ object Jvm {
             ?: error("Required '${type.simpleName}' system setting '$name' not found")
 
     /**
-     * Retrieve a flag (boolean parameter) by name by looking in the JVM system properties first and
-     * in OS environment variables if not found.
+     * Retrieve a flag (boolean parameter) by name by looking in OS environment variables first and
+     * in the JVM system properties if not found.
      *
      * @param name Name of the searched parameter, can not be blank.
      * @return True if the parameter is found and its value is exactly 'true', false otherwise.
@@ -138,7 +138,7 @@ object Jvm {
      *   double and string, throw an error if other type is supplied.
      * @param name Name of the searched parameter, can not be blank.
      * @return Value of the searched parameter in the requested type, `null` if the parameter is not
-     *   found on the JVM system properties and in OS environment variables.
+     *   found on the OS environment variables or in JVM system properties.
      */
     inline fun <reified T: Any> systemSettingOrNull(name: String): T? =
         systemSettingOrNull(T::class, name)
@@ -149,7 +149,7 @@ object Jvm {
     private fun systemSettingRaw(name: String): String? {
         val correctName = name.matches(systemSettingPattern)
         require(correctName) { "Setting name must match $systemSettingPattern" }
-        return System.getProperty(name, System.getenv(name))
+        return System.getenv(name) ?: System.getProperty(name)
     }
 
     /** Operating system name ('os.name' property). If `null` throws an exception. */

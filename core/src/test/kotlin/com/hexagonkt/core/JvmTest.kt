@@ -216,7 +216,7 @@ internal class JvmTest {
         assertNull(Jvm.systemSettingOrNull<String>("_not_defined_"))
 
         System.setProperty("PATH", "path override")
-        assert(Jvm.systemSetting<String>("PATH") == "path override")
+        assert(Jvm.systemSetting<String>("PATH") != "path override")
     }
 
     private fun checkOsKind(osName: String, osKind: OsKind) {
