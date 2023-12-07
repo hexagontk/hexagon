@@ -30,7 +30,10 @@ application), you can import it with the following code:
     ```
 
 # Package com.hexagonkt.core
-JVM information and other useful utilities.
+JVM information and other useful utilities. Includes basic program settings support at the [Jvm]
+object (like loading and retrieving system settings).
+
+[Jvm]: /api/core/com.hexagonkt.core/-jvm
 
 # Package com.hexagonkt.core.logging
 Provides a logging management capabilities abstracting the application from logging libraries.
@@ -55,3 +58,6 @@ Media types definitions and constants for default media types.
 
 # Package com.hexagonkt.core.security
 Cryptography and key stores utilities.
+
+# Package com.hexagonkt.core.text
+Text utilities to allow the use of ANSI escape codes and case converting tools among other features.
