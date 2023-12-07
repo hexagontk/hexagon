@@ -105,14 +105,14 @@ object Jvm {
 <span class="fc" id="L105">    }</span>
 
     /**
-     * Retrieve a setting by name by looking in the JVM system properties first and in OS
-     * environment variables if not found.
+     * Retrieve a setting by name by looking in OS environment variables first and in the JVM system
+     * properties if not found.
      *
      * @param type Type of the requested parameter. Supported types are: boolean, int, long, float,
      *   double and string, throw an error if other type is supplied.
      * @param name Name of the searched parameter, can not be blank.
      * @return Value of the searched parameter in the requested type, `null` if the parameter is not
-     *   found on the JVM system properties and in OS environment variables.
+     *   found on the OS environment variables or in JVM system properties.
      */
     fun &lt;T: Any&gt; systemSettingOrNull(type: KClass&lt;T&gt;, name: String): T? =
 <span class="fc" id="L118">        systemSettingRaw(name).let { it.parseOrNull(type) }</span>
@@ -122,8 +122,8 @@ object Jvm {
 <span class="pc" id="L122">            ?: error(&quot;Required '${type.simpleName}' system setting '$name' not found&quot;)</span>
 
     /**
-     * Retrieve a flag (boolean parameter) by name by looking in the JVM system properties first and
-     * in OS environment variables if not found.
+     * Retrieve a flag (boolean parameter) by name by looking in OS environment variables first and
+     * in the JVM system properties if not found.
      *
      * @param name Name of the searched parameter, can not be blank.
      * @return True if the parameter is found and its value is exactly 'true', false otherwise.
@@ -138,7 +138,7 @@ object Jvm {
      *   double and string, throw an error if other type is supplied.
      * @param name Name of the searched parameter, can not be blank.
      * @return Value of the searched parameter in the requested type, `null` if the parameter is not
-     *   found on the JVM system properties and in OS environment variables.
+     *   found on the OS environment variables or in JVM system properties.
      */
     inline fun &lt;reified T: Any&gt; systemSettingOrNull(name: String): T? =
         systemSettingOrNull(T::class, name)
@@ -149,7 +149,7 @@ object Jvm {
     private fun systemSettingRaw(name: String): String? {
 <span class="fc" id="L150">        val correctName = name.matches(systemSettingPattern)</span>
 <span class="fc bfc" id="L151" title="All 2 branches covered.">        require(correctName) { &quot;Setting name must match $systemSettingPattern&quot; }</span>
-<span class="fc" id="L152">        return System.getProperty(name, System.getenv(name))</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        return System.getenv(name) ?: System.getProperty(name)</span>
     }
 
     /** Operating system name ('os.name' property). If `null` throws an exception. */
