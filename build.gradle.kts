@@ -159,6 +159,7 @@ apiValidation {
             // Experimental modules
             "rest",
             "rest_tools",
+            "serverless_http",
             "web",
             "templates_jte",
         )

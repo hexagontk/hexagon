@@ -12,6 +12,7 @@ includeNestedModules(
     "http",
     "logging",
     "serialization",
+    "serverless",
     "templates"
 )
 
