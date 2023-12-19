@@ -2,7 +2,6 @@ package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.fail
 import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.model.NOT_FOUND_404
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.Header
 import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
@@ -32,7 +31,7 @@ abstract class ErrorsTest(
          * Catching `Exception` handles any unhandled exception, has to be the last executed (first
          * declared)
          */
-        exception<Exception>(NOT_FOUND_404) {
+        exception<Exception> {
             internalServerError("Root handler")
         }
 
