@@ -7,7 +7,7 @@ import java.util.*
 /** Internet address used to bind services to all local network interfaces. */
 val ALL_INTERFACES: InetAddress by lazy { inetAddress(0, 0, 0, 0) }
 
-/** Internet address used to bind services to the loopback interface. */
+/** Internet address used to bind services to the loop-back interface. */
 val LOOPBACK_INTERFACE: InetAddress by lazy { inetAddress(127, 0, 0, 1) }
 
 /**

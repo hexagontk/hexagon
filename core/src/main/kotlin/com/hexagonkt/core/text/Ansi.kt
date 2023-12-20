@@ -6,7 +6,7 @@ package com.hexagonkt.core.text
  */
 object Ansi {
     /** Regex that matches ANSI escape sequences. */
-    val REGEX: Regex = """\u001B\[\d+?m""".toRegex()
+    val REGEX: Regex by lazy { """\u001B\[\d+?m""".toRegex() }
 
     /** Control Sequence Introducer. */
     const val CSI = "\u001B["
