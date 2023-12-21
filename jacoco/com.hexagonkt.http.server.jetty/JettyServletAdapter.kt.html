@@ -113,7 +113,7 @@ import org.eclipse.jetty.server.Server as JettyServer
 <span class="fc" id="L113">        serverConnector.host = settings.bindAddress.hostName</span>
 <span class="fc" id="L114">        serverConnector.port = settings.bindPort</span>
 <span class="fc" id="L115">        serverConnector.connectionFactories</span>
-<span class="fc" id="L116">            .filterIsInstance(HttpConnectionFactory::class.java)</span>
+<span class="fc" id="L116">            .filterIsInstance&lt;HttpConnectionFactory&gt;()</span>
 <span class="fc" id="L117">            .map { it.httpConfiguration }</span>
 <span class="fc" id="L118">            .map {</span>
 <span class="fc" id="L119">                it.sendDateHeader = sendDateHeader</span>

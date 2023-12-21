@@ -34,14 +34,17 @@ sealed interface HttpHandler : Handler&lt;HttpCall&gt; {
 <span class="fc bfc" id="L34" title="All 2 branches covered.">            is AfterHandler -&gt;</span>
 <span class="fc" id="L35">                copy(handlerPredicate = handlerPredicate.clearMethods())</span>
 
-<span class="fc" id="L37">            is BeforeHandler -&gt;</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            is BeforeHandler -&gt;</span>
 <span class="fc" id="L38">                copy(handlerPredicate = handlerPredicate.clearMethods())</span>
-<span class="fc" id="L39">        }</span>
+
+<span class="fc" id="L40">            is ExceptionHandler&lt;*&gt; -&gt;</span>
+<span class="fc" id="L41">                this</span>
+<span class="fc" id="L42">        }</span>
 
     fun process(request: HttpRequestPort): HttpContext =
-<span class="fc" id="L42">        HttpContext(HttpCall(request = request), handlerPredicate).let { context -&gt;</span>
-<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (handlerPredicate(context)) process(context) as HttpContext</span>
-<span class="fc" id="L44">            else context</span>
-<span class="fc" id="L45">        }</span>
+<span class="fc" id="L45">        HttpContext(HttpCall(request = request), handlerPredicate).let { context -&gt;</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            if (handlerPredicate(context)) process(context) as HttpContext</span>
+<span class="fc" id="L47">            else context</span>
+<span class="fc" id="L48">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

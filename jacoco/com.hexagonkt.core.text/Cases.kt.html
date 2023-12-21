@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cases.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.text</a> &gt; <span class="el_source">Cases.kt</span></div><h1>Cases.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.text
 
-<span class="fc" id="L3">val CAMEL_CASE: Regex = Regex(&quot;[a-z]+([A-Z][a-z0-9]+)+&quot;)</span>
-<span class="fc" id="L4">val PASCAL_CASE: Regex = Regex(&quot;([A-Z][a-z0-9]+)+&quot;)</span>
-<span class="fc" id="L5">val SNAKE_CASE: Regex = Regex(&quot;[A-Za-z]+(_[A-Za-z0-9]+)+&quot;)</span>
-<span class="fc" id="L6">val KEBAB_CASE: Regex = Regex(&quot;[A-Za-z]+(-[A-Za-z0-9]+)+&quot;)</span>
+<span class="fc" id="L3">val CAMEL_CASE: Regex by lazy { Regex(&quot;[a-z]+([A-Z][a-z0-9]+)+&quot;) }</span>
+<span class="fc" id="L4">val PASCAL_CASE: Regex by lazy { Regex(&quot;([A-Z][a-z0-9]+)+&quot;) }</span>
+<span class="fc" id="L5">val SNAKE_CASE: Regex by lazy { Regex(&quot;[A-Za-z]+(_[A-Za-z0-9]+)+&quot;) }</span>
+<span class="fc" id="L6">val KEBAB_CASE: Regex by lazy { Regex(&quot;[A-Za-z]+(-[A-Za-z0-9]+)+&quot;) }</span>
 
 fun String.camelToWords(): List&lt;String&gt; =
 <span class="fc" id="L9">    split(&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex()).toWords()</span>

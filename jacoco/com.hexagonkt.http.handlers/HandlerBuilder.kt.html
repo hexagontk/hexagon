@@ -133,56 +133,51 @@ import kotlin.reflect.KClass
 <span class="fc" id="L133">    }</span>
 
 <span class="nc" id="L135">    fun &lt;T : Exception&gt; exception(</span>
-<span class="nc" id="L136">        exception: KClass&lt;T&gt;? = null,</span>
-<span class="nc" id="L137">        status: HttpStatus? = null,</span>
-<span class="nc" id="L138">        clear: Boolean = true,</span>
-        callback: HttpExceptionCallback&lt;T&gt;,
+<span class="nc" id="L136">        exception: KClass&lt;T&gt;, clear: Boolean = true, callback: HttpExceptionCallback&lt;T&gt;</span>
     ) {
-<span class="nc" id="L141">        use(Exception(exception, status, clear, callback))</span>
-<span class="nc" id="L142">    }</span>
+<span class="nc" id="L138">        use(ExceptionHandler(exception, clear, callback))</span>
+<span class="nc" id="L139">    }</span>
 
-<span class="nc" id="L144">    inline fun &lt;reified T : Exception&gt; exception(</span>
-<span class="nc" id="L145">        status: HttpStatus? = null,</span>
-<span class="nc" id="L146">        clear: Boolean = true,</span>
-        noinline callback: HttpExceptionCallback&lt;T&gt;,
+<span class="nc" id="L141">    inline fun &lt;reified T : Exception&gt; exception(</span>
+<span class="nc" id="L142">        clear: Boolean = true, noinline callback: HttpExceptionCallback&lt;T&gt;,</span>
     ) {
-<span class="nc" id="L149">        use(Exception(T::class, status, clear, callback))</span>
-<span class="nc" id="L150">    }</span>
+<span class="nc" id="L144">        use(ExceptionHandler(T::class, clear, callback))</span>
+<span class="nc" id="L145">    }</span>
 
-<span class="fc" id="L152">    fun get(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L153">        use(Get(pattern, callback))</span>
-<span class="fc" id="L154">    }</span>
+<span class="fc" id="L147">    fun get(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L148">        use(Get(pattern, callback))</span>
+<span class="fc" id="L149">    }</span>
 
-<span class="nc" id="L156">    fun ws(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L157">        use(Ws(pattern, callback))</span>
-<span class="fc" id="L158">    }</span>
+<span class="nc" id="L151">    fun ws(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L152">        use(Ws(pattern, callback))</span>
+<span class="fc" id="L153">    }</span>
 
-<span class="fc" id="L160">    fun head(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L161">        use(Head(pattern, callback))</span>
-<span class="fc" id="L162">    }</span>
+<span class="fc" id="L155">    fun head(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L156">        use(Head(pattern, callback))</span>
+<span class="fc" id="L157">    }</span>
 
-<span class="fc" id="L164">    fun post(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L165">        use(Post(pattern, callback))</span>
-<span class="fc" id="L166">    }</span>
+<span class="fc" id="L159">    fun post(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L160">        use(Post(pattern, callback))</span>
+<span class="fc" id="L161">    }</span>
 
-<span class="fc" id="L168">    fun put(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L169">        use(Put(pattern, callback))</span>
-<span class="fc" id="L170">    }</span>
+<span class="fc" id="L163">    fun put(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L164">        use(Put(pattern, callback))</span>
+<span class="fc" id="L165">    }</span>
 
-<span class="fc" id="L172">    fun delete(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L173">        use(Delete(pattern, callback))</span>
-<span class="fc" id="L174">    }</span>
+<span class="fc" id="L167">    fun delete(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L168">        use(Delete(pattern, callback))</span>
+<span class="fc" id="L169">    }</span>
 
-<span class="fc" id="L176">    fun trace(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L177">        use(Trace(pattern, callback))</span>
-<span class="fc" id="L178">    }</span>
+<span class="fc" id="L171">    fun trace(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L172">        use(Trace(pattern, callback))</span>
+<span class="fc" id="L173">    }</span>
 
-<span class="fc" id="L180">    fun options(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L181">        use(Options(pattern, callback))</span>
-<span class="fc" id="L182">    }</span>
+<span class="fc" id="L175">    fun options(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L176">        use(Options(pattern, callback))</span>
+<span class="fc" id="L177">    }</span>
 
-<span class="fc" id="L184">    fun patch(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
-<span class="fc" id="L185">        use(Patch(pattern, callback))</span>
-<span class="fc" id="L186">    }</span>
-<span class="fc" id="L187">}</span>
+<span class="fc" id="L179">    fun patch(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L180">        use(Patch(pattern, callback))</span>
+<span class="fc" id="L181">    }</span>
+<span class="fc" id="L182">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
