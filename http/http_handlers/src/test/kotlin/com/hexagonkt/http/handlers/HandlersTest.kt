@@ -9,7 +9,6 @@ import java.math.BigInteger
 import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.reflect.KClass
 import kotlin.test.assertContentEquals
 import kotlin.test.assertNull
 
@@ -48,25 +47,9 @@ internal class HandlersTest {
         assertEquals(expected2.handlersPredicates(), actual2.handlersPredicates())
     }
 
-    @Test
-    @Suppress("CAST_NEVER_SUCCEEDS") // Required for test 'null' arguments
-    fun `Exceptions are casted properly`() {
-        assertFailsWith<IllegalStateException> { null.castException(Exception::class) }
-        assertFailsWith<IllegalStateException> { null.castException(null as? KClass<Exception>) }
-        assertFailsWith<ClassCastException> {
-            IllegalStateException().castException(IllegalArgumentException::class)
-        }
-        assertFailsWith<IllegalStateException> {
-            RuntimeException().castException(null as? KClass<Exception>)
-        }
-
-        val ise = IllegalStateException()
-        assertEquals(ise, ise.castException(RuntimeException::class))
-    }
-
     @Test fun `Exceptions are cleared properly`() {
         PathHandler(
-            Exception<Exception> { ok() },
+            ExceptionHandler(Exception::class) { ok() },
             OnHandler { error("Error") }
         )
         .process(HttpRequest())
@@ -76,7 +59,7 @@ internal class HandlersTest {
         }
 
         PathHandler(
-            Exception<Exception> { this },
+            ExceptionHandler(Exception::class) { this },
             OnHandler { error("Error") }
         )
         .process(HttpRequest())
@@ -86,7 +69,7 @@ internal class HandlersTest {
         }
 
         PathHandler(
-            Exception<Exception>(clear = false) { ok() },
+            ExceptionHandler(Exception::class, clear = false) { ok() },
             OnHandler { error("Error") }
         )
         .process(HttpRequest())
