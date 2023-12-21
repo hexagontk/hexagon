@@ -438,7 +438,7 @@ abstract class SamplesTest(
 
         val server = serve(serverAdapter()) {
             // errors
-            exception<Exception>(NOT_FOUND_404) {
+            exception<Exception> {
                 internalServerError("Root handler")
             }
 
@@ -464,7 +464,7 @@ abstract class SamplesTest(
             before(pattern = "*", status = HttpStatus(509)) {
                 send(HttpStatus(599))
             }
-            before(pattern = "*", exception = IllegalStateException::class) {
+            exception<IllegalStateException> {
                 send(HTTP_VERSION_NOT_SUPPORTED_505, exception?.message ?: "empty")
             }
             // exceptions

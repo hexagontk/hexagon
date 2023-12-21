@@ -240,7 +240,7 @@ private val path: PathHandler = path {
      * Catching `Exception` handles any unhandled exception, has to be the last executed (first
      * declared)
      */
-    exception<Exception>(NOT_FOUND_404) {
+    exception<Exception> {
         internalServerError("Root handler")
     }
 

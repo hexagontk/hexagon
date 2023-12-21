@@ -119,10 +119,11 @@ If you want to generate the documentation site, check the Hexagon's site module 
 11. Publish changelog on:
   * Dev.to
   * Kotlin Slack
-  * Reddit
+  * Reddit Kotlin
   * Twitter
   * Kotlin Weekly Newsletter
   * LinkedIn
+  * Mailing lists (Awesome Kotlin, Kotlin Weekly)
 
 [Nexus Repository Manager]: https://oss.sonatype.org
 

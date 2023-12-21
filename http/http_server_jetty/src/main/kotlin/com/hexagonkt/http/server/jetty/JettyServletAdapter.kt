@@ -113,7 +113,7 @@ class JettyServletAdapter(
         serverConnector.host = settings.bindAddress.hostName
         serverConnector.port = settings.bindPort
         serverConnector.connectionFactories
-            .filterIsInstance(HttpConnectionFactory::class.java)
+            .filterIsInstance<HttpConnectionFactory>()
             .map { it.httpConfiguration }
             .map {
                 it.sendDateHeader = sendDateHeader

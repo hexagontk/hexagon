@@ -12,8 +12,6 @@ import com.hexagonkt.http.model.HttpRequest
 import java.lang.IllegalStateException
 import java.math.BigInteger
 import java.security.cert.X509Certificate
-import kotlin.reflect.KClass
-import kotlin.reflect.cast
 
 typealias HttpCallback = HttpContext.() -> HttpContext
 typealias HttpExceptionCallback<T> = HttpContext.(T) -> HttpContext
@@ -26,6 +24,11 @@ private val BODY_TYPES_NAMES: String by lazy {
 
 internal fun toCallback(block: HttpCallback): (Context<HttpCall>) -> Context<HttpCall> =
     { context -> HttpContext(context).block() }
+
+internal fun <E : Exception> toCallback(
+    block: HttpExceptionCallback<E>
+): (Context<HttpCall>, E) -> Context<HttpCall> =
+    { context, e -> HttpContext(context).block(e) }
 
 fun HttpCallback.process(
     request: HttpRequest,
@@ -86,29 +89,6 @@ fun path(contextPath: String = "", handlers: List<HttpHandler>): PathHandler =
             else
                 PathHandler(contextPath, it)
         }
-
-fun <T : Exception> Exception(
-    exception: KClass<T>? = null,
-    status: HttpStatus? = null,
-    clear: Boolean = true,
-    callback: HttpExceptionCallback<T>,
-): AfterHandler =
-    AfterHandler(emptySet(), "*", exception, status) {
-        callback(this.exception.castException(exception)).let {
-            if (clear) it.copy(exception = null)
-            else it
-        }
-    }
-
-inline fun <reified T : Exception> Exception(
-    status: HttpStatus? = null,
-    clear: Boolean = true,
-    noinline callback: HttpExceptionCallback<T>,
-): AfterHandler =
-    Exception(T::class, status, clear, callback)
-
-internal fun <T : Exception> Exception?.castException(exception: KClass<T>?) =
-    this?.let { exception?.cast(this) } ?: error("Exception 'null' or incorrect type")
 
 fun Get(pattern: String = "", callback: HttpCallback): OnHandler =
     OnHandler(GET, pattern, callback)
