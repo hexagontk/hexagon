@@ -13,6 +13,7 @@ import java.lang.IllegalStateException
 import java.math.BigInteger
 import java.security.cert.X509Certificate
 
+// TODO Inline these type aliases and reuse their names in interfaces (better for extension)
 typealias HttpCallback = HttpContext.() -> HttpContext
 typealias HttpExceptionCallback<T> = HttpContext.(T) -> HttpContext
 
