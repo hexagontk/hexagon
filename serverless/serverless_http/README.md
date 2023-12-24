@@ -11,5 +11,5 @@ feature (as [serverless_http_google]) in order to create an HTTP serverless func
 
 [serverless_http_google]: /serverless_http_google
 
-# Package com.hexagonkt.serverless.serverless_http
+# Package com.hexagonkt.serverless.serverless.http
 TODO
