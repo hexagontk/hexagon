@@ -2,8 +2,8 @@ package com.hexagonkt.core.text
 
 val CAMEL_CASE: Regex by lazy { Regex("[a-z]+([A-Z][a-z0-9]+)+") }
 val PASCAL_CASE: Regex by lazy { Regex("([A-Z][a-z0-9]+)+") }
-val SNAKE_CASE: Regex by lazy { Regex("[A-Za-z]+(_[A-Za-z0-9]+)+") }
-val KEBAB_CASE: Regex by lazy { Regex("[A-Za-z]+(-[A-Za-z0-9]+)+") }
+val SNAKE_CASE: Regex by lazy { Regex("[_A-Za-z]+[_A-Za-z0-9]*") }
+val KEBAB_CASE: Regex by lazy { Regex("[\\-A-Za-z]+[\\-A-Za-z0-9]*") }
 
 fun String.camelToWords(): List<String> =
     split("(?=\\p{Upper}\\p{Lower})".toRegex()).toWords()
