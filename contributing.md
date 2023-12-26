@@ -7,12 +7,12 @@ process or picking a task and building the code.
 You can use the repository's [Discussions tab][discussion] to ask questions or resolve problems.
 
 You can also ask any question, make suggestions or complaints at the project's
-[Slack channel][Slack]. You can also be up-to-date of project's news following [@hexagon_kt] on
-Twitter.
+[Slack channel][Slack]. You can also be up-to-date of project's news following [@hexagontk] on
+X (Twitter).
 
 [discussion]: https://github.com/hexagonkt/hexagon/discussions
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
-[@hexagon_kt]: https://twitter.com/hexagon_kt
+[@hexagontk]: https://twitter.com/hexagontk
 
 ## Report a Bug
 To file a bug, create an issue with the [bug template].
@@ -120,7 +120,7 @@ If you want to generate the documentation site, check the Hexagon's site module 
   * Dev.to
   * Kotlin Slack
   * Reddit Kotlin
-  * Twitter
+  * X (Twitter)
   * Kotlin Weekly Newsletter
   * LinkedIn
   * Mailing lists (Awesome Kotlin, Kotlin Weekly)

@@ -71,7 +71,7 @@ nav:
     - Planning: planning.md
     - Contributing ↗: https://github.com/hexagonkt/hexagon/contribute
     - GitHub ↗: https://github.com/hexagonkt
-    - Dev.to ↗: https://dev.to/hexagonkt
+    - Dev.to ↗: https://dev.to/hexagontk
     - LibHunt ↗: https://kotlin.libhunt.com/hexagon-alternatives
     - StackShare ↗: https://stackshare.io/hexagon
 
@@ -127,14 +127,14 @@ extra:
     provider: google
     property: G-BEKWF2E4DJ
 
-  twitter_user: hexagon_kt
+  twitter_user: hexagontk
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/hexagonkt
     - icon: fontawesome/brands/dev
-      link: https://dev.to/hexagonkt
-    - icon: fontawesome/brands/twitter
-      link: https://twitter.com/hexagon_kt
+      link: https://dev.to/hexagontk
+    - icon: fontawesome/brands/x-twitter
+      link: https://twitter.com/hexagontk
     - icon: fontawesome/brands/slack
       link: https://kotlinlang.slack.com/messages/hexagon
 
