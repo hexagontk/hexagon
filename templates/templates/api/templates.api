@@ -1,23 +1,6 @@
-public final class com/hexagonkt/templates/TemplateManager {
-	public static final field INSTANCE Lcom/hexagonkt/templates/TemplateManager;
-	public final fun getAdapters ()Ljava/util/Map;
-	public final fun getDefaultAdapter ()Lcom/hexagonkt/templates/TemplatePort;
-	public final fun render (Ljava/net/URL;Ljava/util/Map;Ljava/util/Locale;)Ljava/lang/String;
-	public static synthetic fun render$default (Lcom/hexagonkt/templates/TemplateManager;Ljava/net/URL;Ljava/util/Map;Ljava/util/Locale;ILjava/lang/Object;)Ljava/lang/String;
-	public final fun setAdapters (Ljava/util/Map;)V
-	public final fun setDefaultAdapter (Lcom/hexagonkt/templates/TemplatePort;)V
-}
-
 public abstract interface class com/hexagonkt/templates/TemplatePort {
 	public abstract fun render (Ljava/lang/String;Ljava/util/Map;Ljava/util/Locale;)Ljava/lang/String;
 	public abstract fun render (Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;Ljava/util/Locale;)Ljava/lang/String;
 	public abstract fun render (Ljava/net/URL;Ljava/util/Map;Ljava/util/Locale;)Ljava/lang/String;
-}
-
-public final class com/hexagonkt/templates/TemplatePort$DefaultImpls {
-	public static fun render (Lcom/hexagonkt/templates/TemplatePort;Ljava/lang/String;Ljava/util/Map;Ljava/util/Locale;)Ljava/lang/String;
-	public static synthetic fun render$default (Lcom/hexagonkt/templates/TemplatePort;Ljava/lang/String;Ljava/util/Map;Ljava/util/Locale;ILjava/lang/Object;)Ljava/lang/String;
-	public static synthetic fun render$default (Lcom/hexagonkt/templates/TemplatePort;Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;Ljava/util/Locale;ILjava/lang/Object;)Ljava/lang/String;
-	public static synthetic fun render$default (Lcom/hexagonkt/templates/TemplatePort;Ljava/net/URL;Ljava/util/Map;Ljava/util/Locale;ILjava/lang/Object;)Ljava/lang/String;
 }
 

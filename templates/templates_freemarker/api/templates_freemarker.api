@@ -1,10 +1,3 @@
-public final class com/hexagonkt/templates/freemarker/FreeMarkerAdapter : com/hexagonkt/templates/TemplatePort {
-	public fun <init> ()V
-	public fun render (Ljava/lang/String;Ljava/util/Map;Ljava/util/Locale;)Ljava/lang/String;
-	public fun render (Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;Ljava/util/Locale;)Ljava/lang/String;
-	public fun render (Ljava/net/URL;Ljava/util/Map;Ljava/util/Locale;)Ljava/lang/String;
-}
-
 public final class com/hexagonkt/templates/freemarker/FreeMarkerAdapter$AdapterTemplateLoader : freemarker/cache/URLTemplateLoader {
 	public static final field INSTANCE Lcom/hexagonkt/templates/freemarker/FreeMarkerAdapter$AdapterTemplateLoader;
 }

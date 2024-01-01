@@ -1,15 +1,3 @@
-public final class com/hexagonkt/http/HttpKt {
-	public static final fun checkHeaders (Lcom/hexagonkt/http/model/Headers;)V
-	public static final fun formatQueryString (Lcom/hexagonkt/http/model/QueryParameters;)Ljava/lang/String;
-	public static final fun getCHECKED_HEADERS ()Ljava/util/List;
-	public static final fun parseContentType (Ljava/lang/String;)Lcom/hexagonkt/http/model/ContentType;
-	public static final fun parseQueryString (Ljava/lang/String;)Lcom/hexagonkt/http/model/QueryParameters;
-	public static final fun toHttpFormat (Ljava/time/Instant;)Ljava/lang/String;
-	public static final fun toHttpFormat (Ljava/time/LocalDateTime;)Ljava/lang/String;
-	public static final fun urlDecode (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun urlEncode (Ljava/lang/String;)Ljava/lang/String;
-}
-
 public final class com/hexagonkt/http/SslSettings {
 	public fun <init> ()V
 	public fun <init> (Ljava/net/URL;Ljava/lang/String;Ljava/net/URL;Ljava/lang/String;Z)V
