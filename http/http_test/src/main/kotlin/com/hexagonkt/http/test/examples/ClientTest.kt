@@ -17,7 +17,7 @@ import com.hexagonkt.http.model.HttpProtocol.HTTPS
 import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.handlers.HttpCallback
+import com.hexagonkt.http.handlers.HttpCallbackType
 import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
@@ -42,7 +42,7 @@ abstract class ClientTest(
     final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
-    private var callback: HttpCallback = { this }
+    private var callback: HttpCallbackType = { this }
 
     override val handler: HttpHandler = path {
         post("*") { callback() }

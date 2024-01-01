@@ -1,10 +1,11 @@
 package com.hexagonkt.rest
 
+import com.hexagonkt.http.handlers.HttpCallback
 import com.hexagonkt.http.handlers.HttpContext
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
 
-class SerializeRequestCallback: (HttpContext) -> HttpContext {
+class SerializeRequestCallback : HttpCallback {
 
     // TODO Short circuit if body is empty
     override fun invoke(context: HttpContext): HttpContext =

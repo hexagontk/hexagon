@@ -1,11 +1,12 @@
 package com.hexagonkt.rest
 
+import com.hexagonkt.http.handlers.HttpCallback
 import com.hexagonkt.http.handlers.HttpContext
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
 
-class SerializeResponseCallback: (HttpContext) -> HttpContext {
+class SerializeResponseCallback: HttpCallback {
 
     fun HttpContext.accept(): List<ContentType> =
         request.accept.ifEmpty { response.contentType?.let(::listOf) ?: emptyList() }

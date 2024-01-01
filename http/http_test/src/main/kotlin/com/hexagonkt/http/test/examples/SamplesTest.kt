@@ -554,7 +554,7 @@ abstract class SamplesTest(
     @Test fun mockRequest() {
         // mockRequest
         // Test callback (basically, a handler without a predicate)
-        val callback: HttpCallback = {
+        val callback: HttpCallbackType = {
             val fakeAttribute = attributes["fake"]
             val fakeHeader = request.headers["fake"]?.value
             ok("Callback result $fakeAttribute $fakeHeader")

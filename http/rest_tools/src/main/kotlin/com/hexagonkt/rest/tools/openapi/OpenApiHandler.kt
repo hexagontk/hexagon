@@ -19,8 +19,6 @@ import io.swagger.v3.oas.models.security.SecurityScheme
 import io.swagger.v3.oas.models.security.SecurityScheme.Type
 import io.swagger.v3.parser.OpenAPIV3Parser
 
-// TODO Validate bodies with vertx-json-schema
-// TODO Check https://github.com/swagger-api/swagger-parser for route verification
 internal class OpenApiHandler(pathToSpec: String) {
 
     private val openAPIParser = OpenAPIV3Parser()
@@ -48,7 +46,7 @@ internal class OpenApiHandler(pathToSpec: String) {
     private fun createHandler(method: HttpMethod, path: String, operation: Operation): HttpHandler =
         OnHandler(method, path, handleRequest(operation))
 
-    private fun handleRequest(operation: Operation): HttpCallback =
+    private fun handleRequest(operation: Operation): HttpCallbackType =
         {
             verifyAuth(operation, this)
                 ?: verifyParams(operation, this)

@@ -32,7 +32,7 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
 
     fun on(
         predicate: HttpPredicate = HttpPredicate(),
-        callback: HttpCallback
+        callback: HttpCallbackType
     ) {
         use(OnHandler(predicate, callback))
     }
@@ -42,22 +42,22 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         pattern: String = "",
         exception: KClass<out Exception>? = null,
         status: HttpStatus? = null,
-        callback: HttpCallback,
+        callback: HttpCallbackType,
     ) {
         use(OnHandler(methods, pattern, exception, status, callback))
     }
 
-    fun on(method: HttpMethod, pattern: String = "", callback: HttpCallback) {
+    fun on(method: HttpMethod, pattern: String = "", callback: HttpCallbackType) {
         use(OnHandler(method, pattern, callback))
     }
 
-    fun on(pattern: String, callback: HttpCallback) {
+    fun on(pattern: String, callback: HttpCallbackType) {
         use(OnHandler(pattern, callback))
     }
 
     fun filter(
         predicate: HttpPredicate = HttpPredicate(),
-        callback: HttpCallback
+        callback: HttpCallbackType
     ) {
         use(FilterHandler(predicate, callback))
     }
@@ -67,24 +67,24 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         pattern: String = "",
         exception: KClass<out Exception>? = null,
         status: HttpStatus? = null,
-        callback: HttpCallback,
+        callback: HttpCallbackType,
     ) {
         use(
             FilterHandler(methods, pattern, exception, status, callback)
         )
     }
 
-    fun filter(method: HttpMethod, pattern: String = "", callback: HttpCallback) {
+    fun filter(method: HttpMethod, pattern: String = "", callback: HttpCallbackType) {
         use(FilterHandler(method, pattern, callback))
     }
 
-    fun filter(pattern: String, callback: HttpCallback) {
+    fun filter(pattern: String, callback: HttpCallbackType) {
         use(FilterHandler(pattern, callback))
     }
 
     fun after(
         predicate: HttpPredicate = HttpPredicate(),
-        callback: HttpCallback
+        callback: HttpCallbackType
     ) {
         use(AfterHandler(predicate, callback))
     }
@@ -94,22 +94,22 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         pattern: String = "",
         exception: KClass<out Exception>? = null,
         status: HttpStatus? = null,
-        callback: HttpCallback,
+        callback: HttpCallbackType,
     ) {
         use(AfterHandler(methods, pattern, exception, status, callback))
     }
 
-    fun after(method: HttpMethod, pattern: String = "", callback: HttpCallback) {
+    fun after(method: HttpMethod, pattern: String = "", callback: HttpCallbackType) {
         use(AfterHandler(method, pattern, callback))
     }
 
-    fun after(pattern: String, callback: HttpCallback) {
+    fun after(pattern: String, callback: HttpCallbackType) {
         use(AfterHandler(pattern, callback))
     }
 
     fun before(
         predicate: HttpPredicate = HttpPredicate(),
-        callback: HttpCallback
+        callback: HttpCallbackType
     ) {
         use(BeforeHandler(predicate, callback))
     }
@@ -119,64 +119,64 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         pattern: String = "",
         exception: KClass<out Exception>? = null,
         status: HttpStatus? = null,
-        callback: HttpCallback,
+        callback: HttpCallbackType,
     ) {
         use(BeforeHandler(methods, pattern, exception, status, callback))
     }
 
-    fun before(method: HttpMethod, pattern: String = "", callback: HttpCallback) {
+    fun before(method: HttpMethod, pattern: String = "", callback: HttpCallbackType) {
         use(BeforeHandler(method, pattern, callback))
     }
 
-    fun before(pattern: String, callback: HttpCallback) {
+    fun before(pattern: String, callback: HttpCallbackType) {
         use(BeforeHandler(pattern, callback))
     }
 
     fun <T : Exception> exception(
-        exception: KClass<T>, clear: Boolean = true, callback: HttpExceptionCallback<T>
+        exception: KClass<T>, clear: Boolean = true, callback: HttpExceptionCallbackType<T>
     ) {
         use(ExceptionHandler(exception, clear, callback))
     }
 
     inline fun <reified T : Exception> exception(
-        clear: Boolean = true, noinline callback: HttpExceptionCallback<T>,
+        clear: Boolean = true, noinline callback: HttpExceptionCallbackType<T>,
     ) {
         use(ExceptionHandler(T::class, clear, callback))
     }
 
-    fun get(pattern: String = "", callback: HttpCallback) {
+    fun get(pattern: String = "", callback: HttpCallbackType) {
         use(Get(pattern, callback))
     }
 
-    fun ws(pattern: String = "", callback: HttpCallback) {
+    fun ws(pattern: String = "", callback: HttpCallbackType) {
         use(Ws(pattern, callback))
     }
 
-    fun head(pattern: String = "", callback: HttpCallback) {
+    fun head(pattern: String = "", callback: HttpCallbackType) {
         use(Head(pattern, callback))
     }
 
-    fun post(pattern: String = "", callback: HttpCallback) {
+    fun post(pattern: String = "", callback: HttpCallbackType) {
         use(Post(pattern, callback))
     }
 
-    fun put(pattern: String = "", callback: HttpCallback) {
+    fun put(pattern: String = "", callback: HttpCallbackType) {
         use(Put(pattern, callback))
     }
 
-    fun delete(pattern: String = "", callback: HttpCallback) {
+    fun delete(pattern: String = "", callback: HttpCallbackType) {
         use(Delete(pattern, callback))
     }
 
-    fun trace(pattern: String = "", callback: HttpCallback) {
+    fun trace(pattern: String = "", callback: HttpCallbackType) {
         use(Trace(pattern, callback))
     }
 
-    fun options(pattern: String = "", callback: HttpCallback) {
+    fun options(pattern: String = "", callback: HttpCallbackType) {
         use(Options(pattern, callback))
     }
 
-    fun patch(pattern: String = "", callback: HttpCallback) {
+    fun patch(pattern: String = "", callback: HttpCallbackType) {
         use(Patch(pattern, callback))
     }
 }

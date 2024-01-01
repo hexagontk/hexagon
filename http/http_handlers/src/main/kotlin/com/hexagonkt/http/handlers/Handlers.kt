@@ -13,9 +13,12 @@ import java.lang.IllegalStateException
 import java.math.BigInteger
 import java.security.cert.X509Certificate
 
-// TODO Inline these type aliases and reuse their names in interfaces (better for extension)
-typealias HttpCallback = HttpContext.() -> HttpContext
-typealias HttpExceptionCallback<T> = HttpContext.(T) -> HttpContext
+typealias HttpCallbackType = HttpContext.() -> HttpContext
+typealias HttpExceptionCallbackType<T> = HttpContext.(T) -> HttpContext
+
+interface HttpCallback : (HttpContext) -> HttpContext
+// TODO Use this type to implement the RFC 7807 exception handler
+interface HttpExceptionCallback<T> : (HttpContext, T) -> HttpContext
 
 private val logger: Logger by lazy { Logger(HttpHandler::class.java.packageName) }
 private val BODY_TYPES_NAMES: String by lazy {
@@ -23,21 +26,21 @@ private val BODY_TYPES_NAMES: String by lazy {
     bodyTypes.joinToString(", ") { it.simpleName.toString() }
 }
 
-internal fun toCallback(block: HttpCallback): (Context<HttpCall>) -> Context<HttpCall> =
+internal fun toCallback(block: HttpCallbackType): (Context<HttpCall>) -> Context<HttpCall> =
     { context -> HttpContext(context).block() }
 
 internal fun <E : Exception> toCallback(
-    block: HttpExceptionCallback<E>
+    block: HttpExceptionCallbackType<E>
 ): (Context<HttpCall>, E) -> Context<HttpCall> =
     { context, e -> HttpContext(context).block(e) }
 
-fun HttpCallback.process(
+fun HttpCallbackType.process(
     request: HttpRequest,
     attributes: Map<*, *> = emptyMap<Any, Any>()
 ): HttpContext =
     this(HttpContext(request = request, attributes = attributes))
 
-fun HttpCallback.process(
+fun HttpCallbackType.process(
     method: HttpMethod = GET,
     protocol: HttpProtocol = HTTP,
     host: String = "localhost",
@@ -91,31 +94,31 @@ fun path(contextPath: String = "", handlers: List<HttpHandler>): PathHandler =
                 PathHandler(contextPath, it)
         }
 
-fun Get(pattern: String = "", callback: HttpCallback): OnHandler =
+fun Get(pattern: String = "", callback: HttpCallbackType): OnHandler =
     OnHandler(GET, pattern, callback)
 
-fun Ws(pattern: String = "", callback: HttpCallback): OnHandler =
+fun Ws(pattern: String = "", callback: HttpCallbackType): OnHandler =
     Get(pattern, callback)
 
-fun Head(pattern: String = "", callback: HttpCallback): OnHandler =
+fun Head(pattern: String = "", callback: HttpCallbackType): OnHandler =
     OnHandler(HEAD, pattern, callback)
 
-fun Post(pattern: String = "", callback: HttpCallback): OnHandler =
+fun Post(pattern: String = "", callback: HttpCallbackType): OnHandler =
     OnHandler(POST, pattern, callback)
 
-fun Put(pattern: String = "", callback: HttpCallback): OnHandler =
+fun Put(pattern: String = "", callback: HttpCallbackType): OnHandler =
     OnHandler(PUT, pattern, callback)
 
-fun Delete(pattern: String = "", callback: HttpCallback): OnHandler =
+fun Delete(pattern: String = "", callback: HttpCallbackType): OnHandler =
     OnHandler(DELETE, pattern, callback)
 
-fun Trace(pattern: String = "", callback: HttpCallback): OnHandler =
+fun Trace(pattern: String = "", callback: HttpCallbackType): OnHandler =
     OnHandler(TRACE, pattern, callback)
 
-fun Options(pattern: String = "", callback: HttpCallback): OnHandler =
+fun Options(pattern: String = "", callback: HttpCallbackType): OnHandler =
     OnHandler(OPTIONS, pattern, callback)
 
-fun Patch(pattern: String = "", callback: HttpCallback): OnHandler =
+fun Patch(pattern: String = "", callback: HttpCallbackType): OnHandler =
     OnHandler(PATCH, pattern, callback)
 
 fun bodyToBytes(body: Any): ByteArray =
