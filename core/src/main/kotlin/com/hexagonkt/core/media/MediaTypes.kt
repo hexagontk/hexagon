@@ -9,6 +9,8 @@ import kotlin.io.path.extension
 
 val MEDIA_TYPE_FORMAT: Regex by lazy { """\*|([\w+.-]+)""".toRegex() }
 
+val ANY_MEDIA: MediaType by lazy { MediaType(ANY, "*") }
+
 val APPLICATION_AVRO: MediaType by lazy { MediaType(APPLICATION, "avro") }
 val APPLICATION_CBOR: MediaType by lazy { MediaType(APPLICATION, "cbor") }
 val APPLICATION_JSON: MediaType by lazy { MediaType(APPLICATION, "json") }

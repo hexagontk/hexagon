@@ -23,6 +23,8 @@ data class Http(
     val httpHeaders: Map<String, *> = emptyMap<String, Any>(),
     val sslSettings: SslSettings? = SslSettings(),
     val handler: HttpHandler? = serializeHandler,
+    val authorization: Authorization? = null,
+    val followRedirects: Boolean = false
 ) {
     companion object {
         val serializeHandler: HttpHandler = BeforeHandler("*", SerializeRequestCallback())
@@ -37,6 +39,8 @@ data class Http(
             headers = toHeaders(httpHeaders),
             insecure = true,
             sslSettings = sslSettings,
+            authorization = authorization,
+            followRedirects = followRedirects
         )
 
     private val client = HttpClient(adapter, settings, handler = handler)
@@ -98,6 +102,14 @@ data class Http(
 
     fun assertSuccess() {
         assertStatus(SUCCESS)
+    }
+
+    fun assertContentType(contentType: ContentType) {
+        assert(this.contentType == contentType)
+    }
+
+    fun assertContentType(mediaType: MediaType) {
+        assert(contentType == ContentType(mediaType))
     }
 
     fun assertBody(body: Any) {

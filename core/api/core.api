@@ -340,6 +340,7 @@ public final class com/hexagonkt/core/media/MediaTypeGroup : java/lang/Enum {
 
 public final class com/hexagonkt/core/media/MediaTypesKt {
 	public static final fun extensionsOf (Lcom/hexagonkt/core/media/MediaType;)Ljava/util/List;
+	public static final fun getANY_MEDIA ()Lcom/hexagonkt/core/media/MediaType;
 	public static final fun getAPPLICATION_7Z ()Lcom/hexagonkt/core/media/MediaType;
 	public static final fun getAPPLICATION_AVRO ()Lcom/hexagonkt/core/media/MediaType;
 	public static final fun getAPPLICATION_BZIP ()Lcom/hexagonkt/core/media/MediaType;
