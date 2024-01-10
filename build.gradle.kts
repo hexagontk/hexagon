@@ -160,6 +160,7 @@ apiValidation {
             "rest",
             "rest_tools",
             "serverless_http",
+            "serverless_http_google",
             "web",
             "templates_jte",
         )
