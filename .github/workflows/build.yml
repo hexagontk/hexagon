@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   build:
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+#    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       check_directory: core/build
