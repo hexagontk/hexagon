@@ -7,18 +7,11 @@ import com.hexagonkt.handlers.Context
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpProtocol.HTTP
-import com.hexagonkt.http.model.HttpCall
-import com.hexagonkt.http.model.HttpRequest
-import java.lang.IllegalStateException
 import java.math.BigInteger
 import java.security.cert.X509Certificate
 
 typealias HttpCallbackType = HttpContext.() -> HttpContext
 typealias HttpExceptionCallbackType<T> = HttpContext.(T) -> HttpContext
-
-interface HttpCallback : (HttpContext) -> HttpContext
-// TODO Use this type to implement the RFC 7807 exception handler
-interface HttpExceptionCallback<T> : (HttpContext, T) -> HttpContext
 
 private val logger: Logger by lazy { Logger(HttpHandler::class.java.packageName) }
 private val BODY_TYPES_NAMES: String by lazy {

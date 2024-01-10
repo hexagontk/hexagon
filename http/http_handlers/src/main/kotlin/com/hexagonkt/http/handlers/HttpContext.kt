@@ -275,10 +275,11 @@ data class HttpContext(
         )
 
     fun receive(
-        body: Any = response.body,
-        headers: Headers = response.headers,
-        contentType: ContentType? = response.contentType,
-        cookies: List<Cookie> = response.cookies,
+        body: Any = request.body,
+        headers: Headers = request.headers,
+        contentType: ContentType? = request.contentType,
+        accept: List<ContentType> = request.accept,
+        cookies: List<Cookie> = request.cookies,
         attributes: Map<*, *> = this.attributes,
     ): HttpContext =
         send(
@@ -286,6 +287,7 @@ data class HttpContext(
                 body = body,
                 headers = headers,
                 contentType = contentType,
+                accept = accept,
                 cookies = cookies,
             ),
             attributes
