@@ -5,18 +5,20 @@ package com.hexagonkt.core
  * cause.
  *
  * A coded multiple exception should be created this way:
+ * ```kotlin
  * CodedException(400, "Many errors", MultipleException())
+ * ```
  *
  * To pass a list of causes
+ * ```kotlin
  * CodedException (500, "Error", *list)
+ * ```
  *
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @property causes .
- * @property message .
+ * @property causes List of causing exceptions.
+ * @property message Error message.
  */
-class MultipleException (val causes: List<Throwable>, message: String = "") :
-    RuntimeException (message, null) {
+class MultipleException(val causes: List<Throwable>, message: String = "") :
+    RuntimeException(message, null) {
 
     constructor(vararg causes: Throwable) : this(causes.toList())
     constructor(message: String, causes: List<Throwable>) : this(causes, message)
