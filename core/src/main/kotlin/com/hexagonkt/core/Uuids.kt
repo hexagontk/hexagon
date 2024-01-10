@@ -6,7 +6,7 @@ import java.nio.ByteBuffer
 import java.util.*
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -19,7 +19,7 @@ fun UUID.bytes(): ByteArray =
     }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -28,7 +28,7 @@ fun UUID.toBase64(): String =
     bytes().encodeToBase64()
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param text .
  * @return .
@@ -38,7 +38,7 @@ fun uuid(text: String): UUID =
     else uuid(text.decodeBase64())
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param bytes .
  * @return .

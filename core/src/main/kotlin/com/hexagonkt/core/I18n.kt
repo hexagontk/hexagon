@@ -19,7 +19,7 @@ val currencyCodes: Set<String> by lazy {
 }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param locale .
  * @return .
@@ -29,7 +29,7 @@ inline fun <reified T : ResourceBundle> resourceBundle(
     resourceBundle(T::class, locale)
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param type .
  * @param locale .
@@ -40,7 +40,7 @@ fun <T : ResourceBundle> resourceBundle(
     ResourceBundle.getBundle(type.java.name, locale)
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param language .
  * @param country .
@@ -56,7 +56,7 @@ fun localeOf(language: String = "", country: String = ""): Locale {
 }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param language .
  * @param country .
