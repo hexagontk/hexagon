@@ -11,8 +11,8 @@ places:
 
 For examples and reference, check [build.gradle.kts] and [gradle.properties].
 
-[build.gradle.kts]: https://github.com/hexagonkt/hexagon/blob/master/build.gradle.kts
-[gradle.properties]: https://github.com/hexagonkt/hexagon/blob/master/gradle.properties
+[build.gradle.kts]: https://github.com/hexagontk/hexagon/blob/master/build.gradle.kts
+[gradle.properties]: https://github.com/hexagontk/hexagon/blob/master/gradle.properties
 
 # Helper scripts
 These scripts can be added to your build to include a whole new capability to your building logic.
@@ -45,7 +45,7 @@ To set up this script's parameters, check the [build variables section]. These h
 * siteHost (REQUIRED): project's website.
 
 [Maven Central]: https://search.maven.org
-[kotlin.gradle]: https://github.com/hexagonkt/hexagon/blob/master/gradle/kotlin.gradle
+[kotlin.gradle]: https://github.com/hexagontk/hexagon/blob/master/gradle/kotlin.gradle
 [build variables section]: /gradle/#build-variables
 
 ## Dokka
