@@ -1,18 +1,11 @@
 package com.hexagonkt.rest
 
-import com.hexagonkt.core.media.ANY_MEDIA
 import com.hexagonkt.http.handlers.HttpCallback
 import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
 
 class SerializeResponseCallback: HttpCallback {
-
-    private companion object {
-        val anyContentType = ContentType(ANY_MEDIA)
-        val emptyBodies = setOf("", ByteArray(0))
-    }
 
     override fun invoke(context: HttpContext): HttpContext {
         val responseBody = context.response.body

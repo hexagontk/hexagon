@@ -1,8 +1,13 @@
 package com.hexagonkt.rest
 
+import com.hexagonkt.core.media.ANY_MEDIA
 import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpBase
 import com.hexagonkt.serialization.*
+
+val anyContentType = ContentType(ANY_MEDIA)
+val emptyBodies = setOf("", ByteArray(0))
 
 fun HttpBase.bodyList(): List<*> =
     bodyString().parseList(mediaType())
