@@ -6,25 +6,25 @@ permissions:
 
 jobs:
   sample_keystores:
-    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       tasks: createCa createIdentities
 
   native_test:
-    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       tasks: nativeTest
 
   jmh:
-    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       tasks: jmh
 
   build_site:
-    uses: hexagonkt/hexagon/.github/workflows/site.yml@develop
+    uses: hexagontk/hexagon/.github/workflows/site.yml@develop
 
   test_publishing:
-    uses: hexagonkt/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       check_directory: core/build
       tasks: publishToMavenLocal -x test

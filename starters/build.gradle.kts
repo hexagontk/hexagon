@@ -84,8 +84,8 @@ fun PublicationContainer.createPomPublication(
                 val vcsUrl = findProperty("vcsUrl") ?: error("'vcsUrl' property must be defined")
 
                 connection.set("scm:git:$vcsUrl")
-                developerConnection.set("scm:git:git@github.com:hexagonkt/hexagon.git")
-                url.set("https://github.com/hexagonkt/hexagon")
+                developerConnection.set("scm:git:git@github.com:hexagontk/hexagon.git")
+                url.set("https://github.com/hexagontk/hexagon")
             }
 
             licenses {

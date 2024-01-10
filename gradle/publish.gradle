@@ -38,8 +38,8 @@ publishing {
 
                     scm {
                         connection = "scm:git:$vcsUrl"
-                        developerConnection = "scm:git:git@github.com:hexagonkt/hexagon.git"
-                        url = "https://github.com/hexagonkt/hexagon"
+                        developerConnection = "scm:git:git@github.com:hexagontk/hexagon.git"
+                        url = "https://github.com/hexagontk/hexagon"
                     }
 
                     licenses {
