@@ -111,7 +111,7 @@ internal class HttpClientTest {
 
         csvClient.request {
             get("/a").checkClient("/a", contentType = csv)
-            head("/a").checkClient("/a")
+            head("/a").checkClient("/a", contentType = csv)
             post("/a").checkClient("/a", contentType = csv)
             put("/a").checkClient("/a", contentType = csv)
             delete("/a").checkClient("/a", contentType = csv)
@@ -120,7 +120,7 @@ internal class HttpClientTest {
             patch("/a").checkClient("/a", contentType = csv)
 
             get("/a", headers).checkClient("/a", headers = headers, contentType = csv)
-            head("/a", headers).checkClient("/a", headers = headers)
+            head("/a", headers).checkClient("/a", headers = headers, contentType = csv)
             get("/a", body = body).checkClient("/a", body, contentType = csv)
             options("/a", body).checkClient("/a", body, contentType = csv)
             post("/a", body).checkClient("/a", body, contentType = csv)

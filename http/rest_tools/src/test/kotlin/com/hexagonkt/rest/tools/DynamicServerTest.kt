@@ -210,7 +210,7 @@ class DynamicServerTest {
         }
 
         http.request {
-            put("/data/{id}", mapOf("id" to 102030)) {
+            put("/data/{id}" to mapOf("id" to 102030)) {
                 object {
                     val title = "Casino Royale"
                     val tags = listOf("007", "action")

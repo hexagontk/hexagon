@@ -1,6 +1,6 @@
 package com.hexagonkt.http.handlers
 
-import com.hexagonkt.core.text.encodeToBase64
+import com.hexagonkt.http.basicAuth
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseQueryString
 import kotlin.test.assertEquals
@@ -38,7 +38,7 @@ internal fun HttpRequest.auth(
 
     val authorization =
         if (user != null || password != null)
-            "$user:$password".encodeToBase64()
+            basicAuth(user ?: "", password ?: "")
         else
             null
 
