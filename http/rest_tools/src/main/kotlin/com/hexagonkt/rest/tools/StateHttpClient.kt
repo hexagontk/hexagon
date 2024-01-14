@@ -15,7 +15,7 @@ import com.hexagonkt.http.model.HttpStatusType.SUCCESS
 import com.hexagonkt.http.patterns.createPathPattern
 import com.hexagonkt.rest.SerializeRequestCallback
 
-data class Http(
+data class StateHttpClient(
     val adapter: HttpClientPort,
     val url: String? = null,
     val httpContentType: ContentType? = null,
@@ -84,8 +84,8 @@ data class Http(
             client.stop()
     }
 
-    fun request(block: Http.() -> Unit) {
-        client.request { block.invoke(this@Http) }
+    fun request(block: StateHttpClient.() -> Unit) {
+        client.request { block.invoke(this@StateHttpClient) }
     }
 
     fun assertStatus(status: HttpStatus) {

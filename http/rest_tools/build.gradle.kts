@@ -15,10 +15,12 @@ dependencies {
     val guavaVersion = "33.0.0-jre"
     val slf4jVersion = properties["slf4jVersion"]
     val swaggerRequestValidatorVersion = properties["swaggerRequestValidatorVersion"]
+    val vertxVersion = properties["vertxVersion"]
 
     "api"(project(":http:rest"))
     "api"(project(":http:http_server"))
     "api"(project(":http:http_client"))
+    "api"("io.vertx:vertx-openapi:$vertxVersion")
     "api"("org.slf4j:slf4j-api:$slf4jVersion")
     "api"("com.google.guava:guava:$guavaVersion")
     "api"("com.atlassian.oai:swagger-request-validator-core:$swaggerRequestValidatorVersion") {

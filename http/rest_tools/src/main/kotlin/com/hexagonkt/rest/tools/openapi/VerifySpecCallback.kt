@@ -18,6 +18,8 @@ import kotlin.jvm.optionals.getOrNull
 
 /**
  * Callback that verifies server calls comply with a given OpenAPI spec.
+ *
+ * TODO Port to https://vertx.io/docs/vertx-openapi/java
  */
 class VerifySpecCallback(spec: URL) : HttpCallback {
 

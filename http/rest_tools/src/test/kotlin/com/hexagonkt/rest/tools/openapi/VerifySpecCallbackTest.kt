@@ -24,6 +24,7 @@ internal class VerifySpecCallbackTest {
     // TODO Check commented code (it should throw validation errors)
     @Test fun `Requests not complying with spec return an error`() {
         verify(errors = listOf("ERROR: validation.request.path.missing [ ] No API path found that matches request ''. [] []"))
+        // 'status' query parameter with invalid value
 //        verify(
 //            HttpRequest(
 //                path = "/pet/findByStatus",
@@ -35,7 +36,7 @@ internal class VerifySpecCallbackTest {
 //                body = listOf(
 //                    mapOf(
 //                        "name" to "Keka",
-//                        "photoUrls" to listOf("http://example.com")
+//                        "photoUrls" to listOf("https://example.com")
 //                    )
 //                ),
 //            ),
@@ -52,7 +53,7 @@ internal class VerifySpecCallbackTest {
                 contentType = ContentType(APPLICATION_JSON),
                 body = mapOf(
                     "name" to "Keka",
-                    "photoUrls" to listOf("http://example.com")
+                    "photoUrls" to listOf("https://example.com")
                 ),
             ),
             listOf("ERROR: validation.request.operation.notAllowed [ ] HEAD operation not allowed on path '/pet/1'. [] []")
@@ -64,7 +65,7 @@ internal class VerifySpecCallbackTest {
                 contentType = ContentType(APPLICATION_JSON),
                 body = mapOf(
                     "name" to "Keka",
-                    "photoUrls" to listOf("http://example.com")
+                    "photoUrls" to listOf("https://example.com")
                 )
             ),
             HttpResponse(
@@ -73,27 +74,12 @@ internal class VerifySpecCallbackTest {
                 body = listOf(
                     mapOf(
                         "name" to "Keka",
-                        "photoUrls" to listOf("http://example.com")
+                        "photoUrls" to listOf("https://example.com")
                     )
                 ),
             ),
             listOf("ERROR: validation.response.body.schema.type [POST /pet RESPONSE] Instance type (array) does not match any allowed primitive type (allowed: [\"object\"]) [] []")
         )
-//        verify(
-//            HttpRequest(
-//                method = POST,
-//                path = "/pet",
-//            ),
-//            HttpResponse(
-//                status = OK_200,
-//                contentType = ContentType(APPLICATION_JSON),
-//                body = mapOf(
-//                    "name" to "Keka",
-//                    "photoUrls" to listOf("http://example.com")
-//                ),
-//            ),
-//            listOf("1")
-//        )
         verify(
             HttpRequest(method = DELETE, path = "/pet/1"),
             HttpResponse(status = OK_200),
@@ -112,7 +98,7 @@ internal class VerifySpecCallbackTest {
                 contentType = ContentType(APPLICATION_JSON),
                 body = mapOf(
                     "name" to "Keka",
-                    "photoUrls" to listOf("http://example.com")
+                    "photoUrls" to listOf("https://example.com")
                 ),
             ),
         )
@@ -143,7 +129,7 @@ internal class VerifySpecCallbackTest {
                 body = listOf(
                     mapOf(
                         "name" to "Keka",
-                        "photoUrls" to listOf("http://example.com")
+                        "photoUrls" to listOf("https://example.com")
                     )
                 ),
             ),
@@ -155,7 +141,7 @@ internal class VerifySpecCallbackTest {
                 contentType = ContentType(APPLICATION_JSON),
                 body = mapOf(
                     "name" to "Keka",
-                    "photoUrls" to listOf("http://example.com")
+                    "photoUrls" to listOf("https://example.com")
                 )
             ),
             HttpResponse(
@@ -163,7 +149,7 @@ internal class VerifySpecCallbackTest {
                 contentType = ContentType(APPLICATION_JSON),
                 body = mapOf(
                     "name" to "Keka",
-                    "photoUrls" to listOf("http://example.com")
+                    "photoUrls" to listOf("https://example.com")
                 ),
             ),
         )
@@ -174,7 +160,7 @@ internal class VerifySpecCallbackTest {
                 contentType = ContentType(APPLICATION_JSON),
                 body = mapOf(
                     "name" to "Keka",
-                    "photoUrls" to listOf("http://example.com")
+                    "photoUrls" to listOf("https://example.com")
                 )
             ),
             HttpResponse(
@@ -182,7 +168,7 @@ internal class VerifySpecCallbackTest {
                 contentType = ContentType(APPLICATION_JSON),
                 body = mapOf(
                     "name" to "Keka",
-                    "photoUrls" to listOf("http://example.com")
+                    "photoUrls" to listOf("https://example.com")
                 ),
             ),
         )
@@ -193,7 +179,7 @@ internal class VerifySpecCallbackTest {
                 contentType = ContentType(APPLICATION_JSON),
                 body = mapOf(
                     "name" to "Keka",
-                    "photoUrls" to listOf("http://example.com")
+                    "photoUrls" to listOf("https://example.com")
                 )
             ),
             HttpResponse(status = NOT_FOUND_404),

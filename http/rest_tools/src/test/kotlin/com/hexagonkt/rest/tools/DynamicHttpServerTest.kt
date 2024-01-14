@@ -27,8 +27,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @TestInstance(PER_CLASS)
-class DynamicServerTest {
-    private val dynamicServer: DynamicServer = DynamicServer(JettyServletAdapter())
+class DynamicHttpServerTest {
+    private val dynamicServer: DynamicHttpServer = DynamicHttpServer(JettyServletAdapter())
 
     @BeforeAll fun `Set up mock services`() {
         dynamicServer.start()
@@ -47,7 +47,8 @@ class DynamicServerTest {
             }
         }
 
-        Http(JettyClientAdapter(), "http://localhost:${dynamicServer.runtimePort}").request {
+        val url = "http://localhost:${dynamicServer.runtimePort}"
+        StateHttpClient(JettyClientAdapter(), url).request {
             get("/hello/mike")
             assertEquals(OK_200, response.status)
         }
@@ -60,7 +61,8 @@ class DynamicServerTest {
             }
         }
 
-        Http(JettyClientAdapter(), "http://localhost:${dynamicServer.runtimePort}").request {
+        val url = "http://localhost:${dynamicServer.runtimePort}"
+        StateHttpClient(JettyClientAdapter(), url).request {
             get("/foo")
             assertEquals(OK_200, response.status)
             assertEquals("dynamic", response.body)
@@ -89,10 +91,10 @@ class DynamicServerTest {
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val recordCallback = RecordCallback()
         val recordHandler = BeforeHandler("*", recordCallback)
-        val http = Http(
+        val http = StateHttpClient(
             adapter,
             httpHeaders = headers,
-            handler = PathHandler(recordHandler, Http.serializeHandler)
+            handler = PathHandler(recordHandler, StateHttpClient.serializeHandler)
         )
 
         http.get("http://localhost:$port/hello/mike").assertBody("GET /hello/mike", headers)
@@ -135,7 +137,7 @@ class DynamicServerTest {
         val url = "http://localhost:${dynamicServer.runtimePort}"
         val adapter = JettyClientAdapter()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
-        val http = Http(adapter, url, httpHeaders = headers)
+        val http = StateHttpClient(adapter, url, httpHeaders = headers)
 
         http.get("/hello/mike").assertBody("GET /hello/mike", headers)
         http.get().assertBody("GET / ", headers)
@@ -187,13 +189,14 @@ class DynamicServerTest {
         SerializationManager.formats = linkedSetOf(Json)
 
         val settings = HttpServerSettings(bindPort = 0)
-        val server = DynamicServer(JettyServletAdapter(), settings).apply(DynamicServer::start)
+        val serverAdapter = JettyServletAdapter()
+        val server = DynamicHttpServer(serverAdapter, settings).apply(DynamicHttpServer::start)
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val text = ContentType(TEXT_PLAIN)
         val json = ContentType(APPLICATION_JSON)
         val binding = server.binding.toString()
         val adapter = JettyClientAdapter()
-        val http = Http(adapter, url = binding, httpHeaders = headers, httpContentType = json)
+        val http = StateHttpClient(adapter, binding, json, httpHeaders = headers)
 
         server.path {
             before("*") {
@@ -210,10 +213,21 @@ class DynamicServerTest {
         }
 
         http.request {
-            put("/data/{id}" to mapOf("id" to 102030)) {
+            put("/data/102030") {
                 object {
                     val title = "Casino Royale"
                     val tags = listOf("007", "action")
+                }
+            }
+
+            assertOk()
+            response.body.info("BODY: ")
+            response.contentType.info("CONTENT TYPE: ")
+
+            post("/data/102039") {
+                object {
+                    val title = "Batman Begins"
+                    val tags = listOf("DC", "action")
                 }
             }
 
@@ -260,21 +274,24 @@ class DynamicServerTest {
         }
     }
 
-    private fun Http.assertBody(expectedBody: String, checkedHeaders: Map<String, *>) {
+    private fun StateHttpClient.assertBody(expectedBody: String, checkedHeaders: Map<String, *>) {
         assertOk()
         assertSuccess()
         assertStatus(OK_200)
         assertStatus(SUCCESS)
+        assertContentType(ContentType(TEXT_PLAIN))
+        assertContentType(TEXT_PLAIN)
         assertBodyContains(expectedBody)
+
+        assertEquals(ContentType(APPLICATION_JSON), request.contentType)
+        assertEquals(OK_200, status)
 
         for ((k, v) in checkedHeaders.entries) {
             assertBodyContains(k, v.toString())
         }
     }
 
-    private fun HttpResponsePort.assertBody(
-        expectedBody: String, checkedHeaders: Map<String, *>) {
-
+    private fun HttpResponsePort.assertBody(expectedBody: String, checkedHeaders: Map<String, *>) {
         val bodyString = bodyString()
 
         assertEquals(OK_200, status)
