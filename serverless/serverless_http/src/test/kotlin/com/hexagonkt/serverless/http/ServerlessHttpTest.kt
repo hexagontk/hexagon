@@ -1,5 +1,5 @@
 package com.hexagonkt.serverless.http
 
-internal class ServerlessTest {
+internal class ServerlessHttpTest {
 
 }

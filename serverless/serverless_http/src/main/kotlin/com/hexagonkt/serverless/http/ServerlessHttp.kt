@@ -1,4 +1,4 @@
 package com.hexagonkt.serverless.http
 
-class Serverless {
+class ServerlessHttp {
 }
