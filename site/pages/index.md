@@ -180,7 +180,10 @@ graph TD
   http_client -->|uses| http_handlers
   web -->|uses| http_server
   web -->|uses| templates
-  rest -->|uses| http_server
+  rest -->|uses| http_handlers
   rest -->|uses| serialization
   rest_tools -->|uses| rest
+  rest_tools -->|uses| http_server
+  rest_tools -->|uses| http_client
+  serverless_http -->|uses| http_handlers
 ```
