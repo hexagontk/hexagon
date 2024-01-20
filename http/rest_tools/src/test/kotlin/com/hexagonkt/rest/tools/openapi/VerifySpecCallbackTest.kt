@@ -80,6 +80,22 @@ internal class VerifySpecCallbackTest {
             ),
             listOf("ERROR: validation.response.body.schema.type [POST /pet RESPONSE] Instance type (array) does not match any allowed primitive type (allowed: [\"object\"]) [] []")
         )
+        // TODO Request body required (should fail)
+//        verify(
+//            HttpRequest(
+//                method = POST,
+//                path = "/pet",
+//            ),
+//            HttpResponse(
+//                status = OK_200,
+//                contentType = ContentType(APPLICATION_JSON),
+//                body = mapOf(
+//                    "name" to "Keka",
+//                    "photoUrls" to listOf("http://example.com")
+//                ),
+//            ),
+//            listOf("1")
+//        )
         verify(
             HttpRequest(method = DELETE, path = "/pet/1"),
             HttpResponse(status = OK_200),
