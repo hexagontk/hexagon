@@ -1,13 +1,13 @@
 package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.text.decodeBase64
+import com.hexagonkt.http.basicAuth
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.model.FORBIDDEN_403
 import com.hexagonkt.http.model.UNAUTHORIZED_401
 import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.Headers
 import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.server.HttpServerPort
@@ -132,7 +132,7 @@ abstract class FiltersTest(
     private fun authorizedClient(user: String, password: String): HttpClient {
         val settings = HttpClientSettings(
             baseUrl = server.binding,
-            headers = Headers(Header("authorization", basicAuth(user, password)))
+            authorization = Authorization("basic", basicAuth(user, password))
         )
         return HttpClient(clientAdapter(), settings).apply { start() }
     }

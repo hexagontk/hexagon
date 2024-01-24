@@ -1,15 +1,21 @@
 package com.hexagonkt.rest
 
+import com.hexagonkt.http.handlers.HttpCallback
 import com.hexagonkt.http.handlers.HttpContext
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
 
-class SerializeRequestCallback: (HttpContext) -> HttpContext {
+class SerializeRequestCallback : HttpCallback {
 
-    // TODO Short circuit if body is empty
-    override fun invoke(context: HttpContext): HttpContext =
-        context.request.contentType?.mediaType
+    override fun invoke(context: HttpContext): HttpContext {
+        val requestBody = context.request.body
+
+        if (requestBody in emptyBodies)
+            return context
+
+        return context.request.contentType?.mediaType
             ?.let(SerializationManager::formatOfOrNull)
-            ?.let { context.receive(body = context.request.body.serialize(it)) }
+            ?.let { context.receive(body = requestBody.serialize(it)) }
             ?: context
+    }
 }

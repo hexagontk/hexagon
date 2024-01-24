@@ -19,6 +19,8 @@ internal class MediaTypeTest {
     }
 
     @Test fun `Media types without extensions are correct`() {
+        assertEquals("*/*", ANY_MEDIA.fullType)
+
         assertEquals("multipart/alternative", MULTIPART_ALTERNATIVE.fullType)
         assertEquals("multipart/appledouble", MULTIPART_APPLEDOUBLE.fullType)
         assertEquals("multipart/digest", MULTIPART_DIGEST.fullType)

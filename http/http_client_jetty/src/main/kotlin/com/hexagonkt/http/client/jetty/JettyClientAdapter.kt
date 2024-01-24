@@ -48,21 +48,24 @@ open class JettyClientAdapter : HttpClientPort {
 
     protected lateinit var jettyClient: JettyHttpClient
     protected lateinit var httpClient: HttpClient
+    private lateinit var httpSettings: HttpClientSettings
     private var started: Boolean = false
     private val publisherExecutor = Executors.newSingleThreadExecutor()
 
     override fun startUp(client: HttpClient) {
         val clientConnector = ClientConnector()
-        clientConnector.sslContextFactory = sslContext(client.settings)
+        val settings = client.settings
+        clientConnector.sslContextFactory = sslContext(settings)
 
         val http2 = HTTP2(JettyHttp2Client(clientConnector))
         val transport = HttpClientTransportDynamic(clientConnector, HTTP11, http2)
 
         jettyClient = JettyHttpClient(transport)
         httpClient = client
+        httpSettings = settings
 
         jettyClient.userAgentField = null // Disable default user agent header
-        jettyClient.isFollowRedirects = client.settings.followRedirects
+        jettyClient.isFollowRedirects = settings.followRedirects
         jettyClient.start()
         started = true
     }
@@ -78,7 +81,7 @@ open class JettyClientAdapter : HttpClientPort {
     override fun send(request: HttpRequestPort): HttpResponsePort {
         val response =
             try {
-                createJettyRequest(httpClient, jettyClient, request).send()
+                createJettyRequest(jettyClient, request).send()
             }
             catch (e: ExecutionException) {
                 val cause = e.cause
@@ -109,7 +112,7 @@ open class JettyClientAdapter : HttpClientPort {
             headers = request.headers + Header("connection", "keep-alive")
         )
 
-        createJettyRequest(httpClient, jettyClient, sseRequest)
+        createJettyRequest(jettyClient, sseRequest)
             .onResponseBegin {
                 if (it.status !in 200 until 300)
                     error("Invalid response: ${it.status}")
@@ -140,9 +143,8 @@ open class JettyClientAdapter : HttpClientPort {
     ): HttpResponse {
 
         val bodyString = if (response is ContentResponse) response.contentAsString else ""
-        val settings = adapterHttpClient.settings
 
-        if (settings.useCookies)
+        if (httpSettings.useCookies)
             adapterHttpClient.cookies = adapterJettyClient.httpCookieStore.all().map {
                 Cookie(
                     it.name,
@@ -177,18 +179,14 @@ open class JettyClientAdapter : HttpClientPort {
         )
 
     private fun createJettyRequest(
-        adapterHttpClient: HttpClient,
-        adapterJettyClient: JettyHttpClient,
-        request: HttpRequestPort
+        adapterJettyClient: JettyHttpClient, request: HttpRequestPort
     ): Request {
 
-        val settings = adapterHttpClient.settings
-        val contentType = request.contentType ?: settings.contentType
-        val accept = request.accept.ifEmpty(settings::accept)
-        val authorization = request.authorization ?: settings.authorization
-        val baseUrl = settings.baseUrl
+        val contentType = request.contentType
+        val authorization = request.authorization
+        val baseUrl = httpSettings.baseUrl
 
-        if (settings.useCookies) {
+        if (httpSettings.useCookies) {
             val uri = (baseUrl ?: request.url()).toURI()
             addCookies(uri, adapterJettyClient.httpCookieStore, request.cookies)
         }
@@ -202,11 +200,10 @@ open class JettyClientAdapter : HttpClientPort {
                     it.put("content-type", contentType.text)
                 if (authorization != null)
                     it.put("authorization", authorization.text)
-                (settings.headers + request.headers).values
-                    .forEach { (k, v) -> it.put(k, v.map(Any::toString)) }
+                request.headers.values.forEach { (k, v) -> it.put(k, v.map(Any::toString)) }
             }
             .body(createBody(request))
-            .accept(*accept.map { it.text }.toTypedArray())
+            .accept(*request.accept.map { it.text }.toTypedArray())
 
         request.queryParameters
             .forEach { (k, v) -> v.strings().forEach { jettyRequest.param(k, it) } }

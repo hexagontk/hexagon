@@ -13,7 +13,7 @@ import java.net.URL
  * Server with dynamic handler (delegated to [path]). Root handler can be replaced at any time
  * without restarting the server.
  */
-data class DynamicServer(
+data class DynamicHttpServer(
     private val adapter: HttpServerPort,
     private val settings: HttpServerSettings = HttpServerSettings(),
     var path: PathHandler = PathHandler(),
@@ -25,7 +25,7 @@ data class DynamicServer(
         HttpServer(adapter, settings) {
             after("*", SerializeResponseCallback())
             after(pattern = "*", status = NOT_FOUND_404) {
-                send(response = this@DynamicServer.path.process(request).response)
+                send(response = this@DynamicHttpServer.path.process(request).response)
             }
         }
     }

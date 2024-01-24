@@ -8,6 +8,7 @@ import com.atlassian.oai.validator.model.Request.Method
 import com.atlassian.oai.validator.model.SimpleRequest
 import com.atlassian.oai.validator.model.SimpleResponse
 import com.atlassian.oai.validator.report.ValidationReport
+import com.hexagonkt.http.handlers.HttpCallback
 import com.hexagonkt.http.handlers.HttpContext
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpMethod
@@ -17,8 +18,10 @@ import kotlin.jvm.optionals.getOrNull
 
 /**
  * Callback that verifies server calls comply with a given OpenAPI spec.
+ *
+ * TODO Use https://vertx.io/docs/vertx-openapi/java
  */
-class VerifySpecCallback(spec: URL) : (HttpContext) -> HttpContext {
+class VerifySpecCallback(spec: URL) : HttpCallback {
 
     private val messagePrefix: String = "\n- "
     private val validator: OpenApiInteractionValidator =

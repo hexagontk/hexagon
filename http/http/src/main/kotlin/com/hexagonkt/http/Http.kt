@@ -4,6 +4,7 @@ import com.hexagonkt.core.GMT_ZONE
 import com.hexagonkt.core.assertEnabled
 import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.core.text.encodeToBase64
 import com.hexagonkt.http.model.*
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -19,6 +20,9 @@ val CHECKED_HEADERS: List<String> by lazy {
 }
 
 internal val HTTP_DATE_FORMATTER: DateTimeFormatter by lazy { RFC_1123_DATE_TIME.withZone(UTC) }
+
+fun basicAuth(user: String, password: String = ""): String =
+    "$user:$password".encodeToBase64()
 
 fun checkHeaders(headers: Headers) {
     if (!assertEnabled)

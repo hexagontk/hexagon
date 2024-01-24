@@ -49,7 +49,7 @@ internal class ExceptionHandlerTest {
 
         ChainHandler(
             ExceptionHandler<String, Exception>(Exception::class, false) { c, _ -> c.with("ok") },
-            ExceptionHandler<String, Exception>(Exception::class, false) { c, _ -> error("Fail") },
+            ExceptionHandler(Exception::class, false) { _, _ -> error("Fail") },
             OnHandler { error("Error") }
         )
         .process(EventContext("test", { true }))

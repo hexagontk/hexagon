@@ -41,7 +41,7 @@ internal class JvmTest {
         assertEquals("z3", System.getProperty("s3"))
 
         val e = assertFailsWith<IllegalStateException> { Jvm.loadSystemSettings(mapOf("1" to "v")) }
-        assertEquals("Property name must match [a-zA-Z_]+[a-zA-Z0-9_]* (1)", e.message)
+        assertEquals("Property name must match [_A-Za-z]+[_A-Za-z0-9]* (1)", e.message)
     }
 
     @Test fun `OS kind is fetched properly`() {
@@ -213,6 +213,7 @@ internal class JvmTest {
         assert(Jvm.systemSetting<String>("system_property") == "value")
 
         assert(Jvm.systemSetting<String>("PATH").isNotEmpty())
+        assert(Jvm.systemSetting<String>("path").isNotEmpty())
         assertNull(Jvm.systemSettingOrNull<String>("_not_defined_"))
 
         System.setProperty("PATH", "path override")

@@ -1,6 +1,5 @@
 package com.hexagonkt.http.test
 
-import com.hexagonkt.core.text.encodeToBase64
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
@@ -63,10 +62,6 @@ abstract class BaseTest {
     ) {
         assertResponseContains(response, OK_200, *content)
     }
-
-    // TODO Move to `http` module to share basic and digest auth among client and server
-    protected fun basicAuth(user: String, password: String? = null): String =
-        "Basic " + "$user:$password".encodeToBase64()
 
     protected fun assertResponseEquals(
         response: HttpResponsePort?, status: HttpStatus = OK_200, content: String
