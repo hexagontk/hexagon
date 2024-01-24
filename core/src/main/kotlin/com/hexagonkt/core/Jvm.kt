@@ -1,5 +1,6 @@
 package com.hexagonkt.core
 
+import com.hexagonkt.core.text.SNAKE_CASE
 import com.hexagonkt.core.text.parseOrNull
 import java.io.Console
 import java.net.InetAddress
@@ -13,7 +14,7 @@ import kotlin.reflect.KClass
  * Object with utilities to gather information about the running JVM.
  */
 object Jvm {
-    private val systemSettingPattern: Regex by lazy { Regex("[a-zA-Z_]+[a-zA-Z0-9_]*") }
+    private val systemSettingPattern: Regex by lazy { SNAKE_CASE }
 
     /** Operating system name ('os.name' property). If `null` throws an exception. */
     val os: String by lazy { os() }
@@ -149,7 +150,7 @@ object Jvm {
     private fun systemSettingRaw(name: String): String? {
         val correctName = name.matches(systemSettingPattern)
         require(correctName) { "Setting name must match $systemSettingPattern" }
-        return System.getenv(name) ?: System.getProperty(name)
+        return System.getenv(name) ?: System.getenv(name.uppercase()) ?: System.getProperty(name)
     }
 
     /** Operating system name ('os.name' property). If `null` throws an exception. */

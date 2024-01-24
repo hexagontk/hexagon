@@ -57,12 +57,21 @@ class HttpClient(
             error("HTTP client *MUST BE STARTED* before sending requests")
         else
             rootHandler
-                ?.process(request, attributes)
+                ?.process(request.setUp(), attributes)
                 ?.let {
                     if (it.exception != null) throw it.exception as Exception
                     else it.response
                 }
-                ?: adapter.send(request)
+                ?: adapter.send(request.setUp())
+
+    private fun HttpRequest.setUp(): HttpRequest {
+        return copy(
+            contentType = contentType ?: settings.contentType,
+            accept = accept.ifEmpty(settings::accept),
+            headers = settings.headers + headers,
+            authorization = authorization ?: settings.authorization,
+        )
+    }
 
     fun sse(request: HttpRequest): Publisher<ServerEvent> =
         if (!started()) error("HTTP client *MUST BE STARTED* before sending requests")

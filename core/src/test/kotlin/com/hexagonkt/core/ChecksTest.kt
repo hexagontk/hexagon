@@ -141,4 +141,26 @@ internal class ChecksTest {
         val e = assertFailsWith<IllegalArgumentException>(block = block)
         assertEquals(message, e.message)
     }
+
+    @Test fun `Check multiple errors`() {
+        val e = assertFailsWith<MultipleException> {
+            check(
+                "Test multiple exceptions",
+                { require(false) { "Sample error" } },
+                { println("Good block") },
+                { error("Bad state") },
+            )
+        }
+
+        assertEquals("Test multiple exceptions", e.message)
+        assertEquals(2, e.causes.size)
+        assertEquals("Sample error", e.causes[0].message)
+        assertEquals("Bad state", e.causes[1].message)
+
+        check(
+            "No exception thrown",
+            { println("Good block") },
+            { println("Shouldn't throw an exception") },
+        )
+    }
 }

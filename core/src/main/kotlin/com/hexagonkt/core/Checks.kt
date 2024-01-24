@@ -63,12 +63,34 @@ fun <T : Any, N> T.requireLowerOrEquals(
 }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Ensure a collection has a fixed number of elements.
  *
- * @receiver .
- * @param count .
- * @return .
+ * @receiver Collection which size will be checked.
+ * @param count Required number of elements.
+ * @return Receiver reference (to allow call chaining).
  */
 fun <Z> Collection<Z>.checkSize(count: IntRange): Collection<Z> = this.apply {
     check(size in count) { "$size items while expecting only $count element" }
+}
+
+/**
+ * Execute a list of code block collecting the exceptions they may throw, in case there is any
+ * error, it throws a [MultipleException] with all the thrown exceptions.
+ *
+ * @param message Error message.
+ * @param blocks Blocks of code executed and checked.
+ */
+fun check(message: String, vararg blocks: () -> Unit) {
+    val exceptions: List<Exception> = blocks.mapNotNull {
+        try {
+            it()
+            null
+        }
+        catch(e: Exception) {
+            e
+        }
+    }
+
+    if (exceptions.isNotEmpty())
+        throw MultipleException(message, exceptions)
 }

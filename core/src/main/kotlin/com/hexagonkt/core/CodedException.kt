@@ -3,11 +3,9 @@ package com.hexagonkt.core
 /**
  * Exception with a numeric code.
  *
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @property code .
- * @property message .
- * @property cause .
+ * @property code Exception code.
+ * @property message Error message.
+ * @property cause Parent exception.
  */
-class CodedException (val code: Int, message: String = "", cause: Throwable? = null) :
-    RuntimeException (message, cause)
+class CodedException(val code: Int, message: String = "", cause: Throwable? = null) :
+    RuntimeException(message, cause)

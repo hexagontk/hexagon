@@ -37,7 +37,7 @@ sealed interface HttpHandler : Handler<HttpCall> {
             is BeforeHandler ->
                 copy(handlerPredicate = handlerPredicate.clearMethods())
 
-            is ExceptionHandler<*> ->
+            else ->
                 this
         }
 
