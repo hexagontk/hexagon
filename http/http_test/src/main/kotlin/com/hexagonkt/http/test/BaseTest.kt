@@ -1,8 +1,5 @@
 package com.hexagonkt.http.test
 
-import com.hexagonkt.core.logging.LoggingLevel.DEBUG
-import com.hexagonkt.core.logging.LoggingLevel.OFF
-import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
@@ -38,7 +35,6 @@ abstract class BaseTest {
     }
 
     @BeforeAll fun startUp() {
-        LoggingManager.setLoggerLevel("com.hexagonkt", DEBUG)
         server.start()
         client.start()
     }
@@ -46,7 +42,6 @@ abstract class BaseTest {
     @AfterAll fun shutDown() {
         client.stop()
         server.stop()
-        LoggingManager.setLoggerLevel("com.hexagonkt", OFF)
     }
 
     protected fun assertResponseContains(

@@ -1,7 +1,8 @@
 package com.hexagonkt.core.logging
 
+import com.hexagonkt.core.text.stripAnsi
+import java.lang.System.Logger.Level.*
 import kotlin.reflect.KClass
-import com.hexagonkt.core.logging.LoggingLevel.*
 
 /**
  * Logger class with Kotlin improvements like lazy evaluation. It is backed by a logging port.
@@ -11,23 +12,21 @@ import com.hexagonkt.core.logging.LoggingLevel.*
  */
 class Logger(val name: String) {
 
-    internal val log: LoggerPort = LoggingManager.adapter.createLogger(name)
+    internal val log: System.Logger = System.getLogger(name)
 
     /**
      * Log a message, with associated exception information.
-     *
-     * @see LoggerPort.log
      */
-    fun <E : Throwable> log(level: LoggingLevel, exception: E, message: (E) -> Any?) {
-        log.log(level, exception, message)
+    fun <E : Throwable> log(level: System.Logger.Level, exception: E, message: (E) -> Any?) {
+        if (LoggingManager.useColor) message(exception)
+        else message(exception)?.toString()?.stripAnsi()
+        log.log(level, { message(exception)?.toString() }, exception)
     }
 
     /**
      * Log a message.
-     *
-     * @see LoggerPort.log
      */
-    fun log(level: LoggingLevel, message: () -> Any?) {
+    fun log(level: System.Logger.Level, message: () -> Any?) {
         log.log(level, message)
     }
 
@@ -67,12 +66,12 @@ class Logger(val name: String) {
     }
 
     /**
-     * Log a message using [WARN] level.
+     * Log a message using [WARNING] level.
      *
      * @param message The required message to log.
      */
     fun warn(message: () -> Any?) {
-        log.log(WARN, message)
+        log.log(WARNING, message)
     }
 
     /**
@@ -85,14 +84,14 @@ class Logger(val name: String) {
     }
 
     /**
-     * Log a message using [WARN] level with associated exception information.
+     * Log a message using [WARNING] level with associated exception information.
      *
      * @param exception The exception associated with log message.
      * @param message The message to log (optional). If not supplied it will be empty.
      */
     fun <E : Throwable> warn(exception: E?, message: (E?) -> Any? = { "" }) {
-        if (exception == null) log.log(WARN) { message(null) }
-        else log.log(WARN, exception, message)
+        if (exception == null) log(WARNING) { message(null) }
+        else log(WARNING, exception, message)
     }
 
     /**
@@ -102,65 +101,7 @@ class Logger(val name: String) {
      * @param message The message to log (optional). If not supplied it will be empty.
      */
     fun <E : Throwable> error(exception: E?, message: (E?) -> Any? = { "" }) {
-        if (exception == null) log.log(ERROR) { message(null) }
-        else log.log(ERROR, exception, message)
+        if (exception == null) log(ERROR) { message(null) }
+        else log(ERROR, exception, message)
     }
-
-    /**
-     * Set a logging level for this logger.
-     *
-     * @param level One of the logging levels identifiers, e.g., TRACE
-     */
-    fun setLoggerLevel(level: LoggingLevel) {
-        LoggingManager.setLoggerLevel(name, level)
-    }
-
-    /**
-     * Check if a logging level is enabled for this logger.
-     *
-     * @param level One of the logging levels identifiers, e.g., TRACE
-     * @return True if the supplied level is enabled for this logger.
-     */
-    fun isLoggerLevelEnabled(level: LoggingLevel): Boolean =
-        LoggingManager.isLoggerLevelEnabled(name, level)
-
-    /**
-     * Check if the [TRACE] logging level is enabled for this logger.
-     *
-     * @return True if the [TRACE] level is enabled for this logger.
-     */
-    fun isTraceEnabled(): Boolean =
-        isLoggerLevelEnabled(TRACE)
-
-    /**
-     * Check if the [DEBUG] logging level is enabled for this logger.
-     *
-     * @return True if the [DEBUG] level is enabled for this logger.
-     */
-    fun isDebugEnabled(): Boolean =
-        isLoggerLevelEnabled(DEBUG)
-
-    /**
-     * Check if the [INFO] logging level is enabled for this logger.
-     *
-     * @return True if the [INFO] level is enabled for this logger.
-     */
-    fun isInfoEnabled(): Boolean =
-        isLoggerLevelEnabled(INFO)
-
-    /**
-     * Check if the [WARN] logging level is enabled for this logger.
-     *
-     * @return True if the [WARN] level is enabled for this logger.
-     */
-    fun isWarnEnabled(): Boolean =
-        isLoggerLevelEnabled(WARN)
-
-    /**
-     * Check if the [ERROR] logging level is enabled for this logger.
-     *
-     * @return True if the [ERROR] level is enabled for this logger.
-     */
-    fun isErrorEnabled(): Boolean =
-        isLoggerLevelEnabled(ERROR)
 }

@@ -228,24 +228,12 @@ public final class com/hexagonkt/core/logging/Logger {
 	public static synthetic fun error$default (Lcom/hexagonkt/core/logging/Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun getName ()Ljava/lang/String;
 	public final fun info (Lkotlin/jvm/functions/Function0;)V
-	public final fun isDebugEnabled ()Z
-	public final fun isErrorEnabled ()Z
-	public final fun isInfoEnabled ()Z
-	public final fun isLoggerLevelEnabled (Lcom/hexagonkt/core/logging/LoggingLevel;)Z
-	public final fun isTraceEnabled ()Z
-	public final fun isWarnEnabled ()Z
-	public final fun log (Lcom/hexagonkt/core/logging/LoggingLevel;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
-	public final fun log (Lcom/hexagonkt/core/logging/LoggingLevel;Lkotlin/jvm/functions/Function0;)V
-	public final fun setLoggerLevel (Lcom/hexagonkt/core/logging/LoggingLevel;)V
+	public final fun log (Ljava/lang/System$Logger$Level;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
+	public final fun log (Ljava/lang/System$Logger$Level;Lkotlin/jvm/functions/Function0;)V
 	public final fun trace (Lkotlin/jvm/functions/Function0;)V
 	public final fun warn (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 	public final fun warn (Lkotlin/jvm/functions/Function0;)V
 	public static synthetic fun warn$default (Lcom/hexagonkt/core/logging/Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-}
-
-public abstract interface class com/hexagonkt/core/logging/LoggerPort {
-	public abstract fun log (Lcom/hexagonkt/core/logging/LoggingLevel;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
-	public abstract fun log (Lcom/hexagonkt/core/logging/LoggingLevel;Lkotlin/jvm/functions/Function0;)V
 }
 
 public final class com/hexagonkt/core/logging/LoggingKt {
@@ -258,48 +246,12 @@ public final class com/hexagonkt/core/logging/LoggingKt {
 	public static synthetic fun trace$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/hexagonkt/core/logging/LoggingLevel : java/lang/Enum {
-	public static final field DEBUG Lcom/hexagonkt/core/logging/LoggingLevel;
-	public static final field ERROR Lcom/hexagonkt/core/logging/LoggingLevel;
-	public static final field INFO Lcom/hexagonkt/core/logging/LoggingLevel;
-	public static final field OFF Lcom/hexagonkt/core/logging/LoggingLevel;
-	public static final field TRACE Lcom/hexagonkt/core/logging/LoggingLevel;
-	public static final field WARN Lcom/hexagonkt/core/logging/LoggingLevel;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/core/logging/LoggingLevel;
-	public static fun values ()[Lcom/hexagonkt/core/logging/LoggingLevel;
-}
-
 public final class com/hexagonkt/core/logging/LoggingManager {
 	public static final field INSTANCE Lcom/hexagonkt/core/logging/LoggingManager;
-	public final fun getAdapter ()Lcom/hexagonkt/core/logging/LoggingPort;
 	public final fun getDefaultLoggerName ()Ljava/lang/String;
 	public final fun getUseColor ()Z
-	public final fun isLoggerLevelEnabled (Lcom/hexagonkt/core/logging/LoggingLevel;)Z
-	public final fun isLoggerLevelEnabled (Ljava/lang/Object;Lcom/hexagonkt/core/logging/LoggingLevel;)Z
-	public final fun isLoggerLevelEnabled (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)Z
-	public final fun isLoggerLevelEnabled (Lkotlin/reflect/KClass;Lcom/hexagonkt/core/logging/LoggingLevel;)Z
-	public final fun setAdapter (Lcom/hexagonkt/core/logging/LoggingPort;)V
 	public final fun setDefaultLoggerName (Ljava/lang/String;)V
-	public final fun setLoggerLevel (Lcom/hexagonkt/core/logging/LoggingLevel;)V
-	public final fun setLoggerLevel (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)V
-	public final fun setLoggerLevel (Lkotlin/reflect/KClass;Lcom/hexagonkt/core/logging/LoggingLevel;)V
 	public final fun setUseColor (Z)V
-}
-
-public abstract interface class com/hexagonkt/core/logging/LoggingPort {
-	public abstract fun createLogger (Ljava/lang/String;)Lcom/hexagonkt/core/logging/LoggerPort;
-	public abstract fun isLoggerLevelEnabled (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)Z
-	public abstract fun setLoggerLevel (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)V
-}
-
-public final class com/hexagonkt/core/logging/SystemLoggingAdapter : com/hexagonkt/core/logging/LoggingPort {
-	public fun <init> ()V
-	public fun <init> (Lcom/hexagonkt/core/logging/LoggingLevel;)V
-	public synthetic fun <init> (Lcom/hexagonkt/core/logging/LoggingLevel;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun createLogger (Ljava/lang/String;)Lcom/hexagonkt/core/logging/LoggerPort;
-	public fun isLoggerLevelEnabled (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)Z
-	public fun setLoggerLevel (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)V
 }
 
 public final class com/hexagonkt/core/media/MediaType {

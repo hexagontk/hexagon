@@ -10,7 +10,6 @@ include(
 
 includeNestedModules(
     "http",
-    "logging",
     "serialization",
     "templates"
 )

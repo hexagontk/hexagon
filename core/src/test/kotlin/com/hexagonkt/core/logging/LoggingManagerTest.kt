@@ -1,6 +1,5 @@
 package com.hexagonkt.core.logging
 
-import com.hexagonkt.core.logging.LoggingLevel.*
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.condition.DisabledInNativeImage
@@ -9,48 +8,8 @@ import kotlin.reflect.KClass
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 internal class LoggingManagerTest {
-
-    // TODO Repeat this test on other logging adapters
-    @Test fun `Loggers are enabled and disabled at runtime`() {
-
-        LoggingManager.adapter = SystemLoggingAdapter()
-
-        val ch = Logger("com.hx")
-        val chc = Logger("com.hx.core")
-        val chl = Logger("com.hx.logging")
-
-        LoggingManager.setLoggerLevel("com.hx", TRACE)
-        assertTrue(Logger("z").isLoggerLevelEnabled(INFO))
-        assertFalse(Logger("z").isLoggerLevelEnabled(DEBUG))
-        assertTrue(
-            entries.all {
-                ch.isLoggerLevelEnabled(it)
-                    && chc.isLoggerLevelEnabled(it)
-                    && chl.isLoggerLevelEnabled(it)
-            }
-        )
-
-        LoggingManager.setLoggerLevel("com.hx.core", WARN)
-        assertTrue(chc.isLoggerLevelEnabled(ERROR) && chc.isErrorEnabled())
-        assertTrue(chc.isLoggerLevelEnabled(WARN) && chc.isWarnEnabled())
-        assertFalse(chc.isLoggerLevelEnabled(INFO) || chc.isInfoEnabled())
-        assertFalse(chc.isLoggerLevelEnabled(DEBUG) || chc.isDebugEnabled())
-        assertFalse(chc.isLoggerLevelEnabled(TRACE) || chc.isTraceEnabled())
-        assertTrue(entries.all { ch.isLoggerLevelEnabled(it) && chl.isLoggerLevelEnabled(it) })
-
-        // TODO Check if parent level changes gets reflected on created loggers (com.hx -> TRACE)
-        LoggingManager.setLoggerLevel("com.hx.core", TRACE)
-        assertTrue(LoggingManager.isLoggerLevelEnabled("com.hx.core", INFO))
-        assertTrue(chc.isLoggerLevelEnabled(ERROR) && chc.isErrorEnabled())
-        assertTrue(chc.isLoggerLevelEnabled(WARN) && chc.isWarnEnabled())
-        assertTrue(chc.isLoggerLevelEnabled(INFO) && chc.isInfoEnabled())
-        assertTrue(chc.isLoggerLevelEnabled(DEBUG) && chc.isDebugEnabled())
-        assertTrue(chc.isLoggerLevelEnabled(TRACE) && chc.isTraceEnabled())
-    }
 
     @Test fun `'defaultLoggerName' can be changed`() {
         val dln = LoggingManager.defaultLoggerName
@@ -75,10 +34,7 @@ internal class LoggingManagerTest {
         val kc = mockk<KClass<*>>()
         every { kc.qualifiedName } returns null
 
-        assertFailsWith<IllegalStateException> { LoggingManager.isLoggerLevelEnabled(kc, INFO) }
-            .apply { assertEquals("Cannot get qualified name of type", message) }
-
-        assertFailsWith<IllegalStateException> { LoggingManager.setLoggerLevel(kc, INFO) }
+        assertFailsWith<IllegalStateException> { Logger(kc) }
             .apply { assertEquals("Cannot get qualified name of type", message) }
     }
 }

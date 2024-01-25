@@ -1,10 +1,11 @@
 package com.hexagonkt.core.logging
 
-import com.hexagonkt.core.logging.LoggingLevel.*
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.condition.DisabledInNativeImage
 import org.junit.jupiter.api.Test
+import java.lang.System.Logger.Level.ERROR
+import java.lang.System.Logger.Level.TRACE
 import kotlin.IllegalStateException
 import kotlin.reflect.KClass
 import kotlin.test.*
@@ -36,11 +37,6 @@ internal class LoggerTest {
         classLogger.warn(exception)
         classLogger.error(exception)
         classLogger.error { "Error without an exception" }
-
-        // Logging level can be changed programmatically
-        LoggingManager.setLoggerLevel(ERROR)
-        LoggingManager.setLoggerLevel(classLogger::class, DEBUG)
-        LoggingManager.setLoggerLevel("com.hexagonkt", INFO)
         // logger
     }
 
@@ -70,50 +66,6 @@ internal class LoggerTest {
     @Test fun `A logger for a custom name has the proper name`() {
         assert(Logger("name").name == "name")
         assert(Logger("name"::class).name == "kotlin.String")
-    }
-
-    @Test fun `A logger level can be changed`() {
-        val l = Logger("l")
-
-        l.setLoggerLevel(TRACE)
-        assert(l.name == "l")
-        assert(l.isTraceEnabled())
-        assert(l.isDebugEnabled())
-        assert(l.isInfoEnabled())
-        assert(l.isWarnEnabled())
-        assert(l.isErrorEnabled())
-
-        l.setLoggerLevel(DEBUG)
-        assert(l.name == "l")
-        assertFalse(l.isTraceEnabled())
-        assert(l.isDebugEnabled())
-        assert(l.isInfoEnabled())
-        assert(l.isWarnEnabled())
-        assert(l.isErrorEnabled())
-
-        l.setLoggerLevel(INFO)
-        assert(l.name == "l")
-        assertFalse(l.isTraceEnabled())
-        assertFalse(l.isDebugEnabled())
-        assert(l.isInfoEnabled())
-        assert(l.isWarnEnabled())
-        assert(l.isErrorEnabled())
-
-        l.setLoggerLevel(WARN)
-        assert(l.name == "l")
-        assertFalse(l.isTraceEnabled())
-        assertFalse(l.isDebugEnabled())
-        assertFalse(l.isInfoEnabled())
-        assert(l.isWarnEnabled())
-        assert(l.isErrorEnabled())
-
-        l.setLoggerLevel(ERROR)
-        assert(l.name == "l")
-        assertFalse(l.isTraceEnabled())
-        assertFalse(l.isDebugEnabled())
-        assertFalse(l.isInfoEnabled())
-        assertFalse(l.isWarnEnabled())
-        assert(l.isErrorEnabled())
     }
 
     @Test
