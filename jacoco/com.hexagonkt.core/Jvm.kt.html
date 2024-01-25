@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Jvm.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core</a> &gt; <span class="el_source">Jvm.kt</span></div><h1>Jvm.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core
 
+import com.hexagonkt.core.text.SNAKE_CASE
 import com.hexagonkt.core.text.parseOrNull
 import java.io.Console
 import java.net.InetAddress
@@ -13,58 +14,58 @@ import kotlin.reflect.KClass
  * Object with utilities to gather information about the running JVM.
  */
 object Jvm {
-<span class="fc" id="L16">    private val systemSettingPattern: Regex by lazy { Regex(&quot;[a-zA-Z_]+[a-zA-Z0-9_]*&quot;) }</span>
+<span class="fc" id="L17">    private val systemSettingPattern: Regex by lazy { SNAKE_CASE }</span>
 
     /** Operating system name ('os.name' property). If `null` throws an exception. */
-<span class="fc" id="L19">    val os: String by lazy { os() }</span>
+<span class="fc" id="L20">    val os: String by lazy { os() }</span>
 
     /** Operating system type. */
-<span class="fc" id="L22">    val osKind: OsKind by lazy { osKind() }</span>
+<span class="fc" id="L23">    val osKind: OsKind by lazy { osKind() }</span>
 
     /**
      * JVM Console, if the program don't have a console (i.e.: input or output redirected), an
      * exception is thrown.
      */
-<span class="pc" id="L28">    val console: Console by lazy {</span>
-<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        System.console() ?: error(&quot;Program doesn't have a console (I/O may be redirected)&quot;)</span>
+<span class="pc" id="L29">    val console: Console by lazy {</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        System.console() ?: error(&quot;Program doesn't have a console (I/O may be redirected)&quot;)</span>
     }
 
     /** True if the program has a console (terminal, TTY, PTY...), false if I/O is piped. */
-<span class="pc bpc" id="L33" title="1 of 2 branches missed.">    val isConsole: Boolean by lazy { System.console() != null }</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">    val isConsole: Boolean by lazy { System.console() != null }</span>
 
     /** Current JVM runtime. */
-<span class="fc" id="L36">    val runtime: Runtime by lazy { Runtime.getRuntime() }</span>
+<span class="fc" id="L37">    val runtime: Runtime by lazy { Runtime.getRuntime() }</span>
 
     /** Default timezone. */
-<span class="fc" id="L39">    val timeZone: TimeZone by lazy { TimeZone.getDefault() }</span>
+<span class="fc" id="L40">    val timeZone: TimeZone by lazy { TimeZone.getDefault() }</span>
 
     /** Default zone ID. */
-<span class="fc" id="L42">    val zoneId: ZoneId by lazy { timeZone.toZoneId() }</span>
+<span class="fc" id="L43">    val zoneId: ZoneId by lazy { timeZone.toZoneId() }</span>
 
     /** Default character set. */
-<span class="fc" id="L45">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
+<span class="fc" id="L46">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
 
     /** Default locale for this instance of the Java Virtual Machine. */
-<span class="fc" id="L48">    val locale: Locale by lazy { Locale.getDefault() }</span>
+<span class="fc" id="L49">    val locale: Locale by lazy { Locale.getDefault() }</span>
 
     /** The host name of the machine running this program. */
-<span class="fc" id="L51">    val hostName: String by lazy { InetAddress.getLocalHost().hostName }</span>
+<span class="fc" id="L52">    val hostName: String by lazy { InetAddress.getLocalHost().hostName }</span>
 
     /** The IP address of the machine running this program. */
-<span class="fc" id="L54">    val ip: String by lazy { InetAddress.getLocalHost().hostAddress }</span>
+<span class="fc" id="L55">    val ip: String by lazy { InetAddress.getLocalHost().hostAddress }</span>
 
     /** Name of the JVM running this program. For example: OpenJDK 64-Bit Server VM. */
-<span class="fc" id="L57">    val name: String by lazy { System.getProperty(&quot;java.vm.name&quot;, &quot;N/A&quot;) }</span>
+<span class="fc" id="L58">    val name: String by lazy { System.getProperty(&quot;java.vm.name&quot;, &quot;N/A&quot;) }</span>
 
     /** Java version aka language level. For example: 11 */
-<span class="fc" id="L60">    val version: String by lazy { System.getProperty(&quot;java.vm.specification.version&quot;, &quot;N/A&quot;) }</span>
+<span class="fc" id="L61">    val version: String by lazy { System.getProperty(&quot;java.vm.specification.version&quot;, &quot;N/A&quot;) }</span>
 
     /** Number of processors available to the Java virtual machine. */
-<span class="fc" id="L63">    val cpuCount: Int by lazy { runtime.availableProcessors() }</span>
+<span class="fc" id="L64">    val cpuCount: Int by lazy { runtime.availableProcessors() }</span>
 
     /** User locale consist of 2-letter language code, 2-letter country code and file encoding. */
-<span class="fc" id="L66">    val localeCode: String by lazy {</span>
-<span class="fc" id="L67">        &quot;%s_%s.%s&quot;.format(locale.language, locale.country, charset.name())</span>
+<span class="fc" id="L67">    val localeCode: String by lazy {</span>
+<span class="fc" id="L68">        &quot;%s_%s.%s&quot;.format(locale.language, locale.country, charset.name())</span>
     }
 
     /**
@@ -73,7 +74,7 @@ object Jvm {
      * @return Total amount of memory in kilobytes.
      */
     fun totalMemory(): String =
-<span class="fc" id="L76">        runtime.totalMemory().let { &quot;%,d&quot;.format(it / 1024) }</span>
+<span class="fc" id="L77">        runtime.totalMemory().let { &quot;%,d&quot;.format(it / 1024) }</span>
 
     /**
      * Amount of used memory in kilobytes.
@@ -81,7 +82,7 @@ object Jvm {
      * @return Used memory in kilobytes.
      */
     fun usedMemory(): String =
-<span class="fc" id="L84">        (runtime.totalMemory() - runtime.freeMemory()).let { &quot;%,d&quot;.format(it / 1024) }</span>
+<span class="fc" id="L85">        (runtime.totalMemory() - runtime.freeMemory()).let { &quot;%,d&quot;.format(it / 1024) }</span>
 
     /**
      * Add a map to system properties, optionally overriding them.
@@ -89,20 +90,20 @@ object Jvm {
      * @param settings Data to be added to system properties.
      * @param overwrite If true, overwrite existing entries with supplied data.
      */
-<span class="fc" id="L92">    fun loadSystemSettings(settings: Map&lt;String, String&gt;, overwrite: Boolean = false) {</span>
-<span class="fc" id="L93">        settings.keys.forEach {</span>
-<span class="fc bfc" id="L94" title="All 2 branches covered.">            check(it.matches(systemSettingPattern)) {</span>
-<span class="fc" id="L95">                &quot;Property name must match $systemSettingPattern ($it)&quot;</span>
+<span class="fc" id="L93">    fun loadSystemSettings(settings: Map&lt;String, String&gt;, overwrite: Boolean = false) {</span>
+<span class="fc" id="L94">        settings.keys.forEach {</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">            check(it.matches(systemSettingPattern)) {</span>
+<span class="fc" id="L96">                &quot;Property name must match $systemSettingPattern ($it)&quot;</span>
             }
-<span class="fc" id="L97">        }</span>
+<span class="fc" id="L98">        }</span>
 
-<span class="fc" id="L99">        val systemProperties = System.getProperties()</span>
-<span class="fc" id="L100">        val properties =</span>
-<span class="fc bfc" id="L101" title="All 2 branches covered.">            if (overwrite) settings.entries</span>
-<span class="fc bfc" id="L102" title="All 2 branches covered.">            else settings.entries.filter { !systemProperties.containsKey(it.key) }</span>
+<span class="fc" id="L100">        val systemProperties = System.getProperties()</span>
+<span class="fc" id="L101">        val properties =</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            if (overwrite) settings.entries</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">            else settings.entries.filter { !systemProperties.containsKey(it.key) }</span>
 
-<span class="fc" id="L104">        properties.forEach { (k, v) -&gt; System.setProperty(k, v) }</span>
-<span class="fc" id="L105">    }</span>
+<span class="fc" id="L105">        properties.forEach { (k, v) -&gt; System.setProperty(k, v) }</span>
+<span class="fc" id="L106">    }</span>
 
     /**
      * Retrieve a setting by name by looking in OS environment variables first and in the JVM system
@@ -115,11 +116,11 @@ object Jvm {
      *   found on the OS environment variables or in JVM system properties.
      */
     fun &lt;T: Any&gt; systemSettingOrNull(type: KClass&lt;T&gt;, name: String): T? =
-<span class="fc" id="L118">        systemSettingRaw(name).let { it.parseOrNull(type) }</span>
+<span class="fc" id="L119">        systemSettingRaw(name).let { it.parseOrNull(type) }</span>
 
     fun &lt;T: Any&gt; systemSetting(type: KClass&lt;T&gt;, name: String): T =
-<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        systemSettingOrNull(type, name)</span>
-<span class="pc" id="L122">            ?: error(&quot;Required '${type.simpleName}' system setting '$name' not found&quot;)</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">        systemSettingOrNull(type, name)</span>
+<span class="pc" id="L123">            ?: error(&quot;Required '${type.simpleName}' system setting '$name' not found&quot;)</span>
 
     /**
      * Retrieve a flag (boolean parameter) by name by looking in OS environment variables first and
@@ -129,7 +130,7 @@ object Jvm {
      * @return True if the parameter is found and its value is exactly 'true', false otherwise.
      */
     fun systemFlag(name: String): Boolean =
-<span class="fc bfc" id="L132" title="All 2 branches covered.">        systemSettingOrNull(Boolean::class, name) ?: false</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        systemSettingOrNull(Boolean::class, name) ?: false</span>
 
     /**
      * Utility method for retrieving a system setting, check [systemSettingOrNull] for details.
@@ -147,25 +148,25 @@ object Jvm {
         systemSetting(T::class, name)
 
     private fun systemSettingRaw(name: String): String? {
-<span class="fc" id="L150">        val correctName = name.matches(systemSettingPattern)</span>
-<span class="fc bfc" id="L151" title="All 2 branches covered.">        require(correctName) { &quot;Setting name must match $systemSettingPattern&quot; }</span>
-<span class="fc bfc" id="L152" title="All 2 branches covered.">        return System.getenv(name) ?: System.getProperty(name)</span>
+<span class="fc" id="L151">        val correctName = name.matches(systemSettingPattern)</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        require(correctName) { &quot;Setting name must match $systemSettingPattern&quot; }</span>
+<span class="fc bfc" id="L153" title="All 4 branches covered.">        return System.getenv(name) ?: System.getenv(name.uppercase()) ?: System.getProperty(name)</span>
     }
 
     /** Operating system name ('os.name' property). If `null` throws an exception. */
     internal fun os(): String =
-<span class="fc bfc" id="L157" title="All 2 branches covered.">        System.getProperty(&quot;os.name&quot;) ?: error(&quot;OS property ('os.name') not found&quot;)</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        System.getProperty(&quot;os.name&quot;) ?: error(&quot;OS property ('os.name') not found&quot;)</span>
 
     /** Operating system type. */
     internal fun osKind(): OsKind =
-<span class="fc" id="L161">        os().lowercase().let {</span>
-<span class="fc" id="L162">            when {</span>
-<span class="fc bfc" id="L163" title="All 2 branches covered.">                it.contains(&quot;win&quot;) -&gt; OsKind.WINDOWS</span>
-<span class="fc bfc" id="L164" title="All 2 branches covered.">                it.contains(&quot;mac&quot;) -&gt; OsKind.MACOS</span>
-<span class="fc bfc" id="L165" title="All 2 branches covered.">                it.contains(&quot;nux&quot;) -&gt; OsKind.LINUX</span>
-<span class="fc bfc" id="L166" title="All 4 branches covered.">                it.contains(&quot;nix&quot;) || it.contains(&quot;aix&quot;) -&gt; OsKind.UNIX</span>
-<span class="fc" id="L167">                else -&gt; error(&quot;Unsupported OS: ${os()}&quot;)</span>
+<span class="fc" id="L162">        os().lowercase().let {</span>
+<span class="fc" id="L163">            when {</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">                it.contains(&quot;win&quot;) -&gt; OsKind.WINDOWS</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">                it.contains(&quot;mac&quot;) -&gt; OsKind.MACOS</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">                it.contains(&quot;nux&quot;) -&gt; OsKind.LINUX</span>
+<span class="fc bfc" id="L167" title="All 4 branches covered.">                it.contains(&quot;nix&quot;) || it.contains(&quot;aix&quot;) -&gt; OsKind.UNIX</span>
+<span class="fc" id="L168">                else -&gt; error(&quot;Unsupported OS: ${os()}&quot;)</span>
             }
-<span class="fc" id="L169">        }</span>
+<span class="fc" id="L170">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

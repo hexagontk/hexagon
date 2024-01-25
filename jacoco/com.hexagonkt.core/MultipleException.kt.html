@@ -5,21 +5,23 @@
  * cause.
  *
  * A coded multiple exception should be created this way:
+ * ```kotlin
  * CodedException(400, &quot;Many errors&quot;, MultipleException())
+ * ```
  *
  * To pass a list of causes
+ * ```kotlin
  * CodedException (500, &quot;Error&quot;, *list)
+ * ```
  *
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @property causes .
- * @property message .
+ * @property causes List of causing exceptions.
+ * @property message Error message.
  */
-<span class="fc" id="L18">class MultipleException (val causes: List&lt;Throwable&gt;, message: String = &quot;&quot;) :</span>
-<span class="fc" id="L19">    RuntimeException (message, null) {</span>
+<span class="fc" id="L20">class MultipleException(val causes: List&lt;Throwable&gt;, message: String = &quot;&quot;) :</span>
+<span class="fc" id="L21">    RuntimeException(message, null) {</span>
 
-<span class="fc" id="L21">    constructor(vararg causes: Throwable) : this(causes.toList())</span>
-<span class="fc" id="L22">    constructor(message: String, causes: List&lt;Throwable&gt;) : this(causes, message)</span>
-<span class="fc" id="L23">    constructor(message: String, vararg causes: Throwable) : this(causes.toList(), message)</span>
-<span class="fc" id="L24">}</span>
+<span class="fc" id="L23">    constructor(vararg causes: Throwable) : this(causes.toList())</span>
+<span class="fc" id="L24">    constructor(message: String, causes: List&lt;Throwable&gt;) : this(causes, message)</span>
+<span class="fc" id="L25">    constructor(message: String, vararg causes: Throwable) : this(causes.toList(), message)</span>
+<span class="fc" id="L26">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

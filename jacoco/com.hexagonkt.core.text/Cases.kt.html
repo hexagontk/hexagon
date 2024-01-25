@@ -2,8 +2,8 @@
 
 <span class="fc" id="L3">val CAMEL_CASE: Regex by lazy { Regex(&quot;[a-z]+([A-Z][a-z0-9]+)+&quot;) }</span>
 <span class="fc" id="L4">val PASCAL_CASE: Regex by lazy { Regex(&quot;([A-Z][a-z0-9]+)+&quot;) }</span>
-<span class="fc" id="L5">val SNAKE_CASE: Regex by lazy { Regex(&quot;[A-Za-z]+(_[A-Za-z0-9]+)+&quot;) }</span>
-<span class="fc" id="L6">val KEBAB_CASE: Regex by lazy { Regex(&quot;[A-Za-z]+(-[A-Za-z0-9]+)+&quot;) }</span>
+<span class="fc" id="L5">val SNAKE_CASE: Regex by lazy { Regex(&quot;[_A-Za-z]+[_A-Za-z0-9]*&quot;) }</span>
+<span class="fc" id="L6">val KEBAB_CASE: Regex by lazy { Regex(&quot;[\\-A-Za-z]+[\\-A-Za-z0-9]*&quot;) }</span>
 
 fun String.camelToWords(): List&lt;String&gt; =
 <span class="fc" id="L9">    split(&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex()).toWords()</span>

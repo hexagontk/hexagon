@@ -44,22 +44,4 @@ fun Throwable.filterStackTrace(prefix: String): Array&lt;out StackTraceElement&g
 <span class="fc" id="L44">    this.filterStackTrace(prefix).joinToString(eol, eol) { &quot;\tat $it&quot; } +</span>
 <span class="fc bfc" id="L45" title="All 2 branches covered.">    if (this.cause == null) &quot;&quot;</span>
 <span class="fc" id="L46">    else &quot;${eol}Caused by: &quot; + (this.cause as Throwable).toText(prefix)</span>
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- */
-fun check(message: String, vararg blocks: () -&gt; Unit) {
-<span class="fc" id="L52">    val exceptions: List&lt;Exception&gt; = blocks.mapNotNull {</span>
-<span class="fc" id="L53">        try {</span>
-<span class="fc" id="L54">            it()</span>
-<span class="fc" id="L55">            null</span>
-        }
-<span class="fc" id="L57">        catch(e: Exception) {</span>
-<span class="fc" id="L58">            e</span>
-        }
-    }
-
-<span class="fc bfc" id="L62" title="All 4 branches covered.">    if (exceptions.isNotEmpty())</span>
-<span class="fc" id="L63">        throw MultipleException(message, exceptions)</span>
-<span class="fc" id="L64">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

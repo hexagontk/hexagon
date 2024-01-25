@@ -4,6 +4,7 @@ import com.hexagonkt.core.GMT_ZONE
 import com.hexagonkt.core.assertEnabled
 import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.core.text.encodeToBase64
 import com.hexagonkt.http.model.*
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -14,28 +15,31 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 
 /** Headers handled by HTTP model as headers with special meaning. */
-<span class="fc" id="L17">val CHECKED_HEADERS: List&lt;String&gt; by lazy {</span>
-<span class="fc" id="L18">    listOf(&quot;content-type&quot;, &quot;accept&quot;, &quot;set-cookie&quot;, &quot;authorization&quot;)</span>
+<span class="fc" id="L18">val CHECKED_HEADERS: List&lt;String&gt; by lazy {</span>
+<span class="fc" id="L19">    listOf(&quot;content-type&quot;, &quot;accept&quot;, &quot;set-cookie&quot;, &quot;authorization&quot;)</span>
 }
 
-<span class="fc" id="L21">internal val HTTP_DATE_FORMATTER: DateTimeFormatter by lazy { RFC_1123_DATE_TIME.withZone(UTC) }</span>
+<span class="fc" id="L22">internal val HTTP_DATE_FORMATTER: DateTimeFormatter by lazy { RFC_1123_DATE_TIME.withZone(UTC) }</span>
+
+<span class="nc" id="L24">fun basicAuth(user: String, password: String = &quot;&quot;): String =</span>
+<span class="fc" id="L25">    &quot;$user:$password&quot;.encodeToBase64()</span>
 
 fun checkHeaders(headers: Headers) {
-<span class="pc bpc" id="L24" title="1 of 2 branches missed.">    if (!assertEnabled)</span>
-<span class="nc" id="L25">        return</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">    if (!assertEnabled)</span>
+<span class="nc" id="L29">        return</span>
 
-<span class="fc" id="L27">    val headersKeys = headers.httpFields.keys</span>
-<span class="fc" id="L28">    val invalidHeaders = CHECKED_HEADERS.filter { headersKeys.contains(it) }</span>
+<span class="fc" id="L31">    val headersKeys = headers.httpFields.keys</span>
+<span class="fc" id="L32">    val invalidHeaders = CHECKED_HEADERS.filter { headersKeys.contains(it) }</span>
 
-<span class="fc bfc" id="L30" title="All 2 branches covered.">    check(invalidHeaders.isEmpty()) {</span>
-<span class="fc" id="L31">        val invalidHeadersText = invalidHeaders.joinToString(&quot;,&quot;) { &quot;'$it'&quot; }</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">    check(invalidHeaders.isEmpty()) {</span>
+<span class="fc" id="L35">        val invalidHeadersText = invalidHeaders.joinToString(&quot;,&quot;) { &quot;'$it'&quot; }</span>
 
         &quot;&quot;&quot;
         Special headers should be handled with their respective properties (i.e.: contentType)
-<span class="fc" id="L35">        instead setting them in the headers map. Ignored headers: $invalidHeadersText</span>
-<span class="fc" id="L36">        &quot;&quot;&quot;.trimIndent()</span>
+<span class="fc" id="L39">        instead setting them in the headers map. Ignored headers: $invalidHeadersText</span>
+<span class="fc" id="L40">        &quot;&quot;&quot;.trimIndent()</span>
     }
-<span class="fc" id="L38">}</span>
+<span class="fc" id="L42">}</span>
 
 /**
  * Parse query string such as `paramA=valueA&amp;paramB=valueB` into a map of several key-value pairs
@@ -50,69 +54,69 @@ fun checkHeaders(headers: Headers) {
  *
  */
 fun parseQueryString(query: String): QueryParameters =
-<span class="fc bfc" id="L53" title="All 2 branches covered.">    if (query.isBlank())</span>
-<span class="fc" id="L54">        QueryParameters()</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">    if (query.isBlank())</span>
+<span class="fc" id="L58">        QueryParameters()</span>
     else
-<span class="fc" id="L56">        QueryParameters(</span>
-<span class="fc" id="L57">            query</span>
-<span class="fc" id="L58">                .split(&quot;&amp;&quot;.toRegex())</span>
-<span class="fc" id="L59">                .map {</span>
-<span class="fc" id="L60">                    val keyValue = it.split(&quot;=&quot;).map(String::trim)</span>
-<span class="fc" id="L61">                    val key = keyValue[0]</span>
-<span class="fc bfc" id="L62" title="All 2 branches covered.">                    val value = if (keyValue.size == 2) keyValue[1] else &quot;&quot;</span>
-<span class="fc" id="L63">                    key.urlDecode() to value.urlDecode()</span>
+<span class="fc" id="L60">        QueryParameters(</span>
+<span class="fc" id="L61">            query</span>
+<span class="fc" id="L62">                .split(&quot;&amp;&quot;.toRegex())</span>
+<span class="fc" id="L63">                .map {</span>
+<span class="fc" id="L64">                    val keyValue = it.split(&quot;=&quot;).map(String::trim)</span>
+<span class="fc" id="L65">                    val key = keyValue[0]</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">                    val value = if (keyValue.size == 2) keyValue[1] else &quot;&quot;</span>
+<span class="fc" id="L67">                    key.urlDecode() to value.urlDecode()</span>
                 }
-<span class="fc bfc" id="L65" title="All 2 branches covered.">                .filter { it.first.isNotBlank() }</span>
-<span class="fc" id="L66">                .groupBy { it.first }</span>
-<span class="fc" id="L67">                .mapValues { pair -&gt; pair.value.map { it.second } }</span>
-<span class="fc" id="L68">                .map { (k, v) -&gt; QueryParameter(k, v) }</span>
-<span class="fc" id="L69">        )</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">                .filter { it.first.isNotBlank() }</span>
+<span class="fc" id="L70">                .groupBy { it.first }</span>
+<span class="fc" id="L71">                .mapValues { pair -&gt; pair.value.map { it.second } }</span>
+<span class="fc" id="L72">                .map { (k, v) -&gt; QueryParameter(k, v) }</span>
+<span class="fc" id="L73">        )</span>
 
 fun formatQueryString(parameters: QueryParameters): String =
-<span class="fc" id="L72">    parameters</span>
-<span class="fc" id="L73">        .flatMap { (k, v) -&gt; v.strings().map { k to it } }</span>
-<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        .filter { it.first.isNotBlank() }</span>
-<span class="fc" id="L75">        .joinToString(&quot;&amp;&quot;) { (k, v) -&gt;</span>
-<span class="fc bfc" id="L76" title="All 2 branches covered.">            if (v.isBlank()) k.urlEncode()</span>
-<span class="fc" id="L77">            else &quot;${k.urlEncode()}=${v.urlEncode()}&quot;</span>
-<span class="fc" id="L78">        }</span>
+<span class="fc" id="L76">    parameters</span>
+<span class="fc" id="L77">        .flatMap { (k, v) -&gt; v.strings().map { k to it } }</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        .filter { it.first.isNotBlank() }</span>
+<span class="fc" id="L79">        .joinToString(&quot;&amp;&quot;) { (k, v) -&gt;</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">            if (v.isBlank()) k.urlEncode()</span>
+<span class="fc" id="L81">            else &quot;${k.urlEncode()}=${v.urlEncode()}&quot;</span>
+<span class="fc" id="L82">        }</span>
 
 fun String.urlDecode(): String =
-<span class="fc" id="L81">    URLDecoder.decode(this, Jvm.charset)</span>
+<span class="fc" id="L85">    URLDecoder.decode(this, Jvm.charset)</span>
 
 fun String.urlEncode(): String =
-<span class="fc" id="L84">    URLEncoder.encode(this, Jvm.charset)</span>
+<span class="fc" id="L88">    URLEncoder.encode(this, Jvm.charset)</span>
 
 fun LocalDateTime.toHttpFormat(): String =
-<span class="fc" id="L87">    HTTP_DATE_FORMATTER.format(ZonedDateTime.of(this, Jvm.zoneId).withZoneSameInstant(GMT_ZONE))</span>
+<span class="fc" id="L91">    HTTP_DATE_FORMATTER.format(ZonedDateTime.of(this, Jvm.zoneId).withZoneSameInstant(GMT_ZONE))</span>
 
 fun Instant.toHttpFormat(): String =
-<span class="fc" id="L90">    HTTP_DATE_FORMATTER.format(this)</span>
+<span class="fc" id="L94">    HTTP_DATE_FORMATTER.format(this)</span>
 
 fun parseContentType(contentType: String): ContentType {
-<span class="fc" id="L93">    val typeParameter = contentType.split(&quot;;&quot;)</span>
-<span class="fc" id="L94">    val fullType = typeParameter.first().trim()</span>
-<span class="fc" id="L95">    val mimeType = MediaType(fullType)</span>
+<span class="fc" id="L97">    val typeParameter = contentType.split(&quot;;&quot;)</span>
+<span class="fc" id="L98">    val fullType = typeParameter.first().trim()</span>
+<span class="fc" id="L99">    val mimeType = MediaType(fullType)</span>
 
-<span class="fc bfc" id="L97" title="All 3 branches covered.">    return when (typeParameter.size) {</span>
-<span class="fc" id="L98">        1 -&gt; ContentType(mimeType)</span>
+<span class="fc bfc" id="L101" title="All 3 branches covered.">    return when (typeParameter.size) {</span>
+<span class="fc" id="L102">        1 -&gt; ContentType(mimeType)</span>
         2 -&gt; {
-<span class="fc" id="L100">            val parameter = typeParameter.last()</span>
-<span class="fc" id="L101">            val nameValue = parameter.split(&quot;=&quot;)</span>
-<span class="fc bfc" id="L102" title="All 2 branches covered.">            if (nameValue.size != 2)</span>
-<span class="fc" id="L103">                error(&quot;Invalid content type format: $contentType&quot;)</span>
+<span class="fc" id="L104">            val parameter = typeParameter.last()</span>
+<span class="fc" id="L105">            val nameValue = parameter.split(&quot;=&quot;)</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            if (nameValue.size != 2)</span>
+<span class="fc" id="L107">                error(&quot;Invalid content type format: $contentType&quot;)</span>
 
-<span class="fc" id="L105">            val name = nameValue.first().trim()</span>
-<span class="fc" id="L106">            val value = nameValue.last().trim()</span>
+<span class="fc" id="L109">            val name = nameValue.first().trim()</span>
+<span class="fc" id="L110">            val value = nameValue.last().trim()</span>
 
-<span class="fc bfc" id="L108" title="All 4 branches covered.">            when (name.trim().lowercase()) {</span>
-<span class="fc" id="L109">                &quot;boundary&quot; -&gt; ContentType(mimeType, boundary = value)</span>
-<span class="fc" id="L110">                &quot;charset&quot; -&gt; ContentType(mimeType, charset = Charset.forName(value))</span>
-<span class="fc" id="L111">                &quot;q&quot; -&gt; ContentType(mimeType, q = value.toDouble())</span>
-<span class="fc" id="L112">                else -&gt; error(&quot;Invalid content type format: $contentType&quot;)</span>
+<span class="fc bfc" id="L112" title="All 4 branches covered.">            when (name.trim().lowercase()) {</span>
+<span class="fc" id="L113">                &quot;boundary&quot; -&gt; ContentType(mimeType, boundary = value)</span>
+<span class="fc" id="L114">                &quot;charset&quot; -&gt; ContentType(mimeType, charset = Charset.forName(value))</span>
+<span class="fc" id="L115">                &quot;q&quot; -&gt; ContentType(mimeType, q = value.toDouble())</span>
+<span class="fc" id="L116">                else -&gt; error(&quot;Invalid content type format: $contentType&quot;)</span>
             }
         }
-<span class="fc" id="L115">        else -&gt; error(&quot;Invalid content type format: $contentType&quot;)</span>
+<span class="fc" id="L119">        else -&gt; error(&quot;Invalid content type format: $contentType&quot;)</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

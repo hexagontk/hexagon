@@ -37,7 +37,7 @@ sealed interface HttpHandler : Handler&lt;HttpCall&gt; {
 <span class="fc bfc" id="L37" title="All 2 branches covered.">            is BeforeHandler -&gt;</span>
 <span class="fc" id="L38">                copy(handlerPredicate = handlerPredicate.clearMethods())</span>
 
-<span class="fc" id="L40">            is ExceptionHandler&lt;*&gt; -&gt;</span>
+            else -&gt;
 <span class="fc" id="L41">                this</span>
 <span class="fc" id="L42">        }</span>
 

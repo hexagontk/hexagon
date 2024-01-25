@@ -32,7 +32,7 @@ import kotlin.reflect.KClass
 
 <span class="fc" id="L33">    fun on(</span>
 <span class="fc" id="L34">        predicate: HttpPredicate = HttpPredicate(),</span>
-        callback: HttpCallback
+        callback: HttpCallbackType
     ) {
 <span class="fc" id="L37">        use(OnHandler(predicate, callback))</span>
 <span class="fc" id="L38">    }</span>
@@ -42,22 +42,22 @@ import kotlin.reflect.KClass
 <span class="fc" id="L42">        pattern: String = &quot;&quot;,</span>
 <span class="fc" id="L43">        exception: KClass&lt;out Exception&gt;? = null,</span>
 <span class="fc" id="L44">        status: HttpStatus? = null,</span>
-        callback: HttpCallback,
+        callback: HttpCallbackType,
     ) {
 <span class="fc" id="L47">        use(OnHandler(methods, pattern, exception, status, callback))</span>
 <span class="fc" id="L48">    }</span>
 
-<span class="fc" id="L50">    fun on(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L50">    fun on(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L51">        use(OnHandler(method, pattern, callback))</span>
 <span class="fc" id="L52">    }</span>
 
-    fun on(pattern: String, callback: HttpCallback) {
+    fun on(pattern: String, callback: HttpCallbackType) {
 <span class="fc" id="L55">        use(OnHandler(pattern, callback))</span>
 <span class="fc" id="L56">    }</span>
 
 <span class="fc" id="L58">    fun filter(</span>
 <span class="fc" id="L59">        predicate: HttpPredicate = HttpPredicate(),</span>
-        callback: HttpCallback
+        callback: HttpCallbackType
     ) {
 <span class="fc" id="L62">        use(FilterHandler(predicate, callback))</span>
 <span class="fc" id="L63">    }</span>
@@ -67,24 +67,24 @@ import kotlin.reflect.KClass
 <span class="fc" id="L67">        pattern: String = &quot;&quot;,</span>
 <span class="fc" id="L68">        exception: KClass&lt;out Exception&gt;? = null,</span>
 <span class="fc" id="L69">        status: HttpStatus? = null,</span>
-        callback: HttpCallback,
+        callback: HttpCallbackType,
     ) {
 <span class="fc" id="L72">        use(</span>
 <span class="fc" id="L73">            FilterHandler(methods, pattern, exception, status, callback)</span>
         )
 <span class="fc" id="L75">    }</span>
 
-<span class="fc" id="L77">    fun filter(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L77">    fun filter(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L78">        use(FilterHandler(method, pattern, callback))</span>
 <span class="fc" id="L79">    }</span>
 
-    fun filter(pattern: String, callback: HttpCallback) {
+    fun filter(pattern: String, callback: HttpCallbackType) {
 <span class="fc" id="L82">        use(FilterHandler(pattern, callback))</span>
 <span class="fc" id="L83">    }</span>
 
 <span class="fc" id="L85">    fun after(</span>
 <span class="fc" id="L86">        predicate: HttpPredicate = HttpPredicate(),</span>
-        callback: HttpCallback
+        callback: HttpCallbackType
     ) {
 <span class="fc" id="L89">        use(AfterHandler(predicate, callback))</span>
 <span class="fc" id="L90">    }</span>
@@ -94,22 +94,22 @@ import kotlin.reflect.KClass
 <span class="fc" id="L94">        pattern: String = &quot;&quot;,</span>
 <span class="fc" id="L95">        exception: KClass&lt;out Exception&gt;? = null,</span>
 <span class="fc" id="L96">        status: HttpStatus? = null,</span>
-        callback: HttpCallback,
+        callback: HttpCallbackType,
     ) {
 <span class="fc" id="L99">        use(AfterHandler(methods, pattern, exception, status, callback))</span>
 <span class="fc" id="L100">    }</span>
 
-<span class="fc" id="L102">    fun after(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L102">    fun after(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L103">        use(AfterHandler(method, pattern, callback))</span>
 <span class="fc" id="L104">    }</span>
 
-    fun after(pattern: String, callback: HttpCallback) {
+    fun after(pattern: String, callback: HttpCallbackType) {
 <span class="fc" id="L107">        use(AfterHandler(pattern, callback))</span>
 <span class="fc" id="L108">    }</span>
 
 <span class="fc" id="L110">    fun before(</span>
 <span class="fc" id="L111">        predicate: HttpPredicate = HttpPredicate(),</span>
-        callback: HttpCallback
+        callback: HttpCallbackType
     ) {
 <span class="fc" id="L114">        use(BeforeHandler(predicate, callback))</span>
 <span class="fc" id="L115">    }</span>
@@ -119,64 +119,64 @@ import kotlin.reflect.KClass
 <span class="nc" id="L119">        pattern: String = &quot;&quot;,</span>
 <span class="fc" id="L120">        exception: KClass&lt;out Exception&gt;? = null,</span>
 <span class="fc" id="L121">        status: HttpStatus? = null,</span>
-        callback: HttpCallback,
+        callback: HttpCallbackType,
     ) {
 <span class="fc" id="L124">        use(BeforeHandler(methods, pattern, exception, status, callback))</span>
 <span class="fc" id="L125">    }</span>
 
-<span class="nc" id="L127">    fun before(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="nc" id="L127">    fun before(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="nc" id="L128">        use(BeforeHandler(method, pattern, callback))</span>
 <span class="nc" id="L129">    }</span>
 
-    fun before(pattern: String, callback: HttpCallback) {
+    fun before(pattern: String, callback: HttpCallbackType) {
 <span class="fc" id="L132">        use(BeforeHandler(pattern, callback))</span>
 <span class="fc" id="L133">    }</span>
 
 <span class="nc" id="L135">    fun &lt;T : Exception&gt; exception(</span>
-<span class="nc" id="L136">        exception: KClass&lt;T&gt;, clear: Boolean = true, callback: HttpExceptionCallback&lt;T&gt;</span>
+<span class="nc" id="L136">        exception: KClass&lt;T&gt;, clear: Boolean = true, callback: HttpExceptionCallbackType&lt;T&gt;</span>
     ) {
 <span class="nc" id="L138">        use(ExceptionHandler(exception, clear, callback))</span>
 <span class="nc" id="L139">    }</span>
 
 <span class="nc" id="L141">    inline fun &lt;reified T : Exception&gt; exception(</span>
-<span class="nc" id="L142">        clear: Boolean = true, noinline callback: HttpExceptionCallback&lt;T&gt;,</span>
+<span class="nc" id="L142">        clear: Boolean = true, noinline callback: HttpExceptionCallbackType&lt;T&gt;,</span>
     ) {
 <span class="nc" id="L144">        use(ExceptionHandler(T::class, clear, callback))</span>
 <span class="nc" id="L145">    }</span>
 
-<span class="fc" id="L147">    fun get(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L147">    fun get(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L148">        use(Get(pattern, callback))</span>
 <span class="fc" id="L149">    }</span>
 
-<span class="nc" id="L151">    fun ws(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="nc" id="L151">    fun ws(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L152">        use(Ws(pattern, callback))</span>
 <span class="fc" id="L153">    }</span>
 
-<span class="fc" id="L155">    fun head(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L155">    fun head(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L156">        use(Head(pattern, callback))</span>
 <span class="fc" id="L157">    }</span>
 
-<span class="fc" id="L159">    fun post(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L159">    fun post(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L160">        use(Post(pattern, callback))</span>
 <span class="fc" id="L161">    }</span>
 
-<span class="fc" id="L163">    fun put(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L163">    fun put(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L164">        use(Put(pattern, callback))</span>
 <span class="fc" id="L165">    }</span>
 
-<span class="fc" id="L167">    fun delete(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L167">    fun delete(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L168">        use(Delete(pattern, callback))</span>
 <span class="fc" id="L169">    }</span>
 
-<span class="fc" id="L171">    fun trace(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L171">    fun trace(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L172">        use(Trace(pattern, callback))</span>
 <span class="fc" id="L173">    }</span>
 
-<span class="fc" id="L175">    fun options(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L175">    fun options(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L176">        use(Options(pattern, callback))</span>
 <span class="fc" id="L177">    }</span>
 
-<span class="fc" id="L179">    fun patch(pattern: String = &quot;&quot;, callback: HttpCallback) {</span>
+<span class="fc" id="L179">    fun patch(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
 <span class="fc" id="L180">        use(Patch(pattern, callback))</span>
 <span class="fc" id="L181">    }</span>
 <span class="fc" id="L182">}</span>

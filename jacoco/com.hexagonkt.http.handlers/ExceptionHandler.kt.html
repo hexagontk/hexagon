@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
 <span class="pc" id="L8">data class ExceptionHandler&lt;E : Exception&gt;(</span>
 <span class="pc" id="L9">    val exception: KClass&lt;E&gt;,</span>
 <span class="pc" id="L10">    val clear: Boolean = true,</span>
-<span class="pc" id="L11">    val block: HttpExceptionCallback&lt;E&gt;</span>
+<span class="pc" id="L11">    val block: HttpExceptionCallbackType&lt;E&gt;</span>
 <span class="fc" id="L12">) : HttpHandler, Handler&lt;HttpCall&gt; by ExceptionHandler(exception, clear, toCallback(block)) {</span>
 
 <span class="fc" id="L14">    override val handlerPredicate: HttpPredicate = HttpPredicate()</span>

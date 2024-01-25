@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 
 <span class="fc" id="L10">data class BeforeHandler(</span>
 <span class="fc" id="L11">    override val handlerPredicate: HttpPredicate = HttpPredicate(),</span>
-<span class="pc" id="L12">    val block: HttpCallback,</span>
+<span class="pc" id="L12">    val block: HttpCallbackType,</span>
 <span class="fc" id="L13">) : HttpHandler, Handler&lt;HttpCall&gt; by BeforeHandler(handlerPredicate, toCallback(block)) {</span>
 
 <span class="fc" id="L15">    constructor(</span>
@@ -17,14 +17,14 @@ import kotlin.reflect.KClass
 <span class="fc" id="L17">        pattern: String = &quot;&quot;,</span>
 <span class="fc" id="L18">        exception: KClass&lt;out Exception&gt;? = null,</span>
 <span class="fc" id="L19">        status: HttpStatus? = null,</span>
-        block: HttpCallback,
+        block: HttpCallbackType,
     ) :
 <span class="fc" id="L22">        this(HttpPredicate(methods, pattern, exception, status), block)</span>
 
-<span class="fc" id="L24">    constructor(method: HttpMethod, pattern: String = &quot;&quot;, block: HttpCallback) :</span>
+<span class="fc" id="L24">    constructor(method: HttpMethod, pattern: String = &quot;&quot;, block: HttpCallbackType) :</span>
 <span class="fc" id="L25">        this(setOf(method), pattern, block = block)</span>
 
-    constructor(pattern: String, block: HttpCallback) :
+    constructor(pattern: String, block: HttpCallbackType) :
 <span class="fc" id="L28">        this(emptySet(), pattern, block = block)</span>
 
     override fun addPrefix(prefix: String): HttpHandler =

@@ -63,13 +63,35 @@ fun &lt;T : Any, N&gt; T.requireLowerOrEquals(
 <span class="fc" id="L63">}</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Ensure a collection has a fixed number of elements.
  *
- * @receiver .
- * @param count .
- * @return .
+ * @receiver Collection which size will be checked.
+ * @param count Required number of elements.
+ * @return Receiver reference (to allow call chaining).
  */
 <span class="fc" id="L72">fun &lt;Z&gt; Collection&lt;Z&gt;.checkSize(count: IntRange): Collection&lt;Z&gt; = this.apply {</span>
 <span class="fc bfc" id="L73" title="All 6 branches covered.">    check(size in count) { &quot;$size items while expecting only $count element&quot; }</span>
 <span class="fc" id="L74">}</span>
+
+/**
+ * Execute a list of code block collecting the exceptions they may throw, in case there is any
+ * error, it throws a [MultipleException] with all the thrown exceptions.
+ *
+ * @param message Error message.
+ * @param blocks Blocks of code executed and checked.
+ */
+fun check(message: String, vararg blocks: () -&gt; Unit) {
+<span class="fc" id="L84">    val exceptions: List&lt;Exception&gt; = blocks.mapNotNull {</span>
+<span class="fc" id="L85">        try {</span>
+<span class="fc" id="L86">            it()</span>
+<span class="fc" id="L87">            null</span>
+        }
+<span class="fc" id="L89">        catch(e: Exception) {</span>
+<span class="fc" id="L90">            e</span>
+        }
+    }
+
+<span class="fc bfc" id="L94" title="All 4 branches covered.">    if (exceptions.isNotEmpty())</span>
+<span class="fc" id="L95">        throw MultipleException(message, exceptions)</span>
+<span class="fc" id="L96">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
