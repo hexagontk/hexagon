@@ -131,7 +131,7 @@ internal class StringsTest {
             Double::class to "4.3",
             String::class to "text",
             InetAddress::class to "127.0.0.1",
-            URL::class to "http://example.com",
+            URL::class to "https://example.com",
             URI::class to "schema://host:0/file",
             File::class to "/absolute/file.txt",
             LocalDate::class to "2020-12-31",

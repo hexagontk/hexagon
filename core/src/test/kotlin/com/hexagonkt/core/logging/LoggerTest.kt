@@ -1,5 +1,9 @@
 package com.hexagonkt.core.logging
 
+import com.hexagonkt.core.text.Ansi.RESET
+import com.hexagonkt.core.text.AnsiColor.BRIGHT_WHITE
+import com.hexagonkt.core.text.AnsiColor.RED_BG
+import com.hexagonkt.core.text.AnsiEffect.UNDERLINE
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.condition.DisabledInNativeImage
@@ -66,6 +70,21 @@ internal class LoggerTest {
     @Test fun `A logger for a custom name has the proper name`() {
         assert(Logger("name").name == "name")
         assert(Logger("name"::class).name == "kotlin.String")
+    }
+
+    @Test fun `A logger can be queried for its enabled state on a given level`() {
+        assert(Logger("name").isLoggable(ERROR))
+        assertFalse(Logger("name").isLoggable(TRACE))
+    }
+
+    @Test fun `ANSI testing`() {
+        val l = Logger("name")
+        val message = "$RED_BG$BRIGHT_WHITE${UNDERLINE}ANSI$RESET normal"
+        val noAnsiMessage = l.stripAnsi(message, true)
+        val ansiMessage = l.stripAnsi(message, false)
+        assertEquals(message, ansiMessage)
+        assertNotEquals(message, noAnsiMessage)
+        assertContentEquals(noAnsiMessage?.toByteArray(), "ANSI normal".toByteArray())
     }
 
     @Test

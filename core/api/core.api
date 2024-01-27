@@ -157,10 +157,10 @@ public final class com/hexagonkt/core/Jvm {
 	public final fun getVersion ()Ljava/lang/String;
 	public final fun getZoneId ()Ljava/time/ZoneId;
 	public final fun isConsole ()Z
-	public final fun loadSystemSettings (Ljava/util/Map;Z)V
-	public static synthetic fun loadSystemSettings$default (Lcom/hexagonkt/core/Jvm;Ljava/util/Map;ZILjava/lang/Object;)V
+	public final fun loadSystemSettings (Ljava/util/Map;)V
 	public final fun systemFlag (Ljava/lang/String;)Z
 	public final fun systemSetting (Lkotlin/reflect/KClass;Ljava/lang/String;)Ljava/lang/Object;
+	public final fun systemSetting (Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
 	public final fun systemSettingOrNull (Lkotlin/reflect/KClass;Ljava/lang/String;)Ljava/lang/Object;
 	public final fun totalMemory ()Ljava/lang/String;
 	public final fun usedMemory ()Ljava/lang/String;
@@ -220,7 +220,8 @@ public final class com/hexagonkt/core/UuidsKt {
 }
 
 public final class com/hexagonkt/core/logging/Logger {
-	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/System$Logger;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/System$Logger;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Lkotlin/reflect/KClass;)V
 	public final fun debug (Lkotlin/jvm/functions/Function0;)V
 	public final fun error (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
@@ -228,6 +229,7 @@ public final class com/hexagonkt/core/logging/Logger {
 	public static synthetic fun error$default (Lcom/hexagonkt/core/logging/Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun getName ()Ljava/lang/String;
 	public final fun info (Lkotlin/jvm/functions/Function0;)V
+	public final fun isLoggable (Ljava/lang/System$Logger$Level;)Z
 	public final fun log (Ljava/lang/System$Logger$Level;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 	public final fun log (Ljava/lang/System$Logger$Level;Lkotlin/jvm/functions/Function0;)V
 	public final fun trace (Lkotlin/jvm/functions/Function0;)V
@@ -244,14 +246,6 @@ public final class com/hexagonkt/core/logging/LoggingKt {
 	public static synthetic fun info$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
 	public static final fun trace (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
 	public static synthetic fun trace$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
-}
-
-public final class com/hexagonkt/core/logging/LoggingManager {
-	public static final field INSTANCE Lcom/hexagonkt/core/logging/LoggingManager;
-	public final fun getDefaultLoggerName ()Ljava/lang/String;
-	public final fun getUseColor ()Z
-	public final fun setDefaultLoggerName (Ljava/lang/String;)V
-	public final fun setUseColor (Z)V
 }
 
 public final class com/hexagonkt/core/media/MediaType {

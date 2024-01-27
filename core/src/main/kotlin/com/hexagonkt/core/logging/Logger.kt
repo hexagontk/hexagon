@@ -1,33 +1,50 @@
 package com.hexagonkt.core.logging
 
 import com.hexagonkt.core.text.stripAnsi
+import java.lang.System.Logger.Level
 import java.lang.System.Logger.Level.*
 import kotlin.reflect.KClass
 
 /**
- * Logger class with Kotlin improvements like lazy evaluation. It is backed by a logging port.
+ * Logger class with Kotlin usability improvements. It is backed by a [System.Logger] instance.
  *
  * @param name Logger name. It is shown in the logs messages and used for log filtering.
  * @sample com.hexagonkt.core.logging.LoggerTest.loggerUsage
  */
-class Logger(val name: String) {
-
-    internal val log: System.Logger = System.getLogger(name)
+class Logger(
+    val name: String,
+    internal val logger: System.Logger = System.getLogger(name)
+) {
+    /**
+     * Check if this logger is enabled for a given log level.
+     *
+     * @param level Level to check.
+     * @return True if this logger is enabled for the supplied level.
+     */
+    fun isLoggable(level: Level): Boolean =
+        logger.isLoggable(level)
 
     /**
      * Log a message, with associated exception information.
+     *
+     * @param level Level used in the log statement.
+     * @param exception The exception associated with log message.
+     * @param message The message supplier to use in the log statement.
      */
-    fun <E : Throwable> log(level: System.Logger.Level, exception: E, message: (E) -> Any?) {
-        if (LoggingManager.useColor) message(exception)
-        else message(exception)?.toString()?.stripAnsi()
-        log.log(level, { message(exception)?.toString() }, exception)
+    fun <E : Throwable> log(level: Level, exception: E, message: (E) -> Any?) {
+        val messageSupplier = { stripAnsi(message(exception), useColor) }
+        logger.log(level, messageSupplier, exception)
     }
 
     /**
      * Log a message.
+     *
+     * @param level Level used in the log statement.
+     * @param message The message supplier to use in the log statement.
      */
-    fun log(level: System.Logger.Level, message: () -> Any?) {
-        log.log(level, message)
+    fun log(level: Level, message: () -> Any?) {
+        val messageSupplier = { stripAnsi(message(), useColor) }
+        logger.log(level, messageSupplier)
     }
 
     /**
@@ -44,7 +61,7 @@ class Logger(val name: String) {
      * @param message The required message to log.
      */
     fun trace(message: () -> Any?) {
-        log.log(TRACE, message)
+        logger.log(TRACE, message)
     }
 
     /**
@@ -53,7 +70,7 @@ class Logger(val name: String) {
      * @param message The required message to log.
      */
     fun debug(message: () -> Any?) {
-        log.log(DEBUG, message)
+        logger.log(DEBUG, message)
     }
 
     /**
@@ -62,7 +79,7 @@ class Logger(val name: String) {
      * @param message The required message to log.
      */
     fun info(message: () -> Any?) {
-        log.log(INFO, message)
+        logger.log(INFO, message)
     }
 
     /**
@@ -71,7 +88,7 @@ class Logger(val name: String) {
      * @param message The required message to log.
      */
     fun warn(message: () -> Any?) {
-        log.log(WARNING, message)
+        logger.log(WARNING, message)
     }
 
     /**
@@ -80,7 +97,7 @@ class Logger(val name: String) {
      * @param message The required message to log.
      */
     fun error(message: () -> Any?) {
-        log.log(ERROR, message)
+        logger.log(ERROR, message)
     }
 
     /**
@@ -98,10 +115,13 @@ class Logger(val name: String) {
      * Log a message using [ERROR] level with associated exception information.
      *
      * @param exception The exception associated with log message.
-     * @param message The message to log (optional). If not supplied it will be empty.
+     * @param message The message to log (function to optional). If not supplied it will be empty.
      */
     fun <E : Throwable> error(exception: E?, message: (E?) -> Any? = { "" }) {
         if (exception == null) log(ERROR) { message(null) }
         else log(ERROR, exception, message)
     }
+
+    internal fun <T> stripAnsi(receiver: T?, apply: Boolean): String? =
+        receiver?.toString()?.let { if (apply) it.stripAnsi() else it }
 }
