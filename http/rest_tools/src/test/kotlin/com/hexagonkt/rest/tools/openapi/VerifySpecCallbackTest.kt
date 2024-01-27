@@ -24,7 +24,7 @@ internal class VerifySpecCallbackTest {
     // TODO Check commented code (it should throw validation errors)
     @Test fun `Requests not complying with spec return an error`() {
         verify(errors = listOf("ERROR: validation.request.path.missing [ ] No API path found that matches request ''. [] []"))
-        // 'status' query parameter with invalid value
+        // TODO 'status' query parameter with invalid value
 //        verify(
 //            HttpRequest(
 //                path = "/pet/findByStatus",

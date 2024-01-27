@@ -13,12 +13,10 @@ description = "Tools to test and document REST services."
 
 dependencies {
     val swaggerRequestValidatorVersion = properties["swaggerRequestValidatorVersion"]
-    val vertxVersion = properties["vertxVersion"]
 
     "api"(project(":http:rest"))
     "api"(project(":http:http_server"))
     "api"(project(":http:http_client"))
-    "api"("io.vertx:vertx-openapi:$vertxVersion")
     "api"("com.atlassian.oai:swagger-request-validator-core:$swaggerRequestValidatorVersion")
 
     "testImplementation"(project(":http:http_client_jetty"))
