@@ -25,7 +25,7 @@ plugins {
     id("project-report")
     id("org.jetbrains.dokka") version("1.9.10")
     id("com.github.jk1.dependency-license-report") version("2.5")
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.13.2")
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.14.0")
     id("org.graalvm.buildtools.native") version("0.9.28") apply(false)
     id("io.gitlab.arturbosch.detekt") version("1.23.4") apply(false)
     id("me.champeau.jmh") version("0.7.2") apply(false)
