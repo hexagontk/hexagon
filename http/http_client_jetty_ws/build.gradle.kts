@@ -13,7 +13,10 @@ description = "HTTP client adapter for Jetty (with WebSockets support)."
 
 dependencies {
     val jettyVersion = properties["jettyVersion"]
+    val slf4jVersion = properties["slf4jVersion"]
 
     "api"(project(":http:http_client_jetty"))
     "api"("org.eclipse.jetty.websocket:jetty-websocket-jetty-client:$jettyVersion")
+
+    "testImplementation"("org.slf4j:slf4j-jdk14:$slf4jVersion")
 }

@@ -45,16 +45,10 @@ data class HttpPredicate(
 
     private fun log(
         predicate: (Context<HttpCall>) -> Boolean
-    ): (Context<HttpCall>) -> Boolean {
-        return if (logger.isDebugEnabled()) {
-            {
-                val allowed = predicate(it)
-                logger.debug { "${describe()} -> ${if (allowed) "ALLOWED" else "DENIED"}" }
-                allowed
-            }
-        }
-        else
-            predicate
+    ): (Context<HttpCall>) -> Boolean = {
+        val allowed = predicate(it)
+        logger.debug { "${describe()} -> ${if (allowed) "ALLOWED" else "DENIED"}" }
+        allowed
     }
 
     private fun filterMethod(context: Context<HttpCall>): Boolean =

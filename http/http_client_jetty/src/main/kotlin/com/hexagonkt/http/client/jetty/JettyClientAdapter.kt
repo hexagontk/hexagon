@@ -200,7 +200,9 @@ open class JettyClientAdapter : HttpClientPort {
                     it.put("content-type", contentType.text)
                 if (authorization != null)
                     it.put("authorization", authorization.text)
-                request.headers.values.forEach { (k, v) -> it.put(k, v.map(Any::toString)) }
+                request.headers.values.forEach { (k, v) ->
+                    v.map(Any::toString).forEach { s -> it.add(k, s)}
+                }
             }
             .body(createBody(request))
             .accept(*request.accept.map { it.text }.toTypedArray())

@@ -1,10 +1,15 @@
 package com.hexagonkt.core.logging
 
-import com.hexagonkt.core.logging.LoggingLevel.*
+import com.hexagonkt.core.text.Ansi.RESET
+import com.hexagonkt.core.text.AnsiColor.BRIGHT_WHITE
+import com.hexagonkt.core.text.AnsiColor.RED_BG
+import com.hexagonkt.core.text.AnsiEffect.UNDERLINE
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.condition.DisabledInNativeImage
 import org.junit.jupiter.api.Test
+import java.lang.System.Logger.Level.ERROR
+import java.lang.System.Logger.Level.TRACE
 import kotlin.IllegalStateException
 import kotlin.reflect.KClass
 import kotlin.test.*
@@ -36,11 +41,6 @@ internal class LoggerTest {
         classLogger.warn(exception)
         classLogger.error(exception)
         classLogger.error { "Error without an exception" }
-
-        // Logging level can be changed programmatically
-        LoggingManager.setLoggerLevel(ERROR)
-        LoggingManager.setLoggerLevel(classLogger::class, DEBUG)
-        LoggingManager.setLoggerLevel("com.hexagonkt", INFO)
         // logger
     }
 
@@ -72,48 +72,19 @@ internal class LoggerTest {
         assert(Logger("name"::class).name == "kotlin.String")
     }
 
-    @Test fun `A logger level can be changed`() {
-        val l = Logger("l")
+    @Test fun `A logger can be queried for its enabled state on a given level`() {
+        assert(Logger("name").isLoggable(ERROR))
+        assertFalse(Logger("name").isLoggable(TRACE))
+    }
 
-        l.setLoggerLevel(TRACE)
-        assert(l.name == "l")
-        assert(l.isTraceEnabled())
-        assert(l.isDebugEnabled())
-        assert(l.isInfoEnabled())
-        assert(l.isWarnEnabled())
-        assert(l.isErrorEnabled())
-
-        l.setLoggerLevel(DEBUG)
-        assert(l.name == "l")
-        assertFalse(l.isTraceEnabled())
-        assert(l.isDebugEnabled())
-        assert(l.isInfoEnabled())
-        assert(l.isWarnEnabled())
-        assert(l.isErrorEnabled())
-
-        l.setLoggerLevel(INFO)
-        assert(l.name == "l")
-        assertFalse(l.isTraceEnabled())
-        assertFalse(l.isDebugEnabled())
-        assert(l.isInfoEnabled())
-        assert(l.isWarnEnabled())
-        assert(l.isErrorEnabled())
-
-        l.setLoggerLevel(WARN)
-        assert(l.name == "l")
-        assertFalse(l.isTraceEnabled())
-        assertFalse(l.isDebugEnabled())
-        assertFalse(l.isInfoEnabled())
-        assert(l.isWarnEnabled())
-        assert(l.isErrorEnabled())
-
-        l.setLoggerLevel(ERROR)
-        assert(l.name == "l")
-        assertFalse(l.isTraceEnabled())
-        assertFalse(l.isDebugEnabled())
-        assertFalse(l.isInfoEnabled())
-        assertFalse(l.isWarnEnabled())
-        assert(l.isErrorEnabled())
+    @Test fun `ANSI testing`() {
+        val l = Logger("name")
+        val message = "$RED_BG$BRIGHT_WHITE${UNDERLINE}ANSI$RESET normal"
+        val noAnsiMessage = l.stripAnsi(message, true)
+        val ansiMessage = l.stripAnsi(message, false)
+        assertEquals(message, ansiMessage)
+        assertNotEquals(message, noAnsiMessage)
+        assertContentEquals(noAnsiMessage?.toByteArray(), "ANSI normal".toByteArray())
     }
 
     @Test

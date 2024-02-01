@@ -1,34 +1,50 @@
 package com.hexagonkt.core.logging
 
+import com.hexagonkt.core.text.stripAnsi
+import java.lang.System.Logger.Level
+import java.lang.System.Logger.Level.*
 import kotlin.reflect.KClass
-import com.hexagonkt.core.logging.LoggingLevel.*
 
 /**
- * Logger class with Kotlin improvements like lazy evaluation. It is backed by a logging port.
+ * Logger class with Kotlin usability improvements. It is backed by a [System.Logger] instance.
  *
  * @param name Logger name. It is shown in the logs messages and used for log filtering.
  * @sample com.hexagonkt.core.logging.LoggerTest.loggerUsage
  */
-class Logger(val name: String) {
-
-    internal val log: LoggerPort = LoggingManager.adapter.createLogger(name)
+class Logger(
+    val name: String,
+    internal val logger: System.Logger = System.getLogger(name)
+) {
+    /**
+     * Check if this logger is enabled for a given log level.
+     *
+     * @param level Level to check.
+     * @return True if this logger is enabled for the supplied level.
+     */
+    fun isLoggable(level: Level): Boolean =
+        logger.isLoggable(level)
 
     /**
      * Log a message, with associated exception information.
      *
-     * @see LoggerPort.log
+     * @param level Level used in the log statement.
+     * @param exception The exception associated with log message.
+     * @param message The message supplier to use in the log statement.
      */
-    fun <E : Throwable> log(level: LoggingLevel, exception: E, message: (E) -> Any?) {
-        log.log(level, exception, message)
+    fun <E : Throwable> log(level: Level, exception: E, message: (E) -> Any?) {
+        val messageSupplier = { stripAnsi(message(exception), useColor) }
+        logger.log(level, messageSupplier, exception)
     }
 
     /**
      * Log a message.
      *
-     * @see LoggerPort.log
+     * @param level Level used in the log statement.
+     * @param message The message supplier to use in the log statement.
      */
-    fun log(level: LoggingLevel, message: () -> Any?) {
-        log.log(level, message)
+    fun log(level: Level, message: () -> Any?) {
+        val messageSupplier = { stripAnsi(message(), useColor) }
+        logger.log(level, messageSupplier)
     }
 
     /**
@@ -45,7 +61,7 @@ class Logger(val name: String) {
      * @param message The required message to log.
      */
     fun trace(message: () -> Any?) {
-        log.log(TRACE, message)
+        logger.log(TRACE, message)
     }
 
     /**
@@ -54,7 +70,7 @@ class Logger(val name: String) {
      * @param message The required message to log.
      */
     fun debug(message: () -> Any?) {
-        log.log(DEBUG, message)
+        logger.log(DEBUG, message)
     }
 
     /**
@@ -63,16 +79,16 @@ class Logger(val name: String) {
      * @param message The required message to log.
      */
     fun info(message: () -> Any?) {
-        log.log(INFO, message)
+        logger.log(INFO, message)
     }
 
     /**
-     * Log a message using [WARN] level.
+     * Log a message using [WARNING] level.
      *
      * @param message The required message to log.
      */
     fun warn(message: () -> Any?) {
-        log.log(WARN, message)
+        logger.log(WARNING, message)
     }
 
     /**
@@ -81,86 +97,31 @@ class Logger(val name: String) {
      * @param message The required message to log.
      */
     fun error(message: () -> Any?) {
-        log.log(ERROR, message)
+        logger.log(ERROR, message)
     }
 
     /**
-     * Log a message using [WARN] level with associated exception information.
+     * Log a message using [WARNING] level with associated exception information.
      *
      * @param exception The exception associated with log message.
      * @param message The message to log (optional). If not supplied it will be empty.
      */
     fun <E : Throwable> warn(exception: E?, message: (E?) -> Any? = { "" }) {
-        if (exception == null) log.log(WARN) { message(null) }
-        else log.log(WARN, exception, message)
+        if (exception == null) log(WARNING) { message(null) }
+        else log(WARNING, exception, message)
     }
 
     /**
      * Log a message using [ERROR] level with associated exception information.
      *
      * @param exception The exception associated with log message.
-     * @param message The message to log (optional). If not supplied it will be empty.
+     * @param message The message to log (function to optional). If not supplied it will be empty.
      */
     fun <E : Throwable> error(exception: E?, message: (E?) -> Any? = { "" }) {
-        if (exception == null) log.log(ERROR) { message(null) }
-        else log.log(ERROR, exception, message)
+        if (exception == null) log(ERROR) { message(null) }
+        else log(ERROR, exception, message)
     }
 
-    /**
-     * Set a logging level for this logger.
-     *
-     * @param level One of the logging levels identifiers, e.g., TRACE
-     */
-    fun setLoggerLevel(level: LoggingLevel) {
-        LoggingManager.setLoggerLevel(name, level)
-    }
-
-    /**
-     * Check if a logging level is enabled for this logger.
-     *
-     * @param level One of the logging levels identifiers, e.g., TRACE
-     * @return True if the supplied level is enabled for this logger.
-     */
-    fun isLoggerLevelEnabled(level: LoggingLevel): Boolean =
-        LoggingManager.isLoggerLevelEnabled(name, level)
-
-    /**
-     * Check if the [TRACE] logging level is enabled for this logger.
-     *
-     * @return True if the [TRACE] level is enabled for this logger.
-     */
-    fun isTraceEnabled(): Boolean =
-        isLoggerLevelEnabled(TRACE)
-
-    /**
-     * Check if the [DEBUG] logging level is enabled for this logger.
-     *
-     * @return True if the [DEBUG] level is enabled for this logger.
-     */
-    fun isDebugEnabled(): Boolean =
-        isLoggerLevelEnabled(DEBUG)
-
-    /**
-     * Check if the [INFO] logging level is enabled for this logger.
-     *
-     * @return True if the [INFO] level is enabled for this logger.
-     */
-    fun isInfoEnabled(): Boolean =
-        isLoggerLevelEnabled(INFO)
-
-    /**
-     * Check if the [WARN] logging level is enabled for this logger.
-     *
-     * @return True if the [WARN] level is enabled for this logger.
-     */
-    fun isWarnEnabled(): Boolean =
-        isLoggerLevelEnabled(WARN)
-
-    /**
-     * Check if the [ERROR] logging level is enabled for this logger.
-     *
-     * @return True if the [ERROR] level is enabled for this logger.
-     */
-    fun isErrorEnabled(): Boolean =
-        isLoggerLevelEnabled(ERROR)
+    internal fun <T> stripAnsi(receiver: T?, apply: Boolean): String? =
+        receiver?.toString()?.let { if (apply) it.stripAnsi() else it }
 }

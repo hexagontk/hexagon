@@ -104,7 +104,7 @@ Module that provide functionality that does not depend on different implementati
 [handlers].
 
 ## Manager
-Singleton object to manage a cross toolkit aspect. I.e., Serialization, Logging or Templates.
+Singleton object to manage a cross toolkit aspect. I.e., Serialization or Templates.
 
 [core]: /core
 [handlers]: /handlers

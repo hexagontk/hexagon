@@ -11,6 +11,7 @@ module com.hexagonkt.rest_tools {
 
     requires io.swagger.v3.oas.models;
     requires swagger.parser.v3;
+    requires swagger.request.validator.core;
 
     exports com.hexagonkt.rest.tools;
 }
