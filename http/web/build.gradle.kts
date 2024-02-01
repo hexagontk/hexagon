@@ -12,6 +12,8 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "HTTP server extensions to ease the development of dynamic Web applications."
 
 dependencies {
+    val slf4jVersion = properties["slf4jVersion"]
+
     "api"(project(":http:http_server"))
     "api"(project(":templates:templates"))
 
@@ -19,4 +21,5 @@ dependencies {
     "testImplementation"(project(":http:http_server_jetty"))
     "testImplementation"(project(":templates:templates_pebble"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
+    "testImplementation"("org.slf4j:slf4j-jdk14:$slf4jVersion")
 }
