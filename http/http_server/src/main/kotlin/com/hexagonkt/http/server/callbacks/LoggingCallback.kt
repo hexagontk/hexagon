@@ -1,16 +1,16 @@
 package com.hexagonkt.http.server.callbacks
 
 import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.core.logging.LoggingLevel
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.handlers.HttpContext
+import java.lang.System.Logger.Level
 import kotlin.system.measureNanoTime
 
 /**
  * Callback that logs server requests and responses.
  */
 class LoggingCallback(
-    private val level: LoggingLevel = LoggingLevel.INFO,
+    private val level: Level = Level.INFO,
     private val logger: Logger = Logger(LoggingCallback::class),
     private val includeHeaders: Boolean = false,
     private val includeBody: Boolean = true,

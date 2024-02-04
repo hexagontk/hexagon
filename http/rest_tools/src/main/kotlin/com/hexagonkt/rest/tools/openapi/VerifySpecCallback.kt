@@ -3,11 +3,12 @@ package com.hexagonkt.rest.tools.openapi
 import com.atlassian.oai.validator.OpenApiInteractionValidator
 import com.atlassian.oai.validator.OpenApiInteractionValidator.createForInlineApiSpecification
 import com.atlassian.oai.validator.model.Request
-import com.atlassian.oai.validator.model.Response
 import com.atlassian.oai.validator.model.Request.Method
+import com.atlassian.oai.validator.model.Response
 import com.atlassian.oai.validator.model.SimpleRequest
 import com.atlassian.oai.validator.model.SimpleResponse
 import com.atlassian.oai.validator.report.ValidationReport
+import com.atlassian.oai.validator.report.ValidationReport.Message
 import com.hexagonkt.http.handlers.HttpCallback
 import com.hexagonkt.http.handlers.HttpContext
 import com.hexagonkt.http.model.ContentType
@@ -18,14 +19,13 @@ import kotlin.jvm.optionals.getOrNull
 
 /**
  * Callback that verifies server calls comply with a given OpenAPI spec.
- *
- * TODO Use https://vertx.io/docs/vertx-openapi/java
  */
 class VerifySpecCallback(spec: URL) : HttpCallback {
 
     private val messagePrefix: String = "\n- "
+    private val specText: String = spec.readText()
     private val validator: OpenApiInteractionValidator =
-        createForInlineApiSpecification(spec.readText()).build()
+        createForInlineApiSpecification(specText).build()
 
     override fun invoke(context: HttpContext): HttpContext {
         val requestReport = validator.validateRequest(request(context))
@@ -35,38 +35,42 @@ class VerifySpecCallback(spec: URL) : HttpCallback {
         val resultMethod = method(result.method)
         val responseReport = validator.validateResponse(result.path, resultMethod, response(result))
 
-        responseReport.merge(requestReport)
+        val callReport = responseReport.merge(requestReport)
 
-        return if (responseReport.hasErrors()) result.badRequest(message(responseReport))
+        return if (callReport.hasErrors()) result.badRequest(message(callReport))
         else result
     }
 
     private fun message(report: ValidationReport): String {
-        return report.messages.joinToString(messagePrefix, "Invalid request:$messagePrefix") {
-            val level = it.level
-            val key = it.key
-            val context = it.context
-                .map { c ->
-                    val op = c.apiOperation
-                        .getOrNull()
-                        ?.let { ao ->
-                            val method = ao.method
-                            val apiPath = ao.apiPath
-                            "$method ${apiPath.normalised()}"
-                        }
-                        ?: ""
+        val messages = report.messages.map(::messageToText).distinct()
+        return messages.joinToString(messagePrefix, "Invalid call:$messagePrefix")
+    }
 
-                    val loc = c.location.getOrNull()?.name ?: ""
+    private fun messageToText(it: Message): String {
+        val level = it.level
+        val key = it.key
+        val context = it.context
+            .map { c ->
+                val op = c.apiOperation
+                    .getOrNull()
+                    ?.let { ao ->
+                        val method = ao.method
+                        val apiPath = ao.apiPath
+                        "$method ${apiPath.normalised()}"
+                    }
+                    ?: ""
 
-                    "$op $loc"
-                }
-                .orElse("")
-            val message = it.message
-            val additionalInfo = it.additionalInfo
-            val nestedMessages = it.nestedMessages
+                val loc = c.location.getOrNull()?.name ?: ""
 
-            "$level: $key [$context] $message $additionalInfo $nestedMessages"
-        }
+                "$op $loc"
+            }
+            .orElse("")
+
+        val message = it.message
+        val additionalInfo = it.additionalInfo
+        val nestedMessages = it.nestedMessages
+
+        return "$level: $key [$context] $message $additionalInfo $nestedMessages"
     }
 
     private fun request(context: HttpContext): Request {

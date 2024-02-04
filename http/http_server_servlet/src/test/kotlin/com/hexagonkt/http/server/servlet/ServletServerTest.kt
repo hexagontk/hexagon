@@ -1,8 +1,5 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.core.logging.LoggingLevel.DEBUG
-import com.hexagonkt.core.logging.LoggingLevel.OFF
-import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientSettings
@@ -41,7 +38,6 @@ internal class ServletServerTest {
     private val jettyServer = JettyServer(InetSocketAddress("127.0.0.1", 9897))
 
     @BeforeAll fun `Run server`() {
-        LoggingManager.setLoggerLevel("com.hexagonkt", DEBUG)
         val context = WebAppContext()
         context.contextPath = "/"
         context.war = "."
@@ -58,7 +54,6 @@ internal class ServletServerTest {
     @AfterAll fun shutdown() {
         jettyServer.stopAtShutdown = true
         jettyServer.stop()
-        LoggingManager.setLoggerLevel("com.hexagonkt", OFF)
     }
 
     @Test fun `Servlet server starts`() {

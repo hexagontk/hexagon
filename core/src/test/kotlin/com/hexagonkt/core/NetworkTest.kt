@@ -76,9 +76,9 @@ internal class NetworkTest {
     }
 
     @Test fun `URL check works properly`() {
-        assertTrue { urlOf("http://example.com").responseSuccessful() }
-        assertFalse { urlOf("http://invalid-domain.z").responseSuccessful() }
-        assertTrue { urlOf("http://example.com").responseFound() }
-        assertFalse { urlOf("http://example.com/nothing").responseFound() }
+        assertTrue { urlOf("https://example.com").responseSuccessful() }
+        assertFalse { urlOf("https://invalid-domain.z").responseSuccessful() }
+        assertTrue { urlOf("https://example.com").responseFound() }
+        assertFalse { urlOf("https://example.com/nothing").responseFound() }
     }
 }

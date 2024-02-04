@@ -13,6 +13,7 @@ description = "HTTP server adapter for Jetty (using Servlets under the hood)."
 
 dependencies {
     val jettyVersion = properties["jettyVersion"]
+    val slf4jVersion = properties["slf4jVersion"]
 
     "api"(project(":http:http_server_servlet"))
     "api"("org.eclipse.jetty.ee10:jetty-ee10-servlet:$jettyVersion")
@@ -23,6 +24,7 @@ dependencies {
     "testImplementation"(project(":http:http_client_jetty_ws"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
     "testImplementation"(project(":serialization:serialization_jackson_yaml"))
+    "testImplementation"("org.slf4j:slf4j-jdk14:$slf4jVersion")
     "testImplementation"(
         "org.eclipse.jetty.ee10.websocket:jetty-ee10-websocket-jakarta-server:$jettyVersion"
     )
