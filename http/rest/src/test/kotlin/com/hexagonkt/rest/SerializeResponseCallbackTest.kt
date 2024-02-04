@@ -25,7 +25,7 @@ internal class SerializeResponseCallbackTest {
     @Test fun `Serialize response callback creates the proper response`() {
         SerializationManager.formats = setOf(Json)
         val body = mapOf("key" to "value")
-        val jsonBody = "{\n  \"key\" : \"value\"\n}"
+        val jsonBody = "{\n  \"key\" : \"value\"\n}".replace("\n", System.lineSeparator())
 
         val yaml = ContentType(APPLICATION_YAML)
         val yamlContext = HttpContext().send(body = body, contentType = yaml)
