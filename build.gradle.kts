@@ -26,7 +26,7 @@ plugins {
     id("org.jetbrains.dokka") version("1.9.10")
     id("com.github.jk1.dependency-license-report") version("2.5")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.14.0")
-    id("org.graalvm.buildtools.native") version("0.9.28") apply(false)
+    id("org.graalvm.buildtools.native") version("0.10.0") apply(false)
     id("io.gitlab.arturbosch.detekt") version("1.23.5") apply(false)
     id("me.champeau.jmh") version("0.7.2") apply(false)
 }
@@ -140,7 +140,7 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
 })
 
 tasks.wrapper {
-    gradleVersion = "8.5"
+    gradleVersion = "8.6"
     distributionType = ALL
 }
 
