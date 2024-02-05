@@ -32,6 +32,7 @@ internal class SerializeRequestCallbackTest {
 
         val json = ContentType(APPLICATION_JSON)
         val jsonContext = HttpContext().receive(body = body, contentType = json)
-        assertEquals(jsonContext.receive("{\n  \"key\" : \"value\"\n}"), callback(jsonContext))
+        val jsonBody = "{\n  \"key\" : \"value\"\n}".replace("\n", System.lineSeparator())
+        assertEquals(jsonContext.receive(jsonBody), callback(jsonContext))
     }
 }
