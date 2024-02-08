@@ -15,6 +15,7 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.util.logging.LogManager
 import kotlin.test.assertEquals
 
 @TestInstance(PER_CLASS)
@@ -35,6 +36,9 @@ abstract class BaseTest {
     }
 
     @BeforeAll fun startUp() {
+        val configuration = urlOf("classpath:logging.properties")
+        LogManager.getLogManager().readConfiguration(configuration.openStream())
+
         server.start()
         client.start()
     }

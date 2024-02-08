@@ -1,11 +1,16 @@
 package com.hexagonkt.core.logging
 
+import com.hexagonkt.core.urlOf
 import org.junit.jupiter.api.Test
+import java.util.logging.LogManager
 import kotlin.test.assertEquals
 
 internal class LoggingTest {
 
     @Test fun `Log helpers`() {
+        val configuration = urlOf("classpath:sample.properties")
+        LogManager.getLogManager().readConfiguration(configuration.openStream())
+
         assertEquals(defaultLoggerName, logger.name)
 
         assertEquals("foo", "foo".trace(">>> "))

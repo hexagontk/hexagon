@@ -15,6 +15,15 @@ class Logger(
     val name: String,
     internal val logger: System.Logger = System.getLogger(name)
 ) {
+
+    /**
+     * Logger class with Kotlin improvements like lazy evaluation.
+     *
+     * @param type Logger type. It is shown in the logs messages and used for log filtering.
+     */
+    constructor(type: KClass<*>):
+        this(type.qualifiedName ?: error("Cannot get qualified name of type"))
+
     /**
      * Check if this logger is enabled for a given log level.
      *
@@ -48,20 +57,12 @@ class Logger(
     }
 
     /**
-     * Logger class with Kotlin improvements like lazy evaluation.
-     *
-     * @param type Logger type. It is shown in the logs messages and used for log filtering.
-     */
-    constructor(type: KClass<*>):
-        this(type.qualifiedName ?: error("Cannot get qualified name of type"))
-
-    /**
      * Log a message using [TRACE] level.
      *
      * @param message The required message to log.
      */
     fun trace(message: () -> Any?) {
-        logger.log(TRACE, message)
+        log(TRACE, message)
     }
 
     /**
@@ -70,7 +71,7 @@ class Logger(
      * @param message The required message to log.
      */
     fun debug(message: () -> Any?) {
-        logger.log(DEBUG, message)
+        log(DEBUG, message)
     }
 
     /**
@@ -79,7 +80,7 @@ class Logger(
      * @param message The required message to log.
      */
     fun info(message: () -> Any?) {
-        logger.log(INFO, message)
+        log(INFO, message)
     }
 
     /**
@@ -88,7 +89,7 @@ class Logger(
      * @param message The required message to log.
      */
     fun warn(message: () -> Any?) {
-        logger.log(WARNING, message)
+        log(WARNING, message)
     }
 
     /**
@@ -97,7 +98,7 @@ class Logger(
      * @param message The required message to log.
      */
     fun error(message: () -> Any?) {
-        logger.log(ERROR, message)
+        log(ERROR, message)
     }
 
     /**
