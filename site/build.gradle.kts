@@ -20,6 +20,8 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         .filterNot { it.absolutePath.contains("templates_test") }
         .filterNot { it.absolutePath.contains("rest") }
         .filterNot { it.absolutePath.contains("rest_tools") }
+        .filterNot { it.absolutePath.contains("serverless_http") }
+        .filterNot { it.absolutePath.contains("serverless_http_google") }
         .filterNot { it.absolutePath.contains("web") }
         .toList()
         // TODO Include the filtered modules when they are ready
