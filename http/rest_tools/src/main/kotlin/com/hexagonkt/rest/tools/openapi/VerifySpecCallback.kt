@@ -19,6 +19,8 @@ import kotlin.jvm.optionals.getOrNull
 
 /**
  * Callback that verifies server calls comply with a given OpenAPI spec.
+ *
+ * @param spec Location of the spec used to validate HTTP calls.
  */
 class VerifySpecCallback(spec: URL) : HttpCallback {
 
