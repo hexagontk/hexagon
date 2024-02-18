@@ -67,6 +67,12 @@ internal class StateHttpClientTest {
             delete("/hello/mike").assertBody("DELETE /hello/mike", headers)
             patch("/hello/mike").assertBody("PATCH /hello/mike", headers)
             trace("/hello/mike").assertBody("TRACE /hello/mike", headers)
+
+            assertEquals(text, contentType)
+            assertEquals("TRACE /hello/mike", body)
+            assertEquals(headers, this.headers)
+            assertTrue(cookies.isEmpty())
+            assertTrue(attributes.isEmpty())
         }
     }
 

@@ -44,9 +44,11 @@ data class StateHttpClient(
         )
 
     private val client = HttpClient(adapter, settings, handler = handler)
+
     private lateinit var lastRequest: HttpRequest
     private lateinit var lastAttributes: Map<String, *>
     private lateinit var lastResponse: HttpResponsePort
+
     val request: HttpRequest get() = lastRequest
     val attributes: Map<String, *> get() = lastAttributes
     val response: HttpResponsePort get() = lastResponse
