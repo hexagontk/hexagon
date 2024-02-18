@@ -23,8 +23,9 @@ dependencies {
 
     "testImplementation"("com.google.cloud.functions:functions-framework-api:$functionsVersion")
     "testImplementation"("com.google.cloud.functions.invoker:java-function-invoker:$invokerVersion")
+    "testImplementation"(project(":http:http_client_jetty"))
 
-    invoker("com.google.cloud.functions.invoker:java-function-invoker:1.3.1")
+    "invoker"("com.google.cloud.functions.invoker:java-function-invoker:$invokerVersion")
 }
 
 tasks.register<JavaExec>("runFunction") {
