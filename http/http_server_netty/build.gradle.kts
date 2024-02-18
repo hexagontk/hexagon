@@ -13,16 +13,16 @@ description = "HTTP server adapter for Netty."
 
 dependencies {
     val nettyVersion = properties["nettyVersion"]
-    val nettyTcNativeVersion = properties["nettyTcNativeVersion"]
+//    val nettyTcNativeVersion = properties["nettyTcNativeVersion"]
     val slf4jVersion = properties["slf4jVersion"]
 
     "api"(project(":http:http_server"))
     "api"("io.netty:netty-codec-http2:$nettyVersion") { exclude(group = "org.slf4j") }
 
-    if (System.getProperty("os.name").lowercase().contains("mac"))
-        "api"("io.netty:netty-tcnative:$nettyTcNativeVersion:osx-x86_64") {
-            exclude(group = "org.slf4j")
-        }
+//    if (System.getProperty("os.name").lowercase().contains("mac"))
+//        "api"("io.netty:netty-tcnative:$nettyTcNativeVersion:osx-x86_64") {
+//            exclude(group = "org.slf4j")
+//        }
 
     "testImplementation"(project(":http:http_test"))
     "testImplementation"(project(":http:http_client_jetty_ws"))
