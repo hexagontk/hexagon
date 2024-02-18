@@ -69,8 +69,7 @@ internal class StateHttpClientTest {
             trace("/hello/mike").assertBody("TRACE /hello/mike", headers)
 
             assertEquals(text, contentType)
-            assertEquals("TRACE /hello/mike", body)
-            assertEquals(headers, this.headers)
+            assertBodyContains("TRACE /hello/mike")
             assertTrue(cookies.isEmpty())
             assertTrue(attributes.isEmpty())
         }
