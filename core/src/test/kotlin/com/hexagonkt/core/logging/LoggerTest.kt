@@ -4,17 +4,28 @@ import com.hexagonkt.core.text.Ansi.RESET
 import com.hexagonkt.core.text.AnsiColor.BRIGHT_WHITE
 import com.hexagonkt.core.text.AnsiColor.RED_BG
 import com.hexagonkt.core.text.AnsiEffect.UNDERLINE
+import com.hexagonkt.core.urlOf
 import io.mockk.every
 import io.mockk.mockk
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.condition.DisabledInNativeImage
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.lang.System.Logger.Level.ERROR
 import java.lang.System.Logger.Level.TRACE
+import java.util.logging.LogManager
 import kotlin.IllegalStateException
 import kotlin.reflect.KClass
 import kotlin.test.*
 
+@TestInstance(PER_CLASS)
 internal class LoggerTest {
+
+    @BeforeAll fun setUp() {
+        val configuration = urlOf("classpath:sample.properties")
+        LogManager.getLogManager().readConfiguration(configuration.openStream())
+    }
 
     @Suppress("RedundantExplicitType", "UNUSED_VARIABLE") // Ignored for examples generation
     @Test fun loggerUsage() {

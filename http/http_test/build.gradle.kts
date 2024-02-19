@@ -19,7 +19,11 @@ dependencies {
     "api"(project(":http:http_client"))
     "api"(project(":http:http_server"))
     "api"("org.jetbrains.kotlin:kotlin-test")
-    "api"("org.junit.jupiter:junit-jupiter:$junitVersion")
-    "api"("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
+    "api"("org.slf4j:log4j-over-slf4j:$slf4jVersion")
+    "api"("org.slf4j:jcl-over-slf4j:$slf4jVersion")
     "api"("org.slf4j:slf4j-jdk14:$slf4jVersion")
+    "api"("org.junit.jupiter:junit-jupiter:$junitVersion")
+    "api"("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion") {
+        exclude("ch.qos.logback")
+    }
 }

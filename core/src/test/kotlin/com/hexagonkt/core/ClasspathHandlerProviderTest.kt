@@ -43,7 +43,7 @@ internal class ClasspathHandlerProviderTest {
 
     @Test fun `Read classpath resource returns resource's text` () {
         val resourceText = urlOf("classpath:sample.properties").readText()
-        assert(resourceText.contains("handlers=com.hexagonkt.core.logging.jul.SystemStreamHandler"))
+        assert(resourceText.contains("handlers=java.util.logging.ConsoleHandler"))
     }
 
     @Test fun `Unknown protocol throws exception`() {
