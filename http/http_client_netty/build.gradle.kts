@@ -24,6 +24,10 @@ dependencies {
 //            exclude(group = "org.slf4j")
 //        }
 
+    "testImplementation"(project(":http:http_test"))
+    "testImplementation"(project(":http:http_server_jetty"))
+    "testImplementation"(project(":serialization:serialization_jackson_json"))
+    "testImplementation"(project(":serialization:serialization_jackson_yaml"))
     "testImplementation"("org.slf4j:log4j-over-slf4j:$slf4jVersion")
     "testImplementation"("org.slf4j:jcl-over-slf4j:$slf4jVersion")
     "testImplementation"("org.slf4j:slf4j-jdk14:$slf4jVersion")
