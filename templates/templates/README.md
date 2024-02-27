@@ -31,7 +31,7 @@ and `_now_` variables) are added to the context automatically. Check the code be
 
 @code templates/templates/src/test/kotlin/com/hexagonkt/templates/examples/TemplatesTest.kt?templateUsage
 
-[TemplateManager]: /api/templates/com.hexagonkt.templates/-template-manager/index.html
+[TemplateManager]: /api/templates/templates/com.hexagonkt.templates/-template-manager
 
 # Package com.hexagonkt.templates
 Feature implementation code.
