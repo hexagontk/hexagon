@@ -49,8 +49,9 @@ class DynamicHttpServerTest {
 
         val url = "http://localhost:${dynamicServer.runtimePort}"
         StateHttpClient(JettyClientAdapter(), url).request {
+            start()
             get("/hello/mike")
-            assertEquals(OK_200, response.status)
+            assertOk()
         }
     }
 
@@ -64,18 +65,17 @@ class DynamicHttpServerTest {
         val url = "http://localhost:${dynamicServer.runtimePort}"
         StateHttpClient(JettyClientAdapter(), url).request {
             get("/foo")
-            assertEquals(OK_200, response.status)
-            assertEquals("dynamic", response.body)
+            assertOk()
+            assertBody("dynamic")
             dynamicServer.path = path {
                 get("/foo") {
                     ok("changed")
                 }
             }
+            stop()
             get("/foo")
-            assertEquals(OK_200, response.status)
-            assertEquals(OK_200, response.status)
-            assertEquals("changed", response.body)
-            assertEquals("changed", response.body)
+            assertOk()
+            assertBody("changed")
         }
     }
 

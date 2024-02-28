@@ -110,8 +110,8 @@ public final class com/hexagonkt/http/server/callbacks/FileCallback : kotlin/jvm
 
 public final class com/hexagonkt/http/server/callbacks/LoggingCallback : kotlin/jvm/functions/Function1 {
 	public fun <init> ()V
-	public fun <init> (Lcom/hexagonkt/core/logging/LoggingLevel;Lcom/hexagonkt/core/logging/Logger;ZZ)V
-	public synthetic fun <init> (Lcom/hexagonkt/core/logging/LoggingLevel;Lcom/hexagonkt/core/logging/Logger;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/System$Logger$Level;Lcom/hexagonkt/core/logging/Logger;ZZ)V
+	public synthetic fun <init> (Ljava/lang/System$Logger$Level;Lcom/hexagonkt/core/logging/Logger;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun invoke (Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
 }

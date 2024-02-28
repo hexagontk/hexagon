@@ -1,5 +1,6 @@
 package com.hexagonkt.core
 
+import com.hexagonkt.core.logging.logger
 import java.net.URL
 import java.net.URLConnection
 import java.net.URLStreamHandler
@@ -21,7 +22,7 @@ object ClasspathHandler : URLStreamHandler() {
             }
         }
         catch (e: Error) {
-            e.printStackTrace()
+            logger.error(e)
         }
     }
 

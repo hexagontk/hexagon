@@ -1,8 +1,5 @@
 package com.hexagonkt.http.test
 
-import com.hexagonkt.core.logging.LoggingLevel.DEBUG
-import com.hexagonkt.core.logging.LoggingLevel.OFF
-import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
@@ -18,6 +15,7 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.util.logging.LogManager
 import kotlin.test.assertEquals
 
 @TestInstance(PER_CLASS)
@@ -38,7 +36,9 @@ abstract class BaseTest {
     }
 
     @BeforeAll fun startUp() {
-        LoggingManager.setLoggerLevel("com.hexagonkt", DEBUG)
+        val configuration = urlOf("classpath:logging.properties")
+        LogManager.getLogManager().readConfiguration(configuration.openStream())
+
         server.start()
         client.start()
     }
@@ -46,7 +46,6 @@ abstract class BaseTest {
     @AfterAll fun shutDown() {
         client.stop()
         server.stop()
-        LoggingManager.setLoggerLevel("com.hexagonkt", OFF)
     }
 
     protected fun assertResponseContains(

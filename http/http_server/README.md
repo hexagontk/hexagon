@@ -72,10 +72,10 @@ methods.
 
 @code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?serverCreation
 
-[server settings]: /api/http_server/com.hexagonkt.http.server/-http-server-settings
+[server settings]: /api/http/http_server/com.hexagonkt.http.server/-http-server-settings
 [handlers section]: /http_server/#handlers
-[start()]: /api/http_server/com.hexagonkt.http.server/-http-server/start.html
-[stop()]: /api/http_server/com.hexagonkt.http.server/-http-server/stop.html
+[start()]: /api/http/http_server/com.hexagonkt.http.server/-http-server
+[stop()]: /api/http/http_server/com.hexagonkt.http.server/-http-server
 
 ## Servlet Web server
 There is a special server adapter for running inside Servlet Containers. To use it you should import
@@ -98,7 +98,7 @@ full list of methods. This sample code illustrates the usage:
 
 @code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCall
 
-[API documentation]: /api/http_server/com.hexagonkt.http.server.handlers/-http-server-context
+[API documentation]: /api/http/http_handlers/com.hexagonkt.http.handlers/-http-context
 
 # Handlers
 The main building blocks of Hexagon HTTP services are a set of handlers. A handler is made up of two
@@ -134,7 +134,7 @@ Check the next snippet for Handlers usage examples:
 
 @code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?routesCreation
 
-[next]: /api/http_server/com.hexagonkt.http.server.handlers/-http-server-context/next.html
+[next]: /api/http/http_handlers/com.hexagonkt.http.handlers/-http-context
 
 <!-- TODO Start document review -->
 
@@ -152,7 +152,7 @@ the following fields:
 
 It yields true if all the supplied fields matches a call context.
 
-[HttpPredicate]: /api/http_server/com.hexagonkt.http.handlers/-http-predicate
+[HttpPredicate]: /api/http/http_handlers/com.hexagonkt.http.handlers/-http-predicate
 
 ## Path Patterns
 Patterns to match requests paths. They can have:
@@ -297,7 +297,7 @@ different handlers. Check the [CorsCallback][CORS Callbacks] class for more deta
 
 @code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CorsTest.kt?cors
 
-[CORS Callbacks]: /api/http_server/com.hexagonkt.http.server.callbacks/-cors-callback
+[CORS Callbacks]: /api/http/http_server/com.hexagonkt.http.server.callbacks/-cors-callback
 
 # HTTPS
 It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
@@ -322,14 +322,14 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 
 @code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/HttpsTest.kt?https
 
-[SslSettings]: /api/http/com.hexagonkt.http/-ssl-settings
+[SslSettings]: /api/http/http/com.hexagonkt.http/-ssl-settings
 [HTTP/2]: https://en.wikipedia.org/wiki/HTTP/2
 [ALPN]: https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation
 [Gradle]: https://gradle.org
 [create sample certificates]: /gradle/#certificates
 [mutual TLS]: https://en.wikipedia.org/wiki/Mutual_authentication
-[SslSettings.clientAuth]: /api/http/com.hexagonkt.http/-ssl-settings/client-auth.html
-[Request.certificateChain]: /api/http_server/com.hexagonkt.http.server.model/-http-server-request/certificate-chain.html
+[SslSettings.clientAuth]: /api/http/http/com.hexagonkt.http/-ssl-settings
+[Request.certificateChain]: /api/http/http/com.hexagonkt.http.model/-http-request
 
 # WebSockets
 A Web Socket is an HTTP(S) connection made with the GET method and the `upgrade: websocket` and
@@ -395,9 +395,7 @@ Contains the HTTP handlers implementation (on top of Core's general event handle
 HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the HTTP predicate.
 
 # Package com.hexagonkt.http.server.model
-Classes to model server HTTP messages (requests and responses). Built on top of the [http] module.
+Classes to model server HTTP messages (requests and responses). Built on top of the `http` module.
 
 # Package com.hexagonkt.http.model.ws
-Classes to model server HTTP messages (requests and responses). Built on top of the [http] module.
-
-[http]: /http
+Classes to model server HTTP messages (requests and responses). Built on top of the `http` module.

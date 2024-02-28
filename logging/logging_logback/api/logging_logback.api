@@ -1,7 +1,0 @@
-public final class com/hexagonkt/logging/logback/LogbackLoggingAdapter : com/hexagonkt/core/logging/LoggingPort {
-	public fun <init> ()V
-	public fun createLogger (Ljava/lang/String;)Lcom/hexagonkt/core/logging/LoggerPort;
-	public fun isLoggerLevelEnabled (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)Z
-	public fun setLoggerLevel (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)V
-}
-

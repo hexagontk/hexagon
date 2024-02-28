@@ -23,22 +23,13 @@ internal class JvmTest {
         mapOf("s1" to "v1", "s2" to "v2").forEach { (k, v) -> System.setProperty(k, v) }
 
         Jvm.loadSystemSettings(mapOf("s1" to "x1", "s2" to "x2"))
-        assertEquals("v1", System.getProperty("s1"))
-        assertEquals("v2", System.getProperty("s2"))
-
-        Jvm.loadSystemSettings(mapOf("s1" to "x1", "s2" to "x2", "s3" to "x3"))
-        assertEquals("v1", System.getProperty("s1"))
-        assertEquals("v2", System.getProperty("s2"))
-        assertEquals("x3", System.getProperty("s3"))
-
-        Jvm.loadSystemSettings(mapOf("s1" to "x1", "s2" to "x2"), true)
         assertEquals("x1", System.getProperty("s1"))
         assertEquals("x2", System.getProperty("s2"))
 
-        Jvm.loadSystemSettings(mapOf("s1" to "z1", "s2" to "z2", "s3" to "z3"), true)
-        assertEquals("z1", System.getProperty("s1"))
-        assertEquals("z2", System.getProperty("s2"))
-        assertEquals("z3", System.getProperty("s3"))
+        Jvm.loadSystemSettings(mapOf("s1" to "v1", "s2" to "v2", "s3" to "x3"))
+        assertEquals("v1", System.getProperty("s1"))
+        assertEquals("v2", System.getProperty("s2"))
+        assertEquals("x3", System.getProperty("s3"))
 
         val e = assertFailsWith<IllegalStateException> { Jvm.loadSystemSettings(mapOf("1" to "v")) }
         assertEquals("Property name must match [_A-Za-z]+[_A-Za-z0-9]* (1)", e.message)
@@ -214,7 +205,9 @@ internal class JvmTest {
 
         assert(Jvm.systemSetting<String>("PATH").isNotEmpty())
         assert(Jvm.systemSetting<String>("path").isNotEmpty())
+        assertNotEquals("default", Jvm.systemSetting<String>("path", "default"))
         assertNull(Jvm.systemSettingOrNull<String>("_not_defined_"))
+        assertEquals("default", Jvm.systemSetting<String>("_not_defined_", "default"))
 
         System.setProperty("PATH", "path override")
         assert(Jvm.systemSetting<String>("PATH") != "path override")

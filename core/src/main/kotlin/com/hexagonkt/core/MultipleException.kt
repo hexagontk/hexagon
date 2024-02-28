@@ -1,7 +1,7 @@
 package com.hexagonkt.core
 
 /**
- * Exception with a list of causes. Cause is `null` as it can't be tell which one of the list is the
+ * Exception with a list of causes. Cause is `null` as it can't be told which one of the list is the
  * cause.
  *
  * A coded multiple exception should be created this way:
