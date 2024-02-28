@@ -11,7 +11,7 @@ include(
 includeNestedModules(
     "http",
     "serialization",
-//    "serverless",
+    "serverless",
     "templates"
 )
 
