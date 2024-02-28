@@ -45,12 +45,6 @@ com.hexagonkt.rest.tools
 com.hexagonkt.rest.tools.openapi
 module:web
 com.hexagonkt.web
-module:logging_jul
-com.hexagonkt.logging.jul
-module:logging_logback
-com.hexagonkt.logging.logback
-module:logging_slf4j_jul
-com.hexagonkt.logging.slf4j.jul
 module:serialization
 com.hexagonkt.serialization
 module:serialization_dsl_json

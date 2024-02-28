@@ -36,7 +36,7 @@ import java.io.File
         }
 <span class="fc" id="L37">        val fileName = file.name</span>
 
-<span class="fc" id="L39">        logger.debug { &quot;Resolving file: $fileName&quot; }</span>
+<span class="pc" id="L39">        logger.debug { &quot;Resolving file: $fileName&quot; }</span>
 
 <span class="pc bpc" id="L41" title="1 of 4 branches missed.">        return if (file.exists() &amp;&amp; file.isFile) {</span>
 <span class="fc" id="L42">            val bytes = file.readBytes()</span>

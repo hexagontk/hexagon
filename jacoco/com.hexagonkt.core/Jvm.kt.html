@@ -85,25 +85,17 @@ object Jvm {
 <span class="fc" id="L85">        (runtime.totalMemory() - runtime.freeMemory()).let { &quot;%,d&quot;.format(it / 1024) }</span>
 
     /**
-     * Add a map to system properties, optionally overriding them.
+     * Add a map to system properties, overriding entries if already set.
      *
      * @param settings Data to be added to system properties.
-     * @param overwrite If true, overwrite existing entries with supplied data.
      */
-<span class="fc" id="L93">    fun loadSystemSettings(settings: Map&lt;String, String&gt;, overwrite: Boolean = false) {</span>
-<span class="fc" id="L94">        settings.keys.forEach {</span>
-<span class="fc bfc" id="L95" title="All 2 branches covered.">            check(it.matches(systemSettingPattern)) {</span>
-<span class="fc" id="L96">                &quot;Property name must match $systemSettingPattern ($it)&quot;</span>
-            }
-<span class="fc" id="L98">        }</span>
-
-<span class="fc" id="L100">        val systemProperties = System.getProperties()</span>
-<span class="fc" id="L101">        val properties =</span>
-<span class="fc bfc" id="L102" title="All 2 branches covered.">            if (overwrite) settings.entries</span>
-<span class="fc bfc" id="L103" title="All 2 branches covered.">            else settings.entries.filter { !systemProperties.containsKey(it.key) }</span>
-
-<span class="fc" id="L105">        properties.forEach { (k, v) -&gt; System.setProperty(k, v) }</span>
-<span class="fc" id="L106">    }</span>
+    fun loadSystemSettings(settings: Map&lt;String, String&gt;) {
+<span class="fc" id="L93">        settings.entries.forEach { (k, v) -&gt;</span>
+<span class="fc" id="L94">            val matchPattern = k.matches(systemSettingPattern)</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">            check(matchPattern) { &quot;Property name must match $systemSettingPattern ($k)&quot; }</span>
+<span class="fc" id="L96">            System.setProperty(k, v)</span>
+<span class="fc" id="L97">        }</span>
+<span class="fc" id="L98">    }</span>
 
     /**
      * Retrieve a setting by name by looking in OS environment variables first and in the JVM system
@@ -116,11 +108,14 @@ object Jvm {
      *   found on the OS environment variables or in JVM system properties.
      */
     fun &lt;T: Any&gt; systemSettingOrNull(type: KClass&lt;T&gt;, name: String): T? =
-<span class="fc" id="L119">        systemSettingRaw(name).let { it.parseOrNull(type) }</span>
+<span class="fc" id="L111">        systemSettingRaw(name).let { it.parseOrNull(type) }</span>
 
     fun &lt;T: Any&gt; systemSetting(type: KClass&lt;T&gt;, name: String): T =
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">        systemSettingOrNull(type, name)</span>
-<span class="pc" id="L123">            ?: error(&quot;Required '${type.simpleName}' system setting '$name' not found&quot;)</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">        systemSettingOrNull(type, name)</span>
+<span class="pc" id="L115">            ?: error(&quot;Required '${type.simpleName}' system setting '$name' not found&quot;)</span>
+
+    fun &lt;T: Any&gt; systemSetting(type: KClass&lt;T&gt;, name: String, defaultValue: T): T =
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        systemSettingOrNull(type, name) ?: defaultValue</span>
 
     /**
      * Retrieve a flag (boolean parameter) by name by looking in OS environment variables first and
@@ -130,7 +125,7 @@ object Jvm {
      * @return True if the parameter is found and its value is exactly 'true', false otherwise.
      */
     fun systemFlag(name: String): Boolean =
-<span class="fc bfc" id="L133" title="All 2 branches covered.">        systemSettingOrNull(Boolean::class, name) ?: false</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        systemSettingOrNull(Boolean::class, name) ?: false</span>
 
     /**
      * Utility method for retrieving a system setting, check [systemSettingOrNull] for details.
@@ -147,26 +142,29 @@ object Jvm {
     inline fun &lt;reified T: Any&gt; systemSetting(name: String): T =
         systemSetting(T::class, name)
 
+    inline fun &lt;reified T: Any&gt; systemSetting(name: String, defaultValue: T): T =
+        systemSetting(T::class, name, defaultValue)
+
     private fun systemSettingRaw(name: String): String? {
-<span class="fc" id="L151">        val correctName = name.matches(systemSettingPattern)</span>
-<span class="fc bfc" id="L152" title="All 2 branches covered.">        require(correctName) { &quot;Setting name must match $systemSettingPattern&quot; }</span>
-<span class="fc bfc" id="L153" title="All 4 branches covered.">        return System.getenv(name) ?: System.getenv(name.uppercase()) ?: System.getProperty(name)</span>
+<span class="fc" id="L149">        val correctName = name.matches(systemSettingPattern)</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        require(correctName) { &quot;Setting name must match $systemSettingPattern&quot; }</span>
+<span class="fc bfc" id="L151" title="All 4 branches covered.">        return System.getenv(name) ?: System.getenv(name.uppercase()) ?: System.getProperty(name)</span>
     }
 
     /** Operating system name ('os.name' property). If `null` throws an exception. */
     internal fun os(): String =
-<span class="fc bfc" id="L158" title="All 2 branches covered.">        System.getProperty(&quot;os.name&quot;) ?: error(&quot;OS property ('os.name') not found&quot;)</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        System.getProperty(&quot;os.name&quot;) ?: error(&quot;OS property ('os.name') not found&quot;)</span>
 
     /** Operating system type. */
     internal fun osKind(): OsKind =
-<span class="fc" id="L162">        os().lowercase().let {</span>
-<span class="fc" id="L163">            when {</span>
-<span class="fc bfc" id="L164" title="All 2 branches covered.">                it.contains(&quot;win&quot;) -&gt; OsKind.WINDOWS</span>
-<span class="fc bfc" id="L165" title="All 2 branches covered.">                it.contains(&quot;mac&quot;) -&gt; OsKind.MACOS</span>
-<span class="fc bfc" id="L166" title="All 2 branches covered.">                it.contains(&quot;nux&quot;) -&gt; OsKind.LINUX</span>
-<span class="fc bfc" id="L167" title="All 4 branches covered.">                it.contains(&quot;nix&quot;) || it.contains(&quot;aix&quot;) -&gt; OsKind.UNIX</span>
-<span class="fc" id="L168">                else -&gt; error(&quot;Unsupported OS: ${os()}&quot;)</span>
+<span class="fc" id="L160">        os().lowercase().let {</span>
+<span class="fc" id="L161">            when {</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">                it.contains(&quot;win&quot;) -&gt; OsKind.WINDOWS</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">                it.contains(&quot;mac&quot;) -&gt; OsKind.MACOS</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">                it.contains(&quot;nux&quot;) -&gt; OsKind.LINUX</span>
+<span class="fc bfc" id="L165" title="All 4 branches covered.">                it.contains(&quot;nix&quot;) || it.contains(&quot;aix&quot;) -&gt; OsKind.UNIX</span>
+<span class="fc" id="L166">                else -&gt; error(&quot;Unsupported OS: ${os()}&quot;)</span>
             }
-<span class="fc" id="L170">        }</span>
+<span class="fc" id="L168">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

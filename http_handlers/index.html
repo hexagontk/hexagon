@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.5">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.50c56a3b.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -330,20 +330,18 @@
     
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
         
           
-          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -586,20 +584,18 @@
     
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -647,11 +643,12 @@
     
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
@@ -762,20 +759,18 @@
     
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1451,7 +1446,7 @@ callbacks operate on immutable structures (the HTTP model).</p>
 <p>A server is a process listening to HTTP requests on a TCP port.</p>
 <p>You can run multiple ones on different ports at the same time on the same JVM (this can be useful to
 test many microservices at the same time).</p>
-<p>The server can be <a href="/api/http_server/com.hexagonkt.http.server/-http-server-settings">configured with different properties</a>. If you do not provide a
+<p>The server can be <a href="/api/http/http_server/com.hexagonkt.http.server/-http-server-settings">configured with different properties</a>. If you do not provide a
 value for them, they are searched inside the application settings and lastly, a default value is
 picked. This is the parameters list:</p>
 <ul>
@@ -1461,7 +1456,7 @@ picked. This is the parameters list:</p>
 <li>contextPath: initial path used for the rest of the routes, by default it is empty.</li>
 </ul>
 <p>To create a server, you need to provide a handler (check the <a href="/http_server/#handlers">handlers section</a> for more
-information), and after creating a server you can run it or stop it with <a href="/api/http_server/com.hexagonkt.http.server/-http-server/start.html">start()</a> and <a href="/api/http_server/com.hexagonkt.http.server/-http-server/stop.html">stop()</a>
+information), and after creating a server you can run it or stop it with <a href="/api/http/http_server/com.hexagonkt.http.server/-http-server">start()</a> and <a href="/api/http/http_server/com.hexagonkt.http.server/-http-server">stop()</a>
 methods.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -1534,7 +1529,7 @@ used to pass data across handlers or to signal that a previous callback resulted
 <p>The HTTP context provides you with everything you need to handle an HTTP request. It contains the
 request, the response, and a bunch of utility methods to return results, read parameters or pass
 attributes among handlers.</p>
-<p>The methods are available directly from the callback. You can check the <a href="/api/http_server/com.hexagonkt.http.server.handlers/-http-server-context">API documentation</a> for the
+<p>The methods are available directly from the callback. You can check the <a href="/api/http/http_handlers/com.hexagonkt.http.handlers/-http-context">API documentation</a> for the
 full list of methods. This sample code illustrates the usage:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -1568,8 +1563,8 @@ simple pieces:</p>
 <li>A <strong>callback</strong>: code that receives an HTTP context and returns another (or the same) context.</li>
 </ul>
 <p>IMPORTANT: the order in which handlers are declared is NOT the order, it is the depth. Handlers are
-not linked, they are NESTED. The <a href="/api/http_server/com.hexagonkt.http.server.handlers/-http-server-context/next.html">next()</a> method passes control to the next level. If
-<a href="/api/http_server/com.hexagonkt.http.server.handlers/-http-server-context/next.html">next()</a> is not called in a Handler, following Handlers WON'T be executed (However, the
+not linked, they are NESTED. The <a href="/api/http/http_handlers/com.hexagonkt.http.handlers/-http-context">next()</a> method passes control to the next level. If
+<a href="/api/http/http_handlers/com.hexagonkt.http.handlers/-http-context">next()</a> is not called in a Handler, following Handlers WON'T be executed (However, the
 "after" part of already executed Handlers will be run).</p>
 <p>For example, this definition:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -1609,7 +1604,7 @@ H1 (after)
 <h2 id="handler-predicates">Handler Predicates<a class="headerlink" href="#handler-predicates" title="Permanent link">&para;</a></h2>
 <p>A predicate is a function that is applied to a call context and returns a boolean. If the result is
 true, the handler will be executed.</p>
-<p>The default implementation (<a href="/api/http_server/com.hexagonkt.http.handlers/-http-predicate">HttpPredicate</a>) is based on a template with any combination of
+<p>The default implementation (<a href="/api/http/http_handlers/com.hexagonkt.http.handlers/-http-predicate">HttpPredicate</a>) is based on a template with any combination of
 the following fields:</p>
 <ul>
 <li>a list of HTTP methods</li>
@@ -2084,8 +2079,8 @@ have a parameter to provide the file to be fetched inside the folder.</p>
 <p>The media types of static files are computed from the file extension using the utility methods of
 the <a href="/api/core/com.hexagonkt.core.media">com.hexagonkt.core.media</a> package.</p>
 <h2 id="cors">CORS<a class="headerlink" href="#cors" title="Permanent link">&para;</a></h2>
-<p>CORS behaviour can be different depending on the path. You can attach different <a href="/api/http_server/com.hexagonkt.http.server.callbacks/-cors-callback">CORS Callbacks</a> to
-different handlers. Check the <a href="/api/http_server/com.hexagonkt.http.server.callbacks/-cors-callback">CorsCallback</a> class for more details.</p>
+<p>CORS behaviour can be different depending on the path. You can attach different <a href="/api/http/http_server/com.hexagonkt.http.server.callbacks/-cors-callback">CORS Callbacks</a> to
+different handlers. Check the <a href="/api/http/http_server/com.hexagonkt.http.server.callbacks/-cors-callback">CorsCallback</a> class for more details.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -2138,19 +2133,19 @@ different handlers. Check the <a href="/api/http_server/com.hexagonkt.http.serve
 </code></pre></div></td></tr></table></div>
 <h2 id="https">HTTPS<a class="headerlink" href="#https" title="Permanent link">&para;</a></h2>
 <p>It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
-certificate and its key in the server's <a href="/api/http/com.hexagonkt.http/-ssl-settings">SslSettings</a>. Once you use a server certificate, it is also
+certificate and its key in the server's <a href="/api/http/http/com.hexagonkt.http/-ssl-settings">SslSettings</a>. Once you use a server certificate, it is also
 possible to serve content using <a href="https://en.wikipedia.org/wiki/HTTP/2">HTTP/2</a>, for this to work, <a href="https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation">ALPN</a> is required (however, this is
 already handled if you use Java 11).</p>
 <p>The certificate common name should match the host that will serve the content in order to be
 accepted by an HTTP client without a security error. There is a <a href="https://gradle.org">Gradle</a> helper to
 <a href="/gradle/#certificates">create sample certificates</a> for development purposes.</p>
 <p>HTTP clients can also be configured to use a certificate. This is required to implement a double
-ended authorization (<a href="https://en.wikipedia.org/wiki/Mutual_authentication">mutual TLS</a>). This is also done by passing an <a href="/api/http/com.hexagonkt.http/-ssl-settings">SslSettings</a> object the HTTP
+ended authorization (<a href="https://en.wikipedia.org/wiki/Mutual_authentication">mutual TLS</a>). This is also done by passing an <a href="/api/http/http/com.hexagonkt.http/-ssl-settings">SslSettings</a> object the HTTP
 client.</p>
 <p>If you want to implement mutual trust, you must enforce client certificate in the server
-configuration (check <a href="/api/http/com.hexagonkt.http/-ssl-settings/client-auth.html">SslSettings.clientAuth</a>). If this is done, you can access the certificate the
+configuration (check <a href="/api/http/http/com.hexagonkt.http/-ssl-settings">SslSettings.clientAuth</a>). If this is done, you can access the certificate the
 client used to connect (assuming it is valid, if not the connection will end with an error) with the
-<a href="/api/http_server/com.hexagonkt.http.server.model/-http-server-request/certificate-chain.html">Request.certificateChain</a> property.</p>
+<a href="/api/http/http/com.hexagonkt.http.model/-http-request">Request.certificateChain</a> property.</p>
 <p>Below you can find a simple example to set up an HTTPS server and client with mutual TLS:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -2670,7 +2665,7 @@ HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the H
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.c18c5fb9.min.js"></script>
+      <script src="../assets/javascripts/bundle.8fd75fb4.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       
