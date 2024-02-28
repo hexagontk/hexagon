@@ -42,16 +42,10 @@ The following code block shows the most common use cases for the [Logger] class:
 
 @code core/src/test/kotlin/com/hexagonkt/core/logging/LoggerTest.kt?logger
 
-By default, Hexagon uses the [Java Util Logging] logging library, you can use any of its
-implementations by just adding another logging adapter as a dependency. Below you can see some
-alternatives:
-
-* [Logback](/logging_logback)
-* [SLF4J JUL](/logging_slf4j_jul)
+By default, Hexagon uses the [System.Logger] class.
 
 [Logger]: /api/core/com.hexagonkt.core.logging/-logger
-[Java Util Logging]:
-https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
+[System.Logger]: https://docs.oracle.com/javase/9/docs/api/java/lang/System.Logger.html
 
 # Package com.hexagonkt.core.media
 Media types definitions and constants for default media types.
