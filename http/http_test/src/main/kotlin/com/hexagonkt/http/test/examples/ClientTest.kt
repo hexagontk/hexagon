@@ -26,6 +26,7 @@ import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS.MAC
 import org.junit.jupiter.api.condition.OS.WINDOWS
 
 import java.math.BigInteger
@@ -387,7 +388,7 @@ abstract class ClientTest(
     }
 
     @Test
-    @DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
+    @DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
     fun `Request HTTPS example`() {
 
         val serverAdapter = serverAdapter()
