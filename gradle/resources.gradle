@@ -1,0 +1,33 @@
+/*
+ * Check usage information at: http://hexagonkt.com/gradle/#resources
+ */
+
+apply(plugin: "java")
+
+// Replace build variables in resource files
+processResources {
+    [ "properties", "ini", "cfg", "txt", "html", "xml", "json", "yaml", "svg" ].each { String ext ->
+        final Map<String, ?> projectStringProperties = project.getProperties()
+            .findAll { it.value instanceof String }
+        final Map<String, ?> rootStringProperties = rootProject.getProperties()
+            .findAll { it.value instanceof String }
+
+        filesMatching("**/*.$ext") {
+            filter {
+                String content = it
+
+                projectStringProperties.entrySet().forEach { entry ->
+                    content = content.replace("\${project.${entry.key}}", entry.value.toString())
+                }
+
+                rootStringProperties.entrySet().forEach { entry ->
+                    final String k = entry.key
+                    final String v = entry.value.toString()
+                    content = content.replace("\${rootProject.$k}", v.toString())
+                }
+
+                content
+            }
+        }
+    }
+}

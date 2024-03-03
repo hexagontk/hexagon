@@ -18,6 +18,8 @@ import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS.MAC
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertNotNull
@@ -118,6 +120,7 @@ abstract class HttpsTest(
         server.stop()
     }
 
+    @DisabledOnOs(MAC) // TODO Make this work on GitHub runners
     @Test fun `Serve HTTPS works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings.copy(protocol = HTTPS))
@@ -133,6 +136,7 @@ abstract class HttpsTest(
         server.stop()
     }
 
+    @DisabledOnOs(MAC) // TODO Make this work on GitHub runners
     @Test fun `Serve HTTP2 works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings)
