@@ -120,6 +120,7 @@ abstract class HttpsTest(
         server.stop()
     }
 
+    @DisabledOnOs(MAC) // TODO Make this work on GitHub runners
     @Test fun `Serve HTTPS works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings.copy(protocol = HTTPS))
