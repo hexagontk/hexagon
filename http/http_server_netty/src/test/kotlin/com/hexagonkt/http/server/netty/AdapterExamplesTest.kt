@@ -46,13 +46,8 @@ internal class LiteAdapterBooksTest : BooksTest(clientAdapter, liteServerAdapter
 internal class LiteAdapterErrorsTest : ErrorsTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterFiltersTest : FiltersTest(clientAdapter, liteServerAdapter)
 @DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
-//@DisabledIfSystemProperty(
-//    named = "org.graalvm.nativeimage.imagecode",
-//    matches = ".+",
-//    disabledReason = "Currently executing within a GraalVM native image"
-//)
 //@DisabledIf(
-//
+//    "java.lang.System.getProperty('os.name').toLowerCase().contains('mac') && !java.lang.System.getProperty('org.graalvm.nativeimage.imagecode').isBlank()"
 //)
 internal class LiteAdapterHttpsTest : HttpsTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterZipTest : ZipTest(clientAdapter, liteServerAdapter)
