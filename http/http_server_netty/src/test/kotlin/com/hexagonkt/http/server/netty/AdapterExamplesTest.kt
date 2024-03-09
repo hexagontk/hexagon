@@ -21,7 +21,7 @@ internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)
 internal class AdapterErrorsTest : ErrorsTest(clientAdapter, serverAdapter)
 internal class AdapterFiltersTest : FiltersTest(clientAdapter, serverAdapter)
 internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter, formats)
-@DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
+@DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
 internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)
