@@ -1,8 +1,7 @@
 
 on:
-  push:
-#  schedule:
-#    - cron: "59 23 * * *"
+  schedule:
+    - cron: "59 23 * * *"
 
 permissions:
   contents: read
