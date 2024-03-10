@@ -93,7 +93,6 @@ It sets up:
 - Java version
 - Repositories
 - Kotlin dependencies
-- Resource processing (replacing build variables)
 - Cleaning (deleting runtime files as logs and dump files)
 - Tests run, handles properties, output, and mocks (test's output depends on Gradle logging level)
 - Set up coverage report
@@ -265,3 +264,8 @@ plugins {
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
 * jmhVersion: JMH version to be used. If not specified a tested JMH version will be used.
+
+## Resources
+Process project resources (replacing build variables)
+
+To use it, apply `$gradleScripts/resources.gradle` to the project's `build.gradle.kts` file.

@@ -85,24 +85,16 @@ object Jvm {
         (runtime.totalMemory() - runtime.freeMemory()).let { "%,d".format(it / 1024) }
 
     /**
-     * Add a map to system properties, optionally overriding them.
+     * Add a map to system properties, overriding entries if already set.
      *
      * @param settings Data to be added to system properties.
-     * @param overwrite If true, overwrite existing entries with supplied data.
      */
-    fun loadSystemSettings(settings: Map<String, String>, overwrite: Boolean = false) {
-        settings.keys.forEach {
-            check(it.matches(systemSettingPattern)) {
-                "Property name must match $systemSettingPattern ($it)"
-            }
+    fun loadSystemSettings(settings: Map<String, String>) {
+        settings.entries.forEach { (k, v) ->
+            val matchPattern = k.matches(systemSettingPattern)
+            check(matchPattern) { "Property name must match $systemSettingPattern ($k)" }
+            System.setProperty(k, v)
         }
-
-        val systemProperties = System.getProperties()
-        val properties =
-            if (overwrite) settings.entries
-            else settings.entries.filter { !systemProperties.containsKey(it.key) }
-
-        properties.forEach { (k, v) -> System.setProperty(k, v) }
     }
 
     /**
@@ -121,6 +113,9 @@ object Jvm {
     fun <T: Any> systemSetting(type: KClass<T>, name: String): T =
         systemSettingOrNull(type, name)
             ?: error("Required '${type.simpleName}' system setting '$name' not found")
+
+    fun <T: Any> systemSetting(type: KClass<T>, name: String, defaultValue: T): T =
+        systemSettingOrNull(type, name) ?: defaultValue
 
     /**
      * Retrieve a flag (boolean parameter) by name by looking in OS environment variables first and
@@ -146,6 +141,9 @@ object Jvm {
 
     inline fun <reified T: Any> systemSetting(name: String): T =
         systemSetting(T::class, name)
+
+    inline fun <reified T: Any> systemSetting(name: String, defaultValue: T): T =
+        systemSetting(T::class, name, defaultValue)
 
     private fun systemSettingRaw(name: String): String? {
         val correctName = name.matches(systemSettingPattern)
