@@ -19,7 +19,8 @@ dependencies {
     "api"(project(":http:http_server"))
     "api"(project(":http:http_client"))
     "api"("com.atlassian.oai:swagger-request-validator-core:$swaggerRequestValidatorVersion") {
-        exclude(module = "swagger-parser-v2-converter") // Security issue (don't support OpenAPI v2)
+        exclude(module = "commons-compress")
+        exclude(module = "commons-codec")
     }
 
     "testImplementation"(project(":http:http_client_jetty"))
