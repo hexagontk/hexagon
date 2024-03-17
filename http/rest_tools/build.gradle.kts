@@ -18,7 +18,10 @@ dependencies {
     "api"(project(":http:rest"))
     "api"(project(":http:http_server"))
     "api"(project(":http:http_client"))
-    "api"("com.atlassian.oai:swagger-request-validator-core:$swaggerRequestValidatorVersion")
+    "api"("com.atlassian.oai:swagger-request-validator-core:$swaggerRequestValidatorVersion") {
+        exclude(module = "commons-compress")
+        exclude(module = "commons-codec")
+    }
 
     "testImplementation"(project(":http:http_client_jetty"))
     "testImplementation"(project(":http:http_server_jetty"))

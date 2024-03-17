@@ -18,9 +18,7 @@ dependencies {
 
     "api"(project(":http:http_server"))
     "api"("io.netty:netty-codec-http2:$nettyVersion") { exclude(group = "org.slf4j") }
-
-    if (System.getProperty("os.name").lowercase().contains("mac"))
-        "api"("io.netty:netty-tcnative:$nettyTcNativeVersion:osx-x86_64")
+    "api"("io.netty:netty-tcnative-boringssl-static:$nettyTcNativeVersion")
 
     "testImplementation"(project(":http:http_test"))
     "testImplementation"(project(":http:http_client_jetty_ws"))

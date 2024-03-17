@@ -104,6 +104,7 @@ public final class com/hexagonkt/http/server/callbacks/DateCallback : kotlin/jvm
 
 public final class com/hexagonkt/http/server/callbacks/FileCallback : kotlin/jvm/functions/Function1 {
 	public fun <init> (Ljava/io/File;)V
+	public fun <init> (Ljava/lang/String;)V
 	public fun invoke (Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
 }
@@ -117,6 +118,7 @@ public final class com/hexagonkt/http/server/callbacks/LoggingCallback : kotlin/
 }
 
 public final class com/hexagonkt/http/server/callbacks/UrlCallback : kotlin/jvm/functions/Function1 {
+	public fun <init> (Ljava/lang/String;)V
 	public fun <init> (Ljava/net/URL;)V
 	public fun invoke (Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;

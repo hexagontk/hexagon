@@ -70,7 +70,7 @@ internal class UrlCallbackTest {
         requestPath: String,
         pathPattern: String
     ): HttpResponsePort =
-        UrlCallback(urlOf(url))(
+        UrlCallback(url)(
             HttpContext(
                 HttpCall(HttpRequest(path = requestPath)),
                 HttpPredicate(pathPattern = TemplatePathPattern(pathPattern))

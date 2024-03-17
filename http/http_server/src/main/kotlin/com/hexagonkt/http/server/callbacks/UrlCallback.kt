@@ -10,6 +10,9 @@ import com.hexagonkt.http.handlers.HttpContext
 import java.net.URL
 
 class UrlCallback(private val url: URL) : (HttpContext) -> HttpContext {
+
+    constructor(url: String) : this(urlOf(url))
+
     private companion object {
         val logger: Logger = Logger(UrlCallback::class)
     }
