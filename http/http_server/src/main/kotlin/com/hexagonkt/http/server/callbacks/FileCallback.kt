@@ -18,6 +18,9 @@ import java.io.File
  * @param file Base file used to resolve paths passed on the request.
  */
 class FileCallback(private val file: File) : (HttpContext) -> HttpContext {
+
+    constructor(file: String) : this(File(file))
+
     private companion object {
         val logger: Logger = Logger(FileCallback::class)
     }
