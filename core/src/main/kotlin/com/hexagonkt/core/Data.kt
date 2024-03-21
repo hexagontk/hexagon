@@ -3,7 +3,7 @@ package com.hexagonkt.core
 import kotlin.reflect.KProperty1
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @param keys .
@@ -29,7 +29,7 @@ inline fun <reified T : Any> Map<*, *>.getPath(vararg keys: Any): T? {
 }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @param name .
@@ -39,7 +39,7 @@ inline fun <reified T : Any> Map<*, *>.requirePath(vararg name: Any): T =
     this.getPath(*name) ?: error("$name required key not found")
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param fields .
  * @return .
@@ -48,7 +48,7 @@ fun <T : Any> fieldsMapOf(vararg fields: Pair<KProperty1<T, *>, *>): Map<String,
     fields.associate { it.first.name to it.second }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param fields .
  * @return .
@@ -57,7 +57,7 @@ fun <T : Any> fieldsMapOfNotNull(vararg fields: Pair<KProperty1<T, *>, *>): Map<
     fieldsMapOf(*fields).filterValues { it != null }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param pairs .
  * @return .
@@ -66,7 +66,7 @@ fun <K : Any> mapOfNotNull(vararg pairs: Pair<K, *>): Map<K, *> =
     mapOf(*pairs).filterValues { it != null }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @param name .
@@ -76,7 +76,7 @@ fun <K, V> Map<K, V>.require(name: K): V =
     this[name] ?: error("$name required key not found")
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param T .
  * @param key .
@@ -86,7 +86,7 @@ inline operator fun <reified T : Any> Map<*, *>.get(key: KProperty1<*, *>): T? =
     this[key.name] as? T
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param T .
  * @param key .
@@ -97,7 +97,7 @@ inline fun <reified T : Any> Map<*, *>.getOrDefault(key: KProperty1<*, *>, defau
     this[key] ?: default
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * Mermaid test:
  * ```mermaid
@@ -124,7 +124,7 @@ fun merge(mapA: Map<*, *>, mapB: Map<*, *>): Map<*, *> =
         }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param maps .
  * @return .
@@ -133,7 +133,7 @@ fun merge(maps: Collection<Map<*, *>>): Map<*, *> =
     maps.reduce { a, b -> merge(a, b) }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -142,7 +142,7 @@ fun <K, V> Map<K, Collection<V>>.pairs(): Collection<Pair<K, V>> =
     flatMap { (k, v) -> v.map { k to it } }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -151,7 +151,7 @@ fun <K, V> Map<K, V?>.filterNotEmpty(): Map<K, V> =
     this.filterValues(::notEmpty).mapValues { (_, v) -> v ?: fail }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -160,7 +160,7 @@ fun <V> Collection<V?>.filterNotEmpty(): Collection<V> =
     this.filter(::notEmpty).map { it ?: fail }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -176,7 +176,7 @@ fun Map<*, *>.filterNotEmptyRecursive(): Map<*, *> =
         .filterNotEmpty()
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -192,7 +192,7 @@ fun Collection<*>.filterNotEmptyRecursive(): Collection<*> =
         .filterNotEmpty()
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param value .
  * @return .

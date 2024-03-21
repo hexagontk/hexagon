@@ -10,10 +10,10 @@
 <h4 align="center">The atoms of your platform</h4>
 
 <p align="center">
-  <a href="https://github.com/hexagonkt/hexagon/actions">
+  <a href="https://github.com/hexagontk/hexagon/actions">
     <img
       alt="GitHub Actions"
-      src="https://github.com/hexagonkt/hexagon/workflows/Release/badge.svg" />
+      src="https://github.com/hexagontk/hexagon/workflows/Release/badge.svg" />
   </a>
   <a href="https://hexagonkt.com/jacoco">
     <img src="https://hexagonkt.com/img/coverage.svg" alt="Coverage" />
@@ -142,8 +142,8 @@ fun main() {
 
 4. Run the service and view the results at: [http://localhost:2010/hello][Endpoint]
 
-[Gradle Starter]: https://github.com/hexagonkt/gradle_starter
-[Maven Starter]: https://github.com/hexagonkt/maven_starter
+[Gradle Starter]: https://github.com/hexagontk/gradle_starter
+[Maven Starter]: https://github.com/hexagontk/maven_starter
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [Endpoint]: http://localhost:2010/hello
@@ -463,15 +463,15 @@ Thanks to all project's [contributors]!
 
 [![CodeTriage](https://www.codetriage.com/hexagonkt/hexagon/badges/users.svg)][CodeTriage]
 
-[give it a star]: https://github.com/hexagonkt/hexagon/stargazers
+[give it a star]: https://github.com/hexagontk/hexagon/stargazers
 [@hexagontk]: https://twitter.com/hexagontk
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
-[issues]: https://github.com/hexagonkt/hexagon/issues
+[issues]: https://github.com/hexagontk/hexagon/issues
 [reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
-[contributing]: https://github.com/hexagonkt/hexagon/contribute
-[Organization Board]: https://github.com/orgs/hexagonkt/projects/2
-[contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
-[CodeTriage]: https://www.codetriage.com/hexagonkt/hexagon
+[contributing]: https://github.com/hexagontk/hexagon/contribute
+[Organization Board]: https://github.com/orgs/hexagontk/projects/2
+[contributors]: https://github.com/hexagontk/hexagon/graphs/contributors
+[CodeTriage]: https://www.codetriage.com/hexagontk/hexagon
 
 ## License
 

@@ -50,7 +50,7 @@ fun <T> retry(times: Int, delay: Long, block: () -> T): T {
 }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * TODO Assure JVM closes properly after process execution (dispose process resources, etc.)
  */

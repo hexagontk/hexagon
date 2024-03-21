@@ -6,13 +6,13 @@
 * You can also write an email at [support@hexagonkt.com](mailto:support@hexagonkt.com) to ask for
   support.
 
-[organization board]: https://github.com/orgs/hexagonkt/projects/2
-[issues list]: https://github.com/hexagonkt/hexagon/issues
-[new bug issue]: https://github.com/hexagonkt/hexagon/issues/new?template=bug.md
+[organization board]: https://github.com/orgs/hexagontk/projects/2
+[issues list]: https://github.com/hexagontk/hexagon/issues
+[new bug issue]: https://github.com/hexagontk/hexagon/issues/new?template=bug.md
 
 # Help
 * You can use [Slack] for questions, comments, etc.
 * you can also create a [GitHub discussion][discussion] on the Q&A section.
 
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
-[discussion]: https://github.com/hexagonkt/hexagon/discussions/categories/q-a
+[discussion]: https://github.com/hexagontk/hexagon/discussions/categories/q-a
