@@ -70,7 +70,7 @@ internal class FileCallbackTest {
         requestPath: String,
         pathPattern: String
     ): HttpResponsePort =
-        FileCallback(File(filePath))(
+        FileCallback(filePath)(
             HttpContext(
                 request = HttpRequest(path = requestPath),
                 predicate = HttpPredicate(pathPattern = TemplatePathPattern(pathPattern)),

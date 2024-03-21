@@ -10,19 +10,19 @@ You can also ask any question, make suggestions or complaints at the project's
 [Slack channel][Slack]. You can also be up-to-date of project's news following [@hexagontk] on
 X (Twitter).
 
-[discussion]: https://github.com/hexagonkt/hexagon/discussions
+[discussion]: https://github.com/hexagontk/hexagon/discussions
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
 [@hexagontk]: https://twitter.com/hexagontk
 
 ## Report a Bug
 To file a bug, create an issue with the [bug template].
 
-[bug template]: https://github.com/hexagonkt/hexagon/issues/new?template=bug.md
+[bug template]: https://github.com/hexagontk/hexagon/issues/new?template=bug.md
 
 ## Request a Feature
 Create a new issue using the [enhancement template] to file an improvement.
 
-[enhancement template]: https://github.com/hexagonkt/hexagon/issues/new?template=enhancement.md
+[enhancement template]: https://github.com/hexagontk/hexagon/issues/new?template=enhancement.md
 
 ## Contribution Steps
 1. You can check available tasks in the [Organization Board]. Issues with the [help wanted] tag in
@@ -43,14 +43,14 @@ Create a new issue using the [enhancement template] to file an improvement.
    module definition).
 7. Follow the commit rules defined at the [commit guidelines].
 
-[Organization Board]: https://github.com/orgs/hexagonkt/projects/2
-[help wanted]: https://github.com/hexagonkt/hexagon/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
-[pull request template]: https://github.com/hexagonkt/.github/blob/master/pull_request_template.md
+[Organization Board]: https://github.com/orgs/hexagontk/projects/2
+[help wanted]: https://github.com/hexagontk/hexagon/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
+[pull request template]: https://github.com/hexagontk/.github/blob/master/pull_request_template.md
 [IntelliJ]: https://www.jetbrains.com/idea
 [Editor Config]: https://editorconfig.org
 [Kotlin Coding Conventions]: https://kotlinlang.org/docs/reference/coding-conventions.html
-[commit guidelines]: https://github.com/hexagonkt/.github/blob/master/commits.md
-[ideas]: https://github.com/hexagonkt/hexagon/discussions/categories/ideas
+[commit guidelines]: https://github.com/hexagontk/.github/blob/master/commits.md
+[ideas]: https://github.com/hexagontk/hexagon/discussions/categories/ideas
 
 ## Project Structure
 The Hexagon project is composed of several modules. Most of the modules publish libraries for their
@@ -60,16 +60,16 @@ Aside of that kind of modules, you can also find infrastructure modules: compone
 project itself. These are internal modules not intended to be directly used by users (like the
 [starters] or the [site]).
 
-[Hexagon Structure]: https://github.com/hexagonkt/hexagon/blob/master/README.md#hexagon-structure
-[starters]: https://github.com/hexagonkt/hexagon/blob/master/starters/README.md
-[site]: https://github.com/hexagonkt/hexagon/blob/master/site/README.md
+[Hexagon Structure]: https://github.com/hexagontk/hexagon/blob/master/README.md#hexagon-structure
+[starters]: https://github.com/hexagontk/hexagon/blob/master/starters/README.md
+[site]: https://github.com/hexagontk/hexagon/blob/master/site/README.md
 
 ## Local Setup
 Hexagon build process requires a JDK 21+ to compile. You can check the required software, build the
 project, generate the documentation and install it in your local repository typing:
 
 ```bash
-git clone https://github.com/hexagonkt/hexagon.git
+git clone https://github.com/hexagontk/hexagon.git
 cd hexagon
 ./gradlew setUp clean build
 ./gradlew buildSite publishToMavenLocal
@@ -134,7 +134,7 @@ Commit messages can be filtered by types (check the [commit guidelines]) for det
 git log 1.2.0...1.3.0 \
   --date=iso8601 \
   --reverse \
-  --pretty=format:'* %ad %ar <%an %ae> [View](http://github.com/hexagonkt/hexagon/commit/%H) · %s' \
+  --pretty=format:'* %ad %ar <%an %ae> [View](http://github.com/hexagontk/hexagon/commit/%H) · %s' \
   >>CHANGELOG.md
 
 git log 1.2.0...1.3.0 --date=iso8601 --reverse --pretty=format:'%an %ae'|sort|uniq >>CHANGELOG.md

@@ -57,8 +57,8 @@ To continue learning about this toolkit, you can:
   (including tests).
 * Proceed to the [Examples] section to check code snippets or full example projects.
 
-[Gradle Starter]: https://github.com/hexagonkt/gradle_starter
-[Maven Starter]: https://github.com/hexagonkt/maven_starter
+[Gradle Starter]: https://github.com/hexagontk/gradle_starter
+[Maven Starter]: https://github.com/hexagontk/maven_starter
 [Examples]: /examples/http_server_examples/
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html

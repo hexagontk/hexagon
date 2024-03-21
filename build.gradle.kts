@@ -24,7 +24,7 @@ plugins {
     id("eclipse")
     id("project-report")
     id("org.jetbrains.dokka") version("1.9.20")
-    id("com.github.jk1.dependency-license-report") version("2.5")
+    id("com.github.jk1.dependency-license-report") version("2.6")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.14.0")
     id("org.graalvm.buildtools.native") version("0.10.1") apply(false)
     id("io.gitlab.arturbosch.detekt") version("1.23.5") apply(false)
@@ -44,7 +44,7 @@ task("setUp") {
     description = "Set up project for development. Creates the Git pre push hook (run build task)."
 
     doLast {
-        val dotfiles = "https://raw.githubusercontent.com/hexagonkt/.github/master"
+        val dotfiles = "https://raw.githubusercontent.com/hexagontk/.github/master"
         exec { commandLine("curl $dotfiles/.gitignore -o .gitignore".split(" ")) }
         exec { commandLine("curl $dotfiles/commit_template.txt -o .git/message".split(" ")) }
         exec { commandLine("curl $dotfiles/.editorconfig -o .editorconfig".split(" ")) }
@@ -80,7 +80,7 @@ task("nativeTestModules") {
     description = "Print module descriptions to be used in the GraalVM native compliant directory."
 
     doLast {
-        val gitHub = "https://github.com/hexagonkt/hexagon/tree/master"
+        val gitHub = "https://github.com/hexagontk/hexagon/tree/master"
         val entries = subprojects
             .filter { sp -> sp.tasks.any { t -> t.name == "nativeTest" } }
             .sortedBy { sp -> "${sp.group}:${sp.name}" }
@@ -107,7 +107,7 @@ task("nativeTestModules") {
                       "metadata_locations": [$m],
                       "tests_locations": [
                         "$t",
-                        "https://github.com/hexagonkt/hexagon/actions/workflows/nightly.yml"
+                        "https://github.com/hexagontk/hexagon/actions/workflows/nightly.yml"
                       ]
                     }
                   ]

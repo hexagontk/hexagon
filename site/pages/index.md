@@ -182,4 +182,5 @@ graph TD
   rest_tools -->|uses| rest
   rest_tools -->|uses| http_server
   rest_tools -->|uses| http_client
+  serverless_http -->|uses| http_handlers
 ```
