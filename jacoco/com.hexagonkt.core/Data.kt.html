@@ -3,7 +3,7 @@
 import kotlin.reflect.KProperty1
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @param keys .
@@ -29,7 +29,7 @@ inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.getPath(vararg keys: Any): T?
 }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @param name .
@@ -39,7 +39,7 @@ inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.requirePath(vararg name: Any)
     this.getPath(*name) ?: error(&quot;$name required key not found&quot;)
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param fields .
  * @return .
@@ -48,7 +48,7 @@ fun &lt;T : Any&gt; fieldsMapOf(vararg fields: Pair&lt;KProperty1&lt;T, *&gt;, *
 <span class="fc" id="L48">    fields.associate { it.first.name to it.second }</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param fields .
  * @return .
@@ -57,7 +57,7 @@ fun &lt;T : Any&gt; fieldsMapOfNotNull(vararg fields: Pair&lt;KProperty1&lt;T, *
 <span class="fc bfc" id="L57" title="All 2 branches covered.">    fieldsMapOf(*fields).filterValues { it != null }</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param pairs .
  * @return .
@@ -66,7 +66,7 @@ fun &lt;K : Any&gt; mapOfNotNull(vararg pairs: Pair&lt;K, *&gt;): Map&lt;K, *&gt
 <span class="fc bfc" id="L66" title="All 2 branches covered.">    mapOf(*pairs).filterValues { it != null }</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @param name .
@@ -76,7 +76,7 @@ fun &lt;K, V&gt; Map&lt;K, V&gt;.require(name: K): V =
 <span class="fc bfc" id="L76" title="All 2 branches covered.">    this[name] ?: error(&quot;$name required key not found&quot;)</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param T .
  * @param key .
@@ -86,7 +86,7 @@ inline operator fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.get(key: KProperty1&
     this[key.name] as? T
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param T .
  * @param key .
@@ -97,7 +97,7 @@ inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.getOrDefault(key: KProperty1&
     this[key] ?: default
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * Mermaid test:
  * ```mermaid
@@ -124,7 +124,7 @@ fun merge(mapA: Map&lt;*, *&gt;, mapB: Map&lt;*, *&gt;): Map&lt;*, *&gt; =
 <span class="fc" id="L124">        }</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param maps .
  * @return .
@@ -133,7 +133,7 @@ fun merge(maps: Collection&lt;Map&lt;*, *&gt;&gt;): Map&lt;*, *&gt; =
 <span class="fc" id="L133">    maps.reduce { a, b -&gt; merge(a, b) }</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -142,7 +142,7 @@ fun &lt;K, V&gt; Map&lt;K, Collection&lt;V&gt;&gt;.pairs(): Collection&lt;Pair&l
 <span class="fc" id="L142">    flatMap { (k, v) -&gt; v.map { k to it } }</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -151,7 +151,7 @@ fun &lt;K, V&gt; Map&lt;K, V?&gt;.filterNotEmpty(): Map&lt;K, V&gt; =
 <span class="pc bpc" id="L151" title="1 of 2 branches missed.">    this.filterValues(::notEmpty).mapValues { (_, v) -&gt; v ?: fail }</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -160,7 +160,7 @@ fun &lt;V&gt; Collection&lt;V?&gt;.filterNotEmpty(): Collection&lt;V&gt; =
 <span class="pc bpc" id="L160" title="1 of 2 branches missed.">    this.filter(::notEmpty).map { it ?: fail }</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -176,7 +176,7 @@ fun Map&lt;*, *&gt;.filterNotEmptyRecursive(): Map&lt;*, *&gt; =
 <span class="fc" id="L176">        .filterNotEmpty()</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @receiver .
  * @return .
@@ -192,7 +192,7 @@ fun Collection&lt;*&gt;.filterNotEmptyRecursive(): Collection&lt;*&gt; =
 <span class="fc" id="L192">        .filterNotEmpty()</span>
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @param value .
  * @return .
