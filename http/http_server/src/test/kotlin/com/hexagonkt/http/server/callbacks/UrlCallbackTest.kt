@@ -1,7 +1,6 @@
 package com.hexagonkt.http.server.callbacks
 
 import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.patterns.TemplatePathPattern
 import com.hexagonkt.http.handlers.HttpContext
@@ -31,7 +30,7 @@ internal class UrlCallbackTest {
     }
 
     @Test fun `Filter with one parameter resolves to content`() {
-        val result = processUrlCallback("classpath:/", "/params/hexagonkt.p12", "/params/*")
+        val result = processUrlCallback("classpath:/", "/params/hexagontk.p12", "/params/*")
 
         assertEquals(OK_200, result.status)
         assertNull(result.contentType)
@@ -59,7 +58,7 @@ internal class UrlCallbackTest {
     }
 
     @Test fun `Filter with no parameter resolves to the callback's URL`() {
-        val result = processUrlCallback("classpath:hexagonkt.p12", "/params", "/params")
+        val result = processUrlCallback("classpath:hexagontk.p12", "/params", "/params")
 
         assertEquals(OK_200, result.status)
         assertNull(result.contentType)
