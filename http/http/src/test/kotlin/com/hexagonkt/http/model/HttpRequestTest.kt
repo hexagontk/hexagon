@@ -116,10 +116,10 @@ internal class HttpRequestTest {
             listOf(HttpPart("name1", "value1"), HttpPart("name2", "value2"))
     }
 
-    private val keyStoreResource = "hexagonkt.p12"
+    private val keyStoreResource = "hexagontk.p12"
     private val keyStoreUrl = urlOf("classpath:$keyStoreResource")
     private val keyStore = loadKeyStore(keyStoreUrl, keyStoreResource.reversed())
-    private val certificate = keyStore.getCertificate("hexagonkt")
+    private val certificate = keyStore.getCertificate("hexagontk")
     private val certificates = listOf(certificate as X509Certificate)
 
     private fun httpRequestData(): HttpRequest =

@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle/#detekt
+ * Check usage information at: http://hexagontk.com/gradle/#detekt
  */
 
 apply(plugin: "io.gitlab.arturbosch.detekt")

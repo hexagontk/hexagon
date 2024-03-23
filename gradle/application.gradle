@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle/#application
+ * Check usage information at: http://hexagontk.com/gradle/#application
  */
 import org.gradle.api.tasks.bundling.Compression
 

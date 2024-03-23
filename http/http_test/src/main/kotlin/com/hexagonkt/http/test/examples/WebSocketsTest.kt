@@ -30,7 +30,7 @@ abstract class WebSocketsTest(
     final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
-    private val identity = "hexagonkt.p12"
+    private val identity = "hexagontk.p12"
     private val trust = "trust.p12"
     private val keyStore = urlOf("classpath:ssl/$identity")
     private val trustStore = urlOf("classpath:ssl/$trust")

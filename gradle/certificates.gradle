@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle/#certificates
+ * Check usage information at: http://hexagontk.com/gradle/#certificates
  */
 
 final String sslCaFile = findProperty("sslCaFile") ?: "ca.p12"

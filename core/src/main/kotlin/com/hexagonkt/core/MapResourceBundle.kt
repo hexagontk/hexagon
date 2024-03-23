@@ -3,7 +3,7 @@ package com.hexagonkt.core
 import java.util.*
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
  * @property map .
  */

@@ -1,7 +1,7 @@
 
 <h3 align="center">
-  <a href="https://hexagonkt.com">
-    <img alt="Hexagon" src="https://hexagonkt.com/tile-small.png" />
+  <a href="https://hexagontk.com">
+    <img alt="Hexagon" src="https://hexagontk.com/tile-small.png" />
   </a>
   <br>
   Hexagon
@@ -10,22 +10,22 @@
 <h4 align="center">The atoms of your platform</h4>
 
 <p align="center">
-  <a href="https://github.com/hexagonkt/hexagon/actions">
+  <a href="https://github.com/hexagontk/hexagon/actions">
     <img
       alt="GitHub Actions"
-      src="https://github.com/hexagonkt/hexagon/workflows/Release/badge.svg" />
+      src="https://github.com/hexagontk/hexagon/workflows/Release/badge.svg" />
   </a>
-  <a href="https://hexagonkt.com/jacoco">
-    <img src="https://hexagonkt.com/img/coverage.svg" alt="Coverage" />
+  <a href="https://hexagontk.com/jacoco">
+    <img src="https://hexagontk.com/img/coverage.svg" alt="Coverage" />
   </a>
   <a href="https://search.maven.org/search?q=g:com.hexagonkt">
-    <img src="https://hexagonkt.com/img/download.svg" alt="Maven Central Repository" />
+    <img src="https://hexagontk.com/img/download.svg" alt="Maven Central Repository" />
   </a>
 </p>
 
 <p align="center">
-  <a href="https://hexagonkt.com">Home Site</a> |
-  <a href="https://hexagonkt.com/quick_start">Quick Start</a>
+  <a href="https://hexagontk.com">Home Site</a> |
+  <a href="https://hexagontk.com/quick_start">Quick Start</a>
 </p>
 
 ---
@@ -79,13 +79,13 @@ For more information check the [Quick Start Guide].
 
 [framework]: https://stackoverflow.com/a/3057818/973418
 [Kotlin]: http://kotlinlang.org
-[The HTTP server]: http://hexagonkt.com/http_server
-[The HTTP client]: http://hexagonkt.com/http_client
-[Template Processing]: http://hexagonkt.com/templates
+[The HTTP server]: http://hexagontk.com/http_server
+[The HTTP client]: http://hexagontk.com/http_client
+[Template Processing]: http://hexagontk.com/templates
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
-[Quick Start Guide]: http://hexagonkt.com/quick_start
+[Quick Start Guide]: http://hexagontk.com/quick_start
 
 ## Simple HTTP service
 
@@ -142,8 +142,8 @@ fun main() {
 
 4. Run the service and view the results at: [http://localhost:2010/hello][Endpoint]
 
-[Gradle Starter]: https://github.com/hexagonkt/gradle_starter
-[Maven Starter]: https://github.com/hexagonkt/maven_starter
+[Gradle Starter]: https://github.com/hexagontk/gradle_starter
+[Maven Starter]: https://github.com/hexagontk/maven_starter
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [Endpoint]: http://localhost:2010/hello
@@ -409,7 +409,7 @@ private val path: PathHandler = path {
 
 You can check more sample projects and snippets at the [examples page].
 
-[examples page]: https://hexagonkt.com/examples/example_projects
+[examples page]: https://hexagontk.com/examples/example_projects
 
 ## Thanks
 
@@ -425,7 +425,7 @@ This project is supported by:
 <a href="https://www.jetbrains.com/?from=Hexagon-Toolkit">
   <img
     height="96px"
-    src="https://hexagonkt.com/img/sponsors/jetbrains-variant-4.svg">
+    src="https://hexagontk.com/img/sponsors/jetbrains-variant-4.svg">
 </a>
 
 ## Status
@@ -437,8 +437,8 @@ The toolkit is properly tested. This is the coverage report:
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
 in the [TechEmpower Web Framework Benchmarks][benchmark].
 
-[Coverage]: https://hexagonkt.com/img/coverage.svg
-[CoverageReport]: https://hexagonkt.com/jacoco
+[Coverage]: https://hexagontk.com/img/coverage.svg
+[CoverageReport]: https://hexagontk.com/jacoco
 [benchmark]: https://www.techempower.com/benchmarks
 
 ## Contribute
@@ -463,15 +463,15 @@ Thanks to all project's [contributors]!
 
 [![CodeTriage](https://www.codetriage.com/hexagonkt/hexagon/badges/users.svg)][CodeTriage]
 
-[give it a star]: https://github.com/hexagonkt/hexagon/stargazers
+[give it a star]: https://github.com/hexagontk/hexagon/stargazers
 [@hexagontk]: https://twitter.com/hexagontk
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
-[issues]: https://github.com/hexagonkt/hexagon/issues
+[issues]: https://github.com/hexagontk/hexagon/issues
 [reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
-[contributing]: https://github.com/hexagonkt/hexagon/contribute
-[Organization Board]: https://github.com/orgs/hexagonkt/projects/2
-[contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
-[CodeTriage]: https://www.codetriage.com/hexagonkt/hexagon
+[contributing]: https://github.com/hexagontk/hexagon/contribute
+[Organization Board]: https://github.com/orgs/hexagontk/projects/2
+[contributors]: https://github.com/hexagontk/hexagon/graphs/contributors
+[CodeTriage]: https://www.codetriage.com/hexagontk/hexagon
 
 ## License
 
