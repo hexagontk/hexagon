@@ -109,7 +109,7 @@ If you want to generate the documentation site, check the Hexagon's site module 
 1. Release site's dependent projects (`hexagon_extra`)
 2. Publish their packages using the [Nexus Repository Manager]
 3. Merge Hexagon main project to `master` in GitHub
-4. Check the site deployment is OK ([https://hexagonkt.com])
+4. Check the site deployment is OK ([https://hexagontk.com])
 5. Publish Hexagon modules using the [Nexus Repository Manager]
 6. Create a GitHub release
 7. Update starter repositories (Gradle and Maven ones)

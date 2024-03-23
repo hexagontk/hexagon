@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle/#native
+ * Check usage information at: http://hexagontk.com/gradle/#native
  */
 
 apply(plugin: "org.graalvm.buildtools.native")

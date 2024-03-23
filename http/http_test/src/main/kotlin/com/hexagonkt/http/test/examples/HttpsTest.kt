@@ -29,7 +29,7 @@ abstract class HttpsTest(
     final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
-    private val identity = "hexagonkt.p12"
+    private val identity = "hexagontk.p12"
     private val trust = "trust.p12"
     private val keyStore = urlOf("classpath:ssl/$identity")
     private val trustStore = urlOf("classpath:ssl/$trust")
@@ -66,7 +66,7 @@ abstract class HttpsTest(
 
         // https
         // Key store files
-        val identity = "hexagonkt.p12"
+        val identity = "hexagontk.p12"
         val trust = "trust.p12"
 
         // Default passwords are file name reversed
@@ -109,7 +109,7 @@ abstract class HttpsTest(
         client.start()
         client.get("/hello").apply {
             // Assure the certificate received (and returned) by the server is correct
-            assert(headers.require("cert").string()?.startsWith("CN=hexagonkt.com") ?: false)
+            assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
             assertEquals("Hello World!", body)
         }
         // https
@@ -125,7 +125,7 @@ abstract class HttpsTest(
         val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
         client.start()
         client.get("/hello").apply {
-            assert(headers.require("cert").string()?.startsWith("CN=hexagonkt.com") ?: false)
+            assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
             assertEquals("Hello World!", body)
         }
 
@@ -140,7 +140,7 @@ abstract class HttpsTest(
         val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
         client.start()
         client.get("/hello").apply {
-            assert(headers.require("cert").string()?.startsWith("CN=hexagonkt.com") ?: false)
+            assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
             assertEquals("Hello World!", body)
         }
 
@@ -150,7 +150,7 @@ abstract class HttpsTest(
 
     @Test fun `Serve insecure HTTPS example`() {
 
-        val identity = "hexagonkt.p12"
+        val identity = "hexagontk.p12"
         val trust = "trust.p12"
 
         // keyStoreSettings
@@ -240,8 +240,8 @@ abstract class HttpsTest(
     @Test fun `Key stores contains the proper aliases`() {
 
         loadKeyStore(keyStore, keyStorePassword).apply {
-            assertNotNull(getPrivateKey("hexagonkt", keyStorePassword))
-            assertNotNull(getPublicKey("hexagonkt"))
+            assertNotNull(getPrivateKey("hexagontk", keyStorePassword))
+            assertNotNull(getPublicKey("hexagontk"))
         }
 
         loadKeyStore(trustStore, trustStorePassword).apply {

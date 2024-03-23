@@ -140,7 +140,7 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
 })
 
 tasks.wrapper {
-    gradleVersion = "8.6"
+    gradleVersion = "8.7"
     distributionType = ALL
 }
 

@@ -394,7 +394,7 @@ abstract class ClientTest(
         val serverAdapter = serverAdapter()
 
         // Key store files
-        val identity = "hexagonkt.p12"
+        val identity = "hexagontk.p12"
         val trust = "trust.p12"
 
         // Default passwords are file name reversed
@@ -435,7 +435,7 @@ abstract class ClientTest(
         client.start()
         client.get("/hello").apply {
             // Assure the certificate received (and returned) by the server is correct
-            assert(headers.require("cert").string()?.startsWith("CN=hexagonkt.com") ?: false)
+            assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
             assertEquals(body, "Hello World!")
         }
 

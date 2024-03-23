@@ -13,7 +13,7 @@ import java.net.InetAddress.getByName as address
 internal class HttpServerTest {
 
     @Test fun `Default banner includes documentation URL`() {
-        assert(HttpServer.banner.contains("https://hexagonkt.com/http_server"))
+        assert(HttpServer.banner.contains("https://hexagontk.com/http_server"))
     }
 
     @Test fun `Default parameters`() {

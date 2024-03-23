@@ -13,7 +13,7 @@ internal class KeyStoresTest {
     @Test
     @DisabledOnOs(WINDOWS) // TODO Fails in windows because Algorithm HmacPBESHA256 not available
     fun `Key stores are loaded correctly`() {
-        val n = "hexagonkt"
+        val n = "hexagontk"
         val f = "$n.p12"
         val pwd = f.reversed()
         val p = if (File("http_test").exists()) "http/http_test" else "../http/http_test"
