@@ -11,8 +11,6 @@
 [new bug issue]: https://github.com/hexagontk/hexagon/issues/new?template=bug.md
 
 # Help
-* You can use [Slack] for questions, comments, etc.
 * you can also create a [GitHub discussion][discussion] on the Q&A section.
 
-[Slack]: https://kotlinlang.slack.com/messages/hexagon
 [discussion]: https://github.com/hexagontk/hexagon/discussions/categories/q-a

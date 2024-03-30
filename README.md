@@ -448,7 +448,7 @@ If you like this project and want to support it, the easiest way is to [give it 
 If you feel like you can do more. You can contribute to the project in different ways:
 
 * By using it and [spreading the word][@hexagontk].
-* Giving feedback by [X (Twitter)][@hexagontk] or [Slack].
+* Giving feedback by [X (Twitter)][@hexagontk].
 * Requesting [new features or submitting bugs][issues].
 * Voting for the features you want in the [issue tracker][issues] (using [reactions]).
 * And... Drum roll... Submitting [code or documentation][contributing].
@@ -456,7 +456,7 @@ If you feel like you can do more. You can contribute to the project in different
 To know what issues are currently open and be aware of the next features you can check the
 [Organization Board] at GitHub.
 
-You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. You can
+You can ask any question, suggestion or complaint at the project's [discussions]. You can
 be up-to-date of project's news following [@hexagontk] on X (Twitter).
 
 Thanks to all project's [contributors]!
@@ -464,8 +464,8 @@ Thanks to all project's [contributors]!
 [![CodeTriage](https://www.codetriage.com/hexagonkt/hexagon/badges/users.svg)][CodeTriage]
 
 [give it a star]: https://github.com/hexagontk/hexagon/stargazers
+[discussions]: https://github.com/hexagontk/hexagon/discussions/categories/q-a
 [@hexagontk]: https://twitter.com/hexagontk
-[Slack]: https://kotlinlang.slack.com/messages/hexagon
 [issues]: https://github.com/hexagontk/hexagon/issues
 [reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
 [contributing]: https://github.com/hexagontk/hexagon/contribute

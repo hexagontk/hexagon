@@ -135,8 +135,6 @@ extra:
       link: https://dev.to/hexagontk
     - icon: fontawesome/brands/x-twitter
       link: https://twitter.com/hexagontk
-    - icon: fontawesome/brands/slack
-      link: https://kotlinlang.slack.com/messages/hexagon
 
 plugins:
   - htmlproofer

@@ -4,14 +4,12 @@ You can contribute code or documentation to the toolkit. This document will guid
 process or picking a task and building the code.
 
 ## Make a Question
-You can use the repository's [Discussions tab][discussion] to ask questions or resolve problems.
+You can use the repository's [Discussions tab][discussion] to ask questions, resolve problems, make
+suggestions or complaints at the project.
 
-You can also ask any question, make suggestions or complaints at the project's
-[Slack channel][Slack]. You can also be up-to-date of project's news following [@hexagontk] on
-X (Twitter).
+You can also be up-to-date of project's news following [@hexagontk] on X (Twitter).
 
 [discussion]: https://github.com/hexagontk/hexagon/discussions
-[Slack]: https://kotlinlang.slack.com/messages/hexagon
 [@hexagontk]: https://twitter.com/hexagontk
 
 ## Report a Bug
@@ -118,7 +116,6 @@ If you want to generate the documentation site, check the Hexagon's site module 
 10. Create a changelog to announce the release
 11. Publish changelog on:
   * Dev.to
-  * Kotlin Slack
   * Reddit Kotlin
   * X (Twitter)
   * Kotlin Weekly Newsletter
