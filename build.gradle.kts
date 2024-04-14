@@ -24,7 +24,7 @@ plugins {
     id("eclipse")
     id("project-report")
     id("org.jetbrains.dokka") version("1.9.20")
-    id("com.github.jk1.dependency-license-report") version("2.6")
+    id("com.github.jk1.dependency-license-report") version("2.7")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.14.0")
     id("org.graalvm.buildtools.native") version("0.10.1") apply(false)
     id("io.gitlab.arturbosch.detekt") version("1.23.6") apply(false)
