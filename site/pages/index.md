@@ -159,7 +159,7 @@ Ports with their provided implementations (Adapters).
 [FreeMarker]: /templates_freemarker
 [Rocker]: /templates_rocker
 [jte]: /templates_jte
-[Serialization Formats]: /core/#serialization
+[Serialization Formats]: /serialization
 [JSON]: /api/serialization/serialization_jackson_json/com.hexagonkt.serialization.jackson.json/-json
 [YAML]: /api/serialization/serialization_jackson_yaml/com.hexagonkt.serialization.jackson.yaml/-yaml
 [CSV]: /api/serialization/serialization_jackson_csv/com.hexagonkt.serialization.jackson.csv/-csv
