@@ -98,7 +98,7 @@ open class NettyClientAdapter : HttpClientPort {
         onPong: WsSession.(data: ByteArray) -> Unit,
         onClose: WsSession.(status: Int, reason: String) -> Unit,
     ): WsSession {
-        throw UnsupportedOperationException("WebSockets not supported. Use 'http_client_jetty_ws")
+        throw UnsupportedOperationException("WebSockets not supported. Use 'http_client_netty_ws")
     }
 
     override fun sse(request: HttpRequestPort): Publisher<ServerEvent> {
