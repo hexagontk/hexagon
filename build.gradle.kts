@@ -19,7 +19,7 @@ import org.gradle.api.tasks.wrapper.Wrapper.DistributionType.ALL
 
 plugins {
 //    kotlin("jvm") version("1.9.24") apply(false)
-    kotlin("jvm") version("2.0.0-RC2") apply(false)
+    kotlin("jvm") version("2.0.0-RC3") apply(false)
 
     id("idea")
     id("eclipse")
