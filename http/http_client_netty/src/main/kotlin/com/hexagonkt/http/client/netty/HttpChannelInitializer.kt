@@ -16,7 +16,7 @@ internal class HttpChannelInitializer(
     override fun initChannel(channel: SocketChannel) {
         val pipeline = channel.pipeline()
 
-        pipeline.addLast(HttpServerCodec())
+        pipeline.addLast(HttpClientCodec())
 
         if (keepAliveHandler)
             pipeline.addLast(HttpServerKeepAliveHandler())
@@ -25,7 +25,7 @@ internal class HttpChannelInitializer(
         if (chunkedHandler)
             pipeline.addLast(ChunkedWriteHandler())
 
-        val nettyServerHandler = Http2ClientResponseHandler()
+        val nettyServerHandler = HttpClientResponseHandler()
 
         if (executorGroup == null)
             pipeline.addLast(nettyServerHandler)

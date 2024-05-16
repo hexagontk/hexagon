@@ -2,7 +2,8 @@ package com.hexagonkt.http.server.netty
 
 import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.fieldsMapOf
-import com.hexagonkt.core.security.loadKeyStore
+import com.hexagonkt.core.security.createKeyManagerFactory
+import com.hexagonkt.core.security.createTrustManagerFactory
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.model.HttpProtocol
 import com.hexagonkt.http.model.HttpProtocol.*
@@ -99,7 +100,7 @@ open class NettyServerAdapter(
             bossEventLoop = bossGroup
             workerEventLoop = workerGroup
         }
-        catch (e: Exception) {
+        catch (_: Exception) {
             bossGroup.shutdownGracefully()
             workerGroup.shutdownGracefully()
             executorGroup?.shutdownGracefully()
@@ -158,37 +159,26 @@ open class NettyServerAdapter(
         )
 
     private fun sslContext(sslSettings: SslSettings): SslContext {
-        val keyManager = createKeyManagerFactory(sslSettings)
+        val keyManager = keyManagerFactory(sslSettings)
 
         val sslContextBuilder = SslContextBuilder
             .forServer(keyManager)
             .clientAuth(if (sslSettings.clientAuth) REQUIRE else OPTIONAL)
 
-        val trustManager = createTrustManagerFactory(sslSettings)
+        val trustManager = trustManagerFactory(sslSettings)
 
         return if (trustManager == null) sslContextBuilder.build()
             else sslContextBuilder.trustManager(trustManager).build()
     }
 
-    private fun createTrustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
+    private fun trustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
         val trustStoreUrl = sslSettings.trustStore ?: return null
-
-        val trustStorePassword = sslSettings.trustStorePassword
-        val trustStore = loadKeyStore(trustStoreUrl, trustStorePassword)
-        val trustAlgorithm = TrustManagerFactory.getDefaultAlgorithm()
-        val trustManager = TrustManagerFactory.getInstance(trustAlgorithm)
-
-        trustManager.init(trustStore)
-        return trustManager
+        return createTrustManagerFactory(trustStoreUrl, sslSettings.trustStorePassword)
     }
 
-    private fun createKeyManagerFactory(sslSettings: SslSettings): KeyManagerFactory {
+    private fun keyManagerFactory(sslSettings: SslSettings): KeyManagerFactory {
         val keyStoreUrl = sslSettings.keyStore ?: error("")
-        val keyStorePassword = sslSettings.keyStorePassword
-        val keyStore = loadKeyStore(keyStoreUrl, keyStorePassword)
-        val keyManager = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm())
-        keyManager.init(keyStore, keyStorePassword.toCharArray())
-        return keyManager
+        return createKeyManagerFactory(keyStoreUrl, sslSettings.keyStorePassword)
     }
 
     override fun shutDown() {
