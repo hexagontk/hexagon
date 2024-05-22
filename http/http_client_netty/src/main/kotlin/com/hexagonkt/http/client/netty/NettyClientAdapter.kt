@@ -81,8 +81,8 @@ open class NettyClientAdapter(
         val nettyRequest = createRequest(host, port)
 
         channel.writeAndFlush(nettyRequest)
-        val c = channel.pipeline().context(HttpClientResponseHandler::class.java).handler() as HttpClientResponseHandler
         channel.closeFuture().sync()
+        val c = channel.pipeline().context(HttpClientResponseHandler::class.java).handler() as HttpClientResponseHandler
 
         return HttpResponse()
     }
