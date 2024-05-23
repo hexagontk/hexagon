@@ -10,6 +10,7 @@ import io.netty.util.CharsetUtil
 class HttpClientResponseHandler : SimpleChannelInboundHandler<FullHttpResponse>() {
 
     lateinit var response: FullHttpResponse
+
     override fun channelRead0(ctx: ChannelHandlerContext, msg: FullHttpResponse) {
         System.err.println("STATUS: " + msg.status())
         System.err.println("VERSION: " + msg.protocolVersion())

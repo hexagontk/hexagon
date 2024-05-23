@@ -78,13 +78,14 @@ open class NettyClientAdapter(
         val host = base?.host ?: request.host
         val port = base?.port ?: request.port
         val channel = nettyClient.connect(host, port).sync().channel()
-        val nettyRequest = createRequest(host, port)
+        val nettyRequest = createRequest(host, port, request)
 
         channel.writeAndFlush(nettyRequest)
         channel.closeFuture().sync()
-        val c = channel.pipeline().context(HttpClientResponseHandler::class.java).handler() as HttpClientResponseHandler
 
-        return HttpResponse()
+        val context = channel.pipeline().context(HttpClientResponseHandler::class.java)
+        val responseHandler = context.handler() as HttpClientResponseHandler
+        return createResponse(responseHandler.response)
     }
 
     override fun ws(
@@ -127,14 +128,19 @@ open class NettyClientAdapter(
     ): HttpsChannelInitializer =
         HttpsChannelInitializer(sslContext(sslSettings), group)
 
-    private fun createRequest(host: String, port: Int): FullHttpRequest {
+    private fun createRequest(host: String, port: Int, request: HttpRequestPort): FullHttpRequest {
         val httpVersion = HttpVersion.valueOf("HTTP/1.1")
-        val request = DefaultFullHttpRequest(httpVersion, NettyMethod.GET, "/", Unpooled.EMPTY_BUFFER)
-        request.headers().add(HttpHeaderNames.HOST, "$host:$port")
-        request.headers().add(SCHEME.text(), HttpScheme.HTTPS)
-        request.headers().add(HttpHeaderNames.ACCEPT_ENCODING, HttpHeaderValues.GZIP)
-        request.headers().add(HttpHeaderNames.ACCEPT_ENCODING, HttpHeaderValues.DEFLATE)
-        return request
+        val nettyRequest =
+            DefaultFullHttpRequest(httpVersion, NettyMethod.GET, "/", Unpooled.EMPTY_BUFFER)
+        nettyRequest.headers().add(HttpHeaderNames.HOST, "$host:$port")
+        nettyRequest.headers().add(SCHEME.text(), HttpScheme.HTTPS)
+        nettyRequest.headers().add(HttpHeaderNames.ACCEPT_ENCODING, HttpHeaderValues.GZIP)
+        nettyRequest.headers().add(HttpHeaderNames.ACCEPT_ENCODING, HttpHeaderValues.DEFLATE)
+        return nettyRequest
+    }
+
+    private fun createResponse(response: FullHttpResponse): HttpResponsePort {
+        return HttpResponse()
     }
 
     private fun sslContext(sslSettings: SslSettings): SslContext {
