@@ -20,10 +20,22 @@ graalvmNative {
     }
 
     binaries {
+        // Save some processors to avoid hangs on low end hardware
+        int processors = Runtime.getRuntime().availableProcessors()
+        int parallelism = processors > 4 ? processors - 2 : processors - 1
+
+        main {
+            buildArgs.add("--parallelism=" + parallelism)
+        }
+
         test {
             quickBuild = true
-            runtimeArgs = [ "--xml-output-dir", "build/reports/tests/native" ]
-            jvmArgs = [ "-Xmx6g" ]
+            runtimeArgs.addAll([
+                "--xml-output-dir",
+                "build/reports/tests/native",
+            ])
+            jvmArgs.add("-Xmx6g")
+            buildArgs.add("--parallelism=" + parallelism)
         }
     }
 }
