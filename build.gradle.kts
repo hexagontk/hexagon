@@ -27,8 +27,8 @@ plugins {
     id("com.github.jk1.dependency-license-report") version(libs.versions.licenseReport)
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version(libs.versions.binValidator)
     id("org.graalvm.buildtools.native") version(libs.versions.nativeTools) apply(false)
-    id("io.gitlab.arturbosch.detekt") version("1.23.6") apply(false)
-    id("me.champeau.jmh") version("0.7.2") apply(false)
+    id("io.gitlab.arturbosch.detekt") version(libs.versions.detekt) apply(false)
+    id("me.champeau.jmh") version(libs.versions.jmhGradle) apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")
@@ -140,7 +140,7 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
 })
 
 tasks.wrapper {
-    gradleVersion = "8.8"
+    gradleVersion = libs.versions.gradleWrapper.get()
     distributionType = ALL
 }
 

@@ -24,8 +24,9 @@ dependencyResolutionManagement {
             version("licenseReport", "2.8")
             version("binValidator", "0.15.0-Beta.2")
             version("nativeTools", "0.10.2")
-
-            // Tooling
+            version("detekt", "1.23.6")
+            version("jmhGradle", "0.7.2")
+            version("gradleWrapper", "8.8")
             version("mkdocsMaterial", "9.5.25")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.7")
