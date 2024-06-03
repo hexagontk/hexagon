@@ -51,7 +51,7 @@ dependencyResolutionManagement {
 
             // http_server_servlet
             version("servlet", "6.0.0")
-            version("jetty", "12.0.9")
+            version("jetty", "12.0.10")
 
             // rest_tools
             version("swaggerRequestValidator", "2.40.0")
