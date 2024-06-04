@@ -32,11 +32,11 @@ extensions.configure<PublishingExtension> {
                 "maven.compiler.source" to source,
                 "maven.compiler.target" to target,
                 "kotlin.compiler.jvmTarget" to target,
-                "maven" to project.properties["mavenVersion"].toString(),
-                "kotlin.version" to project.properties["kotlinVersion"].toString(),
-                "dokka.version" to project.properties["dokkaVersion"].toString(),
-                "junit.version" to project.properties["junitVersion"].toString(),
-                "native.tools.version" to project.properties["nativeToolsVersion"].toString(),
+                "maven" to libs.versions.maven.get(),
+                "kotlin.version" to libs.versions.kotlin.get(),
+                "dokka.version" to libs.versions.dokka.get(),
+                "junit.version" to libs.versions.junit.get(),
+                "native.tools.version" to libs.versions.nativeTools.get(),
             ))
 
             withXml {

@@ -3,7 +3,7 @@
 [http_client] implementation using the [Jetty HTTP Client] library.
 
 [http_client]: /http_client
-[Jetty HTTP Client]: https://www.eclipse.org/jetty/documentation/jetty-11/programming-guide
+[Jetty HTTP Client]: https://jetty.org/docs/jetty/12/programming-guide
 
 ### Install the Dependency
 

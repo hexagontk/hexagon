@@ -128,7 +128,7 @@ task("checkDocs") {
 
 tasks.register("installMkDocs") {
     doLast {
-        val mkdocsMaterialVersion = properties["mkdocsMaterialVersion"]
+        val mkdocsMaterialVersion = libs.versions.mkdocsMaterial.get()
         exec { commandLine("python -m venv $venv".split(" ")) }
         exec { commandLine("$venv/bin/pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
         exec { commandLine("$venv/bin/pip install mkdocs-htmlproofer-plugin".split(" ")) }
