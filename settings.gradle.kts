@@ -27,14 +27,14 @@ dependencyResolutionManagement {
             version("detekt", "1.23.6")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.8")
-            version("mkdocsMaterial", "9.5.25")
+            version("mkdocsMaterial", "9.5.26")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.7")
 
             // Testing
             version("junit", "5.10.2")
             version("mockk", "1.13.11")
-            // TODO Latest version breaks stress test
+            // TODO Latest version breaks stress test (consider using JMeter)
             //version("gatling", "3.11.3")
             version("gatling", "3.10.5")
             version("jmh", "1.37")

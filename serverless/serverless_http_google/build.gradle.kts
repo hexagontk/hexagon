@@ -15,8 +15,8 @@ private val target = "com.hexagonkt.serverless.http.google.GoogleServerlessHttpA
 private val invoker by configurations.creating
 
 dependencies {
-    val functionsVersion = properties["functionsVersion"]
-    val invokerVersion = properties["invokerVersion"]
+    val functionsVersion = libs.versions.functions.get()
+    val invokerVersion = libs.versions.invoker.get()
 
     "api"(project(":serverless:serverless_http"))
     "compileOnly"("com.google.cloud.functions:functions-framework-api:$functionsVersion")

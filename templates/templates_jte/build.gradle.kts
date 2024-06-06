@@ -14,7 +14,7 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Template processor adapter for 'jte'."
 
 dependencies {
-    val jteVersion = properties["jteVersion"]
+    val jteVersion = libs.versions.jte.get()
 
     "api"(project(":templates:templates"))
     "api"("gg.jte:jte:$jteVersion")

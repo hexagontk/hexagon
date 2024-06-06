@@ -12,7 +12,7 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Hexagon JSON serialization format (using DSL-JSON)."
 
 dependencies {
-    val dslJsonVersion = properties["dslJsonVersion"]
+    val dslJsonVersion = libs.versions.dslJson.get()
 
     "api"(project(":serialization:serialization"))
     "api"("com.dslplatform:dsl-json:$dslJsonVersion")

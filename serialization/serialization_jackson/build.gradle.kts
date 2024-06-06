@@ -12,7 +12,7 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Jackson's serialization utilities (used in several serialization formats)."
 
 dependencies {
-    val jacksonVersion = properties["jacksonVersion"]
+    val jacksonVersion = libs.versions.jackson.get()
 
     "api"(project(":serialization:serialization"))
     "api"("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
