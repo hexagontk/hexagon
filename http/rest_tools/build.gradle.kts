@@ -12,8 +12,8 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Tools to test and document REST services."
 
 dependencies {
-    val swaggerRequestValidatorVersion = properties["swaggerRequestValidatorVersion"]
-    val slf4jVersion = properties["slf4jVersion"]
+    val swaggerRequestValidatorVersion = libs.versions.swaggerRequestValidator.get()
+    val slf4jVersion = libs.versions.slf4j.get()
 
     "api"(project(":http:rest"))
     "api"(project(":http:http_server"))

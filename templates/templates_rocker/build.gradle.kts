@@ -13,7 +13,7 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Template processor adapter for Rocker. Don't support dynamic template loading."
 
 dependencies {
-    val rockerVersion = properties["rockerVersion"]
+    val rockerVersion = libs.versions.rocker.get()
 
     "api"(project(":templates:templates"))
     "api"("com.fizzed:rocker-runtime:$rockerVersion")

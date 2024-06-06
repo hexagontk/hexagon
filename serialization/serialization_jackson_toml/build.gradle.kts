@@ -12,7 +12,7 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Hexagon TOML serialization format (using Jackson)."
 
 dependencies {
-    val jacksonVersion = properties["jacksonVersion"]
+    val jacksonVersion = libs.versions.jackson.get()
 
     "api"(project(":serialization:serialization_jackson"))
     "api"(platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))

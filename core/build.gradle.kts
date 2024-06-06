@@ -13,12 +13,12 @@ apply(from = "$rootDir/gradle/resources.gradle")
 description = "Hexagon core utilities. Includes logging helpers."
 
 dependencies {
-    val scriptMockkVersion = findProperty("mockkVersion")
+    val mockkVersion = libs.versions.mockk.get()
 
     "api"("org.jetbrains.kotlin:kotlin-stdlib")
 
     "testImplementation"("org.jetbrains.kotlin:kotlin-reflect")
-    "testImplementation"("io.mockk:mockk:$scriptMockkVersion") {
+    "testImplementation"("io.mockk:mockk:$mockkVersion") {
         exclude(group = "org.jetbrains.kotlin")
     }
 }

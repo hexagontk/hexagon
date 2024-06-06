@@ -11,7 +11,7 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Test suite to verify template processing adapters."
 
 dependencies {
-    val junitVersion = properties["junitVersion"]
+    val junitVersion = libs.versions.junit.get()
 
     "api"(project(":templates:templates"))
     "api"("org.jetbrains.kotlin:kotlin-test")

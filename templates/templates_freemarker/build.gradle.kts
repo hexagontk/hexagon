@@ -12,8 +12,10 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Template processor adapter for Freemarker."
 
 dependencies {
+    val freemarkerVersion = libs.versions.freemarker.get()
+
     "api"(project(":templates:templates"))
-    "api"("org.freemarker:freemarker:${properties["freemarkerVersion"]}")
+    "api"("org.freemarker:freemarker:$freemarkerVersion")
 
     "testImplementation"(project(":templates:templates_test"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
