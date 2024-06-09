@@ -171,16 +171,16 @@ Module dependencies (including extra modules):
 
 ```mermaid
 graph TD
-  http_handlers -->|uses| http
-  http_handlers -->|uses| handlers
-  http_server -->|uses| http_handlers
-  http_client -->|uses| http_handlers
-  web -->|uses| http_server
+  serverless_http -->|uses| http_handlers
   web -->|uses| templates
-  rest -->|uses| http_handlers
-  rest -->|uses| serialization
-  rest_tools -->|uses| rest
+  web -->|uses| http_server
   rest_tools -->|uses| http_server
   rest_tools -->|uses| http_client
-  serverless_http -->|uses| http_handlers
+  rest_tools -->|uses| rest
+  http_server -->|uses| http_handlers
+  http_client -->|uses| http_handlers
+  rest -->|uses| http_handlers
+  rest -->|uses| serialization
+  http_handlers -->|uses| http
+  http_handlers -->|uses| handlers
 ```
