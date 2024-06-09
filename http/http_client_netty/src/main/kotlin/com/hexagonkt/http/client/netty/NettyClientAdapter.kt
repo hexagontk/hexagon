@@ -10,6 +10,7 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpResponse
 import com.hexagonkt.http.model.ws.WsSession
 import io.netty.bootstrap.Bootstrap
+import io.netty.buffer.ByteBufUtil
 import io.netty.buffer.Unpooled.EMPTY_BUFFER
 import io.netty.channel.*
 import io.netty.channel.nio.NioEventLoopGroup
@@ -149,8 +150,12 @@ open class NettyClientAdapter(
     }
 
     private fun createResponse(response: FullHttpResponse): HttpResponsePort {
+        val content = response.content()
+
+        val body = if (content.isReadable) ByteBufUtil.getBytes(content) else byteArrayOf()
         return HttpResponse(
-            status = nettyStatus(response.status())
+            status = nettyStatus(response.status()),
+            body = String(body),
         )
     }
 
