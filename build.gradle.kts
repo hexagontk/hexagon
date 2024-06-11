@@ -163,7 +163,6 @@ apiValidation {
             "serverless_http_google",
             "web",
             "templates_jte",
-            "http_client_netty",
         )
     )
 }

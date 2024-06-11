@@ -183,4 +183,10 @@ graph TD
   rest -->|uses| serialization
   http_handlers -->|uses| http
   http_handlers -->|uses| handlers
+
+  serverless_http["`**serverless_http**`"]
+  http_server["`**http_server**`"]
+  http_client["`**http_client**`"]
+  templates["`**templates**`"]
+  serialization["`**serialization**`"]
 ```
