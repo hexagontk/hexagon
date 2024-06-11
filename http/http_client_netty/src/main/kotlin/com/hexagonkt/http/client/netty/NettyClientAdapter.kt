@@ -86,7 +86,7 @@ open class NettyClientAdapter(
 
         val context = channel.pipeline().context(HttpClientResponseHandler::class.java)
         val responseHandler = context.handler() as HttpClientResponseHandler
-        return createResponse(responseHandler.response)
+        return createResponse(responseHandler.response.join())
     }
 
     override fun ws(
