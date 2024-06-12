@@ -17,7 +17,7 @@ import java.util.*
 
 class FreeMarkerAdapter : TemplatePort {
 
-    private val freeMarkerVersion = Version("2.3.32")
+    private val freeMarkerVersion = Version("2.3.33")
 
     object AdapterTemplateLookupStrategy : TemplateLookupStrategy() {
         override fun lookup(ctx: TemplateLookupContext): TemplateLookupResult =

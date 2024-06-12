@@ -67,7 +67,7 @@ internal class BooksTest {
                 notFound("Book not found")
         }
 
-        // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
+        // Matches path's requests with *any* HTTP method as a fallback (return 405 instead 404)
         after(ALL - DELETE - PUT - GET, "/books/{id}", status = NOT_FOUND_404) {
             send(METHOD_NOT_ALLOWED_405)
         }
@@ -122,7 +122,7 @@ internal class BooksTest {
                 notFound("Book not found")
         }
 
-        // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
+        // Matches path's requests with *any* HTTP method as a fallback (return 405 instead 404)
         after(ALL - DELETE - PUT - GET, "/{id}", status = NOT_FOUND_404) {
             send(METHOD_NOT_ALLOWED_405)
         }
@@ -178,7 +178,7 @@ internal class BooksTest {
                     notFound("Book not found")
             }
 
-            // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
+            // Matches path's requests with *any* HTTP method as a fallback (return 405 instead 404)
             after(ALL - DELETE - PUT - GET, status = NOT_FOUND_404) {
                 send(METHOD_NOT_ALLOWED_405)
             }
