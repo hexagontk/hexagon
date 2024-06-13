@@ -47,7 +47,7 @@ dependencyResolutionManagement {
             version("nettyTcNative", "2.0.65.Final")
 
             // http_server_helidon
-            version("helidon", "4.0.9")
+            version("helidon", "4.0.10")
 
             // http_server_servlet
             version("servlet", "6.0.0")
