@@ -23,7 +23,7 @@ dependencies {
 
     "testImplementation"("com.google.cloud.functions:functions-framework-api:$functionsVersion")
     "testImplementation"("com.google.cloud.functions.invoker:java-function-invoker:$invokerVersion")
-    "testImplementation"(project(":http:http_client_jetty"))
+    "testImplementation"(project(":http:http_client_java"))
 
     "invoker"("com.google.cloud.functions.invoker:java-function-invoker:$invokerVersion")
 }
