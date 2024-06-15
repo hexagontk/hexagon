@@ -63,18 +63,17 @@ internal class SerializationTest {
     }
 
     @Test fun `Data serialization helpers work properly`() {
-        SerializationManager.formats = setOf(BinaryTestFormat)
-        SerializationManager.defaultFormat = TextTestFormat
+        SerializationManager.formats = setOf(BinaryTestFormat, TextTestFormat)
 
+        val phpBytes = "text".serializeBytes(APPLICATION_PHP)
+        assertContentEquals(phpBytes, "text".serializeBytes(TextTestFormat))
         assertContentEquals("text".toByteArray(), "text".serializeBytes(APPLICATION_PHP))
-        assertContentEquals("text".serializeBytes(APPLICATION_PHP), "text".serializeBytes())
         assertContentEquals("text".toByteArray(), "text".serializeBytes(APPLICATION_AVRO))
         assertEquals("text", "text".serialize(APPLICATION_PHP))
-        assertEquals("text".serialize(APPLICATION_PHP), "text".serialize())
+        assertEquals("text".serialize(APPLICATION_PHP), "text".serialize(TextTestFormat))
         assertFailsWith<IllegalStateException> { "text".serialize(APPLICATION_AVRO) }
 
         assertEquals(listOf("text"), "string".parse(APPLICATION_PHP))
-        assertEquals("string".parse(APPLICATION_PHP), "string".parse())
         assertEquals("string".parse(APPLICATION_PHP), "string".parse(TextTestFormat))
         assertEquals(listOf("bytes"), "string".parse(APPLICATION_AVRO))
 

@@ -13,8 +13,6 @@ object TemplateManager {
 
     var adapters: Map<Regex, TemplatePort> = emptyMap()
 
-    var defaultAdapter: TemplatePort? = null
-
     /**
      * Render a template with a registered template engine.
      *
@@ -34,6 +32,5 @@ object TemplateManager {
         adapters
             .filter { it.key.matches(url.toString()) }
             .firstNotNullOfOrNull { it.value  }
-            ?: defaultAdapter
             ?: error("No adapter found for resource: $url")
 }
