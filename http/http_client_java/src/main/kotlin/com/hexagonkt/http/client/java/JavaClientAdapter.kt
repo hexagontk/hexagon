@@ -1,37 +1,76 @@
 package com.hexagonkt.http.client.java
 
+import com.hexagonkt.core.security.createKeyManagerFactory
+import com.hexagonkt.core.security.createTrustManagerFactory
+import com.hexagonkt.http.CHECKED_HEADERS
+import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.model.HttpResponse
+import com.hexagonkt.http.formatQueryString
+import com.hexagonkt.http.handlers.bodyToBytes
 import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.HttpResponse
 import com.hexagonkt.http.model.ws.WsSession
-import java.lang.UnsupportedOperationException
+import com.hexagonkt.http.parseContentType
+import java.net.CookieManager
+import java.net.HttpCookie
+import java.net.URI
 import java.net.http.HttpClient.Redirect.ALWAYS
 import java.net.http.HttpClient.Redirect.NEVER
+import java.net.http.HttpClient.Version.HTTP_2
+import java.net.http.HttpHeaders
+import java.net.http.HttpRequest.BodyPublishers
+import java.net.http.HttpResponse.BodyHandlers
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
 import java.util.concurrent.Flow.Publisher
+import javax.net.ssl.KeyManagerFactory
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.X509TrustManager
 import java.net.http.HttpClient as JavaHttpClient
+import java.net.http.HttpRequest as JavaHttpRequest
+import java.net.http.HttpResponse as JavaHttpResponse
 
 /**
  * Client to use other REST services.
  */
-open class JavaClientAdapter : HttpClientPort {
+class JavaClientAdapter : HttpClientPort {
 
-    protected lateinit var jettyClient: JavaHttpClient
-    protected lateinit var httpClient: HttpClient
+    private companion object {
+        object TrustAll : X509TrustManager {
+            override fun getAcceptedIssuers(): Array<X509Certificate> =
+                emptyArray()
+
+            override fun checkClientTrusted(certs: Array<X509Certificate>, authType: String) {}
+
+            override fun checkServerTrusted(certs: Array<X509Certificate>, authType: String) {}
+        }
+    }
+
+    private lateinit var javaClient: JavaHttpClient
+    private lateinit var httpClient: HttpClient
     private lateinit var httpSettings: HttpClientSettings
     private var started: Boolean = false
+    private val cookieManager: CookieManager by lazy { CookieManager() }
 
     override fun startUp(client: HttpClient) {
         val settings = client.settings
 
         httpClient = client
         httpSettings = settings
-        jettyClient = JavaHttpClient
+        val javaClientBuilder = JavaHttpClient
             .newBuilder()
+            .version(HTTP_2)
             .followRedirects(if (settings.followRedirects) ALWAYS else NEVER)
-//            .sslContext(sslContext(settings))
-            .build()
+
+        if (settings.useCookies)
+            javaClientBuilder.cookieHandler(cookieManager)
+
+        settings.sslSettings?.let { javaClientBuilder.sslContext(sslContext(it)) }
+
+        javaClient = javaClientBuilder.build()
 
         started = true
     }
@@ -44,18 +83,9 @@ open class JavaClientAdapter : HttpClientPort {
         started
 
     override fun send(request: HttpRequestPort): HttpResponsePort {
-//        val response =
-//            try {
-//                createJettyRequest(jettyClient, request).send()
-//            }
-//            catch (e: ExecutionException) {
-//                val cause = e.cause
-//                if (cause is HttpResponseException) cause.response
-//                else throw e
-//            }
-//
-//        return convertJettyResponse(httpClient, jettyClient, response)
-        return HttpResponse()
+        val hexagonRequest = createRequest(request)
+        val javaResponse = javaClient.send(hexagonRequest, BodyHandlers.ofByteArray())
+        return convertResponse(javaResponse)
     }
 
     override fun ws(
@@ -74,167 +104,119 @@ open class JavaClientAdapter : HttpClientPort {
         throw UnsupportedOperationException("SSE not supported")
     }
 
-//    private fun convertJettyResponse(
-//        adapterHttpClient: HttpClient, adapterJettyClient: JettyHttpClient, response: Response
-//    ): HttpResponse {
-//
-//        val bodyString = if (response is ContentResponse) response.contentAsString else ""
-//
-//        if (httpSettings.useCookies)
-//            adapterHttpClient.cookies = adapterJettyClient.httpCookieStore.all().map {
-//                Cookie(
-//                    it.name,
-//                    it.value,
-//                    it.maxAge,
-//                    it.isSecure,
-//                    it.path,
-//                    it.isHttpOnly,
-//                    it.domain,
-//                    it.attributes["SameSite"]?.uppercase()?.let(CookieSameSite::valueOf),
-//                    expires = it.expires,
-//                )
-//            }
-//
-//        return HttpResponse(
-//            body = bodyString,
-//            headers = convertHeaders(response.headers),
-//            contentType = response.headers["content-type"]?.let { parseContentType(it) },
-//            cookies = adapterHttpClient.cookies,
-//            status = HttpStatus(response.status),
-//            contentLength = bodyString.length.toLong(),
-//        )
-//    }
-//
-//    private fun convertHeaders(headers: HttpFields): Headers =
-//        Headers(
-//            headers
-//                .fieldNamesCollection
-//                .map { it.lowercase() }
-//                .filter { it !in CHECKED_HEADERS }
-//                .map { Header(it, headers.getValuesList(it)) }
-//        )
-//
-//    private fun createJettyRequest(
-//        adapterJettyClient: JettyHttpClient, request: HttpRequestPort
-//    ): Request {
-//
-//        val contentType = request.contentType
-//        val authorization = request.authorization
-//        val baseUrl = httpSettings.baseUrl
-//
-//        if (httpSettings.useCookies) {
-//            val uri = (baseUrl ?: request.url()).toURI()
-//            addCookies(uri, adapterJettyClient.httpCookieStore, request.cookies)
-//        }
-//
-//        val jettyRequest = adapterJettyClient
-//            .newRequest(URI((baseUrl?.toString() ?: "") + request.path))
-//            .method(HttpMethod.valueOf(request.method.toString()))
-//            .headers {
-//                it.remove("accept-encoding") // Don't send encoding by default
-//                if (contentType != null)
-//                    it.put("content-type", contentType.text)
-//                if (authorization != null)
-//                    it.put("authorization", authorization.text)
-//                request.headers.values.forEach { (k, v) ->
-//                    v.map(Any::toString).forEach { s -> it.add(k, s)}
-//                }
-//            }
-//            .body(createBody(request))
-//            .accept(*request.accept.map { it.text }.toTypedArray())
-//
-//        request.queryParameters
-//            .forEach { (k, v) -> v.strings().forEach { jettyRequest.param(k, it) } }
-//
-//        return jettyRequest
-//    }
-//
-//    private fun createBody(request: HttpRequestPort): Request.Content {
-//
-//        if (request.parts.isEmpty() && request.formParameters.isEmpty())
-//            return BytesRequestContent(bodyToBytes(request.body))
-//
-//        val multiPart = MultiPartRequestContent()
-//
-//        request.parts.forEach { p ->
-//            if (p.submittedFileName == null)
-//                // TODO Add content type if present
-//                multiPart.addPart(
-//                    ContentSourcePart(p.name, null, EMPTY, StringRequestContent(p.bodyString()))
-//                )
-//            else
-//                multiPart.addPart(
-//                    ContentSourcePart(
-//                        p.name,
-//                        p.submittedFileName,
-//                        EMPTY,
-//                        BytesRequestContent(bodyToBytes(p.body)),
-//                    )
-//                )
-//        }
-//
-//        request.formParameters
-//            .forEach { (k, v) ->
-//                v.strings().forEach {
-//                    multiPart.addPart(ContentSourcePart(k, null, EMPTY, StringRequestContent(it)))
-//                }
-//            }
-//
-//        multiPart.close()
-//
-//        return multiPart
-//    }
-//
-//    private fun addCookies(uri: URI, store: HttpCookieStore, cookies: List<Cookie>) {
-//        cookies.forEach {
-//            val httpCookie = java.net.HttpCookie(it.name, it.value)
-//            httpCookie.secure = it.secure
-//            httpCookie.maxAge = it.maxAge
-//            httpCookie.path = it.path
-//            httpCookie.isHttpOnly = it.httpOnly
-//            it.domain?.let(httpCookie::setDomain)
-//
-//            val from = HttpCookie.build(httpCookie).expires(it.expires)
-//
-//            it.sameSite?.let { ss ->
-//                when(ss){
-//                    STRICT -> SameSite.STRICT
-//                    LAX -> SameSite.LAX
-//                    NONE -> SameSite.NONE
-//                }
-//            }?.let { ss -> from.sameSite(ss) }
-//
-//            store.add(uri, from.build())
-//        }
-//    }
-//
-//    private fun sslContext(settings: HttpClientSettings): SSLContext =
-//        when {
-//            settings.insecure ->
-//                ClientSslContextFactory().apply { isTrustAll = true }
-//
-//            settings.sslSettings != null -> {
-//                val sslSettings = settings.sslSettings ?: error("SSL settings cannot be 'null'")
-//                val keyStore = sslSettings.keyStore
-//                val trustStore = sslSettings.trustStore
-//                val sslContextBuilder = ClientSslContextFactory()
-//
-//                if (keyStore != null) {
-//                    val store = loadKeyStore(keyStore, sslSettings.keyStorePassword)
-//                    sslContextBuilder.keyStore = store
-//                    sslContextBuilder.keyStorePassword = sslSettings.keyStorePassword
-//                }
-//
-//                if (trustStore != null) {
-//                    val store = loadKeyStore(trustStore, sslSettings.trustStorePassword)
-//                    sslContextBuilder.trustStore = store
-//                    sslContextBuilder.setTrustStorePassword(sslSettings.trustStorePassword)
-//                }
-//
-//                sslContextBuilder
-//            }
-//
-//            else ->
-//                ClientSslContextFactory()
-//        }
+    private fun sslContext(sslSettings: SslSettings): SSLContext {
+        val sslContext = SSLContext.getInstance("TLSv1.3")
+
+        if (httpSettings.insecure)
+            return sslContext.apply {
+                init(emptyArray(), arrayOf(TrustAll), SecureRandom.getInstanceStrong())
+            }
+
+        val keyManager = keyManagerFactory(sslSettings)
+        val trustManager = trustManagerFactory(sslSettings)
+        return sslContext.apply {
+            init(
+                keyManager?.keyManagers ?: emptyArray(),
+                trustManager?.trustManagers ?: emptyArray(),
+                SecureRandom.getInstanceStrong()
+            )
+        }
+    }
+
+    private fun trustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
+        val trustStoreUrl = sslSettings.trustStore ?: return null
+        val trustStorePassword = sslSettings.trustStorePassword
+        return createTrustManagerFactory(trustStoreUrl, trustStorePassword)
+    }
+
+    private fun keyManagerFactory(sslSettings: SslSettings): KeyManagerFactory? {
+        val keyStoreUrl = sslSettings.keyStore ?: return null
+        val keyStorePassword = sslSettings.keyStorePassword
+        return createKeyManagerFactory(keyStoreUrl, keyStorePassword)
+    }
+
+    private fun createRequest(request: HttpRequestPort): JavaHttpRequest {
+        val baseUrl = httpSettings.baseUrl
+
+        if (httpSettings.useCookies)
+            addCookies((baseUrl ?: request.url()).toURI(), request.cookies)
+
+        val bodyBytes = bodyToBytes(request.body)
+        val queryParameters = request.queryParameters
+        val base = (baseUrl?.toString() ?: "") + request.path
+        val uri =
+            if (queryParameters.isEmpty()) base
+            else base + '?' + formatQueryString(queryParameters)
+
+        val javaRequest = JavaHttpRequest
+            .newBuilder(URI(uri))
+            .method(request.method.toString(), BodyPublishers.ofByteArray(bodyBytes))
+
+        request.headers.forEach { e ->
+            val name = e.value.name
+            if (name != "accept-encoding") // TODO Maybe accept-encoding interferes with H2C
+                e.value.values.forEach { h -> javaRequest.setHeader(name, h.toString()) }
+        }
+
+        request.contentType?.let { javaRequest.setHeader("content-type", it.text) }
+        request.authorization?.let { javaRequest.setHeader("authorization", it.text) }
+        request.accept.forEach { javaRequest.setHeader("accept", it.text) }
+
+        return javaRequest.build()
+    }
+
+    private fun addCookies(uri: URI, cookies: List<Cookie>) {
+        cookies.forEach {
+            val httpCookie = HttpCookie(it.name, it.value)
+            httpCookie.secure = it.secure
+            httpCookie.maxAge = it.maxAge
+            httpCookie.path = it.path
+            httpCookie.isHttpOnly = it.httpOnly
+            httpCookie.path = it.path
+            it.domain?.let(httpCookie::setDomain)
+
+            cookieManager.cookieStore.add(uri, httpCookie)
+        }
+    }
+
+    private fun convertResponse(response: JavaHttpResponse<ByteArray>): HttpResponse {
+
+        val bodyString = String(response.body())
+        val headers = response.headers()
+        val cookies =
+            if (httpSettings.useCookies)
+                cookieManager.cookieStore.cookies.map {
+                    Cookie(
+                        it.name,
+                        it.value,
+                        it.maxAge,
+                        it.secure,
+                        it.path,
+                        it.isHttpOnly,
+                        it.domain,
+                    )
+                }
+            else
+                emptyList()
+
+        httpClient.cookies = cookies
+
+        val contentType = headers.firstValue("content-type").orElse(null)
+        return HttpResponse(
+            body = bodyString,
+            headers = convertHeaders(headers),
+            contentType = contentType?.let { parseContentType(it) },
+            cookies = cookies,
+            status = HttpStatus(response.statusCode()),
+            contentLength = bodyString.length.toLong(),
+        )
+    }
+
+    private fun convertHeaders(headers: HttpHeaders): Headers =
+        Headers(
+            headers
+                .map()
+                .filter { it.key !in CHECKED_HEADERS }
+                .map { Header(it.key, it.value) }
+        )
 }
