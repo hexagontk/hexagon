@@ -8,21 +8,23 @@ import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.java.JavaClientAdapter
 import kotlin.reflect.KClass
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 internal class GoogleServerlessHttpAdapterTest {
 
     @Test fun `Google functions work ok`() {
         val port = freePort()
-//        val invoker = invoker(port, GoogleServerlessHttpAdapter::class)
-        val client = HttpClient(JavaClientAdapter(), HttpClientSettings(urlOf("http://localhost:${port}")))
+        val baseUrl = urlOf("http://localhost:${port}")
+        val client = HttpClient(JavaClientAdapter(), HttpClientSettings(baseUrl))
+
+        invoker(port, GoogleServerlessHttpAdapter::class)
+        client.start()
+        assertEquals("Hello World!", client.get().bodyString())
     }
 
     private fun invoker(port: Int, function: KClass<*>): Invoker {
         val target = function.qualifiedName
         val classLoader = ClassLoader.getSystemClassLoader()
-        val invoker = Invoker(port, target, null, classLoader)
-//        invoker.startTestServer()
-        invoker.startServer()
-        return invoker
+        return Invoker(port, target, null, classLoader).apply { startTestServer() }
     }
 }
