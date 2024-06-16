@@ -8,27 +8,9 @@ object SerializationManager {
 
     var formats: Set<SerializationFormat> = emptySet()
         set(value) {
-
-            val allFormats =
-                if (defaultFormat == null) value
-                else (value + defaultFormat).filterNotNull()
-
-            formatsMap = allFormats.associateBy { it.mediaType }
-
+            formatsMap = value.associateBy { it.mediaType }
             field = value
         }
-
-    var defaultFormat: SerializationFormat? = null
-        set(value) {
-
-            if (value != null)
-                formats = formats + value
-
-            field = value
-        }
-
-    fun requireDefaultFormat(): SerializationFormat =
-        defaultFormat ?: error("Default serialization format not set")
 
     fun formatOfOrNull(mediaType: MediaType): SerializationFormat? =
         formatsMap[mediaType]

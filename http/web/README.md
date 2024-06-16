@@ -1,8 +1,10 @@
 
 # Module web
-Adds utilities for serving HTML pages over HTTP servers. Includes [kotlinx.html] support.
+Adds utilities for serving HTML pages over HTTP servers. Combines the [http_server] and [templates]
+ports.
 
-[kotlinx.html]: https://github.com/Kotlin/kotlinx.html
+[http_server]: /http_server
+[templates]: /templates
 
 ### Install the Dependency
 
@@ -13,14 +15,14 @@ Adds utilities for serving HTML pages over HTTP servers. Includes [kotlinx.html]
         mavenCentral()
     }
 
-    implementation("com.hexagonkt.extra:web:$hexagonVersion")
+    implementation("com.hexagonkt:web:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt.extra</groupId>
+      <groupId>com.hexagonkt</groupId>
       <artifactId>web</artifactId>
       <version>$hexagonVersion</version>
     </dependency>

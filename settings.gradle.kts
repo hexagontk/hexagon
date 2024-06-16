@@ -43,11 +43,11 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.13")
 
             // http_server_netty
-            version("netty", "4.1.110.Final")
+            version("netty", "4.1.111.Final")
             version("nettyTcNative", "2.0.65.Final")
 
             // http_server_helidon
-            version("helidon", "4.0.9")
+            version("helidon", "4.0.10")
 
             // http_server_servlet
             version("servlet", "6.0.0")
@@ -65,7 +65,7 @@ dependencyResolutionManagement {
             version("invoker", "1.3.1")
 
             // templates_freemarker
-            version("freemarker", "2.3.32")
+            version("freemarker", "2.3.33")
 
             // templates_jte
             version("jte", "3.1.12")

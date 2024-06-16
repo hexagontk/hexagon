@@ -18,12 +18,12 @@ dependencies {
     val functionsVersion = libs.versions.functions.get()
     val invokerVersion = libs.versions.invoker.get()
 
-    "api"(project(":serverless:serverless_http"))
+    "api"(project(":http:http_handlers"))
     "compileOnly"("com.google.cloud.functions:functions-framework-api:$functionsVersion")
 
     "testImplementation"("com.google.cloud.functions:functions-framework-api:$functionsVersion")
     "testImplementation"("com.google.cloud.functions.invoker:java-function-invoker:$invokerVersion")
-    "testImplementation"(project(":http:http_client_jetty"))
+    "testImplementation"(project(":http:http_client_java"))
 
     "invoker"("com.google.cloud.functions.invoker:java-function-invoker:$invokerVersion")
 }

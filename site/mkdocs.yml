@@ -51,6 +51,8 @@ nav:
     - Home: index.md
     - Quick Start: quick_start.md
     - Core: core.md
+    - Handlers: handlers.md
+    - HTTP Handlers: http_handlers.md
     - HTTP Server: http_server.md
     - HTTP Client: http_client.md
     - Serialization: serialization.md

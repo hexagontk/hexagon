@@ -57,17 +57,14 @@ Hexagon's goals and design principles:
 * **Batteries Included**: It contains all the required pieces to make production-grade applications:
   logging utilities, serialization, resource handling and build helpers.
 
-* **Kotlin First**: Take full advantage of Kotlin instead of just calling Java code from Kotlin. The
-  library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a Language).
+* **Native Image**: most of the toolkit libraries include GraalVM metadata (check the [libraries
+  catalog]), native tests are run on CI to ensure native images can be built out of the box.
 
 * **Properly Tested**: The project's coverage is checked in every Pull Request. It is also
   stress-tested at [TechEmpower Frameworks Benchmark][benchmark].
 
 [benchmark]: https://www.techempower.com/benchmarks
-
-# Not in Scope
-* **Kotlin Native**: because of the added complexity of Kotlin Native, focus will be set on the JVM
-  platform, native binaries' generation will rely on GraalVM.
+[libraries catalog]: https://www.graalvm.org/native-image/libraries-and-frameworks
 
 # Concepts
 
@@ -94,7 +91,7 @@ engines.
 start with their Port name.
 
 ## Composite Port
-These modules provide functionality on top of a set of ports combining them, but without relying on
+These modules provide functionality on top of a set of ports (combining them) but without relying on
 any specific adapters. An example would be the [Web] module that uses [http_server] and
 [template][Template Processing] Ports, but leaves clients the decision of picking the adapters they
 want.
@@ -116,13 +113,14 @@ Singleton object to manage a cross toolkit aspect. I.e., Serialization or Templa
 [http_server_jetty]: /http_server_jetty
 
 # Hexagon Extras
-The libraries inside the `hexagon_extra` repository provide extra features. They may be useful to
+The libraries inside the [hexagon_extra] repository provide extra features. They may be useful to
 develop applications, but not strictly required. Some of these modules are:
 
 * Schedulers: Provides repeated tasks execution based on [Cron] expressions.
 * Models: Contain classes that model common data objects.
 * Args: Command line arguments definition and parsing.
 
+[hexagon_extra]: https://github.com/hexagontk/hexagon_extra
 [Web]: /web
 [Cron]: https://en.wikipedia.org/wiki/Cron
 
@@ -142,7 +140,7 @@ Ports with their provided implementations (Adapters).
 | PORT                    | ADAPTERS                                              |
 |-------------------------|-------------------------------------------------------|
 | [HTTP Server]           | [Netty], [Netty Epoll], [Jetty], [Servlet], [Helidon] |
-| [HTTP Client]           | [Jetty][Jetty Client]                                 |
+| [HTTP Client]           | [Java][Java Client], [Jetty][Jetty Client]            |
 | [Templates]             | [Pebble], [FreeMarker], [Rocker], [jte]               |
 | [Serialization Formats] | [JSON], [YAML], [CSV], [XML], [TOML]                  |
 
@@ -153,6 +151,7 @@ Ports with their provided implementations (Adapters).
 [Servlet]: /http_server_servlet
 [Helidon]: /http_server_helidon
 [HTTP Client]: /http_client
+[Java Client]: /http_client_java
 [Jetty Client]: /http_client_jetty
 [Templates]: /templates
 [Pebble]: /templates_pebble

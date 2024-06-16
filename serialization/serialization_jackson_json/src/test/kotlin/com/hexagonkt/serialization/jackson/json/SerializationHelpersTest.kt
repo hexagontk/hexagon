@@ -3,7 +3,6 @@ package com.hexagonkt.serialization.jackson.json
 import com.hexagonkt.core.media.APPLICATION_JSON
 import com.hexagonkt.core.text.toStream
 import com.hexagonkt.core.urlOf
-import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.parseList
 import com.hexagonkt.serialization.parseMap
 import com.hexagonkt.serialization.parseMaps
@@ -16,10 +15,6 @@ import kotlin.test.assertFailsWith
  * NOTE: These tests are checking `serialization` module code here due to circular dependencies.
  */
 internal class SerializationHelpersTest {
-
-    init {
-        SerializationManager.defaultFormat = Json
-    }
 
     @Test fun `Parse URL helpers fails if parsed type does not match`() {
         assertFailsWith<IllegalStateException> { urlOf("classpath:data/companies.json").parseMap() }
@@ -48,8 +43,6 @@ internal class SerializationHelpersTest {
     }
 
     @Test fun `Parse string helpers generates the correct collection`() {
-        assert("""[ { "a": "b" } ]""".parseMaps().isNotEmpty())
-        assert("""{ "a": "b" }""".parseMap().isNotEmpty())
         assert("""[ { "a": "b" } ]""".parseMaps(Json).isNotEmpty())
         assert("""{ "a": "b" }""".parseMap(Json).isNotEmpty())
         assert("""[ { "a": "b" } ]""".parseMaps(APPLICATION_JSON).isNotEmpty())
@@ -57,8 +50,6 @@ internal class SerializationHelpersTest {
     }
 
     @Test fun `Parse stream helpers generates the correct collection`() {
-        assert("""[ { "a": "b" } ]""".toStream().parseMaps().isNotEmpty())
-        assert("""{ "a": "b" }""".toStream().parseMap().isNotEmpty())
         assert("""[ { "a": "b" } ]""".toStream().parseMaps(Json).isNotEmpty())
         assert("""{ "a": "b" }""".toStream().parseMap(Json).isNotEmpty())
         assert("""[ { "a": "b" } ]""".toStream().parseMaps(APPLICATION_JSON).isNotEmpty())

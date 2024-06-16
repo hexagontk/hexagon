@@ -4,32 +4,31 @@ import com.hexagonkt.core.text.toStream
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.core.media.mediaTypeOf
 import com.hexagonkt.serialization.SerializationManager.formatOf
-import com.hexagonkt.serialization.SerializationManager.requireDefaultFormat
 import java.io.File
 import java.io.InputStream
 import java.net.URL
 import java.nio.file.Path
 import kotlin.io.path.inputStream
 
-fun Any.serializeBytes(format: SerializationFormat = requireDefaultFormat()): ByteArray =
+fun Any.serializeBytes(format: SerializationFormat): ByteArray =
     format.serializeBytes(this)
 
 fun Any.serializeBytes(mediaType: MediaType): ByteArray =
     this.serializeBytes(formatOf(mediaType))
 
-fun Any.serialize(format: SerializationFormat = requireDefaultFormat()): String =
+fun Any.serialize(format: SerializationFormat): String =
     format.serialize(this)
 
 fun Any.serialize(mediaType: MediaType): String =
     this.serialize(formatOf(mediaType))
 
-fun InputStream.parse(format: SerializationFormat = requireDefaultFormat()): Any =
+fun InputStream.parse(format: SerializationFormat): Any =
     format.parse(this)
 
 fun InputStream.parse(mediaType: MediaType): Any =
     parse(formatOf(mediaType))
 
-fun String.parse(format: SerializationFormat = requireDefaultFormat()): Any =
+fun String.parse(format: SerializationFormat): Any =
     this.toStream().parse(format)
 
 fun String.parse(mediaType: MediaType): Any =
@@ -71,13 +70,13 @@ fun URL.parseList(): List<*> =
 fun URL.parseMaps(): List<Map<String, *>> =
     this.parseList().map(Any?::castToMap)
 
-fun String.parseMap(format: SerializationFormat = requireDefaultFormat()): Map<String, *> =
+fun String.parseMap(format: SerializationFormat): Map<String, *> =
     this.parse(format).castToMap()
 
-fun String.parseList(format: SerializationFormat = requireDefaultFormat()): List<*> =
+fun String.parseList(format: SerializationFormat): List<*> =
     this.parse(format).castToList()
 
-fun String.parseMaps(format: SerializationFormat = requireDefaultFormat()): List<Map<String, *>> =
+fun String.parseMaps(format: SerializationFormat): List<Map<String, *>> =
     this.parseList(format).map(Any?::castToMap)
 
 fun String.parseMap(mediaType: MediaType): Map<String, *> =
@@ -89,13 +88,13 @@ fun String.parseList(mediaType: MediaType): List<*> =
 fun String.parseMaps(mediaType: MediaType): List<Map<String, *>> =
     this.parseList(mediaType).map(Any?::castToMap)
 
-fun InputStream.parseMap(format: SerializationFormat = requireDefaultFormat()): Map<String, *> =
+fun InputStream.parseMap(format: SerializationFormat): Map<String, *> =
     this.parse(format).castToMap()
 
-fun InputStream.parseList(format: SerializationFormat = requireDefaultFormat()): List<*> =
+fun InputStream.parseList(format: SerializationFormat): List<*> =
     this.parse(format).castToList()
 
-fun InputStream.parseMaps(format: SerializationFormat = requireDefaultFormat()): List<Map<String, *>> =
+fun InputStream.parseMaps(format: SerializationFormat): List<Map<String, *>> =
     this.parseList(format).map(Any?::castToMap)
 
 fun InputStream.parseMap(mediaType: MediaType): Map<String, *> =
