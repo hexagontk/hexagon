@@ -29,7 +29,7 @@ dependencyResolutionManagement {
             version("gradleWrapper", "8.8")
             version("mkdocsMaterial", "9.5.27")
             version("mermaidDokka", "0.6.0")
-            version("maven", "3.9.7")
+            version("maven", "3.9.8")
 
             // Testing
             version("junit", "5.10.2")
