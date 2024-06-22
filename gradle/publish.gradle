@@ -53,7 +53,7 @@ publishing {
                         developer {
                             id = "jaguililla"
                             name = "Juanjo Aguililla"
-                            email = "jaguililla@hexagontk.com"
+                            email = "jaguililla@hexagonkt.com"
                         }
                     }
                 }
