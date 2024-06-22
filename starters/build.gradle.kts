@@ -100,7 +100,7 @@ fun PublicationContainer.createPomPublication(
                 developer {
                     id.set("hexagonkt")
                     name.set("Hexagon Toolkit")
-                    email.set("project@hexagonkt.com")
+                    email.set("project@hexagontk.com")
                 }
             }
 
