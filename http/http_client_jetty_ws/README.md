@@ -7,7 +7,7 @@
 > <sup>WebSockets are not supported on GraalVM native images at the moment.</sup>
 
 [http_client]: /http_client
-[Jetty HTTP Client]: https://www.eclipse.org/jetty/documentation/jetty-11/programming-guide
+[Jetty HTTP Client]: https://jetty.org/docs/jetty/12/programming-guide
 
 ### Install the Dependency
 

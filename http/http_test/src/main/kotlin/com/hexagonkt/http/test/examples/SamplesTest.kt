@@ -156,7 +156,7 @@ abstract class SamplesTest(
         }
     }
 
-    @Test fun callbacks() {
+    @Test open fun callbacks() {
         val server = HttpServer(serverAdapter()) {
             // callbackCall
             get("/call") {

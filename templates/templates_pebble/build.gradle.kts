@@ -12,8 +12,10 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Template processor adapter for Pebble."
 
 dependencies {
+    val pebbleVersion = libs.versions.pebble.get()
+
     "api"(project(":templates:templates"))
-    "api"("io.pebbletemplates:pebble:${properties["pebbleVersion"]}")
+    "api"("io.pebbletemplates:pebble:$pebbleVersion")
 
     "testImplementation"(project(":templates:templates_test"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))

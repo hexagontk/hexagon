@@ -105,7 +105,6 @@ To use it, apply `$gradleScripts/kotlin.gradle` and add the
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
 * kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
-* mockkVersion: MockK mocking library version. If no value is supplied, Hexagon's version is taken.
 * junitVersion: JUnit version (5+), the default value is the toolkit version.
 * basePackage: module's base package (used by the Jacoco Report when using Kotlin Coding Standard).
 * jvmTarget: target JVM version (defines the bytecode version used). If not set, '11' will be used.

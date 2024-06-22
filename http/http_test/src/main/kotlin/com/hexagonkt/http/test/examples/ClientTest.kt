@@ -58,7 +58,6 @@ abstract class ClientTest(
 
     @BeforeAll fun setUpSerializationFormats() {
         SerializationManager.formats = serializationFormats.toSet()
-        SerializationManager.defaultFormat = serializationFormats.firstOrNull()
     }
 
     @BeforeEach fun resetHandler() {
@@ -153,17 +152,13 @@ abstract class ClientTest(
             )
         )
 
-        val responseC4 = response.cookiesMap().require("c4")
-        assertEquals("v4", responseC4.value)
-        assertTrue(responseC4.maxAge in 59..60)
-        assertEquals(Cookie("c5", "v5"), response.cookiesMap()["c5"])
-        assertNull(response.cookiesMap()["c6"])
-
-        val clientC4 = client.cookiesMap().require("c4")
-        assertEquals("v4", clientC4.value)
-        assertTrue(clientC4.maxAge in 59..60)
-        assertEquals(Cookie("c5", "v5"), client.cookiesMap()["c5"])
-        assertNull(client.cookiesMap()["c6"])
+        listOf(response.cookiesMap(), client.cookiesMap()).forEach {
+            val c4 = it.require("c4")
+            assertEquals("v4", c4.value)
+            assertTrue(c4.maxAge in 59..60)
+            assertEquals(Cookie("c5", "v5"), it["c5"]?.copy(domain = null))
+            assertNull(it["c6"])
+        }
     }
 
     @Test fun `Create HTTP clients`() {
@@ -202,11 +197,13 @@ abstract class ClientTest(
 
     @Test fun `HTTP generic requests work ok`() {
 
+        val defaultFormat = serializationFormats.first()
+
         // genericRequest
         val request = HttpRequest(
             method = GET,
             path = "/",
-            body = mapOf("body" to "payload").serialize(),
+            body = mapOf("body" to "payload").serialize(defaultFormat),
             headers = Headers(Header("x-header", "value")),
             queryParameters = QueryParameters(QueryParameter("qp", "qpValue")),
             contentType = ContentType(APPLICATION_JSON)
@@ -252,9 +249,11 @@ abstract class ClientTest(
 
     @Test fun `HTTP methods with body work ok`() {
 
+        val defaultFormat = serializationFormats.first()
+
         // bodyRequests
         val body = mapOf("key" to "value")
-        val serializedBody = body.serialize()
+        val serializedBody = body.serialize(defaultFormat)
 
         val responseGet = client.get("/", body = serializedBody)
         val responsePost = client.post("/", serializedBody)
@@ -299,7 +298,7 @@ abstract class ClientTest(
         checkResponse(responsePatch, body, yaml)
     }
 
-    @Test fun `Parameters are set properly` () {
+    @Test open fun `Parameters are set properly` () {
         val clientHeaders = Headers(Header("header1", "val1", "val2"))
         val settings = HttpClientSettings(
             baseUrl = server.binding,

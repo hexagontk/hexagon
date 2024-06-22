@@ -74,8 +74,6 @@ public final class com/hexagonkt/serialization/SerializationKt {
 	public static final fun parse (Ljava/lang/String;Lcom/hexagonkt/serialization/SerializationFormat;)Ljava/lang/Object;
 	public static final fun parse (Ljava/net/URL;)Ljava/lang/Object;
 	public static final fun parse (Ljava/nio/file/Path;)Ljava/lang/Object;
-	public static synthetic fun parse$default (Ljava/io/InputStream;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/lang/Object;
-	public static synthetic fun parse$default (Ljava/lang/String;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/lang/Object;
 	public static final fun parseList (Ljava/io/File;)Ljava/util/List;
 	public static final fun parseList (Ljava/io/InputStream;Lcom/hexagonkt/core/media/MediaType;)Ljava/util/List;
 	public static final fun parseList (Ljava/io/InputStream;Lcom/hexagonkt/serialization/SerializationFormat;)Ljava/util/List;
@@ -83,8 +81,6 @@ public final class com/hexagonkt/serialization/SerializationKt {
 	public static final fun parseList (Ljava/lang/String;Lcom/hexagonkt/serialization/SerializationFormat;)Ljava/util/List;
 	public static final fun parseList (Ljava/net/URL;)Ljava/util/List;
 	public static final fun parseList (Ljava/nio/file/Path;)Ljava/util/List;
-	public static synthetic fun parseList$default (Ljava/io/InputStream;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/util/List;
-	public static synthetic fun parseList$default (Ljava/lang/String;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/util/List;
 	public static final fun parseMap (Ljava/io/File;)Ljava/util/Map;
 	public static final fun parseMap (Ljava/io/InputStream;Lcom/hexagonkt/core/media/MediaType;)Ljava/util/Map;
 	public static final fun parseMap (Ljava/io/InputStream;Lcom/hexagonkt/serialization/SerializationFormat;)Ljava/util/Map;
@@ -92,8 +88,6 @@ public final class com/hexagonkt/serialization/SerializationKt {
 	public static final fun parseMap (Ljava/lang/String;Lcom/hexagonkt/serialization/SerializationFormat;)Ljava/util/Map;
 	public static final fun parseMap (Ljava/net/URL;)Ljava/util/Map;
 	public static final fun parseMap (Ljava/nio/file/Path;)Ljava/util/Map;
-	public static synthetic fun parseMap$default (Ljava/io/InputStream;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/util/Map;
-	public static synthetic fun parseMap$default (Ljava/lang/String;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/util/Map;
 	public static final fun parseMaps (Ljava/io/File;)Ljava/util/List;
 	public static final fun parseMaps (Ljava/io/InputStream;Lcom/hexagonkt/core/media/MediaType;)Ljava/util/List;
 	public static final fun parseMaps (Ljava/io/InputStream;Lcom/hexagonkt/serialization/SerializationFormat;)Ljava/util/List;
@@ -101,24 +95,17 @@ public final class com/hexagonkt/serialization/SerializationKt {
 	public static final fun parseMaps (Ljava/lang/String;Lcom/hexagonkt/serialization/SerializationFormat;)Ljava/util/List;
 	public static final fun parseMaps (Ljava/net/URL;)Ljava/util/List;
 	public static final fun parseMaps (Ljava/nio/file/Path;)Ljava/util/List;
-	public static synthetic fun parseMaps$default (Ljava/io/InputStream;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/util/List;
-	public static synthetic fun parseMaps$default (Ljava/lang/String;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/util/List;
 	public static final fun serialize (Ljava/lang/Object;Lcom/hexagonkt/core/media/MediaType;)Ljava/lang/String;
 	public static final fun serialize (Ljava/lang/Object;Lcom/hexagonkt/serialization/SerializationFormat;)Ljava/lang/String;
-	public static synthetic fun serialize$default (Ljava/lang/Object;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)Ljava/lang/String;
 	public static final fun serializeBytes (Ljava/lang/Object;Lcom/hexagonkt/core/media/MediaType;)[B
 	public static final fun serializeBytes (Ljava/lang/Object;Lcom/hexagonkt/serialization/SerializationFormat;)[B
-	public static synthetic fun serializeBytes$default (Ljava/lang/Object;Lcom/hexagonkt/serialization/SerializationFormat;ILjava/lang/Object;)[B
 }
 
 public final class com/hexagonkt/serialization/SerializationManager {
 	public static final field INSTANCE Lcom/hexagonkt/serialization/SerializationManager;
 	public final fun formatOf (Lcom/hexagonkt/core/media/MediaType;)Lcom/hexagonkt/serialization/SerializationFormat;
 	public final fun formatOfOrNull (Lcom/hexagonkt/core/media/MediaType;)Lcom/hexagonkt/serialization/SerializationFormat;
-	public final fun getDefaultFormat ()Lcom/hexagonkt/serialization/SerializationFormat;
 	public final fun getFormats ()Ljava/util/Set;
-	public final fun requireDefaultFormat ()Lcom/hexagonkt/serialization/SerializationFormat;
-	public final fun setDefaultFormat (Lcom/hexagonkt/serialization/SerializationFormat;)V
 	public final fun setFormats (Ljava/util/Set;)V
 }
 

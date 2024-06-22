@@ -12,7 +12,7 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "HTTP server adapter for Helidon (using Java Virtual Threads)."
 
 dependencies {
-    val helidonVersion = properties["helidonVersion"]
+    val helidonVersion = libs.versions.helidon.get()
 
     "api"(project(":http:http_server"))
     "api"("io.helidon.webserver:helidon-webserver-http2:$helidonVersion")

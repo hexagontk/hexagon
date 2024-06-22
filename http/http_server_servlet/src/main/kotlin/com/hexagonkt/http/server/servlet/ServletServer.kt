@@ -11,9 +11,8 @@ import com.hexagonkt.core.require
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.handlers.PathHandler
 import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.handlers.path
+import com.hexagonkt.http.handlers.OnHandler
 import jakarta.servlet.*
 import java.lang.management.ManagementFactory
 import java.util.*
@@ -23,7 +22,7 @@ import java.util.*
  * started/stopped (not passed to an [HttpServer]).
  */
 abstract class ServletServer(
-    handlers: List<HttpHandler> = emptyList(),
+    private val handler: HttpHandler = OnHandler { this },
     private val settings: HttpServerSettings = HttpServerSettings(),
 ) : ServletContextListener {
 
@@ -31,23 +30,10 @@ abstract class ServletServer(
         val logger: Logger = Logger(ServletServer::class)
     }
 
-    private val pathHandler: PathHandler = path(settings.contextPath, handlers)
-
-    /**
-     * Utility constructor for the common case of having a single root handler.
-     *
-     * @param handler The only handler used for this server.
-     * @param settings Settings used by this server.
-     */
-    constructor(
-        handler: HttpHandler,
-        settings: HttpServerSettings = HttpServerSettings(),
-    ) : this(listOf(handler), settings)
-
     override fun contextInitialized(sce: ServletContextEvent) {
         val startTimestamp = System.nanoTime()
 
-        val servletFilter = ServletFilter(pathHandler)
+        val servletFilter = ServletFilter(handler)
         // Let's be a good JEE citizen
         val servletContext = sce.servletContext
         servletFilter.init(object : FilterConfig {

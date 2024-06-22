@@ -18,17 +18,17 @@ import org.gradle.api.tasks.wrapper.Wrapper.DistributionType.ALL
  */
 
 plugins {
-    kotlin("jvm") version("1.9.23") apply(false)
+    kotlin("jvm") version(libs.versions.kotlin) apply(false)
 
     id("idea")
     id("eclipse")
     id("project-report")
-    id("org.jetbrains.dokka") version("1.9.20")
-    id("com.github.jk1.dependency-license-report") version("2.6")
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version("0.14.0")
-    id("org.graalvm.buildtools.native") version("0.10.1") apply(false)
-    id("io.gitlab.arturbosch.detekt") version("1.23.6") apply(false)
-    id("me.champeau.jmh") version("0.7.2") apply(false)
+    id("org.jetbrains.dokka") version(libs.versions.dokka)
+    id("com.github.jk1.dependency-license-report") version(libs.versions.licenseReport)
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version(libs.versions.binValidator)
+    id("org.graalvm.buildtools.native") version(libs.versions.nativeTools) apply(false)
+    id("io.gitlab.arturbosch.detekt") version(libs.versions.detekt) apply(false)
+    id("me.champeau.jmh") version(libs.versions.jmhGradle) apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")
@@ -140,7 +140,7 @@ gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
 })
 
 tasks.wrapper {
-    gradleVersion = "8.7"
+    gradleVersion = libs.versions.gradleWrapper.get()
     distributionType = ALL
 }
 
@@ -159,8 +159,7 @@ apiValidation {
             // Experimental modules
             "rest",
             "rest_tools",
-//            "serverless_http",
-//            "serverless_http_google",
+            "serverless_http_google",
             "web",
             "templates_jte",
         )

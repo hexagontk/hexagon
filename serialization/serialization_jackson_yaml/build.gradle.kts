@@ -12,7 +12,7 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Hexagon YAML serialization format (using Jackson)."
 
 dependencies {
-    val jacksonVersion = properties["jacksonVersion"]
+    val jacksonVersion = libs.versions.jackson.get()
 
     "api"(project(":serialization:serialization_jackson"))
     "api"("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")

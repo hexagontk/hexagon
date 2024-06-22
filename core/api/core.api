@@ -386,6 +386,10 @@ public final class com/hexagonkt/core/security/CryptoKt {
 }
 
 public final class com/hexagonkt/core/security/KeyStoresKt {
+	public static final fun createKeyManagerFactory (Ljava/net/URL;Ljava/lang/String;Ljava/lang/String;)Ljavax/net/ssl/KeyManagerFactory;
+	public static synthetic fun createKeyManagerFactory$default (Ljava/net/URL;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljavax/net/ssl/KeyManagerFactory;
+	public static final fun createTrustManagerFactory (Ljava/net/URL;Ljava/lang/String;Ljava/lang/String;)Ljavax/net/ssl/TrustManagerFactory;
+	public static synthetic fun createTrustManagerFactory$default (Ljava/net/URL;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljavax/net/ssl/TrustManagerFactory;
 	public static final fun getPrivateKey (Ljava/security/KeyStore;Ljava/lang/String;Ljava/lang/String;)Ljava/security/interfaces/RSAPrivateKey;
 	public static final fun getPublicKey (Ljava/security/KeyStore;Ljava/lang/String;)Ljava/security/interfaces/RSAPublicKey;
 	public static final fun loadKeyStore (Ljava/net/URL;Ljava/lang/String;)Ljava/security/KeyStore;

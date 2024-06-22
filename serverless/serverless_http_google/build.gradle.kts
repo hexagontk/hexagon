@@ -4,9 +4,8 @@ plugins {
 }
 
 apply(from = "$rootDir/gradle/kotlin.gradle")
-apply(from = "$rootDir/gradle/publish.gradle")
+//apply(from = "$rootDir/gradle/publish.gradle")
 apply(from = "$rootDir/gradle/dokka.gradle")
-apply(from = "$rootDir/gradle/native.gradle")
 apply(from = "$rootDir/gradle/detekt.gradle")
 
 description = "Google Functions Serverless adapter."
@@ -15,15 +14,15 @@ private val target = "com.hexagonkt.serverless.http.google.GoogleServerlessHttpA
 private val invoker by configurations.creating
 
 dependencies {
-    val functionsVersion = properties["functionsVersion"]
-    val invokerVersion = properties["invokerVersion"]
+    val functionsVersion = libs.versions.functions.get()
+    val invokerVersion = libs.versions.invoker.get()
 
-    "api"(project(":serverless:serverless_http"))
+    "api"(project(":http:http_handlers"))
     "compileOnly"("com.google.cloud.functions:functions-framework-api:$functionsVersion")
 
     "testImplementation"("com.google.cloud.functions:functions-framework-api:$functionsVersion")
     "testImplementation"("com.google.cloud.functions.invoker:java-function-invoker:$invokerVersion")
-    "testImplementation"(project(":http:http_client_jetty"))
+    "testImplementation"(project(":http:http_client_java"))
 
     "invoker"("com.google.cloud.functions.invoker:java-function-invoker:$invokerVersion")
 }

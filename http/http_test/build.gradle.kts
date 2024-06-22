@@ -11,9 +11,9 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "Test cases for HTTP client and server adapters."
 
 dependencies {
-    val junitVersion = properties["junitVersion"]
-    val gatlingVersion = properties["gatlingVersion"]
-    val slf4jVersion = properties["slf4jVersion"]
+    val junitVersion = libs.versions.junit.get()
+    val gatlingVersion = libs.versions.gatling.get()
+    val slf4jVersion = libs.versions.slf4j.get()
 
     "api"(project(":serialization:serialization"))
     "api"(project(":http:http_client"))

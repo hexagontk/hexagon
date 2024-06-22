@@ -12,9 +12,9 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "HTTP server adapter for Netty."
 
 dependencies {
-    val nettyVersion = properties["nettyVersion"]
-    val nettyTcNativeVersion = properties["nettyTcNativeVersion"]
-    val slf4jVersion = properties["slf4jVersion"]
+    val nettyVersion = libs.versions.netty.get()
+    val nettyTcNativeVersion = libs.versions.nettyTcNative.get()
+    val slf4jVersion = libs.versions.slf4j.get()
 
     "api"(project(":http:http_server"))
     "api"("io.netty:netty-codec-http2:$nettyVersion") { exclude(group = "org.slf4j") }

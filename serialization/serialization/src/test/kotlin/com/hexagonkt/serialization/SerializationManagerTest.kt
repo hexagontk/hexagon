@@ -2,7 +2,6 @@ package com.hexagonkt.serialization
 
 import com.hexagonkt.core.media.*
 import com.hexagonkt.core.urlOf
-import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.SerializationManager.formatOfOrNull
 import com.hexagonkt.serialization.SerializationManager.formats
@@ -18,40 +17,6 @@ internal class SerializationManagerTest {
 
     @BeforeEach @AfterEach fun resetSerializationFormats() {
         formats = setOf(TextTestFormat)
-        defaultFormat = null
-    }
-
-    @Test fun `Default serialization format is handled properly`() {
-        assertEquals(setOf(TextTestFormat), formats)
-        assertNull(defaultFormat)
-
-        defaultFormat = TextTestFormat
-        assertEquals(setOf(TextTestFormat), formats)
-        assertEquals(TextTestFormat, defaultFormat)
-
-        defaultFormat = null
-        assertEquals(setOf(TextTestFormat), formats)
-        assertNull(defaultFormat)
-
-        defaultFormat = BinaryTestFormat
-        assertEquals(setOf(TextTestFormat, BinaryTestFormat), formats)
-        assertEquals(BinaryTestFormat, defaultFormat)
-
-        defaultFormat = null
-        assertEquals(setOf(TextTestFormat, BinaryTestFormat), formats)
-        assertNull(defaultFormat)
-
-        formats = emptySet()
-        assertEquals(emptySet(), formats)
-        assertNull(defaultFormat)
-
-        defaultFormat = BinaryTestFormat
-        assertEquals(setOf(BinaryTestFormat), formats)
-        assertEquals(BinaryTestFormat, defaultFormat)
-
-        defaultFormat = TextTestFormat
-        assertEquals(setOf(TextTestFormat, BinaryTestFormat), formats)
-        assertEquals(TextTestFormat, defaultFormat)
     }
 
     @Test fun `User can add and remove serialization formats`() {

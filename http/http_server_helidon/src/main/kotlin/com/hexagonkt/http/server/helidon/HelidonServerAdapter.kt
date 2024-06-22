@@ -1,7 +1,8 @@
 package com.hexagonkt.http.server.helidon
 
 import com.hexagonkt.core.fieldsMapOf
-import com.hexagonkt.core.security.loadKeyStore
+import com.hexagonkt.core.security.createKeyManagerFactory
+import com.hexagonkt.core.security.createTrustManagerFactory
 import com.hexagonkt.core.toText
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.handlers.bodyToBytes
@@ -137,8 +138,8 @@ class HelidonServerAdapter : HttpServerPort {
     }
 
     private fun sslContext(sslSettings: SslSettings): SSLContext {
-        val keyManager = createKeyManagerFactory(sslSettings)
-        val trustManager = createTrustManagerFactory(sslSettings)
+        val keyManager = keyManagerFactory(sslSettings)
+        val trustManager = trustManagerFactory(sslSettings)
 
         val eng = SSLContext.getDefault().createSSLEngine()
         eng.needClientAuth = sslSettings.clientAuth
@@ -151,24 +152,15 @@ class HelidonServerAdapter : HttpServerPort {
         return context
     }
 
-    private fun createTrustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
+    private fun trustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
         val trustStoreUrl = sslSettings.trustStore ?: return null
-
         val trustStorePassword = sslSettings.trustStorePassword
-        val trustStore = loadKeyStore(trustStoreUrl, trustStorePassword)
-        val trustAlgorithm = TrustManagerFactory.getDefaultAlgorithm()
-        val trustManager = TrustManagerFactory.getInstance(trustAlgorithm)
-
-        trustManager.init(trustStore)
-        return trustManager
+        return createTrustManagerFactory(trustStoreUrl, trustStorePassword)
     }
 
-    private fun createKeyManagerFactory(sslSettings: SslSettings): KeyManagerFactory {
+    private fun keyManagerFactory(sslSettings: SslSettings): KeyManagerFactory {
         val keyStoreUrl = sslSettings.keyStore ?: error("")
         val keyStorePassword = sslSettings.keyStorePassword
-        val keyStore = loadKeyStore(keyStoreUrl, keyStorePassword)
-        val keyManager = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm())
-        keyManager.init(keyStore, keyStorePassword.toCharArray())
-        return keyManager
+        return createKeyManagerFactory(keyStoreUrl, keyStorePassword)
     }
 }

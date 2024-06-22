@@ -1,0 +1,10 @@
+public final class com/hexagonkt/http/client/java/JavaClientAdapter : com/hexagonkt/http/client/HttpClientPort {
+	public fun <init> ()V
+	public fun send (Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/model/HttpResponsePort;
+	public fun shutDown ()V
+	public fun sse (Lcom/hexagonkt/http/model/HttpRequestPort;)Ljava/util/concurrent/Flow$Publisher;
+	public fun startUp (Lcom/hexagonkt/http/client/HttpClient;)V
+	public fun started ()Z
+	public fun ws (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagonkt/http/model/ws/WsSession;
+}
+

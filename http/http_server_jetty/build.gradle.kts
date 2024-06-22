@@ -12,8 +12,8 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 description = "HTTP server adapter for Jetty (using Servlets under the hood)."
 
 dependencies {
-    val jettyVersion = properties["jettyVersion"]
-    val slf4jVersion = properties["slf4jVersion"]
+    val jettyVersion = libs.versions.jetty.get()
+    val slf4jVersion = libs.versions.slf4j.get()
 
     "api"(project(":http:http_server_servlet"))
     "api"("org.eclipse.jetty.ee10:jetty-ee10-servlet:$jettyVersion")
