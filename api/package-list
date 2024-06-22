@@ -16,6 +16,8 @@ com.hexagonkt.http.model.ws
 com.hexagonkt.http.patterns
 module:http_client
 com.hexagonkt.http.client
+module:http_client_java
+com.hexagonkt.http.client.java
 module:http_client_jetty
 com.hexagonkt.http.client.jetty
 module:http_client_jetty_ws
@@ -63,6 +65,8 @@ module:serialization_jackson_yaml
 com.hexagonkt.serialization.jackson.yaml
 module:serialization_test
 com.hexagonkt.serialization.test
+module:serverless_http_google
+com.hexagonkt.serverless.http.google
 module:templates
 com.hexagonkt.templates
 module:templates_freemarker

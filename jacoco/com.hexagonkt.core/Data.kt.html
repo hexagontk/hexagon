@@ -120,7 +120,7 @@ fun merge(mapA: Map&lt;*, *&gt;, mapB: Map&lt;*, *&gt;): Map&lt;*, *&gt; =
 <span class="fc bfc" id="L120" title="All 2 branches covered.">                isCollection -&gt; v.map { it as Collection&lt;*&gt; }.reduce { a, b -&gt; a + b }</span>
 <span class="fc bfc" id="L121" title="All 2 branches covered.">                isMap -&gt; v.map { it as Map&lt;*, *&gt; }.reduce { a, b -&gt; merge(a, b) }</span>
 <span class="fc" id="L122">                else -&gt; v.last()</span>
-            }
+<span class="fc" id="L123">            }</span>
 <span class="fc" id="L124">        }</span>
 
 /**
@@ -171,7 +171,7 @@ fun Map&lt;*, *&gt;.filterNotEmptyRecursive(): Map&lt;*, *&gt; =
 <span class="fc bfc" id="L171" title="All 2 branches covered.">            is Collection&lt;*&gt; -&gt; v.filterNotEmptyRecursive()</span>
 <span class="fc bfc" id="L172" title="All 2 branches covered.">            is Map&lt;*, *&gt; -&gt; v.filterNotEmptyRecursive()</span>
 <span class="fc" id="L173">            else -&gt; v</span>
-        }
+<span class="fc" id="L174">        }</span>
     }
 <span class="fc" id="L176">        .filterNotEmpty()</span>
 
@@ -187,7 +187,7 @@ fun Collection&lt;*&gt;.filterNotEmptyRecursive(): Collection&lt;*&gt; =
 <span class="fc bfc" id="L187" title="All 2 branches covered.">            is Collection&lt;*&gt; -&gt; it.filterNotEmptyRecursive()</span>
 <span class="fc bfc" id="L188" title="All 2 branches covered.">            is Map&lt;*, *&gt; -&gt; it.filterNotEmptyRecursive()</span>
 <span class="fc" id="L189">            else -&gt; it</span>
-        }
+<span class="fc" id="L190">        }</span>
     }
 <span class="fc" id="L192">        .filterNotEmpty()</span>
 
@@ -335,4 +335,4 @@ fun Map&lt;*, *&gt;.requireLists(key: KProperty1&lt;*, *&gt;): Collection&lt;Col
 
 fun Map&lt;*, *&gt;.requireMaps(key: KProperty1&lt;*, *&gt;): Collection&lt;Map&lt;String, *&gt;&gt; =
 <span class="fc" id="L337">    requireKey(key)</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -4,113 +4,112 @@ import com.hexagonkt.core.text.toStream
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.core.media.mediaTypeOf
 import com.hexagonkt.serialization.SerializationManager.formatOf
-import com.hexagonkt.serialization.SerializationManager.requireDefaultFormat
 import java.io.File
 import java.io.InputStream
 import java.net.URL
 import java.nio.file.Path
 import kotlin.io.path.inputStream
 
-<span class="fc" id="L14">fun Any.serializeBytes(format: SerializationFormat = requireDefaultFormat()): ByteArray =</span>
-<span class="fc" id="L15">    format.serializeBytes(this)</span>
+fun Any.serializeBytes(format: SerializationFormat): ByteArray =
+<span class="fc" id="L14">    format.serializeBytes(this)</span>
 
 fun Any.serializeBytes(mediaType: MediaType): ByteArray =
-<span class="fc" id="L18">    this.serializeBytes(formatOf(mediaType))</span>
+<span class="fc" id="L17">    this.serializeBytes(formatOf(mediaType))</span>
 
-<span class="fc" id="L20">fun Any.serialize(format: SerializationFormat = requireDefaultFormat()): String =</span>
-<span class="fc" id="L21">    format.serialize(this)</span>
+fun Any.serialize(format: SerializationFormat): String =
+<span class="fc" id="L20">    format.serialize(this)</span>
 
 fun Any.serialize(mediaType: MediaType): String =
-<span class="fc" id="L24">    this.serialize(formatOf(mediaType))</span>
+<span class="fc" id="L23">    this.serialize(formatOf(mediaType))</span>
 
-<span class="nc" id="L26">fun InputStream.parse(format: SerializationFormat = requireDefaultFormat()): Any =</span>
-<span class="fc" id="L27">    format.parse(this)</span>
+fun InputStream.parse(format: SerializationFormat): Any =
+<span class="fc" id="L26">    format.parse(this)</span>
 
 fun InputStream.parse(mediaType: MediaType): Any =
-<span class="fc" id="L30">    parse(formatOf(mediaType))</span>
+<span class="fc" id="L29">    parse(formatOf(mediaType))</span>
 
-<span class="fc" id="L32">fun String.parse(format: SerializationFormat = requireDefaultFormat()): Any =</span>
-<span class="fc" id="L33">    this.toStream().parse(format)</span>
+fun String.parse(format: SerializationFormat): Any =
+<span class="fc" id="L32">    this.toStream().parse(format)</span>
 
 fun String.parse(mediaType: MediaType): Any =
-<span class="fc" id="L36">    this.toStream().parse(mediaType)</span>
+<span class="fc" id="L35">    this.toStream().parse(mediaType)</span>
 
 fun File.parse(): Any =
-<span class="fc" id="L39">    this.inputStream().parse(mediaTypeOf(this))</span>
+<span class="fc" id="L38">    this.inputStream().parse(mediaTypeOf(this))</span>
 
 fun Path.parse(): Any =
-<span class="fc" id="L42">    this.inputStream().parse(mediaTypeOf(this))</span>
+<span class="fc" id="L41">    this.inputStream().parse(mediaTypeOf(this))</span>
 
 fun URL.parse(): Any =
-<span class="fc" id="L45">    this.openStream().parse(mediaTypeOf(this))</span>
+<span class="fc" id="L44">    this.openStream().parse(mediaTypeOf(this))</span>
 
 fun File.parseMap(): Map&lt;String, *&gt; =
-<span class="fc" id="L48">    this.parse().castToMap()</span>
+<span class="fc" id="L47">    this.parse().castToMap()</span>
 
 fun File.parseList(): List&lt;*&gt; =
-<span class="fc" id="L51">    this.parse().castToList()</span>
+<span class="fc" id="L50">    this.parse().castToList()</span>
 
 fun File.parseMaps(): List&lt;Map&lt;String, *&gt;&gt; =
-<span class="fc" id="L54">    this.parseList().map(Any?::castToMap)</span>
+<span class="fc" id="L53">    this.parseList().map(Any?::castToMap)</span>
 
 fun Path.parseMap(): Map&lt;String, *&gt; =
-<span class="fc" id="L57">    this.parse().castToMap()</span>
+<span class="fc" id="L56">    this.parse().castToMap()</span>
 
 fun Path.parseList(): List&lt;*&gt; =
-<span class="fc" id="L60">    this.parse().castToList()</span>
+<span class="fc" id="L59">    this.parse().castToList()</span>
 
 fun Path.parseMaps(): List&lt;Map&lt;String, *&gt;&gt; =
-<span class="fc" id="L63">    this.parseList().map(Any?::castToMap)</span>
+<span class="fc" id="L62">    this.parseList().map(Any?::castToMap)</span>
 
 fun URL.parseMap(): Map&lt;String, *&gt; =
-<span class="fc" id="L66">    this.parse().castToMap()</span>
+<span class="fc" id="L65">    this.parse().castToMap()</span>
 
 fun URL.parseList(): List&lt;*&gt; =
-<span class="fc" id="L69">    this.parse().castToList()</span>
+<span class="fc" id="L68">    this.parse().castToList()</span>
 
 fun URL.parseMaps(): List&lt;Map&lt;String, *&gt;&gt; =
-<span class="fc" id="L72">    this.parseList().map(Any?::castToMap)</span>
+<span class="fc" id="L71">    this.parseList().map(Any?::castToMap)</span>
 
-<span class="fc" id="L74">fun String.parseMap(format: SerializationFormat = requireDefaultFormat()): Map&lt;String, *&gt; =</span>
-<span class="fc" id="L75">    this.parse(format).castToMap()</span>
+fun String.parseMap(format: SerializationFormat): Map&lt;String, *&gt; =
+<span class="fc" id="L74">    this.parse(format).castToMap()</span>
 
-<span class="nc" id="L77">fun String.parseList(format: SerializationFormat = requireDefaultFormat()): List&lt;*&gt; =</span>
-<span class="fc" id="L78">    this.parse(format).castToList()</span>
+fun String.parseList(format: SerializationFormat): List&lt;*&gt; =
+<span class="fc" id="L77">    this.parse(format).castToList()</span>
 
-<span class="fc" id="L80">fun String.parseMaps(format: SerializationFormat = requireDefaultFormat()): List&lt;Map&lt;String, *&gt;&gt; =</span>
-<span class="fc" id="L81">    this.parseList(format).map(Any?::castToMap)</span>
+fun String.parseMaps(format: SerializationFormat): List&lt;Map&lt;String, *&gt;&gt; =
+<span class="fc" id="L80">    this.parseList(format).map(Any?::castToMap)</span>
 
 fun String.parseMap(mediaType: MediaType): Map&lt;String, *&gt; =
-<span class="fc" id="L84">    this.parse(mediaType).castToMap()</span>
+<span class="fc" id="L83">    this.parse(mediaType).castToMap()</span>
 
 fun String.parseList(mediaType: MediaType): List&lt;*&gt; =
-<span class="fc" id="L87">    this.parse(mediaType).castToList()</span>
+<span class="fc" id="L86">    this.parse(mediaType).castToList()</span>
 
 fun String.parseMaps(mediaType: MediaType): List&lt;Map&lt;String, *&gt;&gt; =
-<span class="fc" id="L90">    this.parseList(mediaType).map(Any?::castToMap)</span>
+<span class="fc" id="L89">    this.parseList(mediaType).map(Any?::castToMap)</span>
 
-<span class="fc" id="L92">fun InputStream.parseMap(format: SerializationFormat = requireDefaultFormat()): Map&lt;String, *&gt; =</span>
-<span class="fc" id="L93">    this.parse(format).castToMap()</span>
+fun InputStream.parseMap(format: SerializationFormat): Map&lt;String, *&gt; =
+<span class="fc" id="L92">    this.parse(format).castToMap()</span>
 
-<span class="nc" id="L95">fun InputStream.parseList(format: SerializationFormat = requireDefaultFormat()): List&lt;*&gt; =</span>
-<span class="fc" id="L96">    this.parse(format).castToList()</span>
+fun InputStream.parseList(format: SerializationFormat): List&lt;*&gt; =
+<span class="fc" id="L95">    this.parse(format).castToList()</span>
 
-<span class="fc" id="L98">fun InputStream.parseMaps(format: SerializationFormat = requireDefaultFormat()): List&lt;Map&lt;String, *&gt;&gt; =</span>
-<span class="fc" id="L99">    this.parseList(format).map(Any?::castToMap)</span>
+fun InputStream.parseMaps(format: SerializationFormat): List&lt;Map&lt;String, *&gt;&gt; =
+<span class="fc" id="L98">    this.parseList(format).map(Any?::castToMap)</span>
 
 fun InputStream.parseMap(mediaType: MediaType): Map&lt;String, *&gt; =
-<span class="fc" id="L102">    this.parse(mediaType).castToMap()</span>
+<span class="fc" id="L101">    this.parse(mediaType).castToMap()</span>
 
 fun InputStream.parseList(mediaType: MediaType): List&lt;*&gt; =
-<span class="fc" id="L105">    this.parse(mediaType).castToList()</span>
+<span class="fc" id="L104">    this.parse(mediaType).castToList()</span>
 
 fun InputStream.parseMaps(mediaType: MediaType): List&lt;Map&lt;String, *&gt;&gt; =
-<span class="fc" id="L108">    this.parseList(mediaType).map(Any?::castToMap)</span>
+<span class="fc" id="L107">    this.parseList(mediaType).map(Any?::castToMap)</span>
 
 @Suppress(&quot;UNCHECKED_CAST&quot;) // Cast exception handled in function
 private fun Any?.castToMap(): Map&lt;String, *&gt; =
-<span class="fc bfc" id="L112" title="All 4 branches covered.">    this as? Map&lt;String, *&gt; ?: error(&quot;$this cannot be cast to Map&quot;)</span>
+<span class="fc bfc" id="L111" title="All 4 branches covered.">    this as? Map&lt;String, *&gt; ?: error(&quot;$this cannot be cast to Map&quot;)</span>
 
 private fun Any?.castToList(): List&lt;*&gt; =
-<span class="fc bfc" id="L115" title="All 4 branches covered.">    this as? List&lt;*&gt; ?: error(&quot;$this cannot be cast to List&quot;)</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+<span class="fc bfc" id="L114" title="All 4 branches covered.">    this as? List&lt;*&gt; ?: error(&quot;$this cannot be cast to List&quot;)</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

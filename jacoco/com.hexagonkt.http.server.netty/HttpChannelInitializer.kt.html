@@ -16,7 +16,7 @@ import io.netty.util.concurrent.EventExecutorGroup
 <span class="pc" id="L16">    private val httpAggregatorHandler: Boolean = true,</span>
 <span class="pc" id="L17">    private val chunkedHandler: Boolean = true,</span>
 <span class="pc" id="L18">    private val enableWebsockets: Boolean = true,</span>
-<span class="fc" id="L19">) : ChannelInitializer&lt;SocketChannel&gt;() {</span>
+<span class="pc" id="L19">) : ChannelInitializer&lt;SocketChannel&gt;() {</span>
 
     override fun initChannel(channel: SocketChannel) {
 <span class="fc" id="L22">        val pipeline = channel.pipeline()</span>
@@ -39,5 +39,5 @@ import io.netty.util.concurrent.EventExecutorGroup
         else
 <span class="fc" id="L40">            pipeline.addLast(executorGroup, nettyServerHandler)</span>
 <span class="fc" id="L41">    }</span>
-<span class="nc" id="L42">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

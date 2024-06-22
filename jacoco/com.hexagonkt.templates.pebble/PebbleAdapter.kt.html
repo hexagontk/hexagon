@@ -10,7 +10,7 @@ import java.util.*
 <span class="fc" id="L10">class PebbleAdapter(</span>
 <span class="fc" id="L11">    private val cache: Boolean = true,</span>
 <span class="fc" id="L12">    private val maxRenderedSize: Int = -1</span>
-) : TemplatePort {
+<span class="fc" id="L13">) : TemplatePort {</span>
 
 <span class="fc" id="L15">    private val engine: PebbleEngine = PebbleEngine.Builder()</span>
 <span class="fc" id="L16">        .cacheActive(cache)</span>
@@ -43,5 +43,5 @@ import java.util.*
 
 <span class="fc" id="L44">        return writer.toString()</span>
     }
-<span class="fc" id="L46">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

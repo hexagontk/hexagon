@@ -28,11 +28,11 @@ import java.net.URL
 <span class="fc" id="L28">    val sslSettings: SslSettings? = null,</span>
 <span class="fc" id="L29">    val banner: String? = HttpServer.banner,</span>
 <span class="fc" id="L30">    val zip: Boolean = false,</span>
-) {
+<span class="fc" id="L31">) {</span>
 <span class="fc" id="L32">    val bindUrl: URL by lazy {</span>
 <span class="fc bfc" id="L33" title="All 2 branches covered.">        val hostName = if (bindAddress.isAnyLocalAddress) Jvm.ip else bindAddress.canonicalHostName</span>
 <span class="fc bfc" id="L34" title="All 2 branches covered.">        val scheme = if (protocol == HTTP) &quot;http&quot; else &quot;https&quot;</span>
 <span class="fc" id="L35">        urlOf(&quot;$scheme://$hostName&quot;)</span>
     }
-<span class="fc" id="L37">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

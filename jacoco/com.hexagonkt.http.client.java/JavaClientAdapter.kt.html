@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JavaClientAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.client.java</a> &gt; <span class="el_source">JavaClientAdapter.kt</span></div><h1>JavaClientAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.client.java
+
+import com.hexagonkt.core.security.createKeyManagerFactory
+import com.hexagonkt.core.security.createTrustManagerFactory
+import com.hexagonkt.http.CHECKED_HEADERS
+import com.hexagonkt.http.SslSettings
+import com.hexagonkt.http.client.HttpClient
+import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.client.HttpClientSettings
+import com.hexagonkt.http.formatQueryString
+import com.hexagonkt.http.handlers.bodyToBytes
+import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.HttpResponse
+import com.hexagonkt.http.model.ws.WsSession
+import com.hexagonkt.http.parseContentType
+import java.net.CookieManager
+import java.net.HttpCookie
+import java.net.URI
+import java.net.http.HttpClient.Redirect.ALWAYS
+import java.net.http.HttpClient.Redirect.NEVER
+import java.net.http.HttpClient.Version.HTTP_2
+import java.net.http.HttpHeaders
+import java.net.http.HttpRequest.BodyPublishers
+import java.net.http.HttpResponse.BodyHandlers
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
+import java.util.concurrent.Flow.Publisher
+import javax.net.ssl.KeyManagerFactory
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.X509TrustManager
+import java.net.http.HttpClient as JavaHttpClient
+import java.net.http.HttpRequest as JavaHttpRequest
+import java.net.http.HttpResponse as JavaHttpResponse
+
+/**
+ * Client to use other REST services.
+ */
+<span class="fc" id="L39">class JavaClientAdapter : HttpClientPort {</span>
+
+    private companion object {
+        object TrustAll : X509TrustManager {
+            override fun getAcceptedIssuers(): Array&lt;X509Certificate&gt; =
+<span class="fc" id="L44">                emptyArray()</span>
+
+<span class="nc" id="L46">            override fun checkClientTrusted(certs: Array&lt;X509Certificate&gt;, authType: String) {}</span>
+
+<span class="fc" id="L48">            override fun checkServerTrusted(certs: Array&lt;X509Certificate&gt;, authType: String) {}</span>
+        }
+    }
+
+    private lateinit var javaClient: JavaHttpClient
+    private lateinit var httpClient: HttpClient
+    private lateinit var httpSettings: HttpClientSettings
+    private var started: Boolean = false
+<span class="fc" id="L56">    private val cookieManager: CookieManager by lazy { CookieManager() }</span>
+
+    override fun startUp(client: HttpClient) {
+<span class="fc" id="L59">        val settings = client.settings</span>
+
+<span class="fc" id="L61">        httpClient = client</span>
+<span class="fc" id="L62">        httpSettings = settings</span>
+<span class="fc" id="L63">        val javaClientBuilder = JavaHttpClient</span>
+<span class="fc" id="L64">            .newBuilder()</span>
+<span class="fc" id="L65">            .version(HTTP_2)</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            .followRedirects(if (settings.followRedirects) ALWAYS else NEVER)</span>
+
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (settings.useCookies)</span>
+<span class="fc" id="L69">            javaClientBuilder.cookieHandler(cookieManager)</span>
+
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        settings.sslSettings?.let { javaClientBuilder.sslContext(sslContext(it)) }</span>
+
+<span class="fc" id="L73">        javaClient = javaClientBuilder.build()</span>
+
+<span class="fc" id="L75">        started = true</span>
+<span class="fc" id="L76">    }</span>
+
+    override fun shutDown() {
+<span class="fc" id="L79">        started = false</span>
+<span class="fc" id="L80">    }</span>
+
+    override fun started() =
+<span class="fc" id="L83">        started</span>
+
+    override fun send(request: HttpRequestPort): HttpResponsePort {
+<span class="fc" id="L86">        val hexagonRequest = createRequest(request)</span>
+<span class="fc" id="L87">        val javaResponse = javaClient.send(hexagonRequest, BodyHandlers.ofByteArray())</span>
+<span class="fc" id="L88">        return convertResponse(javaResponse)</span>
+    }
+
+    override fun ws(
+        path: String,
+        onConnect: WsSession.() -&gt; Unit,
+        onBinary: WsSession.(data: ByteArray) -&gt; Unit,
+        onText: WsSession.(text: String) -&gt; Unit,
+        onPing: WsSession.(data: ByteArray) -&gt; Unit,
+        onPong: WsSession.(data: ByteArray) -&gt; Unit,
+        onClose: WsSession.(status: Int, reason: String) -&gt; Unit,
+    ): WsSession {
+<span class="nc" id="L100">        throw UnsupportedOperationException(&quot;WebSockets not supported&quot;)</span>
+    }
+
+    override fun sse(request: HttpRequestPort): Publisher&lt;ServerEvent&gt; {
+<span class="nc" id="L104">        throw UnsupportedOperationException(&quot;SSE not supported&quot;)</span>
+    }
+
+    private fun sslContext(sslSettings: SslSettings): SSLContext {
+<span class="fc" id="L108">        val sslContext = SSLContext.getInstance(&quot;TLSv1.3&quot;)</span>
+
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        if (httpSettings.insecure)</span>
+<span class="fc" id="L111">            return sslContext.apply {</span>
+<span class="fc" id="L112">                init(emptyArray(), arrayOf(TrustAll), SecureRandom.getInstanceStrong())</span>
+<span class="fc" id="L113">            }</span>
+
+<span class="fc" id="L115">        val keyManager = keyManagerFactory(sslSettings)</span>
+<span class="fc" id="L116">        val trustManager = trustManagerFactory(sslSettings)</span>
+<span class="fc" id="L117">        return sslContext.apply {</span>
+<span class="fc" id="L118">            init(</span>
+<span class="pc bpc" id="L119" title="1 of 4 branches missed.">                keyManager?.keyManagers ?: emptyArray(),</span>
+<span class="pc bpc" id="L120" title="1 of 4 branches missed.">                trustManager?.trustManagers ?: emptyArray(),</span>
+<span class="fc" id="L121">                SecureRandom.getInstanceStrong()</span>
+            )
+<span class="fc" id="L123">        }</span>
+    }
+
+    private fun trustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        val trustStoreUrl = sslSettings.trustStore ?: return null</span>
+<span class="fc" id="L128">        val trustStorePassword = sslSettings.trustStorePassword</span>
+<span class="fc" id="L129">        return createTrustManagerFactory(trustStoreUrl, trustStorePassword)</span>
+    }
+
+    private fun keyManagerFactory(sslSettings: SslSettings): KeyManagerFactory? {
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        val keyStoreUrl = sslSettings.keyStore ?: return null</span>
+<span class="fc" id="L134">        val keyStorePassword = sslSettings.keyStorePassword</span>
+<span class="fc" id="L135">        return createKeyManagerFactory(keyStoreUrl, keyStorePassword)</span>
+    }
+
+    private fun createRequest(request: HttpRequestPort): JavaHttpRequest {
+<span class="fc" id="L139">        val baseUrl = httpSettings.baseUrl</span>
+
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        if (httpSettings.useCookies)</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">            addCookies((baseUrl ?: request.url()).toURI(), request.cookies)</span>
+
+<span class="fc" id="L144">        val bodyBytes = bodyToBytes(request.body)</span>
+<span class="fc" id="L145">        val queryParameters = request.queryParameters</span>
+<span class="pc bpc" id="L146" title="1 of 4 branches missed.">        val base = (baseUrl?.toString() ?: &quot;&quot;) + request.path</span>
+<span class="fc" id="L147">        val uri =</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">            if (queryParameters.isEmpty()) base</span>
+<span class="fc" id="L149">            else base + '?' + formatQueryString(queryParameters)</span>
+
+<span class="fc" id="L151">        val javaRequest = JavaHttpRequest</span>
+<span class="fc" id="L152">            .newBuilder(URI(uri))</span>
+<span class="fc" id="L153">            .method(request.method.toString(), BodyPublishers.ofByteArray(bodyBytes))</span>
+
+<span class="fc" id="L155">        request.headers.forEach { e -&gt;</span>
+<span class="fc" id="L156">            val name = e.value.name</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">            if (name != &quot;accept-encoding&quot;) // TODO Maybe accept-encoding interferes with H2C</span>
+<span class="fc" id="L158">                e.value.values.forEach { h -&gt; javaRequest.setHeader(name, h.toString()) }</span>
+<span class="fc" id="L159">        }</span>
+
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        request.contentType?.let { javaRequest.setHeader(&quot;content-type&quot;, it.text) }</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        request.authorization?.let { javaRequest.setHeader(&quot;authorization&quot;, it.text) }</span>
+<span class="pc" id="L163">        request.accept.forEach { javaRequest.setHeader(&quot;accept&quot;, it.text) }</span>
+
+<span class="fc" id="L165">        return javaRequest.build()</span>
+    }
+
+    private fun addCookies(uri: URI, cookies: List&lt;Cookie&gt;) {
+<span class="fc" id="L169">        cookies.forEach {</span>
+<span class="fc" id="L170">            val httpCookie = HttpCookie(it.name, it.value)</span>
+<span class="fc" id="L171">            httpCookie.secure = it.secure</span>
+<span class="fc" id="L172">            httpCookie.maxAge = it.maxAge</span>
+<span class="fc" id="L173">            httpCookie.path = it.path</span>
+<span class="fc" id="L174">            httpCookie.isHttpOnly = it.httpOnly</span>
+<span class="fc" id="L175">            httpCookie.path = it.path</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">            it.domain?.let(httpCookie::setDomain)</span>
+
+<span class="fc" id="L178">            cookieManager.cookieStore.add(uri, httpCookie)</span>
+<span class="fc" id="L179">        }</span>
+<span class="fc" id="L180">    }</span>
+
+    private fun convertResponse(response: JavaHttpResponse&lt;ByteArray&gt;): HttpResponse {
+
+<span class="fc" id="L184">        val bodyString = String(response.body())</span>
+<span class="fc" id="L185">        val headers = response.headers()</span>
+<span class="fc" id="L186">        val cookies =</span>
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">            if (httpSettings.useCookies)</span>
+<span class="fc" id="L188">                cookieManager.cookieStore.cookies.map {</span>
+<span class="fc" id="L189">                    Cookie(</span>
+<span class="fc" id="L190">                        it.name,</span>
+<span class="fc" id="L191">                        it.value,</span>
+<span class="fc" id="L192">                        it.maxAge,</span>
+<span class="fc" id="L193">                        it.secure,</span>
+<span class="fc" id="L194">                        it.path,</span>
+<span class="fc" id="L195">                        it.isHttpOnly,</span>
+<span class="fc" id="L196">                        it.domain,</span>
+<span class="fc" id="L197">                    )</span>
+                }
+            else
+<span class="nc" id="L200">                emptyList()</span>
+
+<span class="fc" id="L202">        httpClient.cookies = cookies</span>
+
+<span class="fc" id="L204">        val contentType = headers.firstValue(&quot;content-type&quot;).orElse(null)</span>
+<span class="fc" id="L205">        return HttpResponse(</span>
+<span class="fc" id="L206">            body = bodyString,</span>
+<span class="fc" id="L207">            headers = convertHeaders(headers),</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">            contentType = contentType?.let { parseContentType(it) },</span>
+<span class="fc" id="L209">            cookies = cookies,</span>
+<span class="fc" id="L210">            status = HttpStatus(response.statusCode()),</span>
+<span class="fc" id="L211">            contentLength = bodyString.length.toLong(),</span>
+        )
+    }
+
+    private fun convertHeaders(headers: HttpHeaders): Headers =
+<span class="fc" id="L216">        Headers(</span>
+<span class="fc" id="L217">            headers</span>
+<span class="fc" id="L218">                .map()</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">                .filter { it.key !in CHECKED_HEADERS }</span>
+<span class="fc" id="L220">                .map { Header(it.key, it.value) }</span>
+<span class="fc" id="L221">        )</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

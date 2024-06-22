@@ -3,7 +3,7 @@
 <span class="fc" id="L3">data class ChainHandler&lt;T : Any&gt;(</span>
 <span class="fc" id="L4">    val handlers: List&lt;Handler&lt;T&gt;&gt;,</span>
 <span class="fc" id="L5">    override val predicate: (Context&lt;T&gt;) -&gt; Boolean = { true },</span>
-) : Handler&lt;T&gt; {
+<span class="fc" id="L6">) : Handler&lt;T&gt; {</span>
 
 <span class="fc" id="L8">    override val callback: (Context&lt;T&gt;) -&gt; Context&lt;T&gt; = { it }</span>
 
@@ -24,5 +24,5 @@
         )
 <span class="fc" id="L25">        return followUpContext.next()</span>
     }
-<span class="fc" id="L27">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

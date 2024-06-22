@@ -29,7 +29,7 @@
 <span class="fc" id="L29">        val PLACEHOLDER_REGEX = Regex(&quot;\\$WILDCARD|$PARAMETER&quot;)</span>
 
         fun isTemplate(pattern: String): Boolean =
-<span class="fc bfc" id="L32" title="All 2 branches covered.">            REGEX_CHARACTERS.any { pattern.contains(it) } || PLACEHOLDER_REGEX in pattern</span>
+<span class="fc bfc" id="L32" title="All 4 branches covered.">            REGEX_CHARACTERS.any { pattern.contains(it) } || PLACEHOLDER_REGEX in pattern</span>
 
         fun patternToRegex(pattern: String, prefix: Boolean): String {
 <span class="fc" id="L35">            return pattern</span>
@@ -76,5 +76,5 @@
 <span class="fc" id="L76">            accumulator.replace(re, v.toString())</span>
         }
     }
-<span class="fc" id="L79">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

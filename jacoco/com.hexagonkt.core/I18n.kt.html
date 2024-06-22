@@ -101,7 +101,7 @@ fun parseLocale(languageCountry: String): Locale =
 <span class="fc bfc" id="L101" title="All 2 branches covered.">                it.size == 1 -&gt; languageOf(it[0])</span>
 <span class="fc bfc" id="L102" title="All 2 branches covered.">                it.size == 2 -&gt; localeOf(it[0], it[1])</span>
 <span class="fc" id="L103">                else -&gt; throw IllegalArgumentException(&quot;Invalid locale format: $languageCountry&quot;)</span>
-            }
+<span class="fc" id="L104">            }</span>
 <span class="fc" id="L105">        }</span>
 
 fun parseLocaleOrNull(languageCountry: String): Locale? =
@@ -111,4 +111,4 @@ fun parseLocaleOrNull(languageCountry: String): Locale? =
 <span class="fc" id="L111">    catch (_: IllegalArgumentException) {</span>
 <span class="fc" id="L112">        null</span>
 <span class="fc" id="L113">    }</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

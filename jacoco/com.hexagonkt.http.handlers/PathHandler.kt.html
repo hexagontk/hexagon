@@ -72,7 +72,7 @@ import com.hexagonkt.http.model.HttpStatusType.SERVER_ERROR
             }
             else {
 <span class="fc" id="L74">                it</span>
-            }
+<span class="fc" id="L75">            }</span>
 <span class="fc" id="L76">        } as HttpContext</span>
 
     override fun addPrefix(prefix: String): HttpHandler =
@@ -86,11 +86,11 @@ import com.hexagonkt.http.model.HttpStatusType.SERVER_ERROR
 <span class="fc" id="L86">                    when (it) {</span>
 <span class="fc bfc" id="L87" title="All 2 branches covered.">                        is PathHandler -&gt; it.describe()</span>
 <span class="fc" id="L88">                        else -&gt; it.handlerPredicate.describe()</span>
-                    }
+<span class="fc" id="L89">                    }</span>
                 }
 <span class="fc" id="L91">                .map {it.prependIndent(&quot; &quot;.repeat(4)) }</span>
         )
 <span class="fc" id="L93">        .flatten()</span>
 <span class="fc" id="L94">        .joinToString(&quot;\n&quot;) { it }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

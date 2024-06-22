@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
 <span class="fc" id="L14">class Logger(</span>
 <span class="fc" id="L15">    val name: String,</span>
 <span class="pc" id="L16">    internal val logger: System.Logger = System.getLogger(name)</span>
-) {
+<span class="fc" id="L17">) {</span>
 
     /**
      * Logger class with Kotlin improvements like lazy evaluation.
@@ -125,5 +125,5 @@ import kotlin.reflect.KClass
 
     internal fun &lt;T&gt; stripAnsi(receiver: T?, apply: Boolean): String? =
 <span class="pc bpc" id="L127" title="2 of 6 branches missed.">        receiver?.toString()?.let { if (apply) it.stripAnsi() else it }</span>
-<span class="fc" id="L128">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

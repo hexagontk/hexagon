@@ -34,7 +34,7 @@ import java.util.regex.PatternSyntaxException
 
 <span class="fc" id="L35">        return pattern.toCharArray().joinToString(&quot;&quot;) { currentChar -&gt;</span>
 <span class="fc" id="L36">            val globPart = when (currentChar) {</span>
-<span class="fc bfc" id="L37" title="All 34 branches covered.">                '.', '(', ')', '+', '|', '^', '$', '@', '%' -&gt; &quot;&quot;&quot;\$currentChar&quot;&quot;&quot;</span>
+<span class="fc bfc" id="L37" title="All 18 branches covered.">                '.', '(', ')', '+', '|', '^', '$', '@', '%' -&gt; &quot;&quot;&quot;\$currentChar&quot;&quot;&quot;</span>
 <span class="fc bfc" id="L38" title="All 4 branches covered.">                '*' -&gt; if (escaping) &quot;&quot;&quot;\*&quot;&quot;&quot; else &quot;.*&quot;</span>
 <span class="fc bfc" id="L39" title="All 4 branches covered.">                '?' -&gt; if (escaping) &quot;&quot;&quot;\?&quot;&quot;&quot; else &quot;.&quot;</span>
 <span class="fc bfc" id="L40" title="All 4 branches covered.">                '\\' -&gt; if (escaping) &quot;&quot;&quot;\\&quot;&quot;&quot; else &quot;&quot;</span>
@@ -64,4 +64,4 @@ import java.util.regex.PatternSyntaxException
         }
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

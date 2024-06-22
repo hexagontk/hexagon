@@ -12,7 +12,7 @@ import io.netty.handler.codec.http.websocketx.*
 <span class="pc" id="L12">    private val onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
 <span class="pc" id="L13">    private val onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
 <span class="pc" id="L14">    private val onClose: WsSession.(status: Int, reason: String) -&gt; Unit = { _, _ -&gt; },</span>
-<span class="fc" id="L15">) : ChannelInboundHandlerAdapter() {</span>
+<span class="pc" id="L15">) : ChannelInboundHandlerAdapter() {</span>
 
     override fun channelRead(context: ChannelHandlerContext, message: Any) {
 <span class="pc bpc" id="L18" title="1 of 2 branches missed.">        if (message !is WebSocketFrame)</span>
@@ -31,5 +31,5 @@ import io.netty.handler.codec.http.websocketx.*
 <span class="nc" id="L31">            else -&gt; error(&quot;Unsupported WebSocketFrame&quot;)</span>
         }
 <span class="fc" id="L33">    }</span>
-<span class="nc" id="L34">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

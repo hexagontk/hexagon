@@ -40,7 +40,7 @@ private const val VARIABLE_SUFFIX = &quot;}}&quot;
         LocalDate::class,
         LocalTime::class,
         LocalDateTime::class,
-    )
+<span class="fc" id="L43">    )</span>
 }
 
 /**
@@ -132,7 +132,7 @@ fun &lt;T : Any&gt; String.parse(type: KClass&lt;T&gt;): T =
 <span class="fc bfc" id="L132" title="All 2 branches covered.">            LocalTime::class -&gt; LocalTime.parse(this)</span>
 <span class="pc bpc" id="L133" title="1 of 2 branches missed.">            LocalDateTime::class -&gt; LocalDateTime.parse(this)</span>
 <span class="nc" id="L134">            else -&gt; error(&quot;Unsupported type: ${type.qualifiedName}&quot;)</span>
-        }
+<span class="fc" id="L135">        }</span>
 <span class="fc" id="L136">    } as T</span>
 
 /**
@@ -151,7 +151,7 @@ fun &lt;T : Any&gt; String?.parseOrNull(type: KClass&lt;T&gt;): T? =
         }
 <span class="fc" id="L152">        catch (e: Exception) {</span>
 <span class="fc" id="L153">            null</span>
-        }
+<span class="fc" id="L154">        }</span>
 <span class="fc" id="L155">    }</span>
 
 fun String.stripAnsi(): String =
@@ -258,4 +258,4 @@ fun String.toEnumValue(): String =
 
 internal fun Sequence&lt;Int&gt;.maxOrElse(fallback: Int): Int =
 <span class="fc bfc" id="L260" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

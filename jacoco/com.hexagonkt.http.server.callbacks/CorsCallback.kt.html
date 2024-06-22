@@ -18,7 +18,7 @@ import com.hexagonkt.http.handlers.HttpContext
 <span class="pc" id="L18">    private val supportCredentials: Boolean = true,</span>
 <span class="pc" id="L19">    private val preFlightStatus: HttpStatus = NO_CONTENT_204,</span>
 <span class="pc" id="L20">    private val preFlightMaxAge: Long = 0</span>
-) : (HttpContext) -&gt; HttpContext {
+<span class="nc" id="L21">) : (HttpContext) -&gt; HttpContext {</span>
 
     private companion object {
         const val ALLOW_ORIGIN = &quot;access-control-allow-origin&quot;
@@ -148,5 +148,5 @@ import com.hexagonkt.http.handlers.HttpContext
 <span class="fc" id="L148">                forbidden(&quot;Forbidden pre-flight request&quot;)</span>
         }
     }
-<span class="nc" id="L151">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

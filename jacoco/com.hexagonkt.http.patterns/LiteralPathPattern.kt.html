@@ -3,7 +3,7 @@
 <span class="pc" id="L3">data class LiteralPathPattern(</span>
 <span class="fc" id="L4">    override val pattern: String = &quot;&quot;,</span>
 <span class="fc" id="L5">    override val prefix: Boolean = false</span>
-) : PathPattern {
+<span class="fc" id="L6">) : PathPattern {</span>
 
 <span class="fc" id="L8">    init {</span>
 <span class="fc" id="L9">        checkPathPatternPrefix(pattern)</span>
@@ -19,5 +19,5 @@
 
     override fun extractParameters(requestUrl: String): Map&lt;String, String&gt; =
 <span class="fc" id="L21">        emptyMap()</span>
-<span class="fc" id="L22">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

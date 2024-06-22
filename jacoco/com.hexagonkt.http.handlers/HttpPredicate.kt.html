@@ -15,10 +15,10 @@ import kotlin.reflect.KClass
 <span class="fc" id="L15">    val pathPattern: PathPattern = LiteralPathPattern(),</span>
 <span class="pc" id="L16">    val exception: KClass&lt;out Exception&gt;? = null,</span>
 <span class="pc" id="L17">    val status: HttpStatus? = null,</span>
-) : (Context&lt;HttpCall&gt;) -&gt; Boolean {
+<span class="fc" id="L18">) : (Context&lt;HttpCall&gt;) -&gt; Boolean {</span>
 
     private companion object {
-<span class="fc" id="L21">        val logger: Logger = Logger(HttpPredicate::class)</span>
+<span class="pc" id="L21">        val logger: Logger = Logger(HttpPredicate::class)</span>
     }
 
     private fun PathPattern.isEmpty(): Boolean =
@@ -86,5 +86,5 @@ import kotlin.reflect.KClass
 <span class="fc" id="L86">                postfix = pathPattern.describe().prependIndent(&quot; &quot;),</span>
 <span class="fc" id="L87">                transform = { it }</span>
 <span class="fc" id="L88">            )</span>
-<span class="fc" id="L89">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

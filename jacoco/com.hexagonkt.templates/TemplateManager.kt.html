@@ -13,8 +13,6 @@ object TemplateManager {
 
 <span class="pc" id="L14">    var adapters: Map&lt;Regex, TemplatePort&gt; = emptyMap()</span>
 
-<span class="nc" id="L16">    var defaultAdapter: TemplatePort? = null</span>
-
     /**
      * Render a template with a registered template engine.
      *
@@ -24,17 +22,16 @@ object TemplateManager {
      *
      * @throws IllegalStateException Thrown when no engine for URL was found.
      */
-<span class="fc" id="L27">    fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale = Jvm.locale): String {</span>
-<span class="fc" id="L28">        val now = LocalDateTime.now()</span>
-<span class="fc" id="L29">        val defaultProperties = mapOf(&quot;_template_&quot; to url, &quot;_now_&quot; to now)</span>
-<span class="fc" id="L30">        return findAdapter(url.localized(locale)).render(url, context + defaultProperties, locale)</span>
+<span class="fc" id="L25">    fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale = Jvm.locale): String {</span>
+<span class="fc" id="L26">        val now = LocalDateTime.now()</span>
+<span class="fc" id="L27">        val defaultProperties = mapOf(&quot;_template_&quot; to url, &quot;_now_&quot; to now)</span>
+<span class="fc" id="L28">        return findAdapter(url.localized(locale)).render(url, context + defaultProperties, locale)</span>
     }
 
     private fun findAdapter(url: URL): TemplatePort =
-<span class="pc bpc" id="L34" title="1 of 4 branches missed.">        adapters</span>
-<span class="fc" id="L35">            .filter { it.key.matches(url.toString()) }</span>
-<span class="pc bpc" id="L36" title="1 of 4 branches missed.">            .firstNotNullOfOrNull { it.value  }</span>
-<span class="fc" id="L37">            ?: defaultAdapter</span>
-<span class="fc" id="L38">            ?: error(&quot;No adapter found for resource: $url&quot;)</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        adapters</span>
+<span class="fc" id="L33">            .filter { it.key.matches(url.toString()) }</span>
+<span class="pc bpc" id="L34" title="1 of 4 branches missed.">            .firstNotNullOfOrNull { it.value  }</span>
+<span class="fc" id="L35">            ?: error(&quot;No adapter found for resource: $url&quot;)</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

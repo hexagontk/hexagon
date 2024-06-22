@@ -20,7 +20,7 @@ import kotlin.jvm.optionals.getOrNull
 <span class="fc" id="L20">        req.remotePeer().tlsCertificates().getOrNull()</span>
 <span class="pc bpc" id="L21" title="1 of 2 branches missed.">            ?.toList()</span>
 <span class="pc bpc" id="L22" title="1 of 2 branches missed.">            ?.map { it as X509Certificate }</span>
-<span class="nc" id="L23">            ?: emptyList()</span>
+<span class="pc" id="L23">            ?: emptyList()</span>
     }
 
 <span class="fc" id="L26">    override val accept: List&lt;ContentType&gt; by lazy {</span>
@@ -29,7 +29,7 @@ import kotlin.jvm.optionals.getOrNull
 <span class="nc" id="L29">            val t = mt.type().uppercase()</span>
 <span class="nc" id="L30">            val st = mt.subtype()</span>
 <span class="nc" id="L31">            ContentType(MediaType(MediaTypeGroup.valueOf(t), st))</span>
-        }
+<span class="fc" id="L32">        }</span>
     }
 
 <span class="fc" id="L35">    override val contentLength: Long by lazy {</span>
@@ -41,7 +41,7 @@ import kotlin.jvm.optionals.getOrNull
 <span class="fc" id="L41">            req.query().names().map {</span>
 <span class="fc" id="L42">                QueryParameter(it, req.query().all(it))</span>
             }
-        )
+<span class="fc" id="L44">        )</span>
     }
 
 <span class="fc" id="L47">    override val parts: List&lt;HttpPart&gt; by lazy {</span>
@@ -62,7 +62,7 @@ import kotlin.jvm.optionals.getOrNull
         }
 <span class="fc" id="L63">        catch (e: Exception) {</span>
 <span class="fc" id="L64">            emptyList()</span>
-        }
+<span class="fc" id="L65">        }</span>
     }
 
 <span class="fc" id="L68">    override val formParameters: FormParameters by lazy {</span>
@@ -136,4 +136,4 @@ import kotlin.jvm.optionals.getOrNull
     ): HttpRequestPort =
 <span class="nc" id="L137">        throw UnsupportedOperationException()</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

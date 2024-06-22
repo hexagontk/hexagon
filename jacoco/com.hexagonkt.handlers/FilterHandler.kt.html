@@ -3,7 +3,7 @@
 <span class="fc" id="L3">data class FilterHandler&lt;T : Any&gt;(</span>
 <span class="fc" id="L4">    override val predicate: (Context&lt;T&gt;) -&gt; Boolean = { true },</span>
 <span class="fc" id="L5">    override val callback: (Context&lt;T&gt;) -&gt; Context&lt;T&gt;,</span>
-) : Handler&lt;T&gt; {
+<span class="fc" id="L6">) : Handler&lt;T&gt; {</span>
 
     override fun process(context: Context&lt;T&gt;): Context&lt;T&gt; =
 <span class="fc" id="L9">        try {</span>
@@ -12,5 +12,5 @@
 <span class="fc" id="L12">        catch (e: Exception) {</span>
 <span class="fc" id="L13">            context.with(exception = e)</span>
 <span class="fc" id="L14">        }</span>
-<span class="fc" id="L15">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

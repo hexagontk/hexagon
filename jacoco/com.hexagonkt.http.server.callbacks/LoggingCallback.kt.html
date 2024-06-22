@@ -14,7 +14,7 @@ import kotlin.system.measureNanoTime
 <span class="fc" id="L14">    private val logger: Logger = Logger(LoggingCallback::class),</span>
 <span class="fc" id="L15">    private val includeHeaders: Boolean = false,</span>
 <span class="fc" id="L16">    private val includeBody: Boolean = true,</span>
-) : (HttpContext) -&gt; HttpContext {
+<span class="fc" id="L17">) : (HttpContext) -&gt; HttpContext {</span>
 
     override fun invoke(context: HttpContext): HttpContext {
 <span class="fc" id="L20">        var result: HttpContext</span>
@@ -63,5 +63,5 @@ import kotlin.system.measureNanoTime
 <span class="fc bfc" id="L63" title="All 2 branches covered.">            .filter { (_, v) -&gt; v.strings().any { it.isNotBlank() } }</span>
 <span class="fc" id="L64">            .map { (k, v) -&gt; &quot;$k: ${v.strings().joinToString(&quot;, &quot;)}&quot; }</span>
 <span class="fc" id="L65">            .joinToString(&quot;\n&quot;, prefix = &quot;\n\n&quot;)</span>
-<span class="fc" id="L66">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

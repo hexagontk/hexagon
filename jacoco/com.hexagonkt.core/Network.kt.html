@@ -56,7 +56,7 @@ fun URL.responseSuccessful(): Boolean =
 <span class="pc bpc" id="L56" title="1 of 4 branches missed.">    responseCode() in 200 until 300</span>
 
 fun URL.responseFound(): Boolean =
-<span class="pc bpc" id="L59" title="2 of 8 branches missed.">    responseCode().let { it in 200 until 500 &amp;&amp; it != 404 }</span>
+<span class="pc bpc" id="L59" title="3 of 8 branches missed.">    responseCode().let { it in 200 until 500 &amp;&amp; it != 404 }</span>
 
 // TODO Review the next functions, not all cases are covered
 fun URL.exists(): Boolean =
@@ -86,4 +86,4 @@ fun URL.localized(locale: Locale): URL {
 <span class="fc" id="L86">    val country = locale.country</span>
 <span class="fc" id="L87">    return firstVariant(&quot;_${language}_$country&quot;, &quot;_${language}&quot;)</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

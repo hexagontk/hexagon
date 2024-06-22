@@ -10,7 +10,7 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket
 import java.net.URI
 import java.nio.ByteBuffer
 
-<span class="fc" id="L13">@WebSocket</span>
+@WebSocket
 @Suppress(&quot;UNUSED_PARAMETER&quot;, &quot;UNUSED&quot;) // Signatures must match the annotation expected parameters
 <span class="fc" id="L15">class JettyWebSocketAdapter(</span>
 <span class="fc" id="L16">    private val uri: URI,</span>
@@ -22,7 +22,7 @@ import java.nio.ByteBuffer
 <span class="fc" id="L22">    private val onClose: WsSession.(status: Int, reason: String) -&gt; Unit,</span>
 ) {
     private lateinit var session: Session
-<span class="pc bpc" id="L25" title="1 of 2 branches missed.">    private val wsSession by lazy { JettyClientWsSession(uri, session) }</span>
+<span class="fc" id="L25">    private val wsSession by lazy { JettyClientWsSession(uri, session) }</span>
 
     @OnWebSocketMessage
     fun onWebSocketText(session: Session, message: String) {
@@ -46,4 +46,4 @@ import java.nio.ByteBuffer
 <span class="fc" id="L46">        wsSession.onConnect()</span>
 <span class="fc" id="L47">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

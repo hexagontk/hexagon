@@ -12,7 +12,7 @@ import java.io.OutputStream
 <span class="pc" id="L12">abstract class JacksonTextFormat(</span>
 <span class="fc" id="L13">    factoryGenerator: () -&gt; JsonFactory = { JsonFactory() },</span>
 <span class="fc" id="L14">    prettyPrint: Boolean = true,</span>
-) : SerializationFormat {
+<span class="fc" id="L15">) : SerializationFormat {</span>
 
 <span class="fc" id="L17">    private val mapper by lazy {</span>
 <span class="fc" id="L18">        createObjectMapper(factoryGenerator())</span>
@@ -35,5 +35,5 @@ import java.io.OutputStream
 
     override fun parse(input: InputStream): Any =
 <span class="fc" id="L37">        mapNode(mapper.readTree(input))</span>
-<span class="fc" id="L38">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

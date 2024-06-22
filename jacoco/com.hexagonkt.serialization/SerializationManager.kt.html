@@ -8,37 +8,19 @@ object SerializationManager {
 
 <span class="fc" id="L9">    var formats: Set&lt;SerializationFormat&gt; = emptySet()</span>
         set(value) {
-
-<span class="fc" id="L12">            val allFormats =</span>
-<span class="fc bfc" id="L13" title="All 2 branches covered.">                if (defaultFormat == null) value</span>
-<span class="fc" id="L14">                else (value + defaultFormat).filterNotNull()</span>
-
-<span class="fc" id="L16">            formatsMap = allFormats.associateBy { it.mediaType }</span>
-
-<span class="fc" id="L18">            field = value</span>
-<span class="fc" id="L19">        }</span>
-
-<span class="fc" id="L21">    var defaultFormat: SerializationFormat? = null</span>
-        set(value) {
-
-<span class="fc bfc" id="L24" title="All 2 branches covered.">            if (value != null)</span>
-<span class="fc" id="L25">                formats = formats + value</span>
-
-<span class="fc" id="L27">            field = value</span>
-<span class="fc" id="L28">        }</span>
-
-    fun requireDefaultFormat(): SerializationFormat =
-<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        defaultFormat ?: error(&quot;Default serialization format not set&quot;)</span>
+<span class="fc" id="L11">            formatsMap = value.associateBy { it.mediaType }</span>
+<span class="fc" id="L12">            field = value</span>
+<span class="fc" id="L13">        }</span>
 
     fun formatOfOrNull(mediaType: MediaType): SerializationFormat? =
-<span class="fc" id="L34">        formatsMap[mediaType]</span>
+<span class="fc" id="L16">        formatsMap[mediaType]</span>
 
     fun formatOf(mediaType: MediaType): SerializationFormat =
-<span class="fc bfc" id="L37" title="All 2 branches covered.">        formatOfOrNull(mediaType) ?: error(formatNotFound(mediaType.fullType))</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        formatOfOrNull(mediaType) ?: error(formatNotFound(mediaType.fullType))</span>
 
     private fun formatNotFound(fullType: String): String {
-<span class="fc" id="L40">        val formatList = formats.joinToString(&quot;, &quot;) { it.mediaType.fullType }</span>
-<span class="fc" id="L41">        return &quot;Cannot find serialization format for: $fullType. Available: $formatList&quot;</span>
+<span class="fc" id="L22">        val formatList = formats.joinToString(&quot;, &quot;) { it.mediaType.fullType }</span>
+<span class="fc" id="L23">        return &quot;Cannot find serialization format for: $fullType. Available: $formatList&quot;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

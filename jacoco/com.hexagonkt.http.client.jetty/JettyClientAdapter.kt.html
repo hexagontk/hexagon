@@ -46,8 +46,8 @@ import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFa
  */
 <span class="fc" id="L47">open class JettyClientAdapter : HttpClientPort {</span>
 
-<span class="pc bpc" id="L49" title="1 of 2 branches missed.">    protected lateinit var jettyClient: JettyHttpClient</span>
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">    protected lateinit var httpClient: HttpClient</span>
+<span class="fc" id="L49">    protected lateinit var jettyClient: JettyHttpClient</span>
+<span class="fc" id="L50">    protected lateinit var httpClient: HttpClient</span>
     private lateinit var httpSettings: HttpClientSettings
     private var started: Boolean = false
 <span class="fc" id="L53">    private val publisherExecutor = Executors.newSingleThreadExecutor()</span>
@@ -144,7 +144,7 @@ import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFa
 
 <span class="pc bpc" id="L145" title="1 of 2 branches missed.">        val bodyString = if (response is ContentResponse) response.contentAsString else &quot;&quot;</span>
 
-<span class="pc bpc" id="L147" title="1 of 4 branches missed.">        if (httpSettings.useCookies)</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        if (httpSettings.useCookies)</span>
 <span class="fc" id="L148">            adapterHttpClient.cookies = adapterJettyClient.httpCookieStore.all().map {</span>
 <span class="fc" id="L149">                Cookie(</span>
 <span class="fc" id="L150">                    it.name,</span>
@@ -156,7 +156,7 @@ import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFa
 <span class="fc" id="L156">                    it.domain,</span>
 <span class="pc bpc" id="L157" title="3 of 4 branches missed.">                    it.attributes[&quot;SameSite&quot;]?.uppercase()?.let(CookieSameSite::valueOf),</span>
 <span class="fc" id="L158">                    expires = it.expires,</span>
-                )
+<span class="fc" id="L159">                )</span>
             }
 
 <span class="fc" id="L162">        return HttpResponse(</span>
@@ -184,9 +184,9 @@ import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFa
 
 <span class="fc" id="L185">        val contentType = request.contentType</span>
 <span class="fc" id="L186">        val authorization = request.authorization</span>
-<span class="pc bpc" id="L187" title="1 of 2 branches missed.">        val baseUrl = httpSettings.baseUrl</span>
+<span class="fc" id="L187">        val baseUrl = httpSettings.baseUrl</span>
 
-<span class="pc bpc" id="L189" title="1 of 4 branches missed.">        if (httpSettings.useCookies) {</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        if (httpSettings.useCookies) {</span>
 <span class="fc bfc" id="L190" title="All 2 branches covered.">            val uri = (baseUrl ?: request.url()).toURI()</span>
 <span class="fc" id="L191">            addCookies(uri, adapterJettyClient.httpCookieStore, request.cookies)</span>
         }
@@ -265,7 +265,7 @@ import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFa
 <span class="nc" id="L265">                    STRICT -&gt; SameSite.STRICT</span>
 <span class="nc" id="L266">                    LAX -&gt; SameSite.LAX</span>
 <span class="nc" id="L267">                    NONE -&gt; SameSite.NONE</span>
-                }
+<span class="nc" id="L268">                }</span>
 <span class="nc bnc" id="L269" title="All 2 branches missed.">            }?.let { ss -&gt; from.sameSite(ss) }</span>
 
 <span class="fc" id="L271">            store.add(uri, from.build())</span>
@@ -302,4 +302,4 @@ import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFa
 <span class="fc" id="L302">                ClientSslContextFactory()</span>
 <span class="fc" id="L303">        }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

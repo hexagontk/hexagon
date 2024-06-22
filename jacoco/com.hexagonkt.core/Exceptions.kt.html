@@ -12,7 +12,7 @@ import com.hexagonkt.core.text.eol
 <span class="nc" id="L12">        false</span>
 <span class="fc" id="L13">    } catch (_: AssertionError) {</span>
 <span class="fc" id="L14">        true</span>
-    }
+<span class="fc" id="L15">    }</span>
 }
 
 /** Syntax sugar to throw errors. */
@@ -44,4 +44,4 @@ fun Throwable.filterStackTrace(prefix: String): Array&lt;out StackTraceElement&g
 <span class="fc" id="L44">    this.filterStackTrace(prefix).joinToString(eol, eol) { &quot;\tat $it&quot; } +</span>
 <span class="fc bfc" id="L45" title="All 2 branches covered.">    if (this.cause == null) &quot;&quot;</span>
 <span class="fc" id="L46">    else &quot;${eol}Caused by: &quot; + (this.cause as Throwable).toText(prefix)</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

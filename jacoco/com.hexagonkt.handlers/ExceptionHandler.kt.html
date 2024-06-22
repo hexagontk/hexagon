@@ -11,17 +11,17 @@ import kotlin.reflect.KClass
  * Their filter is evaluated after the `next` call, not before.
  */
 <span class="fc" id="L13">data class ExceptionHandler&lt;T : Any, E : Exception&gt;(</span>
-<span class="fc" id="L14">    val exception: KClass&lt;E&gt;,</span>
-<span class="fc" id="L15">    val clear: Boolean = true,</span>
-<span class="fc" id="L16">    val exceptionCallback: (Context&lt;T&gt;, E) -&gt; Context&lt;T&gt;,</span>
-) : Handler&lt;T&gt; {
+<span class="pc" id="L14">    val exception: KClass&lt;E&gt;,</span>
+<span class="pc" id="L15">    val clear: Boolean = true,</span>
+<span class="pc" id="L16">    val exceptionCallback: (Context&lt;T&gt;, E) -&gt; Context&lt;T&gt;,</span>
+<span class="fc" id="L17">) : Handler&lt;T&gt; {</span>
 
 <span class="fc" id="L19">    override val predicate: (Context&lt;T&gt;) -&gt; Boolean = { true }</span>
 <span class="fc" id="L20">    override val callback: (Context&lt;T&gt;) -&gt; Context&lt;T&gt; = { context -&gt;</span>
 <span class="fc" id="L21">        exceptionCallback(context, castException(context.exception, exception)).let {</span>
 <span class="fc bfc" id="L22" title="All 2 branches covered.">            if (clear) it.with(exception = null)</span>
 <span class="fc" id="L23">            else it</span>
-        }
+<span class="fc" id="L24">        }</span>
     }
 
     override fun process(context: Context&lt;T&gt;): Context&lt;T&gt; {
@@ -39,5 +39,5 @@ import kotlin.reflect.KClass
 <span class="pc bpc" id="L39" title="1 of 4 branches missed.">        val exceptionClass = context.exception?.javaClass ?: return false</span>
 <span class="fc" id="L40">        return exception.java.isAssignableFrom(exceptionClass)</span>
     }
-<span class="fc" id="L42">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

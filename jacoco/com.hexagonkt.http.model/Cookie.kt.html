@@ -25,7 +25,7 @@ import java.time.Instant
 <span class="fc" id="L25">    val domain: String? = null,</span>
 <span class="fc" id="L26">    val sameSite: CookieSameSite? = null,</span>
 <span class="fc" id="L27">    val expires: Instant? = null,</span>
-) {
+<span class="fc" id="L28">) {</span>
 <span class="pc bpc" id="L29" title="1 of 4 branches missed.">    val deleted: Boolean by lazy { value == &quot;&quot; &amp;&amp; maxAge &lt;= 0L }</span>
 
 <span class="fc" id="L31">    init {</span>
@@ -34,5 +34,5 @@ import java.time.Instant
 
     fun delete(): Cookie =
 <span class="fc" id="L36">        copy(value = &quot;&quot;, maxAge = 0)</span>
-<span class="fc" id="L37">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

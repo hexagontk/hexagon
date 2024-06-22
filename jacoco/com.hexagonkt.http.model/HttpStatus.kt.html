@@ -14,7 +14,7 @@ import kotlin.IllegalArgumentException
 <span class="fc bfc" id="L14" title="All 6 branches covered.">        in 500..599 -&gt; SERVER_ERROR</span>
 <span class="fc" id="L15">        else -&gt; throw IllegalArgumentException(INVALID_CODE_ERROR_MESSAGE + code)</span>
     }
-) {
+<span class="fc" id="L17">) {</span>
     companion object {
         internal const val INVALID_CODE_ERROR_MESSAGE: String =
             &quot;Error code is not in any HTTP status range (100..599): &quot;
@@ -31,5 +31,5 @@ import kotlin.IllegalArgumentException
 <span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (assertEnabled)</span>
 <span class="fc bfc" id="L32" title="All 6 branches covered.">            require(code in 100..599) { INVALID_CODE_ERROR_MESSAGE + code }</span>
 <span class="fc" id="L33">    }</span>
-<span class="fc" id="L34">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

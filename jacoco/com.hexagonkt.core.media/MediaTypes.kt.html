@@ -190,7 +190,7 @@ import kotlin.io.path.extension
 <span class="fc" id="L190">        &quot;mp4&quot; to VIDEO_MP4,</span>
 <span class="fc" id="L191">        &quot;ogv&quot; to VIDEO_OGG,</span>
 <span class="fc" id="L192">        &quot;webm&quot; to VIDEO_WEBM,</span>
-    )
+<span class="fc" id="L193">    )</span>
 }
 
 <span class="fc" id="L196">internal val EXTENSIONS_BY_MEDIA: Map&lt;MediaType, List&lt;String&gt;&gt; by lazy {</span>
@@ -198,7 +198,7 @@ import kotlin.io.path.extension
 <span class="fc" id="L198">        .groupBy { it.value }</span>
 <span class="fc" id="L199">        .mapValues {</span>
 <span class="fc" id="L200">            it.value.map { entry -&gt; entry.key }</span>
-        }
+<span class="fc" id="L201">        }</span>
 }
 
 fun parseMediaType(fullType: String): MediaType {
@@ -246,4 +246,4 @@ fun extensionsOf(mediaType: MediaType): List&lt;String&gt; =
 
 fun pathExtension(path: String): String =
 <span class="fc" id="L248">    path.substringAfterLast('.')</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
