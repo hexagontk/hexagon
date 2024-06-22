@@ -54,7 +54,7 @@ dependencyResolutionManagement {
             version("jetty", "12.0.10")
 
             // rest_tools
-            version("swaggerRequestValidator", "2.40.0")
+            version("swaggerRequestValidator", "2.41.0")
 
             // serialization
             version("jackson", "2.17.1")

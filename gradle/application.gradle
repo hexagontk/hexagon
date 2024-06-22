@@ -124,14 +124,11 @@ tasks.register("jlink", Exec) {
     commandLine(
         [
             "jlink",
-            "--add-modules",
-            modules,
-            "--compress=2",
+            "--add-modules", modules,
             "--strip-debug",
             "--no-header-files",
             "--no-man-pages",
-            "--output",
-            "$buildDir/$projectName",
+            "--output", "$buildDir/$projectName",
         ]
     )
 
