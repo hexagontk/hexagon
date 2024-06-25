@@ -8,6 +8,8 @@ import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
+import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.jackson.json.Json
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -22,6 +24,7 @@ internal class StateHttpClientTest {
     private val text = ContentType(TEXT_PLAIN)
 
     @BeforeAll fun `Set up mock services`() {
+        SerializationManager.formats = setOf(Json)
         server.start()
     }
 
