@@ -22,7 +22,7 @@ dependencyResolutionManagement {
             version("kotlin", "2.0.0")
             version("dokka", "1.9.20")
             version("licenseReport", "2.8")
-            version("binValidator", "0.15.0-Beta.2")
+            version("binValidator", "0.15.0-Beta.3")
             version("nativeTools", "0.10.2")
             version("detekt", "1.23.6")
             version("jmhGradle", "0.7.2")
@@ -32,7 +32,7 @@ dependencyResolutionManagement {
             version("maven", "3.9.8")
 
             // Testing
-            version("junit", "5.10.2")
+            version("junit", "5.10.3")
             version("mockk", "1.13.11")
             // TODO Latest version breaks stress test (consider using JMeter)
             //version("gatling", "3.11.3")
