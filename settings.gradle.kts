@@ -19,15 +19,15 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.0.10-RC")
+            version("kotlin", "2.0.20-RC")
             version("dokka", "1.9.20")
             version("licenseReport", "2.8")
-            version("binValidator", "0.16.0")
+            version("binValidator", "0.16.2")
             version("nativeTools", "0.10.2")
             version("detekt", "1.23.6")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.9")
-            version("mkdocsMaterial", "9.5.29")
+            version("mkdocsMaterial", "9.5.30")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.8")
 
@@ -43,15 +43,15 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.13")
 
             // http_server_netty
-            version("netty", "4.1.111.Final")
+            version("netty", "4.1.112.Final")
             version("nettyTcNative", "2.0.65.Final")
 
             // http_server_helidon
-            version("helidon", "4.0.10")
+            version("helidon", "4.0.11")
 
             // http_server_servlet
             version("servlet", "6.0.0")
-            version("jetty", "12.0.11")
+            version("jetty", "12.0.12")
 
             // rest_tools
             version("swaggerRequestValidator", "2.41.0")
