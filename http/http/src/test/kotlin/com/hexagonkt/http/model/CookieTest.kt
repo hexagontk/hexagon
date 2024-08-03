@@ -1,5 +1,6 @@
 package com.hexagonkt.http.model
 
+import com.hexagonkt.http.model.CookieSameSite.*
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 import kotlin.IllegalArgumentException
@@ -20,6 +21,10 @@ internal class CookieTest {
         assertEquals(5, cookie.maxAge)
         assertTrue(cookie.secure)
         assertFalse(cookie.deleted)
+
+        assertEquals(LAX, cookie.copy(sameSite = LAX).sameSite)
+        assertEquals(NONE, cookie.copy(sameSite = NONE).sameSite)
+        assertEquals(STRICT, cookie.copy(sameSite = STRICT).sameSite)
     }
 
     @Test fun `Cookie can be deleted`() {
