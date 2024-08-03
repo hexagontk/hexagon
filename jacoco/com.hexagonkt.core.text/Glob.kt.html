@@ -33,18 +33,18 @@ import java.util.regex.PatternSyntaxException
 <span class="fc" id="L33">        var bracesCount = 0</span>
 
 <span class="fc" id="L35">        return pattern.toCharArray().joinToString(&quot;&quot;) { currentChar -&gt;</span>
-<span class="fc" id="L36">            val globPart = when (currentChar) {</span>
-<span class="fc bfc" id="L37" title="All 18 branches covered.">                '.', '(', ')', '+', '|', '^', '$', '@', '%' -&gt; &quot;&quot;&quot;\$currentChar&quot;&quot;&quot;</span>
-<span class="fc bfc" id="L38" title="All 4 branches covered.">                '*' -&gt; if (escaping) &quot;&quot;&quot;\*&quot;&quot;&quot; else &quot;.*&quot;</span>
-<span class="fc bfc" id="L39" title="All 4 branches covered.">                '?' -&gt; if (escaping) &quot;&quot;&quot;\?&quot;&quot;&quot; else &quot;.&quot;</span>
-<span class="fc bfc" id="L40" title="All 4 branches covered.">                '\\' -&gt; if (escaping) &quot;&quot;&quot;\\&quot;&quot;&quot; else &quot;&quot;</span>
-<span class="fc bfc" id="L41" title="All 4 branches covered.">                '{' -&gt; if (escaping) &quot;&quot;&quot;\{&quot;&quot;&quot; else &quot;(&quot;</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">                '}' -&gt; when {</span>
+<span class="fc bfc" id="L36" title="All 8 branches covered.">            val globPart = when (currentChar) {</span>
+<span class="fc" id="L37">                '.', '(', ')', '+', '|', '^', '$', '@', '%' -&gt; &quot;&quot;&quot;\$currentChar&quot;&quot;&quot;</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">                '*' -&gt; if (escaping) &quot;&quot;&quot;\*&quot;&quot;&quot; else &quot;.*&quot;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">                '?' -&gt; if (escaping) &quot;&quot;&quot;\?&quot;&quot;&quot; else &quot;.&quot;</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">                '\\' -&gt; if (escaping) &quot;&quot;&quot;\\&quot;&quot;&quot; else &quot;&quot;</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">                '{' -&gt; if (escaping) &quot;&quot;&quot;\{&quot;&quot;&quot; else &quot;(&quot;</span>
+<span class="fc" id="L42">                '}' -&gt; when {</span>
 <span class="fc bfc" id="L43" title="All 4 branches covered.">                    bracesCount &gt; 0 &amp;&amp; !escaping -&gt; &quot;)&quot;</span>
 <span class="fc bfc" id="L44" title="All 2 branches covered.">                    escaping -&gt; &quot;&quot;&quot;\}&quot;&quot;&quot;</span>
 <span class="fc" id="L45">                    else -&gt; &quot;}&quot;</span>
                 }
-<span class="fc bfc" id="L47" title="All 2 branches covered.">                ',' -&gt; when {</span>
+<span class="fc" id="L47">                ',' -&gt; when {</span>
 <span class="fc bfc" id="L48" title="All 4 branches covered.">                    bracesCount &gt; 0 &amp;&amp; !escaping -&gt; &quot;|&quot;</span>
 <span class="fc bfc" id="L49" title="All 2 branches covered.">                    escaping -&gt; &quot;\\,&quot;</span>
 <span class="fc" id="L50">                    else -&gt; &quot;,&quot;</span>

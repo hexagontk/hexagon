@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 
 <span class="fc" id="L22">internal val HTTP_DATE_FORMATTER: DateTimeFormatter by lazy { RFC_1123_DATE_TIME.withZone(UTC) }</span>
 
-<span class="nc" id="L24">fun basicAuth(user: String, password: String = &quot;&quot;): String =</span>
+<span class="fc" id="L24">fun basicAuth(user: String, password: String = &quot;&quot;): String =</span>
 <span class="fc" id="L25">    &quot;$user:$password&quot;.encodeToBase64()</span>
 
 fun checkHeaders(headers: Headers) {
@@ -75,7 +75,7 @@ fun parseQueryString(query: String): QueryParameters =
 fun formatQueryString(parameters: QueryParameters): String =
 <span class="fc" id="L76">    parameters</span>
 <span class="fc" id="L77">        .flatMap { (k, v) -&gt; v.strings().map { k to it } }</span>
-<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        .filter { it.first.isNotBlank() }</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        .filter { it.first.isNotBlank() }</span>
 <span class="fc" id="L79">        .joinToString(&quot;&amp;&quot;) { (k, v) -&gt;</span>
 <span class="fc bfc" id="L80" title="All 2 branches covered.">            if (v.isBlank()) k.urlEncode()</span>
 <span class="fc" id="L81">            else &quot;${k.urlEncode()}=${v.urlEncode()}&quot;</span>
