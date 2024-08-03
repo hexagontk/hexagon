@@ -14,6 +14,16 @@ import kotlin.test.assertTrue
 
 internal class HttpTest {
 
+    @Test fun `Format query string with empty keys`() {
+        assertEquals("", formatQueryString(QueryParameters(QueryParameter("", 1))))
+        assertEquals("", formatQueryString(QueryParameters(QueryParameter(" ", 1))))
+    }
+
+    @Test fun `Basic auth is encoded correctly`() {
+        assertEquals("YTo", basicAuth("a"))
+        assertEquals("YTpi", basicAuth("a", "b"))
+    }
+
     @Test fun `Format query string`() {
         fun testParseFormat(expected: String, queryString: String) {
             assertEquals(expected, formatQueryString(parseQueryString(queryString)))

@@ -68,7 +68,7 @@ IDEs.
 ## Icons
 Create web icons (favicon and thumbnails for browsers/mobile) from SVG images (logos).
 
-For image rendering you will need [rsvg] (librsvg2-bin) and [imagemagick] installed in the
+For image rendering you will need [rsvg] (librsvg2-bin) and `imagemagick` installed in the
 development machine.
 
 To use it, apply `$gradleScripts/icons.gradle` to your `build.gradle.kts`.
@@ -81,7 +81,6 @@ To set up this script's parameters, check the [build variables section]. These h
 * iconsDirectory: directory inside `build` where icons will be generated. The default is `icons`.
 
 [rsvg]: https://github.com/GNOME/librsvg
-[imagemagick]: https://imagemagick.org/index.php
 
 ## Kotlin
 Adds Kotlin's Gradle plugin.

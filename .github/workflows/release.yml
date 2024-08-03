@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           key: ${{ runner.os }}-mkdocs-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
           restore-keys: ${{ runner.os }}-mkdocs-
@@ -16,7 +16,7 @@ jobs:
             ~/.local/bin
             ~/.local/lib/python*/site-packages
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 

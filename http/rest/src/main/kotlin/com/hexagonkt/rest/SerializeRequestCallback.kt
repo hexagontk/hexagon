@@ -7,6 +7,12 @@ import com.hexagonkt.serialization.serialize
 
 class SerializeRequestCallback : HttpCallback {
 
+    init {
+        check(SerializationManager.formats.isNotEmpty()) {
+            "Serialization callbacks require at least one registered format"
+        }
+    }
+
     override fun invoke(context: HttpContext): HttpContext {
         val requestBody = context.request.body
 

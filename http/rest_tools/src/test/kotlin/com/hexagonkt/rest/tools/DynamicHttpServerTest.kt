@@ -31,6 +31,7 @@ class DynamicHttpServerTest {
     private val dynamicServer: DynamicHttpServer = DynamicHttpServer(JettyServletAdapter())
 
     @BeforeAll fun `Set up mock services`() {
+        SerializationManager.formats = setOf(Json)
         dynamicServer.start()
     }
 

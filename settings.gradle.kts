@@ -19,21 +19,21 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.0.0")
+            version("kotlin", "2.0.20-RC")
             version("dokka", "1.9.20")
             version("licenseReport", "2.8")
-            version("binValidator", "0.15.0-Beta.2")
+            version("binValidator", "0.16.3")
             version("nativeTools", "0.10.2")
             version("detekt", "1.23.6")
             version("jmhGradle", "0.7.2")
-            version("gradleWrapper", "8.8")
-            version("mkdocsMaterial", "9.5.27")
+            version("gradleWrapper", "8.9")
+            version("mkdocsMaterial", "9.5.31")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.8")
 
             // Testing
-            version("junit", "5.10.2")
-            version("mockk", "1.13.11")
+            version("junit", "5.10.3")
+            version("mockk", "1.13.12")
             // TODO Latest version breaks stress test (consider using JMeter)
             //version("gatling", "3.11.3")
             version("gatling", "3.10.5")
@@ -43,21 +43,21 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.13")
 
             // http_server_netty
-            version("netty", "4.1.111.Final")
+            version("netty", "4.1.112.Final")
             version("nettyTcNative", "2.0.65.Final")
 
             // http_server_helidon
-            version("helidon", "4.0.10")
+            version("helidon", "4.0.11")
 
             // http_server_servlet
             version("servlet", "6.0.0")
-            version("jetty", "12.0.10")
+            version("jetty", "12.0.12")
 
             // rest_tools
             version("swaggerRequestValidator", "2.41.0")
 
             // serialization
-            version("jackson", "2.17.1")
+            version("jackson", "2.17.2")
             version("dslJson", "2.0.2")
 
             // serverless_http_google

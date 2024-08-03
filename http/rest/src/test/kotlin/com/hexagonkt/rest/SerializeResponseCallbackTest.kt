@@ -8,13 +8,25 @@ import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.jackson.json.Json
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertSame
 
 internal class SerializeResponseCallbackTest {
 
-    private val callback = SerializeResponseCallback()
+    private val callback by lazy { SerializeResponseCallback() }
+
+    @Test fun `Serialization callback fails if no formats are defined`() {
+        val formats = SerializationManager.formats
+
+        SerializationManager.formats = emptySet()
+        val e = assertFailsWith<IllegalStateException> { SerializeResponseCallback() }
+        assertEquals("Serialization callbacks require at least one registered format", e.message)
+
+        SerializationManager.formats = formats
+    }
 
     @Test fun `Serialize empty response callback creates the proper response`() {
+        SerializationManager.formats = setOf(Json)
         val stringContext = HttpContext().send(body = "")
         assertSame(stringContext, callback(stringContext))
 

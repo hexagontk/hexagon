@@ -23,9 +23,9 @@ internal class MediaTypesTest {
     @Test fun `Parse correct media types`() {
         MediaType("*/*").apply {
             assertEquals(ANY, group)
+            assertEquals("any", group.text)
             assertEquals("*", type)
             assertEquals("*/*", fullType)
-
         }
 
         MediaType("text/plain").apply {
