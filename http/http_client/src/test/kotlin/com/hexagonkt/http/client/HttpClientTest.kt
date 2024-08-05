@@ -139,6 +139,15 @@ internal class HttpClientTest {
         assertEquals("HTTP client *MUST BE STARTED* before shut-down", message)
     }
 
+    @Test fun `HTTP clients fails to start if already started`() {
+        val client = HttpClient(VoidAdapter)
+        client.start()
+        assert(client.started())
+        val message = assertFailsWith<IllegalStateException> { client.start() }.message
+        assertEquals("HTTP client is already started", message)
+        client.stop()
+    }
+
     @Test fun `Handlers filter requests and responses`() {
         val handler = FilterHandler {
             val next = receive(body = "p_" + request.bodyString()).next()
