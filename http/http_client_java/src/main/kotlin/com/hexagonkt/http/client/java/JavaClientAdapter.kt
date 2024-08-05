@@ -152,10 +152,14 @@ class JavaClientAdapter : HttpClientPort {
             .newBuilder(URI(uri))
             .method(request.method.toString(), BodyPublishers.ofByteArray(bodyBytes))
 
-        request.headers.forEach { e ->
-            val name = e.value.name
-            if (name != "accept-encoding") // TODO Maybe accept-encoding interferes with H2C
-                e.value.values.forEach { h -> javaRequest.setHeader(name, h.toString()) }
+        request.headers.forEach { h ->
+            val name = h.value.name
+            val values = h.value.values
+            // TODO Maybe accept-encoding interferes with H2C
+            if (name != "accept-encoding" && values.isNotEmpty()) {
+                val kvs = values.flatMap { v -> listOf(name, v.toString()) }.toTypedArray()
+                javaRequest.headers(*kvs)
+            }
         }
 
         request.contentType?.let { javaRequest.setHeader("content-type", it.text) }
