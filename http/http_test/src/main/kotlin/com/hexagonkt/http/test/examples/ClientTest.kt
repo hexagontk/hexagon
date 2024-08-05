@@ -13,7 +13,6 @@ import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.formatQueryString
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.GET
-import com.hexagonkt.http.model.HttpProtocol.HTTPS
 import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.*
@@ -25,16 +24,13 @@ import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.condition.DisabledOnOs
-import org.junit.jupiter.api.condition.OS.MAC
-import org.junit.jupiter.api.condition.OS.WINDOWS
 
 import java.math.BigInteger
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+// TODO Refactor duplicated code
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class ClientTest(
     final override val clientAdapter: () -> HttpClientPort,
@@ -104,61 +100,6 @@ abstract class ClientTest(
         val redirectedResponse = redirectClient.get()
         assertEquals(OK_200, redirectedResponse.status)
         assertEquals("redirected", redirectedResponse.bodyString())
-    }
-
-    @Test open fun `Form parameters are sent correctly`() {
-        callback = {
-            val headers = Headers(formParameters.httpFields.map { (k, v) -> Header(k, v.values) })
-            ok(headers = headers)
-        }
-
-        val response = client.send(
-            HttpRequest(
-                formParameters = FormParameters(
-                    FormParameter("p1", "v11"),
-                    FormParameter("p2", "v21", "v22"),
-                )
-            )
-        )
-
-        val expectedHeaders = Headers(Header("p1", "v11"), Header("p2", "v21", "v22"))
-        val actualHeaders =
-            response.headers - "transfer-encoding" - "content-length" - "connection" - "date"
-
-        assertEquals(expectedHeaders, actualHeaders)
-    }
-
-    @Test fun `Cookies are sent correctly`() {
-        callback = {
-            val cookiesMap = request.cookiesMap()
-            assertEquals(Cookie("c1", "v1"), cookiesMap["c1"])
-            assertEquals(Cookie("c2", "v2", -1), cookiesMap["c2"])
-            assertNull(cookiesMap["c3"]) // Secure headers only sent through HTTPS
-            ok(cookies = listOf(
-                Cookie("c4", "v4", 60),
-                Cookie("c5", "v5"),
-                Cookie("c6", "v6", secure = true),
-            ))
-        }
-
-        client.cookies = emptyList()
-        val response = client.send(
-            HttpRequest(
-                cookies = listOf(
-                    Cookie("c1", "v1"),
-                    Cookie("c2", "v2", 1),
-                    Cookie("c3", "v3", secure = true),
-                )
-            )
-        )
-
-        listOf(response.cookiesMap(), client.cookiesMap()).forEach {
-            val c4 = it.require("c4")
-            assertEquals("v4", c4.value)
-            assertTrue(c4.maxAge in 59..60)
-            assertEquals(Cookie("c5", "v5"), it["c5"]?.copy(domain = null))
-            assertNull(it["c6"])
-        }
     }
 
     @Test fun `Create HTTP clients`() {
@@ -384,62 +325,6 @@ abstract class ClientTest(
         }
 
         assert(run)
-    }
-
-    @Test
-    @DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
-    fun `Request HTTPS example`() {
-
-        val serverAdapter = serverAdapter()
-
-        // Key store files
-        val identity = "hexagontk.p12"
-        val trust = "trust.p12"
-
-        // Default passwords are file name reversed
-        val keyStorePassword = identity.reversed()
-        val trustStorePassword = trust.reversed()
-
-        // Key stores can be set as URIs to classpath resources (the triple slash is needed)
-        val keyStore = urlOf("classpath:ssl/$identity")
-        val trustStore = urlOf("classpath:ssl/$trust")
-
-        val sslSettings = SslSettings(
-            keyStore = keyStore,
-            keyStorePassword = keyStorePassword,
-            trustStore = trustStore,
-            trustStorePassword = trustStorePassword,
-            clientAuth = true // Requires a valid certificate from the client (mutual TLS)
-        )
-
-        val serverSettings = serverSettings.copy(
-            bindPort = 0,
-            protocol = HTTPS, // You can also use HTTP2
-            sslSettings = sslSettings
-        )
-
-        val server = serve(serverAdapter, serverSettings) {
-            get("/hello") {
-                // We can access the certificate used by the client from the request
-                val subjectDn = request.certificate()?.subjectX500Principal?.name ?: ""
-                ok("Hello World!", headers = response.headers + Header("cert", subjectDn) )
-            }
-        }
-
-        // We'll use the same certificate for the client (in a real scenario it would be different)
-        val clientSettings = HttpClientSettings(baseUrl = server.binding, sslSettings = sslSettings)
-
-        // Create an HTTP client and make an HTTPS request
-        val client = HttpClient(clientAdapter(), clientSettings)
-        client.start()
-        client.get("/hello").apply {
-            // Assure the certificate received (and returned) by the server is correct
-            assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
-            assertEquals(body, "Hello World!")
-        }
-
-        client.stop()
-        server.stop()
     }
 
     private fun checkResponse(

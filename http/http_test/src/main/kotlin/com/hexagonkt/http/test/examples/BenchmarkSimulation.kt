@@ -4,6 +4,7 @@ import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.Simulation
 import io.gatling.javaapi.http.HttpDsl
 
+// TODO Replace to use HTTP client with virtual threads
 class BenchmarkSimulation: Simulation() {
 
     private val protocol = System.getProperty("protocol") ?: "http"

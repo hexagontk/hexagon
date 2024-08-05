@@ -17,12 +17,11 @@ val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)
 internal class AdapterErrorsTest : ErrorsTest(clientAdapter, serverAdapter)
 internal class AdapterFiltersTest : FiltersTest(clientAdapter, serverAdapter)
-internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter, formats) {
-    // TODO
-    @Test @Disabled override fun `Parameters are set properly`() {}
-    // TODO
-    @Test @Disabled override fun `Form parameters are sent correctly`() {}
-}
+internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter, formats)
+internal class AdapterClientCookiesTest : ClientCookiesTest(clientAdapter, serverAdapter, formats)
+internal class AdapterClientHttp2Test : ClientHttp2Test(clientAdapter, serverAdapter, formats)
+internal class AdapterClientHttpsTest : ClientHttpsTest(clientAdapter, serverAdapter, formats)
+// TODO Add multipart test
 @DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
