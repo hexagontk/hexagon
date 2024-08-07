@@ -35,7 +35,7 @@ dependencyResolutionManagement {
             version("junit", "5.10.3")
             version("mockk", "1.13.12")
             // TODO Latest version breaks stress test (consider using JMeter)
-            //version("gatling", "3.11.3")
+            //  https://jmeter.apache.org/usermanual/build-programmatic-test-plan.html
             version("gatling", "3.10.5")
             version("jmh", "1.37")
 
