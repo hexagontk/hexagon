@@ -20,13 +20,14 @@ internal class AdapterClientCookiesTest : ClientCookiesTest(clientAdapter, serve
 internal class AdapterClientHttp2Test : ClientHttp2Test(clientAdapter, serverAdapter, formats)
 internal class AdapterClientHttpsTest : ClientHttpsTest(clientAdapter, serverAdapter, formats)
 internal class AdapterClientMultipartTest : ClientMultipartTest(clientAdapter, serverAdapter, formats)
+// TODO Add SSE and WebSockets test
 @DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
 internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)
 internal class AdapterFilesTest : FilesTest(clientAdapter, serverAdapter)
+internal class AdapterMultipartTest : MultipartTest(clientAdapter, serverAdapter)
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
+internal class AdapterMultipartSamplesTest : MultipartSamplesTest(clientAdapter, serverAdapter)
 internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)
-// TODO Implement also in Jetty
-//internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)

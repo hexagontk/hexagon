@@ -44,6 +44,7 @@ import java.util.*
         }
     }
  */
+// TODO Rename to Ids.kt and support other algorithms (nanoid, ulid, snowflake, cuid)
 
 /**
  * [TODO](https://github.com/hexagontk/hexagon/issues/271).

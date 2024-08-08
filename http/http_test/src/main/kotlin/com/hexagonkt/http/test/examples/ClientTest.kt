@@ -84,7 +84,7 @@ abstract class ClientTest(
         assertTrue(response.bodyString().contains("failure"))
     }
 
-    @Test open fun `Redirects are handled correctly correctly`() {
+    @Test fun `Redirects are handled correctly correctly`() {
         callback = {
             if (queryParameters["ok"] != null) ok("redirected")
             else found("/foo?ok")
@@ -239,7 +239,7 @@ abstract class ClientTest(
         checkResponse(responsePatch, body, yaml)
     }
 
-    @Test open fun `Parameters are set properly` () {
+    @Test fun `Parameters are set properly` () {
         val clientHeaders = Headers(Header("header1", "val1", "val2"))
         val settings = HttpClientSettings(
             baseUrl = server.binding,
