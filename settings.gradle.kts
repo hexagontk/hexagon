@@ -40,7 +40,7 @@ dependencyResolutionManagement {
             version("jmh", "1.37")
 
             // Shared
-            version("slf4j", "2.0.13")
+            version("slf4j", "2.0.16")
 
             // http_server_netty
             version("netty", "4.1.112.Final")
@@ -50,7 +50,7 @@ dependencyResolutionManagement {
             version("helidon", "4.0.11")
 
             // http_server_servlet
-            version("servlet", "6.0.0")
+            version("servlet", "6.1.0")
             version("jetty", "12.0.12")
 
             // rest_tools
