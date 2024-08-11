@@ -7,7 +7,6 @@ import com.hexagonkt.serialization.jackson.json.Json
 import com.hexagonkt.serialization.jackson.yaml.Yaml
 import org.junit.jupiter.api.condition.DisabledInNativeImage
 import org.junit.jupiter.api.condition.DisabledOnOs
-import org.junit.jupiter.api.condition.OS.MAC
 import org.junit.jupiter.api.condition.OS.WINDOWS
 
 // TODO Assert context methods (request.method, request.protocol...)
@@ -25,7 +24,7 @@ internal class AdapterClientCookiesTest : ClientCookiesTest(clientAdapter, serve
 internal class AdapterClientHttp2Test : ClientHttp2Test(clientAdapter, serverAdapter, formats)
 internal class AdapterClientHttpsTest : ClientHttpsTest(clientAdapter, serverAdapter, formats)
 internal class AdapterClientMultipartTest : ClientMultipartTest(clientAdapter, serverAdapter, formats)
-@DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
+@DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
 internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)
@@ -51,7 +50,7 @@ val liteServerAdapter: () -> NettyServerAdapter = {
 internal class LiteAdapterBooksTest : BooksTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterErrorsTest : ErrorsTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterFiltersTest : FiltersTest(clientAdapter, liteServerAdapter)
-@DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
+@DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
 //@DisabledIf(
 //    "java.lang.System.getProperty('os.name').toLowerCase().contains('mac') && !java.lang.System.getProperty('org.graalvm.nativeimage.imagecode').isBlank()"
 //)

@@ -18,7 +18,7 @@ import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
-import java.net.InetAddress
+import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertNotNull
@@ -27,9 +27,7 @@ import kotlin.test.assertNotNull
 abstract class HttpsTest(
     final override val clientAdapter: () -> HttpClientPort,
     final override val serverAdapter: () -> HttpServerPort,
-    final override val serverSettings: HttpServerSettings = HttpServerSettings(
-        bindAddress = InetAddress.getByName("localhost")
-    ),
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
     private val identity = "hexagontk.p12"
@@ -108,7 +106,7 @@ abstract class HttpsTest(
         val clientSettings = HttpClientSettings(sslSettings = sslSettings)
 
         // Create an HTTP client and make an HTTPS request
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = serverBase(server)))
         client.start()
         client.get("/hello").apply {
             // Assure the certificate received (and returned) by the server is correct
@@ -140,7 +138,7 @@ abstract class HttpsTest(
 
         val server = serve(serverAdapter(), handler, http2ServerSettings)
 
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = serverBase(server)))
         client.start()
         client.get("/hello").apply {
             assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
@@ -188,8 +186,8 @@ abstract class HttpsTest(
         )
 
         // Create an HTTP client and make an HTTPS request
-        val contextPath = server.binding
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
+        val base = serverBase(server)
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = base))
         client.start()
         client.get("/hello").apply {
             assertEquals("Hello World!", body)
@@ -198,7 +196,7 @@ abstract class HttpsTest(
         assertFails {
             val adapter = clientAdapter()
             val noTrustStore = HttpClientSettings()
-            HttpClient(adapter, noTrustStore.copy(baseUrl = contextPath)).use {
+            HttpClient(adapter, noTrustStore.copy(baseUrl = base)).use {
                 it.start()
                 it.get("/hello")
             }
@@ -215,7 +213,7 @@ abstract class HttpsTest(
 
         val insecureClient = HttpClient(
             clientAdapter(),
-            clientSettings.copy(baseUrl = contextPath, insecure = true, sslSettings = SslSettings())
+            clientSettings.copy(baseUrl = base, insecure = true, sslSettings = SslSettings())
         )
 
         insecureClient.use {
@@ -226,7 +224,7 @@ abstract class HttpsTest(
         }
 
         val settings = clientSettings.copy(
-            baseUrl = contextPath,
+            baseUrl = base,
             insecure = false,
             sslSettings = SslSettings()
         )
@@ -251,4 +249,7 @@ abstract class HttpsTest(
             assertNotNull(getPublicKey("ca"))
         }
     }
+
+    private fun serverBase(server: HttpServer): URL =
+        urlOf("${server.binding.protocol}://localhost:${server.runtimePort}")
 }
