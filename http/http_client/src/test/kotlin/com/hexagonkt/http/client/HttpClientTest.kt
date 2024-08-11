@@ -1,10 +1,13 @@
 package com.hexagonkt.http.client
 
 import com.hexagonkt.core.media.TEXT_CSV
+import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.handlers.FilterHandler
+import com.hexagonkt.http.handlers.HttpPredicate
 import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.model.*
+import com.hexagonkt.http.patterns.LiteralPathPattern
 import java.lang.StringBuilder
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription
@@ -161,6 +164,38 @@ internal class HttpClientTest {
         client.request {
             assertEquals("p_p__s", client.post("/test").bodyString())
             assertEquals("p_bodyp_body_s", client.post("/test", "body").bodyString())
+        }
+    }
+
+    @Test fun `Request is sent even if no handler`() {
+        val pathPattern = LiteralPathPattern("/test")
+        val handler = FilterHandler(HttpPredicate(pathPattern = pathPattern)) { error("Failure") }
+        val client = HttpClient(VoidAdapter, handler = handler)
+
+        val e1 = assertFailsWith<IllegalStateException> { client.get("http://localhost") }
+        assertEquals("HTTP client *MUST BE STARTED* before sending requests", e1.message)
+
+        client.start()
+        client.request {
+            val e2 = assertFailsWith<IllegalStateException> { client.put("/test", "body") }
+            assertEquals("Failure", e2.message)
+            assertEquals("/good", client.put("/good", "body").headers["-path-"]?.string())
+        }
+    }
+
+    @Test fun `Request is sent with accept and authorization headers`() {
+        val handler = FilterHandler {
+            assertEquals(TEXT_PLAIN, request.accept.first().mediaType)
+            assertEquals("basic", request.authorization?.type)
+            assertEquals("abc", request.authorization?.value)
+            next()
+        }
+        val client = HttpClient(VoidAdapter, handler = handler)
+
+        client.request {
+            val accept = listOf(ContentType(TEXT_PLAIN))
+            val authorization = Authorization("basic", "abc")
+            client.send(HttpRequest(accept = accept, authorization = authorization))
         }
     }
 

@@ -41,9 +41,10 @@ sealed interface HttpHandler : Handler<HttpCall> {
                 this
         }
 
+    fun processHttp(context: HttpContext): HttpContext =
+        if (handlerPredicate(context)) process(context) as HttpContext
+        else context
+
     fun process(request: HttpRequestPort): HttpContext =
-        HttpContext(HttpCall(request = request), handlerPredicate).let { context ->
-            if (handlerPredicate(context)) process(context) as HttpContext
-            else context
-        }
+        processHttp(HttpContext(HttpCall(request = request), handlerPredicate))
 }

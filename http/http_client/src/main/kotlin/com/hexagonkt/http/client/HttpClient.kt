@@ -221,9 +221,7 @@ class HttpClient(
     private fun HttpHandler.process(
         request: HttpRequestPort, attributes: Map<String, Any>
     ): HttpContext =
-        HttpContext(HttpCall(request = request), handlerPredicate, attributes = attributes)
-            .let { context ->
-                if (handlerPredicate(context)) process(context) as HttpContext
-                else context
-            }
+        processHttp(
+            HttpContext(HttpCall(request = request), handlerPredicate, attributes = attributes)
+        )
 }
