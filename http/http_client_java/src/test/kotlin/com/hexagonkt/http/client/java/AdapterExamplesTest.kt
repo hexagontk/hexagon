@@ -20,7 +20,7 @@ internal class AdapterClientCookiesTest : ClientCookiesTest(clientAdapter, serve
 internal class AdapterClientHttp2Test : ClientHttp2Test(clientAdapter, serverAdapter, formats)
 internal class AdapterClientHttpsTest : ClientHttpsTest(clientAdapter, serverAdapter, formats)
 // TODO Add multipart and file upload tests
-//@DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
+@DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
 internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)
