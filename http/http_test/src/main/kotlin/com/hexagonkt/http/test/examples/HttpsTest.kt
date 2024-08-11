@@ -18,6 +18,7 @@ import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
+import java.net.InetAddress
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertNotNull
@@ -26,7 +27,9 @@ import kotlin.test.assertNotNull
 abstract class HttpsTest(
     final override val clientAdapter: () -> HttpClientPort,
     final override val serverAdapter: () -> HttpServerPort,
-    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(
+        bindAddress = InetAddress.getByName("localhost")
+    ),
 ) : BaseTest() {
 
     private val identity = "hexagontk.p12"

@@ -160,5 +160,7 @@ private static String createSan(
 
     final List<String> allSubdomains = testSubdomains + [ "${domain}.test", "localhost" ]
     final List<String> fullSubdomains = allSubdomains.collect { "dns:${it}".toString() }
+    // TODO Useful if IP should be added, refactor to support scenario
+//    fullSubdomains.add("ip:127.0.0.1")
     return fullSubdomains.join(",")
 }
