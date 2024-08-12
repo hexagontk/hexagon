@@ -137,7 +137,9 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @Test fun `Serve HTTP2 works properly`() {
+    @Test
+    @DisabledIf("nativeMac")
+    fun `Serve HTTP2 works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings)
 

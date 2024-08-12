@@ -2,17 +2,13 @@ package com.hexagonkt.core.security
 
 import com.hexagonkt.core.urlOf
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.condition.DisabledOnOs
-import org.junit.jupiter.api.condition.OS.WINDOWS
 import java.io.File
 import java.security.cert.X509Certificate
 import kotlin.test.assertEquals
 
 internal class KeyStoresTest {
 
-    @Test
-//    @DisabledOnOs(WINDOWS) // TODO Fails in windows because Algorithm HmacPBESHA256 not available
-    fun `Key stores are loaded correctly`() {
+    @Test fun `Key stores are loaded correctly`() {
         val n = "hexagontk"
         val f = "$n.p12"
         val pwd = f.reversed()
