@@ -137,13 +137,13 @@ abstract class WebSocketsTest(
     }
 
     @Test
-    @DisabledOnOs(WINDOWS) // TODO There are problems with certificates in Windows
+//    @DisabledOnOs(WINDOWS) // TODO There are problems with certificates in Windows
     fun `Serve WSS works properly`() {
         wsTest(http2ServerSettings.copy(protocol = HTTPS), clientSettings)
     }
 
     @Test
-    @DisabledOnOs(WINDOWS) // TODO There are problems with certificates in Windows
+//    @DisabledOnOs(WINDOWS) // TODO There are problems with certificates in Windows
     fun `Serve WSS over HTTP2 works properly`() {
         wsTest(http2ServerSettings, clientSettings)
     }

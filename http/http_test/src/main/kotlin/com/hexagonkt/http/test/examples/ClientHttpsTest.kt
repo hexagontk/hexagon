@@ -18,6 +18,7 @@ import com.hexagonkt.http.test.BaseTest
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.condition.DisabledIf
 import java.net.URL
 
 import kotlin.test.assertEquals
@@ -66,7 +67,9 @@ abstract class ClientHttpsTest(
         }
     }
 
-    @Test fun `Request HTTPS example`() {
+    @Test
+    @DisabledIf("nativeMac")
+    fun `Request HTTPS example`() {
 
         val serverAdapter = serverAdapter()
 
@@ -123,4 +126,9 @@ abstract class ClientHttpsTest(
 
     private fun serverBase(server: HttpServer): URL =
         urlOf("${server.binding.protocol}://localhost:${server.runtimePort}")
+
+    @Suppress("MemberVisibilityCanBePrivate") // Public access required by JUnit
+    fun nativeMac(): Boolean =
+        System.getProperty("os.name").lowercase().contains("mac")
+            && System.getProperty("org.graalvm.nativeimage.imagecode") != null
 }

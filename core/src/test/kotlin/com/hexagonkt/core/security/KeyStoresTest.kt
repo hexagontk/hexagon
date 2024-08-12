@@ -11,7 +11,7 @@ import kotlin.test.assertEquals
 internal class KeyStoresTest {
 
     @Test
-    @DisabledOnOs(WINDOWS) // TODO Fails in windows because Algorithm HmacPBESHA256 not available
+//    @DisabledOnOs(WINDOWS) // TODO Fails in windows because Algorithm HmacPBESHA256 not available
     fun `Key stores are loaded correctly`() {
         val n = "hexagontk"
         val f = "$n.p12"
