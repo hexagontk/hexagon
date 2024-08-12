@@ -120,8 +120,9 @@ abstract class HttpsTest(
         server.stop()
     }
 
+    @Test
     @DisabledIf("nativeMac")
-    @Test fun `Serve HTTPS works properly`() {
+    fun `Serve HTTPS works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings.copy(protocol = HTTPS))
 
@@ -136,7 +137,6 @@ abstract class HttpsTest(
         server.stop()
     }
 
-//    @DisabledOnOs(MAC) // TODO Make this work on GitHub runners
     @Test fun `Serve HTTP2 works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings)
@@ -152,7 +152,6 @@ abstract class HttpsTest(
         server.stop()
     }
 
-//    @DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
     @Test fun `Serve insecure HTTPS example`() {
 
         val identity = "hexagontk.p12"
@@ -227,7 +226,6 @@ abstract class HttpsTest(
             }
         }
 
-        // TODO Windows seems to fail with this request
         val settings = clientSettings.copy(
             baseUrl = base,
             insecure = false,

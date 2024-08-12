@@ -66,9 +66,7 @@ abstract class ClientHttpsTest(
         }
     }
 
-    @Test
-//    @DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
-    fun `Request HTTPS example`() {
+    @Test fun `Request HTTPS example`() {
 
         val serverAdapter = serverAdapter()
 

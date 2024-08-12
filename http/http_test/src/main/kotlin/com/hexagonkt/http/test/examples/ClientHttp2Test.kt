@@ -18,9 +18,7 @@ import com.hexagonkt.http.test.BaseTest
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.condition.DisabledOnOs
-import org.junit.jupiter.api.condition.OS.MAC
-import org.junit.jupiter.api.condition.OS.WINDOWS
+import org.junit.jupiter.api.condition.DisabledIf
 import java.net.URL
 
 import kotlin.test.assertEquals
@@ -70,7 +68,7 @@ abstract class ClientHttp2Test(
     }
 
     @Test
-//    @DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
+    @DisabledIf("nativeMac")
     fun `Request HTTPS example`() {
 
         val serverAdapter = serverAdapter()
@@ -128,4 +126,9 @@ abstract class ClientHttp2Test(
 
     private fun serverBase(server: HttpServer): URL =
         urlOf("${server.binding.protocol}://localhost:${server.runtimePort}")
+
+    @Suppress("MemberVisibilityCanBePrivate") // Public access required by JUnit
+    fun nativeMac(): Boolean =
+        System.getProperty("os.name").lowercase().contains("mac")
+            && System.getProperty("org.graalvm.nativeimage.imagecode") != null
 }
