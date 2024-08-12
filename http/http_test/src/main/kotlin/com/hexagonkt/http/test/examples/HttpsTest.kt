@@ -126,7 +126,7 @@ abstract class HttpsTest(
 
         val server = serve(serverAdapter(), handler, http2ServerSettings.copy(protocol = HTTPS))
 
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = serverBase(server)))
         client.start()
         client.get("/hello").apply {
             assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
