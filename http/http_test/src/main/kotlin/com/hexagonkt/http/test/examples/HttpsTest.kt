@@ -120,11 +120,7 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    // Fails on macOS only in native build
-    @DisabledIf(
-        "java.lang.System.getProperty('os.name').toLowerCase().contains('mac') " +
-        "&& !java.lang.System.getProperty('org.graalvm.nativeimage.imagecode').isBlank()"
-    )
+    @DisabledIf("nativeMac")
     @Test fun `Serve HTTPS works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings.copy(protocol = HTTPS))
@@ -261,4 +257,9 @@ abstract class HttpsTest(
 
     private fun serverBase(server: HttpServer): URL =
         urlOf("${server.binding.protocol}://localhost:${server.runtimePort}")
+
+    @Suppress("MemberVisibilityCanBePrivate") // Public access required by JUnit
+    fun nativeMac(): Boolean =
+        System.getProperty("os.name").lowercase().contains("mac")
+            && System.getProperty("org.graalvm.nativeimage.imagecode") != null
 }
