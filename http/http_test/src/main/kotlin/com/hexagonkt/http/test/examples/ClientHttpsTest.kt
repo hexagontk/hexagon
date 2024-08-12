@@ -18,9 +18,7 @@ import com.hexagonkt.http.test.BaseTest
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.condition.DisabledOnOs
-import org.junit.jupiter.api.condition.OS.MAC
-import org.junit.jupiter.api.condition.OS.WINDOWS
+import java.net.URL
 
 import kotlin.test.assertEquals
 
@@ -69,7 +67,7 @@ abstract class ClientHttpsTest(
     }
 
     @Test
-    @DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
+//    @DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
     fun `Request HTTPS example`() {
 
         val serverAdapter = serverAdapter()
@@ -109,7 +107,8 @@ abstract class ClientHttpsTest(
         }
 
         // We'll use the same certificate for the client (in a real scenario it would be different)
-        val clientSettings = HttpClientSettings(baseUrl = server.binding, sslSettings = sslSettings)
+        val baseUrl = serverBase(server)
+        val clientSettings = HttpClientSettings(baseUrl = baseUrl, sslSettings = sslSettings)
 
         // Create an HTTP client and make an HTTPS request
         val client = HttpClient(clientAdapter(), clientSettings)
@@ -123,4 +122,7 @@ abstract class ClientHttpsTest(
         client.stop()
         server.stop()
     }
+
+    private fun serverBase(server: HttpServer): URL =
+        urlOf("${server.binding.protocol}://localhost:${server.runtimePort}")
 }

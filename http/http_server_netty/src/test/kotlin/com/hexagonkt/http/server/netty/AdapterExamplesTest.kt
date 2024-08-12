@@ -6,8 +6,6 @@ import com.hexagonkt.serialization.jackson.JacksonTextFormat
 import com.hexagonkt.serialization.jackson.json.Json
 import com.hexagonkt.serialization.jackson.yaml.Yaml
 import org.junit.jupiter.api.condition.DisabledInNativeImage
-import org.junit.jupiter.api.condition.DisabledOnOs
-import org.junit.jupiter.api.condition.OS.WINDOWS
 
 // TODO Assert context methods (request.method, request.protocol...)
 // TODO Check response headers don't contain invalid chars (\n, \t...)
@@ -49,10 +47,6 @@ val liteServerAdapter: () -> NettyServerAdapter = {
 internal class LiteAdapterBooksTest : BooksTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterErrorsTest : ErrorsTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterFiltersTest : FiltersTest(clientAdapter, liteServerAdapter)
-//@DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
-//@DisabledIf(
-//    "java.lang.System.getProperty('os.name').toLowerCase().contains('mac') && !java.lang.System.getProperty('org.graalvm.nativeimage.imagecode').isBlank()"
-//)
 internal class LiteAdapterHttpsTest : HttpsTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterZipTest : ZipTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterCookiesTest : CookiesTest(clientAdapter, liteServerAdapter)

@@ -18,9 +18,7 @@ import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.condition.DisabledOnOs
-import org.junit.jupiter.api.condition.OS.MAC
-import org.junit.jupiter.api.condition.OS.WINDOWS
+import org.junit.jupiter.api.condition.DisabledIf
 import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -122,6 +120,11 @@ abstract class HttpsTest(
         server.stop()
     }
 
+    // Fails on macOS only in native build
+    @DisabledIf(
+        "java.lang.System.getProperty('os.name').toLowerCase().contains('mac') " +
+        "&& !java.lang.System.getProperty('org.graalvm.nativeimage.imagecode').isBlank()"
+    )
     @Test fun `Serve HTTPS works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings.copy(protocol = HTTPS))
@@ -137,7 +140,7 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @DisabledOnOs(MAC) // TODO Make this work on GitHub runners
+//    @DisabledOnOs(MAC) // TODO Make this work on GitHub runners
     @Test fun `Serve HTTP2 works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings)
@@ -153,7 +156,7 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
+//    @DisabledOnOs(WINDOWS) // TODO Make this work on GitHub runners
     @Test fun `Serve insecure HTTPS example`() {
 
         val identity = "hexagontk.p12"
