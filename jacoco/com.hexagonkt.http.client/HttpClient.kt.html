@@ -37,7 +37,7 @@ import java.util.concurrent.Flow.Publisher
 <span class="fc" id="L37">        cookies.associateBy { it.name }</span>
 
     fun start() {
-<span class="pc bpc" id="L40" title="2 of 4 branches missed.">        check(!started()) { &quot;HTTP client is already started&quot; }</span>
+<span class="fc bfc" id="L40" title="All 4 branches covered.">        check(!started()) { &quot;HTTP client is already started&quot; }</span>
 <span class="fc" id="L41">        adapter.startUp(this)</span>
 <span class="fc" id="L42">    }</span>
 
@@ -59,7 +59,7 @@ import java.util.concurrent.Flow.Publisher
 <span class="pc bpc" id="L59" title="1 of 2 branches missed.">            rootHandler</span>
 <span class="fc bfc" id="L60" title="All 2 branches covered.">                ?.process(request.setUp(), attributes)</span>
 <span class="pc bpc" id="L61" title="1 of 2 branches missed.">                ?.let {</span>
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">                    if (it.exception != null) throw it.exception as Exception</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">                    if (it.exception != null) throw it.exception as Exception</span>
 <span class="fc" id="L63">                    else it.response</span>
                 }
 <span class="fc" id="L65">                ?: adapter.send(request.setUp())</span>
@@ -67,9 +67,9 @@ import java.util.concurrent.Flow.Publisher
     private fun HttpRequest.setUp(): HttpRequest {
 <span class="fc" id="L68">        return copy(</span>
 <span class="fc bfc" id="L69" title="All 2 branches covered.">            contentType = contentType ?: settings.contentType,</span>
-<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            accept = accept.ifEmpty(settings::accept),</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            accept = accept.ifEmpty(settings::accept),</span>
 <span class="fc" id="L71">            headers = settings.headers + headers,</span>
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            authorization = authorization ?: settings.authorization,</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">            authorization = authorization ?: settings.authorization,</span>
         )
     }
 
@@ -221,10 +221,8 @@ import java.util.concurrent.Flow.Publisher
     private fun HttpHandler.process(
         request: HttpRequestPort, attributes: Map&lt;String, Any&gt;
     ): HttpContext =
-<span class="fc" id="L224">        HttpContext(HttpCall(request = request), handlerPredicate, attributes = attributes)</span>
-<span class="fc" id="L225">            .let { context -&gt;</span>
-<span class="pc bpc" id="L226" title="1 of 2 branches missed.">                if (handlerPredicate(context)) process(context) as HttpContext</span>
-<span class="nc" id="L227">                else context</span>
-<span class="fc" id="L228">            }</span>
+<span class="fc" id="L224">        processHttp(</span>
+<span class="fc" id="L225">            HttpContext(HttpCall(request = request), handlerPredicate, attributes = attributes)</span>
+<span class="fc" id="L226">        )</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

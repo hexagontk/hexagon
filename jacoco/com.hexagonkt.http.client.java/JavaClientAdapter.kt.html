@@ -65,7 +65,7 @@ import java.net.http.HttpResponse as JavaHttpResponse
 <span class="fc" id="L65">            .version(HTTP_2)</span>
 <span class="fc bfc" id="L66" title="All 2 branches covered.">            .followRedirects(if (settings.followRedirects) ALWAYS else NEVER)</span>
 
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (settings.useCookies)</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (settings.useCookies)</span>
 <span class="fc" id="L69">            javaClientBuilder.cookieHandler(cookieManager)</span>
 
 <span class="fc bfc" id="L71" title="All 2 branches covered.">        settings.sslSettings?.let { javaClientBuilder.sslContext(sslContext(it)) }</span>
@@ -138,7 +138,7 @@ import java.net.http.HttpResponse as JavaHttpResponse
     private fun createRequest(request: HttpRequestPort): JavaHttpRequest {
 <span class="fc" id="L139">        val baseUrl = httpSettings.baseUrl</span>
 
-<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        if (httpSettings.useCookies)</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        if (httpSettings.useCookies)</span>
 <span class="fc bfc" id="L142" title="All 2 branches covered.">            addCookies((baseUrl ?: request.url()).toURI(), request.cookies)</span>
 
 <span class="fc" id="L144">        val bodyBytes = bodyToBytes(request.body)</span>
@@ -152,72 +152,76 @@ import java.net.http.HttpResponse as JavaHttpResponse
 <span class="fc" id="L152">            .newBuilder(URI(uri))</span>
 <span class="fc" id="L153">            .method(request.method.toString(), BodyPublishers.ofByteArray(bodyBytes))</span>
 
-<span class="fc" id="L155">        request.headers.forEach { e -&gt;</span>
-<span class="fc" id="L156">            val name = e.value.name</span>
-<span class="fc bfc" id="L157" title="All 2 branches covered.">            if (name != &quot;accept-encoding&quot;) // TODO Maybe accept-encoding interferes with H2C</span>
-<span class="fc" id="L158">                e.value.values.forEach { h -&gt; javaRequest.setHeader(name, h.toString()) }</span>
-<span class="fc" id="L159">        }</span>
+<span class="fc" id="L155">        request.headers.forEach { h -&gt;</span>
+<span class="fc" id="L156">            val name = h.value.name</span>
+<span class="fc" id="L157">            val values = h.value.values</span>
+            // TODO Maybe accept-encoding interferes with H2C
+<span class="fc bfc" id="L159" title="All 6 branches covered.">            if (name != &quot;accept-encoding&quot; &amp;&amp; values.isNotEmpty()) {</span>
+<span class="fc" id="L160">                val kvs = values.flatMap { v -&gt; listOf(name, v.toString()) }.toTypedArray()</span>
+<span class="fc" id="L161">                javaRequest.headers(*kvs)</span>
+            }
+<span class="fc" id="L163">        }</span>
 
-<span class="fc bfc" id="L161" title="All 2 branches covered.">        request.contentType?.let { javaRequest.setHeader(&quot;content-type&quot;, it.text) }</span>
-<span class="fc bfc" id="L162" title="All 2 branches covered.">        request.authorization?.let { javaRequest.setHeader(&quot;authorization&quot;, it.text) }</span>
-<span class="pc" id="L163">        request.accept.forEach { javaRequest.setHeader(&quot;accept&quot;, it.text) }</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        request.contentType?.let { javaRequest.setHeader(&quot;content-type&quot;, it.text) }</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        request.authorization?.let { javaRequest.setHeader(&quot;authorization&quot;, it.text) }</span>
+<span class="pc" id="L167">        request.accept.forEach { javaRequest.setHeader(&quot;accept&quot;, it.text) }</span>
 
-<span class="fc" id="L165">        return javaRequest.build()</span>
+<span class="fc" id="L169">        return javaRequest.build()</span>
     }
 
     private fun addCookies(uri: URI, cookies: List&lt;Cookie&gt;) {
-<span class="fc" id="L169">        cookies.forEach {</span>
-<span class="fc" id="L170">            val httpCookie = HttpCookie(it.name, it.value)</span>
-<span class="fc" id="L171">            httpCookie.secure = it.secure</span>
-<span class="fc" id="L172">            httpCookie.maxAge = it.maxAge</span>
-<span class="fc" id="L173">            httpCookie.path = it.path</span>
-<span class="fc" id="L174">            httpCookie.isHttpOnly = it.httpOnly</span>
-<span class="fc" id="L175">            httpCookie.path = it.path</span>
-<span class="pc bpc" id="L176" title="1 of 2 branches missed.">            it.domain?.let(httpCookie::setDomain)</span>
+<span class="fc" id="L173">        cookies.forEach {</span>
+<span class="fc" id="L174">            val httpCookie = HttpCookie(it.name, it.value)</span>
+<span class="fc" id="L175">            httpCookie.secure = it.secure</span>
+<span class="fc" id="L176">            httpCookie.maxAge = it.maxAge</span>
+<span class="fc" id="L177">            httpCookie.path = it.path</span>
+<span class="fc" id="L178">            httpCookie.isHttpOnly = it.httpOnly</span>
+<span class="fc" id="L179">            httpCookie.path = it.path</span>
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">            it.domain?.let(httpCookie::setDomain)</span>
 
-<span class="fc" id="L178">            cookieManager.cookieStore.add(uri, httpCookie)</span>
-<span class="fc" id="L179">        }</span>
-<span class="fc" id="L180">    }</span>
+<span class="fc" id="L182">            cookieManager.cookieStore.add(uri, httpCookie)</span>
+<span class="fc" id="L183">        }</span>
+<span class="fc" id="L184">    }</span>
 
     private fun convertResponse(response: JavaHttpResponse&lt;ByteArray&gt;): HttpResponse {
 
-<span class="fc" id="L184">        val bodyString = String(response.body())</span>
-<span class="fc" id="L185">        val headers = response.headers()</span>
-<span class="fc" id="L186">        val cookies =</span>
-<span class="pc bpc" id="L187" title="1 of 2 branches missed.">            if (httpSettings.useCookies)</span>
-<span class="fc" id="L188">                cookieManager.cookieStore.cookies.map {</span>
-<span class="fc" id="L189">                    Cookie(</span>
-<span class="fc" id="L190">                        it.name,</span>
-<span class="fc" id="L191">                        it.value,</span>
-<span class="fc" id="L192">                        it.maxAge,</span>
-<span class="fc" id="L193">                        it.secure,</span>
-<span class="fc" id="L194">                        it.path,</span>
-<span class="fc" id="L195">                        it.isHttpOnly,</span>
-<span class="fc" id="L196">                        it.domain,</span>
-<span class="fc" id="L197">                    )</span>
+<span class="fc" id="L188">        val bodyString = String(response.body())</span>
+<span class="fc" id="L189">        val headers = response.headers()</span>
+<span class="fc" id="L190">        val cookies =</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">            if (httpSettings.useCookies)</span>
+<span class="fc" id="L192">                cookieManager.cookieStore.cookies.map {</span>
+<span class="fc" id="L193">                    Cookie(</span>
+<span class="fc" id="L194">                        it.name,</span>
+<span class="fc" id="L195">                        it.value,</span>
+<span class="fc" id="L196">                        it.maxAge,</span>
+<span class="fc" id="L197">                        it.secure,</span>
+<span class="fc" id="L198">                        it.path,</span>
+<span class="fc" id="L199">                        it.isHttpOnly,</span>
+<span class="fc" id="L200">                        it.domain,</span>
+<span class="fc" id="L201">                    )</span>
                 }
             else
-<span class="nc" id="L200">                emptyList()</span>
+<span class="fc" id="L204">                emptyList()</span>
 
-<span class="fc" id="L202">        httpClient.cookies = cookies</span>
+<span class="fc" id="L206">        httpClient.cookies = cookies</span>
 
-<span class="fc" id="L204">        val contentType = headers.firstValue(&quot;content-type&quot;).orElse(null)</span>
-<span class="fc" id="L205">        return HttpResponse(</span>
-<span class="fc" id="L206">            body = bodyString,</span>
-<span class="fc" id="L207">            headers = convertHeaders(headers),</span>
-<span class="fc bfc" id="L208" title="All 2 branches covered.">            contentType = contentType?.let { parseContentType(it) },</span>
-<span class="fc" id="L209">            cookies = cookies,</span>
-<span class="fc" id="L210">            status = HttpStatus(response.statusCode()),</span>
-<span class="fc" id="L211">            contentLength = bodyString.length.toLong(),</span>
+<span class="fc" id="L208">        val contentType = headers.firstValue(&quot;content-type&quot;).orElse(null)</span>
+<span class="fc" id="L209">        return HttpResponse(</span>
+<span class="fc" id="L210">            body = bodyString,</span>
+<span class="fc" id="L211">            headers = convertHeaders(headers),</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">            contentType = contentType?.let { parseContentType(it) },</span>
+<span class="fc" id="L213">            cookies = cookies,</span>
+<span class="fc" id="L214">            status = HttpStatus(response.statusCode()),</span>
+<span class="fc" id="L215">            contentLength = bodyString.length.toLong(),</span>
         )
     }
 
     private fun convertHeaders(headers: HttpHeaders): Headers =
-<span class="fc" id="L216">        Headers(</span>
-<span class="fc" id="L217">            headers</span>
-<span class="fc" id="L218">                .map()</span>
-<span class="fc bfc" id="L219" title="All 2 branches covered.">                .filter { it.key !in CHECKED_HEADERS }</span>
-<span class="fc" id="L220">                .map { Header(it.key, it.value) }</span>
-<span class="fc" id="L221">        )</span>
+<span class="fc" id="L220">        Headers(</span>
+<span class="fc" id="L221">            headers</span>
+<span class="fc" id="L222">                .map()</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">                .filter { it.key !in CHECKED_HEADERS }</span>
+<span class="fc" id="L224">                .map { Header(it.key, it.value) }</span>
+<span class="fc" id="L225">        )</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -41,10 +41,11 @@ sealed interface HttpHandler : Handler&lt;HttpCall&gt; {
 <span class="fc" id="L41">                this</span>
 <span class="fc" id="L42">        }</span>
 
+    fun processHttp(context: HttpContext): HttpContext =
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (handlerPredicate(context)) process(context) as HttpContext</span>
+<span class="fc" id="L46">        else context</span>
+
     fun process(request: HttpRequestPort): HttpContext =
-<span class="fc" id="L45">        HttpContext(HttpCall(request = request), handlerPredicate).let { context -&gt;</span>
-<span class="fc bfc" id="L46" title="All 2 branches covered.">            if (handlerPredicate(context)) process(context) as HttpContext</span>
-<span class="fc" id="L47">            else context</span>
-<span class="fc" id="L48">        }</span>
+<span class="fc" id="L49">        processHttp(HttpContext(HttpCall(request = request), handlerPredicate))</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
