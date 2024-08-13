@@ -156,7 +156,9 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @Test fun `Serve insecure HTTPS example`() {
+    @Test
+    @DisabledIf("nativeMac")
+    fun `Serve insecure HTTPS example`() {
 
         val identity = "hexagontk.p12"
         val trust = "trust.p12"
