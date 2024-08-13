@@ -12,13 +12,14 @@ jobs:
     with:
       check_directory: core/build
 
-  # TODO Temporary tests
+  # Jobs for debugging purposes, activate commenting 'if'
   os_build:
     strategy:
       fail-fast: false
       matrix:
         os: [ windows-latest, macos-latest ]
 
+    if: false
     name: os_build (${{ matrix.os }})
     uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
     with:
@@ -31,6 +32,7 @@ jobs:
       matrix:
         os: [ windows-latest, macos-latest ]
 
+    if: false
     name: native_test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     steps:
@@ -39,7 +41,7 @@ jobs:
         with:
           minimum-size: 16GB
           disk-root: "C:"
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: develop
       - uses: graalvm/setup-graalvm@v1
