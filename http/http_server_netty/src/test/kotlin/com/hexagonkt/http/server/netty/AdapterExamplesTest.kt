@@ -6,9 +6,6 @@ import com.hexagonkt.serialization.jackson.JacksonTextFormat
 import com.hexagonkt.serialization.jackson.json.Json
 import com.hexagonkt.serialization.jackson.yaml.Yaml
 import org.junit.jupiter.api.condition.DisabledInNativeImage
-import org.junit.jupiter.api.condition.DisabledOnOs
-import org.junit.jupiter.api.condition.OS.MAC
-import org.junit.jupiter.api.condition.OS.WINDOWS
 
 // TODO Assert context methods (request.method, request.protocol...)
 // TODO Check response headers don't contain invalid chars (\n, \t...)
@@ -21,13 +18,18 @@ internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)
 internal class AdapterErrorsTest : ErrorsTest(clientAdapter, serverAdapter)
 internal class AdapterFiltersTest : FiltersTest(clientAdapter, serverAdapter)
 internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter, formats)
-@DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
+internal class AdapterClientCookiesTest : ClientCookiesTest(clientAdapter, serverAdapter, formats)
+internal class AdapterClientHttp2Test : ClientHttp2Test(clientAdapter, serverAdapter, formats)
+internal class AdapterClientHttpsTest : ClientHttpsTest(clientAdapter, serverAdapter, formats)
+internal class AdapterClientMultipartTest : ClientMultipartTest(clientAdapter, serverAdapter, formats)
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
 internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)
 internal class AdapterFilesTest : FilesTest(clientAdapter, serverAdapter)
+internal class AdapterMultipartTest : MultipartTest(clientAdapter, serverAdapter)
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
+internal class AdapterMultipartSamplesTest : MultipartSamplesTest(clientAdapter, serverAdapter)
 internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)
 internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
 @DisabledInNativeImage // TODO Fix this
@@ -45,10 +47,6 @@ val liteServerAdapter: () -> NettyServerAdapter = {
 internal class LiteAdapterBooksTest : BooksTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterErrorsTest : ErrorsTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterFiltersTest : FiltersTest(clientAdapter, liteServerAdapter)
-@DisabledOnOs(WINDOWS, MAC) // TODO Make this work on GitHub runners
-//@DisabledIf(
-//    "java.lang.System.getProperty('os.name').toLowerCase().contains('mac') && !java.lang.System.getProperty('org.graalvm.nativeimage.imagecode').isBlank()"
-//)
 internal class LiteAdapterHttpsTest : HttpsTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterZipTest : ZipTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterCookiesTest : CookiesTest(clientAdapter, liteServerAdapter)

@@ -18,6 +18,8 @@ import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledIf
+import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertNotNull
@@ -62,7 +64,9 @@ abstract class HttpsTest(
 
     override val handler: HttpHandler = router
 
-    @Test fun `Serve HTTPS example`() {
+    @Test
+    @DisabledIf("nativeMac")
+    fun `Serve HTTPS example`() {
 
         // https
         // Key store files
@@ -105,7 +109,7 @@ abstract class HttpsTest(
         val clientSettings = HttpClientSettings(sslSettings = sslSettings)
 
         // Create an HTTP client and make an HTTPS request
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = serverBase(server)))
         client.start()
         client.get("/hello").apply {
             // Assure the certificate received (and returned) by the server is correct
@@ -118,11 +122,13 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @Test fun `Serve HTTPS works properly`() {
+    @Test
+    @DisabledIf("nativeMac")
+    fun `Serve HTTPS works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings.copy(protocol = HTTPS))
 
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = serverBase(server)))
         client.start()
         client.get("/hello").apply {
             assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
@@ -133,11 +139,13 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @Test fun `Serve HTTP2 works properly`() {
+    @Test
+    @DisabledIf("nativeMac")
+    fun `Serve HTTP2 works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings)
 
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = server.binding))
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = serverBase(server)))
         client.start()
         client.get("/hello").apply {
             assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
@@ -148,7 +156,9 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @Test fun `Serve insecure HTTPS example`() {
+    @Test
+    @DisabledIf("nativeMac")
+    fun `Serve insecure HTTPS example`() {
 
         val identity = "hexagontk.p12"
         val trust = "trust.p12"
@@ -185,8 +195,8 @@ abstract class HttpsTest(
         )
 
         // Create an HTTP client and make an HTTPS request
-        val contextPath = server.binding
-        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = contextPath))
+        val base = serverBase(server)
+        val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = base))
         client.start()
         client.get("/hello").apply {
             assertEquals("Hello World!", body)
@@ -195,7 +205,7 @@ abstract class HttpsTest(
         assertFails {
             val adapter = clientAdapter()
             val noTrustStore = HttpClientSettings()
-            HttpClient(adapter, noTrustStore.copy(baseUrl = contextPath)).use {
+            HttpClient(adapter, noTrustStore.copy(baseUrl = base)).use {
                 it.start()
                 it.get("/hello")
             }
@@ -212,7 +222,7 @@ abstract class HttpsTest(
 
         val insecureClient = HttpClient(
             clientAdapter(),
-            clientSettings.copy(baseUrl = contextPath, insecure = true, sslSettings = SslSettings())
+            clientSettings.copy(baseUrl = base, insecure = true, sslSettings = SslSettings())
         )
 
         insecureClient.use {
@@ -223,7 +233,7 @@ abstract class HttpsTest(
         }
 
         val settings = clientSettings.copy(
-            baseUrl = contextPath,
+            baseUrl = base,
             insecure = false,
             sslSettings = SslSettings()
         )
@@ -248,4 +258,12 @@ abstract class HttpsTest(
             assertNotNull(getPublicKey("ca"))
         }
     }
+
+    private fun serverBase(server: HttpServer): URL =
+        urlOf("${server.binding.protocol}://localhost:${server.runtimePort}")
+
+    @Suppress("MemberVisibilityCanBePrivate") // Public access required by JUnit
+    fun nativeMac(): Boolean =
+        System.getProperty("os.name").lowercase().contains("mac")
+            && System.getProperty("org.graalvm.nativeimage.imagecode") != null
 }

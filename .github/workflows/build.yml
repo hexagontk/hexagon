@@ -11,3 +11,42 @@ jobs:
     uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
     with:
       check_directory: core/build
+
+  # Jobs for debugging purposes, activate commenting 'if'
+  os_build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ windows-latest, macos-latest ]
+
+    if: false
+    name: os_build (${{ matrix.os }})
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    with:
+      os: ${{ matrix.os }}
+      check_directory: core/build
+
+  native_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ windows-latest, macos-latest ]
+
+    if: false
+    name: native_test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: al-cheb/configure-pagefile-action@v1.3
+        if: ${{ matrix.os == 'windows-latest' }}
+        with:
+          minimum-size: 16GB
+          disk-root: "C:"
+      - uses: actions/checkout@v4
+        with:
+          ref: develop
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: 21
+          distribution: graalvm-community
+          cache: gradle
+      - run: ./gradlew --stacktrace nativeTest

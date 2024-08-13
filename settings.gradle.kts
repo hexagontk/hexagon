@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.0.20-RC")
+            version("kotlin", "2.0.10")
             version("dokka", "1.9.20")
             version("licenseReport", "2.8")
             version("binValidator", "0.16.3")
@@ -35,22 +35,22 @@ dependencyResolutionManagement {
             version("junit", "5.10.3")
             version("mockk", "1.13.12")
             // TODO Latest version breaks stress test (consider using JMeter)
-            //version("gatling", "3.11.3")
+            //  https://jmeter.apache.org/usermanual/build-programmatic-test-plan.html
             version("gatling", "3.10.5")
             version("jmh", "1.37")
 
             // Shared
-            version("slf4j", "2.0.13")
+            version("slf4j", "2.0.16")
 
             // http_server_netty
             version("netty", "4.1.112.Final")
             version("nettyTcNative", "2.0.65.Final")
 
             // http_server_helidon
-            version("helidon", "4.0.11")
+            version("helidon", "4.1.0")
 
             // http_server_servlet
-            version("servlet", "6.0.0")
+            version("servlet", "6.1.0")
             version("jetty", "12.0.12")
 
             // rest_tools

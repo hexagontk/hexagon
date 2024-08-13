@@ -231,7 +231,7 @@ HTML Form processing. Don't parse body!
 ## File Uploads
 Multipart Requests
 
-@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackFile
+@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/MultipartSamplesTest.kt?callbackFile
 
 ## Response
 Response information is provided by the `response` field:

@@ -32,7 +32,6 @@ abstract class SamplesTest(
     val serverAdapter: () -> HttpServerPort,
     val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) {
-
     @Test fun serverCreation() {
         // serverCreation
         /*
@@ -287,13 +286,6 @@ abstract class SamplesTest(
             }
             // callbackFormParam
 
-            // callbackFile
-            post("/file") {
-                val filePart = request.partsMap()["file"] ?: error("File not available")
-                ok(filePart.body)
-            }
-            // callbackFile
-
             // callbackRedirect
             get("/redirect") {
                 send(FOUND_302, "/call") // browser redirect to /call
@@ -346,11 +338,6 @@ abstract class SamplesTest(
                 assertEquals(FOUND_302, it.get("/redirect").status)
                 assertEquals(OK_200, it.get("/cookie").status)
                 assertEquals(INTERNAL_SERVER_ERROR_500, it.get("/halt").status)
-
-                val stream = urlOf("classpath:assets/index.html").readBytes()
-                val parts = listOf(HttpPart("file", stream, "index.html"))
-                val response = it.send(HttpRequest(POST, path = "/file", parts = parts))
-                assert(response.bodyString().contains("<title>Hexagon</title>"))
             }
         }
     }

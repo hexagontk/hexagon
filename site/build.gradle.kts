@@ -18,11 +18,7 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         .filterNot { it.absolutePath.contains("http_test") }
         .filterNot { it.absolutePath.contains("serialization_test") }
         .filterNot { it.absolutePath.contains("templates_test") }
-        .filterNot { it.absolutePath.contains("rest") }
-        .filterNot { it.absolutePath.contains("rest_tools") }
-        .filterNot { it.absolutePath.contains("serverless_http") }
         .filterNot { it.absolutePath.contains("serverless_http_google") }
-        .filterNot { it.absolutePath.contains("web") }
         .toList()
         // TODO Include the filtered modules when they are ready
 
@@ -132,7 +128,6 @@ tasks.register("installMkDocs") {
         exec { commandLine("python -m venv $venv".split(" ")) }
         exec { commandLine("$venv/bin/pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
         exec { commandLine("$venv/bin/pip install mkdocs-htmlproofer-plugin".split(" ")) }
-        exec { commandLine("$venv/bin/pip install mike".split(" ")) }
     }
 }
 

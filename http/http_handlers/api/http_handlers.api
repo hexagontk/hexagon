@@ -21,6 +21,7 @@ public final class com/hexagonkt/http/handlers/AfterHandler : com/hexagonkt/hand
 	public fun hashCode ()I
 	public fun process (Lcom/hexagonkt/handlers/Context;)Lcom/hexagonkt/handlers/Context;
 	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public fun processHttp (Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -47,6 +48,7 @@ public final class com/hexagonkt/http/handlers/BeforeHandler : com/hexagonkt/han
 	public fun hashCode ()I
 	public fun process (Lcom/hexagonkt/handlers/Context;)Lcom/hexagonkt/handlers/Context;
 	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public fun processHttp (Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -71,6 +73,7 @@ public final class com/hexagonkt/http/handlers/ExceptionHandler : com/hexagonkt/
 	public fun hashCode ()I
 	public fun process (Lcom/hexagonkt/handlers/Context;)Lcom/hexagonkt/handlers/Context;
 	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public fun processHttp (Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -97,6 +100,7 @@ public final class com/hexagonkt/http/handlers/FilterHandler : com/hexagonkt/han
 	public fun hashCode ()I
 	public fun process (Lcom/hexagonkt/handlers/Context;)Lcom/hexagonkt/handlers/Context;
 	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public fun processHttp (Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -300,6 +304,7 @@ public final class com/hexagonkt/http/handlers/HttpController$DefaultImpls {
 	public static fun getPredicate (Lcom/hexagonkt/http/handlers/HttpController;)Lkotlin/jvm/functions/Function1;
 	public static fun process (Lcom/hexagonkt/http/handlers/HttpController;Lcom/hexagonkt/handlers/Context;)Lcom/hexagonkt/handlers/Context;
 	public static fun process (Lcom/hexagonkt/http/handlers/HttpController;Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public static fun processHttp (Lcom/hexagonkt/http/handlers/HttpController;Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 }
 
 public abstract interface class com/hexagonkt/http/handlers/HttpExceptionCallback : kotlin/jvm/functions/Function2 {
@@ -311,12 +316,14 @@ public abstract interface class com/hexagonkt/http/handlers/HttpHandler : com/he
 	public abstract fun filter (Lcom/hexagonkt/http/model/HttpMethod;)Lcom/hexagonkt/http/handlers/HttpHandler;
 	public abstract fun getHandlerPredicate ()Lcom/hexagonkt/http/handlers/HttpPredicate;
 	public abstract fun process (Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public abstract fun processHttp (Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 }
 
 public final class com/hexagonkt/http/handlers/HttpHandler$DefaultImpls {
 	public static fun byMethod (Lcom/hexagonkt/http/handlers/HttpHandler;)Ljava/util/Map;
 	public static fun filter (Lcom/hexagonkt/http/handlers/HttpHandler;Lcom/hexagonkt/http/model/HttpMethod;)Lcom/hexagonkt/http/handlers/HttpHandler;
 	public static fun process (Lcom/hexagonkt/http/handlers/HttpHandler;Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public static fun processHttp (Lcom/hexagonkt/http/handlers/HttpHandler;Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 }
 
 public final class com/hexagonkt/http/handlers/HttpPredicate : kotlin/jvm/functions/Function1 {
@@ -369,6 +376,7 @@ public final class com/hexagonkt/http/handlers/OnHandler : com/hexagonkt/handler
 	public fun hashCode ()I
 	public fun process (Lcom/hexagonkt/handlers/Context;)Lcom/hexagonkt/handlers/Context;
 	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public fun processHttp (Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -393,6 +401,7 @@ public final class com/hexagonkt/http/handlers/PathHandler : com/hexagonkt/handl
 	public fun hashCode ()I
 	public fun process (Lcom/hexagonkt/handlers/Context;)Lcom/hexagonkt/handlers/Context;
 	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public fun processHttp (Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
 	public fun toString ()Ljava/lang/String;
 }
 
