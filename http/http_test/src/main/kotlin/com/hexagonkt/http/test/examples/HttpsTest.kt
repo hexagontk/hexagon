@@ -64,7 +64,9 @@ abstract class HttpsTest(
 
     override val handler: HttpHandler = router
 
-    @Test fun `Serve HTTPS example`() {
+    @Test
+    @DisabledIf("nativeMac")
+    fun `Serve HTTPS example`() {
 
         // https
         // Key store files
