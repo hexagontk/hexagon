@@ -26,16 +26,15 @@ dependencyResolutionManagement {
             version("nativeTools", "0.10.2")
             version("detekt", "1.23.6")
             version("jmhGradle", "0.7.2")
-            version("gradleWrapper", "8.9")
+            version("gradleWrapper", "8.10")
             version("mkdocsMaterial", "9.5.31")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.8")
 
             // Testing
-            version("junit", "5.10.3")
+            version("junit", "5.11.0")
             version("mockk", "1.13.12")
-            // TODO Latest version breaks stress test (consider using JMeter)
-            //  https://jmeter.apache.org/usermanual/build-programmatic-test-plan.html
+            // TODO Replace with code using HTTP client and virtual threads
             version("gatling", "3.10.5")
             version("jmh", "1.37")
 
