@@ -4,7 +4,7 @@ import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.model.*
 import java.net.URL
 
-// TODO Add proxy configuration
+// TODO Add proxy configuration and timeouts
 data class HttpClientSettings(
     val baseUrl: URL? = null,
     val contentType: ContentType? = null,
