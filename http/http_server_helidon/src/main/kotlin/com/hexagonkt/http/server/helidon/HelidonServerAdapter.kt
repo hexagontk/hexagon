@@ -15,6 +15,7 @@ import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerFeature
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
+import io.helidon.common.socket.SocketOptions
 import io.helidon.http.Method
 import io.helidon.http.Status
 import io.helidon.http.HeaderNames
@@ -22,6 +23,8 @@ import io.helidon.http.HttpMediaType
 import io.helidon.http.SetCookie
 import io.helidon.webserver.WebServer
 import io.helidon.webserver.http.ServerResponse
+import io.helidon.webserver.http1.Http1Config
+import io.helidon.webserver.http2.Http2Config
 import java.security.SecureRandom
 import java.time.Duration
 import javax.net.ssl.KeyManagerFactory
@@ -31,8 +34,21 @@ import javax.net.ssl.TrustManagerFactory
 
 /**
  * Implements [HttpServerPort] using Helidon.
+ *
+ * TODO Add settings for HTTP2 and separate them on constructor parameters
  */
-class HelidonServerAdapter : HttpServerPort {
+class HelidonServerAdapter(
+    private val backlog: Int = 1_024,
+    private val writeQueueLength: Int = 0,
+    private val readTimeout: Duration = Duration.ofSeconds(30),
+    private val connectTimeout: Duration = Duration.ofSeconds(10),
+    private val tcpNoDelay: Boolean = false,
+    private val receiveLog: Boolean = true,
+    private val sendLog: Boolean = true,
+    private val validatePath: Boolean = true,
+    private val validateRequestHeaders: Boolean = true,
+    private val validateResponseHeaders: Boolean = false,
+) : HttpServerPort {
 
     private companion object {
         const val START_ERROR_MESSAGE = "Helidon server not started correctly"
@@ -56,6 +72,7 @@ class HelidonServerAdapter : HttpServerPort {
                 .byMethod()
                 .mapKeys { Method.create(it.key.toString()) }
 
+        // TODO features(): [Config, Encoding, Media, WebServer] Maybe Multipart can be added there
         val serverBuilder = WebServer
             .builder()
             .host(settings.bindAddress.hostName)
@@ -77,7 +94,34 @@ class HelidonServerAdapter : HttpServerPort {
                     .sslContext(sslContext(sslSettings))
             }
 
-        helidonServer = serverBuilder.build()
+        val protocolConfig =
+            if (settings.protocol == HTTP || settings.protocol == HTTPS)
+                Http1Config
+                    .builder()
+                    .receiveLog(receiveLog)
+                    .sendLog(sendLog)
+                    .validatePath(validatePath)
+                    .validateRequestHeaders(validateRequestHeaders)
+                    .validateResponseHeaders(validateResponseHeaders)
+                    .build()
+            else
+                Http2Config
+                    .builder()
+                    .validatePath(validatePath)
+                    .build()
+
+        helidonServer = serverBuilder
+            .backlog(backlog)
+            .writeQueueLength(writeQueueLength)
+            .connectionOptions(SocketOptions
+                .builder()
+                .readTimeout(readTimeout)
+                .connectTimeout(connectTimeout)
+                .tcpNoDelay(tcpNoDelay)
+                .build()
+            )
+            .protocols(listOf(protocolConfig))
+            .build()
 
         helidonServer?.start() ?: error(START_ERROR_MESSAGE)
     }

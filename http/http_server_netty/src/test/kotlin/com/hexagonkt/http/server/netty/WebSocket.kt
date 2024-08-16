@@ -20,21 +20,16 @@ internal class PeriodicPublisher<T>(
     supplier: Supplier<out T>,
 ) : SubmissionPublisher<T>(executor, maxBufferCapacity) {
 
-    private val scheduler: ScheduledExecutorService
-    private val periodicTask: ScheduledFuture<*>
-
-    init {
-        scheduler = ScheduledThreadPoolExecutor(1)
-        periodicTask = scheduler.scheduleAtFixedRate(
-            {
-                val get = supplier.get()
-                submit(get)
-            },
-            0,
-            period,
-            unit,
-        )
-    }
+    private val scheduler: ScheduledExecutorService = ScheduledThreadPoolExecutor(1)
+    private val periodicTask: ScheduledFuture<*> = scheduler.scheduleAtFixedRate(
+        {
+            val get = supplier.get()
+            submit(get)
+        },
+        0,
+        period,
+        unit,
+    )
 
     override fun close() {
         periodicTask.cancel(false)

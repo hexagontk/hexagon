@@ -193,7 +193,7 @@ open class NettyServerAdapter(
     }
 
     override fun supportedProtocols(): Set<HttpProtocol> =
-        setOf(HTTP, HTTPS, HTTP2, H2C)
+        setOf(HTTP, HTTPS, HTTP2)
 
     override fun supportedFeatures(): Set<HttpServerFeature> =
         setOf(ZIP, WEB_SOCKETS, SSE)

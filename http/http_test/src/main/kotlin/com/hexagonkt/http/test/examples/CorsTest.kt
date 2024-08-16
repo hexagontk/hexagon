@@ -13,6 +13,7 @@ import com.hexagonkt.http.handlers.HandlerBuilder
 import com.hexagonkt.http.handlers.PathHandler
 import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.path
+import com.hexagonkt.http.server.handlers.CorsHandler
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -39,7 +40,7 @@ abstract class CorsTest(
     private fun HandlerBuilder.corsPath(path: String, cors: CorsCallback) {
         path(path) {
             // CORS settings can change for different routes
-            filter(pattern = "*", callback = cors)
+            use(CorsHandler(cors))
 
             get("/path") { ok(method.toString()) }
             post("/path") { ok(method.toString()) }

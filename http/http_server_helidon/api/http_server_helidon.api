@@ -47,6 +47,8 @@ public final class com/hexagonkt/http/server/helidon/HelidonRequestAdapter : com
 public final class com/hexagonkt/http/server/helidon/HelidonServerAdapter : com/hexagonkt/http/server/HttpServerPort {
 	public static final field START_ERROR_MESSAGE Ljava/lang/String;
 	public fun <init> ()V
+	public fun <init> (IILjava/time/Duration;Ljava/time/Duration;ZZZZZZ)V
+	public synthetic fun <init> (IILjava/time/Duration;Ljava/time/Duration;ZZZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun options ()Ljava/util/Map;
 	public fun runtimePort ()I
 	public fun shutDown ()V

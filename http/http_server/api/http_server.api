@@ -124,3 +124,21 @@ public final class com/hexagonkt/http/server/callbacks/UrlCallback : kotlin/jvm/
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
+public final class com/hexagonkt/http/server/handlers/CorsHandler : com/hexagonkt/http/handlers/HttpHandler {
+	public fun <init> ()V
+	public fun <init> (Lcom/hexagonkt/http/server/callbacks/CorsCallback;)V
+	public fun <init> (Ljava/lang/String;Lcom/hexagonkt/http/server/callbacks/CorsCallback;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/hexagonkt/http/server/callbacks/CorsCallback;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagonkt/http/model/HttpStatus;J)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagonkt/http/model/HttpStatus;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/handlers/HttpHandler;
+	public fun byMethod ()Ljava/util/Map;
+	public fun filter (Lcom/hexagonkt/http/model/HttpMethod;)Lcom/hexagonkt/http/handlers/HttpHandler;
+	public fun getCallback ()Lkotlin/jvm/functions/Function1;
+	public fun getHandlerPredicate ()Lcom/hexagonkt/http/handlers/HttpPredicate;
+	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
+	public fun process (Lcom/hexagonkt/handlers/Context;)Lcom/hexagonkt/handlers/Context;
+	public fun process (Lcom/hexagonkt/http/model/HttpRequestPort;)Lcom/hexagonkt/http/handlers/HttpContext;
+	public fun processHttp (Lcom/hexagonkt/http/handlers/HttpContext;)Lcom/hexagonkt/http/handlers/HttpContext;
+}
+

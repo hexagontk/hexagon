@@ -1,7 +1,5 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.media.TEXT_CSS
-import com.hexagonkt.core.media.TEXT_HTML
 import com.hexagonkt.core.urlOf
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.HttpRequest

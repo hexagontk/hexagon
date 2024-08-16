@@ -10,6 +10,8 @@ import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.formatQueryString
 import com.hexagonkt.http.handlers.bodyToBytes
 import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.HttpProtocol.H2C
+import com.hexagonkt.http.model.HttpProtocol.HTTP2
 import com.hexagonkt.http.model.HttpResponse
 import com.hexagonkt.http.model.ws.WsSession
 import com.hexagonkt.http.parseContentType
@@ -18,12 +20,14 @@ import java.net.HttpCookie
 import java.net.URI
 import java.net.http.HttpClient.Redirect.ALWAYS
 import java.net.http.HttpClient.Redirect.NEVER
+import java.net.http.HttpClient.Version.HTTP_1_1
 import java.net.http.HttpClient.Version.HTTP_2
 import java.net.http.HttpHeaders
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpResponse.BodyHandlers
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
+import java.util.concurrent.Executor
 import java.util.concurrent.Flow.Publisher
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.SSLContext
@@ -36,7 +40,10 @@ import java.net.http.HttpResponse as JavaHttpResponse
 /**
  * Client to use other REST services.
  */
-class JavaClientAdapter : HttpClientPort {
+class JavaClientAdapter(
+    private val protocol: HttpProtocol = HTTP2,
+    private val executor: Executor? = null,
+) : HttpClientPort {
 
     private companion object {
         object TrustAll : X509TrustManager {
@@ -62,11 +69,14 @@ class JavaClientAdapter : HttpClientPort {
         httpSettings = settings
         val javaClientBuilder = JavaHttpClient
             .newBuilder()
-            .version(HTTP_2)
+            .version(if (protocol == HTTP2 || protocol == H2C) HTTP_2 else HTTP_1_1)
             .followRedirects(if (settings.followRedirects) ALWAYS else NEVER)
 
         if (settings.useCookies)
             javaClientBuilder.cookieHandler(cookieManager)
+
+        if (executor != null)
+            javaClientBuilder.executor(executor)
 
         settings.sslSettings?.let { javaClientBuilder.sslContext(sslContext(it)) }
 

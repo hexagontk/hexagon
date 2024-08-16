@@ -27,6 +27,12 @@ class HttpClient(
             path("*", listOf(it, sendHandler))
         }
 
+    private val noRequestSettings =
+        settings.contentType == null
+            && settings.authorization == null
+            && settings.accept.isEmpty()
+            && settings.headers.isEmpty()
+
     var cookies: List<Cookie> = emptyList()
 
     override fun close() {
@@ -65,12 +71,15 @@ class HttpClient(
                 ?: adapter.send(request.setUp())
 
     private fun HttpRequest.setUp(): HttpRequest {
-        return copy(
-            contentType = contentType ?: settings.contentType,
-            accept = accept.ifEmpty(settings::accept),
-            headers = settings.headers + headers,
-            authorization = authorization ?: settings.authorization,
-        )
+        return if (noRequestSettings)
+            this
+        else
+            copy(
+                contentType = contentType ?: settings.contentType,
+                accept = accept.ifEmpty(settings::accept),
+                headers = settings.headers + headers,
+                authorization = authorization ?: settings.authorization,
+            )
     }
 
     fun sse(request: HttpRequest): Publisher<ServerEvent> =

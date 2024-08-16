@@ -11,7 +11,7 @@ internal object VoidAdapter : HttpServerPort {
     override fun started() = started
     override fun startUp(server: HttpServer) { started = true }
     override fun shutDown() { started = false }
-    override fun supportedProtocols(): Set<HttpProtocol> = HttpProtocol.values().toSet() - H2C
+    override fun supportedProtocols(): Set<HttpProtocol> = HttpProtocol.entries.toSet() - H2C
     override fun supportedFeatures(): Set<HttpServerFeature> = setOf(SSE)
     override fun options(): Map<String, *> = mapOf("option1" to 1, "option2" to 2)
 }

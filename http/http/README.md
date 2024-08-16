@@ -14,3 +14,6 @@ TODO
 
 # Package com.hexagonkt.http.patterns
 TODO
+
+> TODO Capabilities enum for client/servers to declare its functionalities (along with protocols)
+> enum class HttpCapability { MULTIPART, COOKIES, SSE, WEBSOCKET }

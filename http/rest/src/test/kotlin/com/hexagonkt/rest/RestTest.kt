@@ -87,4 +87,8 @@ internal class RestTest {
             assertEquals(listOf(Record(0, 1, 2)), bodyObjects(::Record))
         }
     }
+
+    // TODO Test serialization with predefined content types
+    @Test fun `Body is serialized`() {
+    }
 }

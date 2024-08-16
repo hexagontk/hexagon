@@ -6,7 +6,6 @@ import com.hexagonkt.http.patterns.TemplatePathPattern
 import com.hexagonkt.http.handlers.HttpContext
 import com.hexagonkt.http.handlers.HttpPredicate
 import org.junit.jupiter.api.Test
-import java.io.File
 import kotlin.IllegalStateException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

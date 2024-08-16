@@ -108,7 +108,7 @@ object Jvm {
      *   found on the OS environment variables or in JVM system properties.
      */
     fun <T: Any> systemSettingOrNull(type: KClass<T>, name: String): T? =
-        systemSettingRaw(name).let { it.parseOrNull(type) }
+        systemSettingRaw(name).parseOrNull(type)
 
     fun <T: Any> systemSetting(type: KClass<T>, name: String): T =
         systemSettingOrNull(type, name)
