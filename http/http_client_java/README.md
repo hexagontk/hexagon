@@ -29,5 +29,3 @@
 
 # Package com.hexagonkt.http.client.java
 Java HTTP client implementation classes.
-
-> TODO Add settings for using virtual threads
