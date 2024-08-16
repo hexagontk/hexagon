@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CorsHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.handlers</a> &gt; <span class="el_source">CorsHandler.kt</span></div><h1>CorsHandler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.handlers
+
+import com.hexagonkt.http.handlers.FilterHandler
+import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagonkt.http.handlers.HttpPredicate
+import com.hexagonkt.http.model.HttpMethod
+import com.hexagonkt.http.model.HttpMethod.Companion.ALL
+import com.hexagonkt.http.model.HttpStatus
+import com.hexagonkt.http.model.NO_CONTENT_204
+import com.hexagonkt.http.server.callbacks.CorsCallback
+
+// TODO Write tests
+<span class="pc" id="L13">class CorsHandler(pattern: String = &quot;*&quot;, cors: CorsCallback = CorsCallback()) :</span>
+<span class="fc" id="L14">    HttpHandler by FilterHandler(HttpPredicate(pattern = pattern), cors) {</span>
+
+<span class="fc" id="L16">    constructor(cors: CorsCallback) : this(&quot;*&quot;, cors)</span>
+
+<span class="nc" id="L18">    constructor(</span>
+<span class="nc" id="L19">        pattern: String = &quot;*&quot;,</span>
+        allowedOrigin: Regex,
+<span class="nc" id="L21">        allowedMethods: Set&lt;HttpMethod&gt; = ALL,</span>
+<span class="nc" id="L22">        allowedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="nc" id="L23">        exposedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="nc" id="L24">        supportCredentials: Boolean = true,</span>
+<span class="nc" id="L25">        preFlightStatus: HttpStatus = NO_CONTENT_204,</span>
+<span class="nc" id="L26">        preFlightMaxAge: Long = 0</span>
+<span class="nc" id="L27">    ) : this(</span>
+<span class="nc" id="L28">        pattern,</span>
+<span class="nc" id="L29">        CorsCallback(</span>
+<span class="nc" id="L30">            allowedOrigin,</span>
+<span class="nc" id="L31">            allowedMethods,</span>
+<span class="nc" id="L32">            allowedHeaders,</span>
+<span class="nc" id="L33">            exposedHeaders,</span>
+<span class="nc" id="L34">            supportCredentials,</span>
+<span class="nc" id="L35">            preFlightStatus,</span>
+<span class="nc" id="L36">            preFlightMaxAge,</span>
+        )
+<span class="nc" id="L38">    )</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

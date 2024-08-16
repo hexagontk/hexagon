@@ -16,7 +16,7 @@ import com.hexagonkt.serialization.serialize
     override fun invoke(context: HttpContext): HttpContext {
 <span class="fc" id="L17">        val requestBody = context.request.body</span>
 
-<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (requestBody in emptyBodies)</span>
+<span class="pc bpc" id="L19" title="1 of 4 branches missed.">        if (requestBody is String || requestBody is ByteArray)</span>
 <span class="fc" id="L20">            return context</span>
 
 <span class="pc bpc" id="L22" title="2 of 4 branches missed.">        return context.request.contentType?.mediaType</span>

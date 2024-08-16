@@ -16,11 +16,11 @@ import com.hexagonkt.serialization.serialize
     override fun invoke(context: HttpContext): HttpContext {
 <span class="fc" id="L17">        val responseBody = context.response.body</span>
 
-<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (responseBody in emptyBodies)</span>
+<span class="fc bfc" id="L19" title="All 4 branches covered.">        if (responseBody is String || responseBody is ByteArray)</span>
 <span class="fc" id="L20">            return context</span>
 
 <span class="pc bpc" id="L22" title="1 of 2 branches missed.">        return (context.request.accept - anyContentType)</span>
-<span class="pc bpc" id="L23" title="1 of 6 branches missed.">            .ifEmpty { context.response.contentType?.let(::listOf) ?: emptyList() }</span>
+<span class="pc bpc" id="L23" title="2 of 6 branches missed.">            .ifEmpty { context.response.contentType?.let(::listOf) ?: emptyList() }</span>
 <span class="fc" id="L24">            .associateWith { SerializationManager.formatOfOrNull(it.mediaType) }</span>
 <span class="fc bfc" id="L25" title="All 2 branches covered.">            .mapNotNull { (k, v) -&gt; v?.let { k to it } }</span>
 <span class="fc" id="L26">            .firstOrNull()</span>

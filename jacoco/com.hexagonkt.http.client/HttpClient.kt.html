@@ -27,202 +27,211 @@ import java.util.concurrent.Flow.Publisher
 <span class="fc" id="L27">            path(&quot;*&quot;, listOf(it, sendHandler))</span>
         }
 
-<span class="fc" id="L30">    var cookies: List&lt;Cookie&gt; = emptyList()</span>
+    private val noRequestSettings =
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        settings.contentType == null</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            &amp;&amp; settings.authorization == null</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">            &amp;&amp; settings.accept.isEmpty()</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">            &amp;&amp; settings.headers.isEmpty()</span>
+
+<span class="fc" id="L36">    var cookies: List&lt;Cookie&gt; = emptyList()</span>
 
     override fun close() {
-<span class="fc" id="L33">        stop()</span>
-<span class="fc" id="L34">    }</span>
+<span class="fc" id="L39">        stop()</span>
+<span class="fc" id="L40">    }</span>
 
     fun cookiesMap(): Map&lt;String, Cookie&gt; =
-<span class="fc" id="L37">        cookies.associateBy { it.name }</span>
+<span class="fc" id="L43">        cookies.associateBy { it.name }</span>
 
     fun start() {
-<span class="fc bfc" id="L40" title="All 4 branches covered.">        check(!started()) { &quot;HTTP client is already started&quot; }</span>
-<span class="fc" id="L41">        adapter.startUp(this)</span>
-<span class="fc" id="L42">    }</span>
+<span class="fc bfc" id="L46" title="All 4 branches covered.">        check(!started()) { &quot;HTTP client is already started&quot; }</span>
+<span class="fc" id="L47">        adapter.startUp(this)</span>
+<span class="fc" id="L48">    }</span>
 
     fun stop() {
-<span class="fc bfc" id="L45" title="All 2 branches covered.">        check(started()) { &quot;HTTP client *MUST BE STARTED* before shut-down&quot; }</span>
-<span class="fc" id="L46">        adapter.shutDown()</span>
-<span class="fc" id="L47">    }</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        check(started()) { &quot;HTTP client *MUST BE STARTED* before shut-down&quot; }</span>
+<span class="fc" id="L52">        adapter.shutDown()</span>
+<span class="fc" id="L53">    }</span>
 
     fun started(): Boolean =
-<span class="fc" id="L50">        adapter.started()</span>
+<span class="fc" id="L56">        adapter.started()</span>
 
     /**
      * Synchronous execution.
      */
-<span class="fc" id="L55">    fun send(request: HttpRequest, attributes: Map&lt;String, Any&gt; = emptyMap()): HttpResponsePort =</span>
-<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (!started())</span>
-<span class="fc" id="L57">            error(&quot;HTTP client *MUST BE STARTED* before sending requests&quot;)</span>
+<span class="fc" id="L61">    fun send(request: HttpRequest, attributes: Map&lt;String, Any&gt; = emptyMap()): HttpResponsePort =</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (!started())</span>
+<span class="fc" id="L63">            error(&quot;HTTP client *MUST BE STARTED* before sending requests&quot;)</span>
         else
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">            rootHandler</span>
-<span class="fc bfc" id="L60" title="All 2 branches covered.">                ?.process(request.setUp(), attributes)</span>
-<span class="pc bpc" id="L61" title="1 of 2 branches missed.">                ?.let {</span>
-<span class="fc bfc" id="L62" title="All 2 branches covered.">                    if (it.exception != null) throw it.exception as Exception</span>
-<span class="fc" id="L63">                    else it.response</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">            rootHandler</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">                ?.process(request.setUp(), attributes)</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">                ?.let {</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">                    if (it.exception != null) throw it.exception as Exception</span>
+<span class="fc" id="L69">                    else it.response</span>
                 }
-<span class="fc" id="L65">                ?: adapter.send(request.setUp())</span>
+<span class="fc" id="L71">                ?: adapter.send(request.setUp())</span>
 
     private fun HttpRequest.setUp(): HttpRequest {
-<span class="fc" id="L68">        return copy(</span>
-<span class="fc bfc" id="L69" title="All 2 branches covered.">            contentType = contentType ?: settings.contentType,</span>
-<span class="fc bfc" id="L70" title="All 2 branches covered.">            accept = accept.ifEmpty(settings::accept),</span>
-<span class="fc" id="L71">            headers = settings.headers + headers,</span>
-<span class="fc bfc" id="L72" title="All 2 branches covered.">            authorization = authorization ?: settings.authorization,</span>
-        )
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        return if (noRequestSettings)</span>
+<span class="fc" id="L75">            this</span>
+        else
+<span class="fc" id="L77">            copy(</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">                contentType = contentType ?: settings.contentType,</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">                accept = accept.ifEmpty(settings::accept),</span>
+<span class="fc" id="L80">                headers = settings.headers + headers,</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">                authorization = authorization ?: settings.authorization,</span>
+            )
     }
 
     fun sse(request: HttpRequest): Publisher&lt;ServerEvent&gt; =
-<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (!started()) error(&quot;HTTP client *MUST BE STARTED* before sending requests&quot;)</span>
-<span class="fc" id="L78">        else adapter.sse(request)</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (!started()) error(&quot;HTTP client *MUST BE STARTED* before sending requests&quot;)</span>
+<span class="fc" id="L87">        else adapter.sse(request)</span>
 
     fun sse(path: String): Publisher&lt;ServerEvent&gt; =
-<span class="fc" id="L81">        sse(HttpRequest(path = path))</span>
+<span class="fc" id="L90">        sse(HttpRequest(path = path))</span>
 
-<span class="fc" id="L83">    fun ws(</span>
+<span class="fc" id="L92">    fun ws(</span>
         path: String,
-<span class="fc" id="L85">        onConnect: WsSession.() -&gt; Unit = {},</span>
-<span class="pc" id="L86">        onBinary: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="pc" id="L87">        onText: WsSession.(text: String) -&gt; Unit = {},</span>
-<span class="pc" id="L88">        onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="pc" id="L89">        onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
-<span class="fc" id="L90">        onClose: WsSession.(status: Int, reason: String) -&gt; Unit = { _, _ -&gt; },</span>
+<span class="fc" id="L94">        onConnect: WsSession.() -&gt; Unit = {},</span>
+<span class="pc" id="L95">        onBinary: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L96">        onText: WsSession.(text: String) -&gt; Unit = {},</span>
+<span class="pc" id="L97">        onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="pc" id="L98">        onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
+<span class="fc" id="L99">        onClose: WsSession.(status: Int, reason: String) -&gt; Unit = { _, _ -&gt; },</span>
     ): WsSession =
-<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (!started()) error(&quot;HTTP client *MUST BE STARTED* before connecting to WS&quot;)</span>
-<span class="fc" id="L93">        else adapter.ws(path, onConnect, onBinary, onText, onPing, onPong, onClose)</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (!started()) error(&quot;HTTP client *MUST BE STARTED* before connecting to WS&quot;)</span>
+<span class="fc" id="L102">        else adapter.ws(path, onConnect, onBinary, onText, onPing, onPong, onClose)</span>
 
     fun request (block: HttpClient.() -&gt; Unit) {
-<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (!started())</span>
-<span class="fc" id="L97">            start()</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (!started())</span>
+<span class="fc" id="L106">            start()</span>
 
-<span class="pc" id="L99">        use(block)</span>
-<span class="fc" id="L100">    }</span>
+<span class="pc" id="L108">        use(block)</span>
+<span class="fc" id="L109">    }</span>
 
-<span class="fc" id="L102">    fun get(</span>
-<span class="fc" id="L103">        path: String = &quot;&quot;,</span>
-<span class="fc" id="L104">        headers: Headers = Headers(),</span>
-<span class="fc" id="L105">        body: Any? = null,</span>
-<span class="fc" id="L106">        contentType: ContentType? = settings.contentType,</span>
-<span class="fc" id="L107">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+<span class="fc" id="L111">    fun get(</span>
+<span class="fc" id="L112">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L113">        headers: Headers = Headers(),</span>
+<span class="fc" id="L114">        body: Any? = null,</span>
+<span class="fc" id="L115">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L116">        accept: List&lt;ContentType&gt; = settings.accept,</span>
     ): HttpResponsePort =
-<span class="fc" id="L109">            send(</span>
-<span class="fc" id="L110">                HttpRequest(</span>
-<span class="fc" id="L111">                    method = GET,</span>
-<span class="fc" id="L112">                    path = path,</span>
-<span class="fc bfc" id="L113" title="All 2 branches covered.">                    body = body ?: &quot;&quot;,</span>
-<span class="fc" id="L114">                    headers = headers,</span>
-<span class="fc" id="L115">                    contentType = contentType,</span>
-<span class="fc" id="L116">                    accept = accept,</span>
+<span class="fc" id="L118">            send(</span>
+<span class="fc" id="L119">                HttpRequest(</span>
+<span class="fc" id="L120">                    method = GET,</span>
+<span class="fc" id="L121">                    path = path,</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">                    body = body ?: &quot;&quot;,</span>
+<span class="fc" id="L123">                    headers = headers,</span>
+<span class="fc" id="L124">                    contentType = contentType,</span>
+<span class="fc" id="L125">                    accept = accept,</span>
                 )
-<span class="fc" id="L118">            )</span>
+<span class="fc" id="L127">            )</span>
 
-<span class="fc" id="L120">    fun head(path: String = &quot;&quot;, headers: Headers = Headers()): HttpResponsePort =</span>
-<span class="fc" id="L121">        send(HttpRequest(HEAD, path = path, body = ByteArray(0), headers = headers))</span>
+<span class="fc" id="L129">    fun head(path: String = &quot;&quot;, headers: Headers = Headers()): HttpResponsePort =</span>
+<span class="fc" id="L130">        send(HttpRequest(HEAD, path = path, body = ByteArray(0), headers = headers))</span>
 
-<span class="fc" id="L123">    fun post(</span>
-<span class="fc" id="L124">        path: String = &quot;&quot;,</span>
-<span class="fc" id="L125">        body: Any? = null,</span>
-<span class="fc" id="L126">        contentType: ContentType? = settings.contentType,</span>
-<span class="fc" id="L127">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+<span class="fc" id="L132">    fun post(</span>
+<span class="fc" id="L133">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L134">        body: Any? = null,</span>
+<span class="fc" id="L135">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L136">        accept: List&lt;ContentType&gt; = settings.accept,</span>
     ): HttpResponsePort =
-<span class="fc" id="L129">        send(</span>
-<span class="fc" id="L130">            HttpRequest(</span>
-<span class="fc" id="L131">                method = POST,</span>
-<span class="fc" id="L132">                path = path,</span>
-<span class="fc bfc" id="L133" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
-<span class="fc" id="L134">                contentType = contentType,</span>
-<span class="fc" id="L135">                accept = accept,</span>
+<span class="fc" id="L138">        send(</span>
+<span class="fc" id="L139">            HttpRequest(</span>
+<span class="fc" id="L140">                method = POST,</span>
+<span class="fc" id="L141">                path = path,</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
+<span class="fc" id="L143">                contentType = contentType,</span>
+<span class="fc" id="L144">                accept = accept,</span>
             )
-<span class="fc" id="L137">        )</span>
+<span class="fc" id="L146">        )</span>
 
-<span class="fc" id="L139">    fun put(</span>
-<span class="fc" id="L140">        path: String = &quot;&quot;,</span>
-<span class="fc" id="L141">        body: Any? = null,</span>
-<span class="fc" id="L142">        contentType: ContentType? = settings.contentType,</span>
-<span class="fc" id="L143">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+<span class="fc" id="L148">    fun put(</span>
+<span class="fc" id="L149">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L150">        body: Any? = null,</span>
+<span class="fc" id="L151">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L152">        accept: List&lt;ContentType&gt; = settings.accept,</span>
     ): HttpResponsePort =
-<span class="fc" id="L145">        send(</span>
-<span class="fc" id="L146">            HttpRequest(</span>
-<span class="fc" id="L147">                method = PUT,</span>
-<span class="fc" id="L148">                path = path,</span>
-<span class="fc bfc" id="L149" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
-<span class="fc" id="L150">                contentType = contentType,</span>
-<span class="fc" id="L151">                accept = accept,</span>
+<span class="fc" id="L154">        send(</span>
+<span class="fc" id="L155">            HttpRequest(</span>
+<span class="fc" id="L156">                method = PUT,</span>
+<span class="fc" id="L157">                path = path,</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
+<span class="fc" id="L159">                contentType = contentType,</span>
+<span class="fc" id="L160">                accept = accept,</span>
             )
-<span class="fc" id="L153">        )</span>
+<span class="fc" id="L162">        )</span>
 
-<span class="fc" id="L155">    fun delete(</span>
-<span class="fc" id="L156">        path: String = &quot;&quot;,</span>
-<span class="fc" id="L157">        body: Any? = null,</span>
-<span class="fc" id="L158">        contentType: ContentType? = settings.contentType,</span>
-<span class="fc" id="L159">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+<span class="fc" id="L164">    fun delete(</span>
+<span class="fc" id="L165">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L166">        body: Any? = null,</span>
+<span class="fc" id="L167">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L168">        accept: List&lt;ContentType&gt; = settings.accept,</span>
     ): HttpResponsePort =
-<span class="fc" id="L161">        send(</span>
-<span class="fc" id="L162">            HttpRequest(</span>
-<span class="fc" id="L163">                method = DELETE,</span>
-<span class="fc" id="L164">                path = path,</span>
-<span class="fc bfc" id="L165" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
-<span class="fc" id="L166">                contentType = contentType,</span>
-<span class="fc" id="L167">                accept = accept,</span>
+<span class="fc" id="L170">        send(</span>
+<span class="fc" id="L171">            HttpRequest(</span>
+<span class="fc" id="L172">                method = DELETE,</span>
+<span class="fc" id="L173">                path = path,</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
+<span class="fc" id="L175">                contentType = contentType,</span>
+<span class="fc" id="L176">                accept = accept,</span>
             )
-<span class="fc" id="L169">        )</span>
+<span class="fc" id="L178">        )</span>
 
-<span class="fc" id="L171">    fun trace(</span>
-<span class="fc" id="L172">        path: String = &quot;&quot;,</span>
-<span class="fc" id="L173">        body: Any? = null,</span>
-<span class="fc" id="L174">        contentType: ContentType? = settings.contentType,</span>
-<span class="fc" id="L175">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+<span class="fc" id="L180">    fun trace(</span>
+<span class="fc" id="L181">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L182">        body: Any? = null,</span>
+<span class="fc" id="L183">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L184">        accept: List&lt;ContentType&gt; = settings.accept,</span>
     ): HttpResponsePort =
-<span class="fc" id="L177">        send(</span>
-<span class="fc" id="L178">            HttpRequest(</span>
-<span class="fc" id="L179">                method = TRACE,</span>
-<span class="fc" id="L180">                path = path,</span>
-<span class="fc bfc" id="L181" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
-<span class="fc" id="L182">                contentType = contentType,</span>
-<span class="fc" id="L183">                accept = accept,</span>
+<span class="fc" id="L186">        send(</span>
+<span class="fc" id="L187">            HttpRequest(</span>
+<span class="fc" id="L188">                method = TRACE,</span>
+<span class="fc" id="L189">                path = path,</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
+<span class="fc" id="L191">                contentType = contentType,</span>
+<span class="fc" id="L192">                accept = accept,</span>
             )
-<span class="fc" id="L185">        )</span>
+<span class="fc" id="L194">        )</span>
 
-<span class="fc" id="L187">    fun options(</span>
-<span class="fc" id="L188">        path: String = &quot;&quot;,</span>
-<span class="fc" id="L189">        body: Any? = null,</span>
-<span class="fc" id="L190">        headers: Headers = Headers(),</span>
-<span class="fc" id="L191">        contentType: ContentType? = settings.contentType,</span>
-<span class="fc" id="L192">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+<span class="fc" id="L196">    fun options(</span>
+<span class="fc" id="L197">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L198">        body: Any? = null,</span>
+<span class="fc" id="L199">        headers: Headers = Headers(),</span>
+<span class="fc" id="L200">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L201">        accept: List&lt;ContentType&gt; = settings.accept,</span>
     ): HttpResponsePort =
-<span class="fc" id="L194">        send(</span>
-<span class="fc" id="L195">            HttpRequest(</span>
-<span class="fc" id="L196">                method = OPTIONS,</span>
-<span class="fc" id="L197">                path = path,</span>
-<span class="fc bfc" id="L198" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
-<span class="fc" id="L199">                headers = headers,</span>
-<span class="fc" id="L200">                contentType = contentType,</span>
-<span class="fc" id="L201">                accept = accept,</span>
+<span class="fc" id="L203">        send(</span>
+<span class="fc" id="L204">            HttpRequest(</span>
+<span class="fc" id="L205">                method = OPTIONS,</span>
+<span class="fc" id="L206">                path = path,</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
+<span class="fc" id="L208">                headers = headers,</span>
+<span class="fc" id="L209">                contentType = contentType,</span>
+<span class="fc" id="L210">                accept = accept,</span>
             )
-<span class="fc" id="L203">        )</span>
+<span class="fc" id="L212">        )</span>
 
-<span class="fc" id="L205">    fun patch(</span>
-<span class="fc" id="L206">        path: String = &quot;&quot;,</span>
-<span class="fc" id="L207">        body: Any? = null,</span>
-<span class="fc" id="L208">        contentType: ContentType? = settings.contentType,</span>
-<span class="fc" id="L209">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+<span class="fc" id="L214">    fun patch(</span>
+<span class="fc" id="L215">        path: String = &quot;&quot;,</span>
+<span class="fc" id="L216">        body: Any? = null,</span>
+<span class="fc" id="L217">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L218">        accept: List&lt;ContentType&gt; = settings.accept,</span>
     ): HttpResponsePort =
-<span class="fc" id="L211">        send(</span>
-<span class="fc" id="L212">            HttpRequest(</span>
-<span class="fc" id="L213">                method = PATCH,</span>
-<span class="fc" id="L214">                path = path,</span>
-<span class="fc bfc" id="L215" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
-<span class="fc" id="L216">                contentType = contentType,</span>
-<span class="fc" id="L217">                accept = accept,</span>
+<span class="fc" id="L220">        send(</span>
+<span class="fc" id="L221">            HttpRequest(</span>
+<span class="fc" id="L222">                method = PATCH,</span>
+<span class="fc" id="L223">                path = path,</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">                body = body ?: &quot;&quot;,</span>
+<span class="fc" id="L225">                contentType = contentType,</span>
+<span class="fc" id="L226">                accept = accept,</span>
             )
-<span class="fc" id="L219">        )</span>
+<span class="fc" id="L228">        )</span>
 
     private fun HttpHandler.process(
         request: HttpRequestPort, attributes: Map&lt;String, Any&gt;
     ): HttpContext =
-<span class="fc" id="L224">        processHttp(</span>
-<span class="fc" id="L225">            HttpContext(HttpCall(request = request), handlerPredicate, attributes = attributes)</span>
-<span class="fc" id="L226">        )</span>
+<span class="fc" id="L233">        processHttp(</span>
+<span class="fc" id="L234">            HttpContext(HttpCall(request = request), handlerPredicate, attributes = attributes)</span>
+<span class="fc" id="L235">        )</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

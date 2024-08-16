@@ -108,7 +108,7 @@ object Jvm {
      *   found on the OS environment variables or in JVM system properties.
      */
     fun &lt;T: Any&gt; systemSettingOrNull(type: KClass&lt;T&gt;, name: String): T? =
-<span class="fc" id="L111">        systemSettingRaw(name).let { it.parseOrNull(type) }</span>
+<span class="fc" id="L111">        systemSettingRaw(name).parseOrNull(type)</span>
 
     fun &lt;T: Any&gt; systemSetting(type: KClass&lt;T&gt;, name: String): T =
 <span class="pc bpc" id="L114" title="1 of 2 branches missed.">        systemSettingOrNull(type, name)</span>

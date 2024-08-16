@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Rest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.rest</a> &gt; <span class="el_source">Rest.kt</span></div><h1>Rest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.rest
 
-import com.hexagonkt.core.media.ANY_MEDIA
-import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.core.media.*
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpBase
 import com.hexagonkt.serialization.*
 
-<span class="fc" id="L9">val anyContentType = ContentType(ANY_MEDIA)</span>
-<span class="fc" id="L10">val emptyBodies = setOf(&quot;&quot;, ByteArray(0))</span>
+<span class="fc" id="L8">val anyContentType = ContentType(ANY_MEDIA)</span>
+<span class="pc" id="L9">val textContentType = ContentType(TEXT_PLAIN)</span>
+<span class="pc" id="L10">val jsonContentType = ContentType(APPLICATION_JSON)</span>
+<span class="pc" id="L11">val yamlContentType = ContentType(APPLICATION_YAML)</span>
+<span class="pc" id="L12">val xmlContentType = ContentType(APPLICATION_XML)</span>
+<span class="pc" id="L13">val tomlContentType = ContentType(APPLICATION_TOML)</span>
+<span class="pc" id="L14">val csvContentType = ContentType(TEXT_CSV)</span>
 
 fun HttpBase.bodyList(): List&lt;*&gt; =
-<span class="fc" id="L13">    bodyString().parseList(mediaType())</span>
+<span class="fc" id="L17">    bodyString().parseList(mediaType())</span>
 
 fun HttpBase.bodyMap(): Map&lt;String, *&gt; =
-<span class="fc" id="L16">    bodyString().parseMap(mediaType())</span>
+<span class="fc" id="L20">    bodyString().parseMap(mediaType())</span>
 
 fun HttpBase.bodyMaps(): List&lt;Map&lt;String, *&gt;&gt; =
-<span class="fc" id="L19">    bodyString().parseMaps(mediaType())</span>
+<span class="fc" id="L23">    bodyString().parseMaps(mediaType())</span>
 
 fun &lt;T&gt; HttpBase.bodyObjects(converter: (Map&lt;String, *&gt;) -&gt; T): List&lt;T&gt; =
-<span class="fc" id="L22">    bodyMaps().map(converter)</span>
+<span class="fc" id="L26">    bodyMaps().map(converter)</span>
 
 fun &lt;T&gt; HttpBase.bodyObject(converter: (Map&lt;String, *&gt;) -&gt; T): T =
-<span class="fc" id="L25">    bodyMap().let(converter)</span>
+<span class="fc" id="L29">    bodyMap().let(converter)</span>
+
+fun HttpBase.serializeBody(): Any =
+<span class="nc bnc" id="L32" title="All 2 branches missed.">    contentType</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        ?.mediaType</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        ?.let(SerializationManager::formatOfOrNull)</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        ?.let { body.serialize(it) }</span>
+<span class="nc" id="L36">        ?: body</span>
 
 fun HttpBase.mediaType(): MediaType =
-<span class="pc bpc" id="L28" title="1 of 4 branches missed.">    contentType?.mediaType ?: error(&quot;Missing content type&quot;)</span>
+<span class="pc bpc" id="L39" title="1 of 4 branches missed.">    contentType?.mediaType ?: error(&quot;Missing content type&quot;)</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

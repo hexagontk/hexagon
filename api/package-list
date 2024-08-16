@@ -27,6 +27,7 @@ com.hexagonkt.http.handlers
 module:http_server
 com.hexagonkt.http.server
 com.hexagonkt.http.server.callbacks
+com.hexagonkt.http.server.handlers
 module:http_server_helidon
 com.hexagonkt.http.server.helidon
 module:http_server_jetty
