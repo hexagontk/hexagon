@@ -19,8 +19,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @TestInstance(PER_CLASS)
-internal class StateHttpClientTest {
-    private val server: DynamicHttpServer = DynamicHttpServer(JettyServletAdapter())
+internal class HttpClientToolTest {
+    private val server: HttpServerTool = HttpServerTool(JettyServletAdapter())
     private val text = ContentType(TEXT_PLAIN)
 
     @BeforeAll fun `Set up mock services`() {
@@ -47,7 +47,7 @@ internal class StateHttpClientTest {
         val adapter = JettyClientAdapter()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val params = mapOf("id" to 9)
-        val client = StateHttpClient(adapter, url, TEXT_PLAIN, headers = headers)
+        val client = HttpClientTool(adapter, url, TEXT_PLAIN, headers = headers)
 
         client.get("/hello/mike/{id}" to params).assertBody("GET /hello/mike/9", headers)
         client.put("/hello/mike/{id}" to params).assertBody("PUT /hello/mike/9", headers)

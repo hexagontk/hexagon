@@ -16,7 +16,7 @@ class SerializeResponseCallback: HttpCallback {
     override fun invoke(context: HttpContext): HttpContext {
         val responseBody = context.response.body
 
-        if (responseBody in emptyBodies)
+        if (responseBody is String || responseBody is ByteArray)
             return context
 
         return (context.request.accept - anyContentType)

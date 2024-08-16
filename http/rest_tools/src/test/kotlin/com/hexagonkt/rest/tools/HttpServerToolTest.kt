@@ -5,7 +5,7 @@ import com.hexagonkt.core.media.APPLICATION_JSON
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.require
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
-import com.hexagonkt.http.handlers.BeforeHandler
+import com.hexagonkt.http.handlers.FilterHandler
 import com.hexagonkt.http.handlers.PathHandler
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.OK_200
@@ -27,8 +27,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @TestInstance(PER_CLASS)
-class DynamicHttpServerTest {
-    private val dynamicServer: DynamicHttpServer = DynamicHttpServer(JettyServletAdapter())
+class HttpServerToolTest {
+    private val dynamicServer: HttpServerTool = HttpServerTool(JettyServletAdapter())
 
     @BeforeAll fun `Set up mock services`() {
         SerializationManager.formats = setOf(Json)
@@ -49,7 +49,7 @@ class DynamicHttpServerTest {
         }
 
         val url = "http://localhost:${dynamicServer.runtimePort}"
-        StateHttpClient(JettyClientAdapter(), url).request {
+        HttpClientTool(JettyClientAdapter(), url).request {
             start()
             get("/hello/mike")
             assertOk()
@@ -64,7 +64,7 @@ class DynamicHttpServerTest {
         }
 
         val url = "http://localhost:${dynamicServer.runtimePort}"
-        StateHttpClient(JettyClientAdapter(), url).request {
+        HttpClientTool(JettyClientAdapter(), url).request {
             get("/foo")
             assertOk()
             assertBody("dynamic")
@@ -91,11 +91,11 @@ class DynamicHttpServerTest {
         val adapter = JettyClientAdapter()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val recordCallback = RecordCallback()
-        val recordHandler = BeforeHandler("*", recordCallback)
-        val http = StateHttpClient(
+        val recordHandler = FilterHandler("*", recordCallback)
+        val http = HttpClientTool(
             adapter,
             httpHeaders = headers,
-            handler = PathHandler(recordHandler, StateHttpClient.serializeHandler)
+            handler = PathHandler(recordHandler, HttpClientTool.serializeHandler)
         )
 
         http.get("http://localhost:$port/hello/mike").assertBody("GET /hello/mike", headers)
@@ -138,7 +138,7 @@ class DynamicHttpServerTest {
         val url = "http://localhost:${dynamicServer.runtimePort}"
         val adapter = JettyClientAdapter()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
-        val http = StateHttpClient(adapter, url, httpHeaders = headers)
+        val http = HttpClientTool(adapter, url, httpHeaders = headers)
 
         http.get("/hello/mike").assertBody("GET /hello/mike", headers)
         http.get().assertBody("GET / ", headers)
@@ -191,13 +191,13 @@ class DynamicHttpServerTest {
 
         val settings = HttpServerSettings(bindPort = 0)
         val serverAdapter = JettyServletAdapter()
-        val server = DynamicHttpServer(serverAdapter, settings).apply(DynamicHttpServer::start)
+        val server = HttpServerTool(serverAdapter, settings).apply(HttpServerTool::start)
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val text = ContentType(TEXT_PLAIN)
         val json = ContentType(APPLICATION_JSON)
         val binding = server.binding.toString()
         val adapter = JettyClientAdapter()
-        val http = StateHttpClient(adapter, binding, json, httpHeaders = headers)
+        val http = HttpClientTool(adapter, binding, json, httpHeaders = headers)
 
         server.path {
             before("*") {
@@ -275,7 +275,7 @@ class DynamicHttpServerTest {
         }
     }
 
-    private fun StateHttpClient.assertBody(expectedBody: String, checkedHeaders: Map<String, *>) {
+    private fun HttpClientTool.assertBody(expectedBody: String, checkedHeaders: Map<String, *>) {
         assertOk()
         assertSuccess()
         assertStatus(OK_200)

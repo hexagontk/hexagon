@@ -16,7 +16,7 @@ class SerializeRequestCallback : HttpCallback {
     override fun invoke(context: HttpContext): HttpContext {
         val requestBody = context.request.body
 
-        if (requestBody in emptyBodies)
+        if (requestBody is String || requestBody is ByteArray)
             return context
 
         return context.request.contentType?.mediaType

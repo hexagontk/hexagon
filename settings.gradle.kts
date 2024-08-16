@@ -21,7 +21,7 @@ dependencyResolutionManagement {
             // Build
             version("kotlin", "2.0.10")
             version("dokka", "1.9.20")
-            version("licenseReport", "2.8")
+            version("licenseReport", "2.9")
             version("binValidator", "0.16.3")
             version("nativeTools", "0.10.2")
             version("detekt", "1.23.6")

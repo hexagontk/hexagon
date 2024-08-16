@@ -4,7 +4,7 @@ import com.hexagonkt.handlers.Handler
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpCall
 
-sealed interface HttpHandler : Handler<HttpCall> {
+interface HttpHandler : Handler<HttpCall> {
     val handlerPredicate: HttpPredicate
 
     fun addPrefix(prefix: String): HttpHandler
