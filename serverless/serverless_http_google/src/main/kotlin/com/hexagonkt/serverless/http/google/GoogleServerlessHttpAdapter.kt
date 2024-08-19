@@ -9,8 +9,8 @@ class GoogleServerlessHttpAdapter(val handler: HttpHandler): HttpFunction {
 
     override fun service(request: HttpRequest, response: HttpResponse) {
         // Transform request
-        response.writer.write("Hello World!")
         // Call handler
         // Transform response
+        response.writer.write("Hello World!")
     }
 }

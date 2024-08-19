@@ -9,15 +9,14 @@ import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.NO_CONTENT_204
 import com.hexagonkt.http.server.callbacks.CorsCallback
 
-// TODO Write tests
-class CorsHandler(pattern: String = "*", cors: CorsCallback = CorsCallback()) :
+class CorsHandler(pattern: String, cors: CorsCallback) :
     HttpHandler by FilterHandler(HttpPredicate(pattern = pattern), cors) {
 
     constructor(cors: CorsCallback) : this("*", cors)
 
     constructor(
         pattern: String = "*",
-        allowedOrigin: Regex,
+        allowedOrigin: String = "*",
         allowedMethods: Set<HttpMethod> = ALL,
         allowedHeaders: Set<String> = emptySet(),
         exposedHeaders: Set<String> = emptySet(),

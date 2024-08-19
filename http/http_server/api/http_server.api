@@ -125,12 +125,10 @@ public final class com/hexagonkt/http/server/callbacks/UrlCallback : kotlin/jvm/
 }
 
 public final class com/hexagonkt/http/server/handlers/CorsHandler : com/hexagonkt/http/handlers/HttpHandler {
-	public fun <init> ()V
 	public fun <init> (Lcom/hexagonkt/http/server/callbacks/CorsCallback;)V
 	public fun <init> (Ljava/lang/String;Lcom/hexagonkt/http/server/callbacks/CorsCallback;)V
-	public synthetic fun <init> (Ljava/lang/String;Lcom/hexagonkt/http/server/callbacks/CorsCallback;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun <init> (Ljava/lang/String;Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagonkt/http/model/HttpStatus;J)V
-	public synthetic fun <init> (Ljava/lang/String;Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagonkt/http/model/HttpStatus;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagonkt/http/model/HttpStatus;J)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagonkt/http/model/HttpStatus;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun addPrefix (Ljava/lang/String;)Lcom/hexagonkt/http/handlers/HttpHandler;
 	public fun byMethod ()Ljava/util/Map;
 	public fun filter (Lcom/hexagonkt/http/model/HttpMethod;)Lcom/hexagonkt/http/handlers/HttpHandler;

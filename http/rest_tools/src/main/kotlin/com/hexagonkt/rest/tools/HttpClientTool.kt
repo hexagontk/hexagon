@@ -27,6 +27,7 @@ data class HttpClientTool(
     val followRedirects: Boolean = false
 ) {
     companion object {
+        // TODO Use SerializeRequestHandler when created
         val serializeHandler: HttpHandler = BeforeHandler("*", SerializeRequestCallback())
     }
 
