@@ -27,9 +27,9 @@ dependencyResolutionManagement {
             version("detekt", "1.23.6")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.10")
-            version("mkdocsMaterial", "9.5.31")
+            version("mkdocsMaterial", "9.5.32")
             version("mermaidDokka", "0.6.0")
-            version("maven", "3.9.8")
+            version("maven", "3.9.9")
 
             // Testing
             version("junit", "5.11.0")

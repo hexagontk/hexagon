@@ -1,13 +1,11 @@
 package com.hexagonkt.rest.tools
 
 import com.hexagonkt.core.logging.info
-import com.hexagonkt.core.media.APPLICATION_JSON
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.core.require
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.handlers.FilterHandler
 import com.hexagonkt.http.handlers.PathHandler
-import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.handlers.path
 import com.hexagonkt.http.model.HttpMethod.*
@@ -16,6 +14,8 @@ import com.hexagonkt.http.model.HttpStatusType.SUCCESS
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.rest.bodyMap
+import com.hexagonkt.rest.jsonContentType
+import com.hexagonkt.rest.textContentType
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.jackson.json.Json
 import org.junit.jupiter.api.AfterAll
@@ -44,7 +44,7 @@ class HttpServerToolTest {
             get("/hello/{name}") {
                 val name = pathParameters["name"]
 
-                ok("Hello, $name!", contentType = ContentType(TEXT_PLAIN))
+                ok("Hello, $name!", contentType = textContentType)
             }
         }
 
@@ -83,7 +83,7 @@ class HttpServerToolTest {
     @Test fun `Check all HTTP methods (absolute path)`() {
         dynamicServer.path = path {
             on("*") {
-                ok("$method $path ${request.headers}", contentType = ContentType(TEXT_PLAIN))
+                ok("$method $path ${request.headers}", contentType = textContentType)
             }
         }
 
@@ -131,7 +131,7 @@ class HttpServerToolTest {
     @Test fun `Check all HTTP methods`() {
         dynamicServer.path {
             before("*") {
-                ok("$method $path ${request.headers}", contentType = ContentType(TEXT_PLAIN))
+                ok("$method $path ${request.headers}", contentType = textContentType)
             }
         }
 
@@ -193,15 +193,13 @@ class HttpServerToolTest {
         val serverAdapter = JettyServletAdapter()
         val server = HttpServerTool(serverAdapter, settings).apply(HttpServerTool::start)
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
-        val text = ContentType(TEXT_PLAIN)
-        val json = ContentType(APPLICATION_JSON)
         val binding = server.binding.toString()
         val adapter = JettyClientAdapter()
-        val http = HttpClientTool(adapter, binding, json, httpHeaders = headers)
+        val http = HttpClientTool(adapter, binding, jsonContentType, httpHeaders = headers)
 
         server.path {
             before("*") {
-                ok("$method $path ${request.headers}", contentType = text)
+                ok("$method $path ${request.headers}", contentType = textContentType)
             }
 
             put("/data/{id}") {
@@ -209,7 +207,7 @@ class HttpServerToolTest {
                 val data = request.bodyMap()
                 val content = mapOf(id to data)
 
-                ok(content, contentType = json)
+                ok(content, contentType = jsonContentType)
             }
         }
 
@@ -280,11 +278,11 @@ class HttpServerToolTest {
         assertSuccess()
         assertStatus(OK_200)
         assertStatus(SUCCESS)
-        assertContentType(ContentType(TEXT_PLAIN))
+        assertContentType(textContentType)
         assertContentType(TEXT_PLAIN)
         assertBodyContains(expectedBody)
 
-        assertEquals(ContentType(APPLICATION_JSON), request.contentType)
+        assertEquals(jsonContentType, request.contentType)
         assertEquals(OK_200, status)
 
         for ((k, v) in checkedHeaders.entries) {

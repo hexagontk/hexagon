@@ -23,6 +23,7 @@ data class HttpServerTool(
 
     private val server: HttpServer by lazy {
         HttpServer(adapter, settings) {
+            // TODO Use SerializeResponseHandler when created
             after("*", SerializeResponseCallback())
             after(pattern = "*", status = NOT_FOUND_404) {
                 send(response = this@HttpServerTool.path.process(request).response)

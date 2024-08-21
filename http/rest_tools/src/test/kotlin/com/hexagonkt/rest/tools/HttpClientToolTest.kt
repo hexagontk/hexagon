@@ -2,12 +2,12 @@ package com.hexagonkt.rest.tools
 
 import com.hexagonkt.core.media.TEXT_PLAIN
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
-import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpMethod.POST
 import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.HttpResponsePort
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
+import com.hexagonkt.rest.textContentType
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.jackson.json.Json
 import org.junit.jupiter.api.AfterAll
@@ -21,7 +21,7 @@ import kotlin.test.assertTrue
 @TestInstance(PER_CLASS)
 internal class HttpClientToolTest {
     private val server: HttpServerTool = HttpServerTool(JettyServletAdapter())
-    private val text = ContentType(TEXT_PLAIN)
+    private val text = textContentType
 
     @BeforeAll fun `Set up mock services`() {
         SerializationManager.formats = setOf(Json)

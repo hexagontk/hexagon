@@ -8,11 +8,11 @@ import com.hexagonkt.http.model.HttpMethod.POST
 import com.hexagonkt.http.model.NO_CONTENT_204
 import com.hexagonkt.http.model.OK_200
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.server.callbacks.CorsCallback
 import com.hexagonkt.http.handlers.HandlerBuilder
 import com.hexagonkt.http.handlers.PathHandler
 import com.hexagonkt.http.handlers.HttpHandler
 import com.hexagonkt.http.handlers.path
+import com.hexagonkt.http.server.callbacks.CorsCallback
 import com.hexagonkt.http.server.handlers.CorsHandler
 import com.hexagonkt.http.test.BaseTest
 import org.junit.jupiter.api.Test
@@ -28,19 +28,19 @@ abstract class CorsTest(
 
     // cors
     val path: PathHandler = path {
-        corsPath("/default", CorsCallback())
-        corsPath("/example/org", CorsCallback("example.org"))
-        corsPath("/no/credentials", CorsCallback(supportCredentials = false))
-        corsPath("/only/post", CorsCallback(allowedMethods = setOf(POST)))
-        corsPath("/cache", CorsCallback(preFlightMaxAge = 10))
-        corsPath("/exposed/headers", CorsCallback(exposedHeaders = setOf("head")))
-        corsPath("/allowed/headers", CorsCallback(allowedHeaders = setOf("head")))
+        corsPath("/default", CorsHandler(CorsCallback()))
+        corsPath("/example/org", CorsHandler(allowedOrigin = "example.org"))
+        corsPath("/no/credentials", CorsHandler(supportCredentials = false))
+        corsPath("/only/post", CorsHandler(allowedMethods = setOf(POST)))
+        corsPath("/cache", CorsHandler(preFlightMaxAge = 10))
+        corsPath("/exposed/headers", CorsHandler(exposedHeaders = setOf("head")))
+        corsPath("/allowed/headers", CorsHandler(allowedHeaders = setOf("head")))
     }
 
-    private fun HandlerBuilder.corsPath(path: String, cors: CorsCallback) {
+    private fun HandlerBuilder.corsPath(path: String, cors: CorsHandler) {
         path(path) {
             // CORS settings can change for different routes
-            use(CorsHandler(cors))
+            use(cors)
 
             get("/path") { ok(method.toString()) }
             post("/path") { ok(method.toString()) }

@@ -5,6 +5,7 @@ import com.hexagonkt.http.handlers.HttpContext
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
 
+// TODO Create SerializeResponseHandler like CorsHandler
 class SerializeResponseCallback: HttpCallback {
 
     init {

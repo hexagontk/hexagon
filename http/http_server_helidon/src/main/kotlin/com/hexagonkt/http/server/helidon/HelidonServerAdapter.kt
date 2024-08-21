@@ -137,7 +137,18 @@ class HelidonServerAdapter(
         setOf(ZIP)
 
     override fun options(): Map<String, *> =
-        fieldsMapOf<HelidonServerAdapter>()
+        fieldsMapOf(
+            HelidonServerAdapter::backlog to backlog,
+            HelidonServerAdapter::writeQueueLength to writeQueueLength,
+            HelidonServerAdapter::readTimeout to readTimeout,
+            HelidonServerAdapter::connectTimeout to connectTimeout,
+            HelidonServerAdapter::tcpNoDelay to tcpNoDelay,
+            HelidonServerAdapter::receiveLog to receiveLog,
+            HelidonServerAdapter::sendLog to sendLog,
+            HelidonServerAdapter::validatePath to validatePath,
+            HelidonServerAdapter::validateRequestHeaders to validateRequestHeaders,
+            HelidonServerAdapter::validateResponseHeaders to validateResponseHeaders,
+        )
 
     private fun setResponse(
         secureRequest: Boolean,
