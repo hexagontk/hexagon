@@ -32,7 +32,6 @@ jobs:
         run: |
           export REMOTE="https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           git remote set-url origin "$REMOTE"
-          git clone "$REMOTE" --branch gh-pages build/gh-pages
           ./gradlew build
           ./gradlew -x build buildSite
           ls -AlF site/build/site
@@ -43,10 +42,3 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: ./gradlew --no-daemon -x test release
-
-      - run: |
-          cp -rf site/build/site/* build/gh-pages/
-          cd build/gh-pages
-          git add --all
-          git commit -m "Publishing to gh-pages"
-          git push origin gh-pages
