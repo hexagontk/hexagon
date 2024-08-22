@@ -66,8 +66,6 @@ module:serialization_jackson_yaml
 com.hexagonkt.serialization.jackson.yaml
 module:serialization_test
 com.hexagonkt.serialization.test
-module:serverless_http_google
-com.hexagonkt.serverless.http.google
 module:templates
 com.hexagonkt.templates
 module:templates_freemarker
