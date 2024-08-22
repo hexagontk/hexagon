@@ -1,10 +1,10 @@
-package com.hexagonkt.core.logging
+package com.hexagontk.core.logging
 
-import com.hexagonkt.core.text.Ansi.RESET
-import com.hexagonkt.core.text.AnsiColor.BRIGHT_WHITE
-import com.hexagonkt.core.text.AnsiColor.RED_BG
-import com.hexagonkt.core.text.AnsiEffect.UNDERLINE
-import com.hexagonkt.core.urlOf
+import com.hexagontk.core.text.Ansi.RESET
+import com.hexagontk.core.text.AnsiColor.BRIGHT_WHITE
+import com.hexagontk.core.text.AnsiColor.RED_BG
+import com.hexagontk.core.text.AnsiEffect.UNDERLINE
+import com.hexagontk.core.urlOf
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.BeforeAll
@@ -36,7 +36,7 @@ internal class LoggerTest {
         logger.info {
             """
             You can add a quick log without declaring a Logger with
-            'com.hexagonkt.core.logging.logger'. It is a default logger created with a custom name
+            'com.hexagontk.core.logging.logger'. It is a default logger created with a custom name
             (same as `Logger(LoggingManager.defaultLoggerName)`).
             """
         }

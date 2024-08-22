@@ -1,11 +1,11 @@
-package com.hexagonkt.http.server.callbacks
+package com.hexagontk.http.server.callbacks
 
-import com.hexagonkt.core.text.Glob
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.model.HttpMethod.OPTIONS
-import com.hexagonkt.http.model.HttpStatusType.SUCCESS
-import com.hexagonkt.http.handlers.HttpContext
+import com.hexagontk.core.text.Glob
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.Companion.ALL
+import com.hexagontk.http.model.HttpMethod.OPTIONS
+import com.hexagontk.http.model.HttpStatusType.SUCCESS
+import com.hexagontk.http.handlers.HttpContext
 
 /**
  * HTTP CORS callback. It holds info for CORS.

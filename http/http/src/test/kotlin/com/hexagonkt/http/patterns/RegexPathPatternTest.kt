@@ -1,6 +1,6 @@
-package com.hexagonkt.http.patterns
+package com.hexagontk.http.patterns
 
-import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.VARIABLE_PATTERN as VP
+import com.hexagontk.http.patterns.TemplatePathPattern.Companion.VARIABLE_PATTERN as VP
 import org.junit.jupiter.api.Test
 import kotlin.test.*
 

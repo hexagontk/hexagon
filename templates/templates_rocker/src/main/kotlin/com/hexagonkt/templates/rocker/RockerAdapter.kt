@@ -1,9 +1,9 @@
-package com.hexagonkt.templates.rocker
+package com.hexagontk.templates.rocker
 
 import com.fizzed.rocker.Rocker
 import com.fizzed.rocker.runtime.RockerRuntime
 import com.fizzed.rocker.runtime.StringBuilderOutput
-import com.hexagonkt.templates.TemplatePort
+import com.hexagontk.templates.TemplatePort
 import java.net.URL
 import java.util.*
 

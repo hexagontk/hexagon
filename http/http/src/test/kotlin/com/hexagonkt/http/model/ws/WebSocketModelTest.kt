@@ -1,7 +1,7 @@
-package com.hexagonkt.http.model.ws
+package com.hexagontk.http.model.ws
 
-import com.hexagonkt.core.fail
-import com.hexagonkt.http.model.HttpRequestPort
+import com.hexagontk.core.fail
+import com.hexagontk.http.model.HttpRequestPort
 import java.net.URI
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

@@ -1,4 +1,4 @@
-package com.hexagonkt.serialization.jackson.json
+package com.hexagontk.serialization.jackson.json
 
 object Json : JsonFormat() {
     val raw = JsonFormat(false)

@@ -1,12 +1,12 @@
-package com.hexagonkt.http.server.servlet
+package com.hexagontk.http.server.servlet
 
-import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.core.toText
-import com.hexagonkt.http.handlers.bodyToBytes
-import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.model.HttpResponse
-import com.hexagonkt.http.model.HttpResponsePort
+import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.core.toText
+import com.hexagontk.http.handlers.bodyToBytes
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.model.HttpResponse
+import com.hexagontk.http.model.HttpResponsePort
 import jakarta.servlet.*
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpFilter

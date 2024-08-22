@@ -1,10 +1,10 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.handlers.OnHandler
-import com.hexagonkt.handlers.Handler
-import com.hexagonkt.http.model.HttpMethod
-import com.hexagonkt.http.model.HttpStatus
-import com.hexagonkt.http.model.HttpCall
+import com.hexagontk.handlers.OnHandler
+import com.hexagontk.handlers.Handler
+import com.hexagontk.http.model.HttpMethod
+import com.hexagontk.http.model.HttpStatus
+import com.hexagontk.http.model.HttpCall
 import kotlin.reflect.KClass
 
 data class OnHandler(

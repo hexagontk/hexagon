@@ -1,7 +1,7 @@
-package com.hexagonkt.serialization.jackson
+package com.hexagontk.serialization.jackson
 
-import com.hexagonkt.core.media.APPLICATION_JSON
-import com.hexagonkt.core.media.MediaType
+import com.hexagontk.core.media.APPLICATION_JSON
+import com.hexagontk.core.media.MediaType
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.IllegalStateException

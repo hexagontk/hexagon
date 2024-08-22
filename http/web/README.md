@@ -15,14 +15,14 @@ ports.
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:web:$hexagonVersion")
+    implementation("com.hexagontk:web:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>web</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
@@ -31,5 +31,5 @@ ports.
 ### Templates
 Provide utilities for template processing inside HTTP handlers.
 
-# Package com.hexagonkt.web
+# Package com.hexagontk.web
 TODO

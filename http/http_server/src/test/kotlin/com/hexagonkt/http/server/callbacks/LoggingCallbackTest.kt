@@ -1,14 +1,14 @@
-package com.hexagonkt.http.server.callbacks
+package com.hexagontk.http.server.callbacks
 
-import com.hexagonkt.core.media.APPLICATION_JSON
-import com.hexagonkt.core.media.TEXT_HTML
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.Headers
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.model.HttpRequest
-import com.hexagonkt.http.model.HttpResponse
+import com.hexagontk.core.media.APPLICATION_JSON
+import com.hexagontk.core.media.TEXT_HTML
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.http.model.ContentType
+import com.hexagontk.http.model.Header
+import com.hexagontk.http.model.Headers
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.model.HttpRequest
+import com.hexagontk.http.model.HttpResponse
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

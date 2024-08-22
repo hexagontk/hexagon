@@ -1,4 +1,4 @@
-package com.hexagonkt.core.text
+package com.hexagontk.core.text
 
 import kotlin.IllegalArgumentException
 import java.util.regex.PatternSyntaxException

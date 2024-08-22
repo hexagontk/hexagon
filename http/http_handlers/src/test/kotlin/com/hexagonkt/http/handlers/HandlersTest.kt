@@ -1,9 +1,9 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.http.model.HttpRequest
-import com.hexagonkt.http.model.INTERNAL_SERVER_ERROR_500
-import com.hexagonkt.http.model.NOT_FOUND_404
-import com.hexagonkt.http.model.OK_200
+import com.hexagontk.http.model.HttpRequest
+import com.hexagontk.http.model.INTERNAL_SERVER_ERROR_500
+import com.hexagontk.http.model.NOT_FOUND_404
+import com.hexagontk.http.model.OK_200
 import org.junit.jupiter.api.Test
 import java.math.BigInteger
 import java.time.LocalDate

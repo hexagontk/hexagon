@@ -1,6 +1,6 @@
-package com.hexagonkt.core.text
+package com.hexagontk.core.text
 
-import com.hexagonkt.core.text.Ansi.CSI
+import com.hexagontk.core.text.Ansi.CSI
 
 object AnsiColor {
     /** Set black as the foreground color. */

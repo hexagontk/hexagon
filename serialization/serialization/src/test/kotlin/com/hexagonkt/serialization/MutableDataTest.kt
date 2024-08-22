@@ -1,7 +1,7 @@
-package com.hexagonkt.serialization
+package com.hexagontk.serialization
 
-import com.hexagonkt.core.fieldsMapOf
-import com.hexagonkt.core.requirePath
+import com.hexagontk.core.fieldsMapOf
+import com.hexagontk.core.requirePath
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

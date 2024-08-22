@@ -1,6 +1,6 @@
-package com.hexagonkt.core
+package com.hexagontk.core
 
-import com.hexagonkt.core.logging.logger
+import com.hexagontk.core.logging.logger
 import java.net.URL
 import java.net.URLConnection
 import java.net.URLStreamHandler

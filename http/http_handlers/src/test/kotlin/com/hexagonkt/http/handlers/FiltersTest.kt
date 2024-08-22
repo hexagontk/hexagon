@@ -1,12 +1,12 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.core.text.decodeBase64
-import com.hexagonkt.http.model.FORBIDDEN_403
-import com.hexagonkt.http.model.UNAUTHORIZED_401
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.HttpMethod.GET
-import com.hexagonkt.http.model.HttpMethod.PUT
-import com.hexagonkt.http.model.*
+import com.hexagontk.core.text.decodeBase64
+import com.hexagontk.http.model.FORBIDDEN_403
+import com.hexagontk.http.model.UNAUTHORIZED_401
+import com.hexagontk.http.model.Header
+import com.hexagontk.http.model.HttpMethod.GET
+import com.hexagontk.http.model.HttpMethod.PUT
+import com.hexagontk.http.model.*
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

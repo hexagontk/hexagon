@@ -1,4 +1,4 @@
-package com.hexagonkt.core
+package com.hexagontk.core
 
 import kotlin.reflect.KProperty1
 

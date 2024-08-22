@@ -1,6 +1,6 @@
-package com.hexagonkt.serialization
+package com.hexagontk.serialization
 
-import com.hexagonkt.core.media.MediaType
+import com.hexagontk.core.media.MediaType
 
 object SerializationManager {
 

@@ -1,13 +1,13 @@
-package com.hexagonkt.http.server.jetty
+package com.hexagontk.http.server.jetty
 
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.client.HttpClient
-import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.client.jetty.ws.JettyWsClientAdapter
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.OK_200
-import com.hexagonkt.http.handlers.path
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.client.HttpClientSettings
+import com.hexagontk.http.client.jetty.ws.JettyWsClientAdapter
+import com.hexagontk.http.model.ContentType
+import com.hexagontk.http.model.OK_200
+import com.hexagontk.http.handlers.path
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledForJreRange
 import org.junit.jupiter.api.condition.JRE.JAVA_17

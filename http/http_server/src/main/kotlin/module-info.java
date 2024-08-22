@@ -1,9 +1,9 @@
 
-module com.hexagonkt.http_server {
+module com.hexagontk.http_server {
 
-    requires transitive com.hexagonkt.core;
-    requires transitive com.hexagonkt.http_handlers;
+    requires transitive com.hexagontk.core;
+    requires transitive com.hexagontk.http_handlers;
 
-    exports com.hexagonkt.http.server;
-    exports com.hexagonkt.http.server.callbacks;
+    exports com.hexagontk.http.server;
+    exports com.hexagontk.http.server.callbacks;
 }

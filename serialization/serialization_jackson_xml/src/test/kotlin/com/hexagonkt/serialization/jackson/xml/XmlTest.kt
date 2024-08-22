@@ -1,8 +1,8 @@
-package com.hexagonkt.serialization.jackson.xml
+package com.hexagontk.serialization.jackson.xml
 
-import com.hexagonkt.core.*
-import com.hexagonkt.core.text.toStream
-import com.hexagonkt.serialization.*
+import com.hexagontk.core.*
+import com.hexagontk.core.text.toStream
+import com.hexagontk.serialization.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

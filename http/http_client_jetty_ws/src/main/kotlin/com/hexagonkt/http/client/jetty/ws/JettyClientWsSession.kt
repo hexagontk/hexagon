@@ -1,7 +1,7 @@
-package com.hexagonkt.http.client.jetty.ws
+package com.hexagontk.http.client.jetty.ws
 
-import com.hexagonkt.http.model.HttpRequestPort
-import com.hexagonkt.http.model.ws.WsSession
+import com.hexagontk.http.model.HttpRequestPort
+import com.hexagontk.http.model.ws.WsSession
 import org.eclipse.jetty.websocket.api.Callback.NOOP
 import org.eclipse.jetty.websocket.api.Session
 import java.net.URI

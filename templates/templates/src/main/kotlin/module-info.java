@@ -1,7 +1,7 @@
 
-module com.hexagonkt.templates {
+module com.hexagontk.templates {
 
-    requires transitive com.hexagonkt.core;
+    requires transitive com.hexagontk.core;
 
-    exports com.hexagonkt.templates;
+    exports com.hexagontk.templates;
 }

@@ -1,10 +1,10 @@
-package com.hexagonkt.http.server.callbacks
+package com.hexagontk.http.server.callbacks
 
-import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.core.media.mediaTypeOfOrNull
-import com.hexagonkt.core.require
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.handlers.HttpContext
+import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.media.mediaTypeOfOrNull
+import com.hexagontk.core.require
+import com.hexagontk.http.model.ContentType
+import com.hexagontk.http.handlers.HttpContext
 import java.io.File
 
 /**

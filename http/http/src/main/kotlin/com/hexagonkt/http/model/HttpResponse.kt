@@ -1,7 +1,7 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.http.checkHeaders
-import com.hexagonkt.http.model.ws.WsSession
+import com.hexagontk.http.checkHeaders
+import com.hexagontk.http.model.ws.WsSession
 
 data class HttpResponse(
     override val body: Any = "",

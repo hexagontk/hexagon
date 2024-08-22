@@ -1,8 +1,8 @@
-package com.hexagonkt.http.server.netty
+package com.hexagontk.http.server.netty
 
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.model.HttpRequestPort
-import com.hexagonkt.http.model.ws.WsSession
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.model.HttpRequestPort
+import com.hexagontk.http.model.ws.WsSession
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.http.websocketx.*

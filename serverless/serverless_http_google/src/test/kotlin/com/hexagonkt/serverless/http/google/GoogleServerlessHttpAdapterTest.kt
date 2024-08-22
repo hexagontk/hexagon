@@ -1,14 +1,14 @@
-package com.hexagonkt.serverless.http.google
+package com.hexagontk.serverless.http.google
 
 import com.google.cloud.functions.HttpFunction
 import com.google.cloud.functions.HttpRequest
 import com.google.cloud.functions.HttpResponse
 import com.google.cloud.functions.invoker.runner.Invoker
-import com.hexagonkt.core.freePort
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.client.HttpClient
-import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.client.java.JavaClientAdapter
+import com.hexagontk.core.freePort
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.client.HttpClientSettings
+import com.hexagontk.http.client.java.JavaClientAdapter
 import kotlin.reflect.KClass
 import kotlin.test.Test
 import kotlin.test.assertEquals

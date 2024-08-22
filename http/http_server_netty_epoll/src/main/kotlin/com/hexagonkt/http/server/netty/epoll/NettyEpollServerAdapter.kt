@@ -1,8 +1,8 @@
-package com.hexagonkt.http.server.netty.epoll
+package com.hexagontk.http.server.netty.epoll
 
-import com.hexagonkt.core.Jvm
-import com.hexagonkt.http.server.HttpServerPort
-import com.hexagonkt.http.server.netty.NettyServerAdapter
+import com.hexagontk.core.Jvm
+import com.hexagontk.http.server.HttpServerPort
+import com.hexagontk.http.server.netty.NettyServerAdapter
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.Channel
 import io.netty.channel.ChannelOption

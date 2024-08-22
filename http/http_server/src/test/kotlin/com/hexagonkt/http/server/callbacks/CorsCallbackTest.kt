@@ -1,6 +1,6 @@
-package com.hexagonkt.http.server.callbacks
+package com.hexagontk.http.server.callbacks
 
-import com.hexagonkt.http.model.NOT_FOUND_404
+import com.hexagontk.http.model.NOT_FOUND_404
 import java.lang.IllegalArgumentException
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

@@ -1,9 +1,9 @@
-package com.hexagonkt.http.client
+package com.hexagontk.http.client
 
-import com.hexagonkt.http.model.HttpRequestPort
-import com.hexagonkt.http.model.HttpResponsePort
-import com.hexagonkt.http.model.ServerEvent
-import com.hexagonkt.http.model.ws.WsSession
+import com.hexagontk.http.model.HttpRequestPort
+import com.hexagontk.http.model.HttpResponsePort
+import com.hexagontk.http.model.ServerEvent
+import com.hexagontk.http.model.ws.WsSession
 import java.util.concurrent.Flow.Publisher
 
 interface HttpClientPort {

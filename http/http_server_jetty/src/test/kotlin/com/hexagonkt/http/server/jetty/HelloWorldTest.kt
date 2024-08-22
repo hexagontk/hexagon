@@ -1,24 +1,24 @@
 @file:Suppress("UnusedImport") // Unused import left for the sake of documentation completeness
 
-package com.hexagonkt.http.server.jetty
+package com.hexagontk.http.server.jetty
 
-import com.hexagonkt.http.client.jetty.JettyClientAdapter
-import com.hexagonkt.http.client.HttpClient
-import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.model.OK_200
+import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.client.HttpClientSettings
+import com.hexagontk.http.model.OK_200
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import kotlin.test.assertEquals
-import com.hexagonkt.core.urlOf
+import com.hexagontk.core.urlOf
 
 // hello_world
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.server.HttpServer
-import com.hexagonkt.http.server.jetty.serve
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.http.model.ContentType
+import com.hexagontk.http.server.HttpServer
+import com.hexagontk.http.server.jetty.serve
 
 lateinit var server: HttpServer
 

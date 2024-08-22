@@ -1,4 +1,4 @@
-package com.hexagonkt.templates
+package com.hexagontk.templates
 
 import java.net.URL
 import java.util.*

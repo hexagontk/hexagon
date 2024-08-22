@@ -1,11 +1,11 @@
-package com.hexagonkt.serialization.jackson.yaml
+package com.hexagontk.serialization.jackson.yaml
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.*
-import com.hexagonkt.core.media.APPLICATION_YAML
-import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.serialization.jackson.JacksonTextFormat
+import com.hexagontk.core.media.APPLICATION_YAML
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.serialization.jackson.JacksonTextFormat
 
 open class YamlFormat(
     prettyPrint: Boolean = true

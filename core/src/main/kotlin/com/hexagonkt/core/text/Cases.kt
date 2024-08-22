@@ -1,4 +1,4 @@
-package com.hexagonkt.core.text
+package com.hexagontk.core.text
 
 val CAMEL_CASE: Regex by lazy { Regex("[a-z]+([A-Z][a-z0-9]+)+") }
 val PASCAL_CASE: Regex by lazy { Regex("([A-Z][a-z0-9]+)+") }

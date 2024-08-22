@@ -19,7 +19,7 @@ the features it provides:
 
 ```xml
 <parent>
-  <groupId>com.hexagonkt</groupId>
+  <groupId>com.hexagontk</groupId>
   <artifactId>kotlin_pom</artifactId>
   <version>$hexagonVersion</version>
 </parent>
@@ -35,7 +35,7 @@ using this approach is that it differs of the standard one.
 
 ```xml
 <parent>
-  <groupId>com.hexagonkt</groupId>
+  <groupId>com.hexagontk</groupId>
   <artifactId>kotlin_lean_pom</artifactId>
   <version>$hexagonVersion</version>
 </parent>

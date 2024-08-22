@@ -1,7 +1,7 @@
-package com.hexagonkt.core.media
+package com.hexagontk.core.media
 
-import com.hexagonkt.core.assertEnabled
-import com.hexagonkt.core.media.MediaTypeGroup.ANY
+import com.hexagontk.core.assertEnabled
+import com.hexagontk.core.media.MediaTypeGroup.ANY
 
 /**
  * Media type (also known as MIME type).

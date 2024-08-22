@@ -1,4 +1,4 @@
-package com.hexagonkt.handlers
+package com.hexagontk.handlers
 
 import kotlin.reflect.KClass
 

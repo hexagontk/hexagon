@@ -1,12 +1,12 @@
-package com.hexagonkt.serialization.jackson.json
+package com.hexagontk.serialization.jackson.json
 
-import com.hexagonkt.core.*
-import com.hexagonkt.core.text.decodeBase64
-import com.hexagonkt.core.media.APPLICATION_AVRO
-import com.hexagonkt.core.media.APPLICATION_PHP
-import com.hexagonkt.core.text.encodeToBase64
-import com.hexagonkt.serialization.Data
-import com.hexagonkt.serialization.SerializationFormat
+import com.hexagontk.core.*
+import com.hexagontk.core.text.decodeBase64
+import com.hexagontk.core.media.APPLICATION_AVRO
+import com.hexagontk.core.media.APPLICATION_PHP
+import com.hexagontk.core.text.encodeToBase64
+import com.hexagontk.serialization.Data
+import com.hexagontk.serialization.SerializationFormat
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.InetAddress

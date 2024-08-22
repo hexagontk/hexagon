@@ -1,10 +1,10 @@
 
-module com.hexagonkt.web {
+module com.hexagontk.web {
 
     requires transitive kotlin.stdlib;
-    requires transitive com.hexagonkt.http;
-    requires transitive com.hexagonkt.http_server;
-    requires transitive com.hexagonkt.templates;
+    requires transitive com.hexagontk.http;
+    requires transitive com.hexagontk.http_server;
+    requires transitive com.hexagontk.templates;
 
-    exports com.hexagonkt.web;
+    exports com.hexagontk.web;
 }

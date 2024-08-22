@@ -1,7 +1,7 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.http.model.HttpMethod
-import com.hexagonkt.http.model.HttpStatus
+import com.hexagontk.http.model.HttpMethod
+import com.hexagontk.http.model.HttpStatus
 import kotlin.reflect.KClass
 
 class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
@@ -15,7 +15,7 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
     }
 
     fun path(pattern: String, block: HandlerBuilder.() -> Unit) {
-        use(com.hexagonkt.http.handlers.path(pattern, block))
+        use(com.hexagontk.http.handlers.path(pattern, block))
     }
 
     fun path(pattern: String, pathHandler: PathHandler) {

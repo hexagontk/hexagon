@@ -1,10 +1,10 @@
 
-module com.hexagonkt.templates_pebble {
+module com.hexagontk.templates_pebble {
 
     requires transitive kotlin.stdlib;
-    requires transitive com.hexagonkt.templates;
+    requires transitive com.hexagontk.templates;
 
     requires io.pebbletemplates;
 
-    exports com.hexagonkt.templates.pebble;
+    exports com.hexagontk.templates.pebble;
 }

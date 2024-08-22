@@ -1,18 +1,18 @@
-package com.hexagonkt.http.test.examples
+package com.hexagontk.http.test.examples
 
-import com.hexagonkt.core.require
-import com.hexagonkt.core.media.APPLICATION_JSON
-import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.model.HttpRequest
-import com.hexagonkt.http.formatQueryString
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.server.*
-import com.hexagonkt.http.handlers.HttpCallbackType
-import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.handlers.path
-import com.hexagonkt.http.test.BaseTest
-import com.hexagonkt.serialization.SerializationFormat
-import com.hexagonkt.serialization.SerializationManager
+import com.hexagontk.core.require
+import com.hexagontk.core.media.APPLICATION_JSON
+import com.hexagontk.http.client.HttpClientPort
+import com.hexagontk.http.model.HttpRequest
+import com.hexagontk.http.formatQueryString
+import com.hexagontk.http.model.*
+import com.hexagontk.http.server.*
+import com.hexagontk.http.handlers.HttpCallbackType
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.handlers.path
+import com.hexagontk.http.test.BaseTest
+import com.hexagontk.serialization.SerializationFormat
+import com.hexagontk.serialization.SerializationManager
 import org.junit.jupiter.api.*
 
 import kotlin.test.assertEquals

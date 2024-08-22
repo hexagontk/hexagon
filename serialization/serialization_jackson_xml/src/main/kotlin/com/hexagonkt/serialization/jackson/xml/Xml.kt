@@ -1,4 +1,4 @@
-package com.hexagonkt.serialization.jackson.xml
+package com.hexagontk.serialization.jackson.xml
 
 import com.fasterxml.jackson.databind.DeserializationFeature.*
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -8,10 +8,10 @@ import com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter
-import com.hexagonkt.core.media.APPLICATION_XML
-import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.serialization.SerializationFormat
-import com.hexagonkt.serialization.jackson.JacksonHelper.mapNode
+import com.hexagontk.core.media.APPLICATION_XML
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.serialization.SerializationFormat
+import com.hexagontk.serialization.jackson.JacksonHelper.mapNode
 import java.io.InputStream
 import java.io.OutputStream
 

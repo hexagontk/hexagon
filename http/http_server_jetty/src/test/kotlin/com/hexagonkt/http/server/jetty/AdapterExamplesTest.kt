@@ -1,10 +1,10 @@
-package com.hexagonkt.http.server.jetty
+package com.hexagontk.http.server.jetty
 
-import com.hexagonkt.http.client.jetty.JettyClientAdapter
-import com.hexagonkt.http.test.examples.*
-import com.hexagonkt.serialization.jackson.JacksonTextFormat
-import com.hexagonkt.serialization.jackson.json.Json
-import com.hexagonkt.serialization.jackson.yaml.Yaml
+import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.test.examples.*
+import com.hexagontk.serialization.jackson.JacksonTextFormat
+import com.hexagontk.serialization.jackson.json.Json
+import com.hexagontk.serialization.jackson.yaml.Yaml
 
 val clientAdapter: () -> JettyClientAdapter = ::JettyClientAdapter
 val serverAdapter: () -> JettyServletAdapter = ::JettyServletAdapter

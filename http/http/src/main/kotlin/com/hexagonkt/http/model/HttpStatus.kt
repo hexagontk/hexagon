@@ -1,7 +1,7 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.core.assertEnabled
-import com.hexagonkt.http.model.HttpStatusType.*
+import com.hexagontk.core.assertEnabled
+import com.hexagontk.http.model.HttpStatusType.*
 import kotlin.IllegalArgumentException
 
 data class HttpStatus(

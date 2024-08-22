@@ -1,4 +1,4 @@
-package com.hexagonkt.core
+package com.hexagontk.core
 
 import org.junit.jupiter.api.Test
 import kotlin.IllegalArgumentException

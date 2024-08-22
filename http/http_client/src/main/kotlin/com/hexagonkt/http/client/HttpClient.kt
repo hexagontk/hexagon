@@ -1,14 +1,14 @@
-package com.hexagonkt.http.client
+package com.hexagontk.http.client
 
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.handlers.OnHandler
-import com.hexagonkt.http.handlers.path
-import com.hexagonkt.http.model.HttpRequest
-import com.hexagonkt.http.model.HttpResponsePort
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.ws.WsSession
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.handlers.OnHandler
+import com.hexagontk.http.handlers.path
+import com.hexagontk.http.model.HttpRequest
+import com.hexagontk.http.model.HttpResponsePort
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.*
+import com.hexagontk.http.model.ws.WsSession
 import java.io.Closeable
 import java.util.concurrent.Flow.Publisher
 

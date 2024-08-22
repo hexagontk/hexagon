@@ -1,11 +1,11 @@
-package com.hexagonkt.serialization.jackson
+package com.hexagontk.serialization.jackson
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
-import com.hexagonkt.serialization.SerializationFormat
-import com.hexagonkt.serialization.jackson.JacksonHelper.createObjectMapper
-import com.hexagonkt.serialization.jackson.JacksonHelper.mapNode
+import com.hexagontk.serialization.SerializationFormat
+import com.hexagontk.serialization.jackson.JacksonHelper.createObjectMapper
+import com.hexagontk.serialization.jackson.JacksonHelper.mapNode
 import java.io.InputStream
 import java.io.OutputStream
 

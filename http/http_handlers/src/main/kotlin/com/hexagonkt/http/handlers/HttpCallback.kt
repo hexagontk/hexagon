@@ -1,3 +1,3 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
 interface HttpCallback : (HttpContext) -> HttpContext

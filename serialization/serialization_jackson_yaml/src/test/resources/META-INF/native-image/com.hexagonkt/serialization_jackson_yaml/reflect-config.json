@@ -1,6 +1,6 @@
 [
   {
-    "name": "com.hexagonkt.serialization.jackson.yaml.YamlTest$Player",
+    "name": "com.hexagontk.serialization.jackson.yaml.YamlTest$Player",
     "allPublicMethods": true,
     "allDeclaredFields": true,
     "allDeclaredMethods": true,

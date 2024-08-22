@@ -1,7 +1,7 @@
-package com.hexagonkt.serialization
+package com.hexagontk.serialization
 
-import com.hexagonkt.core.text.toStream
-import com.hexagonkt.core.media.MediaType
+import com.hexagontk.core.text.toStream
+import com.hexagontk.core.media.MediaType
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream

@@ -1,10 +1,10 @@
-package com.hexagonkt.http.server.callbacks
+package com.hexagontk.http.server.callbacks
 
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.patterns.TemplatePathPattern
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.handlers.HttpPredicate
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.http.model.*
+import com.hexagontk.http.patterns.TemplatePathPattern
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.handlers.HttpPredicate
 import org.junit.jupiter.api.Test
 import kotlin.IllegalStateException
 import kotlin.test.assertEquals

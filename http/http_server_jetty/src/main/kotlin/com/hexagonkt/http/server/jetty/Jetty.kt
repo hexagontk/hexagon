@@ -1,8 +1,8 @@
-package com.hexagonkt.http.server.jetty
+package com.hexagontk.http.server.jetty
 
-import com.hexagonkt.http.server.*
-import com.hexagonkt.http.handlers.HandlerBuilder
-import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagontk.http.server.*
+import com.hexagontk.http.handlers.HandlerBuilder
+import com.hexagontk.http.handlers.HttpHandler
 
 /**
  * Create a Jetty server and start it. It is a shortcut to avoid passing the adapter.

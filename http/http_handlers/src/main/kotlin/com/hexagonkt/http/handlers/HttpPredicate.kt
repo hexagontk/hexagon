@@ -1,13 +1,13 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.handlers.Context
-import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.http.patterns.LiteralPathPattern
-import com.hexagonkt.http.model.HttpMethod
-import com.hexagonkt.http.model.HttpStatus
-import com.hexagonkt.http.patterns.PathPattern
-import com.hexagonkt.http.patterns.createPathPattern
-import com.hexagonkt.http.model.HttpCall
+import com.hexagontk.handlers.Context
+import com.hexagontk.core.logging.Logger
+import com.hexagontk.http.patterns.LiteralPathPattern
+import com.hexagontk.http.model.HttpMethod
+import com.hexagontk.http.model.HttpStatus
+import com.hexagontk.http.patterns.PathPattern
+import com.hexagontk.http.patterns.createPathPattern
+import com.hexagontk.http.model.HttpCall
 import kotlin.reflect.KClass
 
 data class HttpPredicate(

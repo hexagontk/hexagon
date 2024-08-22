@@ -1,8 +1,8 @@
-package com.hexagonkt.serialization.jackson
+package com.hexagontk.serialization.jackson
 
 import com.fasterxml.jackson.databind.node.*
-import com.hexagonkt.serialization.jackson.JacksonHelper.mapNode
-import com.hexagonkt.serialization.jackson.JacksonHelper.nodeToCollection
+import com.hexagontk.serialization.jackson.JacksonHelper.mapNode
+import com.hexagontk.serialization.jackson.JacksonHelper.nodeToCollection
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.math.BigInteger

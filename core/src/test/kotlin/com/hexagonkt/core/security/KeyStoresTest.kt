@@ -1,6 +1,6 @@
-package com.hexagonkt.core.security
+package com.hexagontk.core.security
 
-import com.hexagonkt.core.urlOf
+import com.hexagontk.core.urlOf
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.security.cert.X509Certificate

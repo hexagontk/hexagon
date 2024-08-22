@@ -1,9 +1,9 @@
-package com.hexagonkt.core.text
+package com.hexagontk.core.text
 
-import com.hexagonkt.core.text.Ansi.RESET
-import com.hexagonkt.core.text.AnsiColor.BRIGHT_WHITE
-import com.hexagonkt.core.text.AnsiColor.RED_BG
-import com.hexagonkt.core.text.AnsiEffect.UNDERLINE
+import com.hexagontk.core.text.Ansi.RESET
+import com.hexagontk.core.text.AnsiColor.BRIGHT_WHITE
+import com.hexagontk.core.text.AnsiColor.RED_BG
+import com.hexagontk.core.text.AnsiEffect.UNDERLINE
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.condition.DisabledInNativeImage
@@ -18,7 +18,7 @@ import java.time.LocalTime
 import org.junit.jupiter.api.Test
 import kotlin.test.*
 import kotlin.text.prependIndent
-import com.hexagonkt.core.text.StringsTest.Size.*
+import com.hexagontk.core.text.StringsTest.Size.*
 
 internal class StringsTest {
 
@@ -217,7 +217,7 @@ internal class StringsTest {
 
         val e = assertFailsWith<IllegalArgumentException> { "z".toEnum(Size::valueOf) }
         val message = e.message ?: "_"
-        assertContains(message, "No enum constant com.hexagonkt.core.text.StringsTest")
+        assertContains(message, "No enum constant com.hexagontk.core.text.StringsTest")
         assertContains(message, "Size.Z")
 
         assertEquals(S, "s".toEnumOrNull(Size::valueOf))

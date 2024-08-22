@@ -1,4 +1,4 @@
-package com.hexagonkt.core
+package com.hexagontk.core
 
 import java.io.BufferedReader
 import java.io.File
@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit.SECONDS
 
 /**
  * Load a '*.properties' file from a URL transforming the content into a plain map. If the resource
- * can not be found, a [com.hexagonkt.core.ResourceNotFoundException] is thrown.
+ * can not be found, a [com.hexagontk.core.ResourceNotFoundException] is thrown.
  *
  * @param url URL pointing to the file to load.
  * @return Map containing the properties file data.

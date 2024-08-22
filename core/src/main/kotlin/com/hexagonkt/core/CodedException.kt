@@ -1,4 +1,4 @@
-package com.hexagonkt.core
+package com.hexagontk.core
 
 /**
  * Exception with a numeric code.

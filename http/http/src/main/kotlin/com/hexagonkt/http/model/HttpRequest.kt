@@ -1,8 +1,8 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.http.*
-import com.hexagonkt.http.model.HttpMethod.GET
-import com.hexagonkt.http.model.HttpProtocol.HTTP
+import com.hexagontk.http.*
+import com.hexagontk.http.model.HttpMethod.GET
+import com.hexagontk.http.model.HttpProtocol.HTTP
 import java.security.cert.X509Certificate
 
 data class HttpRequest(

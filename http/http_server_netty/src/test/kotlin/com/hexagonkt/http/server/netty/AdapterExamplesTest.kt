@@ -1,10 +1,10 @@
-package com.hexagonkt.http.server.netty
+package com.hexagontk.http.server.netty
 
-import com.hexagonkt.http.client.jetty.ws.JettyWsClientAdapter
-import com.hexagonkt.http.test.examples.*
-import com.hexagonkt.serialization.jackson.JacksonTextFormat
-import com.hexagonkt.serialization.jackson.json.Json
-import com.hexagonkt.serialization.jackson.yaml.Yaml
+import com.hexagontk.http.client.jetty.ws.JettyWsClientAdapter
+import com.hexagontk.http.test.examples.*
+import com.hexagontk.serialization.jackson.JacksonTextFormat
+import com.hexagontk.serialization.jackson.json.Json
+import com.hexagontk.serialization.jackson.yaml.Yaml
 import org.junit.jupiter.api.condition.DisabledInNativeImage
 
 // TODO Assert context methods (request.method, request.protocol...)

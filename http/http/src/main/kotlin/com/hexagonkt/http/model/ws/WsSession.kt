@@ -1,6 +1,6 @@
-package com.hexagonkt.http.model.ws
+package com.hexagontk.http.model.ws
 
-import com.hexagonkt.http.model.HttpRequestPort
+import com.hexagontk.http.model.HttpRequestPort
 import java.net.URI
 
 interface WsSession {

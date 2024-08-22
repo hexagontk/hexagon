@@ -1,6 +1,6 @@
-package com.hexagonkt.http.server
+package com.hexagontk.http.server
 
-import com.hexagonkt.http.model.HttpProtocol
+import com.hexagontk.http.model.HttpProtocol
 
 /**
  * Server instance of one kind.

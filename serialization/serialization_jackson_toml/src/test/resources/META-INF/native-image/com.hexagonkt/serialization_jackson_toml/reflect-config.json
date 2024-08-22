@@ -1,6 +1,6 @@
 [
   {
-    "name": "com.hexagonkt.serialization.jackson.toml.TomlTest$Player",
+    "name": "com.hexagontk.serialization.jackson.toml.TomlTest$Player",
     "allPublicMethods": true,
     "allDeclaredFields": true,
     "allDeclaredMethods": true,

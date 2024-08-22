@@ -14,18 +14,18 @@
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:http_client_java:$hexagonVersion")
+    implementation("com.hexagontk:http_client_java:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>http_client_java</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```
 
-# Package com.hexagonkt.http.client.java
+# Package com.hexagontk.http.client.java
 Java HTTP client implementation classes.

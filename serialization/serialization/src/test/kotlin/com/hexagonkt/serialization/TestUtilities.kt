@@ -1,8 +1,8 @@
-package com.hexagonkt.serialization
+package com.hexagontk.serialization
 
-import com.hexagonkt.core.*
-import com.hexagonkt.core.media.APPLICATION_AVRO
-import com.hexagonkt.core.media.APPLICATION_PHP
+import com.hexagontk.core.*
+import com.hexagontk.core.media.APPLICATION_AVRO
+import com.hexagontk.core.media.APPLICATION_PHP
 import java.io.InputStream
 import java.io.OutputStream
 

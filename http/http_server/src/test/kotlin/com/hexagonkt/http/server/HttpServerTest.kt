@@ -1,8 +1,8 @@
-package com.hexagonkt.http.server
+package com.hexagontk.http.server
 
-import com.hexagonkt.http.model.HttpProtocol.H2C
-import com.hexagonkt.http.handlers.OnHandler
-import com.hexagonkt.http.handlers.PathHandler
+import com.hexagontk.http.model.HttpProtocol.H2C
+import com.hexagontk.http.handlers.OnHandler
+import com.hexagontk.http.handlers.PathHandler
 import org.junit.jupiter.api.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals

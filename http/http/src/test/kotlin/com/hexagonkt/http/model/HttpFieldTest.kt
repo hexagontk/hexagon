@@ -1,4 +1,4 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

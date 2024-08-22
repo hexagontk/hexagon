@@ -1,6 +1,6 @@
-package com.hexagonkt.handlers
+package com.hexagontk.handlers
 
-import com.hexagonkt.handlers.HandlerTest.Companion.process
+import com.hexagontk.handlers.HandlerTest.Companion.process
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

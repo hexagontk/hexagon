@@ -1,6 +1,6 @@
-package com.hexagonkt.core.text
+package com.hexagontk.core.text
 
-import com.hexagonkt.core.urlOf
+import com.hexagontk.core.urlOf
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
@@ -51,7 +51,7 @@ val parsedClasses: Set<KClass<*>> by lazy {
  *
  * @param parameters The map with the list of key/value tuples.
  * @return The filtered text or the same string if no values are passed or found in the text.
- * @sample com.hexagonkt.core.text.StringsTest.filterVarsExample
+ * @sample com.hexagontk.core.text.StringsTest.filterVarsExample
  */
 fun String.filterVars(parameters: Map<*, *>): String =
     this.filter(

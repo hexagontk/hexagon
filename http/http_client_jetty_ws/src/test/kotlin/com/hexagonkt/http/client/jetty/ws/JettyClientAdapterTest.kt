@@ -1,7 +1,7 @@
-package com.hexagonkt.http.client.jetty.ws
+package com.hexagontk.http.client.jetty.ws
 
-import com.hexagonkt.http.client.HttpClient
-import com.hexagonkt.http.model.HttpRequest
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.model.HttpRequest
 import org.junit.jupiter.api.Test
 import kotlin.IllegalStateException
 import kotlin.test.assertEquals

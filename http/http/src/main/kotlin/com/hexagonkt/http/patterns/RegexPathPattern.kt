@@ -1,8 +1,8 @@
-package com.hexagonkt.http.patterns
+package com.hexagontk.http.patterns
 
-import com.hexagonkt.core.text.filter
-import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.VARIABLE_PATTERN
-import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.patternToRegex
+import com.hexagontk.core.text.filter
+import com.hexagontk.http.patterns.TemplatePathPattern.Companion.VARIABLE_PATTERN
+import com.hexagontk.http.patterns.TemplatePathPattern.Companion.patternToRegex
 
 data class RegexPathPattern(val regex: Regex) : PathPattern {
 

@@ -1,7 +1,7 @@
-package com.hexagonkt.templates
+package com.hexagontk.templates
 
-import com.hexagonkt.core.Jvm
-import com.hexagonkt.core.localized
+import com.hexagontk.core.Jvm
+import com.hexagontk.core.localized
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.Locale

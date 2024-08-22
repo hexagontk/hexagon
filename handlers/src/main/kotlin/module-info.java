@@ -1,9 +1,9 @@
 /**
  * .
  */
-module com.hexagonkt.handlers {
+module com.hexagontk.handlers {
 
     requires transitive kotlin.stdlib;
 
-    exports com.hexagonkt.handlers;
+    exports com.hexagontk.handlers;
 }

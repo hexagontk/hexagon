@@ -1,9 +1,9 @@
-package com.hexagonkt.templates.jte
+package com.hexagontk.templates.jte
 
-import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.core.media.TEXT_HTML
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.templates.TemplatePort
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.core.media.TEXT_HTML
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.templates.TemplatePort
 import gg.jte.CodeResolver
 import gg.jte.ContentType
 import gg.jte.TemplateEngine

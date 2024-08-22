@@ -1,4 +1,4 @@
-package com.hexagonkt.core
+package com.hexagontk.core
 
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
@@ -12,7 +12,7 @@ internal class HelpersTest {
         assertEquals("hexagon", properties["project"])
         assertEquals("core", properties["module"])
         assertEquals("1.0.0", properties["version"])
-        assertEquals("com.hexagonkt", properties["group"])
+        assertEquals("com.hexagontk", properties["group"])
         assertEquals("Hexagon Toolkit", properties["description"])
         assertEquals("1", properties["number"])
         assertNull(properties["invalid"])

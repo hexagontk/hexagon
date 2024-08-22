@@ -1,8 +1,8 @@
-package com.hexagonkt.http.server
+package com.hexagontk.http.server
 
-import com.hexagonkt.http.model.HttpProtocol
-import com.hexagonkt.http.model.HttpProtocol.H2C
-import com.hexagonkt.http.server.HttpServerFeature.SSE
+import com.hexagontk.http.model.HttpProtocol
+import com.hexagontk.http.model.HttpProtocol.H2C
+import com.hexagontk.http.server.HttpServerFeature.SSE
 
 internal object VoidAdapter : HttpServerPort {
     private var started = false

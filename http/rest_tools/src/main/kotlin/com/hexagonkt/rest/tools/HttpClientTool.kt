@@ -1,19 +1,19 @@
-package com.hexagonkt.rest.tools
+package com.hexagontk.rest.tools
 
-import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.SslSettings
-import com.hexagonkt.http.client.HttpClient
-import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.handlers.BeforeHandler
-import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.model.HttpRequest
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.HttpStatusType.SUCCESS
-import com.hexagonkt.http.patterns.createPathPattern
-import com.hexagonkt.rest.SerializeRequestCallback
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.SslSettings
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.client.HttpClientPort
+import com.hexagontk.http.client.HttpClientSettings
+import com.hexagontk.http.handlers.BeforeHandler
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.model.HttpRequest
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.*
+import com.hexagontk.http.model.HttpStatusType.SUCCESS
+import com.hexagontk.http.patterns.createPathPattern
+import com.hexagontk.rest.SerializeRequestCallback
 
 data class HttpClientTool(
     val adapter: HttpClientPort,

@@ -1,8 +1,8 @@
-package com.hexagonkt.http.server.netty
+package com.hexagontk.http.server.netty
 
-import com.hexagonkt.http.SslSettings
-import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.server.HttpServerSettings
+import com.hexagontk.http.SslSettings
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.server.HttpServerSettings
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
 import io.netty.handler.codec.http.*

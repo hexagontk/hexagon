@@ -1,8 +1,8 @@
-package com.hexagonkt.http.server.callbacks
+package com.hexagontk.http.server.callbacks
 
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.toHttpFormat
+import com.hexagontk.http.model.Header
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.toHttpFormat
 import java.time.Instant
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference

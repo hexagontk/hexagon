@@ -1,6 +1,6 @@
-package com.hexagonkt.templates.pebble
+package com.hexagontk.templates.pebble
 
-import com.hexagonkt.templates.TemplatePort
+import com.hexagontk.templates.TemplatePort
 import io.pebbletemplates.pebble.PebbleEngine
 import io.pebbletemplates.pebble.loader.MemoryLoader
 import java.io.StringWriter

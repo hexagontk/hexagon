@@ -1,5 +1,5 @@
-public final class com/hexagonkt/serialization/jackson/toml/Toml : com/hexagonkt/serialization/jackson/JacksonTextFormat {
-	public static final field INSTANCE Lcom/hexagonkt/serialization/jackson/toml/Toml;
-	public fun getMediaType ()Lcom/hexagonkt/core/media/MediaType;
+public final class com/hexagontk/serialization/jackson/toml/Toml : com/hexagontk/serialization/jackson/JacksonTextFormat {
+	public static final field INSTANCE Lcom/hexagontk/serialization/jackson/toml/Toml;
+	public fun getMediaType ()Lcom/hexagontk/core/media/MediaType;
 }
 

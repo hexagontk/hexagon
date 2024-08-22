@@ -5,5 +5,5 @@ TODO
 ## Install the Dependency
 TODO
 
-# Package com.hexagonkt.serverless.http.google
+# Package com.hexagontk.serverless.http.google
 TODO

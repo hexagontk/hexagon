@@ -1,6 +1,6 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.core.require
+import com.hexagontk.core.require
 import org.junit.jupiter.api.Test
 import kotlin.test.*
 

@@ -1,7 +1,7 @@
-package com.hexagonkt.http.patterns
+package com.hexagontk.http.patterns
 
-import com.hexagonkt.core.assertEnabled
-import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.WILDCARD
+import com.hexagontk.core.assertEnabled
+import com.hexagontk.http.patterns.TemplatePathPattern.Companion.WILDCARD
 
 fun createPathPattern(pattern: String, prefix: Boolean): PathPattern =
     when {

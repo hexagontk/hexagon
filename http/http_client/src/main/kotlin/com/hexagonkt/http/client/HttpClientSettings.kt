@@ -1,7 +1,7 @@
-package com.hexagonkt.http.client
+package com.hexagontk.http.client
 
-import com.hexagonkt.http.SslSettings
-import com.hexagonkt.http.model.*
+import com.hexagontk.http.SslSettings
+import com.hexagontk.http.model.*
 import java.net.URL
 
 // TODO Add proxy configuration and timeouts

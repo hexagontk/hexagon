@@ -1,7 +1,7 @@
-package com.hexagonkt.http.client
+package com.hexagontk.http.client
 
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.ws.WsSession
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.ws.WsSession
 import java.net.URI
 import java.util.concurrent.Flow.Publisher
 import java.util.concurrent.SubmissionPublisher

@@ -1,11 +1,11 @@
-package com.hexagonkt.http
+package com.hexagontk.http
 
-import com.hexagonkt.core.GMT_ZONE
-import com.hexagonkt.core.assertEnabled
-import com.hexagonkt.core.Jvm
-import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.core.text.encodeToBase64
-import com.hexagonkt.http.model.*
+import com.hexagontk.core.GMT_ZONE
+import com.hexagontk.core.assertEnabled
+import com.hexagontk.core.Jvm
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.core.text.encodeToBase64
+import com.hexagontk.http.model.*
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.Charset

@@ -1,10 +1,10 @@
-package com.hexagonkt.templates.examples
+package com.hexagontk.templates.examples
 
-import com.hexagonkt.core.text.Glob
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.templates.SampleTemplateAdapter
-import com.hexagonkt.templates.TemplateManager
-import com.hexagonkt.templates.TemplatePort
+import com.hexagontk.core.text.Glob
+import com.hexagontk.core.urlOf
+import com.hexagontk.templates.SampleTemplateAdapter
+import com.hexagontk.templates.TemplateManager
+import com.hexagontk.templates.TemplatePort
 import org.junit.jupiter.api.Test
 import java.net.URL
 import java.util.*

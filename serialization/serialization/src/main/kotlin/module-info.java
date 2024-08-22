@@ -1,7 +1,7 @@
 
-module com.hexagonkt.serialization {
+module com.hexagontk.serialization {
 
-    requires transitive com.hexagonkt.core;
+    requires transitive com.hexagontk.core;
 
-    exports com.hexagonkt.serialization;
+    exports com.hexagontk.serialization;
 }

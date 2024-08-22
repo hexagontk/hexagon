@@ -1,4 +1,4 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
 data class Headers(
     val httpFields: Map<String, Header>

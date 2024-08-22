@@ -1,8 +1,8 @@
-package com.hexagonkt.http.server.netty
+package com.hexagontk.http.server.netty
 
-import com.hexagonkt.http.server.*
-import com.hexagonkt.http.handlers.HandlerBuilder
-import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagontk.http.server.*
+import com.hexagontk.http.handlers.HandlerBuilder
+import com.hexagontk.http.handlers.HttpHandler
 
 /**
  * Create a Netty server and start it. It is a shortcut to avoid passing the adapter.

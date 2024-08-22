@@ -1,12 +1,12 @@
-package com.hexagonkt.core.text
+package com.hexagontk.core.text
 
-import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.core.text.Ansi.OSC
-import com.hexagonkt.core.text.Ansi.RESET
-import com.hexagonkt.core.text.Ansi.ST
-import com.hexagonkt.core.text.AnsiColor.BLACK
-import com.hexagonkt.core.text.AnsiColor.BLUE_BG
-import com.hexagonkt.core.text.AnsiEffect.UNDERLINE
+import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.text.Ansi.OSC
+import com.hexagontk.core.text.Ansi.RESET
+import com.hexagontk.core.text.Ansi.ST
+import com.hexagontk.core.text.AnsiColor.BLACK
+import com.hexagontk.core.text.AnsiColor.BLUE_BG
+import com.hexagontk.core.text.AnsiEffect.UNDERLINE
 import org.junit.jupiter.api.Test
 import java.lang.IllegalArgumentException
 import kotlin.test.assertEquals

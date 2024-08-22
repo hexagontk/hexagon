@@ -1,4 +1,4 @@
-package com.hexagonkt.core.text
+package com.hexagontk.core.text
 
 /**
  * Constants for console formatting with [ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code)

@@ -1,8 +1,8 @@
-package com.hexagonkt.http.test.examples
+package com.hexagontk.http.test.examples
 
-import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.server.HttpServerPort
-import com.hexagonkt.http.server.HttpServerSettings
+import com.hexagontk.http.client.HttpClientPort
+import com.hexagontk.http.server.HttpServerPort
+import com.hexagontk.http.server.HttpServerSettings
 import io.gatling.app.Gatling
 import io.gatling.core.config.GatlingPropertiesBuilder
 import org.junit.jupiter.api.Test

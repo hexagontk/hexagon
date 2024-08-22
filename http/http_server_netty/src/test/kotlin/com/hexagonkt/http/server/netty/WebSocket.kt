@@ -1,11 +1,11 @@
-package com.hexagonkt.http.server.netty
+package com.hexagontk.http.server.netty
 
-import com.hexagonkt.core.logging.logger
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.model.ServerEvent
-import com.hexagonkt.http.server.HttpServer
-import com.hexagonkt.http.server.callbacks.UrlCallback
-import com.hexagonkt.http.model.ws.WsSession
+import com.hexagontk.core.logging.logger
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.model.ServerEvent
+import com.hexagontk.http.server.HttpServer
+import com.hexagontk.http.server.callbacks.UrlCallback
+import com.hexagontk.http.model.ws.WsSession
 import java.util.concurrent.*
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.function.Supplier

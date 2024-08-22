@@ -1,4 +1,4 @@
-package com.hexagonkt.rest.tools.openapi
+package com.hexagontk.rest.tools.openapi
 
 import com.atlassian.oai.validator.OpenApiInteractionValidator
 import com.atlassian.oai.validator.OpenApiInteractionValidator.createForInlineApiSpecification
@@ -9,11 +9,11 @@ import com.atlassian.oai.validator.model.SimpleRequest
 import com.atlassian.oai.validator.model.SimpleResponse
 import com.atlassian.oai.validator.report.ValidationReport
 import com.atlassian.oai.validator.report.ValidationReport.Message
-import com.hexagonkt.http.handlers.HttpCallback
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.HttpMethod
-import com.hexagonkt.http.model.HttpMethod.*
+import com.hexagontk.http.handlers.HttpCallback
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.model.ContentType
+import com.hexagontk.http.model.HttpMethod
+import com.hexagontk.http.model.HttpMethod.*
 import java.net.URL
 import kotlin.jvm.optionals.getOrNull
 

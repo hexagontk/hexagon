@@ -1,8 +1,8 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.handlers.ExceptionHandler
-import com.hexagonkt.handlers.Handler
-import com.hexagonkt.http.model.HttpCall
+import com.hexagontk.handlers.ExceptionHandler
+import com.hexagontk.handlers.Handler
+import com.hexagontk.http.model.HttpCall
 import kotlin.reflect.KClass
 
 data class ExceptionHandler<E : Exception>(

@@ -10,7 +10,7 @@ apply(from = "$rootDir/gradle/detekt.gradle")
 
 description = "Google Functions Serverless adapter."
 
-private val target = "com.hexagonkt.serverless.http.google.GoogleServerlessHttpAdapter"
+private val target = "com.hexagontk.serverless.http.google.GoogleServerlessHttpAdapter"
 private val invoker by configurations.creating
 
 dependencies {

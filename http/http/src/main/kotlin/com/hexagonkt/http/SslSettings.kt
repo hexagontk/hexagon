@@ -1,4 +1,4 @@
-package com.hexagonkt.http
+package com.hexagontk.http
 
 import java.net.URL
 

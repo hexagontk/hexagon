@@ -1,8 +1,8 @@
-package com.hexagonkt.templates.freemarker
+package com.hexagontk.templates.freemarker
 
-import com.hexagonkt.core.ResourceNotFoundException
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.templates.TemplatePort
+import com.hexagontk.core.ResourceNotFoundException
+import com.hexagontk.core.urlOf
+import com.hexagontk.templates.TemplatePort
 import freemarker.cache.StringTemplateLoader
 import freemarker.cache.TemplateLookupContext
 import freemarker.cache.TemplateLookupResult

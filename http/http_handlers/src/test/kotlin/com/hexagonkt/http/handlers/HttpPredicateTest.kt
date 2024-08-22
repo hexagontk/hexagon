@@ -1,14 +1,14 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.http.model.HttpStatus
-import com.hexagonkt.http.model.HttpMethod
-import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.model.OK_200
-import com.hexagonkt.http.patterns.LiteralPathPattern
-import com.hexagonkt.http.model.HttpCall
-import com.hexagonkt.http.model.HttpRequest
-import com.hexagonkt.http.model.HttpResponse
+import com.hexagontk.http.model.HttpStatus
+import com.hexagontk.http.model.HttpMethod
+import com.hexagontk.http.model.HttpMethod.*
+import com.hexagontk.http.model.HttpMethod.Companion.ALL
+import com.hexagontk.http.model.OK_200
+import com.hexagontk.http.patterns.LiteralPathPattern
+import com.hexagontk.http.model.HttpCall
+import com.hexagontk.http.model.HttpRequest
+import com.hexagontk.http.model.HttpResponse
 import org.junit.jupiter.api.Test
 import java.io.IOException
 import kotlin.IllegalStateException

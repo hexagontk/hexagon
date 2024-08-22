@@ -1,12 +1,12 @@
 @file:Suppress("FunctionName") // Uppercase functions are used for providing named constructors
 
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.handlers.Context
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.HttpProtocol.HTTP
+import com.hexagontk.core.logging.Logger
+import com.hexagontk.handlers.Context
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.*
+import com.hexagontk.http.model.HttpProtocol.HTTP
 import java.math.BigInteger
 import java.security.cert.X509Certificate
 

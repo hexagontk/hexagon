@@ -1,9 +1,9 @@
-package com.hexagonkt.serialization
+package com.hexagontk.serialization
 
-import com.hexagonkt.core.text.toStream
-import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.core.media.mediaTypeOf
-import com.hexagonkt.serialization.SerializationManager.formatOf
+import com.hexagontk.core.text.toStream
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.core.media.mediaTypeOf
+import com.hexagontk.serialization.SerializationManager.formatOf
 import java.io.File
 import java.io.InputStream
 import java.net.URL

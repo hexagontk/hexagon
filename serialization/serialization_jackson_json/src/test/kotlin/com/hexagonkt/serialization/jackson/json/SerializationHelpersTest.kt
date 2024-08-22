@@ -1,11 +1,11 @@
-package com.hexagonkt.serialization.jackson.json
+package com.hexagontk.serialization.jackson.json
 
-import com.hexagonkt.core.media.APPLICATION_JSON
-import com.hexagonkt.core.text.toStream
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.serialization.parseList
-import com.hexagonkt.serialization.parseMap
-import com.hexagonkt.serialization.parseMaps
+import com.hexagontk.core.media.APPLICATION_JSON
+import com.hexagontk.core.text.toStream
+import com.hexagontk.core.urlOf
+import com.hexagontk.serialization.parseList
+import com.hexagontk.serialization.parseMap
+import com.hexagontk.serialization.parseMaps
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.nio.file.Path

@@ -1,11 +1,11 @@
-package com.hexagonkt.http
+package com.hexagontk.http
 
-import com.hexagonkt.core.GMT_ZONE
-import com.hexagonkt.core.Jvm
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.QueryParameters
-import com.hexagonkt.http.model.Headers
-import com.hexagonkt.http.model.QueryParameter
+import com.hexagontk.core.GMT_ZONE
+import com.hexagontk.core.Jvm
+import com.hexagontk.http.model.Header
+import com.hexagontk.http.model.QueryParameters
+import com.hexagontk.http.model.Headers
+import com.hexagontk.http.model.QueryParameter
 import org.junit.jupiter.api.Test
 import java.time.*
 import kotlin.test.assertEquals

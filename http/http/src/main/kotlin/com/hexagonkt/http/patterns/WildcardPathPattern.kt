@@ -1,6 +1,6 @@
-package com.hexagonkt.http.patterns
+package com.hexagontk.http.patterns
 
-import com.hexagonkt.http.patterns.TemplatePathPattern.Companion.WILDCARD
+import com.hexagontk.http.patterns.TemplatePathPattern.Companion.WILDCARD
 
 data class WildcardPathPattern(override val prefix: Boolean = false) : PathPattern {
 

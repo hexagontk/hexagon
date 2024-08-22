@@ -1,6 +1,6 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.http.model.HttpStatusType.*
+import com.hexagontk.http.model.HttpStatusType.*
 
 val CONTINUE_100: HttpStatus = HttpStatus(100, INFORMATION)
 val SWITCHING_PROTOCOLS_101: HttpStatus = HttpStatus(101, INFORMATION)

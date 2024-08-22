@@ -1,9 +1,9 @@
 
-module com.hexagonkt.rest {
+module com.hexagontk.rest {
 
     requires transitive kotlin.stdlib;
-    requires transitive com.hexagonkt.http_handlers;
-    requires transitive com.hexagonkt.serialization;
+    requires transitive com.hexagontk.http_handlers;
+    requires transitive com.hexagontk.serialization;
 
-    exports com.hexagonkt.rest;
+    exports com.hexagontk.rest;
 }

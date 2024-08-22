@@ -1,11 +1,11 @@
-package com.hexagonkt.rest
+package com.hexagontk.rest
 
-import com.hexagonkt.core.media.APPLICATION_JSON
-import com.hexagonkt.core.media.APPLICATION_YAML
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.jackson.json.Json
+import com.hexagontk.core.media.APPLICATION_JSON
+import com.hexagontk.core.media.APPLICATION_YAML
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.model.ContentType
+import com.hexagontk.serialization.SerializationManager
+import com.hexagontk.serialization.jackson.json.Json
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

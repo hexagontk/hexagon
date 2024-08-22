@@ -1,8 +1,8 @@
-package com.hexagonkt.templates.jte
+package com.hexagontk.templates.jte
 
-import com.hexagonkt.core.media.TEXT_CSS
-import com.hexagonkt.core.media.TEXT_HTML
-import com.hexagonkt.core.urlOf
+import com.hexagontk.core.media.TEXT_CSS
+import com.hexagontk.core.media.TEXT_HTML
+import com.hexagontk.core.urlOf
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.DisabledInNativeImage
 import java.time.LocalDateTime

@@ -1,7 +1,7 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.core.assertEnabled
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.core.assertEnabled
 import java.nio.charset.Charset
 
 data class ContentType(

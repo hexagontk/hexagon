@@ -1,6 +1,6 @@
-package com.hexagonkt.core.logging
+package com.hexagontk.core.logging
 
-import com.hexagonkt.core.urlOf
+import com.hexagontk.core.urlOf
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

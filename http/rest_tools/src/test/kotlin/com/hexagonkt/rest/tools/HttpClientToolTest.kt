@@ -1,15 +1,15 @@
-package com.hexagonkt.rest.tools
+package com.hexagontk.rest.tools
 
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.http.client.jetty.JettyClientAdapter
-import com.hexagonkt.http.model.HttpMethod.POST
-import com.hexagonkt.http.model.HttpMethod.PUT
-import com.hexagonkt.http.model.HttpResponsePort
-import com.hexagonkt.http.model.OK_200
-import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import com.hexagonkt.rest.textContentType
-import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.jackson.json.Json
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.model.HttpMethod.POST
+import com.hexagontk.http.model.HttpMethod.PUT
+import com.hexagontk.http.model.HttpResponsePort
+import com.hexagontk.http.model.OK_200
+import com.hexagontk.http.server.jetty.JettyServletAdapter
+import com.hexagontk.rest.textContentType
+import com.hexagontk.serialization.SerializationManager
+import com.hexagontk.serialization.jackson.json.Json
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

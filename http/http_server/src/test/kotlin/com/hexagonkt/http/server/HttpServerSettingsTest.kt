@@ -1,7 +1,7 @@
-package com.hexagonkt.http.server
+package com.hexagontk.http.server
 
-import com.hexagonkt.http.model.HttpProtocol.HTTP
-import com.hexagonkt.http.model.HttpProtocol.HTTP2
+import com.hexagontk.http.model.HttpProtocol.HTTP
+import com.hexagontk.http.model.HttpProtocol.HTTP2
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
 import org.junit.jupiter.api.Test

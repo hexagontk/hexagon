@@ -35,7 +35,7 @@ principles also fit into this architecture.
 # Hello World
 Simple Hello World HTTP example.
 
-@code http/http_server_jetty/src/test/kotlin/com/hexagonkt/http/server/jetty/HelloWorldTest.kt?hello_world
+@code http/http_server_jetty/src/test/kotlin/com/hexagontk/http/server/jetty/HelloWorldTest.kt?hello_world
 
 You can check the [code examples] and [demo projects] for more complex use cases.
 
@@ -159,11 +159,11 @@ Ports with their provided implementations (Adapters).
 [Rocker]: /templates_rocker
 [jte]: /templates_jte
 [Serialization Formats]: /serialization
-[JSON]: /api/serialization/serialization_jackson_json/com.hexagonkt.serialization.jackson.json/-json
-[YAML]: /api/serialization/serialization_jackson_yaml/com.hexagonkt.serialization.jackson.yaml/-yaml
-[CSV]: /api/serialization/serialization_jackson_csv/com.hexagonkt.serialization.jackson.csv/-csv
-[XML]: /api/serialization/serialization_jackson_xml/com.hexagonkt.serialization.jackson.xml/-xml
-[TOML]: /api/serialization/serialization_jackson_toml/com.hexagonkt.serialization.jackson.toml/-toml
+[JSON]: /api/serialization/serialization_jackson_json/com.hexagontk.serialization.jackson.json/-json
+[YAML]: /api/serialization/serialization_jackson_yaml/com.hexagontk.serialization.jackson.yaml/-yaml
+[CSV]: /api/serialization/serialization_jackson_csv/com.hexagontk.serialization.jackson.csv/-csv
+[XML]: /api/serialization/serialization_jackson_xml/com.hexagontk.serialization.jackson.xml/-xml
+[TOML]: /api/serialization/serialization_jackson_toml/com.hexagontk.serialization.jackson.toml/-toml
 
 # Module Dependencies
 Module dependencies (including extra modules):

@@ -1,11 +1,11 @@
-package com.hexagonkt.serialization.jackson.csv
+package com.hexagontk.serialization.jackson.csv
 
 import com.fasterxml.jackson.dataformat.csv.CsvGenerator
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvParser
-import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.core.media.TEXT_CSV
-import com.hexagonkt.serialization.SerializationFormat
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.core.media.TEXT_CSV
+import com.hexagontk.serialization.SerializationFormat
 import java.io.InputStream
 import java.io.OutputStream
 

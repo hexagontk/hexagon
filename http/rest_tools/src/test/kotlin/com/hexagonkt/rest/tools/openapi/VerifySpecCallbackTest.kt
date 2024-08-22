@@ -1,15 +1,15 @@
-package com.hexagonkt.rest.tools.openapi
+package com.hexagontk.rest.tools.openapi
 
-import com.hexagonkt.core.logging.info
-import com.hexagonkt.core.media.APPLICATION_JSON
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.jackson.json.Json
-import com.hexagonkt.serialization.jackson.yaml.Yaml
-import com.hexagonkt.serialization.serialize
+import com.hexagontk.core.logging.info
+import com.hexagontk.core.media.APPLICATION_JSON
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.*
+import com.hexagontk.serialization.SerializationManager
+import com.hexagontk.serialization.jackson.json.Json
+import com.hexagontk.serialization.jackson.yaml.Yaml
+import com.hexagontk.serialization.serialize
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

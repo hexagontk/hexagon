@@ -1,7 +1,7 @@
-package com.hexagonkt.core
+package com.hexagontk.core
 
-import com.hexagonkt.core.text.SNAKE_CASE
-import com.hexagonkt.core.text.parseOrNull
+import com.hexagontk.core.text.SNAKE_CASE
+import com.hexagontk.core.text.parseOrNull
 import java.io.Console
 import java.net.InetAddress
 import java.nio.charset.Charset

@@ -1,7 +1,7 @@
-package com.hexagonkt.core.media
+package com.hexagontk.core.media
 
-import com.hexagonkt.core.media.MediaTypeGroup.*
-import com.hexagonkt.core.urlOf
+import com.hexagontk.core.media.MediaTypeGroup.*
+import com.hexagontk.core.urlOf
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.net.URI

@@ -1,11 +1,11 @@
-package com.hexagonkt.serialization.jackson.toml
+package com.hexagontk.serialization.jackson.toml
 
-import com.hexagonkt.core.fieldsMapOfNotNull
-import com.hexagonkt.core.require
-import com.hexagonkt.core.requirePath
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.serialization.*
-import com.hexagonkt.serialization.test.SerializationTest
+import com.hexagontk.core.fieldsMapOfNotNull
+import com.hexagontk.core.require
+import com.hexagontk.core.requirePath
+import com.hexagontk.core.urlOf
+import com.hexagontk.serialization.*
+import com.hexagontk.serialization.test.SerializationTest
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

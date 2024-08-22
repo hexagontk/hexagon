@@ -1,9 +1,9 @@
-package com.hexagonkt.rest
+package com.hexagontk.rest
 
-import com.hexagonkt.core.media.*
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.model.HttpBase
-import com.hexagonkt.serialization.*
+import com.hexagontk.core.media.*
+import com.hexagontk.http.model.ContentType
+import com.hexagontk.http.model.HttpBase
+import com.hexagontk.serialization.*
 
 val anyContentType = ContentType(ANY_MEDIA)
 val textContentType = ContentType(TEXT_PLAIN)

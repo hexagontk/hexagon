@@ -1,4 +1,4 @@
-package com.hexagonkt.http.client
+package com.hexagontk.http.client
 
 import org.junit.jupiter.api.Test
 

@@ -1,14 +1,14 @@
-package com.hexagonkt.http.server.netty
+package com.hexagontk.http.server.netty
 
-import com.hexagonkt.handlers.Context
-import com.hexagonkt.http.handlers.bodyToBytes
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.Cookie
-import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.model.CookieSameSite.*
-import com.hexagonkt.http.model.HttpCall
-import com.hexagonkt.http.model.HttpResponse
+import com.hexagontk.handlers.Context
+import com.hexagontk.http.handlers.bodyToBytes
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.Cookie
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.model.CookieSameSite.*
+import com.hexagontk.http.model.HttpCall
+import com.hexagontk.http.model.HttpResponse
 import io.netty.buffer.Unpooled
 import io.netty.channel.Channel
 import io.netty.channel.ChannelFutureListener.CLOSE
@@ -31,7 +31,7 @@ import io.netty.handler.ssl.SslHandler
 import io.netty.handler.ssl.SslHandshakeCompletionEvent
 import java.security.cert.X509Certificate
 import java.util.concurrent.Flow.*
-import com.hexagonkt.http.model.HttpRequest as HexagonHttpRequest
+import com.hexagontk.http.model.HttpRequest as HexagonHttpRequest
 
 internal class NettyServerHandler(
     private val handlers: Map<HttpMethod, HttpHandler>,

@@ -1,12 +1,12 @@
-package com.hexagonkt.rest.tools
+package com.hexagontk.rest.tools
 
-import com.hexagonkt.http.handlers.HandlerBuilder
-import com.hexagonkt.http.model.NOT_FOUND_404
-import com.hexagonkt.http.server.HttpServer
-import com.hexagonkt.http.server.HttpServerPort
-import com.hexagonkt.http.handlers.PathHandler
-import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.rest.SerializeResponseCallback
+import com.hexagontk.http.handlers.HandlerBuilder
+import com.hexagontk.http.model.NOT_FOUND_404
+import com.hexagontk.http.server.HttpServer
+import com.hexagontk.http.server.HttpServerPort
+import com.hexagontk.http.handlers.PathHandler
+import com.hexagontk.http.server.HttpServerSettings
+import com.hexagontk.rest.SerializeResponseCallback
 import java.net.URL
 
 /**
@@ -32,7 +32,7 @@ data class HttpServerTool(
     }
 
     fun path(block: HandlerBuilder.() -> Unit) {
-        path = com.hexagonkt.http.handlers.path(block = block)
+        path = com.hexagontk.http.handlers.path(block = block)
     }
 
     fun start() {

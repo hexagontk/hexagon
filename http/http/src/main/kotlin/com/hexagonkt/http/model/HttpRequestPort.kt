@@ -1,7 +1,7 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.formatQueryString
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.formatQueryString
 import java.net.URL
 import java.security.cert.X509Certificate
 

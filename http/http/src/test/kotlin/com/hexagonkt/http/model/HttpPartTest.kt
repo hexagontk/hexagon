@@ -1,8 +1,8 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.core.media.MediaTypeGroup.TEXT
-import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.core.media.TEXT_HTML
+import com.hexagontk.core.media.MediaTypeGroup.TEXT
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.core.media.TEXT_HTML
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

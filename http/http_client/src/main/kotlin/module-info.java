@@ -1,8 +1,8 @@
 
-module com.hexagonkt.http_client {
+module com.hexagontk.http_client {
 
     requires transitive kotlin.stdlib;
-    requires transitive com.hexagonkt.http_handlers;
+    requires transitive com.hexagontk.http_handlers;
 
-    exports com.hexagonkt.http.client;
+    exports com.hexagontk.http.client;
 }

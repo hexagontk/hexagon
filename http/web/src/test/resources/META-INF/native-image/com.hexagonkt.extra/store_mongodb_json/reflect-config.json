@@ -1,6 +1,6 @@
 [
   {
-    "name": "com.hexagonkt.web.examples.TodoTest$Task",
+    "name": "com.hexagontk.web.examples.TodoTest$Task",
     "allPublicMethods": true,
     "allDeclaredFields": true,
     "allDeclaredMethods": true,

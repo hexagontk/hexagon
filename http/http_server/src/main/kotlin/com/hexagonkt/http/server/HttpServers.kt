@@ -1,7 +1,7 @@
-package com.hexagonkt.http.server
+package com.hexagontk.http.server
 
-import com.hexagonkt.http.handlers.HandlerBuilder
-import com.hexagonkt.http.handlers.HttpHandler
+import com.hexagontk.http.handlers.HandlerBuilder
+import com.hexagontk.http.handlers.HttpHandler
 
 /**
  * Create a server and start it.

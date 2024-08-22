@@ -1,9 +1,9 @@
 
-module com.hexagonkt.serialization_jackson_toml {
+module com.hexagontk.serialization_jackson_toml {
 
-    requires transitive com.hexagonkt.core;
-    requires transitive com.hexagonkt.serialization_jackson;
+    requires transitive com.hexagontk.core;
+    requires transitive com.hexagontk.serialization_jackson;
     requires transitive com.fasterxml.jackson.dataformat.toml;
 
-    exports com.hexagonkt.serialization.jackson.toml;
+    exports com.hexagontk.serialization.jackson.toml;
 }

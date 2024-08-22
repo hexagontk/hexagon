@@ -1,4 +1,4 @@
-package com.hexagonkt.handlers
+package com.hexagontk.handlers
 
 data class EventContext<T : Any>(
     override val event: T,

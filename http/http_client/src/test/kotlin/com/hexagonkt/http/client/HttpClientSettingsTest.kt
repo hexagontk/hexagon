@@ -1,6 +1,6 @@
-package com.hexagonkt.http.client
+package com.hexagontk.http.client
 
-import com.hexagonkt.http.model.Headers
+import com.hexagontk.http.model.Headers
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

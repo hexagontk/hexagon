@@ -1,12 +1,12 @@
-package com.hexagonkt.serverless.http.google
+package com.hexagontk.serverless.http.google
 
 import com.google.cloud.functions.HttpFunction
 import com.google.cloud.functions.HttpRequest
 import com.google.cloud.functions.HttpResponse
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.parseContentType
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.model.*
+import com.hexagontk.http.parseContentType
 import java.net.URI
 
 class GoogleServerlessHttpAdapter(private val handler: HttpHandler): HttpFunction {
@@ -17,7 +17,7 @@ class GoogleServerlessHttpAdapter(private val handler: HttpHandler): HttpFunctio
         writeResponse(response, handlerContext)
     }
 
-    private fun createRequest(request: HttpRequest): com.hexagonkt.http.model.HttpRequest {
+    private fun createRequest(request: HttpRequest): com.hexagontk.http.model.HttpRequest {
         val uri = URI(request.uri)
         val qp = request.queryParameters?.map { (k, v) -> QueryParameter(k, v) } ?: emptyList()
         val h = request.headers?.map { (k, v) -> Header(k, v) } ?: emptyList()

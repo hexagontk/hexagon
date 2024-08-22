@@ -1,8 +1,8 @@
-package com.hexagonkt.http.server.servlet
+package com.hexagontk.http.server.servlet
 
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.parseContentType
-import com.hexagonkt.http.parseQueryString
+import com.hexagontk.http.model.*
+import com.hexagontk.http.parseContentType
+import com.hexagontk.http.parseQueryString
 import java.security.cert.X509Certificate
 import jakarta.servlet.http.HttpServletRequest
 

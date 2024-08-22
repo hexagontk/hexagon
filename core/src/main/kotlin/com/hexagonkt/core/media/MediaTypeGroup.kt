@@ -1,4 +1,4 @@
-package com.hexagonkt.core.media
+package com.hexagontk.core.media
 
 enum class MediaTypeGroup {
     APPLICATION,

@@ -1,13 +1,13 @@
-package com.hexagonkt.http.server.handlers
+package com.hexagontk.http.server.handlers
 
-import com.hexagonkt.http.handlers.FilterHandler
-import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.handlers.HttpPredicate
-import com.hexagonkt.http.model.HttpMethod
-import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.model.HttpStatus
-import com.hexagonkt.http.model.NO_CONTENT_204
-import com.hexagonkt.http.server.callbacks.CorsCallback
+import com.hexagontk.http.handlers.FilterHandler
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.handlers.HttpPredicate
+import com.hexagontk.http.model.HttpMethod
+import com.hexagontk.http.model.HttpMethod.Companion.ALL
+import com.hexagontk.http.model.HttpStatus
+import com.hexagontk.http.model.NO_CONTENT_204
+import com.hexagontk.http.server.callbacks.CorsCallback
 
 class CorsHandler(pattern: String, cors: CorsCallback) :
     HttpHandler by FilterHandler(HttpPredicate(pattern = pattern), cors) {

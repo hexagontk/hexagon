@@ -1,4 +1,4 @@
-package com.hexagonkt.handlers
+package com.hexagontk.handlers
 
 data class BeforeHandler<T : Any>(
     override val predicate: (Context<T>) -> Boolean = { true },

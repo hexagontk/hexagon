@@ -1,15 +1,15 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.core.fail
-import com.hexagonkt.core.media.TEXT_CSS
-import com.hexagonkt.core.media.TEXT_HTML
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.core.media.TEXT_RICHTEXT
-import com.hexagonkt.core.security.loadKeyStore
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.model.HttpMethod.POST
-import com.hexagonkt.http.model.HttpMethod.PUT
-import com.hexagonkt.http.model.HttpProtocol.*
+import com.hexagontk.core.fail
+import com.hexagontk.core.media.TEXT_CSS
+import com.hexagontk.core.media.TEXT_HTML
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.core.media.TEXT_RICHTEXT
+import com.hexagontk.core.security.loadKeyStore
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.model.HttpMethod.POST
+import com.hexagontk.http.model.HttpMethod.PUT
+import com.hexagontk.http.model.HttpProtocol.*
 import java.security.cert.X509Certificate
 import org.junit.jupiter.api.Test
 import kotlin.test.*

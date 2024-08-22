@@ -1,15 +1,15 @@
-package com.hexagonkt.http.test.examples
+package com.hexagontk.http.test.examples
 
-import com.hexagonkt.core.logging.info
-import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.model.HttpRequest
-import com.hexagonkt.http.handlers.PathHandler
-import com.hexagonkt.http.handlers.path
-import com.hexagonkt.http.model.ServerEvent
-import com.hexagonkt.http.server.HttpServerPort
-import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.test.BaseTest
+import com.hexagontk.core.logging.info
+import com.hexagontk.http.client.HttpClientPort
+import com.hexagontk.http.model.HttpRequest
+import com.hexagontk.http.handlers.PathHandler
+import com.hexagontk.http.handlers.path
+import com.hexagontk.http.model.ServerEvent
+import com.hexagontk.http.server.HttpServerPort
+import com.hexagontk.http.server.HttpServerSettings
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Publisher

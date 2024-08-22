@@ -1,9 +1,9 @@
-package com.hexagonkt.serialization.jackson.json
+package com.hexagontk.serialization.jackson.json
 
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.serialization.SerializationFormat
-import com.hexagonkt.serialization.parse
-import com.hexagonkt.serialization.test.SerializationTest
+import com.hexagontk.core.urlOf
+import com.hexagontk.serialization.SerializationFormat
+import com.hexagontk.serialization.parse
+import com.hexagontk.serialization.test.SerializationTest
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import java.net.URL

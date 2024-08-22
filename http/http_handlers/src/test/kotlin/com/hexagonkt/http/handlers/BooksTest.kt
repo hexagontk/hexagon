@@ -1,11 +1,11 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.core.fail
-import com.hexagonkt.core.require
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.model.CREATED_201
+import com.hexagontk.core.fail
+import com.hexagontk.core.require
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.*
+import com.hexagontk.http.model.HttpMethod.Companion.ALL
+import com.hexagontk.http.model.CREATED_201
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

@@ -1,4 +1,4 @@
-package com.hexagonkt.http.test.examples
+package com.hexagontk.http.test.examples
 
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.Simulation

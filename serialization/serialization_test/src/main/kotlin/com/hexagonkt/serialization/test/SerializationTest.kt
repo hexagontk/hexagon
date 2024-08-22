@@ -1,7 +1,7 @@
-package com.hexagonkt.serialization.test
+package com.hexagontk.serialization.test
 
-import com.hexagonkt.core.requirePath
-import com.hexagonkt.serialization.*
+import com.hexagontk.core.requirePath
+import com.hexagontk.serialization.*
 import org.junit.jupiter.api.Test
 import java.net.URL
 import java.time.LocalDate

@@ -1,12 +1,12 @@
-package com.hexagonkt.serialization.jackson.json
+package com.hexagontk.serialization.jackson.json
 
-import com.hexagonkt.core.text.decodeBase64
-import com.hexagonkt.core.media.APPLICATION_PHP
-import com.hexagonkt.core.media.APPLICATION_AVRO
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.serialization.*
-import com.hexagonkt.serialization.jackson.json.Department.DESIGN
-import com.hexagonkt.serialization.jackson.json.Department.DEVELOPMENT
+import com.hexagontk.core.text.decodeBase64
+import com.hexagontk.core.media.APPLICATION_PHP
+import com.hexagontk.core.media.APPLICATION_AVRO
+import com.hexagontk.core.urlOf
+import com.hexagontk.serialization.*
+import com.hexagontk.serialization.jackson.json.Department.DESIGN
+import com.hexagontk.serialization.jackson.json.Department.DEVELOPMENT
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.net.InetAddress

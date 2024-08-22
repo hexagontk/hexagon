@@ -1,4 +1,4 @@
-package com.hexagonkt.handlers
+package com.hexagontk.handlers
 
 /**
  * After handlers are executed even if a filter don't call next handler (if after was added before

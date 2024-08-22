@@ -1,4 +1,4 @@
-package com.hexagonkt.templates
+package com.hexagontk.templates
 
 import org.junit.jupiter.api.Test
 

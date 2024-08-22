@@ -1,15 +1,15 @@
-package com.hexagonkt.http.test.examples
+package com.hexagontk.http.test.examples
 
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.client.HttpClient
-import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.model.HttpRequest
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.server.HttpServer
-import com.hexagonkt.http.server.HttpServerPort
-import com.hexagonkt.http.server.HttpServerSettings
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.client.HttpClientPort
+import com.hexagontk.http.client.HttpClientSettings
+import com.hexagontk.http.model.HttpRequest
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.*
+import com.hexagontk.http.server.HttpServer
+import com.hexagontk.http.server.HttpServerPort
+import com.hexagontk.http.server.HttpServerSettings
 import org.junit.jupiter.api.Test
 
 abstract class MultipartSamplesTest(

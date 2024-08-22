@@ -1,12 +1,12 @@
-package com.hexagonkt.web
+package com.hexagontk.web
 
-import com.hexagonkt.core.media.mediaTypeOfOrNull
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.model.Cookie
-import com.hexagonkt.http.model.Headers
-import com.hexagonkt.templates.TemplateManager
-import com.hexagonkt.templates.TemplatePort
+import com.hexagontk.core.media.mediaTypeOfOrNull
+import com.hexagontk.http.model.ContentType
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.model.Cookie
+import com.hexagontk.http.model.Headers
+import com.hexagontk.templates.TemplateManager
+import com.hexagontk.templates.TemplatePort
 import java.net.URL
 import java.nio.charset.Charset.defaultCharset
 import java.util.Locale

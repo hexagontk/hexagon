@@ -1,13 +1,13 @@
-package com.hexagonkt.http.client
+package com.hexagontk.http.client
 
-import com.hexagonkt.core.media.TEXT_CSV
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.handlers.FilterHandler
-import com.hexagonkt.http.handlers.HttpPredicate
-import com.hexagonkt.http.model.HttpResponsePort
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.patterns.LiteralPathPattern
+import com.hexagontk.core.media.TEXT_CSV
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.handlers.FilterHandler
+import com.hexagontk.http.handlers.HttpPredicate
+import com.hexagontk.http.model.HttpResponsePort
+import com.hexagontk.http.model.*
+import com.hexagontk.http.patterns.LiteralPathPattern
 import java.lang.StringBuilder
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription

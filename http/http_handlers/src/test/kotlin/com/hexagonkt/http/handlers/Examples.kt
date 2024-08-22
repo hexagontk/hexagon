@@ -1,8 +1,8 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.http.basicAuth
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.parseQueryString
+import com.hexagontk.http.basicAuth
+import com.hexagontk.http.model.*
+import com.hexagontk.http.parseQueryString
 import kotlin.test.assertEquals
 
 internal fun assertResponseContains(

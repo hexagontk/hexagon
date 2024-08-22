@@ -1,6 +1,6 @@
-package com.hexagonkt.http.client.jetty.ws
+package com.hexagontk.http.client.jetty.ws
 
-import com.hexagonkt.http.model.ws.WsSession
+import com.hexagontk.http.model.ws.WsSession
 import org.eclipse.jetty.websocket.api.Callback
 import org.eclipse.jetty.websocket.api.Session
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose

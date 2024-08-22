@@ -1,4 +1,4 @@
-public final class com/hexagonkt/templates/pebble/PebbleAdapter : com/hexagonkt/templates/TemplatePort {
+public final class com/hexagontk/templates/pebble/PebbleAdapter : com/hexagontk/templates/TemplatePort {
 	public fun <init> ()V
 	public fun <init> (ZI)V
 	public synthetic fun <init> (ZIILkotlin/jvm/internal/DefaultConstructorMarker;)V

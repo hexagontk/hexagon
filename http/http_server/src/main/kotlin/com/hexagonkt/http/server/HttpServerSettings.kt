@@ -1,10 +1,10 @@
-package com.hexagonkt.http.server
+package com.hexagontk.http.server
 
-import com.hexagonkt.core.Jvm
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.SslSettings
-import com.hexagonkt.http.model.HttpProtocol
-import com.hexagonkt.http.model.HttpProtocol.HTTP
+import com.hexagontk.core.Jvm
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.SslSettings
+import com.hexagontk.http.model.HttpProtocol
+import com.hexagontk.http.model.HttpProtocol.HTTP
 import java.net.InetAddress
 import java.net.URL
 

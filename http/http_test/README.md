@@ -11,14 +11,14 @@ This module...
         mavenCentral()
     }
 
-    testImplementation("com.hexagonkt:http_test:$hexagonVersion")
+    testImplementation("com.hexagontk:http_test:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>http_test</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
@@ -105,11 +105,11 @@ The mock server follows the following priority order when parsing the spec file 
 }
 ```
 
-# Package com.hexagonkt.http.test
+# Package com.hexagontk.http.test
 TODO
 
-# Package com.hexagonkt.http.test.examples
+# Package com.hexagontk.http.test.examples
 TODO
 
-# Package com.hexagonkt.http.test.openapi
+# Package com.hexagontk.http.test.openapi
 TODO

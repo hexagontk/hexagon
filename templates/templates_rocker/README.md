@@ -19,14 +19,14 @@ Adding the classes used in the templates to the `reflect-config.json` file is al
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:templates_rocker:$hexagonVersion")
+    implementation("com.hexagontk:templates_rocker:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>templates_rocker</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
@@ -50,5 +50,5 @@ rocker {
 On top of that, you must also declare the template parameters this way:
 `@args(java.util.Map<String, Object> context)` and use the data from the map.
 
-# Package com.hexagonkt.templates.rocker
+# Package com.hexagontk.templates.rocker
 Classes that implement the Templates Port interface with the [Rocker] engine.

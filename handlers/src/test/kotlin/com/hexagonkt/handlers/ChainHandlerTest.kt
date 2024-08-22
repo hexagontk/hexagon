@@ -1,4 +1,4 @@
-package com.hexagonkt.handlers
+package com.hexagontk.handlers
 
 import kotlin.IllegalStateException
 import kotlin.system.measureNanoTime
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
-import com.hexagonkt.handlers.HandlerTest.Companion.process
+import com.hexagontk.handlers.HandlerTest.Companion.process
 
 internal class ChainHandlerTest {
 

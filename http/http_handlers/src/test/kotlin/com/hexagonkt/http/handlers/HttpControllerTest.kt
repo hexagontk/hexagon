@@ -1,6 +1,6 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.http.model.HttpRequest
+import com.hexagontk.http.model.HttpRequest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

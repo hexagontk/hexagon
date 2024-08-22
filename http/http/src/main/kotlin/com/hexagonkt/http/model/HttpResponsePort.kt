@@ -1,6 +1,6 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.http.model.ws.WsSession
+import com.hexagontk.http.model.ws.WsSession
 
 interface HttpResponsePort : HttpMessage {
     val status: HttpStatus

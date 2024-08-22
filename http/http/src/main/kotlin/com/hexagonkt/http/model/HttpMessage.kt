@@ -1,4 +1,4 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
 interface HttpMessage : HttpBase {
     val cookies: List<Cookie>           // hash of browser cookies

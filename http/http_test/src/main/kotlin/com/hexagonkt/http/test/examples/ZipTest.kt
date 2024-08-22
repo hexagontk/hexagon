@@ -1,15 +1,15 @@
-package com.hexagonkt.http.test.examples
+package com.hexagontk.http.test.examples
 
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.client.HttpClient
-import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.model.Header
-import com.hexagonkt.http.model.Headers
-import com.hexagonkt.http.server.*
-import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.handlers.path
-import com.hexagonkt.http.test.BaseTest
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.client.HttpClientPort
+import com.hexagontk.http.client.HttpClientSettings
+import com.hexagontk.http.model.Header
+import com.hexagontk.http.model.Headers
+import com.hexagontk.http.server.*
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.handlers.path
+import com.hexagontk.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull

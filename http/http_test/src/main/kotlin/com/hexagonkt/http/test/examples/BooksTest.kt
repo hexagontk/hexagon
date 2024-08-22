@@ -1,17 +1,17 @@
-package com.hexagonkt.http.test.examples
+package com.hexagontk.http.test.examples
 
-import com.hexagonkt.core.require
-import com.hexagonkt.http.client.HttpClientPort
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.HttpMethod.*
-import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.model.CREATED_201
-import com.hexagonkt.http.server.HttpServerPort
-import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.handlers.PathHandler
-import com.hexagonkt.http.handlers.HttpHandler
-import com.hexagonkt.http.handlers.path
-import com.hexagonkt.http.test.BaseTest
+import com.hexagontk.core.require
+import com.hexagontk.http.client.HttpClientPort
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.*
+import com.hexagontk.http.model.HttpMethod.Companion.ALL
+import com.hexagontk.http.model.CREATED_201
+import com.hexagontk.http.server.HttpServerPort
+import com.hexagontk.http.server.HttpServerSettings
+import com.hexagontk.http.handlers.PathHandler
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.handlers.path
+import com.hexagontk.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

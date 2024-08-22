@@ -1,10 +1,10 @@
-package com.hexagonkt.serialization
+package com.hexagontk.serialization
 
-import com.hexagonkt.core.media.*
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.serialization.SerializationManager.formatOf
-import com.hexagonkt.serialization.SerializationManager.formatOfOrNull
-import com.hexagonkt.serialization.SerializationManager.formats
+import com.hexagontk.core.media.*
+import com.hexagontk.core.urlOf
+import com.hexagontk.serialization.SerializationManager.formatOf
+import com.hexagontk.serialization.SerializationManager.formatOfOrNull
+import com.hexagontk.serialization.SerializationManager.formats
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

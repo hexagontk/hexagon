@@ -15,18 +15,18 @@ For usage instructions, refer to the [Templates Port documentation](/templates/)
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:templates_pebble:$hexagonVersion")
+    implementation("com.hexagontk:templates_pebble:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>templates_pebble</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```
 
-# Package com.hexagonkt.templates.pebble
+# Package com.hexagontk.templates.pebble
 Classes that implement the Templates Port interface with the [Pebble] engine.

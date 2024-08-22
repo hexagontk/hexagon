@@ -1,9 +1,9 @@
-package com.hexagonkt.http.server.callbacks
+package com.hexagontk.http.server.callbacks
 
-import com.hexagonkt.core.fail
-import com.hexagonkt.core.require
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.http.toHttpFormat
+import com.hexagontk.core.fail
+import com.hexagontk.core.require
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.toHttpFormat
 import java.time.Instant
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

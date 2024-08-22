@@ -1,4 +1,4 @@
-package com.hexagonkt.http.model.ws
+package com.hexagontk.http.model.ws
 
 /**
  * 1000 indicates a normal closure, meaning that the purpose for which the connection was

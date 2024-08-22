@@ -1,4 +1,4 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
 data class FormParameters(
     val httpFields: Map<String, FormParameter>

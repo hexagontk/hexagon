@@ -1,6 +1,6 @@
-package com.hexagonkt.core
+package com.hexagontk.core
 
-import com.hexagonkt.core.text.eol
+import com.hexagontk.core.text.eol
 
 /**
  * This flag is true when assertions are enabled in the JVM (`-ea` flag). Assertions are disabled by

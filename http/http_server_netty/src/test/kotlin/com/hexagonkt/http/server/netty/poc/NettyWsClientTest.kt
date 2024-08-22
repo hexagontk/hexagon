@@ -1,6 +1,6 @@
-package com.hexagonkt.http.server.netty.poc
+package com.hexagontk.http.server.netty.poc
 
-import com.hexagonkt.http.server.netty.serve
+import com.hexagontk.http.server.netty.serve
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.*
 import io.netty.channel.nio.NioEventLoopGroup

@@ -1,4 +1,4 @@
-package com.hexagonkt.core
+package com.hexagontk.core
 
 import org.junit.jupiter.api.Test
 import kotlin.test.*
@@ -22,8 +22,8 @@ internal class ExceptionsTest {
 
     @Test fun `Filtering an exception with a package only returns frames of that package`() {
         val t = RuntimeException()
-        t.filterStackTrace("com.hexagonkt.core").forEach {
-            assert(it.className.startsWith("com.hexagonkt.core"))
+        t.filterStackTrace("com.hexagontk.core").forEach {
+            assert(it.className.startsWith("com.hexagontk.core"))
         }
     }
 
@@ -39,7 +39,7 @@ internal class ExceptionsTest {
         assert(trace.startsWith("java.lang.RuntimeException"))
         assert(trace.contains("\tat ${ExceptionsTest::class.java.name}"))
         assert(trace.contains("\tat org.junit.platform"))
-        val filteredTrace = e.toText("com.hexagonkt")
+        val filteredTrace = e.toText("com.hexagontk")
         assert(filteredTrace.startsWith("java.lang.RuntimeException"))
         assert(filteredTrace.contains("\tat ${ExceptionsTest::class.java.name}"))
         assertFalse(filteredTrace.contains("\tat org.junit.platform"))
@@ -52,7 +52,7 @@ internal class ExceptionsTest {
         assert(trace.contains("invalid state"))
         assert(trace.contains("\tat ${ExceptionsTest::class.java.name}"))
         assert(trace.contains("\tat org.junit.platform"))
-        val filteredTrace = e.toText("com.hexagonkt")
+        val filteredTrace = e.toText("com.hexagontk")
         assert(filteredTrace.startsWith("java.lang.RuntimeException"))
         assert(filteredTrace.contains("invalid state"))
         assert(filteredTrace.contains("\tat ${ExceptionsTest::class.java.name}"))

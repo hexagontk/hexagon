@@ -1,4 +1,4 @@
-package com.hexagonkt.http.patterns
+package com.hexagontk.http.patterns
 
 /**
  * A path definition. It parses path patterns and extract values for parameters.

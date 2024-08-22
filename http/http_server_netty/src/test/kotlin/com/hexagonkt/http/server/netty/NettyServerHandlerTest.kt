@@ -1,6 +1,6 @@
-package com.hexagonkt.http.server.netty
+package com.hexagontk.http.server.netty
 
-import com.hexagonkt.http.model.*
+import com.hexagontk.http.model.*
 import io.netty.handler.codec.http.HttpResponseStatus
 import io.netty.handler.codec.http.HttpResponseStatus.*
 import org.junit.jupiter.api.Test

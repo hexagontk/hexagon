@@ -1,7 +1,7 @@
-package com.hexagonkt.core
+package com.hexagontk.core
 
-import com.hexagonkt.core.text.decodeBase64
-import com.hexagonkt.core.text.encodeToBase64
+import com.hexagontk.core.text.decodeBase64
+import com.hexagontk.core.text.encodeToBase64
 import java.nio.ByteBuffer
 import java.util.*
 

@@ -1,6 +1,6 @@
 [
   {
-    "name": "com.hexagonkt.serialization.jackson.xml.XmlTest$Player",
+    "name": "com.hexagontk.serialization.jackson.xml.XmlTest$Player",
     "allPublicMethods": true,
     "allDeclaredFields": true,
     "allDeclaredMethods": true,

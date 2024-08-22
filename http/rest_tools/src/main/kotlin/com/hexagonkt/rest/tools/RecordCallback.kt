@@ -1,6 +1,6 @@
-package com.hexagonkt.rest.tools
+package com.hexagontk.rest.tools
 
-import com.hexagonkt.http.handlers.HttpContext
+import com.hexagontk.http.handlers.HttpContext
 
 /**
  * Callback that records server requests and responses (the whole event context). The result is

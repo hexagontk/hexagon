@@ -18,7 +18,7 @@ IMPORTANT: There is a [known bug] in this adapter.
     }
 
     dependencies {
-      implementation("com.hexagonkt:http_server_helidon:$hexagonVersion")
+      implementation("com.hexagontk:http_server_helidon:$hexagonVersion")
     }
     ```
 
@@ -26,11 +26,11 @@ IMPORTANT: There is a [known bug] in this adapter.
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>http_server_helidon</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```
 
-# Package com.hexagonkt.http.server.helidon
+# Package com.hexagontk.http.server.helidon
 Code implementing the Helidon HTTP server adapter.

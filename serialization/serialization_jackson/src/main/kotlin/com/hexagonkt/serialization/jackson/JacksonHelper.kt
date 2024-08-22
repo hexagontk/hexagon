@@ -1,4 +1,4 @@
-package com.hexagonkt.serialization.jackson
+package com.hexagontk.serialization.jackson
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_SINGLE_QUOTES

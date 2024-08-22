@@ -1,6 +1,6 @@
-package com.hexagonkt.templates.rocker
+package com.hexagontk.templates.rocker
 
-import com.hexagonkt.core.urlOf
+import com.hexagontk.core.urlOf
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import java.util.Locale

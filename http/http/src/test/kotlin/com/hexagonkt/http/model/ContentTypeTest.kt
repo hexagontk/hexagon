@@ -1,7 +1,7 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.http.parseContentType
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.http.parseContentType
 import org.junit.jupiter.api.Test
 import kotlin.IllegalStateException
 import java.nio.charset.Charset

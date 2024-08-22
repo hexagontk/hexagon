@@ -1,13 +1,13 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.core.require
-import com.hexagonkt.http.model.METHOD_NOT_ALLOWED_405
-import com.hexagonkt.http.model.NOT_FOUND_404
-import com.hexagonkt.http.model.HttpMethod.GET
-import com.hexagonkt.http.model.HttpMethod.PUT
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.HttpRequest
-import com.hexagonkt.http.model.HttpResponse
+import com.hexagontk.core.require
+import com.hexagontk.http.model.METHOD_NOT_ALLOWED_405
+import com.hexagontk.http.model.NOT_FOUND_404
+import com.hexagontk.http.model.HttpMethod.GET
+import com.hexagontk.http.model.HttpMethod.PUT
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpRequest
+import com.hexagontk.http.model.HttpResponse
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

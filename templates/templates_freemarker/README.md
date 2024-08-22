@@ -16,18 +16,18 @@ For usage instructions, refer to the [Templates Port documentation](/templates/)
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:templates_freemarker:$hexagonVersion")
+    implementation("com.hexagontk:templates_freemarker:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>templates_freemarker</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```
 
-# Package com.hexagonkt.templates.freemarker
+# Package com.hexagontk.templates.freemarker
 Classes that implement the Templates Port interface with the [FreeMarker] engine.

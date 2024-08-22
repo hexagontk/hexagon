@@ -1,4 +1,4 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
 /**
  * HTTP multi-value field. Used in headers, query parameters and form parameters.

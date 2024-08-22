@@ -1,7 +1,7 @@
-package com.hexagonkt.templates
+package com.hexagontk.templates
 
-import com.hexagonkt.core.text.Glob
-import com.hexagonkt.core.urlOf
+import com.hexagontk.core.text.Glob
+import com.hexagontk.core.urlOf
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

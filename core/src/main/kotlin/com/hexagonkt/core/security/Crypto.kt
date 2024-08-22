@@ -1,4 +1,4 @@
-package com.hexagonkt.core.security
+package com.hexagontk.core.security
 
 import java.security.MessageDigest
 import javax.crypto.Mac

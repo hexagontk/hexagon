@@ -1,10 +1,10 @@
-package com.hexagonkt.serialization.jackson.toml
+package com.hexagontk.serialization.jackson.toml
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.dataformat.toml.TomlFactory
-import com.hexagonkt.core.media.APPLICATION_TOML
-import com.hexagonkt.core.media.MediaType
-import com.hexagonkt.serialization.jackson.JacksonTextFormat
+import com.hexagontk.core.media.APPLICATION_TOML
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.serialization.jackson.JacksonTextFormat
 
 object Toml : JacksonTextFormat({ Toml.createTomlFactory() }) {
 

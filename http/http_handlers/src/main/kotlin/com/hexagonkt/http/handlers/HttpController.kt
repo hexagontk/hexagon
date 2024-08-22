@@ -1,7 +1,7 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.handlers.Context
-import com.hexagonkt.http.model.HttpCall
+import com.hexagontk.handlers.Context
+import com.hexagontk.http.model.HttpCall
 
 /**
  * Utility to encapsulate a handler in a class. TODO

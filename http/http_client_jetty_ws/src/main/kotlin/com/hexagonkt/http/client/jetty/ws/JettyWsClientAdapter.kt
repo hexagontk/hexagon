@@ -1,9 +1,9 @@
-package com.hexagonkt.http.client.jetty.ws
+package com.hexagontk.http.client.jetty.ws
 
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.client.HttpClient
-import com.hexagonkt.http.client.jetty.JettyClientAdapter
-import com.hexagonkt.http.model.ws.WsSession
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.model.ws.WsSession
 import org.eclipse.jetty.websocket.client.WebSocketClient
 import java.net.URI
 

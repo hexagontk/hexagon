@@ -1,11 +1,11 @@
-package com.hexagonkt.http.server.servlet
+package com.hexagontk.http.server.servlet
 
-import com.hexagonkt.core.urlOf
-import com.hexagonkt.http.client.HttpClient
-import com.hexagonkt.http.client.HttpClientSettings
-import com.hexagonkt.http.client.jetty.JettyClientAdapter
-import com.hexagonkt.http.model.NOT_FOUND_404
-import com.hexagonkt.http.handlers.path
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.client.HttpClientSettings
+import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.model.NOT_FOUND_404
+import com.hexagontk.http.handlers.path
 import jakarta.servlet.MultipartConfigElement
 import org.eclipse.jetty.ee10.webapp.WebAppContext
 import org.junit.jupiter.api.AfterAll

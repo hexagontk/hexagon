@@ -1,6 +1,6 @@
-package com.hexagonkt.core.logging
+package com.hexagontk.core.logging
 
-import com.hexagonkt.core.text.stripAnsi
+import com.hexagontk.core.text.stripAnsi
 import java.lang.System.Logger.Level
 import java.lang.System.Logger.Level.*
 import kotlin.reflect.KClass
@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
  * Logger class with Kotlin usability improvements. It is backed by a [System.Logger] instance.
  *
  * @param name Logger name. It is shown in the logs messages and used for log filtering.
- * @sample com.hexagonkt.core.logging.LoggerTest.loggerUsage
+ * @sample com.hexagontk.core.logging.LoggerTest.loggerUsage
  */
 class Logger(
     val name: String,

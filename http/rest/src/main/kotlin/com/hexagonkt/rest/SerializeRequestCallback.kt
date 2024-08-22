@@ -1,9 +1,9 @@
-package com.hexagonkt.rest
+package com.hexagontk.rest
 
-import com.hexagonkt.http.handlers.HttpCallback
-import com.hexagonkt.http.handlers.HttpContext
-import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.serialize
+import com.hexagontk.http.handlers.HttpCallback
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.serialization.SerializationManager
+import com.hexagontk.serialization.serialize
 
 // TODO Create SerializeRequestHandler like CorsHandler
 class SerializeRequestCallback : HttpCallback {

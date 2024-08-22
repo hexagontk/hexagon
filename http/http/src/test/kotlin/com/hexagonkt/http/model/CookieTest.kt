@@ -1,6 +1,6 @@
-package com.hexagonkt.http.model
+package com.hexagontk.http.model
 
-import com.hexagonkt.http.model.CookieSameSite.*
+import com.hexagontk.http.model.CookieSameSite.*
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 import kotlin.IllegalArgumentException

@@ -1,13 +1,13 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.core.toText
-import com.hexagonkt.handlers.ChainHandler
-import com.hexagonkt.handlers.Handler
-import com.hexagonkt.http.model.*
-import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.model.HttpStatusType.SERVER_ERROR
+import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.core.toText
+import com.hexagontk.handlers.ChainHandler
+import com.hexagontk.handlers.Handler
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.Companion.ALL
+import com.hexagontk.http.model.HttpStatusType.SERVER_ERROR
 
 data class PathHandler(
     override val handlerPredicate: HttpPredicate,

@@ -1,11 +1,11 @@
-package com.hexagonkt.http.handlers
+package com.hexagontk.http.handlers
 
-import com.hexagonkt.core.fail
-import com.hexagonkt.core.logging.info
-import com.hexagonkt.core.media.TEXT_EVENT_STREAM
-import com.hexagonkt.http.model.HttpMethod.GET
-import com.hexagonkt.http.model.OK_200
-import com.hexagonkt.http.model.ServerEvent
+import com.hexagontk.core.fail
+import com.hexagontk.core.logging.info
+import com.hexagontk.core.media.TEXT_EVENT_STREAM
+import com.hexagontk.http.model.HttpMethod.GET
+import com.hexagontk.http.model.OK_200
+import com.hexagontk.http.model.ServerEvent
 import org.junit.jupiter.api.Test
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription

@@ -1,6 +1,6 @@
-package com.hexagonkt.core.media
+package com.hexagontk.core.media
 
-import com.hexagonkt.core.media.MediaTypeGroup.*
+import com.hexagontk.core.media.MediaTypeGroup.*
 import java.io.File
 import java.net.URI
 import java.net.URL

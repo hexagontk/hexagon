@@ -1,11 +1,10 @@
-package com.hexagonkt.core.logging
+package com.hexagontk.core.logging
 
-import java.lang.System.Logger.Level.*
-import com.hexagonkt.core.Jvm
+import com.hexagontk.core.Jvm
 
-internal val useColor: Boolean by lazy { Jvm.systemSetting("hexagonkt_logging_color", true) }
+internal val useColor: Boolean by lazy { Jvm.systemSetting("hexagontk_logging_color", true) }
 internal val defaultLoggerName: String by lazy {
-    Jvm.systemSetting("hexagonkt_logging_logger_name", "com.hexagonkt.core.logging")
+    Jvm.systemSetting("hexagontk_logging_logger_name", "com.hexagontk.core.logging")
 }
 
 /** Default logger for when you feel too lazy to declare one. */
@@ -14,7 +13,7 @@ val logger: Logger by lazy { Logger(defaultLoggerName) }
 /**
  * Use this [T] to log a message with a prefix using [TRACE] level.
  *
- * [com.hexagonkt.core.logging.logger] must have the [TRACE] level enabled.
+ * [com.hexagontk.core.logging.logger] must have the [TRACE] level enabled.
  *
  * @receiver Object which string representation will be logged.
  * @param T Type of the logged object.
@@ -27,7 +26,7 @@ fun <T> T.trace(prefix: String = ""): T =
 /**
  * Use this [T] to log a message with a prefix using [DEBUG] level.
  *
- * [com.hexagonkt.core.logging.logger] must have the [DEBUG] level enabled.
+ * [com.hexagontk.core.logging.logger] must have the [DEBUG] level enabled.
  *
  * @receiver Object which string representation will be logged.
  * @param T Type of the logged object.
@@ -40,7 +39,7 @@ fun <T> T.debug(prefix: String = ""): T =
 /**
  * Use this [T] to log a message with a prefix using [INFO] level.
  *
- * [com.hexagonkt.core.logging.logger] must have the [INFO] level enabled.
+ * [com.hexagontk.core.logging.logger] must have the [INFO] level enabled.
  *
  * @receiver Object which string representation will be logged.
  * @param T Type of the logged object.
