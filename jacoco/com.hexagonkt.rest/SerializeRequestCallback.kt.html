@@ -5,24 +5,25 @@ import com.hexagonkt.http.handlers.HttpContext
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
 
-<span class="fc" id="L8">class SerializeRequestCallback : HttpCallback {</span>
+// TODO Create SerializeRequestHandler like CorsHandler
+<span class="fc" id="L9">class SerializeRequestCallback : HttpCallback {</span>
 
-<span class="fc" id="L10">    init {</span>
-<span class="fc bfc" id="L11" title="All 4 branches covered.">        check(SerializationManager.formats.isNotEmpty()) {</span>
-<span class="fc" id="L12">            &quot;Serialization callbacks require at least one registered format&quot;</span>
+<span class="fc" id="L11">    init {</span>
+<span class="fc bfc" id="L12" title="All 4 branches covered.">        check(SerializationManager.formats.isNotEmpty()) {</span>
+<span class="fc" id="L13">            &quot;Serialization callbacks require at least one registered format&quot;</span>
         }
-<span class="fc" id="L14">    }</span>
+<span class="fc" id="L15">    }</span>
 
     override fun invoke(context: HttpContext): HttpContext {
-<span class="fc" id="L17">        val requestBody = context.request.body</span>
+<span class="fc" id="L18">        val requestBody = context.request.body</span>
 
-<span class="pc bpc" id="L19" title="1 of 4 branches missed.">        if (requestBody is String || requestBody is ByteArray)</span>
-<span class="fc" id="L20">            return context</span>
+<span class="pc bpc" id="L20" title="1 of 4 branches missed.">        if (requestBody is String || requestBody is ByteArray)</span>
+<span class="fc" id="L21">            return context</span>
 
-<span class="pc bpc" id="L22" title="2 of 4 branches missed.">        return context.request.contentType?.mediaType</span>
-<span class="pc bpc" id="L23" title="1 of 2 branches missed.">            ?.let(SerializationManager::formatOfOrNull)</span>
-<span class="fc bfc" id="L24" title="All 2 branches covered.">            ?.let { context.receive(body = requestBody.serialize(it)) }</span>
-<span class="fc" id="L25">            ?: context</span>
+<span class="pc bpc" id="L23" title="2 of 4 branches missed.">        return context.request.contentType?.mediaType</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">            ?.let(SerializationManager::formatOfOrNull)</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">            ?.let { context.receive(body = requestBody.serialize(it)) }</span>
+<span class="fc" id="L26">            ?: context</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

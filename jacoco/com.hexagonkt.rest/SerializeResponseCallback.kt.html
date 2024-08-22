@@ -5,28 +5,29 @@ import com.hexagonkt.http.handlers.HttpContext
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
 
-<span class="fc" id="L8">class SerializeResponseCallback: HttpCallback {</span>
+// TODO Create SerializeResponseHandler like CorsHandler
+<span class="fc" id="L9">class SerializeResponseCallback: HttpCallback {</span>
 
-<span class="fc" id="L10">    init {</span>
-<span class="fc bfc" id="L11" title="All 4 branches covered.">        check(SerializationManager.formats.isNotEmpty()) {</span>
-<span class="fc" id="L12">            &quot;Serialization callbacks require at least one registered format&quot;</span>
+<span class="fc" id="L11">    init {</span>
+<span class="fc bfc" id="L12" title="All 4 branches covered.">        check(SerializationManager.formats.isNotEmpty()) {</span>
+<span class="fc" id="L13">            &quot;Serialization callbacks require at least one registered format&quot;</span>
         }
-<span class="fc" id="L14">    }</span>
+<span class="fc" id="L15">    }</span>
 
     override fun invoke(context: HttpContext): HttpContext {
-<span class="fc" id="L17">        val responseBody = context.response.body</span>
+<span class="fc" id="L18">        val responseBody = context.response.body</span>
 
-<span class="fc bfc" id="L19" title="All 4 branches covered.">        if (responseBody is String || responseBody is ByteArray)</span>
-<span class="fc" id="L20">            return context</span>
+<span class="fc bfc" id="L20" title="All 4 branches covered.">        if (responseBody is String || responseBody is ByteArray)</span>
+<span class="fc" id="L21">            return context</span>
 
-<span class="pc bpc" id="L22" title="1 of 2 branches missed.">        return (context.request.accept - anyContentType)</span>
-<span class="pc bpc" id="L23" title="2 of 6 branches missed.">            .ifEmpty { context.response.contentType?.let(::listOf) ?: emptyList() }</span>
-<span class="fc" id="L24">            .associateWith { SerializationManager.formatOfOrNull(it.mediaType) }</span>
-<span class="fc bfc" id="L25" title="All 2 branches covered.">            .mapNotNull { (k, v) -&gt; v?.let { k to it } }</span>
-<span class="fc" id="L26">            .firstOrNull()</span>
-<span class="fc bfc" id="L27" title="All 2 branches covered.">            ?.let { (ct, sf) -&gt; ct to responseBody.serialize(sf) }</span>
-<span class="pc bpc" id="L28" title="1 of 2 branches missed.">            ?.let { (ct, c) -&gt; context.send(body = c, contentType = ct) }</span>
-<span class="fc" id="L29">            ?: context</span>
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        return (context.request.accept - anyContentType)</span>
+<span class="pc bpc" id="L24" title="2 of 6 branches missed.">            .ifEmpty { context.response.contentType?.let(::listOf) ?: emptyList() }</span>
+<span class="fc" id="L25">            .associateWith { SerializationManager.formatOfOrNull(it.mediaType) }</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            .mapNotNull { (k, v) -&gt; v?.let { k to it } }</span>
+<span class="fc" id="L27">            .firstOrNull()</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">            ?.let { (ct, sf) -&gt; ct to responseBody.serialize(sf) }</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">            ?.let { (ct, c) -&gt; context.send(body = c, contentType = ct) }</span>
+<span class="fc" id="L30">            ?: context</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

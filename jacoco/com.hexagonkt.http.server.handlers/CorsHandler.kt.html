@@ -9,32 +9,31 @@ import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.NO_CONTENT_204
 import com.hexagonkt.http.server.callbacks.CorsCallback
 
-// TODO Write tests
-<span class="pc" id="L13">class CorsHandler(pattern: String = &quot;*&quot;, cors: CorsCallback = CorsCallback()) :</span>
-<span class="fc" id="L14">    HttpHandler by FilterHandler(HttpPredicate(pattern = pattern), cors) {</span>
+<span class="fc" id="L12">class CorsHandler(pattern: String, cors: CorsCallback) :</span>
+<span class="fc" id="L13">    HttpHandler by FilterHandler(HttpPredicate(pattern = pattern), cors) {</span>
 
-<span class="fc" id="L16">    constructor(cors: CorsCallback) : this(&quot;*&quot;, cors)</span>
+<span class="fc" id="L15">    constructor(cors: CorsCallback) : this(&quot;*&quot;, cors)</span>
 
-<span class="nc" id="L18">    constructor(</span>
-<span class="nc" id="L19">        pattern: String = &quot;*&quot;,</span>
-        allowedOrigin: Regex,
-<span class="nc" id="L21">        allowedMethods: Set&lt;HttpMethod&gt; = ALL,</span>
-<span class="nc" id="L22">        allowedHeaders: Set&lt;String&gt; = emptySet(),</span>
-<span class="nc" id="L23">        exposedHeaders: Set&lt;String&gt; = emptySet(),</span>
-<span class="nc" id="L24">        supportCredentials: Boolean = true,</span>
-<span class="nc" id="L25">        preFlightStatus: HttpStatus = NO_CONTENT_204,</span>
-<span class="nc" id="L26">        preFlightMaxAge: Long = 0</span>
-<span class="nc" id="L27">    ) : this(</span>
-<span class="nc" id="L28">        pattern,</span>
-<span class="nc" id="L29">        CorsCallback(</span>
-<span class="nc" id="L30">            allowedOrigin,</span>
-<span class="nc" id="L31">            allowedMethods,</span>
-<span class="nc" id="L32">            allowedHeaders,</span>
-<span class="nc" id="L33">            exposedHeaders,</span>
-<span class="nc" id="L34">            supportCredentials,</span>
-<span class="nc" id="L35">            preFlightStatus,</span>
-<span class="nc" id="L36">            preFlightMaxAge,</span>
+<span class="fc" id="L17">    constructor(</span>
+<span class="fc" id="L18">        pattern: String = &quot;*&quot;,</span>
+<span class="fc" id="L19">        allowedOrigin: String = &quot;*&quot;,</span>
+<span class="fc" id="L20">        allowedMethods: Set&lt;HttpMethod&gt; = ALL,</span>
+<span class="fc" id="L21">        allowedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="fc" id="L22">        exposedHeaders: Set&lt;String&gt; = emptySet(),</span>
+<span class="fc" id="L23">        supportCredentials: Boolean = true,</span>
+<span class="fc" id="L24">        preFlightStatus: HttpStatus = NO_CONTENT_204,</span>
+<span class="fc" id="L25">        preFlightMaxAge: Long = 0</span>
+<span class="fc" id="L26">    ) : this(</span>
+<span class="fc" id="L27">        pattern,</span>
+<span class="fc" id="L28">        CorsCallback(</span>
+<span class="fc" id="L29">            allowedOrigin,</span>
+<span class="fc" id="L30">            allowedMethods,</span>
+<span class="fc" id="L31">            allowedHeaders,</span>
+<span class="fc" id="L32">            exposedHeaders,</span>
+<span class="fc" id="L33">            supportCredentials,</span>
+<span class="fc" id="L34">            preFlightStatus,</span>
+<span class="fc" id="L35">            preFlightMaxAge,</span>
         )
-<span class="nc" id="L38">    )</span>
+<span class="fc" id="L37">    )</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
