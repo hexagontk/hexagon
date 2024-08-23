@@ -58,9 +58,9 @@ Aside of that kind of modules, you can also find infrastructure modules: compone
 project itself. These are internal modules not intended to be directly used by users (like the
 [starters] or the [site]).
 
-[Hexagon Structure]: https://github.com/hexagontk/hexagon/blob/master/README.md#hexagon-structure
-[starters]: https://github.com/hexagontk/hexagon/blob/master/starters/README.md
-[site]: https://github.com/hexagontk/hexagon/blob/master/site/README.md
+[Hexagon Structure]: https://github.com/hexagontk/hexagon/blob/main/README.md#hexagon-structure
+[starters]: https://github.com/hexagontk/hexagon/blob/main/starters/README.md
+[site]: https://github.com/hexagontk/hexagon/blob/main/site/README.md
 
 ## Local Setup
 Hexagon build process requires a JDK 21+ to compile. You can check the required software, build the

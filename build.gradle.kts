@@ -80,7 +80,7 @@ task("nativeTestModules") {
     description = "Print module descriptions to be used in the GraalVM native compliant directory."
 
     doLast {
-        val gitHub = "https://github.com/hexagontk/hexagon/tree/master"
+        val gitHub = "https://github.com/hexagontk/hexagon/tree/main"
         val entries = subprojects
             .filter { sp -> sp.tasks.any { t -> t.name == "nativeTest" } }
             .sortedBy { sp -> "${sp.group}:${sp.name}" }
