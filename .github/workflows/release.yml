@@ -37,8 +37,8 @@ jobs:
           ls -AlF site/build/site
 
       - env:
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          REPOSITORY_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          REPOSITORY_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          SIGNING_KEY: ${{ secrets.HEXAGONTK_SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.HEXAGONTK_SIGNING_PASSWORD }}
         run: ./gradlew --no-daemon -x test release

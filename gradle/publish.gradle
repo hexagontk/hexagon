@@ -17,13 +17,11 @@ signing {
 publishing {
     repositories {
         maven {
-            url = version.endsWith("SNAPSHOT")?
-                "https://oss.sonatype.org/content/repositories/snapshots" :
-                "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            url = "https://central.sonatype.com"
 
             credentials {
-                username = findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
-                password = findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+                username = findProperty("ossrhUsername") ?: System.getenv("REPOSITORY_USERNAME")
+                password = findProperty("ossrhPassword") ?: System.getenv("REPOSITORY_PASSWORD")
             }
         }
     }
