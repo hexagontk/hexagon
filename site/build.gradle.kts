@@ -132,9 +132,24 @@ tasks.register("installMkDocs") {
     }
 }
 
-tasks.register<Exec>("serveSite") {
+/*
+ * TODO Use Mike for documentation versioning:
+ *  - https://squidfunk.github.io/mkdocs-material/setup/setting-up-versioning
+ *  - https://github.com/jimporter/mike
+ *  - Remove 'test-pages' branch after checking
+ */
+tasks.register<Exec>("deploySite") {
     dependsOn("checkDocs", "installMkDocs")
-    commandLine("$venv/bin/mkdocs serve".split(" "))
+    commandLine("$venv/bin/mike deploy --branch test-pages --update-aliases ${rootProject.version} latest".split(" "))
+}
+
+tasks.register<Exec>("defaultVersion") {
+    commandLine("$venv/bin/mike set-default --branch test-pages latest".split(" "))
+}
+
+tasks.register<Exec>("serveSite") {
+    dependsOn("deploySite")
+    commandLine("$venv/bin/mike serve --branch test-pages".split(" "))
 }
 
 tasks.register<Exec>("buildSite") {

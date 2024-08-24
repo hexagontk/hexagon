@@ -29,6 +29,7 @@ plugins {
     id("org.graalvm.buildtools.native") version(libs.versions.nativeTools) apply(false)
     id("io.gitlab.arturbosch.detekt") version(libs.versions.detekt) apply(false)
     id("me.champeau.jmh") version(libs.versions.jmhGradle) apply(false)
+    id("org.jreleaser") version(libs.versions.jreleaser) apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")

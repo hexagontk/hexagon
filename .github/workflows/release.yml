@@ -37,8 +37,8 @@ jobs:
           ls -AlF site/build/site
 
       - env:
-          REPOSITORY_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          REPOSITORY_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          REPOSITORY_PASSWORD: ${{ secrets.HEXAGONTK_REPOSITORY_PASSWORD }}
+          REPOSITORY_USERNAME: ${{ secrets.HEXAGONTK_REPOSITORY_USERNAME }}
           SIGNING_KEY: ${{ secrets.HEXAGONTK_SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.HEXAGONTK_SIGNING_PASSWORD }}
         run: ./gradlew --no-daemon -x test release

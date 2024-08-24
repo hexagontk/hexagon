@@ -4,12 +4,14 @@
 
 apply(plugin: "signing")
 apply(plugin: "maven-publish")
+apply(plugin: "maven-publish")
+apply(plugin: "org.jreleaser")
 
 signing {
-    useInMemoryPgpKeys(
-        findProperty("signingKey") ?: System.getenv("SIGNING_KEY"),
-        findProperty("signingPassword") ?: System.getenv("SIGNING_PASSWORD")
-    )
+    String signingKey = findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
+    String signingPassword = findProperty("signingPassword") ?: System.getenv("SIGNING_PASSWORD")
+
+    useInMemoryPgpKeys(signingKey, signingPassword)
     required { gradle.taskGraph.hasTask("publish") }
     sign(publishing.publications)
 }
@@ -54,6 +56,23 @@ publishing {
                             email = "jaguililla@hexagontk.com"
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+jreleaser {
+//    signing {
+//        active = 'ALWAYS'
+//        armored = true
+//    }
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
                 }
             }
         }
