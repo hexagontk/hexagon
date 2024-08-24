@@ -56,8 +56,8 @@ Hexagon's dependencies are signed, you can get the public key at the
 These are the details of the public key:
 
 ```
-pub ed25519 2024-06-11 Hexagon Toolkit (Key used to sign published binaries) <project@hexagontk.com>
-    1FBCEA0384E730C76A69153AB1C94C2E85275907
+pub  ed25519/0E16E194 2024-08-24 Hexagon Toolkit (Key used to sign published binaries) <project@hexagontk.com>
+     268363E34136BFA0AA6C8AE61902F0990E16E194
 ```
 
 [pgp key 2]: https://keyserver.ubuntu.com/pks/lookup?search=project%40hexagontk.com&op=index

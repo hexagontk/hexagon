@@ -83,7 +83,7 @@ jobs:
       tasks: jmh
 
   build_site:
-    uses: hexagontk/hexagon/.github/workflows/site.yml@master
+    uses: hexagontk/hexagon/.github/workflows/site.yml@main
     with:
       ref: develop
 
