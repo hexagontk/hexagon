@@ -128,6 +128,7 @@ tasks.register("installMkDocs") {
         exec { commandLine("python -m venv $venv".split(" ")) }
         exec { commandLine("$venv/bin/pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
         exec { commandLine("$venv/bin/pip install mkdocs-htmlproofer-plugin".split(" ")) }
+        exec { commandLine("$venv/bin/pip install mike".split(" ")) }
     }
 }
 
