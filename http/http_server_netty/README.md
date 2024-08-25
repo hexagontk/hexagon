@@ -15,7 +15,7 @@
     }
 
     dependencies {
-      implementation("com.hexagonkt:http_server_netty:$hexagonVersion")
+      implementation("com.hexagontk:http_server_netty:$hexagonVersion")
     }
     ```
 
@@ -23,11 +23,11 @@
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>http_server_netty</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```
 
-# Package com.hexagonkt.http.server.netty
+# Package com.hexagontk.http.server.netty
 Code implementing the Netty HTTP server adapter.

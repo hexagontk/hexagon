@@ -1,49 +1,49 @@
 
 # HTTP Client Creation Example
 This example shows how to create HTTP Client instances. Check the
-[full test](https://github.com/hexagontk/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt)
+[full test](https://github.com/hexagontk/hexagon/blob/main/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt)
 for more information.
 
 ## Without setting parameters
-@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt?clientCreation
+@code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/ClientTest.kt?clientCreation
 
 ## Using client settings
-@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt?clientSettingsCreation
+@code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/ClientTest.kt?clientSettingsCreation
 
 # Send Requests Example
 This example shows send HTTP requests to a server. Here you can check the
-[full test](https://github.com/hexagontk/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt).
+[full test](https://github.com/hexagontk/hexagon/blob/main/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt).
 
 ## Generic request
-@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt?genericRequest
+@code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/ClientTest.kt?genericRequest
 
 ## Shortcut without body sending
-@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt?withoutBodyRequests
+@code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/ClientTest.kt?withoutBodyRequests
 
 ## Shortcut with payload sending
-@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt?bodyRequests
+@code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/ClientTest.kt?bodyRequests
 
 ## Shortcut including body and content type
-@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt?bodyAndContentTypeRequests
+@code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/ClientTest.kt?bodyAndContentTypeRequests
 
 # Use Cookies Example
-Check the details at the [full test](https://github.com/hexagontk/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt).
+Check the details at the [full test](https://github.com/hexagontk/hexagon/blob/main/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt).
 
-@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt?clientCookies
+@code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/CookiesTest.kt?clientCookies
 
 # Multipart Requests Example
-Refer to the [full test](https://github.com/hexagontk/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/FilesTest.kt)
+Refer to the [full test](https://github.com/hexagontk/hexagon/blob/main/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/FilesTest.kt)
 for more details.
 
 ## Send form fields
-@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/FilesTest.kt?clientForm
+@code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/FilesTest.kt?clientForm
 
 ## Send and attached file
-@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/FilesTest.kt?clientFile
+@code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/FilesTest.kt?clientFile
 
 # Mutual TLS Example
 This example shows how make requests using mutual TLS between the client and the server. You can
-check the [full test](https://github.com/hexagontk/hexagon/blob/master/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/HttpsTest.kt)
+check the [full test](https://github.com/hexagontk/hexagon/blob/main/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/HttpsTest.kt)
 for more details.
 
-@code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/HttpsTest.kt?https
+@code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/HttpsTest.kt?https

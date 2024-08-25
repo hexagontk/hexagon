@@ -15,7 +15,7 @@
     }
 
     dependencies {
-      implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
+      implementation("com.hexagontk:http_server_jetty:$hexagonVersion")
     }
     ```
 
@@ -23,11 +23,11 @@
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>http_server_jetty</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```
 
-# Package com.hexagonkt.http.server.jetty
+# Package com.hexagontk.http.server.jetty
 Code implementing the Jetty HTTP server adapter.

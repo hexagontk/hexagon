@@ -15,7 +15,7 @@
     }
 
     dependencies {
-      implementation("com.hexagonkt:http_server_netty_epoll:$hexagonVersion")
+      implementation("com.hexagontk:http_server_netty_epoll:$hexagonVersion")
       // $arch could be 'x86_64' among other linux architectures
       implementation("io.netty:netty-transport-native-epoll:$nettyVersion:linux-$arch")
     }
@@ -25,7 +25,7 @@
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>http_server_netty_epoll</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
@@ -38,5 +38,5 @@
     </dependency>
     ```
 
-# Package com.hexagonkt.http.server.netty.epoll
+# Package com.hexagontk.http.server.netty.epoll
 Code implementing the Netty HTTP server adapter using Epoll transport.

@@ -2,7 +2,7 @@
 dev_addr: 127.0.0.1:8000
 
 site_name: Hexagon
-site_url: https://hexagontk.com
+site_url: https://hexagontk.com/
 site_author: Hexagon Toolkit
 site_dir: build/site
 site_description: The atoms of your platform
@@ -13,7 +13,7 @@ copyright: >
   62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1
   53-154.3-9.8-207.9z"></path></svg> by
   <a href="https://github.com/hexagontk/hexagon/graphs/contributors">OSS contributors</a>. Licensed
-  under <a href="https://github.com/hexagontk/hexagon/blob/master/license.md">MIT License</a>
+  under <a href="https://github.com/hexagontk/hexagon/blob/main/license.md">MIT License</a>
 
 repo_name: hexagontk/hexagon
 repo_url: https://github.com/hexagontk/hexagon
@@ -124,6 +124,11 @@ extra:
   site_long_description: >
     Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of
     services (Web applications or APIs) that run inside a cloud platform
+
+  version:
+    provider: mike
+    default: stable
+    alias: true
 
   analytics:
     provider: google

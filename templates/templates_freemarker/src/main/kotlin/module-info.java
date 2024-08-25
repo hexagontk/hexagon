@@ -1,10 +1,10 @@
 
-module com.hexagonkt.templates_freemarker {
+module com.hexagontk.templates_freemarker {
 
     requires transitive kotlin.stdlib;
-    requires transitive com.hexagonkt.templates;
+    requires transitive com.hexagontk.templates;
 
     requires freemarker;
 
-    exports com.hexagonkt.templates.freemarker;
+    exports com.hexagontk.templates.freemarker;
 }

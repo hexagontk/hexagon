@@ -1,8 +1,8 @@
 
-module com.hexagonkt.serialization_jackson_json {
+module com.hexagontk.serialization_jackson_json {
 
-    requires transitive com.hexagonkt.core;
-    requires transitive com.hexagonkt.serialization_jackson;
+    requires transitive com.hexagontk.core;
+    requires transitive com.hexagontk.serialization_jackson;
 
-    exports com.hexagonkt.serialization.jackson.json;
+    exports com.hexagontk.serialization.jackson.json;
 }

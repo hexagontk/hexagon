@@ -1,9 +1,9 @@
 
-module com.hexagonkt.http_server_netty {
+module com.hexagontk.http_server_netty {
 
     requires transitive kotlin.stdlib;
-    requires transitive com.hexagonkt.http;
-    requires transitive com.hexagonkt.http_server;
+    requires transitive com.hexagontk.http;
+    requires transitive com.hexagontk.http_server;
 
     requires io.netty.common;
     requires io.netty.buffer;
@@ -12,5 +12,5 @@ module com.hexagonkt.http_server_netty {
     requires io.netty.handler;
     requires io.netty.transport;
 
-    exports com.hexagonkt.http.server.netty;
+    exports com.hexagontk.http.server.netty;
 }

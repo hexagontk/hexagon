@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.0.10")
+            version("kotlin", "2.0.20")
             version("dokka", "1.9.20")
             version("licenseReport", "2.9")
             version("binValidator", "0.16.3")
@@ -27,9 +27,10 @@ dependencyResolutionManagement {
             version("detekt", "1.23.6")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.10")
-            version("mkdocsMaterial", "9.5.32")
+            version("mkdocsMaterial", "9.5.33")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.9")
+            version("jreleaser", "1.13.1")
 
             // Testing
             version("junit", "5.11.0")

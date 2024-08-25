@@ -1,16 +1,16 @@
 
 // TODO Rename this file when build script is able to handle automatic modules
-module com.hexagonkt.rest_tools {
+module com.hexagontk.rest_tools {
 
     requires transitive kotlin.stdlib;
-    requires transitive com.hexagonkt.http;
-    requires transitive com.hexagonkt.rest;
-    requires transitive com.hexagonkt.http_server;
-    requires transitive com.hexagonkt.http_client;
-    requires transitive com.hexagonkt.serialization;
+    requires transitive com.hexagontk.http;
+    requires transitive com.hexagontk.rest;
+    requires transitive com.hexagontk.http_server;
+    requires transitive com.hexagontk.http_client;
+    requires transitive com.hexagontk.serialization;
 
     requires io.swagger.v3.oas.models;
     requires swagger.request.validator.core;
 
-    exports com.hexagonkt.rest.tools;
+    exports com.hexagontk.rest.tools;
 }

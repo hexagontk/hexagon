@@ -1,10 +1,10 @@
 
-module com.hexagonkt.http {
+module com.hexagontk.http {
 
-    requires transitive com.hexagonkt.core;
+    requires transitive com.hexagontk.core;
 
-    exports com.hexagonkt.http;
-    exports com.hexagonkt.http.model;
-    exports com.hexagonkt.http.model.ws;
-    exports com.hexagonkt.http.patterns;
+    exports com.hexagontk.http;
+    exports com.hexagontk.http.model;
+    exports com.hexagontk.http.model.ws;
+    exports com.hexagontk.http.patterns;
 }

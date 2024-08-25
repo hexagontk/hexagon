@@ -1,4 +1,4 @@
-public final class com/hexagonkt/core/ChecksKt {
+public final class com/hexagontk/core/ChecksKt {
 	public static final fun check (Ljava/lang/String;[Lkotlin/jvm/functions/Function0;)V
 	public static final fun checkSize (Ljava/util/Collection;Lkotlin/ranges/IntRange;)Ljava/util/Collection;
 	public static final fun requireGreater (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
@@ -13,19 +13,19 @@ public final class com/hexagonkt/core/ChecksKt {
 	public static final fun requireNotBlanks (Ljava/lang/Object;Lkotlin/reflect/KProperty1;)V
 }
 
-public final class com/hexagonkt/core/ClasspathHandler : java/net/URLStreamHandler {
-	public static final field INSTANCE Lcom/hexagonkt/core/ClasspathHandler;
+public final class com/hexagontk/core/ClasspathHandler : java/net/URLStreamHandler {
+	public static final field INSTANCE Lcom/hexagontk/core/ClasspathHandler;
 	public final fun createURLStreamHandler (Ljava/lang/String;)Ljava/net/URLStreamHandler;
 	public final fun registerHandler ()V
 }
 
-public final class com/hexagonkt/core/CodedException : java/lang/RuntimeException {
+public final class com/hexagontk/core/CodedException : java/lang/RuntimeException {
 	public fun <init> (ILjava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getCode ()I
 }
 
-public final class com/hexagonkt/core/DataKt {
+public final class com/hexagontk/core/DataKt {
 	public static final fun fieldsMapOf ([Lkotlin/Pair;)Ljava/util/Map;
 	public static final fun fieldsMapOfNotNull ([Lkotlin/Pair;)Ljava/util/Map;
 	public static final fun filterNotEmpty (Ljava/util/Collection;)Ljava/util/Collection;
@@ -82,7 +82,7 @@ public final class com/hexagonkt/core/DataKt {
 	public static final fun requireStrings (Ljava/util/Map;Lkotlin/reflect/KProperty1;)Ljava/util/Collection;
 }
 
-public final class com/hexagonkt/core/DatesKt {
+public final class com/hexagontk/core/DatesKt {
 	public static final fun getGMT_ZONE ()Ljava/time/ZoneId;
 	public static final fun parseDuration (Ljava/lang/String;)Ljava/time/Duration;
 	public static final fun parseLocalDate (Ljava/lang/String;)Ljava/time/LocalDate;
@@ -103,7 +103,7 @@ public final class com/hexagonkt/core/DatesKt {
 	public static synthetic fun withZone$default (Ljava/time/LocalDateTime;Ljava/time/ZoneId;ILjava/lang/Object;)Ljava/time/ZonedDateTime;
 }
 
-public final class com/hexagonkt/core/ExceptionsKt {
+public final class com/hexagontk/core/ExceptionsKt {
 	public static final fun filterStackTrace (Ljava/lang/Throwable;Ljava/lang/String;)[Ljava/lang/StackTraceElement;
 	public static final fun getAssertEnabled ()Z
 	public static final fun getFail ()Ljava/lang/Void;
@@ -111,7 +111,7 @@ public final class com/hexagonkt/core/ExceptionsKt {
 	public static synthetic fun toText$default (Ljava/lang/Throwable;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
 }
 
-public final class com/hexagonkt/core/HelpersKt {
+public final class com/hexagontk/core/HelpersKt {
 	public static final fun exec (Ljava/lang/String;Ljava/io/File;JZ)Ljava/lang/String;
 	public static final fun exec (Ljava/util/List;Ljava/io/File;JZ)Ljava/lang/String;
 	public static synthetic fun exec$default (Ljava/lang/String;Ljava/io/File;JZILjava/lang/Object;)Ljava/lang/String;
@@ -122,7 +122,7 @@ public final class com/hexagonkt/core/HelpersKt {
 	public static synthetic fun shell$default (Ljava/lang/String;Ljava/io/File;JZILjava/lang/Object;)Ljava/lang/String;
 }
 
-public final class com/hexagonkt/core/I18nKt {
+public final class com/hexagontk/core/I18nKt {
 	public static final fun countryOf (Ljava/lang/String;)Ljava/util/Locale;
 	public static final fun countryOfOrNull (Ljava/lang/String;)Ljava/util/Locale;
 	public static final fun getCountryCodes ()Ljava/util/Set;
@@ -140,8 +140,8 @@ public final class com/hexagonkt/core/I18nKt {
 	public static synthetic fun resourceBundle$default (Lkotlin/reflect/KClass;Ljava/util/Locale;ILjava/lang/Object;)Ljava/util/ResourceBundle;
 }
 
-public final class com/hexagonkt/core/Jvm {
-	public static final field INSTANCE Lcom/hexagonkt/core/Jvm;
+public final class com/hexagontk/core/Jvm {
+	public static final field INSTANCE Lcom/hexagontk/core/Jvm;
 	public final fun getCharset ()Ljava/nio/charset/Charset;
 	public final fun getConsole ()Ljava/io/Console;
 	public final fun getCpuCount ()I
@@ -151,7 +151,7 @@ public final class com/hexagonkt/core/Jvm {
 	public final fun getLocaleCode ()Ljava/lang/String;
 	public final fun getName ()Ljava/lang/String;
 	public final fun getOs ()Ljava/lang/String;
-	public final fun getOsKind ()Lcom/hexagonkt/core/OsKind;
+	public final fun getOsKind ()Lcom/hexagontk/core/OsKind;
 	public final fun getRuntime ()Ljava/lang/Runtime;
 	public final fun getTimeZone ()Ljava/util/TimeZone;
 	public final fun getVersion ()Ljava/lang/String;
@@ -166,7 +166,7 @@ public final class com/hexagonkt/core/Jvm {
 	public final fun usedMemory ()Ljava/lang/String;
 }
 
-public abstract class com/hexagonkt/core/MapResourceBundle : java/util/ListResourceBundle {
+public abstract class com/hexagontk/core/MapResourceBundle : java/util/ListResourceBundle {
 	public fun <init> (Ljava/util/Map;)V
 	public fun <init> ([Lkotlin/Pair;)V
 	protected fun getContents ()[[Ljava/lang/Object;
@@ -174,7 +174,7 @@ public abstract class com/hexagonkt/core/MapResourceBundle : java/util/ListResou
 	public final fun getMap ()Ljava/util/Map;
 }
 
-public final class com/hexagonkt/core/MultipleException : java/lang/RuntimeException {
+public final class com/hexagontk/core/MultipleException : java/lang/RuntimeException {
 	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
 	public fun <init> (Ljava/lang/String;[Ljava/lang/Throwable;)V
 	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
@@ -183,7 +183,7 @@ public final class com/hexagonkt/core/MultipleException : java/lang/RuntimeExcep
 	public final fun getCauses ()Ljava/util/List;
 }
 
-public final class com/hexagonkt/core/NetworkKt {
+public final class com/hexagontk/core/NetworkKt {
 	public static final fun exists (Ljava/net/URL;)Z
 	public static final fun firstVariant (Ljava/net/URL;[Ljava/lang/String;)Ljava/net/URL;
 	public static final fun freePort ()I
@@ -198,35 +198,35 @@ public final class com/hexagonkt/core/NetworkKt {
 	public static final fun urlOf (Ljava/lang/String;)Ljava/net/URL;
 }
 
-public final class com/hexagonkt/core/OsKind : java/lang/Enum {
-	public static final field LINUX Lcom/hexagonkt/core/OsKind;
-	public static final field MACOS Lcom/hexagonkt/core/OsKind;
-	public static final field UNIX Lcom/hexagonkt/core/OsKind;
-	public static final field WINDOWS Lcom/hexagonkt/core/OsKind;
+public final class com/hexagontk/core/OsKind : java/lang/Enum {
+	public static final field LINUX Lcom/hexagontk/core/OsKind;
+	public static final field MACOS Lcom/hexagontk/core/OsKind;
+	public static final field UNIX Lcom/hexagontk/core/OsKind;
+	public static final field WINDOWS Lcom/hexagontk/core/OsKind;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/core/OsKind;
-	public static fun values ()[Lcom/hexagonkt/core/OsKind;
+	public static fun valueOf (Ljava/lang/String;)Lcom/hexagontk/core/OsKind;
+	public static fun values ()[Lcom/hexagontk/core/OsKind;
 }
 
-public final class com/hexagonkt/core/ResourceNotFoundException : java/io/IOException {
+public final class com/hexagontk/core/ResourceNotFoundException : java/io/IOException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public final class com/hexagonkt/core/UuidsKt {
+public final class com/hexagontk/core/UuidsKt {
 	public static final fun bytes (Ljava/util/UUID;)[B
 	public static final fun toBase64 (Ljava/util/UUID;)Ljava/lang/String;
 	public static final fun uuid (Ljava/lang/String;)Ljava/util/UUID;
 	public static final fun uuid ([B)Ljava/util/UUID;
 }
 
-public final class com/hexagonkt/core/logging/Logger {
+public final class com/hexagontk/core/logging/Logger {
 	public fun <init> (Ljava/lang/String;Ljava/lang/System$Logger;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/System$Logger;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Lkotlin/reflect/KClass;)V
 	public final fun debug (Lkotlin/jvm/functions/Function0;)V
 	public final fun error (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 	public final fun error (Lkotlin/jvm/functions/Function0;)V
-	public static synthetic fun error$default (Lcom/hexagonkt/core/logging/Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static synthetic fun error$default (Lcom/hexagontk/core/logging/Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun getName ()Ljava/lang/String;
 	public final fun info (Lkotlin/jvm/functions/Function0;)V
 	public final fun isLoggable (Ljava/lang/System$Logger$Level;)Z
@@ -235,149 +235,149 @@ public final class com/hexagonkt/core/logging/Logger {
 	public final fun trace (Lkotlin/jvm/functions/Function0;)V
 	public final fun warn (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 	public final fun warn (Lkotlin/jvm/functions/Function0;)V
-	public static synthetic fun warn$default (Lcom/hexagonkt/core/logging/Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static synthetic fun warn$default (Lcom/hexagontk/core/logging/Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 }
 
-public final class com/hexagonkt/core/logging/LoggingKt {
+public final class com/hexagontk/core/logging/LoggingKt {
 	public static final fun debug (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
 	public static synthetic fun debug$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
-	public static final fun getLogger ()Lcom/hexagonkt/core/logging/Logger;
+	public static final fun getLogger ()Lcom/hexagontk/core/logging/Logger;
 	public static final fun info (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
 	public static synthetic fun info$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
 	public static final fun trace (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
 	public static synthetic fun trace$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/hexagonkt/core/media/MediaType {
-	public static final field Companion Lcom/hexagonkt/core/media/MediaType$Companion;
-	public fun <init> (Lcom/hexagonkt/core/media/MediaTypeGroup;Ljava/lang/String;)V
-	public final fun component1 ()Lcom/hexagonkt/core/media/MediaTypeGroup;
+public final class com/hexagontk/core/media/MediaType {
+	public static final field Companion Lcom/hexagontk/core/media/MediaType$Companion;
+	public fun <init> (Lcom/hexagontk/core/media/MediaTypeGroup;Ljava/lang/String;)V
+	public final fun component1 ()Lcom/hexagontk/core/media/MediaTypeGroup;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Lcom/hexagonkt/core/media/MediaTypeGroup;Ljava/lang/String;)Lcom/hexagonkt/core/media/MediaType;
-	public static synthetic fun copy$default (Lcom/hexagonkt/core/media/MediaType;Lcom/hexagonkt/core/media/MediaTypeGroup;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagonkt/core/media/MediaType;
+	public final fun copy (Lcom/hexagontk/core/media/MediaTypeGroup;Ljava/lang/String;)Lcom/hexagontk/core/media/MediaType;
+	public static synthetic fun copy$default (Lcom/hexagontk/core/media/MediaType;Lcom/hexagontk/core/media/MediaTypeGroup;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagontk/core/media/MediaType;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFullType ()Ljava/lang/String;
-	public final fun getGroup ()Lcom/hexagonkt/core/media/MediaTypeGroup;
+	public final fun getGroup ()Lcom/hexagontk/core/media/MediaTypeGroup;
 	public final fun getType ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/hexagonkt/core/media/MediaType$Companion {
-	public final fun get (Ljava/lang/String;)Lcom/hexagonkt/core/media/MediaType;
+public final class com/hexagontk/core/media/MediaType$Companion {
+	public final fun get (Ljava/lang/String;)Lcom/hexagontk/core/media/MediaType;
 	public final fun getFullTypes ()Ljava/util/Map;
-	public final fun invoke (Ljava/lang/String;)Lcom/hexagonkt/core/media/MediaType;
+	public final fun invoke (Ljava/lang/String;)Lcom/hexagontk/core/media/MediaType;
 }
 
-public final class com/hexagonkt/core/media/MediaTypeGroup : java/lang/Enum {
-	public static final field ANY Lcom/hexagonkt/core/media/MediaTypeGroup;
-	public static final field APPLICATION Lcom/hexagonkt/core/media/MediaTypeGroup;
-	public static final field AUDIO Lcom/hexagonkt/core/media/MediaTypeGroup;
-	public static final field FONT Lcom/hexagonkt/core/media/MediaTypeGroup;
-	public static final field IMAGE Lcom/hexagonkt/core/media/MediaTypeGroup;
-	public static final field MULTIPART Lcom/hexagonkt/core/media/MediaTypeGroup;
-	public static final field TEXT Lcom/hexagonkt/core/media/MediaTypeGroup;
-	public static final field VIDEO Lcom/hexagonkt/core/media/MediaTypeGroup;
+public final class com/hexagontk/core/media/MediaTypeGroup : java/lang/Enum {
+	public static final field ANY Lcom/hexagontk/core/media/MediaTypeGroup;
+	public static final field APPLICATION Lcom/hexagontk/core/media/MediaTypeGroup;
+	public static final field AUDIO Lcom/hexagontk/core/media/MediaTypeGroup;
+	public static final field FONT Lcom/hexagontk/core/media/MediaTypeGroup;
+	public static final field IMAGE Lcom/hexagontk/core/media/MediaTypeGroup;
+	public static final field MULTIPART Lcom/hexagontk/core/media/MediaTypeGroup;
+	public static final field TEXT Lcom/hexagontk/core/media/MediaTypeGroup;
+	public static final field VIDEO Lcom/hexagontk/core/media/MediaTypeGroup;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public final fun getText ()Ljava/lang/String;
-	public static fun valueOf (Ljava/lang/String;)Lcom/hexagonkt/core/media/MediaTypeGroup;
-	public static fun values ()[Lcom/hexagonkt/core/media/MediaTypeGroup;
+	public static fun valueOf (Ljava/lang/String;)Lcom/hexagontk/core/media/MediaTypeGroup;
+	public static fun values ()[Lcom/hexagontk/core/media/MediaTypeGroup;
 }
 
-public final class com/hexagonkt/core/media/MediaTypesKt {
-	public static final fun extensionsOf (Lcom/hexagonkt/core/media/MediaType;)Ljava/util/List;
-	public static final fun getANY_MEDIA ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_7Z ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_AVRO ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_BZIP ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_BZIP2 ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_CBOR ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_CDF ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_COMPRESS ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_EPUB_ZIP ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_GZIP ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_JAVA_ARCHIVE ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_JSON ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_OCTET_STREAM ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_OGG ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_PDF ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_PHP ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_POSTSCRIPT ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_RAR ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_RTF ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_TOML ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_WEB_MANIFEST ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_XHTML ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_XML ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_X_CSH ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_X_GTAR ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_X_LATEX ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_X_SH ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_X_TAR ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_X_TCL ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_X_TEX ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_X_TEXINFO ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_YAML ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAPPLICATION_ZIP ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAUDIO_AAC ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAUDIO_BASIC ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAUDIO_MIDI ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAUDIO_MPEG ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAUDIO_OGG ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAUDIO_OPUS ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAUDIO_WAV ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getAUDIO_WEBM ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getDEFAULT_MEDIA_TYPE ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getFONT_OTF ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getFONT_TTF ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getFONT_WOFF ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getFONT_WOFF2 ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getIMAGE_AVIF ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getIMAGE_GIF ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getIMAGE_ICO ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getIMAGE_JPEG ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getIMAGE_PNG ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getIMAGE_SVG ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getIMAGE_TIFF ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getIMAGE_WEBP ()Lcom/hexagonkt/core/media/MediaType;
+public final class com/hexagontk/core/media/MediaTypesKt {
+	public static final fun extensionsOf (Lcom/hexagontk/core/media/MediaType;)Ljava/util/List;
+	public static final fun getANY_MEDIA ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_7Z ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_AVRO ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_BZIP ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_BZIP2 ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_CBOR ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_CDF ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_COMPRESS ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_EPUB_ZIP ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_GZIP ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_JAVA_ARCHIVE ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_JSON ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_OCTET_STREAM ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_OGG ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_PDF ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_PHP ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_POSTSCRIPT ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_RAR ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_RTF ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_TOML ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_WEB_MANIFEST ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_XHTML ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_XML ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_X_CSH ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_X_GTAR ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_X_LATEX ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_X_SH ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_X_TAR ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_X_TCL ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_X_TEX ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_X_TEXINFO ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_YAML ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_ZIP ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAUDIO_AAC ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAUDIO_BASIC ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAUDIO_MIDI ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAUDIO_MPEG ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAUDIO_OGG ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAUDIO_OPUS ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAUDIO_WAV ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAUDIO_WEBM ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getDEFAULT_MEDIA_TYPE ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getFONT_OTF ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getFONT_TTF ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getFONT_WOFF ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getFONT_WOFF2 ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getIMAGE_AVIF ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getIMAGE_GIF ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getIMAGE_ICO ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getIMAGE_JPEG ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getIMAGE_PNG ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getIMAGE_SVG ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getIMAGE_TIFF ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getIMAGE_WEBP ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getMEDIA_TYPE_FORMAT ()Lkotlin/text/Regex;
-	public static final fun getMULTIPART_ALTERNATIVE ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getMULTIPART_APPLEDOUBLE ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getMULTIPART_DIGEST ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getMULTIPART_MIXED ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getMULTIPART_PARALLEL ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getTEXT_CALENDAR ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getTEXT_CSS ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getTEXT_CSV ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getTEXT_EVENT_STREAM ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getTEXT_HTML ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getTEXT_JAVASCRIPT ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getTEXT_MARKDOWN ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getTEXT_PLAIN ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getTEXT_RICHTEXT ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getTEXT_TAB_SEPARATED_VALUES ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getTEXT_X_JAVA_PROPERTIES ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getVIDEO_MP4 ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getVIDEO_MPEG ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getVIDEO_OGG ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getVIDEO_QUICKTIME ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getVIDEO_WEBM ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun getVIDEO_X_MSVIDEO ()Lcom/hexagonkt/core/media/MediaType;
-	public static final fun mediaTypeOf (Ljava/io/File;)Lcom/hexagonkt/core/media/MediaType;
-	public static final fun mediaTypeOf (Ljava/lang/String;)Lcom/hexagonkt/core/media/MediaType;
-	public static final fun mediaTypeOf (Ljava/net/URI;)Lcom/hexagonkt/core/media/MediaType;
-	public static final fun mediaTypeOf (Ljava/net/URL;)Lcom/hexagonkt/core/media/MediaType;
-	public static final fun mediaTypeOf (Ljava/nio/file/Path;)Lcom/hexagonkt/core/media/MediaType;
-	public static final fun mediaTypeOfOrNull (Ljava/io/File;)Lcom/hexagonkt/core/media/MediaType;
-	public static final fun mediaTypeOfOrNull (Ljava/lang/String;)Lcom/hexagonkt/core/media/MediaType;
-	public static final fun mediaTypeOfOrNull (Ljava/net/URI;)Lcom/hexagonkt/core/media/MediaType;
-	public static final fun mediaTypeOfOrNull (Ljava/net/URL;)Lcom/hexagonkt/core/media/MediaType;
-	public static final fun mediaTypeOfOrNull (Ljava/nio/file/Path;)Lcom/hexagonkt/core/media/MediaType;
-	public static final fun parseMediaType (Ljava/lang/String;)Lcom/hexagonkt/core/media/MediaType;
+	public static final fun getMULTIPART_ALTERNATIVE ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getMULTIPART_APPLEDOUBLE ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getMULTIPART_DIGEST ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getMULTIPART_MIXED ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getMULTIPART_PARALLEL ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getTEXT_CALENDAR ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getTEXT_CSS ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getTEXT_CSV ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getTEXT_EVENT_STREAM ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getTEXT_HTML ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getTEXT_JAVASCRIPT ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getTEXT_MARKDOWN ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getTEXT_PLAIN ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getTEXT_RICHTEXT ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getTEXT_TAB_SEPARATED_VALUES ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getTEXT_X_JAVA_PROPERTIES ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getVIDEO_MP4 ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getVIDEO_MPEG ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getVIDEO_OGG ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getVIDEO_QUICKTIME ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getVIDEO_WEBM ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getVIDEO_X_MSVIDEO ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun mediaTypeOf (Ljava/io/File;)Lcom/hexagontk/core/media/MediaType;
+	public static final fun mediaTypeOf (Ljava/lang/String;)Lcom/hexagontk/core/media/MediaType;
+	public static final fun mediaTypeOf (Ljava/net/URI;)Lcom/hexagontk/core/media/MediaType;
+	public static final fun mediaTypeOf (Ljava/net/URL;)Lcom/hexagontk/core/media/MediaType;
+	public static final fun mediaTypeOf (Ljava/nio/file/Path;)Lcom/hexagontk/core/media/MediaType;
+	public static final fun mediaTypeOfOrNull (Ljava/io/File;)Lcom/hexagontk/core/media/MediaType;
+	public static final fun mediaTypeOfOrNull (Ljava/lang/String;)Lcom/hexagontk/core/media/MediaType;
+	public static final fun mediaTypeOfOrNull (Ljava/net/URI;)Lcom/hexagontk/core/media/MediaType;
+	public static final fun mediaTypeOfOrNull (Ljava/net/URL;)Lcom/hexagontk/core/media/MediaType;
+	public static final fun mediaTypeOfOrNull (Ljava/nio/file/Path;)Lcom/hexagontk/core/media/MediaType;
+	public static final fun parseMediaType (Ljava/lang/String;)Lcom/hexagontk/core/media/MediaType;
 	public static final fun pathExtension (Ljava/lang/String;)Ljava/lang/String;
 }
 
-public final class com/hexagonkt/core/security/CryptoKt {
+public final class com/hexagontk/core/security/CryptoKt {
 	public static final fun chainHmac (Ljava/lang/String;[Ljava/lang/String;)[B
 	public static final fun hash (Ljava/lang/String;Ljava/lang/String;)[B
 	public static final fun hash (Ljava/lang/String;[B)[B
@@ -385,7 +385,7 @@ public final class com/hexagonkt/core/security/CryptoKt {
 	public static final fun sign (Ljava/lang/String;Ljava/lang/String;[B)[B
 }
 
-public final class com/hexagonkt/core/security/KeyStoresKt {
+public final class com/hexagontk/core/security/KeyStoresKt {
 	public static final fun createKeyManagerFactory (Ljava/net/URL;Ljava/lang/String;Ljava/lang/String;)Ljavax/net/ssl/KeyManagerFactory;
 	public static synthetic fun createKeyManagerFactory$default (Ljava/net/URL;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljavax/net/ssl/KeyManagerFactory;
 	public static final fun createTrustManagerFactory (Ljava/net/URL;Ljava/lang/String;Ljava/lang/String;)Ljavax/net/ssl/TrustManagerFactory;
@@ -395,16 +395,16 @@ public final class com/hexagonkt/core/security/KeyStoresKt {
 	public static final fun loadKeyStore (Ljava/net/URL;Ljava/lang/String;)Ljava/security/KeyStore;
 }
 
-public final class com/hexagonkt/core/text/Ansi {
+public final class com/hexagontk/core/text/Ansi {
 	public static final field CSI Ljava/lang/String;
-	public static final field INSTANCE Lcom/hexagonkt/core/text/Ansi;
+	public static final field INSTANCE Lcom/hexagontk/core/text/Ansi;
 	public static final field OSC Ljava/lang/String;
 	public static final field RESET Ljava/lang/String;
 	public static final field ST Ljava/lang/String;
 	public final fun getREGEX ()Lkotlin/text/Regex;
 }
 
-public final class com/hexagonkt/core/text/AnsiColor {
+public final class com/hexagontk/core/text/AnsiColor {
 	public static final field BLACK Ljava/lang/String;
 	public static final field BLACK_BG Ljava/lang/String;
 	public static final field BLUE Ljava/lang/String;
@@ -431,7 +431,7 @@ public final class com/hexagonkt/core/text/AnsiColor {
 	public static final field DEFAULT_BG Ljava/lang/String;
 	public static final field GREEN Ljava/lang/String;
 	public static final field GREEN_BG Ljava/lang/String;
-	public static final field INSTANCE Lcom/hexagonkt/core/text/AnsiColor;
+	public static final field INSTANCE Lcom/hexagontk/core/text/AnsiColor;
 	public static final field MAGENTA Ljava/lang/String;
 	public static final field MAGENTA_BG Ljava/lang/String;
 	public static final field RED Ljava/lang/String;
@@ -441,12 +441,12 @@ public final class com/hexagonkt/core/text/AnsiColor {
 	public static final field YELLOW Ljava/lang/String;
 	public static final field YELLOW_BG Ljava/lang/String;
 	public final fun bg (III)Ljava/lang/String;
-	public static synthetic fun bg$default (Lcom/hexagonkt/core/text/AnsiColor;IIIILjava/lang/Object;)Ljava/lang/String;
+	public static synthetic fun bg$default (Lcom/hexagontk/core/text/AnsiColor;IIIILjava/lang/Object;)Ljava/lang/String;
 	public final fun fg (III)Ljava/lang/String;
-	public static synthetic fun fg$default (Lcom/hexagonkt/core/text/AnsiColor;IIIILjava/lang/Object;)Ljava/lang/String;
+	public static synthetic fun fg$default (Lcom/hexagontk/core/text/AnsiColor;IIIILjava/lang/Object;)Ljava/lang/String;
 }
 
-public final class com/hexagonkt/core/text/AnsiEffect {
+public final class com/hexagontk/core/text/AnsiEffect {
 	public static final field BLINK Ljava/lang/String;
 	public static final field BLINK_OFF Ljava/lang/String;
 	public static final field BOLD Ljava/lang/String;
@@ -454,7 +454,7 @@ public final class com/hexagonkt/core/text/AnsiEffect {
 	public static final field DIM Ljava/lang/String;
 	public static final field DIM_OFF Ljava/lang/String;
 	public static final field FAST_BLINK Ljava/lang/String;
-	public static final field INSTANCE Lcom/hexagonkt/core/text/AnsiEffect;
+	public static final field INSTANCE Lcom/hexagontk/core/text/AnsiEffect;
 	public static final field INVERSE Ljava/lang/String;
 	public static final field INVERSE_OFF Ljava/lang/String;
 	public static final field ITALIC Ljava/lang/String;
@@ -465,7 +465,7 @@ public final class com/hexagonkt/core/text/AnsiEffect {
 	public static final field UNDERLINE_OFF Ljava/lang/String;
 }
 
-public final class com/hexagonkt/core/text/CasesKt {
+public final class com/hexagontk/core/text/CasesKt {
 	public static final fun camelToSnake (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun camelToWords (Ljava/lang/String;)Ljava/util/List;
 	public static final fun getCAMEL_CASE ()Lkotlin/text/Regex;
@@ -485,11 +485,11 @@ public final class com/hexagonkt/core/text/CasesKt {
 	public static final fun wordsToTitle (Ljava/util/List;)Ljava/lang/String;
 }
 
-public final class com/hexagonkt/core/text/Glob {
+public final class com/hexagontk/core/text/Glob {
 	public fun <init> (Ljava/lang/String;)V
 	public final fun component1 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;)Lcom/hexagonkt/core/text/Glob;
-	public static synthetic fun copy$default (Lcom/hexagonkt/core/text/Glob;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagonkt/core/text/Glob;
+	public final fun copy (Ljava/lang/String;)Lcom/hexagontk/core/text/Glob;
+	public static synthetic fun copy$default (Lcom/hexagontk/core/text/Glob;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagontk/core/text/Glob;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getPattern ()Ljava/lang/String;
 	public final fun getRegex ()Lkotlin/text/Regex;
@@ -498,7 +498,7 @@ public final class com/hexagonkt/core/text/Glob {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/hexagonkt/core/text/StringsKt {
+public final class com/hexagontk/core/text/StringsKt {
 	public static final fun banner (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static synthetic fun banner$default (Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
 	public static final fun decodeBase64 (Ljava/lang/String;)[B

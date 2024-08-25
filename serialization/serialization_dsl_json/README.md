@@ -14,18 +14,18 @@
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:serialization_dsl_json:$hexagonVersion")
+    implementation("com.hexagontk:serialization_dsl_json:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>serialization_dsl_json</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```
 
-# Package com.hexagonkt.serialization.dsl.json
+# Package com.hexagontk.serialization.dsl.json
 DSL JSON implementation classes.

@@ -29,6 +29,7 @@ plugins {
     id("org.graalvm.buildtools.native") version(libs.versions.nativeTools) apply(false)
     id("io.gitlab.arturbosch.detekt") version(libs.versions.detekt) apply(false)
     id("me.champeau.jmh") version(libs.versions.jmhGradle) apply(false)
+    id("org.jreleaser") version(libs.versions.jreleaser) apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")
@@ -80,7 +81,7 @@ task("nativeTestModules") {
     description = "Print module descriptions to be used in the GraalVM native compliant directory."
 
     doLast {
-        val gitHub = "https://github.com/hexagontk/hexagon/tree/master"
+        val gitHub = "https://github.com/hexagontk/hexagon/tree/main"
         val entries = subprojects
             .filter { sp -> sp.tasks.any { t -> t.name == "nativeTest" } }
             .sortedBy { sp -> "${sp.group}:${sp.name}" }

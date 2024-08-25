@@ -1,7 +1,7 @@
 
 <project>
   <parent>
-    <groupId>com.hexagonkt</groupId>
+    <groupId>com.hexagontk</groupId>
     <artifactId>kotlin_pom</artifactId>
   </parent>
 

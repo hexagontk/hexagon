@@ -15,20 +15,20 @@ application), you can import it with the following code:
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:handlers:$hexagonVersion")
+    implementation("com.hexagontk:handlers:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>handlers</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```
 
-# Package com.hexagonkt.handlers
+# Package com.hexagontk.handlers
 Provide general utilities to attach many handlers to be applied on events processing. Events can be
 of any type.
 

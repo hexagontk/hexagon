@@ -96,9 +96,9 @@ task("checkDocs") {
     dependsOn("mkDocs")
     doLast {
         val readme = rootProject.file("README.md")
-        val helloWorld = "com/hexagonkt/http/server/jetty/HelloWorldTest.kt"
+        val helloWorld = "com/hexagontk/http/server/jetty/HelloWorldTest.kt"
         val service = rootProject.file("http/http_server_jetty/src/test/kotlin/$helloWorld")
-        val examples = "http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples"
+        val examples = "http/http_test/src/main/kotlin/com/hexagontk/http/test/examples"
 
         checkSampleCode(readme, rootProject.file(service), "hello_world")
         checkSampleCode(readme, rootProject.file("$examples/BooksTest.kt"), "books")
@@ -128,17 +128,30 @@ tasks.register("installMkDocs") {
         exec { commandLine("python -m venv $venv".split(" ")) }
         exec { commandLine("$venv/bin/pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
         exec { commandLine("$venv/bin/pip install mkdocs-htmlproofer-plugin".split(" ")) }
+        exec { commandLine("$venv/bin/pip install mike".split(" ")) }
     }
-}
-
-tasks.register<Exec>("serveSite") {
-    dependsOn("checkDocs", "installMkDocs")
-    commandLine("$venv/bin/mkdocs serve".split(" "))
 }
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs", "installMkDocs")
-    commandLine("$venv/bin/mkdocs build -cs".split(" "))
+    val siteVersion = findProperty("siteVersion") ?: rootProject.version
+    val siteAlias = findProperty("siteAlias") ?: "latest"
+    val pushSite = findProperty("pushSite")?.let { if (it == "true") "--push " else "" } ?: ""
+
+    val command = "$venv/bin/mike deploy $pushSite--update-aliases $siteVersion $siteAlias"
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine(command.split(" "))
+}
+
+tasks.register<Exec>("defaultSite") {
+    val siteAlias = findProperty("siteAlias") ?: "stable"
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine("$venv/bin/mike set-default $siteAlias".split(" "))
+}
+
+tasks.register<Exec>("serveSite") {
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine("$venv/bin/mike serve".split(" "))
 }
 
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }

@@ -1,11 +1,11 @@
 
-module com.hexagonkt.templates_jte {
+module com.hexagontk.templates_jte {
 
     requires transitive kotlin.stdlib;
-    requires transitive com.hexagonkt.templates;
+    requires transitive com.hexagontk.templates;
 
     requires gg.jte;
     requires gg.jte.runtime;
 
-    exports com.hexagonkt.templates.jte;
+    exports com.hexagontk.templates.jte;
 }

@@ -18,7 +18,7 @@
   <a href="https://hexagontk.com/jacoco">
     <img src="https://hexagontk.com/img/coverage.svg" alt="Coverage" />
   </a>
-  <a href="https://search.maven.org/search?q=g:com.hexagonkt">
+  <a href="https://search.maven.org/search?q=g:com.hexagontk">
     <img src="https://hexagontk.com/img/download.svg" alt="Maven Central Repository" />
   </a>
 </p>
@@ -102,14 +102,14 @@ from scratch following these steps:
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
+    implementation("com.hexagontk:http_server_jetty:$hexagonVersion")
     ```
 
   * In Maven. Declare the dependency in `pom.xml`:
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>http_server_jetty</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
@@ -119,10 +119,10 @@ from scratch following these steps:
 
 ```kotlin
 // hello_world
-import com.hexagonkt.core.media.TEXT_PLAIN
-import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.server.HttpServer
-import com.hexagonkt.http.server.jetty.serve
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.http.model.ContentType
+import com.hexagontk.http.server.HttpServer
+import com.hexagontk.http.server.jetty.serve
 
 lateinit var server: HttpServer
 
@@ -154,7 +154,7 @@ fun main() {
 <summary>Books Example</summary>
 
 A simple CRUD example showing how to manage book resources. Here you can check the
-[full test](http_test/src/main/kotlin/com/hexagonkt/http/test/examples/BooksTest.kt).
+[full test](http_test/src/main/kotlin/com/hexagontk/http/test/examples/BooksTest.kt).
 
 ```kotlin
 // books
@@ -228,7 +228,7 @@ private val path: PathHandler = path {
 <summary>Error Handling Example</summary>
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
-[full test](http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ErrorsTest.kt).
+[full test](http_test/src/main/kotlin/com/hexagontk/http/test/examples/ErrorsTest.kt).
 
 ```kotlin
 // errors
@@ -277,7 +277,7 @@ private val path: PathHandler = path {
 <summary>Filters Example</summary>
 
 This example shows how to add filters before and after route execution. Here you can check the
-[full test](http_test/src/main/kotlin/com/hexagonkt/http/test/examples/FiltersTest.kt).
+[full test](http_test/src/main/kotlin/com/hexagontk/http/test/examples/FiltersTest.kt).
 
 ```kotlin
 // filters
@@ -346,7 +346,7 @@ private val path: PathHandler = path {
 <summary>Files Example</summary>
 
 The following code shows how to serve resources and receive files. Here you can check the
-[full test](http_test/src/main/kotlin/com/hexagonkt/http/test/examples/FilesTest.kt).
+[full test](http_test/src/main/kotlin/com/hexagontk/http/test/examples/FilesTest.kt).
 
 ```kotlin
 // files
@@ -461,7 +461,7 @@ be up-to-date of project's news following [@hexagontk] on X (Twitter).
 
 Thanks to all project's [contributors]!
 
-[![CodeTriage](https://www.codetriage.com/hexagonkt/hexagon/badges/users.svg)][CodeTriage]
+[![CodeTriage](https://www.codetriage.com/hexagontk/hexagon/badges/users.svg)][CodeTriage]
 
 [give it a star]: https://github.com/hexagontk/hexagon/stargazers
 [discussions]: https://github.com/hexagontk/hexagon/discussions/categories/q-a

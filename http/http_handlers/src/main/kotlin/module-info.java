@@ -1,8 +1,8 @@
 
-module com.hexagonkt.http_handlers {
+module com.hexagontk.http_handlers {
 
-    requires transitive com.hexagonkt.http;
-    requires transitive com.hexagonkt.handlers;
+    requires transitive com.hexagontk.http;
+    requires transitive com.hexagontk.handlers;
 
-    exports com.hexagonkt.http.handlers;
+    exports com.hexagontk.http.handlers;
 }
