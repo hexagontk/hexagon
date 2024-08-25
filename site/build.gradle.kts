@@ -132,29 +132,26 @@ tasks.register("installMkDocs") {
     }
 }
 
-/*
- * TODO Use Mike for documentation versioning:
- *  - https://squidfunk.github.io/mkdocs-material/setup/setting-up-versioning
- *  - https://github.com/jimporter/mike
- *  - Remove 'test-pages' branch after checking
- */
-tasks.register<Exec>("deploySite") {
+tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs", "installMkDocs")
-    commandLine("$venv/bin/mike deploy --branch test-pages --update-aliases ${rootProject.version} latest".split(" "))
+    val siteVersion = findProperty("siteVersion") ?: rootProject.version
+    val siteAlias = findProperty("siteAlias") ?: "latest"
+    val pushSite = findProperty("pushSite")?.let { if (it == "true") "--push " else "" } ?: ""
+
+    val command = "$venv/bin/mike deploy $pushSite--update-aliases $siteVersion $siteAlias"
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine(command.split(" "))
 }
 
-tasks.register<Exec>("defaultVersion") {
-    commandLine("$venv/bin/mike set-default --branch test-pages latest".split(" "))
+tasks.register<Exec>("defaultSite") {
+    val siteAlias = findProperty("siteAlias") ?: "stable"
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine("$venv/bin/mike set-default $siteAlias".split(" "))
 }
 
 tasks.register<Exec>("serveSite") {
-    dependsOn("deploySite")
-    commandLine("$venv/bin/mike serve --branch test-pages".split(" "))
-}
-
-tasks.register<Exec>("buildSite") {
-    dependsOn("checkDocs", "installMkDocs")
-    commandLine("$venv/bin/mkdocs build -cs".split(" "))
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine("$venv/bin/mike serve".split(" "))
 }
 
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }

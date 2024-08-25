@@ -127,6 +127,8 @@ extra:
 
   version:
     provider: mike
+    default: stable
+    alias: true
 
   analytics:
     provider: google
