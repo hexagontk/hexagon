@@ -32,6 +32,7 @@ jobs:
         run: |
           export REMOTE="https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           export GIT_COMMITTER_NAME="${GITHUB_ACTOR}"
+          export GIT_COMMITTER_EMAIL="project@hexagontk.com"
           git remote set-url origin "$REMOTE"
           ./gradlew build
           ./gradlew -x build buildSite
