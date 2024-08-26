@@ -229,7 +229,7 @@ fun insertSamplesCode(parent: File, content: String): String =
             val lines = url.readText().lines()
             val text = lines.slice(lines.rangeOf(tag)).joinToString("\n").trimIndent()
             "```kotlin\n$text\n```"
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             val code = it.value
             println("ERROR: Unable to process '$code' in folder: '${parent.absolutePath}'")
             code
