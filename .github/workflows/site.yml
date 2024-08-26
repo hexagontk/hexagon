@@ -58,7 +58,9 @@ jobs:
 
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew --stacktrace -x build buildSite
+        run: |
+          export GIT_COMMITTER_NAME="${GITHUB_ACTOR}"
+          ./gradlew --stacktrace -x build buildSite
 
       - if: ${{ inputs.check_directory != '' }}
         run: ls -AlF "${{ inputs.check_directory }}"
