@@ -9,6 +9,7 @@ import com.hexagontk.serialization.SerializationFormat
 import java.io.InputStream
 import java.io.OutputStream
 
+// TODO Allow configuring adapter passing settings line fields line
 object Csv : SerializationFormat {
 
     override val mediaType: MediaType = TEXT_CSV
