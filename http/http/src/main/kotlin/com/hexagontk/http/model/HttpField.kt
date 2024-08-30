@@ -2,6 +2,8 @@ package com.hexagontk.http.model
 
 /**
  * HTTP multi-value field. Used in headers, query parameters and form parameters.
+ *
+ * TODO Convert to name: String, value: Map<String, Any?>
  */
 interface HttpField {
     val name: String

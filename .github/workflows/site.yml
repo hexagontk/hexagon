@@ -61,6 +61,7 @@ jobs:
         run: |
           export GIT_COMMITTER_NAME="${GITHUB_ACTOR}"
           export GIT_COMMITTER_EMAIL="project@hexagontk.com"
+          ./gradlew build
           ./gradlew --stacktrace -x build buildSite
 
       - if: ${{ inputs.check_directory != '' }}

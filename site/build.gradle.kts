@@ -125,20 +125,20 @@ task("checkDocs") {
 tasks.register("installMkDocs") {
     doLast {
         val mkdocsMaterialVersion = libs.versions.mkdocsMaterial.get()
+        val pip = "$venv/bin/pip"
         exec { commandLine("python -m venv $venv".split(" ")) }
-        exec { commandLine("$venv/bin/pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
-        exec { commandLine("$venv/bin/pip install mkdocs-htmlproofer-plugin".split(" ")) }
-        exec { commandLine("$venv/bin/pip install mike".split(" ")) }
+        exec { commandLine("$pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
+        exec { commandLine("$pip install mkdocs-htmlproofer-plugin".split(" ")) }
+        exec { commandLine("$pip install mike".split(" ")) }
     }
 }
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs", "installMkDocs")
-    val siteVersion = findProperty("siteVersion") ?: rootProject.version
     val siteAlias = findProperty("siteAlias") ?: "latest"
     val pushSite = findProperty("pushSite")?.let { if (it == "true") "--push " else "" } ?: ""
-
-    val command = "$venv/bin/mike deploy $pushSite--update-aliases $siteVersion $siteAlias"
+    val mike = "$venv/bin/mike"
+    val command = "$mike deploy $pushSite--update-aliases ${rootProject.version} $siteAlias"
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
     commandLine(command.split(" "))
 }
