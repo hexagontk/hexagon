@@ -41,26 +41,22 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.16")
 
             // http_server_netty
-            version("netty", "4.1.112.Final")
-            version("nettyTcNative", "2.0.65.Final")
+            version("netty", "4.1.113.Final")
+            version("nettyTcNative", "2.0.66.Final")
 
             // http_server_helidon
-            version("helidon", "4.1.0")
+            version("helidon", "4.1.1")
 
             // http_server_servlet
             version("servlet", "6.1.0")
             version("jetty", "12.0.12")
 
             // rest_tools
-            version("swaggerRequestValidator", "2.41.0")
+            version("swaggerRequestValidator", "2.42.0")
 
             // serialization
             version("jackson", "2.17.2")
             version("dslJson", "2.0.2")
-
-            // serverless_http_google
-            version("functions", "1.1.0")
-            version("invoker", "1.3.1")
 
             // templates_freemarker
             version("freemarker", "2.3.33")
