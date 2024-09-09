@@ -19,7 +19,6 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         .filterNot { it.absolutePath.contains("serialization_test") }
         .filterNot { it.absolutePath.contains("templates_test") }
         .toList()
-        // TODO Include the filtered modules when they are ready
 
     executionData.from(projectExecutionData)
     sourceDirectories.from(modulesSources)
