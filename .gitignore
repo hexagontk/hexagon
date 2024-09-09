@@ -40,6 +40,7 @@ hs_err_pid*
 # Other Tools
 kotlin-js-store/
 node_modules/
+.kotlin/
 .env
 
 # System Files

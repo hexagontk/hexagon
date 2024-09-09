@@ -18,9 +18,7 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         .filterNot { it.absolutePath.contains("http_test") }
         .filterNot { it.absolutePath.contains("serialization_test") }
         .filterNot { it.absolutePath.contains("templates_test") }
-        .filterNot { it.absolutePath.contains("serverless_http_google") }
         .toList()
-        // TODO Include the filtered modules when they are ready
 
     executionData.from(projectExecutionData)
     sourceDirectories.from(modulesSources)
@@ -143,12 +141,28 @@ tasks.register<Exec>("buildSite") {
     commandLine(command.split(" "))
 }
 
-tasks.register<Exec>("defaultSite") {
-    val siteAlias = findProperty("siteAlias") ?: "stable"
+tasks.register<Exec>("deleteSite") {
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
-    commandLine("$venv/bin/mike set-default $siteAlias".split(" "))
+    commandLine("$venv/bin/mike delete --all".split(" "))
 }
 
+tasks.register<Exec>("defaultSite") {
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine("$venv/bin/mike set-default stable".split(" "))
+}
+
+/*
+ * Order:
+ * 1. Delete
+ * 2. Build stable
+ * 3. Set default
+ * 4. Serve (test)
+ * 5. Push
+ *
+ * TODO
+ *  - Check links to versions
+ *  - Set alias from version suffix (x.x.x-[A|B]x)
+ */
 tasks.register<Exec>("serveSite") {
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
     commandLine("$venv/bin/mike serve".split(" "))
