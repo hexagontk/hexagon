@@ -36,7 +36,7 @@ jobs:
   site:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     defaults:
       run: { shell: bash }
     steps:

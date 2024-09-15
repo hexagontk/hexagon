@@ -21,6 +21,8 @@ jobs:
       tasks: jmh
 
   build_site:
+    permissions:
+      contents: write
     uses: hexagontk/hexagon/.github/workflows/site.yml@develop
 
   test_publishing:
