@@ -38,5 +38,7 @@ jobs:
   build_site:
     uses: hexagontk/hexagon/.github/workflows/site.yml@develop
     needs: publish
+    permissions:
+      contents: write
     with:
       options: -P pushSite=true
