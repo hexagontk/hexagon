@@ -18,9 +18,7 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         .filterNot { it.absolutePath.contains("http_test") }
         .filterNot { it.absolutePath.contains("serialization_test") }
         .filterNot { it.absolutePath.contains("templates_test") }
-        .filterNot { it.absolutePath.contains("serverless_http_google") }
         .toList()
-        // TODO Include the filtered modules when they are ready
 
     executionData.from(projectExecutionData)
     sourceDirectories.from(modulesSources)
@@ -125,28 +123,36 @@ task("checkDocs") {
 tasks.register("installMkDocs") {
     doLast {
         val mkdocsMaterialVersion = libs.versions.mkdocsMaterial.get()
+        val pip = "$venv/bin/pip"
         exec { commandLine("python -m venv $venv".split(" ")) }
-        exec { commandLine("$venv/bin/pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
-        exec { commandLine("$venv/bin/pip install mkdocs-htmlproofer-plugin".split(" ")) }
-        exec { commandLine("$venv/bin/pip install mike".split(" ")) }
+        exec { commandLine("$pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
+        exec { commandLine("$pip install mkdocs-htmlproofer-plugin".split(" ")) }
+        exec { commandLine("$pip install mike".split(" ")) }
     }
 }
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs", "installMkDocs")
-    val siteVersion = findProperty("siteVersion") ?: rootProject.version
-    val siteAlias = findProperty("siteAlias") ?: "latest"
     val pushSite = findProperty("pushSite")?.let { if (it == "true") "--push " else "" } ?: ""
-
-    val command = "$venv/bin/mike deploy $pushSite--update-aliases $siteVersion $siteAlias"
+    val mike = "$venv/bin/mike"
+    val rootVersion = rootProject.version.toString()
+    val siteAlias = if (rootVersion.contains(Regex("-[AB]"))) "dev" else "stable"
+    val majorVersion = "v" + rootVersion.split(".").first()
+    val command = "$mike deploy $pushSite--update-aliases $majorVersion $siteAlias"
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
     commandLine(command.split(" "))
 }
 
-tasks.register<Exec>("defaultSite") {
-    val siteAlias = findProperty("siteAlias") ?: "stable"
+tasks.register<Exec>("deleteSite") {
+    dependsOn("installMkDocs")
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
-    commandLine("$venv/bin/mike set-default $siteAlias".split(" "))
+    commandLine("$venv/bin/mike delete --all".split(" "))
+}
+
+tasks.register<Exec>("defaultSite") {
+    dependsOn("installMkDocs")
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine("$venv/bin/mike set-default stable".split(" "))
 }
 
 tasks.register<Exec>("serveSite") {

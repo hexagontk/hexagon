@@ -27,6 +27,11 @@ on:
         description: Directory to check for build execution.
         default: site/build/site
 
+      options:
+        type: string
+        description: Extra options for the 'buildSite' target.
+        default: ''
+
 jobs:
   site:
     runs-on: ubuntu-latest
@@ -54,14 +59,13 @@ jobs:
           java-version: ${{ inputs.java }}
           cache: gradle
 
-      - run: ./gradlew --stacktrace build
-
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export GIT_COMMITTER_NAME="${GITHUB_ACTOR}"
           export GIT_COMMITTER_EMAIL="project@hexagontk.com"
-          ./gradlew --stacktrace -x build buildSite
+          ./gradlew --stacktrace build
+          ./gradlew --stacktrace -x build buildSite ${{ inputs.options }}
 
       - if: ${{ inputs.check_directory != '' }}
         run: ls -AlF "${{ inputs.check_directory }}"
