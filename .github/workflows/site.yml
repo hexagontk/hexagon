@@ -59,9 +59,7 @@ jobs:
           java-version: ${{ inputs.java }}
           cache: gradle
 
-      - env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
+      - run: |
           export GIT_COMMITTER_NAME="${GITHUB_ACTOR}"
           export GIT_COMMITTER_EMAIL="project@hexagontk.com"
           ./gradlew --stacktrace build
