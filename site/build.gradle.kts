@@ -133,36 +133,28 @@ tasks.register("installMkDocs") {
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs", "installMkDocs")
-    val siteAlias = findProperty("siteAlias") ?: "latest"
     val pushSite = findProperty("pushSite")?.let { if (it == "true") "--push " else "" } ?: ""
     val mike = "$venv/bin/mike"
-    val command = "$mike deploy $pushSite--update-aliases ${rootProject.version} $siteAlias"
+    val rootVersion = rootProject.version.toString()
+    val siteAlias = if (rootVersion.contains(Regex("-[AB]"))) "dev" else "stable"
+    val majorVersion = "v" + rootVersion.split(".").first()
+    val command = "$mike deploy $pushSite--update-aliases $majorVersion $siteAlias"
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
     commandLine(command.split(" "))
 }
 
 tasks.register<Exec>("deleteSite") {
+    dependsOn("installMkDocs")
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
     commandLine("$venv/bin/mike delete --all".split(" "))
 }
 
 tasks.register<Exec>("defaultSite") {
+    dependsOn("installMkDocs")
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
     commandLine("$venv/bin/mike set-default stable".split(" "))
 }
 
-/*
- * Order:
- * 1. Delete
- * 2. Build stable
- * 3. Set default
- * 4. Serve (test)
- * 5. Push
- *
- * TODO
- *  - Check links to versions
- *  - Set alias from version suffix (x.x.x-[A|B]x)
- */
 tasks.register<Exec>("serveSite") {
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
     commandLine("$venv/bin/mike serve".split(" "))

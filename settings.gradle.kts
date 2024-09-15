@@ -23,7 +23,7 @@ dependencyResolutionManagement {
             version("dokka", "1.9.20")
             version("licenseReport", "2.9")
             version("binValidator", "0.16.3")
-            version("nativeTools", "0.10.2")
+            version("nativeTools", "0.10.3")
             version("detekt", "1.23.7")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.10.1")
