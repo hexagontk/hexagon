@@ -39,5 +39,6 @@ jobs:
     needs: publish
     permissions:
       contents: write
+      pages: write
     with:
       options: -P pushSite=true
