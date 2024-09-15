@@ -2,7 +2,7 @@
 # Module http_client_jetty
 [Serialization] implementation using the [DSL JSON] library.
 
-[Serialization]: /serialization
+[Serialization]: serialization
 [DSL JSON]: https://github.com/ngs-doo/dsl-json
 
 ### Install the Dependency

@@ -10,7 +10,7 @@ handlers.
 This module is not meant to be used directly. You should include and Adapter implementing this
 feature (as [http_server_jetty]) in order to create an HTTP server.
 
-[http_server_jetty]: /http_server_jetty
+[http_server_jetty]: http_server_jetty
 
 # Chaining changes
 The response can be modified chaining `send` calls (or its utility methods). However, If calls are
@@ -77,17 +77,17 @@ methods.
 
 @code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/SamplesTest.kt?serverCreation
 
-[server settings]: /api/http/http_server/com.hexagontk.http.server/-http-server-settings
-[handlers section]: /http_server/#handlers
-[start()]: /api/http/http_server/com.hexagontk.http.server/-http-server
-[stop()]: /api/http/http_server/com.hexagontk.http.server/-http-server
+[server settings]: api/http/http_server/com.hexagontk.http.server/-http-server-settings
+[handlers section]: http_server/#handlers
+[start()]: api/http/http_server/com.hexagontk.http.server/-http-server
+[stop()]: api/http/http_server/com.hexagontk.http.server/-http-server
 
 ## Servlet Web server
 There is a special server adapter for running inside Servlet Containers. To use it you should import
 the Servlet HTTP Server Adapter into your project. Check the [http_server_servlet] module for more
 information.
 
-[http_server_servlet]: /http_server_servlet
+[http_server_servlet]: http_server_servlet
 
 # HTTP Context
 These are the events that the handlers handle (they are also called HTTP calls or just calls along
@@ -103,7 +103,7 @@ full list of methods. This sample code illustrates the usage:
 
 @code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/SamplesTest.kt?callbackCall
 
-[API documentation]: /api/http/http_handlers/com.hexagontk.http.handlers/-http-context
+[API documentation]: api/http/http_handlers/com.hexagontk.http.handlers/-http-context
 
 # Handlers
 The main building blocks of Hexagon HTTP services are a set of handlers. A handler is made up of two
@@ -139,7 +139,7 @@ Check the next snippet for Handlers usage examples:
 
 @code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/SamplesTest.kt?routesCreation
 
-[next]: /api/http/http_handlers/com.hexagontk.http.handlers/-http-context
+[next]: api/http/http_handlers/com.hexagontk.http.handlers/-http-context
 
 <!-- TODO Start document review -->
 
@@ -157,7 +157,7 @@ the following fields:
 
 It yields true if all the supplied fields matches a call context.
 
-[HttpPredicate]: /api/http/http_handlers/com.hexagontk.http.handlers/-http-predicate
+[HttpPredicate]: api/http/http_handlers/com.hexagontk.http.handlers/-http-predicate
 
 ## Path Patterns
 Patterns to match requests paths. They can have:
@@ -294,7 +294,7 @@ Check the next example for details:
 The media types of static files are computed from the file extension using the utility methods of
 the [com.hexagontk.core.media] package.
 
-[com.hexagontk.core.media]: /api/core/com.hexagontk.core.media
+[com.hexagontk.core.media]: api/core/com.hexagontk.core.media
 
 # CORS
 CORS behaviour can be different depending on the path. You can attach different [CORS Callbacks] to
@@ -302,7 +302,7 @@ different handlers. Check the [CorsCallback][CORS Callbacks] class for more deta
 
 @code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/CorsTest.kt?cors
 
-[CORS Callbacks]: /api/http/http_server/com.hexagontk.http.server.callbacks/-cors-callback
+[CORS Callbacks]: api/http/http_server/com.hexagontk.http.server.callbacks/-cors-callback
 
 # HTTPS
 It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
@@ -327,14 +327,14 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 
 @code http/http_test/src/main/kotlin/com/hexagontk/http/test/examples/HttpsTest.kt?https
 
-[SslSettings]: /api/http/http/com.hexagontk.http/-ssl-settings
+[SslSettings]: api/http/http/com.hexagontk.http/-ssl-settings
 [HTTP/2]: https://en.wikipedia.org/wiki/HTTP/2
 [ALPN]: https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation
 [Gradle]: https://gradle.org
-[create sample certificates]: /gradle/#certificates
+[create sample certificates]: gradle/#certificates
 [mutual TLS]: https://en.wikipedia.org/wiki/Mutual_authentication
-[SslSettings.clientAuth]: /api/http/http/com.hexagontk.http/-ssl-settings
-[Request.certificateChain]: /api/http/http/com.hexagontk.http.model/-http-request
+[SslSettings.clientAuth]: api/http/http/com.hexagontk.http/-ssl-settings
+[Request.certificateChain]: api/http/http/com.hexagontk.http.model/-http-request
 
 # WebSockets
 A Web Socket is an HTTP(S) connection made with the GET method and the `upgrade: websocket` and
@@ -405,4 +405,4 @@ Classes to model server HTTP messages (requests and responses). Built on top of 
 # Package com.hexagontk.http.model.ws
 Classes to model server HTTP messages (requests and responses). Built on top of the [http] module.
 
-[http]: /http
+[http]: http
