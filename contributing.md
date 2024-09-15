@@ -58,9 +58,9 @@ Aside of that kind of modules, you can also find infrastructure modules: compone
 project itself. These are internal modules not intended to be directly used by users (like the
 [starters] or the [site]).
 
-[Hexagon Structure]: https://github.com/hexagontk/hexagon/blob/main/README.md#hexagon-structure
-[starters]: https://github.com/hexagontk/hexagon/blob/main/starters/README.md
-[site]: https://github.com/hexagontk/hexagon/blob/main/site/README.md
+[Hexagon Structure]: https://github.com/hexagontk/hexagon/blob/release/3/README.md#hexagon-structure
+[starters]: https://github.com/hexagontk/hexagon/blob/release/3/starters/README.md
+[site]: https://github.com/hexagontk/hexagon/blob/release/3/site/README.md
 
 ## Local Setup
 Hexagon build process requires a JDK 21+ to compile. You can check the required software, build the
@@ -104,21 +104,21 @@ If you want to generate the documentation site, check the Hexagon's site module 
 [GitHub Actions]: https://github.com/features/actions
 
 ## Major Release Checklist
-1. Release site's dependent projects (`hexagon_extra`)
-2. Publish their packages using the [Nexus Repository Manager]
-3. Merge Hexagon main project to `main` in GitHub
-4. Check the site deployment is OK ([https://hexagontk.com])
-5. Publish Hexagon modules using the [Nexus Repository Manager]
-6. Create a GitHub release
-7. Update starter repositories (Gradle and Maven ones)
-8. Update TFB benchmark
-9. Update example projects inside the organization
-10. Create a changelog to announce the release
-11. Publish changelog on:
+1. Replace documents' links: `/blob/main/` to `/blob/release/${version}/`
+2. Release site's dependent projects (`hexagon_extra`)
+3. Publish their packages using the [Nexus Repository Manager]
+4. Merge Hexagon main project to `main` in GitHub
+5. Check the site deployment is OK ([https://hexagontk.com])
+6. Publish Hexagon modules using the [Nexus Repository Manager]
+7. Create a GitHub release
+8. Update starter repositories (Gradle and Maven ones)
+9. Update TFB benchmark
+10. Update example projects inside the organization
+11. Create a changelog to announce the release
+12. Publish changelog on:
   * Dev.to
   * Reddit Kotlin
   * X (Twitter)
-  * Kotlin Weekly Newsletter
   * LinkedIn
   * Mailing lists (Awesome Kotlin, Kotlin Weekly)
 

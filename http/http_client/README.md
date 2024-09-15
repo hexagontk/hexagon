@@ -20,7 +20,7 @@ Its main functionalities are:
 This module is not meant to be used directly. You should include an Adapter implementing this
 feature (as [http_client_jetty]) in order to create HTTP clients.
 
-[http_client_jetty]: /http_client_jetty
+[http_client_jetty]: http_client_jetty
 
 # Create an HTTP client
 You create an HTTP Client instance with default options as follows:
@@ -40,8 +40,8 @@ Check this code snippet to get a glimpse on how to send the most general request
 
 @code http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/ClientTest.kt?genericRequest
 
-[Request]: /api/http/http/com.hexagonkt.http.model/-http-request
-[Response]: /api/http/http/com.hexagonkt.http.model/-http-response
+[Request]: api/http/http/com.hexagonkt.http.model/-http-request
+[Response]: api/http/http/com.hexagonkt.http.model/-http-response
 
 # Simple requests shortcuts
 There are utility methods to make the most common request in an easy way.
@@ -63,7 +63,7 @@ Check the details in the following code fragment:
 
 You can also check the [full test] for more details.
 
-[full test]: https://github.com/hexagontk/hexagon/blob/main/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt
+[full test]: https://github.com/hexagontk/hexagon/blob/release/3/http/http_test/src/main/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt
 
 # Multipart (forms and files)
 Using the HTTP client you can send MIME multipart parts to the server. You can use it to post forms
@@ -89,8 +89,8 @@ format.
 To set up client/server certificates, you need to include [SslSettings] in your [ClientSettings]. In
 the sections below you can see how to configure these parameters.
 
-[SslSettings]: /api/http/http/com.hexagonkt.http/-ssl-settings
-[ClientSettings]: /api/http/http_client/com.hexagonkt.http.client/-http-client-settings
+[SslSettings]: api/http/http/com.hexagonkt.http/-ssl-settings
+[ClientSettings]: api/http/http_client/com.hexagonkt.http.client/-http-client-settings
 
 ## Key Store
 This store holds the identity certificate, this certificate is presented to the server by the client
@@ -115,4 +115,4 @@ and client authenticated by the server). You can see a complete example below:
 # Package com.hexagonkt.http.client
 This package holds the classes that define the HTTP client and its configuration settings.
 
-[http]: /http
+[http]: http

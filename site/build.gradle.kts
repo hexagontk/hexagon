@@ -123,21 +123,49 @@ task("checkDocs") {
 tasks.register("installMkDocs") {
     doLast {
         val mkdocsMaterialVersion = libs.versions.mkdocsMaterial.get()
+        val pip = "$venv/bin/pip"
         exec { commandLine("python -m venv $venv".split(" ")) }
-        exec { commandLine("$venv/bin/pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
-        exec { commandLine("$venv/bin/pip install mkdocs-htmlproofer-plugin".split(" ")) }
-        exec { commandLine("$venv/bin/pip install mike".split(" ")) }
+        exec { commandLine("$pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
+        exec { commandLine("$pip install mkdocs-htmlproofer-plugin".split(" ")) }
+        exec { commandLine("$pip install mike".split(" ")) }
     }
-}
-
-tasks.register<Exec>("serveSite") {
-    dependsOn("checkDocs", "installMkDocs")
-    commandLine("$venv/bin/mkdocs serve".split(" "))
 }
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs", "installMkDocs")
-    commandLine("$venv/bin/mkdocs build -cs".split(" "))
+    val pushSite = findProperty("pushSite")?.let { if (it == "true") "--push " else "" } ?: ""
+    val mike = "$venv/bin/mike"
+    val rootVersion = rootProject.version.toString()
+    val siteAlias = if (rootVersion.contains(Regex("-[AB]"))) "dev" else "stable"
+    val majorVersion = "v" + rootVersion.split(".").first()
+    val command = "$mike deploy $pushSite--update-aliases $majorVersion $siteAlias"
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine(command.split(" "))
+}
+
+tasks.register<Exec>("deleteSite") {
+    dependsOn("installMkDocs")
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine("$venv/bin/mike delete --all".split(" "))
+}
+
+tasks.register<Exec>("defaultSite") {
+    dependsOn("installMkDocs")
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine("$venv/bin/mike set-default stable".split(" "))
+}
+
+/*
+ * Order:
+ * 1. Delete
+ * 2. Build stable
+ * 3. Set default
+ * 4. Serve (test)
+ * 5. Push stable
+ */
+tasks.register<Exec>("serveSite") {
+    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    commandLine("$venv/bin/mike serve".split(" "))
 }
 
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
@@ -215,7 +243,7 @@ fun insertSamplesCode(parent: File, content: String): String =
             val lines = url.readText().lines()
             val text = lines.slice(lines.rangeOf(tag)).joinToString("\n").trimIndent()
             "```kotlin\n$text\n```"
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             val code = it.value
             println("ERROR: Unable to process '$code' in folder: '${parent.absolutePath}'")
             code

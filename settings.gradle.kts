@@ -22,7 +22,7 @@ dependencyResolutionManagement {
             version("dokka", "1.9.20")
             version("licenseReport", "2.9")
             version("binValidator", "0.16.3")
-            version("nativeTools", "0.10.2")
+            version("nativeTools", "0.10.3")
             version("detekt", "1.23.7")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.10.1")
@@ -33,7 +33,6 @@ dependencyResolutionManagement {
             // Testing
             version("junit", "5.11.0")
             version("mockk", "1.13.12")
-            // TODO Replace with code using HTTP client and virtual threads
             version("gatling", "3.10.5")
             version("jmh", "1.37")
 
