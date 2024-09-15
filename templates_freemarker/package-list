@@ -1,7 +1,0 @@
-$dokka.format:gfm-v1
-$dokka.linkExtension:md
-$dokka.location:com.hexagonkt.templates.freemarker////PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/index.md
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapter///PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter/index.md
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapter/render/#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]#com.hexagonkt.templates.TemplateEngineSettings/PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter/render.md
-com.hexagonkt.templates.freemarker
-

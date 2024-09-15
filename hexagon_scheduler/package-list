@@ -1,9 +1,0 @@
-$dokka.format:gfm-v1
-$dokka.linkExtension:md
-$dokka.location:com.hexagonkt.scheduler////PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/index.md
-$dokka.location:com.hexagonkt.scheduler/CronScheduler///PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler/index.md
-$dokka.location:com.hexagonkt.scheduler/CronScheduler/CronScheduler/#kotlin.Int/PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler/-cron-scheduler.md
-$dokka.location:com.hexagonkt.scheduler/CronScheduler/schedule/#kotlin.String#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler/schedule.md
-$dokka.location:com.hexagonkt.scheduler/CronScheduler/shutdown/#/PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler/shutdown.md
-com.hexagonkt.scheduler
-

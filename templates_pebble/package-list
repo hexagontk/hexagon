@@ -1,7 +1,0 @@
-$dokka.format:gfm-v1
-$dokka.linkExtension:md
-$dokka.location:com.hexagonkt.templates.pebble////PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/index.md
-$dokka.location:com.hexagonkt.templates.pebble/PebbleAdapter///PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter/index.md
-$dokka.location:com.hexagonkt.templates.pebble/PebbleAdapter/render/#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]#com.hexagonkt.templates.TemplateEngineSettings/PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter/render.md
-com.hexagonkt.templates.pebble
-
