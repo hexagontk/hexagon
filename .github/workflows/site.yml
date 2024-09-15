@@ -36,7 +36,7 @@ jobs:
   site:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     defaults:
       run: { shell: bash }
     steps:
@@ -61,8 +61,6 @@ jobs:
 
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        permissions:
-          contents: write
         run: |
           export GIT_COMMITTER_NAME="${GITHUB_ACTOR}"
           export GIT_COMMITTER_EMAIL="project@hexagontk.com"
