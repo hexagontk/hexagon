@@ -3,6 +3,9 @@ on:
   push:
     branches: [ release/** ]
 
+permissions:
+  contents: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -37,9 +40,5 @@ jobs:
   push_site:
     uses: hexagontk/hexagon/.github/workflows/site.yml@develop
     needs: publish
-    permissions:
-      contents: write
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
       options: -P pushSite=true
