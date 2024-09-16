@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Uuids.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.core</a> &gt; <span class="el_source">Uuids.kt</span></div><h1>Uuids.kt</h1><pre class="source lang-java linenums">package com.hexagontk.core
+
+import com.hexagontk.core.text.decodeBase64
+import com.hexagontk.core.text.encodeToBase64
+import java.nio.ByteBuffer
+import java.util.*
+
+// TODO UUIDv7: https://antonz.org/uuidv7/?ref=dailydev#kotlin
+/*
+    import java.security.SecureRandom
+    import java.time.Instant
+
+    object UUIDv7 {
+        private val random = SecureRandom()
+
+        fun generate(): ByteArray {
+            // random bytes
+            val value = ByteArray(16)
+            random.nextBytes(value)
+
+            // current timestamp in ms
+            val timestamp = Instant.now().toEpochMilli()
+
+            // timestamp
+            value[0] = ((timestamp shr 40) and 0xFF).toByte()
+            value[1] = ((timestamp shr 32) and 0xFF).toByte()
+            value[2] = ((timestamp shr 24) and 0xFF).toByte()
+            value[3] = ((timestamp shr 16) and 0xFF).toByte()
+            value[4] = ((timestamp shr 8) and 0xFF).toByte()
+            value[5] = (timestamp and 0xFF).toByte()
+
+            // version and variant
+            value[6] = (value[6].toInt() and 0x0F or 0x70).toByte()
+            value[8] = (value[8].toInt() and 0x3F or 0x80).toByte()
+
+            return value
+        }
+
+        @JvmStatic
+        fun main(args: Array&lt;String&gt;) {
+            val uuidVal = generate()
+            uuidVal.forEach { b -&gt; print(&quot;%02x&quot;.format(b)) }
+            println()
+        }
+    }
+ */
+// TODO Rename to Ids.kt and support other algorithms (nanoid, ulid, snowflake, cuid)
+
+/**
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
+fun UUID.bytes(): ByteArray =
+<span class="fc" id="L56">    ByteBuffer.wrap(ByteArray(16)).let {</span>
+<span class="fc" id="L57">        it.putLong(this.mostSignificantBits)</span>
+<span class="fc" id="L58">        it.putLong(this.leastSignificantBits)</span>
+<span class="fc" id="L59">        it.array()</span>
+<span class="fc" id="L60">    }</span>
+
+/**
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
+fun UUID.toBase64(): String =
+<span class="fc" id="L69">    bytes().encodeToBase64()</span>
+
+/**
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
+ *
+ * @param text .
+ * @return .
+ */
+fun uuid(text: String): UUID =
+<span class="fc bfc" id="L78" title="All 2 branches covered.">    if (text[8] == '-') UUID.fromString(text)</span>
+<span class="fc" id="L79">    else uuid(text.decodeBase64())</span>
+
+/**
+ * [TODO](https://github.com/hexagontk/hexagon/issues/271).
+ *
+ * @param bytes .
+ * @return .
+ */
+fun uuid(bytes: ByteArray): UUID =
+<span class="fc" id="L88">    ByteBuffer.wrap(bytes).let { UUID(it.long, it.long) }</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

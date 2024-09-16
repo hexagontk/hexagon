@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Web.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.web</a> &gt; <span class="el_source">Web.kt</span></div><h1>Web.kt</h1><pre class="source lang-java linenums">package com.hexagontk.web
+
+import com.hexagontk.core.media.mediaTypeOfOrNull
+import com.hexagontk.http.model.ContentType
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.model.Cookie
+import com.hexagontk.http.model.Headers
+import com.hexagontk.templates.TemplateManager
+import com.hexagontk.templates.TemplatePort
+import java.net.URL
+import java.nio.charset.Charset.defaultCharset
+import java.util.Locale
+import java.util.Locale.forLanguageTag as localeFor
+
+fun HttpContext.templateType(url: URL): ContentType? =
+<span class="pc bpc" id="L16" title="1 of 2 branches missed.">    response.contentType ?: run {</span>
+<span class="fc" id="L17">        val mimeType = mediaTypeOfOrNull(url)</span>
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        mimeType?.let { ContentType(it, charset = defaultCharset()) }</span>
+<span class="fc" id="L19">    }</span>
+
+fun HttpContext.callContext(): Map&lt;String, *&gt; =
+<span class="fc" id="L22">    mapOf(</span>
+<span class="fc" id="L23">        &quot;_path_&quot; to request.path.removeSuffix(&quot;/&quot;), // Do not allow trailing slash</span>
+<span class="fc" id="L24">        &quot;_lang_&quot; to obtainLocale().language,</span>
+<span class="fc" id="L25">    )</span>
+
+/**
+ * TODO Review order precedence and complete code (now only taking request attribute)
+ *
+ * 1. Request
+ * 2. Accept-language
+ * 3. Cookie
+ * 4. Server default locale
+ */
+<span class="fc" id="L35">fun HttpContext.obtainLocale(): Locale = when {</span>
+<span class="pc bpc" id="L36" title="2 of 4 branches missed.">    attributes[&quot;lang&quot;] as? String != null -&gt; localeFor(attributes[&quot;lang&quot;] as String)</span>
+<span class="fc" id="L37">    else -&gt; Locale.getDefault()</span>
+<span class="fc" id="L38">}</span>
+
+<span class="fc" id="L40">fun HttpContext.template(</span>
+    templateEngine: TemplatePort,
+    url: URL,
+<span class="nc" id="L43">    context: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L44">    locale: Locale = obtainLocale(),</span>
+<span class="fc" id="L45">    headers: Headers = response.headers,</span>
+<span class="fc" id="L46">    cookies: List&lt;Cookie&gt; = response.cookies,</span>
+<span class="fc" id="L47">    attributes: Map&lt;*, *&gt; = this.attributes,</span>
+): HttpContext =
+<span class="fc" id="L49">    ok(</span>
+<span class="fc" id="L50">        templateEngine.render(url, callContext() + context, locale),</span>
+<span class="fc" id="L51">        headers,</span>
+<span class="fc" id="L52">        templateType(url),</span>
+<span class="fc" id="L53">        cookies,</span>
+<span class="fc" id="L54">        attributes,</span>
+<span class="fc" id="L55">    )</span>
+
+<span class="fc" id="L57">fun HttpContext.template(</span>
+    url: URL,
+<span class="nc" id="L59">    context: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L60">    locale: Locale = obtainLocale(),</span>
+<span class="fc" id="L61">    headers: Headers = response.headers,</span>
+<span class="fc" id="L62">    cookies: List&lt;Cookie&gt; = response.cookies,</span>
+<span class="fc" id="L63">    attributes: Map&lt;*, *&gt; = this.attributes,</span>
+): HttpContext =
+<span class="fc" id="L65">    ok(</span>
+<span class="fc" id="L66">        TemplateManager.render(url, callContext() + context, locale),</span>
+<span class="fc" id="L67">        headers,</span>
+<span class="fc" id="L68">        templateType(url),</span>
+<span class="fc" id="L69">        cookies,</span>
+<span class="fc" id="L70">        attributes,</span>
+<span class="fc" id="L71">    )</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

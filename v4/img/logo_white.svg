@@ -1,0 +1,24 @@
+
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="415"
+   height="360"
+   viewBox="0 0 415 360">
+
+  <defs>
+    <style type="text/css">
+      #logoUp { fill: #F5F5F5; }
+      #logoDown { fill: #E5E5E5; }
+    </style>
+
+    <symbol id="logoPart">
+      <path d="M 0,177 102,0 l 205,0 L 329,35 265,142 l -81,0 42,-71 -81,0 L 40,248 Z" />
+    </symbol>
+  </defs>
+
+  <g>
+    <use id="logoUp" xlink:href="#logoPart" />
+    <use id="logoDown" xlink:href="#logoPart" transform="matrix(-1, 0, 0, -1, 410, 355)" />
+  </g>
+</svg>

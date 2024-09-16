@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Logging.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.core.logging</a> &gt; <span class="el_source">Logging.kt</span></div><h1>Logging.kt</h1><pre class="source lang-java linenums">package com.hexagontk.core.logging
+
+import com.hexagontk.core.Jvm
+
+<span class="fc" id="L5">internal val useColor: Boolean by lazy { Jvm.systemSetting(&quot;hexagontk_logging_color&quot;, true) }</span>
+<span class="fc" id="L6">internal val defaultLoggerName: String by lazy {</span>
+<span class="fc" id="L7">    Jvm.systemSetting(&quot;hexagontk_logging_logger_name&quot;, &quot;com.hexagontk.core.logging&quot;)</span>
+}
+
+/** Default logger for when you feel too lazy to declare one. */
+<span class="fc" id="L11">val logger: Logger by lazy { Logger(defaultLoggerName) }</span>
+
+/**
+ * Use this [T] to log a message with a prefix using [TRACE] level.
+ *
+ * [com.hexagontk.core.logging.logger] must have the [TRACE] level enabled.
+ *
+ * @receiver Object which string representation will be logged.
+ * @param T Type of the logged object.
+ * @param prefix Prefix for the logging message.
+ * @return The receiver reference for chaining methods.
+ */
+<span class="fc" id="L23">fun &lt;T&gt; T.trace(prefix: String = &quot;&quot;): T =</span>
+<span class="fc" id="L24">    apply { logger.trace { &quot;$prefix$this&quot; } }</span>
+
+/**
+ * Use this [T] to log a message with a prefix using [DEBUG] level.
+ *
+ * [com.hexagontk.core.logging.logger] must have the [DEBUG] level enabled.
+ *
+ * @receiver Object which string representation will be logged.
+ * @param T Type of the logged object.
+ * @param prefix Prefix for the logging message.
+ * @return The receiver reference for chaining methods.
+ */
+<span class="fc" id="L36">fun &lt;T&gt; T.debug(prefix: String = &quot;&quot;): T =</span>
+<span class="fc" id="L37">    apply { logger.debug { &quot;$prefix$this&quot; } }</span>
+
+/**
+ * Use this [T] to log a message with a prefix using [INFO] level.
+ *
+ * [com.hexagontk.core.logging.logger] must have the [INFO] level enabled.
+ *
+ * @receiver Object which string representation will be logged.
+ * @param T Type of the logged object.
+ * @param prefix Prefix for the logging message.
+ * @return The receiver reference for chaining methods.
+ */
+<span class="fc" id="L49">fun &lt;T&gt; T.info(prefix: String = &quot;&quot;): T =</span>
+<span class="fc" id="L50">    apply { logger.info { &quot;$prefix$this&quot; } }</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

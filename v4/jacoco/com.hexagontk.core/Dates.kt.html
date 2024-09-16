@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Dates.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.core</a> &gt; <span class="el_source">Dates.kt</span></div><h1>Dates.kt</h1><pre class="source lang-java linenums">package com.hexagontk.core
+
+import java.time.*
+import java.util.Date
+
+private const val DATE_OFFSET: Long = 1_000_000_000L
+private const val YEAR_OFFSET: Int = 10_000
+private const val MONTH_OFFSET: Int = 100
+private const val HOUR_OFFSET: Int = 10_000_000
+private const val MINUTE_OFFSET: Int = 100_000
+private const val SECOND_OFFSET: Int = 1_000
+private const val NANO_OFFSET: Int = 1_000_000
+private const val DAYS_PER_MONTH: Double = 30.4375
+
+/** GMT zone ID. */
+<span class="fc" id="L16">val GMT_ZONE: ZoneId by lazy { ZoneId.of(&quot;GMT&quot;) }</span>
+
+/**
+ * Convert a date time to a number with the following format: `YYYYMMDDHHmmss`.
+ *
+ * @receiver Date to be converted to a number.
+ * @return Numeric representation of the given date.
+ */
+fun LocalDateTime.toNumber(): Long =
+<span class="fc" id="L25">    (this.toLocalDate().toNumber() * DATE_OFFSET) + this.toLocalTime().toNumber()</span>
+
+/**
+ * Convert a date to an integer with the following format: `YYYYMMDD`.
+ *
+ * @receiver Date to be converted to a number.
+ * @return Numeric representation of the given date.
+ */
+fun LocalDate.toNumber(): Int =
+<span class="fc" id="L34">    (this.year * YEAR_OFFSET) +</span>
+<span class="fc" id="L35">    (this.monthValue * MONTH_OFFSET) +</span>
+<span class="fc" id="L36">    this.dayOfMonth</span>
+
+/**
+ * Convert a time to an integer with the following format: `HHmmssSSS`.
+ *
+ * @receiver Time to be converted to a number.
+ * @return Numeric representation of the given time.
+ */
+fun LocalTime.toNumber(): Int =
+<span class="fc" id="L45">    (this.hour * HOUR_OFFSET) +</span>
+<span class="fc" id="L46">    (this.minute * MINUTE_OFFSET) +</span>
+<span class="fc" id="L47">    (this.second * SECOND_OFFSET) +</span>
+<span class="fc" id="L48">    (this.nano / NANO_OFFSET) // Nanos to millis</span>
+
+/**
+ * Return the date time in a given time zone for a local date time.
+ *
+ * @receiver Local date time to be moved to another time zone.
+ * @param zoneId Id of the target zone of the passed local date time.
+ * @return Received date time at the given [zoneId].
+ */
+<span class="fc" id="L57">fun LocalDateTime.withZone(zoneId: ZoneId = Jvm.timeZone.toZoneId()): ZonedDateTime =</span>
+<span class="fc" id="L58">    ZonedDateTime.of(this, zoneId)</span>
+
+/**
+ * Parse a date time from a formatted number with this format: `YYYYMMDDHHmmss`.
+ *
+ * @receiver Number to be converted to a date time.
+ * @return Local date time representation of the given number.
+ */
+fun Long.toLocalDateTime(): LocalDateTime {
+<span class="fc bfc" id="L67" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing timestamp must be positive (format: YYYYMMDDHHmmss)&quot; }</span>
+<span class="fc" id="L68">    return (this / DATE_OFFSET)</span>
+<span class="fc" id="L69">        .toInt()</span>
+<span class="fc" id="L70">        .toLocalDate()</span>
+<span class="fc" id="L71">        .atTime((this % DATE_OFFSET).toInt().toLocalTime())</span>
+}
+
+/**
+ * Parse a date from a formatted integer with this format: `YYYYMMDD`.
+ *
+ * @receiver Number to be converted to a date.
+ * @return Local date representation of the given number.
+ */
+fun Int.toLocalDate(): LocalDate {
+<span class="fc bfc" id="L81" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing date must be positive (format: YYYYMMDD)&quot; }</span>
+<span class="fc" id="L82">    return LocalDate.of(</span>
+<span class="fc" id="L83">        this / YEAR_OFFSET,</span>
+<span class="fc" id="L84">        (this % YEAR_OFFSET) / MONTH_OFFSET,</span>
+<span class="fc" id="L85">        this % MONTH_OFFSET</span>
+    )
+}
+
+/**
+ * Parse a time from a formatted integer with this format: `HHmmssSSS`.
+ *
+ * @receiver Number to be converted to a time.
+ * @return Local time representation of the given number.
+ */
+fun Int.toLocalTime(): LocalTime {
+<span class="fc bfc" id="L96" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing time must be positive (format: HHmmssSSS)&quot; }</span>
+<span class="fc" id="L97">    return LocalTime.of(</span>
+<span class="fc" id="L98">        (this / HOUR_OFFSET),</span>
+<span class="fc" id="L99">        ((this % HOUR_OFFSET) / MINUTE_OFFSET),</span>
+<span class="fc" id="L100">        ((this % MINUTE_OFFSET) / SECOND_OFFSET),</span>
+<span class="fc" id="L101">        ((this % SECOND_OFFSET) * NANO_OFFSET) // Millis to nanos</span>
+    )
+}
+
+/**
+ * Convert a zoned date time to a date.
+ *
+ * @receiver Zoned date time to be converted to a date.
+ * @return Date representation of the given zoned date time.
+ */
+fun ZonedDateTime.toDate(): Date =
+<span class="fc" id="L112">    Date.from(this.toInstant())</span>
+
+/**
+ * Convert a local date time to a date.
+ *
+ * @receiver Local date time to be converted to a date.
+ * @return Date representation of the given local date time.
+ */
+fun LocalDateTime.toDate(): Date =
+<span class="fc" id="L121">    this.atZone(Jvm.timeZone.toZoneId()).toDate()</span>
+
+/**
+ * Convert a local date to a date.
+ *
+ * @receiver Local date to be converted to a date.
+ * @return Date representation of the given local date.
+ */
+fun LocalDate.toDate(): Date =
+<span class="fc" id="L130">    this.atStartOfDay(Jvm.timeZone.toZoneId()).toDate()</span>
+
+/**
+ * Convert a date to a local date time.
+ *
+ * @receiver Date to be converted to a local date time.
+ * @return Local date time representation of the given date.
+ */
+fun Date.toLocalDateTime(): LocalDateTime =
+<span class="fc" id="L139">    LocalDateTime.ofInstant(Instant.ofEpochMilli(this.time), ZoneId.systemDefault())</span>
+
+/**
+ * Convert a date to a local date.
+ *
+ * @receiver Date to be converted to a local date.
+ * @return Local date representation of the given date.
+ */
+fun Date.toLocalDate(): LocalDate =
+<span class="fc" id="L148">    this.toLocalDateTime().toLocalDate()</span>
+
+/**
+ * Calculate the aproximate number of days comprised in a time period.
+ *
+ * @receiver Period from which calculate the number of days.
+ * @return Aproximate number of days of the period.
+ */
+fun Period.toTotalDays(): Double =
+<span class="fc" id="L157">    (toTotalMonths() * DAYS_PER_MONTH) + days</span>
+
+/**
+ * Parse a time period allowing a more relaxed format: with spaces or commas, lowercase characters
+ * and not forcing the text to start with 'P'.
+ *
+ * @param text Text to be parsed to a time period.
+ * @return Time period parsed from the supplied text.
+ */
+fun parsePeriod(text: String): Period =
+<span class="fc" id="L167">    Period.parse(formatDuration(text))</span>
+
+/**
+ * Parse a time duration allowing a more relaxed format: with spaces or commas, lowercase characters
+ * and not forcing the text to start with 'P', however, the 'T' is still mandatory to separate date
+ * and time durations.
+ *
+ * @param text Text to be parsed to a time duration.
+ * @return Time duration parsed from the supplied text.
+ */
+fun parseDuration(text: String): Duration =
+<span class="fc" id="L178">    Duration.parse(formatDuration(text))</span>
+
+private fun formatDuration(text: String): String =
+<span class="fc" id="L181">    text</span>
+<span class="fc" id="L182">        .replace(&quot;,&quot;, &quot;&quot;)</span>
+<span class="fc" id="L183">        .replace(&quot; &quot;, &quot;&quot;)</span>
+<span class="fc" id="L184">        .uppercase()</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        .let { if (it.startsWith(&quot;P&quot;)) it else &quot;P$it&quot; }</span>
+
+/**
+ * Parse a local date allowing only to specify the year or the year and the month. Missing month and
+ * day will be defaulted to january and one respectively.
+ *
+ * @param text Text to be parsed to a local date.
+ * @return Local date parsed from the supplied text.
+ */
+fun parseLocalDate(text: String): LocalDate =
+<span class="fc bfc" id="L195" title="All 3 branches covered.">    when (text.length) {</span>
+<span class="fc" id="L196">        4 -&gt; Year.parse(text).atMonth(1).atDay(1)</span>
+<span class="fc" id="L197">        7 -&gt; YearMonth.parse(text).atDay(1)</span>
+<span class="fc" id="L198">        else -&gt; LocalDate.parse(text)</span>
+<span class="fc" id="L199">    }</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

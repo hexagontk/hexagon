@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpServerTool.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.rest.tools</a> &gt; <span class="el_source">HttpServerTool.kt</span></div><h1>HttpServerTool.kt</h1><pre class="source lang-java linenums">package com.hexagontk.rest.tools
+
+import com.hexagontk.http.handlers.HandlerBuilder
+import com.hexagontk.http.model.NOT_FOUND_404
+import com.hexagontk.http.server.HttpServer
+import com.hexagontk.http.server.HttpServerPort
+import com.hexagontk.http.handlers.PathHandler
+import com.hexagontk.http.server.HttpServerSettings
+import com.hexagontk.rest.SerializeResponseCallback
+import java.net.URL
+
+/**
+ * Server with dynamic handler (delegated to [path]). Root handler can be replaced at any time
+ * without restarting the server.
+ */
+<span class="fc" id="L16">data class HttpServerTool(</span>
+<span class="fc" id="L17">    private val adapter: HttpServerPort,</span>
+<span class="fc" id="L18">    private val settings: HttpServerSettings = HttpServerSettings(),</span>
+<span class="pc" id="L19">    var path: PathHandler = PathHandler(),</span>
+<span class="fc" id="L20">) {</span>
+<span class="fc" id="L21">    val runtimePort: Int by lazy { server.runtimePort }</span>
+<span class="fc" id="L22">    val binding: URL by lazy { server.binding }</span>
+
+<span class="fc" id="L24">    private val server: HttpServer by lazy {</span>
+<span class="fc" id="L25">        HttpServer(adapter, settings) {</span>
+            // TODO Use SerializeResponseHandler when created
+<span class="fc" id="L27">            after(&quot;*&quot;, SerializeResponseCallback())</span>
+<span class="fc" id="L28">            after(pattern = &quot;*&quot;, status = NOT_FOUND_404) {</span>
+<span class="fc" id="L29">                send(response = this@HttpServerTool.path.process(request).response)</span>
+            }
+<span class="fc" id="L31">        }</span>
+    }
+
+    fun path(block: HandlerBuilder.() -&gt; Unit) {
+<span class="fc" id="L35">        path = com.hexagontk.http.handlers.path(block = block)</span>
+<span class="fc" id="L36">    }</span>
+
+    fun start() {
+<span class="fc" id="L39">        server.start()</span>
+<span class="fc" id="L40">    }</span>
+
+    fun stop() {
+<span class="fc" id="L43">        server.stop()</span>
+<span class="fc" id="L44">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
