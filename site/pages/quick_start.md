@@ -47,7 +47,7 @@ pub  4096R/2AEE3721 2020-05-30 Hexagon Toolkit (Key used to sign published binar
 ```
 
 [pgp key]: https://keys.openpgp.org/search?q=project%40hexagonkt.com
-[site pgp key]: /project_hexagonkt_com_public.key
+[site pgp key]: project_hexagonkt_com_public.key
 
 # Dependencies Verification (hexagontk.com)
 Hexagon's dependencies are signed, you can get the public key at the
@@ -56,12 +56,12 @@ Hexagon's dependencies are signed, you can get the public key at the
 These are the details of the public key:
 
 ```
-pub ed25519 2024-06-11 Hexagon Toolkit (Key used to sign published binaries) <project@hexagontk.com>
-    1FBCEA0384E730C76A69153AB1C94C2E85275907
+pub  ed25519/0E16E194 2024-08-24 Hexagon Toolkit (Key used to sign published binaries) <project@hexagontk.com>
+     268363E34136BFA0AA6C8AE61902F0990E16E194
 ```
 
 [pgp key 2]: https://keyserver.ubuntu.com/pks/lookup?search=project%40hexagontk.com&op=index
-[site pgp key 2]: /project_hexagontk_com_public.key
+[site pgp key 2]: project_hexagontk_com_public.key
 
 # Next Steps
 To continue learning about this toolkit, you can:
@@ -73,11 +73,11 @@ To continue learning about this toolkit, you can:
 
 [Gradle Starter]: https://github.com/hexagontk/gradle_starter
 [Maven Starter]: https://github.com/hexagontk/maven_starter
-[Examples]: /examples/http_server_examples/
+[Examples]: examples/http_server_examples/
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [Gradle]: https://gradle.org
 [Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello
-[Core]: /core
-[HTTP Server]: /http_server
+[Core]: core
+[HTTP Server]: http_server

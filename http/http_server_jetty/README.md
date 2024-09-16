@@ -3,7 +3,7 @@
 [Jetty] adapter for the [http_server] port.
 
 [Jetty]: https://www.eclipse.org/jetty
-[http_server]: /http_server
+[http_server]: http_server
 
 ### Install the Dependency
 

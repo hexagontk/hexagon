@@ -3,8 +3,8 @@
 Adds utilities for serving HTML pages over HTTP servers. Combines the [http_server] and [templates]
 ports.
 
-[http_server]: /http_server
-[templates]: /templates
+[http_server]: http_server
+[templates]: templates
 
 ### Install the Dependency
 

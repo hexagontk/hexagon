@@ -10,8 +10,8 @@ feature (as [templates_pebble] and/or [templates_freemarker]) in order to proces
 You can use many adapters in the same application to be able to handle different template engines at
 the same time.
 
-[templates_pebble]: /templates_pebble/
-[templates_freemarker]: /templates_freemarker/
+[templates_pebble]: templates_pebble/
+[templates_freemarker]: templates_freemarker/
 
 # Register a Template Engine
 You can register multiple template engines using regular expressions:
@@ -31,7 +31,7 @@ and `_now_` variables) are added to the context automatically. Check the code be
 
 @code templates/templates/src/test/kotlin/com/hexagonkt/templates/examples/TemplatesTest.kt?templateUsage
 
-[TemplateManager]: /api/templates/templates/com.hexagonkt.templates/-template-manager
+[TemplateManager]: api/templates/templates/com.hexagonkt.templates/-template-manager
 
 # Package com.hexagonkt.templates
 Feature implementation code.
