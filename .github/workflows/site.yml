@@ -62,6 +62,7 @@ jobs:
         run: |
           export GIT_COMMITTER_NAME="${GITHUB_ACTOR}"
           export GIT_COMMITTER_EMAIL="project@hexagontk.com"
+          git fetch origin gh-pages --depth=1
           ./gradlew --stacktrace build
           ./gradlew --stacktrace -x build buildSite ${{ inputs.options }}
 
