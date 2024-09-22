@@ -4,7 +4,6 @@
 
 apply(plugin: "signing")
 apply(plugin: "maven-publish")
-apply(plugin: "maven-publish")
 apply(plugin: "org.jreleaser")
 
 signing {
@@ -19,11 +18,19 @@ signing {
 publishing {
     repositories {
         maven {
-            url = "https://central.sonatype.com"
+            String stagingDirectory =
+                findProperty("stagingDirectory") ?: System.getenv("STAGING_DIRECTORY")
 
-            credentials {
-                username = findProperty("ossrhUsername") ?: System.getenv("REPOSITORY_USERNAME")
-                password = findProperty("ossrhPassword") ?: System.getenv("REPOSITORY_PASSWORD")
+            if (stagingDirectory == null) {
+                url = "https://central.sonatype.com"
+
+                credentials {
+                    username = findProperty("ossrhUsername") ?: System.getenv("REPOSITORY_USERNAME")
+                    password = findProperty("ossrhPassword") ?: System.getenv("REPOSITORY_PASSWORD")
+                }
+            }
+            else {
+                url = project.file(stagingDirectory)
             }
         }
     }
@@ -63,15 +70,27 @@ publishing {
 }
 
 jreleaser {
+    gitRootSearch = true
+
 //    signing {
-//        active = 'ALWAYS'
+//        active = "ALWAYS"
 //        armored = true
+//        publicKey = findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
+//        secretKey = findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
+//        passphrase = findProperty("signingPassword") ?: System.getenv("SIGNING_PASSWORD")
 //    }
+
     deploy {
         maven {
             mavenCentral {
-                app {
-                    applyMavenCentralRules = true
+                sonatype {
+                    active = "ALWAYS"
+                    url = "https://central.sonatype.com/api/v1/publisher"
+                    username =
+                        findProperty("REPOSITORY_USERNAME") ?: System.getenv("REPOSITORY_USERNAME")
+                    password =
+                        findProperty("REPOSITORY_PASSWORD") ?: System.getenv("REPOSITORY_PASSWORD")
+                    stagingRepository("build/staging")
                 }
             }
         }
