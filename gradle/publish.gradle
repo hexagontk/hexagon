@@ -72,13 +72,19 @@ publishing {
 jreleaser {
     gitRootSearch = true
 
-//    signing {
-//        active = "ALWAYS"
-//        armored = true
-//        publicKey = findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
-//        secretKey = findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
-//        passphrase = findProperty("signingPassword") ?: System.getenv("SIGNING_PASSWORD")
-//    }
+    signing {
+        active = "ALWAYS"
+        armored = true
+        publicKey = findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
+        secretKey = findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
+        passphrase = findProperty("signingPassword") ?: System.getenv("SIGNING_PASSWORD")
+    }
+
+    release {
+        github {
+            token = "TODO"
+        }
+    }
 
     deploy {
         maven {
