@@ -30,13 +30,26 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: gradle
 
-  # TODO
-  #      - env:
-  #          REPOSITORY_PASSWORD: ${{ secrets.HEXAGONTK_REPOSITORY_PASSWORD }}
-  #          REPOSITORY_USERNAME: ${{ secrets.HEXAGONTK_REPOSITORY_USERNAME }}
-  #          SIGNING_KEY: ${{ secrets.HEXAGONTK_SIGNING_KEY }}
-  #          SIGNING_PASSWORD: ${{ secrets.HEXAGONTK_SIGNING_PASSWORD }}
-  #        run: ./gradlew --no-daemon -x test release
+      # TODO Check if JReleaser can push tags without an extra command
+      - env:
+          STAGING_DIRECTORY: build/staging
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          SIGNING_KEY: ${{ secrets.HEXAGONTK_SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.HEXAGONTK_SIGNING_PASSWORD }}
+          REPOSITORY_USERNAME: ${{ secrets.HEXAGONTK_REPOSITORY_USERNAME }}
+          REPOSITORY_PASSWORD: ${{ secrets.HEXAGONTK_REPOSITORY_PASSWORD }}
+
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.HEXAGONTK_SIGNING_KEY }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.HEXAGONTK_SIGNING_PASSWORD }}
+          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_SONATYPE_USERNAME: ${{ secrets.HEXAGONTK_REPOSITORY_USERNAME }}
+          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_SONATYPE_PASSWORD: ${{ secrets.HEXAGONTK_REPOSITORY_PASSWORD }}
+        run: |
+          export JRELEASER_GPG_PUBLIC_KEY="$(cat site/assets/project_hexagontk_com_public.key)"
+          ./gradlew --no-daemon -x test publish
+          ./gradlew --no-daemon -x test jreleaserFullRelease
+          git push --tags
 
   build_site:
     uses: hexagontk/hexagon/.github/workflows/site.yml@develop

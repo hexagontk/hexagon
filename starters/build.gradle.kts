@@ -5,6 +5,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
+apply(from = "../gradle/dokka.gradle")
 
 extensions.configure<PublishingExtension> {
     publications {

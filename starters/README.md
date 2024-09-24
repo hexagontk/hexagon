@@ -1,5 +1,5 @@
 
-## Maven Starters
+# Module starters
 
 This module holds the Maven parent POMs with Kotlin setup to ease the project creation using
 [Maven](https://maven.apache.org). To use them declare the following `parent` section inside your
