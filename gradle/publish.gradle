@@ -4,7 +4,6 @@
 
 apply(plugin: "signing")
 apply(plugin: "maven-publish")
-apply(plugin: "org.jreleaser")
 
 signing {
     String signingKey = findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
@@ -30,7 +29,7 @@ publishing {
                 }
             }
             else {
-                url = project.file(stagingDirectory)
+                url = rootProject.file(stagingDirectory)
             }
         }
     }
@@ -63,40 +62,6 @@ publishing {
                             email = "jaguililla@hexagontk.com"
                         }
                     }
-                }
-            }
-        }
-    }
-}
-
-jreleaser {
-    gitRootSearch = true
-
-    signing {
-        active = "ALWAYS"
-        armored = true
-        publicKey = findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
-        secretKey = findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
-        passphrase = findProperty("signingPassword") ?: System.getenv("SIGNING_PASSWORD")
-    }
-
-    release {
-        github {
-            token = "TODO"
-        }
-    }
-
-    deploy {
-        maven {
-            mavenCentral {
-                sonatype {
-                    active = "ALWAYS"
-                    url = "https://central.sonatype.com/api/v1/publisher"
-                    username =
-                        findProperty("REPOSITORY_USERNAME") ?: System.getenv("REPOSITORY_USERNAME")
-                    password =
-                        findProperty("REPOSITORY_PASSWORD") ?: System.getenv("REPOSITORY_PASSWORD")
-                    stagingRepository("build/staging")
                 }
             }
         }
