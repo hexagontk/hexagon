@@ -4,8 +4,6 @@
 
 apply(plugin: "signing")
 apply(plugin: "maven-publish")
-apply(plugin: "maven-publish")
-apply(plugin: "org.jreleaser")
 
 signing {
     String signingKey = findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
@@ -19,11 +17,19 @@ signing {
 publishing {
     repositories {
         maven {
-            url = "https://central.sonatype.com"
+            String stagingDirectory =
+                findProperty("stagingDirectory") ?: System.getenv("STAGING_DIRECTORY")
 
-            credentials {
-                username = findProperty("ossrhUsername") ?: System.getenv("REPOSITORY_USERNAME")
-                password = findProperty("ossrhPassword") ?: System.getenv("REPOSITORY_PASSWORD")
+            if (stagingDirectory == null) {
+                url = "https://central.sonatype.com"
+
+                credentials {
+                    username = findProperty("ossrhUsername") ?: System.getenv("REPOSITORY_USERNAME")
+                    password = findProperty("ossrhPassword") ?: System.getenv("REPOSITORY_PASSWORD")
+                }
+            }
+            else {
+                url = rootProject.file(stagingDirectory)
             }
         }
     }
@@ -56,23 +62,6 @@ publishing {
                             email = "jaguililla@hexagontk.com"
                         }
                     }
-                }
-            }
-        }
-    }
-}
-
-jreleaser {
-//    signing {
-//        active = 'ALWAYS'
-//        armored = true
-//    }
-    deploy {
-        maven {
-            mavenCentral {
-                sonatype {
-                    active = 'ALWAYS'
-                    url = 'https://central.sonatype.com/api/v1/publisher'
                 }
             }
         }

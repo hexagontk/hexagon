@@ -37,21 +37,7 @@ a project from scratch following these steps:
 
 # Dependencies Verification
 Hexagon's dependencies are signed, you can get the public key at the
-[OpenPGP Public Key Server][pgp key] or [here][site pgp key].
-
-These are the details of the public key:
-
-```
-pub  4096R/2AEE3721 2020-05-30 Hexagon Toolkit (Key used to sign published binaries) <project@hexagonkt.com>
-     Fingerprint=792B D37F F598 91C4 AC6F  8D92 3B26 711D 2AEE 3721
-```
-
-[pgp key]: https://keys.openpgp.org/search?q=project%40hexagonkt.com
-[site pgp key]: project_hexagonkt_com_public.key
-
-# Dependencies Verification (hexagontk.com)
-Hexagon's dependencies are signed, you can get the public key at the
-[Ubuntu Public Key Server][pgp key 2] or [here][site pgp key 2].
+[Ubuntu Public Key Server][pgp key] or [here][site pgp key].
 
 These are the details of the public key:
 
@@ -60,8 +46,8 @@ pub  ed25519/0E16E194 2024-08-24 Hexagon Toolkit (Key used to sign published bin
      268363E34136BFA0AA6C8AE61902F0990E16E194
 ```
 
-[pgp key 2]: https://keyserver.ubuntu.com/pks/lookup?search=project%40hexagontk.com&op=index
-[site pgp key 2]: project_hexagontk_com_public.key
+[pgp key]: https://keyserver.ubuntu.com/pks/lookup?search=project%40hexagontk.com&op=index
+[site pgp key]: project_hexagontk_com_public.key
 
 # Next Steps
 To continue learning about this toolkit, you can:
