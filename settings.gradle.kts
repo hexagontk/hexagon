@@ -25,7 +25,7 @@ dependencyResolutionManagement {
             version("nativeTools", "0.10.3")
             version("detekt", "1.23.7")
             version("jmhGradle", "0.7.2")
-            version("gradleWrapper", "8.10.1")
+            version("gradleWrapper", "8.10.2")
             version("mkdocsMaterial", "9.5.36")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.9")
