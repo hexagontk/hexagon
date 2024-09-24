@@ -170,8 +170,6 @@ apiValidation {
 }
 
 jreleaser {
-    dryrun = true
-
     signing {
         active.set(ALWAYS)
         armored = true
