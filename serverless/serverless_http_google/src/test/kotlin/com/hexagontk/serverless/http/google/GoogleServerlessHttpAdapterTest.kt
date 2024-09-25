@@ -1,34 +1,36 @@
 package com.hexagontk.serverless.http.google
 
 import com.google.cloud.functions.HttpFunction
-import com.google.cloud.functions.HttpRequest
-import com.google.cloud.functions.HttpResponse
 import com.google.cloud.functions.invoker.runner.Invoker
 import com.hexagontk.core.freePort
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientSettings
 import com.hexagontk.http.client.java.JavaClientAdapter
+import com.hexagontk.http.handlers.Get
 import kotlin.reflect.KClass
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class GoogleServerlessHttpAdapterTest {
 
-    class TestServerlessHttpAdapter: HttpFunction {
-        override fun service(request: HttpRequest, response: HttpResponse) {
-            response.writer.write("Hello World!")
-        }
-    }
+    class TestServerlessHttpAdapter: HttpFunction by GoogleServerlessHttpAdapter(
+        Get { ok("Hello World!") }
+    )
 
     @Test fun `Google functions work ok`() {
+        val client = invoker(TestServerlessHttpAdapter::class)
+        assertEquals("Hello World!", client.get().bodyString())
+    }
+
+    private fun invoker(function: KClass<*>): HttpClient {
         val port = freePort()
         val baseUrl = urlOf("http://localhost:${port}")
         val client = HttpClient(JavaClientAdapter(), HttpClientSettings(baseUrl))
 
-        invoker(port, TestServerlessHttpAdapter::class)
+        invoker(port, function)
         client.start()
-        assertEquals("Hello World!", client.get().bodyString())
+        return client
     }
 
     private fun invoker(port: Int, function: KClass<*>): Invoker {

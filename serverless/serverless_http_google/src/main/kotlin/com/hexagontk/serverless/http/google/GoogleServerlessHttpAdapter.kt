@@ -22,24 +22,26 @@ class GoogleServerlessHttpAdapter(private val handler: HttpHandler): HttpFunctio
         val qp = request.queryParameters?.map { (k, v) -> QueryParameter(k, v) } ?: emptyList()
         val h = request.headers?.map { (k, v) -> Header(k, v) } ?: emptyList()
 
-        request.parts.map { (k, v) ->
-            HttpPart(
-                name = k,
-                body = v.inputStream.readAllBytes(),
-                headers = Headers(),
-                contentType = v.contentType?.map { parseContentType(it) }?.orElse(null),
-                size = v.contentLength,
-                submittedFileName = v.fileName.orElse(null),
+        if (request.contentType.orElse("").contains("multipart")) {
+            request.parts.map { (k, v) ->
+                HttpPart(
+                    name = k,
+                    body = v.inputStream.readAllBytes(),
+                    headers = Headers(),
+                    contentType = v.contentType?.map { parseContentType(it) }?.orElse(null),
+                    size = v.contentLength,
+                    submittedFileName = v.fileName.orElse(null),
 
-                /*
-                name: String,
-                body: Any,
-                headers: Headers = Headers(),
-                contentType: ContentType? = null,
-                size: Long = -1L,
-                submittedFileName: String? = null
-                 */
-            )
+                    /*
+                    name: String,
+                    body: Any,
+                    headers: Headers = Headers(),
+                    contentType: ContentType? = null,
+                    size: Long = -1L,
+                    submittedFileName: String? = null
+                     */
+                )
+            }
         }
 
         return HttpRequest(
