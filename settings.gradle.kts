@@ -27,13 +27,13 @@ dependencyResolutionManagement {
             version("detekt", "1.23.7")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.10.2")
-            version("mkdocsMaterial", "9.5.36")
+            version("mkdocsMaterial", "9.5.37")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.9")
             version("jreleaser", "1.14.0")
 
             // Testing
-            version("junit", "5.11.0")
+            version("junit", "5.11.1")
             version("mockk", "1.13.12")
             // TODO Replace with code using HTTP client and virtual threads
             version("gatling", "3.10.5")
