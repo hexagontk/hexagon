@@ -51,7 +51,8 @@ rootProject
 
 task("mkDocs") {
     dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
-    dependsOn("icons")
+    // TODO Fix 'convert' command execution (icons.gradle) in latest Ubuntu 24 LTS (used in runners)
+//    dependsOn("icons")
 
     doLast {
         val contentTarget = project.file("build/content").absolutePath
