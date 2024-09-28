@@ -2,6 +2,7 @@ package com.hexagontk.http.model
 
 interface HttpBase {
     val body: Any
+    // TODO Headers can be 'core.Node'???
     val headers: Headers
     val contentType: ContentType?
 

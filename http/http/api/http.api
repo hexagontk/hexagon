@@ -1,3 +1,12 @@
+public final class com/hexagontk/http/HttpFeature : java/lang/Enum {
+	public static final field COOKIES Lcom/hexagontk/http/HttpFeature;
+	public static final field MULTIPART Lcom/hexagontk/http/HttpFeature;
+	public static final field ZIP Lcom/hexagontk/http/HttpFeature;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/hexagontk/http/HttpFeature;
+	public static fun values ()[Lcom/hexagontk/http/HttpFeature;
+}
+
 public final class com/hexagontk/http/HttpKt {
 	public static final fun basicAuth (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static synthetic fun basicAuth$default (Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
