@@ -6,15 +6,15 @@ import com.hexagontk.core.freePort
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientSettings
-import com.hexagontk.http.client.java.JavaClientAdapter
+import com.hexagontk.http.client.java.JavaHttpClient
 import com.hexagontk.http.handlers.Get
 import kotlin.reflect.KClass
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class GoogleServerlessHttpAdapterTest {
+internal class GoogleHttpFunctionTest {
 
-    class TestServerlessHttpAdapter: HttpFunction by GoogleServerlessHttpAdapter(
+    class TestServerlessHttpAdapter: HttpFunction by GoogleHttpFunction(
         Get { ok("Hello World!") }
     )
 
@@ -26,7 +26,7 @@ internal class GoogleServerlessHttpAdapterTest {
     private fun invoker(function: KClass<*>): HttpClient {
         val port = freePort()
         val baseUrl = urlOf("http://localhost:${port}")
-        val client = HttpClient(JavaClientAdapter(), HttpClientSettings(baseUrl))
+        val client = HttpClient(JavaHttpClient(), HttpClientSettings(baseUrl))
 
         invoker(port, function)
         client.start()

@@ -9,7 +9,7 @@ import com.hexagontk.http.model.*
 import com.hexagontk.http.parseContentType
 import java.net.URI
 
-class GoogleServerlessHttpAdapter(private val handler: HttpHandler): HttpFunction {
+class GoogleHttpFunction(private val handler: HttpHandler): HttpFunction {
 
     override fun service(request: HttpRequest, response: HttpResponse) {
         val handlerRequest = createRequest(request)
