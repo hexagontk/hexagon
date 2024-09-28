@@ -7,7 +7,7 @@ import com.hexagontk.core.loggerOf
 import com.hexagontk.core.media.APPLICATION_JSON
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientSettings
-import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.model.*
 import com.hexagontk.http.server.HttpServer
 import com.hexagontk.http.server.HttpServerPort
@@ -141,7 +141,7 @@ abstract class TodoTest(adapter: HttpServerPort) {
 
     private val client: HttpClient by lazy {
         HttpClient(
-            JettyClientAdapter(),
+            JettyHttpClient(),
             HttpClientSettings(
                 baseUrl = urlOf("http://localhost:${server.runtimePort}"),
                 contentType = ContentType(APPLICATION_JSON)

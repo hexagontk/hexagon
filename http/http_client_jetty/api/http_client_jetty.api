@@ -1,4 +1,4 @@
-public class com/hexagontk/http/client/jetty/JettyClientAdapter : com/hexagontk/http/client/HttpClientPort {
+public class com/hexagontk/http/client/jetty/JettyHttpClient : com/hexagontk/http/client/HttpClientPort {
 	protected field httpClient Lcom/hexagontk/http/client/HttpClient;
 	protected field jettyClient Lorg/eclipse/jetty/client/HttpClient;
 	public fun <init> ()V

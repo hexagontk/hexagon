@@ -1,4 +1,4 @@
-public final class com/hexagontk/http/client/java/JavaClientAdapter : com/hexagontk/http/client/HttpClientPort {
+public final class com/hexagontk/http/client/java/JavaHttpClient : com/hexagontk/http/client/HttpClientPort {
 	public fun <init> ()V
 	public fun <init> (Lcom/hexagontk/http/model/HttpProtocol;Ljava/util/concurrent/Executor;)V
 	public synthetic fun <init> (Lcom/hexagontk/http/model/HttpProtocol;Ljava/util/concurrent/Executor;ILkotlin/jvm/internal/DefaultConstructorMarker;)V

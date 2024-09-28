@@ -3,7 +3,7 @@ package com.hexagontk.http.server.servlet
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientSettings
-import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.model.NOT_FOUND_404
 import com.hexagontk.http.handlers.path
 import jakarta.servlet.MultipartConfigElement
@@ -58,7 +58,7 @@ internal class ServletServerTest {
 
     @Test fun `Servlet server starts`() {
         val settings = HttpClientSettings(urlOf("http://127.0.0.1:9897"))
-        HttpClient(JettyClientAdapter(), settings).use {
+        HttpClient(JettyHttpClient(), settings).use {
             it.start()
             assertEquals("Hello Servlet!", it.get("/").body)
             assertEquals(NOT_FOUND_404, it.post("/").status)

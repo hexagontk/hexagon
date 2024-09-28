@@ -33,14 +33,14 @@ import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
-import java.net.http.HttpClient as JavaHttpClient
+import java.net.http.HttpClient as JavaClient
 import java.net.http.HttpRequest as JavaHttpRequest
 import java.net.http.HttpResponse as JavaHttpResponse
 
 /**
  * Client to use other REST services.
  */
-class JavaClientAdapter(
+class JavaHttpClient(
     private val protocol: HttpProtocol = HTTP2,
     private val executor: Executor? = null,
 ) : HttpClientPort {
@@ -56,7 +56,7 @@ class JavaClientAdapter(
         }
     }
 
-    private lateinit var javaClient: JavaHttpClient
+    private lateinit var javaClient: JavaClient
     private lateinit var httpClient: HttpClient
     private lateinit var httpSettings: HttpClientSettings
     private var started: Boolean = false
@@ -67,7 +67,7 @@ class JavaClientAdapter(
 
         httpClient = client
         httpSettings = settings
-        val javaClientBuilder = JavaHttpClient
+        val javaClientBuilder = JavaClient
             .newBuilder()
             .version(if (protocol == HTTP2 || protocol == H2C) HTTP_2 else HTTP_1_1)
             .followRedirects(if (settings.followRedirects) ALWAYS else NEVER)

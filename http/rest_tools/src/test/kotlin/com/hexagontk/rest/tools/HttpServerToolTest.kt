@@ -3,7 +3,7 @@ package com.hexagontk.rest.tools
 import com.hexagontk.core.info
 import com.hexagontk.core.media.TEXT_PLAIN
 import com.hexagontk.core.require
-import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.handlers.FilterHandler
 import com.hexagontk.http.handlers.PathHandler
 import com.hexagontk.http.model.OK_200
@@ -49,7 +49,7 @@ class HttpServerToolTest {
         }
 
         val url = "http://localhost:${dynamicServer.runtimePort}"
-        HttpClientTool(JettyClientAdapter(), url).request {
+        HttpClientTool(JettyHttpClient(), url).request {
             start()
             get("/hello/mike")
             assertOk()
@@ -64,7 +64,7 @@ class HttpServerToolTest {
         }
 
         val url = "http://localhost:${dynamicServer.runtimePort}"
-        HttpClientTool(JettyClientAdapter(), url).request {
+        HttpClientTool(JettyHttpClient(), url).request {
             get("/foo")
             assertOk()
             assertBody("dynamic")
@@ -88,7 +88,7 @@ class HttpServerToolTest {
         }
 
         val port = dynamicServer.runtimePort
-        val adapter = JettyClientAdapter()
+        val adapter = JettyHttpClient()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val recordCallback = RecordCallback()
         val recordHandler = FilterHandler("*", recordCallback)
@@ -136,7 +136,7 @@ class HttpServerToolTest {
         }
 
         val url = "http://localhost:${dynamicServer.runtimePort}"
-        val adapter = JettyClientAdapter()
+        val adapter = JettyHttpClient()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val http = HttpClientTool(adapter, url, httpHeaders = headers)
 
@@ -194,7 +194,7 @@ class HttpServerToolTest {
         val server = HttpServerTool(serverAdapter, settings).apply(HttpServerTool::start)
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val binding = server.binding.toString()
-        val adapter = JettyClientAdapter()
+        val adapter = JettyHttpClient()
         val http = HttpClientTool(adapter, binding, jsonContentType, httpHeaders = headers)
 
         server.path {

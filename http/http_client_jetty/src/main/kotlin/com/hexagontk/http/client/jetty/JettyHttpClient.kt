@@ -38,15 +38,15 @@ import java.util.concurrent.Flow.Publisher
 import java.util.concurrent.SubmissionPublisher
 import org.eclipse.jetty.http2.client.HTTP2Client as JettyHttp2Client
 import org.eclipse.jetty.http2.client.transport.ClientConnectionFactoryOverHTTP2.HTTP2
-import org.eclipse.jetty.client.HttpClient as JettyHttpClient
+import org.eclipse.jetty.client.HttpClient as JettyClient
 import org.eclipse.jetty.util.ssl.SslContextFactory.Client as ClientSslContextFactory
 
 /**
  * Client to use other REST services.
  */
-open class JettyClientAdapter : HttpClientPort {
+open class JettyHttpClient : HttpClientPort {
 
-    protected lateinit var jettyClient: JettyHttpClient
+    protected lateinit var jettyClient: JettyClient
     protected lateinit var httpClient: HttpClient
     private lateinit var httpSettings: HttpClientSettings
     private var started: Boolean = false
@@ -60,7 +60,7 @@ open class JettyClientAdapter : HttpClientPort {
         val http2 = HTTP2(JettyHttp2Client(clientConnector))
         val transport = HttpClientTransportDynamic(clientConnector, HTTP11, http2)
 
-        jettyClient = JettyHttpClient(transport)
+        jettyClient = JettyClient(transport)
         httpClient = client
         httpSettings = settings
 
@@ -139,7 +139,7 @@ open class JettyClientAdapter : HttpClientPort {
     }
 
     private fun convertJettyResponse(
-        adapterHttpClient: HttpClient, adapterJettyClient: JettyHttpClient, response: Response
+        adapterHttpClient: HttpClient, adapterJettyClient: JettyClient, response: Response
     ): HttpResponse {
 
         val bodyString = if (response is ContentResponse) response.contentAsString else ""
@@ -179,7 +179,7 @@ open class JettyClientAdapter : HttpClientPort {
         )
 
     private fun createJettyRequest(
-        adapterJettyClient: JettyHttpClient, request: HttpRequestPort
+        adapterJettyClient: JettyClient, request: HttpRequestPort
     ): Request {
 
         val contentType = request.contentType

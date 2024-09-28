@@ -4,7 +4,7 @@ import com.hexagontk.core.media.TEXT_PLAIN
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientSettings
-import com.hexagontk.http.client.jetty.ws.JettyWsClientAdapter
+import com.hexagontk.http.client.jetty.ws.JettyWsHttpClient
 import com.hexagontk.http.model.ContentType
 import com.hexagontk.http.model.OK_200
 import com.hexagontk.http.handlers.path
@@ -54,7 +54,7 @@ internal class JettyServletHttpServerTest {
 
         server.use { s ->
             val settings = HttpClientSettings(urlOf("http://localhost:${s.runtimePort}"))
-            HttpClient(JettyWsClientAdapter(), settings).use {
+            HttpClient(JettyWsHttpClient(), settings).use {
                 it.start()
                 val result = it.get("/hello/Ada")
                 assertEquals("Hello Ada!", result.body)

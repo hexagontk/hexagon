@@ -8,7 +8,7 @@ import org.eclipse.jetty.ee10.servlet.ServletContextHandler
 import java.util.*
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientSettings
-import com.hexagontk.http.client.jetty.ws.JettyWsClientAdapter
+import com.hexagontk.http.client.jetty.ws.JettyWsHttpClient
 import com.hexagontk.http.model.HttpMethod.GET
 import com.hexagontk.http.model.ws.NORMAL
 import com.hexagontk.http.server.HttpServer
@@ -87,7 +87,7 @@ internal class JettyPocWsServerTest {
         var result = ""
 
         val settings = HttpClientSettings(urlOf("http://localhost:8080"))
-        val httpClient = HttpClient(JettyWsClientAdapter(), settings)
+        val httpClient = HttpClient(JettyWsHttpClient(), settings)
         httpClient.start()
         val ws = httpClient.ws(
             path = "/ws",

@@ -7,10 +7,10 @@ import kotlin.IllegalStateException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-internal class JettyClientAdapterTest {
+internal class JettyHttpClientTest {
 
     @Test fun `Send request without starting client`() {
-        val client = HttpClient(JettyWsClientAdapter())
+        val client = HttpClient(JettyWsHttpClient())
         val request = HttpRequest()
         val message = assertFailsWith<IllegalStateException> { client.send(request) }.message
         val expectedMessage = "HTTP client *MUST BE STARTED* before sending requests"

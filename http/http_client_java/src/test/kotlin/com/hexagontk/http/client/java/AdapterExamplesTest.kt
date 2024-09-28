@@ -8,7 +8,7 @@ import com.hexagontk.serialization.jackson.JacksonTextFormat
 import com.hexagontk.serialization.jackson.json.Json
 import com.hexagontk.serialization.jackson.yaml.Yaml
 
-val clientAdapter: () -> HttpClientPort = ::JavaClientAdapter
+val clientAdapter: () -> HttpClientPort = ::JavaHttpClient
 val serverAdapter: () -> HttpServerPort = ::JettyServletHttpServer
 val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 

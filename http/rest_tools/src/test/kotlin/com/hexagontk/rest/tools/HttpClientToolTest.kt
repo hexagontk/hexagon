@@ -1,7 +1,7 @@
 package com.hexagontk.rest.tools
 
 import com.hexagontk.core.media.TEXT_PLAIN
-import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.model.HttpMethod.POST
 import com.hexagontk.http.model.HttpMethod.PUT
 import com.hexagontk.http.model.HttpResponsePort
@@ -44,7 +44,7 @@ internal class HttpClientToolTest {
         }
 
         val url = "http://localhost:${server.runtimePort}"
-        val adapter = JettyClientAdapter()
+        val adapter = JettyHttpClient()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val params = mapOf("id" to 9)
         val client = HttpClientTool(adapter, url, TEXT_PLAIN, headers = headers)

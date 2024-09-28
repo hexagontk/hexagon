@@ -3,7 +3,7 @@ package com.hexagontk.web
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientSettings
-import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.model.OK_200
 import com.hexagontk.http.server.HttpServer
 import com.hexagontk.http.server.HttpServerSettings
@@ -49,7 +49,7 @@ internal class WebTest {
 
     private val client by lazy {
         val settings = HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))
-        HttpClient(JettyClientAdapter(), settings)
+        HttpClient(JettyHttpClient(), settings)
     }
 
     @BeforeAll fun start() {

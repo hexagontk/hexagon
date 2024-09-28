@@ -1,7 +1,7 @@
 package com.hexagontk.http.server.netty
 
 import com.hexagontk.http.client.HttpClientPort
-import com.hexagontk.http.client.jetty.ws.JettyWsClientAdapter
+import com.hexagontk.http.client.jetty.ws.JettyWsHttpClient
 import com.hexagontk.http.server.HttpServerPort
 import com.hexagontk.http.test.examples.*
 import com.hexagontk.serialization.jackson.JacksonTextFormat
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.condition.DisabledInNativeImage
 // TODO Assert context methods (request.method, request.protocol...)
 // TODO Check response headers don't contain invalid chars (\n, \t...)
 
-val clientAdapter: () -> HttpClientPort = ::JettyWsClientAdapter
+val clientAdapter: () -> HttpClientPort = ::JettyWsHttpClient
 val serverAdapter: () -> HttpServerPort = ::NettyHttpServer
 val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 

@@ -7,10 +7,10 @@ import kotlin.IllegalStateException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-internal class JavaClientAdapterTest {
+internal class JavaHttpClientTest {
 
     @Test fun `Send request without starting client`() {
-        val client = HttpClient(JavaClientAdapter())
+        val client = HttpClient(JavaHttpClient())
         val request = HttpRequest()
         val message = assertFailsWith<IllegalStateException> { client.send(request) }.message
         val expectedMessage = "HTTP client *MUST BE STARTED* before sending requests"

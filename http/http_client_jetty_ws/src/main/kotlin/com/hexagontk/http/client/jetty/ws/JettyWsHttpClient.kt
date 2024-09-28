@@ -2,7 +2,7 @@ package com.hexagontk.http.client.jetty.ws
 
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.client.HttpClient
-import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.model.ws.WsSession
 import org.eclipse.jetty.websocket.client.WebSocketClient
 import java.net.URI
@@ -10,7 +10,7 @@ import java.net.URI
 /**
  * Client to use other REST services.
  */
-class JettyWsClientAdapter : JettyClientAdapter() {
+class JettyWsHttpClient : JettyHttpClient() {
 
     private lateinit var wsClient: WebSocketClient
 
