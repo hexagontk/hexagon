@@ -1,4 +1,4 @@
-package com.hexagontk.core
+package com.hexagontk.helpers
 
 import org.junit.jupiter.api.condition.DisabledInNativeImage
 import org.junit.jupiter.api.Test

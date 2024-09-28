@@ -1,6 +1,6 @@
 package com.hexagontk.rest.tools
 
-import com.hexagontk.core.logging.info
+import com.hexagontk.core.info
 import com.hexagontk.core.media.TEXT_PLAIN
 import com.hexagontk.core.require
 import com.hexagontk.http.client.jetty.JettyClientAdapter

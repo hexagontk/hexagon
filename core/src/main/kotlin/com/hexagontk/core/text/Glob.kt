@@ -1,6 +1,5 @@
 package com.hexagontk.core.text
 
-import kotlin.IllegalArgumentException
 import java.util.regex.PatternSyntaxException
 
 /**

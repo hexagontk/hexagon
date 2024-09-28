@@ -1,8 +1,9 @@
 package com.hexagontk.http.server.callbacks
 
-import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.loggerOf
 import com.hexagontk.http.model.*
 import com.hexagontk.http.handlers.HttpContext
+import java.lang.System.Logger
 import java.lang.System.Logger.Level
 import kotlin.system.measureNanoTime
 
@@ -11,7 +12,7 @@ import kotlin.system.measureNanoTime
  */
 class LoggingCallback(
     private val level: Level = Level.INFO,
-    private val logger: Logger = Logger(LoggingCallback::class),
+    private val logger: Logger = loggerOf(LoggingCallback::class),
     private val includeHeaders: Boolean = false,
     private val includeBody: Boolean = true,
 ) : (HttpContext) -> HttpContext {

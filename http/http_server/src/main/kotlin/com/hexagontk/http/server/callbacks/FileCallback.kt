@@ -1,11 +1,13 @@
 package com.hexagontk.http.server.callbacks
 
-import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.debug
+import com.hexagontk.core.loggerOf
 import com.hexagontk.core.media.mediaTypeOfOrNull
 import com.hexagontk.core.require
 import com.hexagontk.http.model.ContentType
 import com.hexagontk.http.handlers.HttpContext
 import java.io.File
+import java.lang.System.Logger
 
 /**
  * Callback that resolves requests' path parameters to files based on a base file. Requests path
@@ -22,7 +24,7 @@ class FileCallback(private val file: File) : (HttpContext) -> HttpContext {
     constructor(file: String) : this(File(file))
 
     private companion object {
-        val logger: Logger = Logger(FileCallback::class)
+        val logger: Logger = loggerOf(FileCallback::class)
     }
 
     override fun invoke(context: HttpContext): HttpContext {

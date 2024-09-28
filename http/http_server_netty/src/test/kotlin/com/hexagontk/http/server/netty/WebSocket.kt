@@ -1,6 +1,7 @@
 package com.hexagontk.http.server.netty
 
-import com.hexagontk.core.logging.logger
+import com.hexagontk.core.debug
+import com.hexagontk.core.logger
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.model.ServerEvent
 import com.hexagontk.http.server.HttpServer

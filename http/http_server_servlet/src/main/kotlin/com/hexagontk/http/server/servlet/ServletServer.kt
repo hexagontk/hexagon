@@ -6,14 +6,16 @@ import com.hexagontk.core.text.AnsiColor.CYAN
 import com.hexagontk.core.text.AnsiColor.MAGENTA
 import com.hexagontk.core.text.Ansi.RESET
 import com.hexagontk.core.Jvm
+import com.hexagontk.core.info
+import com.hexagontk.core.loggerOf
 import com.hexagontk.core.text.prependIndent
 import com.hexagontk.core.require
-import com.hexagontk.core.logging.Logger
 import com.hexagontk.http.server.HttpServer
 import com.hexagontk.http.server.HttpServerSettings
 import com.hexagontk.http.handlers.HttpHandler
 import com.hexagontk.http.handlers.OnHandler
 import jakarta.servlet.*
+import java.lang.System.Logger
 import java.lang.management.ManagementFactory
 import java.util.*
 
@@ -27,7 +29,7 @@ abstract class ServletServer(
 ) : ServletContextListener {
 
     private companion object {
-        val logger: Logger = Logger(ServletServer::class)
+        val logger: Logger = loggerOf(ServletServer::class)
     }
 
     override fun contextInitialized(sce: ServletContextEvent) {

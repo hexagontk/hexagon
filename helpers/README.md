@@ -1,5 +1,5 @@
 
-# Module core
+# Module helpers
 This module holds utilities used in other libraries of the toolkit. Check the packages'
 documentation for more details. You can find a quick recap of the main features in the sections
 below.
@@ -16,7 +16,7 @@ application), you can import it with the following code:
         mavenCentral()
     }
 
-    implementation("com.hexagontk:core:$hexagonVersion")
+    implementation("com.hexagontk:helpers:$hexagonVersion")
     ```
 
 === "pom.xml"
@@ -24,26 +24,16 @@ application), you can import it with the following code:
     ```xml
     <dependency>
       <groupId>com.hexagontk</groupId>
-      <artifactId>core</artifactId>
+      <artifactId>helpers</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```
 
-# Package com.hexagontk.core
+# Package com.hexagontk.helpers
 JVM information and other useful utilities. Includes basic program settings support at the [Jvm]
 object (like loading and retrieving system settings).
 
-Provides a logging management capabilities abstracting the application from logging libraries.
-
-The following code block shows the most common use cases for the [Logger] class:
-
-@code core/src/test/kotlin/com/hexagontk/core/LoggersTest.kt?logger
-
-By default, Hexagon uses the [System.Logger] class.
-
 [Jvm]: api/core/com.hexagontk.core/-jvm
-[Logger]: api/core/com.hexagontk.core.logging/-logger
-[System.Logger]: https://docs.oracle.com/javase/9/docs/api/java/lang/System.Logger.html
 
 # Package com.hexagontk.core.media
 Media types definitions and constants for default media types.

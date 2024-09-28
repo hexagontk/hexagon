@@ -1,7 +1,9 @@
 package com.hexagontk.web.examples
 
 import com.hexagontk.core.*
-import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.debug
+import com.hexagontk.core.error
+import com.hexagontk.core.loggerOf
 import com.hexagontk.core.media.APPLICATION_JSON
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientSettings
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.lang.System.Logger
 import kotlin.test.assertEquals
 
 /**
@@ -26,7 +29,7 @@ import kotlin.test.assertEquals
 abstract class TodoTest(adapter: HttpServerPort) {
 
     // sample
-    private val log: Logger = Logger(TodoTest::class)
+    private val log: Logger = loggerOf(TodoTest::class)
 
     data class Task(
         val number: Int = 0,

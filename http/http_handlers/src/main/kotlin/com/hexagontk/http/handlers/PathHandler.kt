@@ -1,6 +1,7 @@
 package com.hexagontk.http.handlers
 
-import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.error
+import com.hexagontk.core.loggerOf
 import com.hexagontk.core.media.TEXT_PLAIN
 import com.hexagontk.core.toText
 import com.hexagontk.handlers.ChainHandler
@@ -8,6 +9,7 @@ import com.hexagontk.handlers.Handler
 import com.hexagontk.http.model.*
 import com.hexagontk.http.model.HttpMethod.Companion.ALL
 import com.hexagontk.http.model.HttpStatusType.SERVER_ERROR
+import java.lang.System.Logger
 
 data class PathHandler(
     override val handlerPredicate: HttpPredicate,
@@ -21,7 +23,7 @@ data class PathHandler(
 {
 
     private companion object {
-        val logger: Logger = Logger(PathHandler::class)
+        val logger: Logger = loggerOf(PathHandler::class)
         fun nestedMethods(handlers: List<HttpHandler>): Set<HttpMethod> =
             handlers
                 .flatMap { it.handlerPredicate.methods.ifEmpty { ALL } }

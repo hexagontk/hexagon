@@ -1,6 +1,5 @@
 package com.hexagontk.core
 
-import com.hexagontk.core.text.SNAKE_CASE
 import com.hexagontk.core.text.parseOrNull
 import java.io.Console
 import java.net.InetAddress
@@ -12,9 +11,11 @@ import kotlin.reflect.KClass
 
 /**
  * Object with utilities to gather information about the running JVM.
+ *
+ * TODO Rename to Platform
  */
 object Jvm {
-    private val systemSettingPattern: Regex by lazy { SNAKE_CASE }
+    private val systemSettingPattern: Regex by lazy { Regex("[_A-Za-z]+[_A-Za-z0-9]*") }
 
     /** Operating system name ('os.name' property). If `null` throws an exception. */
     val os: String by lazy { os() }

@@ -1,5 +1,9 @@
-package com.hexagontk.core
+package com.hexagontk.helpers
 
+import com.hexagontk.core.CodedException
+import com.hexagontk.core.MultipleException
+import com.hexagontk.core.ResourceNotFoundException
+import com.hexagontk.core.urlOf
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS.WINDOWS
 import org.junit.jupiter.api.Test

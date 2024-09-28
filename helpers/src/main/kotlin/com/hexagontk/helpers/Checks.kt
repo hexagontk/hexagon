@@ -1,5 +1,6 @@
-package com.hexagontk.core
+package com.hexagontk.helpers
 
+import com.hexagontk.core.MultipleException
 import kotlin.reflect.KProperty1
 
 fun <T : Any> T.requireNotBlank(field: KProperty1<T, CharSequence?>) {

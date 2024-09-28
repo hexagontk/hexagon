@@ -1,6 +1,6 @@
-package com.hexagontk.core.text
+package com.hexagontk.helpers.text
 
-import com.hexagontk.core.text.CasesTest.Size.X_L
+import com.hexagontk.helpers.text.CasesTest.Size.X_L
 import org.junit.jupiter.api.Test
 import kotlin.test.*
 

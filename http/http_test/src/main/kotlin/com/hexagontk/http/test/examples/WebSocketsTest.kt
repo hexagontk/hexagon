@@ -1,6 +1,7 @@
 package com.hexagontk.http.test.examples
 
-import com.hexagontk.core.logging.logger
+import com.hexagontk.core.info
+import com.hexagontk.core.logger
 import com.hexagontk.core.require
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.SslSettings

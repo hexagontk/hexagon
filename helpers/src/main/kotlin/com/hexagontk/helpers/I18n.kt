@@ -1,4 +1,4 @@
-package com.hexagontk.core
+package com.hexagontk.helpers
 
 import java.util.*
 import kotlin.reflect.KClass

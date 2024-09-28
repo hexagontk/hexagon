@@ -1,5 +1,6 @@
-package com.hexagontk.core
+package com.hexagontk.helpers
 
+import com.hexagontk.core.MultipleException
 import org.junit.jupiter.api.Test
 import kotlin.IllegalArgumentException
 import java.time.LocalDate

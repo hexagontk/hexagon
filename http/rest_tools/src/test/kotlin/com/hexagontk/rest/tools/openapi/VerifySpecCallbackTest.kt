@@ -1,6 +1,6 @@
 package com.hexagontk.rest.tools.openapi
 
-import com.hexagontk.core.logging.info
+import com.hexagontk.core.info
 import com.hexagontk.core.media.APPLICATION_JSON
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.handlers.HttpContext

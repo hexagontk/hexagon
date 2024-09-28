@@ -1,6 +1,5 @@
 package com.hexagontk.http.server
 
-import com.hexagontk.core.logging.Logger
 import com.hexagontk.core.Jvm.charset
 import com.hexagontk.core.Jvm.cpuCount
 import com.hexagontk.core.Jvm.hostName
@@ -20,6 +19,8 @@ import com.hexagontk.core.text.AnsiEffect.UNDERLINE
 import com.hexagontk.core.Jvm.timeZone
 import com.hexagontk.core.Jvm.totalMemory
 import com.hexagontk.core.Jvm.usedMemory
+import com.hexagontk.core.info
+import com.hexagontk.core.loggerOf
 import com.hexagontk.core.text.prependIndent
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.server.HttpServerFeature.ZIP
@@ -27,6 +28,7 @@ import com.hexagontk.http.handlers.HttpHandler
 import com.hexagontk.http.handlers.HandlerBuilder
 import com.hexagontk.http.handlers.path
 import java.io.Closeable
+import java.lang.System.Logger
 import java.lang.System.nanoTime
 import java.net.URL
 
@@ -40,7 +42,7 @@ data class HttpServer(
 ) : Closeable {
 
     companion object {
-        private val logger: Logger = Logger(this::class)
+        private val logger: Logger = loggerOf(this::class)
 
         val banner: String = """
         $CYAN          _________

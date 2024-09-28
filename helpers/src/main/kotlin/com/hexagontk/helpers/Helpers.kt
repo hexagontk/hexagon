@@ -1,5 +1,7 @@
-package com.hexagontk.core
+package com.hexagontk.helpers
 
+import com.hexagontk.core.CodedException
+import com.hexagontk.core.MultipleException
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader

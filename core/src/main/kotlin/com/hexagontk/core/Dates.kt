@@ -3,49 +3,10 @@ package com.hexagontk.core
 import java.time.*
 import java.util.Date
 
-private const val DATE_OFFSET: Long = 1_000_000_000L
-private const val YEAR_OFFSET: Int = 10_000
-private const val MONTH_OFFSET: Int = 100
-private const val HOUR_OFFSET: Int = 10_000_000
-private const val MINUTE_OFFSET: Int = 100_000
-private const val SECOND_OFFSET: Int = 1_000
-private const val NANO_OFFSET: Int = 1_000_000
 private const val DAYS_PER_MONTH: Double = 30.4375
 
 /** GMT zone ID. */
 val GMT_ZONE: ZoneId by lazy { ZoneId.of("GMT") }
-
-/**
- * Convert a date time to a number with the following format: `YYYYMMDDHHmmss`.
- *
- * @receiver Date to be converted to a number.
- * @return Numeric representation of the given date.
- */
-fun LocalDateTime.toNumber(): Long =
-    (this.toLocalDate().toNumber() * DATE_OFFSET) + this.toLocalTime().toNumber()
-
-/**
- * Convert a date to an integer with the following format: `YYYYMMDD`.
- *
- * @receiver Date to be converted to a number.
- * @return Numeric representation of the given date.
- */
-fun LocalDate.toNumber(): Int =
-    (this.year * YEAR_OFFSET) +
-    (this.monthValue * MONTH_OFFSET) +
-    this.dayOfMonth
-
-/**
- * Convert a time to an integer with the following format: `HHmmssSSS`.
- *
- * @receiver Time to be converted to a number.
- * @return Numeric representation of the given time.
- */
-fun LocalTime.toNumber(): Int =
-    (this.hour * HOUR_OFFSET) +
-    (this.minute * MINUTE_OFFSET) +
-    (this.second * SECOND_OFFSET) +
-    (this.nano / NANO_OFFSET) // Nanos to millis
 
 /**
  * Return the date time in a given time zone for a local date time.
@@ -56,51 +17,6 @@ fun LocalTime.toNumber(): Int =
  */
 fun LocalDateTime.withZone(zoneId: ZoneId = Jvm.timeZone.toZoneId()): ZonedDateTime =
     ZonedDateTime.of(this, zoneId)
-
-/**
- * Parse a date time from a formatted number with this format: `YYYYMMDDHHmmss`.
- *
- * @receiver Number to be converted to a date time.
- * @return Local date time representation of the given number.
- */
-fun Long.toLocalDateTime(): LocalDateTime {
-    require(this >= 0) { "Number representing timestamp must be positive (format: YYYYMMDDHHmmss)" }
-    return (this / DATE_OFFSET)
-        .toInt()
-        .toLocalDate()
-        .atTime((this % DATE_OFFSET).toInt().toLocalTime())
-}
-
-/**
- * Parse a date from a formatted integer with this format: `YYYYMMDD`.
- *
- * @receiver Number to be converted to a date.
- * @return Local date representation of the given number.
- */
-fun Int.toLocalDate(): LocalDate {
-    require(this >= 0) { "Number representing date must be positive (format: YYYYMMDD)" }
-    return LocalDate.of(
-        this / YEAR_OFFSET,
-        (this % YEAR_OFFSET) / MONTH_OFFSET,
-        this % MONTH_OFFSET
-    )
-}
-
-/**
- * Parse a time from a formatted integer with this format: `HHmmssSSS`.
- *
- * @receiver Number to be converted to a time.
- * @return Local time representation of the given number.
- */
-fun Int.toLocalTime(): LocalTime {
-    require(this >= 0) { "Number representing time must be positive (format: HHmmssSSS)" }
-    return LocalTime.of(
-        (this / HOUR_OFFSET),
-        ((this % HOUR_OFFSET) / MINUTE_OFFSET),
-        ((this % MINUTE_OFFSET) / SECOND_OFFSET),
-        ((this % SECOND_OFFSET) * NANO_OFFSET) // Millis to nanos
-    )
-}
 
 /**
  * Convert a zoned date time to a date.

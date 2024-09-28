@@ -1,10 +1,9 @@
-package com.hexagontk.core.logging
+package com.hexagontk.core
 
 import com.hexagontk.core.text.Ansi.RESET
 import com.hexagontk.core.text.AnsiColor.BRIGHT_WHITE
 import com.hexagontk.core.text.AnsiColor.RED_BG
 import com.hexagontk.core.text.AnsiEffect.UNDERLINE
-import com.hexagontk.core.urlOf
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.BeforeAll
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.condition.DisabledInNativeImage
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.lang.System.Logger
 import java.lang.System.Logger.Level.ERROR
 import java.lang.System.Logger.Level.TRACE
 import java.util.logging.LogManager
@@ -20,18 +20,18 @@ import kotlin.reflect.KClass
 import kotlin.test.*
 
 @TestInstance(PER_CLASS)
-internal class LoggerTest {
+internal class LoggersTest {
 
     @BeforeAll fun setUp() {
         val configuration = urlOf("classpath:sample.properties")
         LogManager.getLogManager().readConfiguration(configuration.openStream())
     }
 
-    @Suppress("RedundantExplicitType", "UNUSED_VARIABLE") // Ignored for examples generation
+    @Suppress("UNUSED_VARIABLE") // Ignored for examples generation
     @Test fun loggerUsage() {
         // logger
-        val classLogger: Logger = Logger(Runtime::class) // Logger for the `Runtime` class
-        val instanceLogger: Logger = Logger(this::class) // Logger for this instance's class
+        val classLogger: Logger = loggerOf(Runtime::class) // Logger for the `Runtime` class
+        val instanceLogger: Logger = loggerOf(this::class) // Logger for this instance's class
 
         logger.info {
             """
@@ -61,7 +61,7 @@ internal class LoggerTest {
      */
     @Test fun `Messages are logged without errors using JUL`() {
 
-        val logger = Logger(this::class)
+        val logger = loggerOf(this::class)
 
         logger.trace { 42 }
         logger.debug { true }
@@ -79,20 +79,19 @@ internal class LoggerTest {
     }
 
     @Test fun `A logger for a custom name has the proper name`() {
-        assert(Logger("name").name == "name")
-        assert(Logger("name"::class).name == "kotlin.String")
+        assert(loggerOf("name").name == "name")
+        assert(loggerOf("name"::class).name == "kotlin.String")
     }
 
     @Test fun `A logger can be queried for its enabled state on a given level`() {
-        assert(Logger("name").isLoggable(ERROR))
-        assertFalse(Logger("name").isLoggable(TRACE))
+        assert(loggerOf("name").isLoggable(ERROR))
+        assertFalse(loggerOf("name").isLoggable(TRACE))
     }
 
     @Test fun `ANSI testing`() {
-        val l = Logger("name")
         val message = "$RED_BG$BRIGHT_WHITE${UNDERLINE}ANSI$RESET normal"
-        val noAnsiMessage = l.stripAnsi(message, true)
-        val ansiMessage = l.stripAnsi(message, false)
+        val noAnsiMessage = stripAnsi(message, true)
+        val ansiMessage = stripAnsi(message, false)
         assertEquals(message, ansiMessage)
         assertNotEquals(message, noAnsiMessage)
         assertContentEquals(noAnsiMessage?.toByteArray(), "ANSI normal".toByteArray())
@@ -103,7 +102,26 @@ internal class LoggerTest {
     fun `Invalid class name raises error`() {
         val kc = mockk<KClass<*>>()
         every { kc.qualifiedName } returns null
-        val e = assertFailsWith<IllegalStateException> { Logger(kc) }
+        val e = assertFailsWith<IllegalStateException> { loggerOf(kc) }
         assertEquals("Cannot get qualified name of type", e.message)
+    }
+
+    @Test fun `Log helpers`() {
+        assertEquals(defaultLoggerName, logger.name)
+
+        assertEquals("foo", "foo".trace(">>> "))
+        assertEquals("foo", "foo".trace())
+        assertEquals(null, null.trace())
+        assertEquals("text", "text".trace())
+
+        assertEquals("foo", "foo".debug(">>> "))
+        assertEquals("foo", "foo".debug())
+        assertEquals(null, null.debug())
+        assertEquals("text", "text".debug())
+
+        assertEquals("foo", "foo".info(">>> "))
+        assertEquals("foo", "foo".info())
+        assertEquals(null, null.info())
+        assertEquals("text", "text".info())
     }
 }

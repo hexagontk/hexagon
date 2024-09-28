@@ -1,4 +1,4 @@
-package com.hexagontk.core
+package com.hexagontk.helpers
 
 import com.hexagontk.core.text.decodeBase64
 import com.hexagontk.core.text.encodeToBase64
