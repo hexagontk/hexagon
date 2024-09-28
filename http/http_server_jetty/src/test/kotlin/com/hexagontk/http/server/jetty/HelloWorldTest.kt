@@ -18,6 +18,7 @@ import com.hexagontk.core.urlOf
 import com.hexagontk.core.media.TEXT_PLAIN
 import com.hexagontk.http.model.ContentType
 import com.hexagontk.http.server.HttpServer
+import com.hexagontk.http.server.jetty.serve
 
 lateinit var server: HttpServer
 
