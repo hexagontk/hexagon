@@ -1,6 +1,8 @@
 package com.hexagontk.http.server.netty.epoll
 
+import com.hexagontk.http.client.HttpClientPort
 import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.server.HttpServerPort
 import com.hexagontk.http.test.examples.*
 import com.hexagontk.serialization.jackson.JacksonTextFormat
 import com.hexagontk.serialization.jackson.json.Json
@@ -11,8 +13,8 @@ import org.junit.jupiter.api.condition.OS
 // TODO Assert context methods (request.method, request.protocol...)
 // TODO Check response headers don't contain invalid chars (\n, \t...)
 
-val clientAdapter: () -> JettyClientAdapter = ::JettyClientAdapter
-val serverAdapter: () -> NettyEpollServerAdapter = ::NettyEpollServerAdapter
+val clientAdapter: () -> HttpClientPort = ::JettyClientAdapter
+val serverAdapter: () -> HttpServerPort = ::NettyEpollHttpServer
 val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 
 @EnabledOnOs(OS.LINUX)

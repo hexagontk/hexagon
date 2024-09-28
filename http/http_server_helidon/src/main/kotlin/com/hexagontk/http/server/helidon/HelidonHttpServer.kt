@@ -37,7 +37,7 @@ import javax.net.ssl.TrustManagerFactory
  *
  * TODO Add settings for HTTP2 and separate them on constructor parameters
  */
-class HelidonServerAdapter(
+class HelidonHttpServer(
     private val backlog: Int = 1_024,
     private val writeQueueLength: Int = 0,
     private val readTimeout: Duration = Duration.ofSeconds(30),
@@ -138,16 +138,16 @@ class HelidonServerAdapter(
 
     override fun options(): Map<String, *> =
         fieldsMapOf(
-            HelidonServerAdapter::backlog to backlog,
-            HelidonServerAdapter::writeQueueLength to writeQueueLength,
-            HelidonServerAdapter::readTimeout to readTimeout,
-            HelidonServerAdapter::connectTimeout to connectTimeout,
-            HelidonServerAdapter::tcpNoDelay to tcpNoDelay,
-            HelidonServerAdapter::receiveLog to receiveLog,
-            HelidonServerAdapter::sendLog to sendLog,
-            HelidonServerAdapter::validatePath to validatePath,
-            HelidonServerAdapter::validateRequestHeaders to validateRequestHeaders,
-            HelidonServerAdapter::validateResponseHeaders to validateResponseHeaders,
+            HelidonHttpServer::backlog to backlog,
+            HelidonHttpServer::writeQueueLength to writeQueueLength,
+            HelidonHttpServer::readTimeout to readTimeout,
+            HelidonHttpServer::connectTimeout to connectTimeout,
+            HelidonHttpServer::tcpNoDelay to tcpNoDelay,
+            HelidonHttpServer::receiveLog to receiveLog,
+            HelidonHttpServer::sendLog to sendLog,
+            HelidonHttpServer::validatePath to validatePath,
+            HelidonHttpServer::validateRequestHeaders to validateRequestHeaders,
+            HelidonHttpServer::validateResponseHeaders to validateResponseHeaders,
         )
 
     private fun setResponse(

@@ -15,22 +15,22 @@ import org.junit.jupiter.api.condition.JRE.JAVA_19
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-internal class JettyServletAdapterTest {
+internal class JettyServletHttpServerTest {
 
     @Test
     @EnabledForJreRange(min = JAVA_19)
     fun `Virtual threads can be enabled`() {
-        JettyServletAdapter(useVirtualThreads = true)
+        JettyServletHttpServer(useVirtualThreads = true)
     }
 
     @Test
     @EnabledForJreRange(max = JAVA_17)
     fun `Virtual threads are disabled`() {
-        assertFailsWith<IllegalStateException> { JettyServletAdapter(useVirtualThreads = true) }
+        assertFailsWith<IllegalStateException> { JettyServletHttpServer(useVirtualThreads = true) }
     }
 
     @Test fun `Stop method works if called before running`() {
-        val adapter = JettyServletAdapter()
+        val adapter = JettyServletHttpServer()
         assert(!adapter.started())
         adapter.shutDown()
         assert(!adapter.started())
@@ -38,7 +38,7 @@ internal class JettyServletAdapterTest {
 
     @Test fun `Getting the runtime port on stopped instance raises an exception`() {
         assertFailsWith<IllegalStateException> {
-            JettyServletAdapter().runtimePort()
+            JettyServletHttpServer().runtimePort()
         }
     }
 

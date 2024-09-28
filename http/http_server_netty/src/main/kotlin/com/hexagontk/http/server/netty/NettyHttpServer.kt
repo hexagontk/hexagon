@@ -31,7 +31,7 @@ import javax.net.ssl.TrustManagerFactory
 /**
  * Implements [HttpServerPort] using Netty [Channel].
  */
-open class NettyServerAdapter(
+open class NettyHttpServer(
     private val bossGroupThreads: Int = 1,
     private val workerGroupThreads: Int = 0,
     private val executorThreads: Int = Jvm.cpuCount * 2,
@@ -200,16 +200,16 @@ open class NettyServerAdapter(
 
     override fun options(): Map<String, *> =
         fieldsMapOf(
-            NettyServerAdapter::bossGroupThreads to bossGroupThreads,
-            NettyServerAdapter::workerGroupThreads to workerGroupThreads,
-            NettyServerAdapter::executorThreads to executorThreads,
-            NettyServerAdapter::soBacklog to soBacklog,
-            NettyServerAdapter::soKeepAlive to soKeepAlive,
-            NettyServerAdapter::shutdownQuietSeconds to shutdownQuietSeconds,
-            NettyServerAdapter::shutdownTimeoutSeconds to shutdownTimeoutSeconds,
-            NettyServerAdapter::keepAliveHandler to keepAliveHandler,
-            NettyServerAdapter::httpAggregatorHandler to httpAggregatorHandler,
-            NettyServerAdapter::chunkedHandler to chunkedHandler,
-            NettyServerAdapter::enableWebsockets to enableWebsockets,
+            NettyHttpServer::bossGroupThreads to bossGroupThreads,
+            NettyHttpServer::workerGroupThreads to workerGroupThreads,
+            NettyHttpServer::executorThreads to executorThreads,
+            NettyHttpServer::soBacklog to soBacklog,
+            NettyHttpServer::soKeepAlive to soKeepAlive,
+            NettyHttpServer::shutdownQuietSeconds to shutdownQuietSeconds,
+            NettyHttpServer::shutdownTimeoutSeconds to shutdownTimeoutSeconds,
+            NettyHttpServer::keepAliveHandler to keepAliveHandler,
+            NettyHttpServer::httpAggregatorHandler to httpAggregatorHandler,
+            NettyHttpServer::chunkedHandler to chunkedHandler,
+            NettyHttpServer::enableWebsockets to enableWebsockets,
         )
 }

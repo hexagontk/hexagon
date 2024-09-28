@@ -9,7 +9,7 @@ import com.hexagontk.http.server.HttpServer
 import com.hexagontk.http.server.HttpServerSettings
 import com.hexagontk.http.handlers.PathHandler
 import com.hexagontk.http.handlers.path
-import com.hexagontk.http.server.jetty.JettyServletAdapter
+import com.hexagontk.http.server.jetty.JettyServletHttpServer
 import com.hexagontk.templates.TemplateManager
 import com.hexagontk.templates.pebble.PebbleAdapter
 import org.junit.jupiter.api.AfterAll
@@ -44,7 +44,7 @@ internal class WebTest {
     }
 
     private val server: HttpServer by lazy {
-        HttpServer(JettyServletAdapter(), router, HttpServerSettings(bindPort = 0))
+        HttpServer(JettyServletHttpServer(), router, HttpServerSettings(bindPort = 0))
     }
 
     private val client by lazy {

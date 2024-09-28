@@ -2,7 +2,7 @@ package com.hexagontk.http.server.netty.epoll
 
 import com.hexagontk.core.Jvm
 import com.hexagontk.http.server.HttpServerPort
-import com.hexagontk.http.server.netty.NettyServerAdapter
+import com.hexagontk.http.server.netty.NettyHttpServer
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.Channel
 import io.netty.channel.ChannelOption
@@ -14,7 +14,7 @@ import io.netty.channel.epoll.EpollServerSocketChannel
 /**
  * Implements [HttpServerPort] using Netty Epoll [Channel].
  */
-class NettyEpollServerAdapter(
+class NettyEpollHttpServer(
     bossGroupThreads: Int = 1,
     workerGroupThreads: Int = 0,
     executorThreads: Int = Jvm.cpuCount * 2,
@@ -27,7 +27,7 @@ class NettyEpollServerAdapter(
     httpAggregatorHandler: Boolean = true,
     chunkedHandler: Boolean = true,
     enableWebsockets: Boolean = true,
-) : NettyServerAdapter(
+) : NettyHttpServer(
     bossGroupThreads,
     workerGroupThreads,
     executorThreads,

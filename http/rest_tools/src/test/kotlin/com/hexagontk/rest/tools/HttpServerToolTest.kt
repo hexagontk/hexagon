@@ -12,7 +12,7 @@ import com.hexagontk.http.model.HttpMethod.*
 import com.hexagontk.http.model.HttpResponsePort
 import com.hexagontk.http.model.HttpStatusType.SUCCESS
 import com.hexagontk.http.server.HttpServerSettings
-import com.hexagontk.http.server.jetty.JettyServletAdapter
+import com.hexagontk.http.server.jetty.JettyServletHttpServer
 import com.hexagontk.rest.bodyMap
 import com.hexagontk.rest.jsonContentType
 import com.hexagontk.rest.textContentType
@@ -28,7 +28,7 @@ import kotlin.test.assertTrue
 
 @TestInstance(PER_CLASS)
 class HttpServerToolTest {
-    private val dynamicServer: HttpServerTool = HttpServerTool(JettyServletAdapter())
+    private val dynamicServer: HttpServerTool = HttpServerTool(JettyServletHttpServer())
 
     @BeforeAll fun `Set up mock services`() {
         SerializationManager.formats = setOf(Json)
@@ -190,7 +190,7 @@ class HttpServerToolTest {
         SerializationManager.formats = linkedSetOf(Json)
 
         val settings = HttpServerSettings(bindPort = 0)
-        val serverAdapter = JettyServletAdapter()
+        val serverAdapter = JettyServletHttpServer()
         val server = HttpServerTool(serverAdapter, settings).apply(HttpServerTool::start)
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val binding = server.binding.toString()

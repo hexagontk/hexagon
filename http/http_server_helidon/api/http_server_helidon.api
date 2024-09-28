@@ -1,3 +1,17 @@
+public final class com/hexagontk/http/server/helidon/HelidonHttpServer : com/hexagontk/http/server/HttpServerPort {
+	public static final field START_ERROR_MESSAGE Ljava/lang/String;
+	public fun <init> ()V
+	public fun <init> (IILjava/time/Duration;Ljava/time/Duration;ZZZZZZ)V
+	public synthetic fun <init> (IILjava/time/Duration;Ljava/time/Duration;ZZZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun options ()Ljava/util/Map;
+	public fun runtimePort ()I
+	public fun shutDown ()V
+	public fun startUp (Lcom/hexagontk/http/server/HttpServer;)V
+	public fun started ()Z
+	public fun supportedFeatures ()Ljava/util/Set;
+	public fun supportedProtocols ()Ljava/util/Set;
+}
+
 public final class com/hexagontk/http/server/helidon/HelidonKt {
 	public static final fun serve (Lcom/hexagontk/http/server/HttpServerSettings;Lcom/hexagontk/http/handlers/HttpHandler;)Lcom/hexagontk/http/server/HttpServer;
 	public static final fun serve (Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;)Lcom/hexagontk/http/server/HttpServer;
@@ -42,19 +56,5 @@ public final class com/hexagontk/http/server/helidon/HelidonRequestAdapter : com
 	public fun url ()Ljava/net/URL;
 	public fun userAgent ()Ljava/lang/String;
 	public fun with (Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Lcom/hexagontk/http/model/HttpMethod;Lcom/hexagontk/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagontk/http/model/QueryParameters;Ljava/util/List;Lcom/hexagontk/http/model/FormParameters;Ljava/util/List;Ljava/util/List;Lcom/hexagontk/http/model/Authorization;Ljava/util/List;)Lcom/hexagontk/http/model/HttpRequestPort;
-}
-
-public final class com/hexagontk/http/server/helidon/HelidonServerAdapter : com/hexagontk/http/server/HttpServerPort {
-	public static final field START_ERROR_MESSAGE Ljava/lang/String;
-	public fun <init> ()V
-	public fun <init> (IILjava/time/Duration;Ljava/time/Duration;ZZZZZZ)V
-	public synthetic fun <init> (IILjava/time/Duration;Ljava/time/Duration;ZZZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun options ()Ljava/util/Map;
-	public fun runtimePort ()I
-	public fun shutDown ()V
-	public fun startUp (Lcom/hexagontk/http/server/HttpServer;)V
-	public fun started ()Z
-	public fun supportedFeatures ()Ljava/util/Set;
-	public fun supportedProtocols ()Ljava/util/Set;
 }
 

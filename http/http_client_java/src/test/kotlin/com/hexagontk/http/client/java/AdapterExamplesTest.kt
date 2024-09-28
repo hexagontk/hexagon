@@ -1,13 +1,15 @@
 package com.hexagontk.http.client.java
 
-import com.hexagontk.http.server.jetty.JettyServletAdapter
+import com.hexagontk.http.client.HttpClientPort
+import com.hexagontk.http.server.HttpServerPort
+import com.hexagontk.http.server.jetty.JettyServletHttpServer
 import com.hexagontk.http.test.examples.*
 import com.hexagontk.serialization.jackson.JacksonTextFormat
 import com.hexagontk.serialization.jackson.json.Json
 import com.hexagontk.serialization.jackson.yaml.Yaml
 
-val clientAdapter: () -> JavaClientAdapter = ::JavaClientAdapter
-val serverAdapter: () -> JettyServletAdapter = ::JettyServletAdapter
+val clientAdapter: () -> HttpClientPort = ::JavaClientAdapter
+val serverAdapter: () -> HttpServerPort = ::JettyServletHttpServer
 val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 
 // TODO Add multipart and file upload tests

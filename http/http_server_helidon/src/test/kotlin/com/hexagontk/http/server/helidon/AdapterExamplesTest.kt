@@ -1,13 +1,15 @@
 package com.hexagontk.http.server.helidon
 
+import com.hexagontk.http.client.HttpClientPort
 import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.server.HttpServerPort
 import com.hexagontk.http.test.examples.*
 import com.hexagontk.serialization.jackson.JacksonTextFormat
 import com.hexagontk.serialization.jackson.json.Json
 import com.hexagontk.serialization.jackson.yaml.Yaml
 
-val clientAdapter: () -> JettyClientAdapter = ::JettyClientAdapter
-val serverAdapter: () -> HelidonServerAdapter = ::HelidonServerAdapter
+val clientAdapter: () -> HttpClientPort = ::JettyClientAdapter
+val serverAdapter: () -> HttpServerPort = ::HelidonHttpServer
 val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 
 // TODO Add multipart, SSE and WebSockets test

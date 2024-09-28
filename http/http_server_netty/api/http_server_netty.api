@@ -1,3 +1,18 @@
+public class com/hexagontk/http/server/netty/NettyHttpServer : com/hexagontk/http/server/HttpServerPort {
+	public fun <init> ()V
+	public fun <init> (IIIIZZJJZZZZ)V
+	public synthetic fun <init> (IIIIZZJJZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun groupSupplier (I)Lio/netty/channel/MultithreadEventLoopGroup;
+	public fun options ()Ljava/util/Map;
+	public fun runtimePort ()I
+	public fun serverBootstrapSupplier (Lio/netty/channel/MultithreadEventLoopGroup;Lio/netty/channel/MultithreadEventLoopGroup;)Lio/netty/bootstrap/ServerBootstrap;
+	public fun shutDown ()V
+	public fun startUp (Lcom/hexagontk/http/server/HttpServer;)V
+	public fun started ()Z
+	public fun supportedFeatures ()Ljava/util/Set;
+	public fun supportedProtocols ()Ljava/util/Set;
+}
+
 public final class com/hexagontk/http/server/netty/NettyKt {
 	public static final fun serve (Lcom/hexagontk/http/server/HttpServerSettings;Lcom/hexagontk/http/handlers/HttpHandler;)Lcom/hexagontk/http/server/HttpServer;
 	public static final fun serve (Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;)Lcom/hexagontk/http/server/HttpServer;
@@ -42,20 +57,5 @@ public final class com/hexagontk/http/server/netty/NettyRequestAdapter : com/hex
 	public fun url ()Ljava/net/URL;
 	public fun userAgent ()Ljava/lang/String;
 	public fun with (Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Lcom/hexagontk/http/model/HttpMethod;Lcom/hexagontk/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagontk/http/model/QueryParameters;Ljava/util/List;Lcom/hexagontk/http/model/FormParameters;Ljava/util/List;Ljava/util/List;Lcom/hexagontk/http/model/Authorization;Ljava/util/List;)Lcom/hexagontk/http/model/HttpRequestPort;
-}
-
-public class com/hexagontk/http/server/netty/NettyServerAdapter : com/hexagontk/http/server/HttpServerPort {
-	public fun <init> ()V
-	public fun <init> (IIIIZZJJZZZZ)V
-	public synthetic fun <init> (IIIIZZJJZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun groupSupplier (I)Lio/netty/channel/MultithreadEventLoopGroup;
-	public fun options ()Ljava/util/Map;
-	public fun runtimePort ()I
-	public fun serverBootstrapSupplier (Lio/netty/channel/MultithreadEventLoopGroup;Lio/netty/channel/MultithreadEventLoopGroup;)Lio/netty/bootstrap/ServerBootstrap;
-	public fun shutDown ()V
-	public fun startUp (Lcom/hexagontk/http/server/HttpServer;)V
-	public fun started ()Z
-	public fun supportedFeatures ()Ljava/util/Set;
-	public fun supportedProtocols ()Ljava/util/Set;
 }
 

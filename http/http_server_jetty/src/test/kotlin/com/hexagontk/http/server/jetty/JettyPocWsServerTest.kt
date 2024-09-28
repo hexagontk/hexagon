@@ -112,7 +112,7 @@ internal class JettyPocWsServerTest {
 
     @Test fun `Simple server example`() {
         HttpServer(
-            JettyServletAdapter(),
+            JettyServletHttpServer(),
             PathHandler(
                 AfterHandler { ok() },
                 AfterHandler(GET) { ok() }

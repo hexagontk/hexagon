@@ -33,7 +33,7 @@ import org.eclipse.jetty.server.Server as JettyServer
 /**
  * Implements [HttpServerPort] using [JettyServer].
  */
-class JettyServletAdapter(
+class JettyServletHttpServer(
     private val maxThreads: Int = 200,
     private val minThreads: Int = 8,
 
@@ -139,14 +139,14 @@ class JettyServletAdapter(
 
     override fun options(): Map<String, *> =
         fieldsMapOf(
-            JettyServletAdapter::maxThreads to maxThreads,
-            JettyServletAdapter::minThreads to minThreads,
-            JettyServletAdapter::acceptors to acceptors,
-            JettyServletAdapter::selectors to selectors,
-            JettyServletAdapter::sendDateHeader to sendDateHeader,
-            JettyServletAdapter::sendServerVersion to sendServerVersion,
-            JettyServletAdapter::sendXPoweredBy to sendXPoweredBy,
-            JettyServletAdapter::useVirtualThreads to useVirtualThreads,
+            JettyServletHttpServer::maxThreads to maxThreads,
+            JettyServletHttpServer::minThreads to minThreads,
+            JettyServletHttpServer::acceptors to acceptors,
+            JettyServletHttpServer::selectors to selectors,
+            JettyServletHttpServer::sendDateHeader to sendDateHeader,
+            JettyServletHttpServer::sendServerVersion to sendServerVersion,
+            JettyServletHttpServer::sendXPoweredBy to sendXPoweredBy,
+            JettyServletHttpServer::useVirtualThreads to useVirtualThreads,
         )
 
     private fun createServerContext(settings: HttpServerSettings): ServletContextHandler {

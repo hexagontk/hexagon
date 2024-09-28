@@ -6,7 +6,7 @@ import com.hexagontk.http.model.HttpMethod.POST
 import com.hexagontk.http.model.HttpMethod.PUT
 import com.hexagontk.http.model.HttpResponsePort
 import com.hexagontk.http.model.OK_200
-import com.hexagontk.http.server.jetty.JettyServletAdapter
+import com.hexagontk.http.server.jetty.JettyServletHttpServer
 import com.hexagontk.rest.textContentType
 import com.hexagontk.serialization.SerializationManager
 import com.hexagontk.serialization.jackson.json.Json
@@ -20,7 +20,7 @@ import kotlin.test.assertTrue
 
 @TestInstance(PER_CLASS)
 internal class HttpClientToolTest {
-    private val server: HttpServerTool = HttpServerTool(JettyServletAdapter())
+    private val server: HttpServerTool = HttpServerTool(JettyServletHttpServer())
     private val text = textContentType
 
     @BeforeAll fun `Set up mock services`() {
