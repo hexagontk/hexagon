@@ -15,7 +15,7 @@ import java.net.URL
 import java.nio.file.Path
 import java.util.*
 
-class JteAdapter(
+class Jte(
     mediaType: MediaType,
     resolverBase: URL? = null,
     precompiled: Boolean = false

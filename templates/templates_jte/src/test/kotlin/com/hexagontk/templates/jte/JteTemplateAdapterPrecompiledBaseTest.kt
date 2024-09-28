@@ -7,5 +7,5 @@ import com.hexagontk.templates.test.TemplateAdapterTest
 internal class JteTemplateAdapterPrecompiledBaseTest :
     TemplateAdapterTest(
         urlOf("classpath:test.jte"),
-        JteAdapter(TEXT_HTML, urlOf("classpath:/"), precompiled = true)
+        Jte(TEXT_HTML, urlOf("classpath:/"), precompiled = true)
     )

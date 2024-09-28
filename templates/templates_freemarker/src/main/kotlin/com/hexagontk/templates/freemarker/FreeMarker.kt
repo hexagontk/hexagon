@@ -15,7 +15,7 @@ import java.io.StringWriter
 import java.net.URL
 import java.util.*
 
-class FreeMarkerAdapter : TemplatePort {
+class FreeMarker : TemplatePort {
 
     private val freeMarkerVersion = Version("2.3.33")
 

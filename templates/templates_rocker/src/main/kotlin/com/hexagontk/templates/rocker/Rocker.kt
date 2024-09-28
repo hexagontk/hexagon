@@ -7,7 +7,7 @@ import com.hexagontk.templates.TemplatePort
 import java.net.URL
 import java.util.*
 
-class RockerAdapter(reloading: Boolean = false) : TemplatePort {
+class Rocker(reloading: Boolean = false) : TemplatePort {
 
     init {
         RockerRuntime.getInstance().isReloading = reloading

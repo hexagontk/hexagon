@@ -7,7 +7,7 @@ import java.io.StringWriter
 import java.net.URL
 import java.util.*
 
-class PebbleAdapter(
+class Pebble(
     private val cache: Boolean = true,
     private val maxRenderedSize: Int = -1
 ) : TemplatePort {

@@ -11,7 +11,7 @@ import com.hexagontk.http.handlers.PathHandler
 import com.hexagontk.http.handlers.path
 import com.hexagontk.http.server.jetty.JettyServletHttpServer
 import com.hexagontk.templates.TemplateManager
-import com.hexagontk.templates.pebble.PebbleAdapter
+import com.hexagontk.templates.pebble.Pebble
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -24,7 +24,7 @@ import kotlin.test.assertEquals
 @TestInstance(PER_CLASS)
 internal class WebTest {
 
-    private val templateEngine = PebbleAdapter()
+    private val templateEngine = Pebble()
 
     private val router: PathHandler = path {
         get("/template") {
@@ -53,7 +53,7 @@ internal class WebTest {
     }
 
     @BeforeAll fun start() {
-        TemplateManager.adapters = mapOf(".*\\.html".toRegex() to PebbleAdapter())
+        TemplateManager.adapters = mapOf(".*\\.html".toRegex() to Pebble())
         server.start()
         client.start()
     }
