@@ -6,7 +6,8 @@ import java.net.URI
 import java.util.concurrent.Flow.Publisher
 import java.util.concurrent.SubmissionPublisher
 
-object VoidAdapter : HttpClientPort {
+// TODO Rename all adapters with patter ${name}Port (Port is port name without 'Port')
+object VoidHttpClient : HttpClientPort {
     internal val eventPublisher = SubmissionPublisher<ServerEvent>()
     var started: Boolean = false
 
