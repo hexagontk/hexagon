@@ -6,5 +6,7 @@ package com.hexagontk.http
 enum class HttpFeature {
     MULTIPART,
     COOKIES,
-    ZIP
+    ZIP,
+    SSE,
+    WEBSOCKETS
 }

@@ -1,6 +1,8 @@
 public final class com/hexagontk/http/HttpFeature : java/lang/Enum {
 	public static final field COOKIES Lcom/hexagontk/http/HttpFeature;
 	public static final field MULTIPART Lcom/hexagontk/http/HttpFeature;
+	public static final field SSE Lcom/hexagontk/http/HttpFeature;
+	public static final field WEBSOCKETS Lcom/hexagontk/http/HttpFeature;
 	public static final field ZIP Lcom/hexagontk/http/HttpFeature;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/hexagontk/http/HttpFeature;

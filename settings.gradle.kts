@@ -28,7 +28,7 @@ dependencyResolutionManagement {
             version("detekt", "1.23.7")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.10.2")
-            version("mkdocsMaterial", "9.5.38")
+            version("mkdocsMaterial", "9.5.39")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.9")
             version("jreleaser", "1.14.0")
@@ -52,7 +52,7 @@ dependencyResolutionManagement {
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.0.13")
+            version("jetty", "12.0.14")
 
             // rest_tools
             version("swaggerRequestValidator", "2.42.0")
