@@ -2,11 +2,11 @@ package com.hexagontk.http.server.jetty
 
 import com.hexagontk.core.Platform
 import com.hexagontk.core.fieldsMapOf
+import com.hexagontk.http.HttpFeature
+import com.hexagontk.http.HttpFeature.ZIP
 import com.hexagontk.http.model.HttpProtocol
 import com.hexagontk.http.model.HttpProtocol.*
 import com.hexagontk.http.server.HttpServer
-import com.hexagontk.http.server.HttpServerFeature
-import com.hexagontk.http.server.HttpServerFeature.ZIP
 import com.hexagontk.http.server.HttpServerPort
 import com.hexagontk.http.server.HttpServerSettings
 import com.hexagontk.http.server.servlet.ServletFilter
@@ -134,7 +134,7 @@ class JettyServletHttpServer(
     override fun supportedProtocols(): Set<HttpProtocol> =
         setOf(HTTP, HTTPS, HTTP2)
 
-    override fun supportedFeatures(): Set<HttpServerFeature> =
+    override fun supportedFeatures(): Set<HttpFeature> =
         setOf(ZIP)
 
     override fun options(): Map<String, *> =

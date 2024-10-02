@@ -4,12 +4,12 @@ import com.hexagontk.core.Platform
 import com.hexagontk.core.fieldsMapOf
 import com.hexagontk.core.security.createKeyManagerFactory
 import com.hexagontk.core.security.createTrustManagerFactory
+import com.hexagontk.http.HttpFeature
+import com.hexagontk.http.HttpFeature.*
 import com.hexagontk.http.SslSettings
 import com.hexagontk.http.model.HttpProtocol
 import com.hexagontk.http.model.HttpProtocol.*
 import com.hexagontk.http.server.HttpServer
-import com.hexagontk.http.server.HttpServerFeature
-import com.hexagontk.http.server.HttpServerFeature.*
 import com.hexagontk.http.server.HttpServerPort
 import com.hexagontk.http.server.HttpServerSettings
 import com.hexagontk.http.handlers.HttpHandler
@@ -195,7 +195,7 @@ open class NettyHttpServer(
     override fun supportedProtocols(): Set<HttpProtocol> =
         setOf(HTTP, HTTPS, HTTP2)
 
-    override fun supportedFeatures(): Set<HttpServerFeature> =
+    override fun supportedFeatures(): Set<HttpFeature> =
         setOf(ZIP, WEBSOCKETS, SSE)
 
     override fun options(): Map<String, *> =

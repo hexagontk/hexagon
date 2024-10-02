@@ -23,7 +23,7 @@ import com.hexagontk.core.info
 import com.hexagontk.core.loggerOf
 import com.hexagontk.core.text.prependIndent
 import com.hexagontk.core.urlOf
-import com.hexagontk.http.server.HttpServerFeature.ZIP
+import com.hexagontk.http.HttpFeature.ZIP
 import com.hexagontk.http.handlers.HttpHandler
 import com.hexagontk.http.handlers.HandlerBuilder
 import com.hexagontk.http.handlers.path

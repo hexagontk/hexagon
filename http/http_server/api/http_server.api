@@ -26,15 +26,6 @@ public final class com/hexagontk/http/server/HttpServer$Companion {
 	public final fun getBanner ()Ljava/lang/String;
 }
 
-public final class com/hexagontk/http/server/HttpServerFeature : java/lang/Enum {
-	public static final field SSE Lcom/hexagontk/http/server/HttpServerFeature;
-	public static final field WEBSOCKETS Lcom/hexagontk/http/server/HttpServerFeature;
-	public static final field ZIP Lcom/hexagontk/http/server/HttpServerFeature;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lcom/hexagontk/http/server/HttpServerFeature;
-	public static fun values ()[Lcom/hexagontk/http/server/HttpServerFeature;
-}
-
 public abstract interface class com/hexagontk/http/server/HttpServerPort {
 	public abstract fun options ()Ljava/util/Map;
 	public abstract fun runtimePort ()I

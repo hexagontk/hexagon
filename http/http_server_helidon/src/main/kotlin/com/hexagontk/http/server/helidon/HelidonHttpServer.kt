@@ -12,8 +12,8 @@ import com.hexagontk.http.model.HttpProtocol.*
 import com.hexagontk.http.model.HttpResponse
 import com.hexagontk.http.model.HttpResponsePort
 import com.hexagontk.http.server.HttpServer
-import com.hexagontk.http.server.HttpServerFeature
-import com.hexagontk.http.server.HttpServerFeature.ZIP
+import com.hexagontk.http.HttpFeature
+import com.hexagontk.http.HttpFeature.ZIP
 import com.hexagontk.http.server.HttpServerPort
 import io.helidon.common.socket.SocketOptions
 import io.helidon.http.Method
@@ -133,7 +133,7 @@ class HelidonHttpServer(
     override fun supportedProtocols(): Set<HttpProtocol> =
         setOf(HTTP, HTTPS, HTTP2)
 
-    override fun supportedFeatures(): Set<HttpServerFeature> =
+    override fun supportedFeatures(): Set<HttpFeature> =
         setOf(ZIP)
 
     override fun options(): Map<String, *> =
