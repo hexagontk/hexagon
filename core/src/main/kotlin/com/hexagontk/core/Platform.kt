@@ -10,11 +10,9 @@ import java.util.*
 import kotlin.reflect.KClass
 
 /**
- * Object with utilities to gather information about the running JVM.
- *
- * TODO Rename to Platform
+ * Object with utilities to gather information about the running platform.
  */
-object Jvm {
+object Platform {
     private val systemSettingPattern: Regex by lazy { Regex("[_A-Za-z]+[_A-Za-z0-9]*") }
 
     /** Operating system name ('os.name' property). If `null` throws an exception. */

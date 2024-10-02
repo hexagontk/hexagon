@@ -1,6 +1,6 @@
 package com.hexagontk.http.server.netty
 
-import com.hexagontk.core.Jvm
+import com.hexagontk.core.Platform
 import com.hexagontk.core.fieldsMapOf
 import com.hexagontk.core.security.createKeyManagerFactory
 import com.hexagontk.core.security.createTrustManagerFactory
@@ -34,7 +34,7 @@ import javax.net.ssl.TrustManagerFactory
 open class NettyHttpServer(
     private val bossGroupThreads: Int = 1,
     private val workerGroupThreads: Int = 0,
-    private val executorThreads: Int = Jvm.cpuCount * 2,
+    private val executorThreads: Int = Platform.cpuCount * 2,
     private val soBacklog: Int = 4 * 1_024,
     private val soReuseAddr: Boolean = true,
     private val soKeepAlive: Boolean = true,
@@ -53,7 +53,7 @@ open class NettyHttpServer(
     constructor() : this(
         bossGroupThreads = 1,
         workerGroupThreads = 0,
-        executorThreads = Jvm.cpuCount * 2,
+        executorThreads = Platform.cpuCount * 2,
         soBacklog = 4 * 1_024,
         soReuseAddr = true,
         soKeepAlive = true,

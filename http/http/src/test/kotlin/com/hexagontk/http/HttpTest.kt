@@ -1,7 +1,7 @@
 package com.hexagontk.http
 
 import com.hexagontk.core.GMT_ZONE
-import com.hexagontk.core.Jvm
+import com.hexagontk.core.Platform
 import com.hexagontk.http.model.Header
 import com.hexagontk.http.model.QueryParameters
 import com.hexagontk.http.model.Headers
@@ -140,7 +140,8 @@ internal class HttpTest {
 
     @Test fun `HTTP date has the correct format`() {
         val localDateTime = LocalDateTime.of(2018, 1, 1, 0, 0)
-        val gmtDateTime = ZonedDateTime.of(localDateTime, Jvm.zoneId).withZoneSameInstant(GMT_ZONE)
+        val gmtDateTime =
+            ZonedDateTime.of(localDateTime, Platform.zoneId).withZoneSameInstant(GMT_ZONE)
         assertEquals(gmtDateTime.format(HTTP_DATE_FORMATTER), localDateTime.toHttpFormat())
 
         val instant = localDateTime.toInstant(ZoneOffset.UTC)

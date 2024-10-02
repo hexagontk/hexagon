@@ -23,7 +23,7 @@ internal class DatesTest {
     @Test fun `Zoned date`() {
         val now = LocalDateTime.now()
         assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
-        assert(now.withZone() == ZonedDateTime.of(now, Jvm.timeZone.toZoneId()))
+        assert(now.withZone() == ZonedDateTime.of(now, Platform.timeZone.toZoneId()))
     }
 
     @Test fun `LocalDateTime can be converted to Date`() {

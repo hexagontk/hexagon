@@ -2,7 +2,7 @@ package com.hexagontk.http
 
 import com.hexagontk.core.GMT_ZONE
 import com.hexagontk.core.assertEnabled
-import com.hexagontk.core.Jvm
+import com.hexagontk.core.Platform
 import com.hexagontk.core.media.MediaType
 import com.hexagontk.core.text.encodeToBase64
 import com.hexagontk.http.model.*
@@ -82,13 +82,14 @@ fun formatQueryString(parameters: QueryParameters): String =
         }
 
 fun String.urlDecode(): String =
-    URLDecoder.decode(this, Jvm.charset)
+    URLDecoder.decode(this, Platform.charset)
 
 fun String.urlEncode(): String =
-    URLEncoder.encode(this, Jvm.charset)
+    URLEncoder.encode(this, Platform.charset)
 
 fun LocalDateTime.toHttpFormat(): String =
-    HTTP_DATE_FORMATTER.format(ZonedDateTime.of(this, Jvm.zoneId).withZoneSameInstant(GMT_ZONE))
+    HTTP_DATE_FORMATTER
+        .format(ZonedDateTime.of(this, Platform.zoneId).withZoneSameInstant(GMT_ZONE))
 
 fun Instant.toHttpFormat(): String =
     HTTP_DATE_FORMATTER.format(this)

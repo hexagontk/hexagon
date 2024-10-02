@@ -1,6 +1,6 @@
 package com.hexagontk.http.server.jetty
 
-import com.hexagontk.core.Jvm
+import com.hexagontk.core.Platform
 import com.hexagontk.core.fieldsMapOf
 import com.hexagontk.http.model.HttpProtocol
 import com.hexagontk.http.model.HttpProtocol.*
@@ -64,7 +64,7 @@ class JettyServletHttpServer(
     init {
         if (useVirtualThreads)
             check(VirtualThreads.areSupported()) {
-                val jvm = "JVM: ${Jvm.version}"
+                val jvm = "JVM: ${Platform.version}"
                 "Virtual threads not supported or not enabled (--enable-preview) $jvm"
             }
     }

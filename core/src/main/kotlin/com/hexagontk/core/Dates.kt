@@ -15,7 +15,7 @@ val GMT_ZONE: ZoneId by lazy { ZoneId.of("GMT") }
  * @param zoneId Id of the target zone of the passed local date time.
  * @return Received date time at the given [zoneId].
  */
-fun LocalDateTime.withZone(zoneId: ZoneId = Jvm.timeZone.toZoneId()): ZonedDateTime =
+fun LocalDateTime.withZone(zoneId: ZoneId = Platform.timeZone.toZoneId()): ZonedDateTime =
     ZonedDateTime.of(this, zoneId)
 
 /**
@@ -34,7 +34,7 @@ fun ZonedDateTime.toDate(): Date =
  * @return Date representation of the given local date time.
  */
 fun LocalDateTime.toDate(): Date =
-    this.atZone(Jvm.timeZone.toZoneId()).toDate()
+    this.atZone(Platform.timeZone.toZoneId()).toDate()
 
 /**
  * Convert a local date to a date.
@@ -43,7 +43,7 @@ fun LocalDateTime.toDate(): Date =
  * @return Date representation of the given local date.
  */
 fun LocalDate.toDate(): Date =
-    this.atStartOfDay(Jvm.timeZone.toZoneId()).toDate()
+    this.atStartOfDay(Platform.timeZone.toZoneId()).toDate()
 
 /**
  * Convert a date to a local date time.

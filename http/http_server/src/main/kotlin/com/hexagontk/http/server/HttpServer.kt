@@ -1,11 +1,11 @@
 package com.hexagontk.http.server
 
-import com.hexagontk.core.Jvm.charset
-import com.hexagontk.core.Jvm.cpuCount
-import com.hexagontk.core.Jvm.hostName
-import com.hexagontk.core.Jvm.name
-import com.hexagontk.core.Jvm.version
-import com.hexagontk.core.Jvm.localeCode
+import com.hexagontk.core.Platform.charset
+import com.hexagontk.core.Platform.cpuCount
+import com.hexagontk.core.Platform.hostName
+import com.hexagontk.core.Platform.name
+import com.hexagontk.core.Platform.version
+import com.hexagontk.core.Platform.localeCode
 import com.hexagontk.http.model.HttpProtocol.HTTP2
 
 import java.lang.Runtime.getRuntime
@@ -16,9 +16,9 @@ import com.hexagontk.core.text.AnsiColor.MAGENTA
 import com.hexagontk.core.text.Ansi.RESET
 import com.hexagontk.core.text.AnsiEffect.BOLD
 import com.hexagontk.core.text.AnsiEffect.UNDERLINE
-import com.hexagontk.core.Jvm.timeZone
-import com.hexagontk.core.Jvm.totalMemory
-import com.hexagontk.core.Jvm.usedMemory
+import com.hexagontk.core.Platform.timeZone
+import com.hexagontk.core.Platform.totalMemory
+import com.hexagontk.core.Platform.usedMemory
 import com.hexagontk.core.info
 import com.hexagontk.core.loggerOf
 import com.hexagontk.core.text.prependIndent

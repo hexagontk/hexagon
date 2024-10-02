@@ -1,6 +1,6 @@
 package com.hexagontk.templates
 
-import com.hexagontk.core.Jvm
+import com.hexagontk.core.Platform
 import com.hexagontk.core.localized
 import java.net.URL
 import java.time.LocalDateTime
@@ -22,7 +22,7 @@ object TemplateManager {
      *
      * @throws IllegalStateException Thrown when no engine for URL was found.
      */
-    fun render(url: URL, context: Map<String, *>, locale: Locale = Jvm.locale): String {
+    fun render(url: URL, context: Map<String, *>, locale: Locale = Platform.locale): String {
         val now = LocalDateTime.now()
         val defaultProperties = mapOf("_template_" to url, "_now_" to now)
         return findAdapter(url.localized(locale)).render(url, context + defaultProperties, locale)

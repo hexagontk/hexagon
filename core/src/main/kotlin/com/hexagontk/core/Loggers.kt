@@ -6,9 +6,9 @@ import java.lang.System.Logger.Level
 import java.lang.System.Logger.Level.*
 import kotlin.reflect.KClass
 
-internal val useColor: Boolean by lazy { Jvm.systemSetting("hexagontk_logging_color", true) }
+internal val useColor: Boolean by lazy { Platform.systemSetting("hexagontk_logging_color", true) }
 internal val defaultLoggerName: String by lazy {
-    Jvm.systemSetting("hexagontk_logging_logger_name", "com.hexagontk.core.logging")
+    Platform.systemSetting("hexagontk_logging_logger_name", "com.hexagontk.core.logging")
 }
 
 /** Default logger for when you feel too lazy to declare one. */
