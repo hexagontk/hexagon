@@ -1,6 +1,8 @@
 package com.hexagontk.http.client
 
+import com.hexagontk.http.HttpFeature
 import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpProtocol.HTTP
 import com.hexagontk.http.model.ws.WsSession
 import java.net.URI
 import java.util.concurrent.Flow.Publisher
@@ -68,4 +70,10 @@ object VoidHttpClient : HttpClientPort {
                 onClose(status, reason)
             }
         }
+
+    override fun supportedFeatures(): Set<HttpFeature> =
+        emptySet()
+
+    override fun supportedProtocols(): Set<HttpProtocol> =
+        setOf(HTTP)
 }

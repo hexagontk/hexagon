@@ -3,7 +3,7 @@ package com.hexagontk.http.server.jetty
 import com.hexagontk.core.Platform
 import com.hexagontk.core.fieldsMapOf
 import com.hexagontk.http.HttpFeature
-import com.hexagontk.http.HttpFeature.ZIP
+import com.hexagontk.http.HttpFeature.*
 import com.hexagontk.http.model.HttpProtocol
 import com.hexagontk.http.model.HttpProtocol.*
 import com.hexagontk.http.server.HttpServer
@@ -135,7 +135,7 @@ class JettyServletHttpServer(
         setOf(HTTP, HTTPS, HTTP2)
 
     override fun supportedFeatures(): Set<HttpFeature> =
-        setOf(ZIP)
+        setOf(ZIP, COOKIES, MULTIPART)
 
     override fun options(): Map<String, *> =
         fieldsMapOf(

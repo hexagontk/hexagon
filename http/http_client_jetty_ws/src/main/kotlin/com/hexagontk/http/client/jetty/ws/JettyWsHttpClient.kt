@@ -1,6 +1,8 @@
 package com.hexagontk.http.client.jetty.ws
 
 import com.hexagontk.core.urlOf
+import com.hexagontk.http.HttpFeature
+import com.hexagontk.http.HttpFeature.*
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.model.ws.WsSession
@@ -44,4 +46,7 @@ class JettyWsHttpClient : JettyHttpClient() {
 
         return JettyClientWsSession(uri, session)
     }
+
+    override fun supportedFeatures(): Set<HttpFeature> =
+        super.supportedFeatures() + WEBSOCKETS
 }

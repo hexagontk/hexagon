@@ -196,7 +196,7 @@ open class NettyHttpServer(
         setOf(HTTP, HTTPS, HTTP2)
 
     override fun supportedFeatures(): Set<HttpFeature> =
-        setOf(ZIP, WEBSOCKETS, SSE)
+        setOf(ZIP, COOKIES, MULTIPART, WEBSOCKETS, SSE)
 
     override fun options(): Map<String, *> =
         fieldsMapOf(

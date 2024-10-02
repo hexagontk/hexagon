@@ -4,12 +4,16 @@ import com.hexagontk.core.media.TEXT_EVENT_STREAM
 import com.hexagontk.core.security.loadKeyStore
 import com.hexagontk.http.handlers.bodyToBytes
 import com.hexagontk.http.CHECKED_HEADERS
+import com.hexagontk.http.HttpFeature
+import com.hexagontk.http.HttpFeature.*
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientPort
 import com.hexagontk.http.client.HttpClientSettings
 import com.hexagontk.http.model.HttpResponse
 import com.hexagontk.http.model.*
 import com.hexagontk.http.model.CookieSameSite.*
+import com.hexagontk.http.model.HttpProtocol.HTTP
+import com.hexagontk.http.model.HttpProtocol.HTTPS
 import com.hexagontk.http.model.ws.WsSession
 import com.hexagontk.http.parseContentType
 import org.eclipse.jetty.client.HttpResponseException
@@ -137,6 +141,12 @@ open class JettyHttpClient : HttpClientPort {
 
         return clientPublisher
     }
+
+    override fun supportedFeatures(): Set<HttpFeature> =
+        setOf(ZIP, COOKIES, MULTIPART, SSE)
+
+    override fun supportedProtocols(): Set<HttpProtocol> =
+        setOf(HTTP, HTTPS, HttpProtocol.HTTP2)
 
     private fun convertJettyResponse(
         adapterHttpClient: HttpClient, adapterJettyClient: JettyClient, response: Response

@@ -41,6 +41,8 @@ public abstract interface class com/hexagontk/http/client/HttpClientPort {
 	public abstract fun sse (Lcom/hexagontk/http/model/HttpRequestPort;)Ljava/util/concurrent/Flow$Publisher;
 	public abstract fun startUp (Lcom/hexagontk/http/client/HttpClient;)V
 	public abstract fun started ()Z
+	public abstract fun supportedFeatures ()Ljava/util/Set;
+	public abstract fun supportedProtocols ()Ljava/util/Set;
 	public abstract fun ws (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagontk/http/model/ws/WsSession;
 }
 

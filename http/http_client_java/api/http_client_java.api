@@ -7,6 +7,8 @@ public final class com/hexagontk/http/client/java/JavaHttpClient : com/hexagontk
 	public fun sse (Lcom/hexagontk/http/model/HttpRequestPort;)Ljava/util/concurrent/Flow$Publisher;
 	public fun startUp (Lcom/hexagontk/http/client/HttpClient;)V
 	public fun started ()Z
+	public fun supportedFeatures ()Ljava/util/Set;
+	public fun supportedProtocols ()Ljava/util/Set;
 	public fun ws (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagontk/http/model/ws/WsSession;
 }
 

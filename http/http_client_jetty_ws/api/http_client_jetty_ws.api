@@ -24,6 +24,7 @@ public final class com/hexagontk/http/client/jetty/ws/JettyWsHttpClient : com/he
 	public fun <init> ()V
 	public fun shutDown ()V
 	public fun startUp (Lcom/hexagontk/http/client/HttpClient;)V
+	public fun supportedFeatures ()Ljava/util/Set;
 	public fun ws (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagontk/http/model/ws/WsSession;
 }
 

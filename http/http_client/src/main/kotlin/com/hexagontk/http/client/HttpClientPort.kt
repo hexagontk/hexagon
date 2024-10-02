@@ -1,5 +1,7 @@
 package com.hexagontk.http.client
 
+import com.hexagontk.http.HttpFeature
+import com.hexagontk.http.model.HttpProtocol
 import com.hexagontk.http.model.HttpRequestPort
 import com.hexagontk.http.model.HttpResponsePort
 import com.hexagontk.http.model.ServerEvent
@@ -27,4 +29,18 @@ interface HttpClientPort {
         onPong: WsSession.(data: ByteArray) -> Unit = {},
         onClose: WsSession.(status: Int, reason: String) -> Unit,
     ): WsSession
+
+    /**
+     * Return the client adapter's supported features.
+     *
+     * @return Set of supported features.
+     */
+    fun supportedFeatures(): Set<HttpFeature>
+
+    /**
+     * Return the server adapter's supported protocols.
+     *
+     * @return Set of supported protocols.
+     */
+    fun supportedProtocols(): Set<HttpProtocol>
 }

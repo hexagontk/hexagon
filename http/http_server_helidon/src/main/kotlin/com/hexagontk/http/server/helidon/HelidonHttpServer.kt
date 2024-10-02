@@ -13,7 +13,7 @@ import com.hexagontk.http.model.HttpResponse
 import com.hexagontk.http.model.HttpResponsePort
 import com.hexagontk.http.server.HttpServer
 import com.hexagontk.http.HttpFeature
-import com.hexagontk.http.HttpFeature.ZIP
+import com.hexagontk.http.HttpFeature.*
 import com.hexagontk.http.server.HttpServerPort
 import io.helidon.common.socket.SocketOptions
 import io.helidon.http.Method
@@ -134,7 +134,7 @@ class HelidonHttpServer(
         setOf(HTTP, HTTPS, HTTP2)
 
     override fun supportedFeatures(): Set<HttpFeature> =
-        setOf(ZIP)
+        setOf(ZIP, COOKIES)
 
     override fun options(): Map<String, *> =
         fieldsMapOf(

@@ -2,19 +2,16 @@ package com.hexagontk.http.client.java
 
 import com.hexagontk.core.security.createKeyManagerFactory
 import com.hexagontk.core.security.createTrustManagerFactory
-import com.hexagontk.http.CHECKED_HEADERS
-import com.hexagontk.http.SslSettings
+import com.hexagontk.http.*
+import com.hexagontk.http.HttpFeature.*
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientPort
 import com.hexagontk.http.client.HttpClientSettings
-import com.hexagontk.http.formatQueryString
 import com.hexagontk.http.handlers.bodyToBytes
 import com.hexagontk.http.model.*
-import com.hexagontk.http.model.HttpProtocol.H2C
-import com.hexagontk.http.model.HttpProtocol.HTTP2
+import com.hexagontk.http.model.HttpProtocol.*
 import com.hexagontk.http.model.HttpResponse
 import com.hexagontk.http.model.ws.WsSession
-import com.hexagontk.http.parseContentType
 import java.net.CookieManager
 import java.net.HttpCookie
 import java.net.URI
@@ -113,6 +110,12 @@ class JavaHttpClient(
     override fun sse(request: HttpRequestPort): Publisher<ServerEvent> {
         throw UnsupportedOperationException("SSE not supported")
     }
+
+    override fun supportedFeatures(): Set<HttpFeature> =
+        setOf(ZIP, COOKIES)
+
+    override fun supportedProtocols(): Set<HttpProtocol> =
+        setOf(HTTP, HTTPS, HTTP2)
 
     private fun sslContext(sslSettings: SslSettings): SSLContext {
         val sslContext = SSLContext.getInstance("TLSv1.3")
