@@ -35,14 +35,13 @@ Platform information and other useful utilities. Includes basic program settings
 
 Provides a logging management capabilities abstracting the application from logging libraries.
 
-The following code block shows the most common use cases for the [Logger] class:
+The following code block shows the most common use cases for the logging utilities:
 
 @code core/src/test/kotlin/com/hexagontk/core/LoggersTest.kt?logger
 
 By default, Hexagon uses the [System.Logger] class.
 
-[Platform]: api/core/com.hexagontk.core/-platform
-[Logger]: api/core/com.hexagontk.core.logging/-logger
+[Platform]: ../api/core/com.hexagontk.core/-platform
 [System.Logger]: https://docs.oracle.com/javase/9/docs/api/java/lang/System.Logger.html
 
 # Package com.hexagontk.core.media
