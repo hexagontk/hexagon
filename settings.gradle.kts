@@ -34,7 +34,7 @@ dependencyResolutionManagement {
             version("jreleaser", "1.14.0")
 
             // Testing
-            version("junit", "5.11.1")
+            version("junit", "5.11.2")
             version("mockk", "1.13.12")
             // TODO Replace with code using HTTP client and virtual threads
             version("gatling", "3.10.5")
