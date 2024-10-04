@@ -2,7 +2,7 @@
 # Module http_client_java
 [http_client] implementation using the [Java HTTP Client] classes.
 
-[http_client]: http_client
+[http_client]: http_client.md
 [Java HTTP Client]: https://docs.oracle.com/en/java/javase/21/docs/api/java.net.http/java/net/http/HttpClient.html
 
 ### Install the Dependency

@@ -30,8 +30,8 @@ application), you can import it with the following code:
     ```
 
 # Package com.hexagontk.core
-JVM information and other useful utilities. Includes basic program settings support at the [Jvm]
-object (like loading and retrieving system settings).
+Platform information and other useful utilities. Includes basic program settings support at the
+[Platform] object (like loading and retrieving system settings).
 
 Provides a logging management capabilities abstracting the application from logging libraries.
 
@@ -41,7 +41,7 @@ The following code block shows the most common use cases for the [Logger] class:
 
 By default, Hexagon uses the [System.Logger] class.
 
-[Jvm]: api/core/com.hexagontk.core/-jvm
+[Platform]: api/core/com.hexagontk.core/-platform
 [Logger]: api/core/com.hexagontk.core.logging/-logger
 [System.Logger]: https://docs.oracle.com/javase/9/docs/api/java/lang/System.Logger.html
 
