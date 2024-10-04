@@ -25,8 +25,11 @@ internal class MediaTypeTest {
         assertEquals("multipart/digest", MULTIPART_DIGEST.fullType)
         assertEquals("multipart/mixed", MULTIPART_MIXED.fullType)
         assertEquals("multipart/parallel", MULTIPART_PARALLEL.fullType)
+        assertEquals("multipart/form-data", MULTIPART_FORM_DATA.fullType)
 
         assertEquals("text/event-stream", TEXT_EVENT_STREAM.fullType)
+
+        assertEquals("application/x-www-form-urlencoded", APPLICATION_FORM_URLENCODED.fullType)
     }
 
     @Test fun `Media types can be fetched from their file extensions`() {

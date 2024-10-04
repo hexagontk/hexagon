@@ -5,6 +5,8 @@ import com.hexagontk.http.model.HttpProtocol
 
 /**
  * Server instance of one kind.
+ *
+ * TODO Replace startUp by listen(address, port)
  */
 interface HttpServerPort {
 

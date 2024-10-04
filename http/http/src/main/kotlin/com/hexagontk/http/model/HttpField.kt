@@ -20,3 +20,15 @@ interface HttpField {
 
     operator fun minus(element: Any): HttpField
 }
+
+internal interface HttpValue {
+    val name: String
+    val value: Any?
+
+    fun string(): String? =
+        value?.toString()
+}
+
+internal interface HttpFields {
+
+}

@@ -34,6 +34,8 @@ import java.net.URL
 
 /**
  * Server that listen to HTTP connections on a port and address and route requests to handlers.
+ *
+ * TODO Allow light startup log
  */
 data class HttpServer(
     private val adapter: HttpServerPort,

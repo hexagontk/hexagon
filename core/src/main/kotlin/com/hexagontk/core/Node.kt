@@ -1,7 +1,7 @@
 package com.hexagontk.core
 
 // TODO Other possible names: Struct or Record
-class Node(val pairs: List<Pair<String?, *>>) : List<Pair<String?, *>> by pairs {
+internal class Node(val pairs: List<Pair<String?, *>>) : List<Pair<String?, *>> by pairs {
     val list: Boolean by lazy { pairs.all { it.first == null } }
     val map: Boolean by lazy { !list }
 
@@ -18,7 +18,7 @@ class Node(val pairs: List<Pair<String?, *>>) : List<Pair<String?, *>> by pairs 
 }
 
 
-fun f() {
+internal fun f() {
     Node(
         mapOf("a" to 1)
     )

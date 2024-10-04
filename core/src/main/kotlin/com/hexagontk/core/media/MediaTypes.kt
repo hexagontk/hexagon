@@ -33,6 +33,9 @@ val APPLICATION_7Z: MediaType by lazy { MediaType(APPLICATION, "x-7z-compressed"
 val APPLICATION_BZIP: MediaType by lazy { MediaType(APPLICATION, "x-bzip") }
 val APPLICATION_BZIP2: MediaType by lazy { MediaType(APPLICATION, "x-bzip2") }
 val APPLICATION_PHP: MediaType by lazy { MediaType(APPLICATION, "x-httpd-php") }
+val APPLICATION_FORM_URLENCODED: MediaType by lazy {
+    MediaType(APPLICATION, "x-www-form-urlencoded")
+}
 
 val AUDIO_BASIC: MediaType by lazy { MediaType(AUDIO, "basic") }
 val AUDIO_MPEG: MediaType by lazy { MediaType(AUDIO, "mpeg") }
@@ -61,7 +64,7 @@ val MULTIPART_ALTERNATIVE: MediaType by lazy { MediaType(MULTIPART, "alternative
 val MULTIPART_DIGEST: MediaType by lazy { MediaType(MULTIPART, "digest") }
 val MULTIPART_MIXED: MediaType by lazy { MediaType(MULTIPART, "mixed") }
 val MULTIPART_PARALLEL: MediaType by lazy { MediaType(MULTIPART, "parallel") }
-// TODO Add multipart/form-data
+val MULTIPART_FORM_DATA: MediaType by lazy { MediaType(MULTIPART, "form-data") }
 
 val TEXT_CSV: MediaType by lazy { MediaType(TEXT, "csv") }
 val TEXT_X_JAVA_PROPERTIES: MediaType by lazy { MediaType(TEXT, "x-java-properties") }
@@ -85,6 +88,7 @@ val VIDEO_WEBM: MediaType by lazy { MediaType(VIDEO, "webm") }
 val DEFAULT_MEDIA_TYPE: MediaType by lazy { APPLICATION_OCTET_STREAM }
 
 // TODO Allow adding media types manually (allow resource loading, and keep here the bare minimum)
+//  With something like MediaTypeManager (as SerializationManager)
 internal val MEDIA_TYPES_EXTENSIONS: Map<String, MediaType> by lazy {
     mapOf(
         "avro" to APPLICATION_AVRO,

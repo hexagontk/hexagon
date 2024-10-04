@@ -136,61 +136,6 @@ public final class com/hexagontk/core/NetworkKt {
 	public static final fun urlOf (Ljava/lang/String;)Ljava/net/URL;
 }
 
-public final class com/hexagontk/core/Node : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
-	public fun <init> (Ljava/util/List;)V
-	public fun <init> (Ljava/util/Map;)V
-	public fun <init> ([Lkotlin/Pair;)V
-	public synthetic fun add (ILjava/lang/Object;)V
-	public fun add (ILkotlin/Pair;)V
-	public synthetic fun add (Ljava/lang/Object;)Z
-	public fun add (Lkotlin/Pair;)Z
-	public fun addAll (ILjava/util/Collection;)Z
-	public fun addAll (Ljava/util/Collection;)Z
-	public synthetic fun addFirst (Ljava/lang/Object;)V
-	public fun addFirst (Lkotlin/Pair;)V
-	public synthetic fun addLast (Ljava/lang/Object;)V
-	public fun addLast (Lkotlin/Pair;)V
-	public fun clear ()V
-	public final fun contains (Ljava/lang/Object;)Z
-	public fun contains (Lkotlin/Pair;)Z
-	public fun containsAll (Ljava/util/Collection;)Z
-	public synthetic fun get (I)Ljava/lang/Object;
-	public fun get (I)Lkotlin/Pair;
-	public final fun getList ()Z
-	public final fun getMap ()Z
-	public final fun getPairs ()Ljava/util/List;
-	public fun getSize ()I
-	public final fun indexOf (Ljava/lang/Object;)I
-	public fun indexOf (Lkotlin/Pair;)I
-	public fun isEmpty ()Z
-	public fun iterator ()Ljava/util/Iterator;
-	public final fun lastIndexOf (Ljava/lang/Object;)I
-	public fun lastIndexOf (Lkotlin/Pair;)I
-	public fun listIterator ()Ljava/util/ListIterator;
-	public fun listIterator (I)Ljava/util/ListIterator;
-	public synthetic fun remove (I)Ljava/lang/Object;
-	public fun remove (I)Lkotlin/Pair;
-	public fun remove (Ljava/lang/Object;)Z
-	public fun removeAll (Ljava/util/Collection;)Z
-	public synthetic fun removeFirst ()Ljava/lang/Object;
-	public fun removeFirst ()Lkotlin/Pair;
-	public synthetic fun removeLast ()Ljava/lang/Object;
-	public fun removeLast ()Lkotlin/Pair;
-	public fun replaceAll (Ljava/util/function/UnaryOperator;)V
-	public fun retainAll (Ljava/util/Collection;)Z
-	public synthetic fun set (ILjava/lang/Object;)Ljava/lang/Object;
-	public fun set (ILkotlin/Pair;)Lkotlin/Pair;
-	public final fun size ()I
-	public fun sort (Ljava/util/Comparator;)V
-	public fun subList (II)Ljava/util/List;
-	public fun toArray ()[Ljava/lang/Object;
-	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
-}
-
-public final class com/hexagontk/core/NodeKt {
-	public static final fun f ()V
-}
-
 public final class com/hexagontk/core/OsKind : java/lang/Enum {
 	public static final field LINUX Lcom/hexagontk/core/OsKind;
 	public static final field MACOS Lcom/hexagontk/core/OsKind;
@@ -276,6 +221,7 @@ public final class com/hexagontk/core/media/MediaTypesKt {
 	public static final fun getAPPLICATION_BZIP2 ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_CBOR ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_COMPRESS ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_FORM_URLENCODED ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_GZIP ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_JAVA_ARCHIVE ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_JSON ()Lcom/hexagontk/core/media/MediaType;
@@ -316,6 +262,7 @@ public final class com/hexagontk/core/media/MediaTypesKt {
 	public static final fun getMEDIA_TYPE_FORMAT ()Lkotlin/text/Regex;
 	public static final fun getMULTIPART_ALTERNATIVE ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getMULTIPART_DIGEST ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getMULTIPART_FORM_DATA ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getMULTIPART_MIXED ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getMULTIPART_PARALLEL ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getTEXT_CALENDAR ()Lcom/hexagontk/core/media/MediaType;
