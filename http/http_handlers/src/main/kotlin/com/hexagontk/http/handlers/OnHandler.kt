@@ -10,7 +10,8 @@ import kotlin.reflect.KClass
 data class OnHandler(
     override val handlerPredicate: HttpPredicate = HttpPredicate(),
     val block: HttpCallbackType,
-) : HttpHandler, Handler<HttpCall> by OnHandler(handlerPredicate, toCallback(block)) {
+    override val parent: HttpHandler? = null,
+) : HttpHandler, Handler<HttpCall> by OnHandler(handlerPredicate, parent, toCallback(block)) {
 
     constructor(
         methods: Set<HttpMethod> = emptySet(),

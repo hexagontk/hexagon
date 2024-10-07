@@ -9,8 +9,9 @@ import kotlin.reflect.KClass
 
 data class FilterHandler(
     override val handlerPredicate: HttpPredicate = HttpPredicate(),
-    val block: HttpCallbackType
-) : HttpHandler, Handler<HttpCall> by FilterHandler(handlerPredicate, toCallback(block)) {
+    val block: HttpCallbackType,
+    override val parent: HttpHandler? = null,
+) : HttpHandler, Handler<HttpCall> by FilterHandler(handlerPredicate, parent, toCallback(block)) {
 
     constructor(
         methods: Set<HttpMethod> = emptySet(),

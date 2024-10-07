@@ -115,7 +115,7 @@ internal class ChainHandlerTest {
         assertEquals(3, handlers.size)
         assertEquals(2, (handlers[2] as? ChainHandler<Any>)?.handlers?.size)
 
-        val canonicalChain = ChainHandler(listOf(AfterHandler { it })) { false }
+        val canonicalChain = ChainHandler(listOf(AfterHandler { it }), { false }, null)
         assertEquals(1, canonicalChain.handlers.size)
         val listChain = ChainHandler(listOf(AfterHandler { it }))
         assertEquals(1, listChain.handlers.size)

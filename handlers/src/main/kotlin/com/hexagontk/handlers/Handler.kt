@@ -5,8 +5,8 @@ package com.hexagontk.handlers
  *
  * @param T Event type.
  */
-// TODO Add 'parent' in order to ease their use as a tree
 interface Handler<T : Any> {
+    val parent: Handler<T>?
     val predicate: (Context<T>) -> Boolean
     val callback: (Context<T>) -> Context<T>
 

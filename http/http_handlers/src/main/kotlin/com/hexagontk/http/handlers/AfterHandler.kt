@@ -9,8 +9,9 @@ import kotlin.reflect.KClass
 
 data class AfterHandler(
     override val handlerPredicate: HttpPredicate = HttpPredicate(),
-    val block: HttpCallbackType
-) : HttpHandler, Handler<HttpCall> by AfterHandler(handlerPredicate, toCallback(block)) {
+    val block: HttpCallbackType,
+    override val parent: HttpHandler? = null,
+) : HttpHandler, Handler<HttpCall> by AfterHandler(handlerPredicate, parent, toCallback(block)) {
 
     constructor(
         methods: Set<HttpMethod> = emptySet(),

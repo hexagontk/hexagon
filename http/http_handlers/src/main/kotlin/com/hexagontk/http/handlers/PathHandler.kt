@@ -13,12 +13,14 @@ import java.lang.System.Logger
 
 data class PathHandler(
     override val handlerPredicate: HttpPredicate,
-    val handlers: List<HttpHandler>
+    val handlers: List<HttpHandler>,
+    override val parent: HttpHandler? = null,
 ) :
     HttpHandler,
     Handler<HttpCall> by ChainHandler(
         handlers.map { it.addPrefix(handlerPredicate.pathPattern.pattern) },
-        handlerPredicate
+        handlerPredicate,
+        parent,
     )
 {
 

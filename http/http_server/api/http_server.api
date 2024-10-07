@@ -125,6 +125,8 @@ public final class com/hexagontk/http/server/handlers/CorsHandler : com/hexagont
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
+	public synthetic fun getParent ()Lcom/hexagontk/handlers/Handler;
+	public fun getParent ()Lcom/hexagontk/http/handlers/HttpHandler;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public fun process (Lcom/hexagontk/handlers/Context;)Lcom/hexagontk/handlers/Context;
 	public fun process (Lcom/hexagontk/http/model/HttpRequestPort;)Lcom/hexagontk/http/handlers/HttpContext;

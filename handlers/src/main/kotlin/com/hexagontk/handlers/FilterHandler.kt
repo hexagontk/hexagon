@@ -2,6 +2,7 @@ package com.hexagontk.handlers
 
 data class FilterHandler<T : Any>(
     override val predicate: (Context<T>) -> Boolean = { true },
+    override val parent: Handler<T>? = null,
     override val callback: (Context<T>) -> Context<T>,
 ) : Handler<T> {
 

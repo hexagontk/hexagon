@@ -168,8 +168,7 @@ internal class HttpClientTest {
     }
 
     @Test fun `Request is sent even if no handler`() {
-        val pathPattern = LiteralPathPattern("/test")
-        val handler = FilterHandler(HttpPredicate(pathPattern = pathPattern)) { error("Failure") }
+        val handler = FilterHandler("/test") { error("Failure") }
         val client = HttpClient(VoidHttpClient, handler = handler)
 
         val e1 = assertFailsWith<IllegalStateException> { client.get("http://localhost") }
