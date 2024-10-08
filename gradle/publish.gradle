@@ -2,6 +2,10 @@
  * Check usage information at: http://hexagontk.com/gradle/#publish
  */
 
+// TODO Use flags to optimize development builds
+//if (findProperty("enablePublishing") == null)
+//    return
+
 apply(plugin: "signing")
 apply(plugin: "maven-publish")
 

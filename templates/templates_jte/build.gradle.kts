@@ -2,7 +2,7 @@ import gg.jte.ContentType.Html
 
 plugins {
     id("java-library")
-    id("gg.jte.gradle") version("3.1.3")
+    id("gg.jte.gradle") version("3.1.12")
 }
 
 apply(from = "$rootDir/gradle/kotlin.gradle")
@@ -27,6 +27,8 @@ dependencies {
 
 tasks.named("compileKotlin") { dependsOn("generateJte") }
 tasks.named("processResources") { dependsOn("processTestResources") }
+// TODO Use flags to optimize development builds
+//if (findProperty("enableDetekt") != null)
 tasks.named("detektMain") { dependsOn("compileTestKotlin") }
 tasks.named("sourcesJar") { dependsOn("compileTestKotlin") }
 

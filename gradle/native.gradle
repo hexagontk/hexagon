@@ -2,6 +2,10 @@
  * Check usage information at: http://hexagontk.com/gradle/#native
  */
 
+// TODO Use flags to optimize development builds
+//if (findProperty("enableNative") == null)
+//    return
+
 apply(plugin: "org.graalvm.buildtools.native")
 
 graalvmNative {
