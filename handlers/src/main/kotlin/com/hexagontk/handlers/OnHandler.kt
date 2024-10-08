@@ -3,7 +3,7 @@ package com.hexagontk.handlers
 data class OnHandler<T : Any>(
     override val predicate: (Context<T>) -> Boolean = { true },
     override val parent: Handler<T>? = null,
-    override val callback: (Context<T>) -> Context<T>,
+    val callback: (Context<T>) -> Context<T>,
 ) : Handler<T> {
 
     override fun process(context: Context<T>): Context<T> =

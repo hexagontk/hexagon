@@ -16,7 +16,6 @@ public final class com/hexagontk/http/handlers/AfterHandler : com/hexagontk/hand
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getBlock ()Lkotlin/jvm/functions/Function1;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public synthetic fun getParent ()Lcom/hexagontk/handlers/Handler;
 	public fun getParent ()Lcom/hexagontk/http/handlers/HttpHandler;
@@ -46,7 +45,6 @@ public final class com/hexagontk/http/handlers/BeforeHandler : com/hexagontk/han
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getBlock ()Lkotlin/jvm/functions/Function1;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public synthetic fun getParent ()Lcom/hexagontk/handlers/Handler;
 	public fun getParent ()Lcom/hexagontk/http/handlers/HttpHandler;
@@ -74,7 +72,6 @@ public final class com/hexagontk/http/handlers/ExceptionHandler : com/hexagontk/
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getBlock ()Lkotlin/jvm/functions/Function2;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public final fun getClear ()Z
 	public final fun getException ()Lkotlin/reflect/KClass;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
@@ -106,7 +103,6 @@ public final class com/hexagontk/http/handlers/FilterHandler : com/hexagontk/han
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getBlock ()Lkotlin/jvm/functions/Function1;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public synthetic fun getParent ()Lcom/hexagontk/handlers/Handler;
 	public fun getParent ()Lcom/hexagontk/http/handlers/HttpHandler;
@@ -302,7 +298,6 @@ public final class com/hexagontk/http/handlers/HttpContext : com/hexagontk/handl
 
 public abstract interface class com/hexagontk/http/handlers/HttpController : com/hexagontk/http/handlers/HttpHandler {
 	public abstract fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
-	public abstract fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public abstract fun getHandler ()Lcom/hexagontk/http/handlers/HttpHandler;
 	public abstract fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public abstract fun getParent ()Lcom/hexagontk/http/handlers/HttpHandler;
@@ -314,7 +309,6 @@ public final class com/hexagontk/http/handlers/HttpController$DefaultImpls {
 	public static fun addPrefix (Lcom/hexagontk/http/handlers/HttpController;Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public static fun byMethod (Lcom/hexagontk/http/handlers/HttpController;)Ljava/util/Map;
 	public static fun filter (Lcom/hexagontk/http/handlers/HttpController;Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
-	public static fun getCallback (Lcom/hexagontk/http/handlers/HttpController;)Lkotlin/jvm/functions/Function1;
 	public static fun getHandlerPredicate (Lcom/hexagontk/http/handlers/HttpController;)Lcom/hexagontk/http/handlers/HttpPredicate;
 	public static fun getParent (Lcom/hexagontk/http/handlers/HttpController;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public static fun getPredicate (Lcom/hexagontk/http/handlers/HttpController;)Lkotlin/jvm/functions/Function1;
@@ -388,7 +382,6 @@ public final class com/hexagontk/http/handlers/OnHandler : com/hexagontk/handler
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getBlock ()Lkotlin/jvm/functions/Function1;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public synthetic fun getParent ()Lcom/hexagontk/handlers/Handler;
 	public fun getParent ()Lcom/hexagontk/http/handlers/HttpHandler;
@@ -416,7 +409,6 @@ public final class com/hexagontk/http/handlers/PathHandler : com/hexagontk/handl
 	public final fun describe ()Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public final fun getHandlers ()Ljava/util/List;
 	public synthetic fun getParent ()Lcom/hexagontk/handlers/Handler;

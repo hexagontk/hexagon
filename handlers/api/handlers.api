@@ -8,7 +8,7 @@ public final class com/hexagontk/handlers/AfterHandler : com/hexagontk/handlers/
 	public static synthetic fun copy$default (Lcom/hexagontk/handlers/AfterHandler;Lkotlin/jvm/functions/Function1;Lcom/hexagontk/handlers/Handler;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagontk/handlers/AfterHandler;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAfterPredicate ()Lkotlin/jvm/functions/Function1;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
+	public final fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getParent ()Lcom/hexagontk/handlers/Handler;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public fun hashCode ()I
@@ -25,7 +25,7 @@ public final class com/hexagontk/handlers/BeforeHandler : com/hexagontk/handlers
 	public final fun copy (Lkotlin/jvm/functions/Function1;Lcom/hexagontk/handlers/Handler;Lkotlin/jvm/functions/Function1;)Lcom/hexagontk/handlers/BeforeHandler;
 	public static synthetic fun copy$default (Lcom/hexagontk/handlers/BeforeHandler;Lkotlin/jvm/functions/Function1;Lcom/hexagontk/handlers/Handler;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagontk/handlers/BeforeHandler;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
+	public final fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getParent ()Lcom/hexagontk/handlers/Handler;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public fun hashCode ()I
@@ -43,7 +43,6 @@ public final class com/hexagontk/handlers/ChainHandler : com/hexagontk/handlers/
 	public final fun copy (Ljava/util/List;Lkotlin/jvm/functions/Function1;Lcom/hexagontk/handlers/Handler;)Lcom/hexagontk/handlers/ChainHandler;
 	public static synthetic fun copy$default (Lcom/hexagontk/handlers/ChainHandler;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lcom/hexagontk/handlers/Handler;ILjava/lang/Object;)Lcom/hexagontk/handlers/ChainHandler;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public final fun getHandlers ()Ljava/util/List;
 	public fun getParent ()Lcom/hexagontk/handlers/Handler;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
@@ -79,7 +78,7 @@ public final class com/hexagontk/handlers/ExceptionHandler : com/hexagontk/handl
 	public final fun copy (Lkotlin/reflect/KClass;ZLcom/hexagontk/handlers/Handler;Lkotlin/jvm/functions/Function2;)Lcom/hexagontk/handlers/ExceptionHandler;
 	public static synthetic fun copy$default (Lcom/hexagontk/handlers/ExceptionHandler;Lkotlin/reflect/KClass;ZLcom/hexagontk/handlers/Handler;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/hexagontk/handlers/ExceptionHandler;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
+	public final fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public final fun getClear ()Z
 	public final fun getException ()Lkotlin/reflect/KClass;
 	public final fun getExceptionCallback ()Lkotlin/jvm/functions/Function2;
@@ -99,7 +98,7 @@ public final class com/hexagontk/handlers/FilterHandler : com/hexagontk/handlers
 	public final fun copy (Lkotlin/jvm/functions/Function1;Lcom/hexagontk/handlers/Handler;Lkotlin/jvm/functions/Function1;)Lcom/hexagontk/handlers/FilterHandler;
 	public static synthetic fun copy$default (Lcom/hexagontk/handlers/FilterHandler;Lkotlin/jvm/functions/Function1;Lcom/hexagontk/handlers/Handler;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagontk/handlers/FilterHandler;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
+	public final fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getParent ()Lcom/hexagontk/handlers/Handler;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public fun hashCode ()I
@@ -108,7 +107,6 @@ public final class com/hexagontk/handlers/FilterHandler : com/hexagontk/handlers
 }
 
 public abstract interface class com/hexagontk/handlers/Handler {
-	public abstract fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public abstract fun getParent ()Lcom/hexagontk/handlers/Handler;
 	public abstract fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public abstract fun process (Lcom/hexagontk/handlers/Context;)Lcom/hexagontk/handlers/Context;
@@ -123,7 +121,7 @@ public final class com/hexagontk/handlers/OnHandler : com/hexagontk/handlers/Han
 	public final fun copy (Lkotlin/jvm/functions/Function1;Lcom/hexagontk/handlers/Handler;Lkotlin/jvm/functions/Function1;)Lcom/hexagontk/handlers/OnHandler;
 	public static synthetic fun copy$default (Lcom/hexagontk/handlers/OnHandler;Lkotlin/jvm/functions/Function1;Lcom/hexagontk/handlers/Handler;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagontk/handlers/OnHandler;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
+	public final fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getParent ()Lcom/hexagontk/handlers/Handler;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public fun hashCode ()I

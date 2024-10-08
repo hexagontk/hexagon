@@ -1,6 +1,7 @@
 package com.hexagontk.handlers
 
 import kotlin.reflect.KClass
+import kotlin.reflect.cast
 
 /**
  * After handlers are executed even if a filter don't call next handler (if after was added before
@@ -17,8 +18,15 @@ data class ExceptionHandler<T : Any, E : Exception>(
     val exceptionCallback: (Context<T>, E) -> Context<T>,
 ) : Handler<T> {
 
+    internal companion object {
+        fun <T : Exception> castException(exception: Exception?, exceptionClass: KClass<T>): T =
+            exception
+                ?.let { exceptionClass.cast(exception) }
+                ?: error("Exception 'null' or incorrect type")
+    }
+
     override val predicate: (Context<T>) -> Boolean = { true }
-    override val callback: (Context<T>) -> Context<T> = { context ->
+    val callback: (Context<T>) -> Context<T> = { context ->
         exceptionCallback(context, castException(context.exception, exception)).let {
             if (clear) it.with(exception = null)
             else it

@@ -7,9 +7,17 @@ data class ChainHandler<T : Any>(
 ) : Handler<T> {
 
     val handlers: List<Handler<T>> =
-        rawHandlers // TODO Set parents to 'this'
-
-    override val callback: (Context<T>) -> Context<T> = { it }
+        rawHandlers.map {
+            when (it) {
+                is AfterHandler -> it.copy(parent = this)
+                is BeforeHandler -> it.copy(parent = this)
+                is ChainHandler -> it.copy(parent = this)
+                is ExceptionHandler<T, *> -> it.copy(parent = this)
+                is FilterHandler -> it.copy(parent = this)
+                is OnHandler -> it.copy(parent = this)
+                else -> it
+            }
+        }
 
     constructor(
         filter: (Context<T>) -> Boolean,

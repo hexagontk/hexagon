@@ -1,5 +1,6 @@
 package com.hexagontk.handlers
 
+import com.hexagontk.handlers.ExceptionHandler.Companion.castException
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
