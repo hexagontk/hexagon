@@ -1,0 +1,10 @@
+public final class com/hexagontk/web/WebKt {
+	public static final fun callContext (Lcom/hexagontk/http/handlers/HttpContext;)Ljava/util/Map;
+	public static final fun obtainLocale (Lcom/hexagontk/http/handlers/HttpContext;)Ljava/util/Locale;
+	public static final fun template (Lcom/hexagontk/http/handlers/HttpContext;Lcom/hexagontk/templates/TemplatePort;Ljava/net/URL;Ljava/util/Map;Ljava/util/Locale;Lcom/hexagontk/http/model/Headers;Ljava/util/List;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
+	public static final fun template (Lcom/hexagontk/http/handlers/HttpContext;Ljava/net/URL;Ljava/util/Map;Ljava/util/Locale;Lcom/hexagontk/http/model/Headers;Ljava/util/List;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
+	public static synthetic fun template$default (Lcom/hexagontk/http/handlers/HttpContext;Lcom/hexagontk/templates/TemplatePort;Ljava/net/URL;Ljava/util/Map;Ljava/util/Locale;Lcom/hexagontk/http/model/Headers;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
+	public static synthetic fun template$default (Lcom/hexagontk/http/handlers/HttpContext;Ljava/net/URL;Ljava/util/Map;Ljava/util/Locale;Lcom/hexagontk/http/model/Headers;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
+	public static final fun templateType (Lcom/hexagontk/http/handlers/HttpContext;Ljava/net/URL;)Lcom/hexagontk/http/model/ContentType;
+}
+
