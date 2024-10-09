@@ -2,6 +2,8 @@
 plugins {
     id("java-library")
     id("nu.studer.rocker") version("3.0.4")
+    // TODO Check 'official' plugin again
+//    id("com.fizzed.rocker") version(libs.versions.rocker.get())
 }
 
 apply(from = "$rootDir/gradle/kotlin.gradle")
