@@ -1,18 +1,19 @@
 
-val gradleScripts = properties["gradleScripts"]
+apply(from = "$rootDir/gradle/kotlin.gradle")
+apply(from = "$rootDir/gradle/application.gradle")
 
-apply(from = "$gradleScripts/kotlin.gradle")
-apply(from = "$gradleScripts/application.gradle")
-apply(from = "$gradleScripts/native.gradle")
-apply(from = "$gradleScripts/detekt.gradle")
+if (findProperty("fullBuild") != null) {
+    apply(from = "$rootDir/gradle/native.gradle")
+    apply(from = "$rootDir/gradle/detekt.gradle")
+}
 
 description = "."
 
 extensions.configure<JavaApplication> {
-    mainClass.set("com.hexagonkt.application.test.ApplicationKt")
+    mainClass.set("com.hexagontk.application.test.ApplicationKt")
 }
 
 dependencies {
-    "api"(project(":terminal"))
-    "api"(project(":args"))
+    "api"(project(":extra:terminal"))
+    "api"(project(":extra:args"))
 }

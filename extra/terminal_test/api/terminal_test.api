@@ -1,0 +1,9 @@
+public final class com/hexagontk/application/test/ApplicationKt {
+	public static final fun code (Ljava/io/InputStream;)V
+	public static final fun escape (Ljava/io/InputStream;)V
+	public static final fun main ()V
+	public static synthetic fun main ([Ljava/lang/String;)V
+	public static final fun mouse (Ljava/io/InputStream;)V
+	public static final fun mouseSgr (Ljava/io/InputStream;)V
+}
+

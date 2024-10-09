@@ -10,6 +10,7 @@ include(
 )
 
 includeNestedModules(
+    "extra",
     "http",
     "serialization",
     "serverless",
@@ -42,6 +43,9 @@ dependencyResolutionManagement {
 
             // Shared
             version("slf4j", "2.0.16")
+
+            // scheduler
+            version("cronutils", "9.2.1")
 
             // http_server_netty
             version("netty", "4.1.113.Final")

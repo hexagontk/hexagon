@@ -21,14 +21,14 @@ synchronization yourself.
         mavenCentral()
     }
 
-    implementation("com.hexagonkt.extra:scheduler:$hexagonVersion")
+    implementation("com.hexagontk:scheduler:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt.extra</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>scheduler</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
@@ -39,7 +39,7 @@ You can check a usage example in the following code:
 
 @code scheduler/src/test/kotlin/CronSchedulerTest.kt:sample
 
-# Package com.hexagonkt.scheduler
+# Package com.hexagontk.scheduler
 Classes for scheduling blocks of code repeatedly based on a [Cron] expression.
 
 [Cron]: https://en.wikipedia.org/wiki/Cron

@@ -23,6 +23,3 @@ Pages have a header with a button to edit the content in [GitHub].
 [Google Analytics]: https://analytics.google.com
 [MkDocs Material]: https://squidfunk.github.io/mkdocs-material
 [GitHub]: https://github.com
-
-# TODO
-Move documentation links from `com.hexagonkt` to `com.hexagontk` when v4 is released.

@@ -32,14 +32,14 @@ Check:
         mavenCentral()
     }
 
-    implementation("com.hexagonkt.extra:args:$hexagonVersion")
+    implementation("com.hexagontk:args:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagonkt.extra</groupId>
+      <groupId>com.hexagontk</groupId>
       <artifactId>args</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
@@ -84,5 +84,5 @@ priority:
 >
 >
 
-# Package com.hexagonkt.args
+# Package com.hexagontk.args
 TODO .

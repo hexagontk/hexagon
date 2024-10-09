@@ -1,0 +1,75 @@
+public final class com/hexagontk/terminal/AnsiCursor {
+	public static final field HIDE Ljava/lang/String;
+	public static final field HOME Ljava/lang/String;
+	public static final field INSTANCE Lcom/hexagontk/terminal/AnsiCursor;
+	public static final field PRINT Ljava/lang/String;
+	public static final field RESTORE Ljava/lang/String;
+	public static final field SAVE Ljava/lang/String;
+	public static final field SHOW Ljava/lang/String;
+	public final fun backward (I)Ljava/lang/String;
+	public static synthetic fun backward$default (Lcom/hexagontk/terminal/AnsiCursor;IILjava/lang/Object;)Ljava/lang/String;
+	public final fun down (I)Ljava/lang/String;
+	public static synthetic fun down$default (Lcom/hexagontk/terminal/AnsiCursor;IILjava/lang/Object;)Ljava/lang/String;
+	public final fun forward (I)Ljava/lang/String;
+	public static synthetic fun forward$default (Lcom/hexagontk/terminal/AnsiCursor;IILjava/lang/Object;)Ljava/lang/String;
+	public final fun position (II)Ljava/lang/String;
+	public static synthetic fun position$default (Lcom/hexagontk/terminal/AnsiCursor;IIILjava/lang/Object;)Ljava/lang/String;
+	public final fun up (I)Ljava/lang/String;
+	public static synthetic fun up$default (Lcom/hexagontk/terminal/AnsiCursor;IILjava/lang/Object;)Ljava/lang/String;
+}
+
+public final class com/hexagontk/terminal/AnsiEvent {
+	public fun <init> (Lcom/hexagontk/terminal/AnsiEventKind;)V
+	public final fun component1 ()Lcom/hexagontk/terminal/AnsiEventKind;
+	public final fun copy (Lcom/hexagontk/terminal/AnsiEventKind;)Lcom/hexagontk/terminal/AnsiEvent;
+	public static synthetic fun copy$default (Lcom/hexagontk/terminal/AnsiEvent;Lcom/hexagontk/terminal/AnsiEventKind;ILjava/lang/Object;)Lcom/hexagontk/terminal/AnsiEvent;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKind ()Lcom/hexagontk/terminal/AnsiEventKind;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagontk/terminal/AnsiEventKind : java/lang/Enum {
+	public static final field KEY Lcom/hexagontk/terminal/AnsiEventKind;
+	public static final field MOUSE Lcom/hexagontk/terminal/AnsiEventKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/hexagontk/terminal/AnsiEventKind;
+	public static fun values ()[Lcom/hexagontk/terminal/AnsiEventKind;
+}
+
+public final class com/hexagontk/terminal/AnsiMouse {
+	public static final field DISABLE Ljava/lang/String;
+	public static final field DISABLE_SGR Ljava/lang/String;
+	public static final field ENABLE Ljava/lang/String;
+	public static final field ENABLE_SGR Ljava/lang/String;
+	public static final field INSTANCE Lcom/hexagontk/terminal/AnsiMouse;
+}
+
+public final class com/hexagontk/terminal/AnsiScreen {
+	public static final field INSTANCE Lcom/hexagontk/terminal/AnsiScreen;
+	public final fun clear (Lcom/hexagontk/terminal/AnsiScreen$Region;)Ljava/lang/String;
+	public static synthetic fun clear$default (Lcom/hexagontk/terminal/AnsiScreen;Lcom/hexagontk/terminal/AnsiScreen$Region;ILjava/lang/Object;)Ljava/lang/String;
+	public final fun lineClear (Lcom/hexagontk/terminal/AnsiScreen$Region;)Ljava/lang/String;
+	public static synthetic fun lineClear$default (Lcom/hexagontk/terminal/AnsiScreen;Lcom/hexagontk/terminal/AnsiScreen$Region;ILjava/lang/Object;)Ljava/lang/String;
+	public final fun privateMode (Z)Ljava/lang/String;
+	public static synthetic fun privateMode$default (Lcom/hexagontk/terminal/AnsiScreen;ZILjava/lang/Object;)Ljava/lang/String;
+}
+
+public final class com/hexagontk/terminal/AnsiScreen$Region : java/lang/Enum {
+	public static final field END Lcom/hexagontk/terminal/AnsiScreen$Region;
+	public static final field FULL Lcom/hexagontk/terminal/AnsiScreen$Region;
+	public static final field FULL_BUFFER Lcom/hexagontk/terminal/AnsiScreen$Region;
+	public static final field START Lcom/hexagontk/terminal/AnsiScreen$Region;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/hexagontk/terminal/AnsiScreen$Region;
+	public static fun values ()[Lcom/hexagontk/terminal/AnsiScreen$Region;
+}
+
+public final class com/hexagontk/terminal/Terminal {
+	public static final field INSTANCE Lcom/hexagontk/terminal/Terminal;
+	public final fun cooked ()V
+	public final fun raw ()V
+	public final fun readEvents ()V
+	public final fun size ()Lkotlin/Pair;
+}
+
