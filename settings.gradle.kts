@@ -4,6 +4,7 @@ rootProject.name = "hexagon"
 include(
     "core",
     "handlers",
+    "handlers_poc",
     "helpers",
     "site",
     "starters",
@@ -36,7 +37,7 @@ dependencyResolutionManagement {
 
             // Testing
             version("junit", "5.11.2")
-            version("mockk", "1.13.12")
+            version("mockk", "1.13.13")
             // TODO Replace with code using HTTP client and virtual threads
             version("gatling", "3.10.5")
             version("jmh", "1.37")
