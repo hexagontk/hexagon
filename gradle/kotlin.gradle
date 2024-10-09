@@ -66,6 +66,10 @@ clean {
         "$rootDir/file-uploads",
         "$rootDir/kotlin-js-store"
     )
+}
+
+tasks.register("cleanAll", Delete) {
+    dependsOn("clean")
 
     delete(
         fileTree(rootDir) { include("**/*.log") },

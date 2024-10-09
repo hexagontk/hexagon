@@ -3,10 +3,6 @@ import kotlin.math.floor
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
-// TODO Use flags to optimize development builds
-//if (findProperty("enableSite") == null)
-//    return
-
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
 

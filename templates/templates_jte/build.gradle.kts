@@ -2,14 +2,17 @@ import gg.jte.ContentType.Html
 
 plugins {
     id("java-library")
-    id("gg.jte.gradle") version("3.1.12")
+    id("gg.jte.gradle") version(libs.versions.jte.get())
 }
 
 apply(from = "$rootDir/gradle/kotlin.gradle")
-apply(from = "$rootDir/gradle/publish.gradle")
-apply(from = "$rootDir/gradle/dokka.gradle")
-apply(from = "$rootDir/gradle/native.gradle")
-apply(from = "$rootDir/gradle/detekt.gradle")
+
+if (findProperty("fullBuild") != null) {
+    apply(from = "$rootDir/gradle/publish.gradle")
+    apply(from = "$rootDir/gradle/dokka.gradle")
+    apply(from = "$rootDir/gradle/native.gradle")
+    apply(from = "$rootDir/gradle/detekt.gradle")
+}
 
 description = "Template processor adapter for 'jte'."
 
@@ -27,9 +30,8 @@ dependencies {
 
 tasks.named("compileKotlin") { dependsOn("generateJte") }
 tasks.named("processResources") { dependsOn("processTestResources") }
-// TODO Use flags to optimize development builds
-//if (findProperty("enableDetekt") != null)
-tasks.named("detektMain") { dependsOn("compileTestKotlin") }
+if (findProperty("fullBuild") != null)
+    tasks.named("detektMain") { dependsOn("compileTestKotlin") }
 tasks.named("sourcesJar") { dependsOn("compileTestKotlin") }
 
 // TODO Remove when settings prevent this directory from being created (check .gitignore also)

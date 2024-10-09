@@ -69,7 +69,7 @@ dependencyResolutionManagement {
             version("freemarker", "2.3.33")
 
             // templates_jte
-            version("jte", "3.1.12")
+            version("jte", "3.1.13")
 
             // templates_pebble
             version("pebble", "3.2.2")
