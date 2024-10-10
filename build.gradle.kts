@@ -158,6 +158,10 @@ apiValidation {
             "http_test",
             "serialization_test",
             "templates_test",
+            "terminal_test",
+
+            // Experimental modules
+            "terminal",
         )
     )
 }

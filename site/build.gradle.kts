@@ -18,6 +18,7 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         .filterNot { it.absolutePath.contains("http_test") }
         .filterNot { it.absolutePath.contains("serialization_test") }
         .filterNot { it.absolutePath.contains("templates_test") }
+        .filterNot { it.absolutePath.contains("terminal_test") }
         .toList()
 
     executionData.from(projectExecutionData)
