@@ -22,6 +22,7 @@ Check:
 * https://github.com/TeXitoi/structopt
 * https://github.com/spf13/cobra
 * https://ajalt.github.io/clikt
+* https://bloomberg.github.io/stricli/docs/tutorial
 
 ## Install the Dependency
 

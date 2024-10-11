@@ -161,7 +161,6 @@ apiValidation {
             "terminal_test",
 
             // Experimental modules
-            "handlers_poc",
             "terminal",
         )
     )
