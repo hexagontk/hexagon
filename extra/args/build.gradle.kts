@@ -15,5 +15,5 @@ if (findProperty("fullBuild") != null) {
 description = "."
 
 dependencies {
-    "api"(project(":helpers"))
+    "api"(project(":extra:helpers"))
 }
