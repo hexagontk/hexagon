@@ -21,14 +21,16 @@ interface HttpField {
     operator fun minus(element: Any): HttpField
 }
 
+// TODO Rename to HttpField, all HTTP fields must implement it (header, cookie, content-type,
+//  authorization...)
 internal interface HttpValue {
     val name: String
-    val value: Any?
 
-    fun string(): String? =
-        value?.toString()
+    fun string(): String
+    fun parse(text: String): HttpValue
 }
 
-internal interface HttpFields {
+internal data class HttpFields(val d: List<HttpValue>) {
+    val m: Map<String, List<HttpValue>> by lazy { d.groupBy { it.name } }
 
 }
