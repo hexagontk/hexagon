@@ -14,7 +14,6 @@ import kotlin.reflect.cast
 data class ExceptionHandler<T : Any, E : Exception>(
     val exception: KClass<E>,
     val clear: Boolean = true,
-    override val parent: Handler<T>? = null,
     val exceptionCallback: (Context<T>, E) -> Context<T>,
 ) : Handler<T> {
 

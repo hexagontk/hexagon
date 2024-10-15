@@ -10,7 +10,6 @@ package com.hexagontk.handlers
  */
 data class AfterHandler<T : Any>(
     val afterPredicate: (Context<T>) -> Boolean = { true },
-    override val parent: Handler<T>? = null,
     val callback: (Context<T>) -> Context<T>,
 ) : Handler<T> {
 

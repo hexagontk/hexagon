@@ -8,16 +8,9 @@ import kotlin.reflect.KClass
 data class ExceptionHandler<E : Exception>(
     val exception: KClass<E>,
     val clear: Boolean = true,
-    override val parent: HttpHandler? = null,
     val block: HttpExceptionCallbackType<E>,
 ) : HttpHandler,
-    Handler<HttpCall> by ExceptionHandler(exception, clear, parent, toCallback(block)) {
-
-    constructor(
-        exception: KClass<E>,
-        clear: Boolean = true,
-        block: HttpExceptionCallbackType<E>,
-    ) : this(exception, clear, null, block)
+    Handler<HttpCall> by ExceptionHandler(exception, clear, toCallback(block)) {
 
     override val handlerPredicate: HttpPredicate = HttpPredicate()
 
