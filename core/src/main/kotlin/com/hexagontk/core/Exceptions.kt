@@ -6,14 +6,13 @@ import com.hexagontk.core.text.eol
  * This flag is true when assertions are enabled in the JVM (`-ea` flag). Assertions are disabled by
  * default in the JVM, but they are enabled (and should be that way) on the tests.
  */
-val assertEnabled: Boolean by lazy {
+val assertEnabled: Boolean =
     try {
         assert(false)
         false
     } catch (_: AssertionError) {
         true
     }
-}
 
 /** Syntax sugar to throw errors. */
 val fail: Nothing

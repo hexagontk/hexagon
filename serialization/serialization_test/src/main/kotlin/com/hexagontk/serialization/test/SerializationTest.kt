@@ -1,5 +1,6 @@
 package com.hexagontk.serialization.test
 
+import com.hexagontk.core.getPath
 import com.hexagontk.core.requirePath
 import com.hexagontk.serialization.*
 import org.junit.jupiter.api.Test
@@ -14,7 +15,12 @@ abstract class SerializationTest {
     internal data class Person(
         val givenName: String,
         val familyName: String,
-        val birthDate: LocalDate
+        val birthDate: LocalDate,
+    )
+
+    internal data class Group(
+        val name: String,
+        val admin: String?,
     )
 
     abstract val format: SerializationFormat
@@ -41,6 +47,17 @@ abstract class SerializationTest {
         // serializationUsage
     }
 
+    @Test fun nullFields() {
+        SerializationManager.formats = setOf(format)
+        val jason = Group("Group", "Jackson")
+
+        val jasonJson = groupToMap(jason).serialize(format)
+        val parsedJason = mapToGroup(jasonJson.parseMap(format))
+
+        assertEquals(parsedJason, jason)
+        assert(jason !== parsedJason)
+    }
+
     private fun personToMap(person: Person): Map<*, *> =
         mapOf(
             "givenName" to person.givenName,
@@ -48,10 +65,22 @@ abstract class SerializationTest {
             "birthDate" to person.birthDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
         )
 
-    private fun mapToPerson(map: Map<*, *>) =
+    private fun mapToPerson(map: Map<*, *>): Person =
         Person(
             givenName = map.requirePath("givenName"),
             familyName = map.requirePath("familyName"),
             birthDate = LocalDate.parse(map.requirePath("birthDate"))
+        )
+
+    private fun groupToMap(person: Group): Map<*, *> =
+        mapOf(
+            "name" to person.name,
+            "admin" to person.admin,
+        )
+
+    private fun mapToGroup(map: Map<*, *>): Group =
+        Group(
+            name = map.requirePath("name"),
+            admin = map.getPath("admin"),
         )
 }

@@ -38,7 +38,6 @@ extensions.configure<PublishingExtension> {
                 "maven" to libs.versions.maven.get(),
                 "kotlin.version" to libs.versions.kotlin.get(),
                 "dokka.version" to libs.versions.dokka.get(),
-                "junit.version" to libs.versions.junit.get(),
                 "native.tools.version" to libs.versions.nativeTools.get(),
             ))
 

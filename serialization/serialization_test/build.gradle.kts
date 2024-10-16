@@ -14,9 +14,6 @@ if (findProperty("fullBuild") != null) {
 description = "Hexagon serialization testing helpers."
 
 dependencies {
-    val junitVersion = libs.versions.junit.get()
-
     "api"(project(":serialization:serialization"))
-    "api"("org.jetbrains.kotlin:kotlin-test")
-    "api"("org.junit.jupiter:junit-jupiter:$junitVersion")
+    "api"("org.jetbrains.kotlin:kotlin-test-junit5")
 }
