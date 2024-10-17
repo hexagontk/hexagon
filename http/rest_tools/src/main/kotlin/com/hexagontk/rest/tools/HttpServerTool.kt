@@ -13,7 +13,7 @@ import java.net.URL
  * Server with dynamic handler (delegated to [path]). Root handler can be replaced at any time
  * without restarting the server.
  */
-data class HttpServerTool(
+class HttpServerTool(
     private val adapter: HttpServerPort,
     private val settings: HttpServerSettings = HttpServerSettings(),
     var path: PathHandler = PathHandler(),

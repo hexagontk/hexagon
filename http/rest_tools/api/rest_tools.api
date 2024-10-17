@@ -12,22 +12,10 @@ public final class com/hexagontk/rest/tools/HttpClientTool {
 	public final fun assertStatus (Lcom/hexagontk/http/model/HttpStatus;)V
 	public final fun assertStatus (Lcom/hexagontk/http/model/HttpStatusType;)V
 	public final fun assertSuccess ()V
-	public final fun component1 ()Lcom/hexagontk/http/client/HttpClientPort;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Lcom/hexagontk/http/model/ContentType;
-	public final fun component4 ()Ljava/util/List;
-	public final fun component5 ()Ljava/util/Map;
-	public final fun component6 ()Lcom/hexagontk/http/SslSettings;
-	public final fun component7 ()Lcom/hexagontk/http/handlers/HttpHandler;
-	public final fun component8 ()Lcom/hexagontk/http/model/Authorization;
-	public final fun component9 ()Z
-	public final fun copy (Lcom/hexagontk/http/client/HttpClientPort;Ljava/lang/String;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/Map;Lcom/hexagontk/http/SslSettings;Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/model/Authorization;Z)Lcom/hexagontk/rest/tools/HttpClientTool;
-	public static synthetic fun copy$default (Lcom/hexagontk/rest/tools/HttpClientTool;Lcom/hexagontk/http/client/HttpClientPort;Ljava/lang/String;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/Map;Lcom/hexagontk/http/SslSettings;Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/model/Authorization;ZILjava/lang/Object;)Lcom/hexagontk/rest/tools/HttpClientTool;
 	public final fun delete (Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public final fun delete (Lkotlin/Pair;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public static synthetic fun delete$default (Lcom/hexagontk/rest/tools/HttpClientTool;Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public static synthetic fun delete$default (Lcom/hexagontk/rest/tools/HttpClientTool;Lkotlin/Pair;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun get (Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public final fun get (Lkotlin/Pair;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public static synthetic fun get$default (Lcom/hexagontk/rest/tools/HttpClientTool;Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;
@@ -49,7 +37,6 @@ public final class com/hexagontk/rest/tools/HttpClientTool {
 	public final fun getSslSettings ()Lcom/hexagontk/http/SslSettings;
 	public final fun getStatus ()Lcom/hexagontk/http/model/HttpStatus;
 	public final fun getUrl ()Ljava/lang/String;
-	public fun hashCode ()I
 	public final fun options (Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public final fun options (Lkotlin/Pair;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public static synthetic fun options$default (Lcom/hexagontk/rest/tools/HttpClientTool;Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;
@@ -77,7 +64,6 @@ public final class com/hexagontk/rest/tools/HttpClientTool {
 	public final fun request (Lkotlin/jvm/functions/Function1;)V
 	public final fun start ()V
 	public final fun stop ()V
-	public fun toString ()Ljava/lang/String;
 	public final fun trace (Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public final fun trace (Lkotlin/Pair;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public static synthetic fun trace$default (Lcom/hexagontk/rest/tools/HttpClientTool;Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;
@@ -91,19 +77,13 @@ public final class com/hexagontk/rest/tools/HttpClientTool$Companion {
 public final class com/hexagontk/rest/tools/HttpServerTool {
 	public fun <init> (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/server/HttpServerSettings;Lcom/hexagontk/http/handlers/PathHandler;)V
 	public synthetic fun <init> (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/server/HttpServerSettings;Lcom/hexagontk/http/handlers/PathHandler;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component3 ()Lcom/hexagontk/http/handlers/PathHandler;
-	public final fun copy (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/server/HttpServerSettings;Lcom/hexagontk/http/handlers/PathHandler;)Lcom/hexagontk/rest/tools/HttpServerTool;
-	public static synthetic fun copy$default (Lcom/hexagontk/rest/tools/HttpServerTool;Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/server/HttpServerSettings;Lcom/hexagontk/http/handlers/PathHandler;ILjava/lang/Object;)Lcom/hexagontk/rest/tools/HttpServerTool;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBinding ()Ljava/net/URL;
 	public final fun getPath ()Lcom/hexagontk/http/handlers/PathHandler;
 	public final fun getRuntimePort ()I
-	public fun hashCode ()I
 	public final fun path (Lkotlin/jvm/functions/Function1;)V
 	public final fun setPath (Lcom/hexagontk/http/handlers/PathHandler;)V
 	public final fun start ()V
 	public final fun stop ()V
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/hexagontk/rest/tools/RecordCallback : kotlin/jvm/functions/Function1 {

@@ -15,7 +15,7 @@ import com.hexagontk.http.model.HttpStatusType.SUCCESS
 import com.hexagontk.http.patterns.createPathPattern
 import com.hexagontk.rest.SerializeRequestCallback
 
-data class HttpClientTool(
+class HttpClientTool(
     val adapter: HttpClientPort,
     val url: String? = null,
     val httpContentType: ContentType? = null,
