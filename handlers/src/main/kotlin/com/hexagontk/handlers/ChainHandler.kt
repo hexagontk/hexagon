@@ -1,6 +1,6 @@
 package com.hexagontk.handlers
 
-data class ChainHandler<T : Any>(
+class ChainHandler<T : Any>(
     val handlers: List<Handler<T>>,
     override val predicate: (Context<T>) -> Boolean = { true },
 ) : Handler<T> {

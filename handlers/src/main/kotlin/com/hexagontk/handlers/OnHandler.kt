@@ -1,6 +1,6 @@
 package com.hexagontk.handlers
 
-data class OnHandler<T : Any>(
+class OnHandler<T : Any>(
     override val predicate: (Context<T>) -> Boolean = { true },
     val callback: (Context<T>) -> Context<T>,
 ) : Handler<T> {

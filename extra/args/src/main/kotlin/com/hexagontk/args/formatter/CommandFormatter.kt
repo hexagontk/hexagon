@@ -10,9 +10,9 @@ import com.hexagontk.args.Property
  *
  * @property propertyFormatter
  */
-data class CommandFormatter(
-    val indent: String = "  ",
-    val propertyFormatter: Formatter<Property<*>> = PropertyFormatter()
+class CommandFormatter(
+    private val indent: String = "  ",
+    private val propertyFormatter: Formatter<Property<*>> = PropertyFormatter()
 ) : Formatter<Command> {
 
     override fun summary(component: Command): String {
