@@ -14,8 +14,8 @@ import java.net.URL
  * without restarting the server.
  */
 class HttpServerTool(
-    private val adapter: HttpServerPort,
-    private val settings: HttpServerSettings = HttpServerSettings(),
+    adapter: HttpServerPort,
+    settings: HttpServerSettings = HttpServerSettings(),
     var path: PathHandler = PathHandler(),
 ) {
     val runtimePort: Int by lazy { server.runtimePort }

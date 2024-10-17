@@ -20,23 +20,16 @@ public final class com/hexagontk/rest/tools/HttpClientTool {
 	public final fun get (Lkotlin/Pair;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public static synthetic fun get$default (Lcom/hexagontk/rest/tools/HttpClientTool;Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public static synthetic fun get$default (Lcom/hexagontk/rest/tools/HttpClientTool;Lkotlin/Pair;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;
-	public final fun getAdapter ()Lcom/hexagontk/http/client/HttpClientPort;
 	public final fun getAttributes ()Ljava/util/Map;
-	public final fun getAuthorization ()Lcom/hexagontk/http/model/Authorization;
 	public final fun getBody ()Ljava/lang/Object;
 	public final fun getContentType ()Lcom/hexagontk/http/model/ContentType;
 	public final fun getCookies ()Ljava/util/Map;
-	public final fun getFollowRedirects ()Z
 	public final fun getHandler ()Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getHeaders ()Lcom/hexagontk/http/model/Headers;
-	public final fun getHttpAccept ()Ljava/util/List;
-	public final fun getHttpContentType ()Lcom/hexagontk/http/model/ContentType;
 	public final fun getHttpHeaders ()Ljava/util/Map;
 	public final fun getRequest ()Lcom/hexagontk/http/model/HttpRequest;
 	public final fun getResponse ()Lcom/hexagontk/http/model/HttpResponsePort;
-	public final fun getSslSettings ()Lcom/hexagontk/http/SslSettings;
 	public final fun getStatus ()Lcom/hexagontk/http/model/HttpStatus;
-	public final fun getUrl ()Ljava/lang/String;
 	public final fun options (Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public final fun options (Lkotlin/Pair;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public static synthetic fun options$default (Lcom/hexagontk/rest/tools/HttpClientTool;Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;

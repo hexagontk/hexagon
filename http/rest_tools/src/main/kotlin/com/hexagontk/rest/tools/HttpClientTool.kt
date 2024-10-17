@@ -16,15 +16,15 @@ import com.hexagontk.http.patterns.createPathPattern
 import com.hexagontk.rest.SerializeRequestCallback
 
 class HttpClientTool(
-    val adapter: HttpClientPort,
-    val url: String? = null,
-    val httpContentType: ContentType? = null,
-    val httpAccept: List<ContentType> = emptyList(),
+    adapter: HttpClientPort,
+    url: String? = null,
+    httpContentType: ContentType? = null,
+    httpAccept: List<ContentType> = emptyList(),
     val httpHeaders: Map<String, *> = emptyMap<String, Any>(),
-    val sslSettings: SslSettings? = SslSettings(),
+    sslSettings: SslSettings? = SslSettings(),
     val handler: HttpHandler? = serializeHandler,
-    val authorization: Authorization? = null,
-    val followRedirects: Boolean = false
+    authorization: Authorization? = null,
+    followRedirects: Boolean = false
 ) {
     companion object {
         // TODO Use SerializeRequestHandler when created
