@@ -46,7 +46,7 @@ dependencyResolutionManagement {
             version("cronutils", "9.2.1")
 
             // http_server_netty
-            version("netty", "4.1.113.Final")
+            version("netty", "4.1.114.Final")
             version("nettyTcNative", "2.0.66.Final")
 
             // http_server_helidon
@@ -57,10 +57,10 @@ dependencyResolutionManagement {
             version("jetty", "12.0.14")
 
             // rest_tools
-            version("swaggerRequestValidator", "2.42.0")
+            version("swaggerRequestValidator", "2.43.0")
 
             // serialization
-            version("jackson", "2.17.2")
+            version("jackson", "2.18.0")
             version("dslJson", "2.0.2")
 
             // serverless_http_google
