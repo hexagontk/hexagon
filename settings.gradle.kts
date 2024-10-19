@@ -18,21 +18,20 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.0.20")
+            version("kotlin", "2.0.21")
             version("dokka", "1.9.20")
             version("licenseReport", "2.9")
             version("binValidator", "0.16.3")
             version("nativeTools", "0.10.3")
             version("detekt", "1.23.7")
             version("jmhGradle", "0.7.2")
-            version("gradleWrapper", "8.10.1")
-            version("mkdocsMaterial", "9.5.33")
+            version("gradleWrapper", "8.10.2")
+            version("mkdocsMaterial", "9.5.41")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.9")
 
             // Testing
-            version("junit", "5.11.0")
-            version("mockk", "1.13.12")
+            version("mockk", "1.13.13")
             version("gatling", "3.10.5")
             version("jmh", "1.37")
 
@@ -40,28 +39,28 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.16")
 
             // http_server_netty
-            version("netty", "4.1.113.Final")
+            version("netty", "4.1.114.Final")
             version("nettyTcNative", "2.0.66.Final")
 
             // http_server_helidon
-            version("helidon", "4.1.1")
+            version("helidon", "4.1.2")
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.0.13")
+            version("jetty", "12.0.14")
 
             // rest_tools
-            version("swaggerRequestValidator", "2.42.0")
+            version("swaggerRequestValidator", "2.43.0")
 
             // serialization
-            version("jackson", "2.17.2")
+            version("jackson", "2.18.0")
             version("dslJson", "2.0.2")
 
             // templates_freemarker
             version("freemarker", "2.3.33")
 
             // templates_jte
-            version("jte", "3.1.12")
+            version("jte", "3.1.13")
 
             // templates_pebble
             version("pebble", "3.2.2")

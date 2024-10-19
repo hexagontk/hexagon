@@ -49,20 +49,6 @@ pub  4096R/2AEE3721 2020-05-30 Hexagon Toolkit (Key used to sign published binar
 [pgp key]: https://keys.openpgp.org/search?q=project%40hexagonkt.com
 [site pgp key]: project_hexagonkt_com_public.key
 
-# Dependencies Verification (hexagontk.com)
-Hexagon's dependencies are signed, you can get the public key at the
-[Ubuntu Public Key Server][pgp key 2] or [here][site pgp key 2].
-
-These are the details of the public key:
-
-```
-pub  ed25519/0E16E194 2024-08-24 Hexagon Toolkit (Key used to sign published binaries) <project@hexagontk.com>
-     268363E34136BFA0AA6C8AE61902F0990E16E194
-```
-
-[pgp key 2]: https://keyserver.ubuntu.com/pks/lookup?search=project%40hexagontk.com&op=index
-[site pgp key 2]: project_hexagontk_com_public.key
-
 # Next Steps
 To continue learning about this toolkit, you can:
 
