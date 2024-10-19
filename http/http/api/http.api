@@ -44,18 +44,12 @@ public final class com/hexagontk/http/SslSettings {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/hexagontk/http/model/Authorization {
+public final class com/hexagontk/http/model/Authorization : com/hexagontk/http/model/HttpValue {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/hexagontk/http/model/Authorization;
-	public static synthetic fun copy$default (Lcom/hexagontk/http/model/Authorization;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagontk/http/model/Authorization;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getText ()Ljava/lang/String;
+	public fun getName ()Ljava/lang/String;
+	public fun getText ()Ljava/lang/String;
 	public final fun getType ()Ljava/lang/String;
 	public final fun getValue ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/hexagontk/http/model/ContentType {

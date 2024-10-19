@@ -6,10 +6,10 @@ import com.hexagontk.args.Parameter
 import com.hexagontk.args.Property
 import com.hexagontk.helpers.text.camelToSnake
 
-data class PropertyFormatter(
-    val namesSeparator: String = ", ",
-    val expandRegex: Boolean = false,
-    val fieldSeparator: String = ". ",
+class PropertyFormatter(
+    private val namesSeparator: String = ", ",
+    private val expandRegex: Boolean = false,
+    private val fieldSeparator: String = ". ",
 ) : Formatter<Property<*>> {
 
     override fun summary(component: Property<*>): String =

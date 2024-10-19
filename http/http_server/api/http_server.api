@@ -5,21 +5,14 @@ public final class com/hexagontk/http/server/HttpServer : java/io/Closeable {
 	public fun <init> (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun <init> (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
-	public final fun component2 ()Lcom/hexagontk/http/handlers/HttpHandler;
-	public final fun component3 ()Lcom/hexagontk/http/server/HttpServerSettings;
-	public final fun copy (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/server/HttpServerSettings;)Lcom/hexagontk/http/server/HttpServer;
-	public static synthetic fun copy$default (Lcom/hexagontk/http/server/HttpServer;Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/server/HttpServerSettings;ILjava/lang/Object;)Lcom/hexagontk/http/server/HttpServer;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBinding ()Ljava/net/URL;
 	public final fun getHandler ()Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getPortName ()Ljava/lang/String;
 	public final fun getRuntimePort ()I
 	public final fun getSettings ()Lcom/hexagontk/http/server/HttpServerSettings;
-	public fun hashCode ()I
 	public final fun start ()V
 	public final fun started ()Z
 	public final fun stop ()V
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/hexagontk/http/server/HttpServer$Companion {

@@ -37,7 +37,7 @@ import java.net.URL
  *
  * TODO Allow light startup log
  */
-data class HttpServer(
+class HttpServer(
     private val adapter: HttpServerPort,
     val handler: HttpHandler,
     val settings: HttpServerSettings = HttpServerSettings()

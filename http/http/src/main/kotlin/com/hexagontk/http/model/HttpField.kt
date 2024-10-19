@@ -2,8 +2,6 @@ package com.hexagontk.http.model
 
 /**
  * HTTP multi-value field. Used in headers, query parameters and form parameters.
- *
- * TODO Convert to name: String, value: Map<String, Any?>
  */
 interface HttpField {
     val name: String
@@ -25,12 +23,9 @@ interface HttpField {
 //  authorization...)
 internal interface HttpValue {
     val name: String
-
-    fun string(): String
-    fun parse(text: String): HttpValue
+    val text: String
 }
 
-internal data class HttpFields(val d: List<HttpValue>) {
-    val m: Map<String, List<HttpValue>> by lazy { d.groupBy { it.name } }
-
+internal class HttpFields<T : HttpValue>(val d: List<T>) {
+    val m: Map<String, List<T>> by lazy { d.groupBy { it.name } }
 }

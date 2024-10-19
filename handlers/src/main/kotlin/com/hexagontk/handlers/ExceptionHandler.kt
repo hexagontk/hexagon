@@ -11,9 +11,9 @@ import kotlin.reflect.cast
  * If they are not called in first place, they won't be executed on the return of the next handler.
  * Their filter is evaluated after the `next` call, not before.
  */
-data class ExceptionHandler<T : Any, E : Exception>(
+class ExceptionHandler<T : Any, E : Exception>(
     val exception: KClass<E>,
-    val clear: Boolean = true,
+    private val clear: Boolean = true,
     val exceptionCallback: (Context<T>, E) -> Context<T>,
 ) : Handler<T> {
 

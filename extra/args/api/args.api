@@ -206,21 +206,12 @@ public final class com/hexagontk/args/formatter/CommandFormatter : com/hexagontk
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;Lcom/hexagontk/args/formatter/Formatter;)V
 	public synthetic fun <init> (Ljava/lang/String;Lcom/hexagontk/args/formatter/Formatter;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Lcom/hexagontk/args/formatter/Formatter;
-	public final fun copy (Ljava/lang/String;Lcom/hexagontk/args/formatter/Formatter;)Lcom/hexagontk/args/formatter/CommandFormatter;
-	public static synthetic fun copy$default (Lcom/hexagontk/args/formatter/CommandFormatter;Ljava/lang/String;Lcom/hexagontk/args/formatter/Formatter;ILjava/lang/Object;)Lcom/hexagontk/args/formatter/CommandFormatter;
 	public fun definition (Lcom/hexagontk/args/Command;)Ljava/lang/String;
 	public synthetic fun definition (Ljava/lang/Object;)Ljava/lang/String;
 	public fun detail (Lcom/hexagontk/args/Command;)Ljava/lang/String;
 	public synthetic fun detail (Ljava/lang/Object;)Ljava/lang/String;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getIndent ()Ljava/lang/String;
-	public final fun getPropertyFormatter ()Lcom/hexagontk/args/formatter/Formatter;
-	public fun hashCode ()I
 	public fun summary (Lcom/hexagontk/args/Command;)Ljava/lang/String;
 	public synthetic fun summary (Ljava/lang/Object;)Ljava/lang/String;
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/hexagontk/args/formatter/DefaultFormatter : com/hexagontk/args/Formatter {
@@ -242,22 +233,11 @@ public final class com/hexagontk/args/formatter/PropertyFormatter : com/hexagont
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;ZLjava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;ZLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Z
-	public final fun component3 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;ZLjava/lang/String;)Lcom/hexagontk/args/formatter/PropertyFormatter;
-	public static synthetic fun copy$default (Lcom/hexagontk/args/formatter/PropertyFormatter;Ljava/lang/String;ZLjava/lang/String;ILjava/lang/Object;)Lcom/hexagontk/args/formatter/PropertyFormatter;
 	public fun definition (Lcom/hexagontk/args/Property;)Ljava/lang/String;
 	public synthetic fun definition (Ljava/lang/Object;)Ljava/lang/String;
 	public fun detail (Lcom/hexagontk/args/Property;)Ljava/lang/String;
 	public synthetic fun detail (Ljava/lang/Object;)Ljava/lang/String;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getExpandRegex ()Z
-	public final fun getFieldSeparator ()Ljava/lang/String;
-	public final fun getNamesSeparator ()Ljava/lang/String;
-	public fun hashCode ()I
 	public fun summary (Lcom/hexagontk/args/Property;)Ljava/lang/String;
 	public synthetic fun summary (Ljava/lang/Object;)Ljava/lang/String;
-	public fun toString ()Ljava/lang/String;
 }
 
