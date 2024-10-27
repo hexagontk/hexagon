@@ -26,7 +26,7 @@ dependencyResolutionManagement {
             version("detekt", "1.23.7")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.10.2")
-            version("mkdocsMaterial", "9.5.41")
+            version("mkdocsMaterial", "9.5.42")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.9")
 
@@ -43,7 +43,7 @@ dependencyResolutionManagement {
             version("nettyTcNative", "2.0.66.Final")
 
             // http_server_helidon
-            version("helidon", "4.1.2")
+            version("helidon", "4.1.3")
 
             // http_server_servlet
             version("servlet", "6.1.0")
