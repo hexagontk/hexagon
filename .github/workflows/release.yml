@@ -47,8 +47,8 @@ jobs:
           JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_SONATYPE_PASSWORD: ${{ secrets.HEXAGONTK_REPOSITORY_PASSWORD }}
         run: |
           export JRELEASER_GPG_PUBLIC_KEY="$(cat site/assets/project_hexagontk_com_public.key)"
-          ./gradlew --no-daemon -x test publish
-          ./gradlew --no-daemon -x test jreleaserFullRelease
+          ./gradlew --no-daemon -x test -P fullBuild publish
+          ./gradlew --no-daemon -x test -P fullBuild jreleaserFullRelease
           git push --tags
 
   build_site:

@@ -63,8 +63,8 @@ jobs:
           export GIT_COMMITTER_NAME="${GITHUB_ACTOR}"
           export GIT_COMMITTER_EMAIL="project@hexagontk.com"
           git fetch origin gh-pages --depth=1
-          ./gradlew --stacktrace build
-          ./gradlew --stacktrace -x build buildSite ${{ inputs.options }}
+          ./gradlew --stacktrace -P fullBuild build
+          ./gradlew --stacktrace -P fullBuild -x build buildSite ${{ inputs.options }}
 
       - if: ${{ inputs.check_directory != '' }}
         run: ls -AlF "${{ inputs.check_directory }}"
