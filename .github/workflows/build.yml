@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   build:
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
       check_directory: core/build
 
@@ -21,7 +21,7 @@ jobs:
 
     if: false
     name: os_build (${{ matrix.os }})
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
       os: ${{ matrix.os }}
       check_directory: core/build
