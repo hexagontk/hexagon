@@ -184,6 +184,7 @@ jreleaser {
                     applyMavenCentralRules = false // Already checked
                     active.set(ALWAYS)
                     url = "https://central.sonatype.com/api/v1/publisher"
+                    maxRetries = 240
 
                     val stagingProperty = findProperty("stagingDirectory")?.toString()
                     val stagingDirectory = stagingProperty ?: System.getenv("STAGING_DIRECTORY")
