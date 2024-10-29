@@ -1,7 +1,6 @@
 package com.hexagontk.http.test.examples
 
 import com.hexagontk.core.fail
-import com.hexagontk.core.require
 import com.hexagontk.core.security.getPrivateKey
 import com.hexagontk.core.security.getPublicKey
 import com.hexagontk.core.security.loadKeyStore
@@ -10,7 +9,7 @@ import com.hexagontk.http.SslSettings
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientPort
 import com.hexagontk.http.client.HttpClientSettings
-import com.hexagontk.http.model.Header
+import com.hexagontk.http.model.Field
 import com.hexagontk.http.model.HttpProtocol.HTTP2
 import com.hexagontk.http.model.HttpProtocol.HTTPS
 import com.hexagontk.http.server.*
@@ -57,7 +56,7 @@ abstract class HttpsTest(
     private val router = path {
         get("/hello") {
             val certificateSubject = request.certificate()?.subjectX500Principal?.name ?: fail
-            val headers = response.headers + Header("cert", certificateSubject)
+            val headers = response.headers + Field("cert", certificateSubject)
             ok("Hello World!", headers = headers)
         }
     }
@@ -99,7 +98,7 @@ abstract class HttpsTest(
             get("/hello") {
                 // We can access the certificate used by the client from the request
                 val subjectDn = request.certificate()?.subjectX500Principal?.name ?: ""
-                val h = response.headers + Header("cert", subjectDn)
+                val h = response.headers + Field("cert", subjectDn)
                 ok("Hello World!", headers = h)
             }
         }
@@ -113,7 +112,7 @@ abstract class HttpsTest(
         client.start()
         client.get("/hello").apply {
             // Assure the certificate received (and returned) by the server is correct
-            assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
+            assert(headers.require("cert").text.startsWith("CN=hexagontk.com"))
             assertEquals("Hello World!", body)
         }
         // https
@@ -131,7 +130,7 @@ abstract class HttpsTest(
         val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = serverBase(server)))
         client.start()
         client.get("/hello").apply {
-            assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
+            assert(headers.require("cert").text.startsWith("CN=hexagontk.com"))
             assertEquals("Hello World!", body)
         }
 
@@ -148,7 +147,7 @@ abstract class HttpsTest(
         val client = HttpClient(clientAdapter(), clientSettings.copy(baseUrl = serverBase(server)))
         client.start()
         client.get("/hello").apply {
-            assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
+            assert(headers.require("cert").text.startsWith("CN=hexagontk.com"))
             assertEquals("Hello World!", body)
         }
 

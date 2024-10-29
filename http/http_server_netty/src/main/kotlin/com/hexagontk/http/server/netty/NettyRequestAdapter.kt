@@ -1,8 +1,6 @@
 package com.hexagontk.http.server.netty
 
 import com.hexagontk.http.model.*
-import com.hexagontk.http.model.Headers
-import com.hexagontk.http.model.Headers as HxHttpHeaders
 import com.hexagontk.http.parseContentType
 import io.netty.buffer.ByteBufHolder
 import io.netty.buffer.ByteBufUtil
@@ -41,9 +39,11 @@ class NettyRequestAdapter(
         nettyHeaders[CONTENT_LENGTH]?.toLong() ?: 0L
     }
 
-    override val queryParameters: QueryParameters by lazy {
+    override val queryParameters: Parameters by lazy {
         val queryStringDecoder = QueryStringDecoder(req.uri())
-        QueryParameters(queryStringDecoder.parameters().map { (k, v) -> QueryParameter(k, v) })
+        Parameters(
+            queryStringDecoder.parameters().flatMap { (k, v) -> v.map { Field(k, it) } }
+        )
     }
 
     override val parts: List<HttpPart> by lazy {
@@ -61,14 +61,12 @@ class NettyRequestAdapter(
         }
     }
 
-    override val formParameters: FormParameters by lazy {
+    override val formParameters: Parameters by lazy {
         val fields = parts
             .filter { it.submittedFileName == null }
-            .groupBy { it.name }
-            .mapValues { it.value.map { v -> v.bodyString() } }
-            .map { (k, v) -> FormParameter(k, v) }
+            .map { Field(it.name, it.bodyString()) }
 
-        FormParameters(fields)
+        Parameters(fields)
     }
 
     override val method: HttpMethod by lazy {
@@ -124,12 +122,12 @@ class NettyRequestAdapter(
         else byteArrayOf()
     }
 
-    override val headers: HxHttpHeaders by lazy {
-        HxHttpHeaders(
+    override val headers: Headers by lazy {
+        Headers(
             nettyHeaders.names()
                 .toList()
                 .map { it.lowercase() }
-                .map { Header(it, nettyHeaders.getAll(it)) }
+                .flatMap { h -> nettyHeaders.getAll(h).map { Field(h, it) } }
         )
     }
 
@@ -148,9 +146,9 @@ class NettyRequestAdapter(
         host: String,
         port: Int,
         path: String,
-        queryParameters: QueryParameters,
+        queryParameters: Parameters,
         parts: List<HttpPart>,
-        formParameters: FormParameters,
+        formParameters: Parameters,
         cookies: List<com.hexagontk.http.model.Cookie>,
         accept: List<ContentType>,
         authorization: Authorization?,

@@ -2,7 +2,7 @@
 # Module http_client_jetty
 [http_client] implementation using the [Jetty HTTP Client] library.
 
-[http_client]: http_client
+[http_client]: http_client.md
 [Jetty HTTP Client]: https://jetty.org/docs/jetty/12/programming-guide
 
 ### Install the Dependency

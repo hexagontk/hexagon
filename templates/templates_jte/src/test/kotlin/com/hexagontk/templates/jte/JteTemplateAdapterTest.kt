@@ -7,4 +7,4 @@ import org.junit.jupiter.api.condition.DisabledInNativeImage
 
 @DisabledInNativeImage
 internal class JteTemplateAdapterTest :
-    TemplateAdapterTest(urlOf("classpath:templates/test.jte"), JteAdapter(TEXT_HTML))
+    TemplateAdapterTest(urlOf("classpath:templates/test.jte"), Jte(TEXT_HTML))

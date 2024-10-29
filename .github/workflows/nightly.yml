@@ -31,7 +31,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: build (${{ matrix.os }})
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
       os: ${{ matrix.os }}
       check_directory: core/build
@@ -44,7 +44,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: sample_keystores (${{ matrix.os }})
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
       os: ${{ matrix.os }}
       ref: develop
@@ -74,10 +74,10 @@ jobs:
           cache: gradle
       - run: echo "COMMIT_COUNT=$(git log --oneline --since '24 hours ago' | wc -l)" >> $GITHUB_ENV
       - if: ${{ env.COMMIT_COUNT > 0 }}
-        run: ./gradlew --stacktrace nativeTest
+        run: ./gradlew --stacktrace -P fullBuild nativeTest
 
   jmh:
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
       ref: develop
       tasks: jmh
@@ -94,9 +94,9 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: test_publishing (${{ matrix.os }})
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
       os: ${{ matrix.os }}
       ref: develop
       check_directory: core/build
-      tasks: publishToMavenLocal -x test
+      tasks: publishToMavenLocal -P fullBuild -x test

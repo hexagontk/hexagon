@@ -1,8 +1,11 @@
 package com.hexagontk.http.model
 
-data class Authorization(
+class Authorization(
     val type: String,
-    val value: String,
-) {
-    val text: String by lazy { "$type $value" }
+    val body: String,
+) : HttpField {
+    override val name: String = "authorization"
+    override val value: String by lazy { text }
+
+    override val text: String by lazy { "$type $body" }
 }

@@ -1,0 +1,16 @@
+public final class com/hexagontk/templates/jte/Jte : com/hexagontk/templates/TemplatePort {
+	public fun <init> (Lcom/hexagontk/core/media/MediaType;Ljava/net/URL;Z)V
+	public synthetic fun <init> (Lcom/hexagontk/core/media/MediaType;Ljava/net/URL;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun render (Ljava/lang/String;Ljava/util/Map;Ljava/util/Locale;)Ljava/lang/String;
+	public fun render (Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;Ljava/util/Locale;)Ljava/lang/String;
+	public fun render (Ljava/net/URL;Ljava/util/Map;Ljava/util/Locale;)Ljava/lang/String;
+}
+
+public final class gg/jte/generated/precompiled/JtetestGenerated {
+	public static final field JTE_LINE_INFO [I
+	public static final field JTE_NAME Ljava/lang/String;
+	public fun <init> ()V
+	public static fun render (Lgg/jte/html/HtmlTemplateOutput;Lgg/jte/html/HtmlInterceptor;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/time/LocalDateTime;Ljava/net/URL;Ljava/time/LocalDateTime;)V
+	public static fun renderMap (Lgg/jte/html/HtmlTemplateOutput;Lgg/jte/html/HtmlInterceptor;Ljava/util/Map;)V
+}
+

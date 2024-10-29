@@ -2,7 +2,7 @@
 # Module templates_jte
 [jte] template engine adapter for Hexagon.
 
-For usage instructions, refer to the [Templates Port documentation](/templates/).
+For usage instructions, refer to the [Templates Port documentation](templates.md).
 
 [jte]: https://jte.gg
 

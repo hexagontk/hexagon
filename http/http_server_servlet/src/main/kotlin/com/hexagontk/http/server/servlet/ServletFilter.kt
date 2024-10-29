@@ -1,6 +1,7 @@
 package com.hexagontk.http.server.servlet
 
-import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.info
+import com.hexagontk.core.loggerOf
 import com.hexagontk.core.media.TEXT_PLAIN
 import com.hexagontk.core.toText
 import com.hexagontk.http.handlers.bodyToBytes
@@ -12,11 +13,12 @@ import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpFilter
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import java.lang.System.Logger
 
 class ServletFilter(pathHandler: HttpHandler) : HttpFilter() {
 
     private companion object {
-        val logger: Logger = Logger(ServletFilter::class)
+        val logger: Logger = loggerOf(ServletFilter::class)
     }
 
     private val handlers: Map<String, HttpHandler> =
@@ -71,8 +73,8 @@ class ServletFilter(pathHandler: HttpHandler) : HttpFilter() {
         response: HttpResponsePort,
         servletResponse: HttpServletResponse
     ) {
-        response.headers.values.forEach { (k, v) ->
-            v.forEach { servletResponse.addHeader(k, it.toString()) }
+        response.headers.all.forEach { (k, v) ->
+            v.forEach { servletResponse.addHeader(k, it.text) }
         }
 
         response.cookies
@@ -89,6 +91,6 @@ class ServletFilter(pathHandler: HttpHandler) : HttpFilter() {
             }
 
         response.contentType?.let { servletResponse.addHeader("content-type", it.text) }
-        servletResponse.status = response.status.code
+        servletResponse.status = response.status
     }
 }

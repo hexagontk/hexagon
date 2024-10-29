@@ -1,10 +1,8 @@
 package com.hexagontk.web
 
 import com.hexagontk.core.media.mediaTypeOfOrNull
-import com.hexagontk.http.model.ContentType
 import com.hexagontk.http.handlers.HttpContext
-import com.hexagontk.http.model.Cookie
-import com.hexagontk.http.model.Headers
+import com.hexagontk.http.model.*
 import com.hexagontk.templates.TemplateManager
 import com.hexagontk.templates.TemplatePort
 import java.net.URL

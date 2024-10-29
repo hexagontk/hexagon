@@ -158,13 +158,6 @@ apiValidation {
             "http_test",
             "serialization_test",
             "templates_test",
-
-            // Experimental modules
-            "rest",
-            "rest_tools",
-            "serverless_http_google",
-            "web",
-            "templates_jte",
         )
     )
 }

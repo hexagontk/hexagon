@@ -1,0 +1,29 @@
+public final class com/hexagontk/rest/RestKt {
+	public static final fun bodyList (Lcom/hexagontk/http/model/HttpBase;)Ljava/util/List;
+	public static final fun bodyMap (Lcom/hexagontk/http/model/HttpBase;)Ljava/util/Map;
+	public static final fun bodyMaps (Lcom/hexagontk/http/model/HttpBase;)Ljava/util/List;
+	public static final fun bodyObject (Lcom/hexagontk/http/model/HttpBase;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun bodyObjects (Lcom/hexagontk/http/model/HttpBase;Lkotlin/jvm/functions/Function1;)Ljava/util/List;
+	public static final fun getAnyContentType ()Lcom/hexagontk/http/model/ContentType;
+	public static final fun getCsvContentType ()Lcom/hexagontk/http/model/ContentType;
+	public static final fun getJsonContentType ()Lcom/hexagontk/http/model/ContentType;
+	public static final fun getTextContentType ()Lcom/hexagontk/http/model/ContentType;
+	public static final fun getTomlContentType ()Lcom/hexagontk/http/model/ContentType;
+	public static final fun getXmlContentType ()Lcom/hexagontk/http/model/ContentType;
+	public static final fun getYamlContentType ()Lcom/hexagontk/http/model/ContentType;
+	public static final fun mediaType (Lcom/hexagontk/http/model/HttpBase;)Lcom/hexagontk/core/media/MediaType;
+	public static final fun serializeBody (Lcom/hexagontk/http/model/HttpBase;)Ljava/lang/Object;
+}
+
+public final class com/hexagontk/rest/SerializeRequestCallback : com/hexagontk/http/handlers/HttpCallback {
+	public fun <init> ()V
+	public fun invoke (Lcom/hexagontk/http/handlers/HttpContext;)Lcom/hexagontk/http/handlers/HttpContext;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/hexagontk/rest/SerializeResponseCallback : com/hexagontk/http/handlers/HttpCallback {
+	public fun <init> ()V
+	public fun invoke (Lcom/hexagontk/http/handlers/HttpContext;)Lcom/hexagontk/http/handlers/HttpContext;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+}
+

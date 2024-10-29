@@ -46,7 +46,7 @@ To set up this script's parameters, check the [build variables section]. These h
 
 [Maven Central]: https://search.maven.org
 [kotlin.gradle]: https://github.com/hexagontk/hexagon/blob/main/gradle/kotlin.gradle
-[build variables section]: gradle/#build-variables
+[build variables section]: #build-variables
 
 ## Dokka
 This script set up [Dokka] tool and add a JAR with the project's code documentation to the published

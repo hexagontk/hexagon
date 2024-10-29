@@ -51,7 +51,8 @@ rootProject
 
 task("mkDocs") {
     dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
-    dependsOn("icons")
+    // TODO Fix 'convert' command execution (icons.gradle) in latest Ubuntu 24 LTS (used in runners)
+//    dependsOn("icons")
 
     doLast {
         val contentTarget = project.file("build/content").absolutePath
@@ -156,6 +157,7 @@ tasks.register<Exec>("defaultSite") {
 }
 
 tasks.register<Exec>("serveSite") {
+    dependsOn("checkDocs", "installMkDocs")
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
     commandLine("$venv/bin/mike serve".split(" "))
 }

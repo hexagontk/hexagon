@@ -20,18 +20,9 @@ val APPLICATION_GZIP: MediaType by lazy { MediaType(APPLICATION, "gzip") }
 val APPLICATION_COMPRESS: MediaType by lazy { MediaType(APPLICATION, "compress") }
 val APPLICATION_OCTET_STREAM: MediaType by lazy { MediaType(APPLICATION, "octet-stream") }
 val APPLICATION_PDF: MediaType by lazy { MediaType(APPLICATION, "pdf") }
-val APPLICATION_POSTSCRIPT: MediaType by lazy { MediaType(APPLICATION, "postscript") }
 val APPLICATION_RTF: MediaType by lazy { MediaType(APPLICATION, "rtf") }
-val APPLICATION_X_CSH: MediaType by lazy { MediaType(APPLICATION, "x-csh") }
-val APPLICATION_X_GTAR: MediaType by lazy { MediaType(APPLICATION, "x-gtar") }
-val APPLICATION_X_LATEX: MediaType by lazy { MediaType(APPLICATION, "x-latex") }
-val APPLICATION_X_SH: MediaType by lazy { MediaType(APPLICATION, "x-sh") }
 val APPLICATION_X_TAR: MediaType by lazy { MediaType(APPLICATION, "x-tar") }
-val APPLICATION_X_TCL: MediaType by lazy { MediaType(APPLICATION, "x-tcl") }
-val APPLICATION_X_TEX: MediaType by lazy { MediaType(APPLICATION, "x-tex") }
-val APPLICATION_X_TEXINFO: MediaType by lazy { MediaType(APPLICATION, "x-texinfo") }
 val APPLICATION_ZIP: MediaType by lazy { MediaType(APPLICATION, "zip") }
-val APPLICATION_EPUB_ZIP: MediaType by lazy { MediaType(APPLICATION, "epub+zip") }
 val APPLICATION_JAVA_ARCHIVE: MediaType by lazy { MediaType(APPLICATION, "java-archive") }
 val APPLICATION_OGG: MediaType by lazy { MediaType(APPLICATION, "ogg") }
 val APPLICATION_RAR: MediaType by lazy { MediaType(APPLICATION, "vnd.rar") }
@@ -41,8 +32,10 @@ val APPLICATION_TOML: MediaType by lazy { MediaType(APPLICATION, "toml") }
 val APPLICATION_7Z: MediaType by lazy { MediaType(APPLICATION, "x-7z-compressed") }
 val APPLICATION_BZIP: MediaType by lazy { MediaType(APPLICATION, "x-bzip") }
 val APPLICATION_BZIP2: MediaType by lazy { MediaType(APPLICATION, "x-bzip2") }
-val APPLICATION_CDF: MediaType by lazy { MediaType(APPLICATION, "x-cdf") }
 val APPLICATION_PHP: MediaType by lazy { MediaType(APPLICATION, "x-httpd-php") }
+val APPLICATION_FORM_URLENCODED: MediaType by lazy {
+    MediaType(APPLICATION, "x-www-form-urlencoded")
+}
 
 val AUDIO_BASIC: MediaType by lazy { MediaType(AUDIO, "basic") }
 val AUDIO_MPEG: MediaType by lazy { MediaType(AUDIO, "mpeg") }
@@ -68,10 +61,10 @@ val IMAGE_WEBP: MediaType by lazy { MediaType(IMAGE, "webp") }
 val IMAGE_AVIF: MediaType by lazy { MediaType(IMAGE, "avif") }
 
 val MULTIPART_ALTERNATIVE: MediaType by lazy { MediaType(MULTIPART, "alternative") }
-val MULTIPART_APPLEDOUBLE: MediaType by lazy { MediaType(MULTIPART, "appledouble") }
 val MULTIPART_DIGEST: MediaType by lazy { MediaType(MULTIPART, "digest") }
 val MULTIPART_MIXED: MediaType by lazy { MediaType(MULTIPART, "mixed") }
 val MULTIPART_PARALLEL: MediaType by lazy { MediaType(MULTIPART, "parallel") }
+val MULTIPART_FORM_DATA: MediaType by lazy { MediaType(MULTIPART, "form-data") }
 
 val TEXT_CSV: MediaType by lazy { MediaType(TEXT, "csv") }
 val TEXT_X_JAVA_PROPERTIES: MediaType by lazy { MediaType(TEXT, "x-java-properties") }
@@ -94,6 +87,8 @@ val VIDEO_WEBM: MediaType by lazy { MediaType(VIDEO, "webm") }
 
 val DEFAULT_MEDIA_TYPE: MediaType by lazy { APPLICATION_OCTET_STREAM }
 
+// TODO Allow adding media types manually (allow resource loading, and keep here the bare minimum)
+//  With something like MediaTypeManager (as SerializationManager)
 internal val MEDIA_TYPES_EXTENSIONS: Map<String, MediaType> by lazy {
     mapOf(
         "avro" to APPLICATION_AVRO,
@@ -109,31 +104,18 @@ internal val MEDIA_TYPES_EXTENSIONS: Map<String, MediaType> by lazy {
         "so" to APPLICATION_OCTET_STREAM,
         "class" to APPLICATION_OCTET_STREAM,
         "pdf" to APPLICATION_PDF,
-        "ai" to APPLICATION_POSTSCRIPT,
-        "eps" to APPLICATION_POSTSCRIPT,
-        "ps" to APPLICATION_POSTSCRIPT,
         "rtf" to APPLICATION_RTF,
         "z" to APPLICATION_COMPRESS,
-        "csh" to APPLICATION_X_CSH,
-        "gtar" to APPLICATION_X_GTAR,
         "gz" to APPLICATION_GZIP,
         "gzip" to APPLICATION_GZIP,
-        "latex" to APPLICATION_X_LATEX,
-        "sh" to APPLICATION_X_SH,
         "tar" to APPLICATION_X_TAR,
-        "tcl" to APPLICATION_X_TCL,
-        "tex" to APPLICATION_X_TEX,
-        "texinfo" to APPLICATION_X_TEXINFO,
-        "texi" to APPLICATION_X_TEXINFO,
         "zip" to APPLICATION_ZIP,
-        "epub" to APPLICATION_EPUB_ZIP,
         "jar" to APPLICATION_JAVA_ARCHIVE,
         "ogx" to APPLICATION_OGG,
         "rar" to APPLICATION_RAR,
         "7z" to APPLICATION_7Z,
         "bz" to APPLICATION_BZIP,
         "bz2" to APPLICATION_BZIP2,
-        "cda" to APPLICATION_CDF,
         "php" to APPLICATION_PHP,
         "xhtml" to APPLICATION_XHTML,
         "webmanifest" to APPLICATION_WEB_MANIFEST,

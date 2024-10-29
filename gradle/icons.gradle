@@ -20,6 +20,7 @@ task("icons").doLast {
 
 private void createPng(final String svg, final String out, final int width, final int height) {
     exec {
+        // TODO This is failing on the Ubuntu 24 LTS
         commandLine(
             "convert",
             "-gravity", "center",

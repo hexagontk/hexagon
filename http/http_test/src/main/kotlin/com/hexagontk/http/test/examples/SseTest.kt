@@ -1,6 +1,6 @@
 package com.hexagontk.http.test.examples
 
-import com.hexagontk.core.logging.info
+import com.hexagontk.core.info
 import com.hexagontk.http.client.HttpClientPort
 import com.hexagontk.http.model.HttpRequest
 import com.hexagontk.http.handlers.PathHandler

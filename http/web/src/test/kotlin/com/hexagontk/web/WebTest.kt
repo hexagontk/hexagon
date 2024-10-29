@@ -3,15 +3,15 @@ package com.hexagontk.web
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientSettings
-import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.model.OK_200
 import com.hexagontk.http.server.HttpServer
 import com.hexagontk.http.server.HttpServerSettings
 import com.hexagontk.http.handlers.PathHandler
 import com.hexagontk.http.handlers.path
-import com.hexagontk.http.server.jetty.JettyServletAdapter
+import com.hexagontk.http.server.jetty.JettyServletHttpServer
 import com.hexagontk.templates.TemplateManager
-import com.hexagontk.templates.pebble.PebbleAdapter
+import com.hexagontk.templates.pebble.Pebble
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -24,7 +24,7 @@ import kotlin.test.assertEquals
 @TestInstance(PER_CLASS)
 internal class WebTest {
 
-    private val templateEngine = PebbleAdapter()
+    private val templateEngine = Pebble()
 
     private val router: PathHandler = path {
         get("/template") {
@@ -44,16 +44,16 @@ internal class WebTest {
     }
 
     private val server: HttpServer by lazy {
-        HttpServer(JettyServletAdapter(), router, HttpServerSettings(bindPort = 0))
+        HttpServer(JettyServletHttpServer(), router, HttpServerSettings(bindPort = 0))
     }
 
     private val client by lazy {
         val settings = HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))
-        HttpClient(JettyClientAdapter(), settings)
+        HttpClient(JettyHttpClient(), settings)
     }
 
     @BeforeAll fun start() {
-        TemplateManager.adapters = mapOf(".*\\.html".toRegex() to PebbleAdapter())
+        TemplateManager.adapters = mapOf(".*\\.html".toRegex() to Pebble())
         server.start()
         client.start()
     }

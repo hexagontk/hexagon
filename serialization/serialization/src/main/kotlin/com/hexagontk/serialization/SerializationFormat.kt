@@ -1,5 +1,6 @@
 package com.hexagontk.serialization
 
+import com.hexagontk.core.assertEnabled
 import com.hexagontk.core.text.toStream
 import com.hexagontk.core.media.MediaType
 import java.io.ByteArrayOutputStream
@@ -27,12 +28,14 @@ interface SerializationFormat {
         }
 
     fun serialize(instance: Any): String {
-        check(textFormat) { SERIALIZATION_ERROR }
+        if (assertEnabled)
+            check(textFormat) { SERIALIZATION_ERROR }
         return String(serializeBytes(instance))
     }
 
     fun parse(input: String): Any {
-        check(textFormat) { PARSING_ERROR }
+        if (assertEnabled)
+            check(textFormat) { PARSING_ERROR }
         return parse(input.toStream())
     }
 }

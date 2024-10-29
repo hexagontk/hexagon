@@ -55,9 +55,9 @@ abstract class ClientCookiesTest(
             ok(
                 body = bodyString,
                 headers = response.headers
-                    + Header("body", bodyHeader)
-                    + Header("ct", request.contentType?.text ?: "")
-                    + Header("query-parameters", formatQueryString(queryParameters)),
+                    + Field("body", bodyHeader)
+                    + Field("ct", request.contentType?.text ?: "")
+                    + Field("query-parameters", formatQueryString(queryParameters)),
                 contentType = contentType,
             )
         }

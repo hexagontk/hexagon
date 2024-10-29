@@ -1,12 +1,12 @@
 package com.hexagontk.rest.tools
 
 import com.hexagontk.core.media.TEXT_PLAIN
-import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.model.HttpMethod.POST
 import com.hexagontk.http.model.HttpMethod.PUT
 import com.hexagontk.http.model.HttpResponsePort
 import com.hexagontk.http.model.OK_200
-import com.hexagontk.http.server.jetty.JettyServletAdapter
+import com.hexagontk.http.server.jetty.JettyServletHttpServer
 import com.hexagontk.rest.textContentType
 import com.hexagontk.serialization.SerializationManager
 import com.hexagontk.serialization.jackson.json.Json
@@ -20,7 +20,7 @@ import kotlin.test.assertTrue
 
 @TestInstance(PER_CLASS)
 internal class HttpClientToolTest {
-    private val server: HttpServerTool = HttpServerTool(JettyServletAdapter())
+    private val server: HttpServerTool = HttpServerTool(JettyServletHttpServer())
     private val text = textContentType
 
     @BeforeAll fun `Set up mock services`() {
@@ -44,7 +44,7 @@ internal class HttpClientToolTest {
         }
 
         val url = "http://localhost:${server.runtimePort}"
-        val adapter = JettyClientAdapter()
+        val adapter = JettyHttpClient()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val params = mapOf("id" to 9)
         val client = HttpClientTool(adapter, url, TEXT_PLAIN, headers = headers)
@@ -86,7 +86,12 @@ internal class HttpClientToolTest {
 
         for (entry in checkedHeaders.entries) {
             assertTrue(bodyString.contains(entry.key))
-            assertTrue(bodyString.contains(entry.value.toString()))
+
+            val ev: Collection<*> =
+                if (entry.value is Collection<*>) entry.value as Collection<*>
+                else listOf(entry.value)
+
+            ev.forEach { assertTrue(bodyString.contains(it.toString())) }
         }
     }
 }

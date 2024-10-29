@@ -5,7 +5,6 @@ import com.hexagontk.http.handlers.HttpHandler
 import com.hexagontk.http.handlers.HttpPredicate
 import com.hexagontk.http.model.HttpMethod
 import com.hexagontk.http.model.HttpMethod.Companion.ALL
-import com.hexagontk.http.model.HttpStatus
 import com.hexagontk.http.model.NO_CONTENT_204
 import com.hexagontk.http.server.callbacks.CorsCallback
 
@@ -21,7 +20,7 @@ class CorsHandler(pattern: String, cors: CorsCallback) :
         allowedHeaders: Set<String> = emptySet(),
         exposedHeaders: Set<String> = emptySet(),
         supportCredentials: Boolean = true,
-        preFlightStatus: HttpStatus = NO_CONTENT_204,
+        preFlightStatus: Int = NO_CONTENT_204,
         preFlightMaxAge: Long = 0
     ) : this(
         pattern,

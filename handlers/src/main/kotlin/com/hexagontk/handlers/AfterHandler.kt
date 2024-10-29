@@ -8,9 +8,9 @@ package com.hexagontk.handlers
  * If they are not called in first place, they won't be executed on the return of the next handler.
  * Their filter is evaluated after the `next` call, not before.
  */
-data class AfterHandler<T : Any>(
-    val afterPredicate: (Context<T>) -> Boolean = { true },
-    override val callback: (Context<T>) -> Context<T>,
+class AfterHandler<T : Any>(
+    private val afterPredicate: (Context<T>) -> Boolean = { true },
+    val callback: (Context<T>) -> Context<T>,
 ) : Handler<T> {
 
     override val predicate: (Context<T>) -> Boolean = { true }

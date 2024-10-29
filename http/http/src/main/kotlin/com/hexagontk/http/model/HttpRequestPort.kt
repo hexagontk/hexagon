@@ -13,14 +13,17 @@ interface HttpRequestPort : HttpMessage {
     val host: String                              // "example.com"
     val port: Int                                 // 80
     val path: String                              // "/foo" servlet path + path info
-    val queryParameters: QueryParameters
+    val queryParameters: Parameters
     val parts: List<HttpPart>                     // hash of multipart parts
-    val formParameters: FormParameters
+    val formParameters: Parameters
     val accept: List<ContentType>
     val authorization: Authorization?
 
     val certificateChain: List<X509Certificate>
     val contentLength: Long                       // length of request.body (or 0)
+    // TODO
+//    val pathPattern: PathPattern?
+//    val pathParameters: Map<String, String>
 
     fun with(
         body: Any = this.body,
@@ -31,41 +34,26 @@ interface HttpRequestPort : HttpMessage {
         host: String = this.host,
         port: Int = this.port,
         path: String = this.path,
-        queryParameters: QueryParameters = this.queryParameters,
+        queryParameters: Parameters = this.queryParameters,
         parts: List<HttpPart> = this.parts,
-        formParameters: FormParameters = this.formParameters,
+        formParameters: Parameters = this.formParameters,
         cookies: List<Cookie> = this.cookies,
         accept: List<ContentType> = this.accept,
         authorization: Authorization? = this.authorization,
         certificateChain: List<X509Certificate> = this.certificateChain,
     ): HttpRequestPort
 
-    operator fun plus(header: Header): HttpRequestPort =
+    operator fun plus(header: Field): HttpRequestPort =
         with(headers = headers + header)
-
-    operator fun plus(queryParameter: QueryParameter): HttpRequestPort =
-        with(queryParameters = queryParameters + queryParameter)
 
     operator fun plus(part: HttpPart): HttpRequestPort =
         with(parts = parts + part)
-
-    operator fun plus(formParameter: FormParameter): HttpRequestPort =
-        with(formParameters = formParameters + formParameter)
 
     operator fun plus(cookie: Cookie): HttpRequestPort =
         with(cookies = cookies + cookie)
 
     operator fun plus(headers: Headers): HttpRequestPort =
         with(headers = this.headers + headers)
-
-    operator fun plus(queryParameters: QueryParameters): HttpRequestPort =
-        with(queryParameters = this.queryParameters + queryParameters)
-
-    operator fun plus(parts: List<HttpPart>): HttpRequestPort =
-        with(parts = this.parts + parts)
-
-    operator fun plus(formParameters: FormParameters): HttpRequestPort =
-        with(formParameters = this.formParameters + formParameters)
 
     fun certificate(): X509Certificate? =
         certificateChain.firstOrNull()
@@ -82,16 +70,16 @@ interface HttpRequestPort : HttpMessage {
         .let(::urlOf)
 
     fun userAgent(): String? =
-        headers["user-agent"]?.value as? String
+        headers["user-agent"]?.text
 
     fun referer(): String? =
-        headers["referer"]?.value as? String
+        headers["referer"]?.text
 
     fun origin(): String? =
-        headers["origin"]?.value as? String
+        headers["origin"]?.text
 
     fun authorization(): Authorization? =
-        (headers["authorization"]?.value as? String)
+        headers["authorization"]?.text
             ?.split(" ", limit = 2)
             ?.let { Authorization(it.first(), it.last()) }
 }

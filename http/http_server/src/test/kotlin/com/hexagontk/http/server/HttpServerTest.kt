@@ -18,17 +18,17 @@ internal class HttpServerTest {
 
     @Test fun `Default parameters`() {
         val serverSettings = HttpServerSettings(address("localhost"), 9999, banner = "name")
-        val server = HttpServer(VoidAdapter, PathHandler(), serverSettings)
+        val server = HttpServer(VoidHttpServer, PathHandler(), serverSettings)
 
         assertEquals("name", server.settings.banner)
-        assertEquals(VoidAdapter.javaClass.simpleName, server.portName)
+        assertEquals(VoidHttpServer.javaClass.simpleName, server.portName)
         assertEquals(address("localhost"), server.settings.bindAddress)
         assertEquals(9999, server.settings.bindPort)
     }
 
     @Test fun `Runtime port`() {
         val serverSettings = HttpServerSettings(address("localhost"), 9999, banner = "name")
-        val server = HttpServer(VoidAdapter, PathHandler(), serverSettings)
+        val server = HttpServer(VoidHttpServer, PathHandler(), serverSettings)
 
         assertFailsWith<IllegalStateException>("Server is not running") { server.runtimePort }
         assert(!server.started())
@@ -46,7 +46,7 @@ internal class HttpServerTest {
             banner = null,
         )
 
-        val s = serve(VoidAdapter, serverSettings) {}
+        val s = serve(VoidHttpServer, serverSettings) {}
         s.createBanner(System.currentTimeMillis()).let {
             assert(it.startsWith(" at"))
             assert(it.contains(" ms)"))
@@ -64,7 +64,7 @@ internal class HttpServerTest {
             banner = bannerPrefix,
         )
 
-        val s = serve(VoidAdapter, serverSettings) {}
+        val s = serve(VoidHttpServer, serverSettings) {}
         s.createBanner(System.currentTimeMillis()).let {
             assertEquals(bannerPrefix, it.lines()[1].trimIndent())
             assertContains(it, "✅HTTP" )
@@ -81,7 +81,7 @@ internal class HttpServerTest {
             12345,
         )
 
-        val server = serve(VoidAdapter, serverSettings) {}
+        val server = serve(VoidHttpServer, serverSettings) {}
         val createdBanner = server.createBanner(System.currentTimeMillis())
         server.stop()
 
@@ -95,7 +95,7 @@ internal class HttpServerTest {
 
     @Test fun `Server can not be created with ZIP compression if not supported by its adapter`() {
         assertFailsWith<IllegalStateException> {
-            HttpServer(VoidAdapter, OnHandler { this }, HttpServerSettings(zip = true))
+            HttpServer(VoidHttpServer, OnHandler { this }, HttpServerSettings(zip = true))
         }.let {
             val errorMessage = "Requesting ZIP compression with an adapter without support:"
             assertContains(it.message ?: "", errorMessage)
@@ -104,7 +104,7 @@ internal class HttpServerTest {
 
     @Test fun `Server can not be created with a protocol not supported by its adapter`() {
         assertFailsWith<IllegalStateException> {
-            HttpServer(VoidAdapter, OnHandler { this }, HttpServerSettings(protocol = H2C))
+            HttpServer(VoidHttpServer, OnHandler { this }, HttpServerSettings(protocol = H2C))
         }.let {
             val message = it.message ?: ""
             assertContains(message, "Requesting unsupported protocol. Adapter's protocols:")

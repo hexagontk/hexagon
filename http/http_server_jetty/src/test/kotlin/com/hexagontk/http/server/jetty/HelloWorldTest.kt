@@ -2,7 +2,7 @@
 
 package com.hexagontk.http.server.jetty
 
-import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientSettings
 import com.hexagontk.http.model.OK_200
@@ -40,7 +40,7 @@ internal class HelloWorldTest {
 
     private val client: HttpClient by lazy {
         val settings = HttpClientSettings(urlOf("http://localhost:${server.runtimePort}"))
-        HttpClient(JettyClientAdapter(), settings)
+        HttpClient(JettyHttpClient(), settings)
     }
 
     @BeforeAll fun initialize() {

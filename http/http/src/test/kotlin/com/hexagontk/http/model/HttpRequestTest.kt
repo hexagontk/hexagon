@@ -22,13 +22,13 @@ internal class HttpRequestTest {
         var testPort: Int = 80
         var testPath: String = "path"
         var testHeaders: Headers = Headers(
-            Header("user-agent", "User Agent"),
-            Header("referer", "Referer"),
-            Header("origin", "Origin"),
-            Header("authorization", "Basic value"),
+            Field("user-agent", "User Agent"),
+            Field("referer", "Referer"),
+            Field("origin", "Origin"),
+            Field("authorization", "Basic value"),
         )
-        var testQueryParameters: QueryParameters = QueryParameters(
-            QueryParameter("qp1", "value1", "value2")
+        var testQueryParameters: Parameters = Parameters(
+            Field("qp1", "value1"), Field("qp1", "value2")
         )
     }
 
@@ -38,8 +38,8 @@ internal class HttpRequestTest {
         override val host: String = testHost
         override val port: Int = testPort
         override val path: String = testPath
-        override val queryParameters: QueryParameters = testQueryParameters
-        override val formParameters: FormParameters get() = fail
+        override val queryParameters: Parameters = testQueryParameters
+        override val formParameters: Parameters get() = fail
         override val body: Any get() = fail
         override val headers: Headers = Headers()
         override val contentType: ContentType get() = fail
@@ -57,9 +57,9 @@ internal class HttpRequestTest {
             host: String,
             port: Int,
             path: String,
-            queryParameters: QueryParameters,
+            queryParameters: Parameters,
             parts: List<HttpPart>,
-            formParameters: FormParameters,
+            formParameters: Parameters,
             cookies: List<Cookie>,
             accept: List<ContentType>,
             authorization: Authorization?,
@@ -80,8 +80,8 @@ internal class HttpRequestTest {
         override val host: String = testHost
         override val port: Int get() = testPort
         override val path: String = testPath
-        override val queryParameters: QueryParameters get() = testQueryParameters
-        override val formParameters: FormParameters get() = fail
+        override val queryParameters: Parameters get() = testQueryParameters
+        override val formParameters: Parameters get() = fail
         override val body: Any get() = fail
         override val headers: Headers get() = testHeaders
         override val contentType: ContentType get() = fail
@@ -99,9 +99,9 @@ internal class HttpRequestTest {
             host: String,
             port: Int,
             path: String,
-            queryParameters: QueryParameters,
+            queryParameters: Parameters,
             parts: List<HttpPart>,
-            formParameters: FormParameters,
+            formParameters: Parameters,
             cookies: List<Cookie>,
             accept: List<ContentType>,
             authorization: Authorization?,
@@ -129,11 +129,12 @@ internal class HttpRequestTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path",
-            queryParameters = QueryParameters(QueryParameter("k", "v")),
-            headers = Headers(Header("h1", "h1v1", "h1v2")),
+            queryParameters = Parameters(Field("k", "v")),
+            headers = Headers(Field("h1", "h1v1"), Field("h1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
-            formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
+            formParameters =
+                Parameters(Field("fp1", "fp1v1"), Field("fp1", "fp1v2")),
             cookies = listOf(Cookie("cn", "cv")),
             contentType = ContentType(TEXT_PLAIN),
             certificateChain = emptyList(),
@@ -147,9 +148,9 @@ internal class HttpRequestTest {
         assertEquals(httpRequestData(), httpRequestData())
         assertFalse(httpRequest.equals(""))
 
-        val headers = Headers(Header("h1", "v1"))
+        val headers = Headers(Field("h1", "v1"))
         val parts = listOf(HttpPart("p", "v"))
-        val formParameters = FormParameters(FormParameter("h1", "v1"))
+        val formParameters = Parameters(Field("h1", "v1"))
         val cookies = listOf(Cookie("p", "v"))
         val contentType = ContentType(TEXT_RICHTEXT)
         val accept = listOf(ContentType(TEXT_CSS))
@@ -169,7 +170,9 @@ internal class HttpRequestTest {
         assertNotEquals(httpRequest, httpRequest.with(accept = accept))
         assertNotEquals(
             httpRequest,
-            httpRequest.copy(queryParameters = QueryParameters(QueryParameter("k", "v", "v2")))
+            httpRequest.copy(queryParameters =
+                Parameters(Field("k", "v"), Field("k", "v2"))
+            )
         )
 
         assertEquals(httpRequest.hashCode(), httpRequestData().hashCode())
@@ -194,9 +197,9 @@ internal class HttpRequestTest {
 
         requestData.copy(
             headers = Headers(
-                Header("user-agent", "ua"),
-                Header("referer", "r"),
-                Header("origin", "o"),
+                Field("user-agent", "ua"),
+                Field("referer", "r"),
+                Field("origin", "o"),
             )
         ).let {
             assertEquals("ua", it.userAgent())
@@ -217,12 +220,13 @@ internal class HttpRequestTest {
 
     @Test fun `Request authorization header is parsed properly`() {
         assertEquals("Basic", TestRequest.authorization()?.type)
-        assertEquals("value", TestRequest.authorization()?.value)
+        assertEquals("value", TestRequest.authorization()?.body)
 
-        val invalidAuthorization = "Basic words header"
-        testHeaders += Header("authorization", invalidAuthorization)
+        val invalidAuthorization = Field("authorization", "Basic words header")
+        testHeaders = Headers(invalidAuthorization) + testHeaders
         assertEquals("Basic", TestRequest.authorization()?.type)
-        assertEquals("words header", TestRequest.authorization()?.value)
+        assertEquals("words header", TestRequest.authorization()?.body)
+        assertEquals("Basic words header", TestRequest.authorization()?.text)
 
         assertNull(TestEmptyRequest.authorization)
     }
@@ -243,14 +247,14 @@ internal class HttpRequestTest {
         assertEquals(urlOf("http://localhost/path?qp1=value1&qp1=value2"), TestRequest.url())
         testPort = 9999
         assertEquals(urlOf("http://localhost:9999/path?qp1=value1&qp1=value2"), TestRequest.url())
-        testQueryParameters = QueryParameters()
+        testQueryParameters = Parameters()
         assertEquals(urlOf("http://localhost:9999/path"), TestRequest.url())
     }
 
     @Test fun `HTTP Request operators work ok`() {
         val httpRequest = httpRequestData()
 
-        val header = Header("h", "v")
+        val header = Field("h", "v")
         assertEquals(
             httpRequest + header,
             httpRequest.copy(headers = httpRequest.headers + header)
@@ -258,36 +262,6 @@ internal class HttpRequestTest {
         assertEquals(
             httpRequest + Headers(header),
             httpRequest.copy(headers = httpRequest.headers + header)
-        )
-
-        val queryParameter = QueryParameter("h", "v")
-        assertEquals(
-            httpRequest + queryParameter,
-            httpRequest.copy(queryParameters = httpRequest.queryParameters + queryParameter)
-        )
-        assertEquals(
-            httpRequest + QueryParameters(queryParameter),
-            httpRequest.copy(queryParameters = httpRequest.queryParameters + queryParameter)
-        )
-
-        val httpPart = HttpPart("h", "v")
-        assertEquals(
-            httpRequest + httpPart,
-            httpRequest.copy(parts = httpRequest.parts + httpPart)
-        )
-        assertEquals(
-            httpRequest + listOf(httpPart),
-            httpRequest.copy(parts = httpRequest.parts + httpPart)
-        )
-
-        val formParameter = FormParameter("h", "v")
-        assertEquals(
-            httpRequest + formParameter,
-            httpRequest.copy(formParameters = httpRequest.formParameters + formParameter)
-        )
-        assertEquals(
-            httpRequest + FormParameters(formParameter),
-            httpRequest.copy(formParameters = httpRequest.formParameters + formParameter)
         )
 
         val cookie = Cookie("n", "v")

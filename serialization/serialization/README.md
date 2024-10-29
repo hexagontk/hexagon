@@ -6,7 +6,7 @@ This module holds serialization utilities.
 This module is not meant to be used directly. You should include an Adapter implementing this
 feature (as [serialization_dsl_json]) in order to parse/serialize data.
 
-[serialization_dsl_json]: serialization_dsl_json
+[serialization_dsl_json]: serialization_dsl_json.md
 
 === "build.gradle"
 

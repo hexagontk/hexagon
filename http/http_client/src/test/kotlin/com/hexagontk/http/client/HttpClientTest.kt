@@ -4,10 +4,8 @@ import com.hexagontk.core.media.TEXT_CSV
 import com.hexagontk.core.media.TEXT_PLAIN
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.handlers.FilterHandler
-import com.hexagontk.http.handlers.HttpPredicate
 import com.hexagontk.http.model.HttpResponsePort
 import com.hexagontk.http.model.*
-import com.hexagontk.http.patterns.LiteralPathPattern
 import java.lang.StringBuilder
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription
@@ -17,49 +15,49 @@ import kotlin.test.*
 internal class HttpClientTest {
 
     @Test fun `Default settings are created as expected`() {
-        assertEquals(HttpClientSettings(), HttpClient(VoidAdapter).settings)
+        assertEquals(HttpClientSettings(), HttpClient(VoidHttpClient).settings)
 
         val noCookiesSettings = HttpClientSettings(useCookies = false)
-        assertFalse(HttpClient(VoidAdapter, noCookiesSettings).settings.useCookies)
+        assertFalse(HttpClient(VoidHttpClient, noCookiesSettings).settings.useCookies)
 
         val base = "http://example.org"
         val baseUrl = urlOf(base)
         assertEquals(
             baseUrl,
-            HttpClient(VoidAdapter, HttpClientSettings(baseUrl)).settings.baseUrl
+            HttpClient(VoidHttpClient, HttpClientSettings(baseUrl)).settings.baseUrl
         )
         assertEquals(
             baseUrl,
-            HttpClient(VoidAdapter, noCookiesSettings.copy(baseUrl = baseUrl)).settings.baseUrl
+            HttpClient(VoidHttpClient, noCookiesSettings.copy(baseUrl = baseUrl)).settings.baseUrl
         )
         assertFalse(
-            HttpClient(VoidAdapter, noCookiesSettings.copy(baseUrl = baseUrl)).settings.useCookies
+            HttpClient(VoidHttpClient, noCookiesSettings.copy(baseUrl = baseUrl)).settings.useCookies
         )
 
         val settingsBaseUrl = urlOf("http://server.com")
         val baseUrlSettings = HttpClientSettings(baseUrl = settingsBaseUrl)
         assertEquals(
             baseUrl,
-            HttpClient(VoidAdapter, baseUrlSettings.copy(baseUrl = baseUrl)).settings.baseUrl
+            HttpClient(VoidHttpClient, baseUrlSettings.copy(baseUrl = baseUrl)).settings.baseUrl
         )
-        assertEquals(settingsBaseUrl, HttpClient(VoidAdapter, baseUrlSettings).settings.baseUrl)
+        assertEquals(settingsBaseUrl, HttpClient(VoidHttpClient, baseUrlSettings).settings.baseUrl)
     }
 
     @Test fun `Cookies map works ok`() {
-        val client = HttpClient(VoidAdapter)
+        val client = HttpClient(VoidHttpClient)
         client.cookies += Cookie("cookie", "value")
         assertNull(client.cookiesMap()["name"])
         assertEquals(Cookie("cookie", "value"), client.cookiesMap()["cookie"])
     }
 
     @Test fun `HTTP Client is closeable`() {
-        val client = HttpClient(VoidAdapter)
+        val client = HttpClient(VoidHttpClient)
         client.use {
-            assertFalse(VoidAdapter.started)
+            assertFalse(VoidHttpClient.started)
             it.start()
-            assertTrue(VoidAdapter.started)
+            assertTrue(VoidHttpClient.started)
         }
-        assertFalse(VoidAdapter.started)
+        assertFalse(VoidHttpClient.started)
     }
 
     @Test fun `Client helper methods work properly`() {
@@ -69,15 +67,15 @@ internal class HttpClientTest {
             headers: Headers = Headers(),
             contentType: ContentType? = null,
         ) {
-            assertEquals(headers + Header("-path-", path), this.headers)
+            assertEquals(headers + Field("-path-", path), this.headers)
             assertEquals(body, this.bodyString())
             assertEquals(contentType, this.contentType)
         }
 
-        val client = HttpClient(VoidAdapter)
+        val client = HttpClient(VoidHttpClient)
         val csv = ContentType(TEXT_CSV)
-        val csvClient = HttpClient(VoidAdapter, HttpClientSettings(contentType = csv))
-        val headers = Headers(Header("h1", "v1"))
+        val csvClient = HttpClient(VoidHttpClient, HttpClientSettings(contentType = csv))
+        val headers = Headers(Field("h1", "v1"))
         val body = "body"
 
         client.request {
@@ -137,13 +135,13 @@ internal class HttpClientTest {
     }
 
     @Test fun `Shut down not started client fails`() {
-        val client = HttpClient(VoidAdapter)
+        val client = HttpClient(VoidHttpClient)
         val message = assertFailsWith<IllegalStateException> { client.stop() }.message
         assertEquals("HTTP client *MUST BE STARTED* before shut-down", message)
     }
 
     @Test fun `HTTP clients fails to start if already started`() {
-        val client = HttpClient(VoidAdapter)
+        val client = HttpClient(VoidHttpClient)
         client.start()
         assert(client.started())
         val message = assertFailsWith<IllegalStateException> { client.start() }.message
@@ -156,7 +154,7 @@ internal class HttpClientTest {
             val next = receive(body = "p_" + request.bodyString()).next()
             next.send(body = next.request.bodyString() + next.response.bodyString() + "_s")
         }
-        val client = HttpClient(VoidAdapter, handler = handler)
+        val client = HttpClient(VoidHttpClient, handler = handler)
 
         val e = assertFailsWith<IllegalStateException> { client.get("http://localhost") }
         assertEquals("HTTP client *MUST BE STARTED* before sending requests", e.message)
@@ -168,9 +166,8 @@ internal class HttpClientTest {
     }
 
     @Test fun `Request is sent even if no handler`() {
-        val pathPattern = LiteralPathPattern("/test")
-        val handler = FilterHandler(HttpPredicate(pathPattern = pathPattern)) { error("Failure") }
-        val client = HttpClient(VoidAdapter, handler = handler)
+        val handler = FilterHandler("/test") { error("Failure") }
+        val client = HttpClient(VoidHttpClient, handler = handler)
 
         val e1 = assertFailsWith<IllegalStateException> { client.get("http://localhost") }
         assertEquals("HTTP client *MUST BE STARTED* before sending requests", e1.message)
@@ -179,7 +176,7 @@ internal class HttpClientTest {
         client.request {
             val e2 = assertFailsWith<IllegalStateException> { client.put("/test", "body") }
             assertEquals("Failure", e2.message)
-            assertEquals("/good", client.put("/good", "body").headers["-path-"]?.string())
+            assertEquals("/good", client.put("/good", "body").headers["-path-"]?.text)
         }
     }
 
@@ -187,10 +184,10 @@ internal class HttpClientTest {
         val handler = FilterHandler {
             assertEquals(TEXT_PLAIN, request.accept.first().mediaType)
             assertEquals("basic", request.authorization?.type)
-            assertEquals("abc", request.authorization?.value)
+            assertEquals("abc", request.authorization?.body)
             next()
         }
-        val client = HttpClient(VoidAdapter, handler = handler)
+        val client = HttpClient(VoidHttpClient, handler = handler)
 
         client.request {
             val accept = listOf(ContentType(TEXT_PLAIN))
@@ -200,7 +197,7 @@ internal class HttpClientTest {
     }
 
     @Test fun `SSE requests work properly`() {
-        val client = HttpClient(VoidAdapter)
+        val client = HttpClient(VoidHttpClient)
 
         val e = assertFailsWith<IllegalStateException> { client.sse("http://localhost") }
         assertEquals("HTTP client *MUST BE STARTED* before sending requests", e.message)
@@ -219,12 +216,12 @@ internal class HttpClientTest {
                     subscription.request(Long.MAX_VALUE)
                 }
             })
-            VoidAdapter.eventPublisher.submit(ServerEvent("event", "data", "id", 1))
+            VoidHttpClient.eventPublisher.submit(ServerEvent("event", "data", "id", 1))
         }
     }
 
     @Test fun `WebSockets requests work properly`() {
-        val client = HttpClient(VoidAdapter)
+        val client = HttpClient(VoidHttpClient)
 
         val e = assertFailsWith<IllegalStateException> { client.ws("http://localhost") }
         assertEquals("HTTP client *MUST BE STARTED* before connecting to WS", e.message)

@@ -1,12 +1,14 @@
 package com.hexagontk.http.server.callbacks
 
 import com.hexagontk.core.ResourceNotFoundException
-import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.debug
+import com.hexagontk.core.loggerOf
 import com.hexagontk.core.media.mediaTypeOfOrNull
 import com.hexagontk.core.require
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.model.ContentType
 import com.hexagontk.http.handlers.HttpContext
+import java.lang.System.Logger
 import java.net.URL
 
 class UrlCallback(private val url: URL) : (HttpContext) -> HttpContext {
@@ -14,7 +16,7 @@ class UrlCallback(private val url: URL) : (HttpContext) -> HttpContext {
     constructor(url: String) : this(urlOf(url))
 
     private companion object {
-        val logger: Logger = Logger(UrlCallback::class)
+        val logger: Logger = loggerOf(UrlCallback::class)
     }
 
     override fun invoke(context: HttpContext): HttpContext {

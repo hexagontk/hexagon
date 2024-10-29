@@ -1,6 +1,5 @@
 package com.hexagontk.http.model
 
-import com.hexagontk.http.*
 import com.hexagontk.http.model.HttpMethod.GET
 import com.hexagontk.http.model.HttpProtocol.HTTP
 import java.security.cert.X509Certificate
@@ -11,11 +10,11 @@ data class HttpRequest(
     override val host: String = "localhost",
     override val port: Int = 80,
     override val path: String = "",
-    override val queryParameters: QueryParameters = QueryParameters(),
+    override val queryParameters: Parameters = Parameters(),
     override val headers: Headers = Headers(),
     override val body: Any = "",
     override val parts: List<HttpPart> = emptyList(),
-    override val formParameters: FormParameters = FormParameters(),
+    override val formParameters: Parameters = Parameters(),
     override val cookies: List<Cookie> = emptyList(),
     override val contentType: ContentType? = null,
     override val certificateChain: List<X509Certificate> = emptyList(),
@@ -23,10 +22,6 @@ data class HttpRequest(
     override val contentLength: Long = -1L,
     override val authorization: Authorization? = null,
 ) : HttpRequestPort {
-
-    init {
-        checkHeaders(headers)
-    }
 
     override fun with(
         body: Any,
@@ -37,9 +32,9 @@ data class HttpRequest(
         host: String,
         port: Int,
         path: String,
-        queryParameters: QueryParameters,
+        queryParameters: Parameters,
         parts: List<HttpPart>,
-        formParameters: FormParameters,
+        formParameters: Parameters,
         cookies: List<Cookie>,
         accept: List<ContentType>,
         authorization: Authorization?,

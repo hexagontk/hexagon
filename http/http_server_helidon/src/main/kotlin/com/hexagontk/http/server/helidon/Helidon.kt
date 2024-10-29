@@ -15,7 +15,7 @@ import com.hexagontk.http.handlers.HttpHandler
 fun serve(
     settings: HttpServerSettings = HttpServerSettings(), handlers: HttpHandler
 ): HttpServer =
-    HttpServer(HelidonServerAdapter(), handlers, settings).apply { start() }
+    HttpServer(HelidonHttpServer(), handlers, settings).apply { start() }
 
 /**
  * Create a Helidon server and start it. It is a shortcut to avoid passing the adapter.
@@ -28,5 +28,5 @@ fun serve(
 fun serve(
     settings: HttpServerSettings = HttpServerSettings(), block: HandlerBuilder.() -> Unit
 ): HttpServer =
-    HttpServer(HelidonServerAdapter(), HandlerBuilder().apply { block() }.handler(), settings)
+    HttpServer(HelidonHttpServer(), HandlerBuilder().apply { block() }.handler(), settings)
         .apply { start() }

@@ -1,7 +1,7 @@
 package com.hexagontk.http.handlers
 
 import com.hexagontk.core.fail
-import com.hexagontk.core.logging.info
+import com.hexagontk.core.info
 import com.hexagontk.core.media.TEXT_EVENT_STREAM
 import com.hexagontk.http.model.HttpMethod.GET
 import com.hexagontk.http.model.OK_200

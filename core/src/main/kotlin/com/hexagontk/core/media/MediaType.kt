@@ -6,7 +6,7 @@ import com.hexagontk.core.media.MediaTypeGroup.ANY
 /**
  * Media type (also known as MIME type).
  */
-data class MediaType(
+class MediaType(
     val group: MediaTypeGroup,
     val type: String,
 ) {
@@ -29,5 +29,23 @@ data class MediaType(
 
         operator fun invoke(fullType: String): MediaType =
             fullTypes[fullType] ?: parseMediaType(fullType)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as MediaType
+
+        if (group != other.group) return false
+        if (type != other.type) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = group.hashCode()
+        result = 31 * result + type.hashCode()
+        return result
     }
 }
