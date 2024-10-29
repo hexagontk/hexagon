@@ -179,16 +179,11 @@ public final class com/hexagontk/core/ResourceNotFoundException : java/io/IOExce
 public final class com/hexagontk/core/media/MediaType {
 	public static final field Companion Lcom/hexagontk/core/media/MediaType$Companion;
 	public fun <init> (Lcom/hexagontk/core/media/MediaTypeGroup;Ljava/lang/String;)V
-	public final fun component1 ()Lcom/hexagontk/core/media/MediaTypeGroup;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Lcom/hexagontk/core/media/MediaTypeGroup;Ljava/lang/String;)Lcom/hexagontk/core/media/MediaType;
-	public static synthetic fun copy$default (Lcom/hexagontk/core/media/MediaType;Lcom/hexagontk/core/media/MediaTypeGroup;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagontk/core/media/MediaType;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFullType ()Ljava/lang/String;
 	public final fun getGroup ()Lcom/hexagontk/core/media/MediaTypeGroup;
 	public final fun getType ()Ljava/lang/String;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/hexagontk/core/media/MediaType$Companion {
