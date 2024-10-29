@@ -4,10 +4,8 @@ import com.hexagontk.core.media.TEXT_CSV
 import com.hexagontk.core.media.TEXT_PLAIN
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.handlers.FilterHandler
-import com.hexagontk.http.handlers.HttpPredicate
 import com.hexagontk.http.model.HttpResponsePort
 import com.hexagontk.http.model.*
-import com.hexagontk.http.patterns.LiteralPathPattern
 import java.lang.StringBuilder
 import java.util.concurrent.Flow
 import java.util.concurrent.Flow.Subscription
@@ -69,7 +67,7 @@ internal class HttpClientTest {
             headers: Headers = Headers(),
             contentType: ContentType? = null,
         ) {
-            assertEquals(headers + Header("-path-", path), this.headers)
+            assertEquals(headers + Field("-path-", path), this.headers)
             assertEquals(body, this.bodyString())
             assertEquals(contentType, this.contentType)
         }
@@ -77,7 +75,7 @@ internal class HttpClientTest {
         val client = HttpClient(VoidHttpClient)
         val csv = ContentType(TEXT_CSV)
         val csvClient = HttpClient(VoidHttpClient, HttpClientSettings(contentType = csv))
-        val headers = Headers(Header("h1", "v1"))
+        val headers = Headers(Field("h1", "v1"))
         val body = "body"
 
         client.request {
@@ -178,7 +176,7 @@ internal class HttpClientTest {
         client.request {
             val e2 = assertFailsWith<IllegalStateException> { client.put("/test", "body") }
             assertEquals("Failure", e2.message)
-            assertEquals("/good", client.put("/good", "body").headers["-path-"]?.string())
+            assertEquals("/good", client.put("/good", "body").headers["-path-"]?.text)
         }
     }
 
@@ -186,7 +184,7 @@ internal class HttpClientTest {
         val handler = FilterHandler {
             assertEquals(TEXT_PLAIN, request.accept.first().mediaType)
             assertEquals("basic", request.authorization?.type)
-            assertEquals("abc", request.authorization?.value)
+            assertEquals("abc", request.authorization?.body)
             next()
         }
         val client = HttpClient(VoidHttpClient, handler = handler)

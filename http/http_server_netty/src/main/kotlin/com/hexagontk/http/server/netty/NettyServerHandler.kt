@@ -81,7 +81,7 @@ internal class NettyServerHandler(
         }
     }
 
-    private fun isWebsocket(headers: HttpHeaders, method: HttpMethod, status: HttpStatus): Boolean {
+    private fun isWebsocket(headers: HttpHeaders, method: HttpMethod, status: Int): Boolean {
         val connection = headers[CONNECTION]?.lowercase()
         val upgrade = headers[UPGRADE]?.lowercase()
         return connection == "upgrade"
@@ -101,8 +101,8 @@ internal class NettyServerHandler(
         val headers = nettyResponse.headers()
 
         val hexagonHeaders = response.headers
-        if (hexagonHeaders.httpFields.isNotEmpty())
-            hexagonHeaders.values.map { (k, v) -> headers.add(k, v) }
+        if (hexagonHeaders.fields.isNotEmpty())
+            hexagonHeaders.all.map { (k, v) -> headers.add(k, v.map { it.text }) }
 
         val hexagonCookies = response.cookies
         if (hexagonCookies.isNotEmpty()) {
@@ -199,8 +199,8 @@ internal class NettyServerHandler(
 
         val headers = response.headers()
         val hexagonHeaders = hexagonResponse.headers
-        if (hexagonHeaders.httpFields.isNotEmpty())
-            hexagonHeaders.values.map { (k, v) -> headers.add(k, v) }
+        if (hexagonHeaders.fields.isNotEmpty())
+            hexagonHeaders.all.map { (k, v) -> headers.add(k, v.map { it.text }) }
 
         val hexagonCookies = hexagonResponse.cookies
         if (hexagonCookies.isNotEmpty()) {
@@ -246,7 +246,7 @@ internal class NettyServerHandler(
                 }
             }
 
-    internal fun nettyStatus(status: HttpStatus): HttpResponseStatus =
+    internal fun nettyStatus(status: Int): HttpResponseStatus =
         when (status) {
             CONTINUE_100 -> CONTINUE
             SWITCHING_PROTOCOLS_101 -> SWITCHING_PROTOCOLS
@@ -307,6 +307,6 @@ internal class NettyServerHandler(
             NOT_EXTENDED_510 -> NOT_EXTENDED
             NETWORK_AUTHENTICATION_REQUIRED_511 -> NETWORK_AUTHENTICATION_REQUIRED
 
-            else -> HttpResponseStatus(status.code, status.toString())
+            else -> HttpResponseStatus(status, status.toString())
         }
 }

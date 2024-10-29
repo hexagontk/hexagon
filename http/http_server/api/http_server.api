@@ -70,10 +70,10 @@ public final class com/hexagontk/http/server/callbacks/CorsCallback : kotlin/jvm
 	public static final field MAX_AGE Ljava/lang/String;
 	public static final field REQUEST_HEADERS Ljava/lang/String;
 	public static final field REQUEST_METHOD Ljava/lang/String;
-	public fun <init> (Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;J)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun <init> (Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;J)V
-	public synthetic fun <init> (Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJ)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJ)V
+	public synthetic fun <init> (Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun invoke (Lcom/hexagontk/http/handlers/HttpContext;)Lcom/hexagontk/http/handlers/HttpContext;
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
 }
@@ -111,8 +111,8 @@ public final class com/hexagontk/http/server/callbacks/UrlCallback : kotlin/jvm/
 public final class com/hexagontk/http/server/handlers/CorsHandler : com/hexagontk/http/handlers/HttpHandler {
 	public fun <init> (Lcom/hexagontk/http/server/callbacks/CorsCallback;)V
 	public fun <init> (Ljava/lang/String;Lcom/hexagontk/http/server/callbacks/CorsCallback;)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;J)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJ)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public fun byMethod ()Ljava/util/Map;
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;

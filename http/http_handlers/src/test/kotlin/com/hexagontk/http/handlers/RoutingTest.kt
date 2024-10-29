@@ -1,7 +1,6 @@
 package com.hexagontk.http.handlers
 
-import com.hexagontk.core.require
-import com.hexagontk.http.model.Header
+import com.hexagontk.http.model.Field
 import com.hexagontk.http.model.HttpMethod.GET
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -10,7 +9,7 @@ internal class RoutingTest {
 
     private val path: PathHandler = path {
         before("*") {
-            send(headers = response.headers + Header("before", "true"))
+            send(headers = response.headers + Field("before", "true"))
         }
 
         path("/after") {
@@ -21,9 +20,9 @@ internal class RoutingTest {
     }
 
     @Test fun `On handlers stop being processed after first match`() {
-        assertEquals("true", path.send(GET, "/after/resource").headers.require("before").string())
-        assertEquals("true", path.send(GET, "/after/123").headers.require("before").string())
-        assertEquals("true", path.send(GET, "/after/abc").headers.require("before").string())
+        assertEquals("true", path.send(GET, "/after/resource").headers.require("before").text)
+        assertEquals("true", path.send(GET, "/after/123").headers.require("before").text)
+        assertEquals("true", path.send(GET, "/after/abc").headers.require("before").text)
 
         assertEquals("resource", path.send(GET, "/after/resource").bodyString())
         assertEquals("var:regex", path.send(GET, "/after/123").bodyString())

@@ -52,9 +52,9 @@ abstract class ClientMultipartTest(
             ok(
                 body = bodyString,
                 headers = response.headers
-                    + Header("body", bodyHeader)
-                    + Header("ct", request.contentType?.text ?: "")
-                    + Header("query-parameters", formatQueryString(queryParameters)),
+                    + Field("body", bodyHeader)
+                    + Field("ct", request.contentType?.text ?: "")
+                    + Field("query-parameters", formatQueryString(queryParameters)),
                 contentType = contentType,
             )
         }
@@ -62,20 +62,22 @@ abstract class ClientMultipartTest(
 
     @Test open fun `Form parameters are sent correctly`() {
         callback = {
-            val headers = Headers(formParameters.httpFields.map { (k, v) -> Header(k, v.values) })
+            val headers = Headers(formParameters.fields.map { Field(it.name, it.text) })
             ok(headers = headers)
         }
 
         val response = client.send(
             HttpRequest(
-                formParameters = FormParameters(
-                    FormParameter("p1", "v11"),
-                    FormParameter("p2", "v21", "v22"),
+                formParameters = Parameters(
+                    Field("p1", "v11"),
+                    Field("p2", "v21"),
+                    Field("p2", "v22"),
                 )
             )
         )
 
-        val expectedHeaders = Headers(Header("p1", "v11"), Header("p2", "v21", "v22"))
+        val expectedHeaders =
+            Headers(Field("p1", "v11"), Field("p2", "v21"), Field("p2", "v22"))
         val actualHeaders =
             response.headers - "transfer-encoding" - "content-length" - "connection" - "date"
 

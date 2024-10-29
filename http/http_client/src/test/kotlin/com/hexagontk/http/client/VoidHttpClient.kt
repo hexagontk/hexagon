@@ -26,7 +26,7 @@ object VoidHttpClient : HttpClientPort {
 
     override fun send(request: HttpRequestPort): HttpResponsePort =
         HttpResponse(
-            headers = request.headers + Header("-path-", request.path),
+            headers = request.headers + Field("-path-", request.path),
             body = request.body,
             contentType = request.contentType,
         )

@@ -199,7 +199,7 @@ abstract class TodoTest(adapter: HttpServerPort) {
     }
 
     private fun assertResponseContains(
-        response: HttpResponsePort?, status: HttpStatus, vararg content: String) {
+        response: HttpResponsePort?, status: Int, vararg content: String) {
 
         assertEquals(status, response?.status)
         content.forEach {

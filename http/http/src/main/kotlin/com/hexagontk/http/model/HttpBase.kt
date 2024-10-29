@@ -2,9 +2,11 @@ package com.hexagontk.http.model
 
 interface HttpBase {
     val body: Any
-    // TODO Headers can be 'core.Node'???
     val headers: Headers
     val contentType: ContentType?
+
+    fun contentType(): ContentType? =
+        headers["content-type"] as? ContentType
 
     fun bodyString(): String =
         when (body) {

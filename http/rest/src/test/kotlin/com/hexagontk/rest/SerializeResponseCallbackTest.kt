@@ -49,10 +49,12 @@ internal class SerializeResponseCallbackTest {
 
         val json = ContentType(APPLICATION_JSON)
         val jsonContext = HttpContext().send(body = body, contentType = json)
-        assertEquals(jsonContext.send(body = jsonBody), callback(jsonContext))
+        assertEquals(jsonContext.send(body = jsonBody).request, callback(jsonContext).request)
+        assertEquals(jsonContext.send(body = jsonBody).response, callback(jsonContext).response)
 
         val acceptContext = HttpContext().send(body = body).receive(accept = listOf(json))
         val expectedContext = acceptContext.send(body = jsonBody, contentType = json)
-        assertEquals(expectedContext, callback(acceptContext))
+        assertEquals(expectedContext.request, callback(acceptContext).request)
+        assertEquals(expectedContext.response, callback(acceptContext).response)
     }
 }

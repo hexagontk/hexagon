@@ -19,8 +19,8 @@ class GoogleHttpFunction(private val handler: HttpHandler): HttpFunction {
 
     private fun createRequest(request: HttpRequest): com.hexagontk.http.model.HttpRequest {
         val uri = URI(request.uri)
-        val qp = request.queryParameters?.map { (k, v) -> QueryParameter(k, v) } ?: emptyList()
-        val h = request.headers?.map { (k, v) -> Header(k, v) } ?: emptyList()
+        val qp = request.queryParameters?.map { (k, v) -> Field(k, v) } ?: emptyList()
+        val h = request.headers?.map { (k, v) -> Field(k, v) } ?: emptyList()
 
         if (request.contentType.orElse("").contains("multipart")) {
             request.parts.map { (k, v) ->
@@ -50,7 +50,7 @@ class GoogleHttpFunction(private val handler: HttpHandler): HttpFunction {
             host = uri.host,
             port = uri.port,
             path = request.path,
-            queryParameters = QueryParameters(qp),
+            queryParameters = Parameters(qp),
             headers = Headers(h),
             body = request.inputStream.readAllBytes() ?: ByteArray(0),
 //            parts = pa,
@@ -66,8 +66,8 @@ class GoogleHttpFunction(private val handler: HttpHandler): HttpFunction {
         val handlerResponse = context.response
 
         handlerResponse.contentType?.text?.let(response::setContentType)
-        handlerResponse.headers.forEach { (k, v) -> response.headers[k] = v.strings() }
-        response.setStatusCode(handlerResponse.status.code)
+        handlerResponse.headers.all.forEach { (k, v) -> response.headers[k] = v.map { it.text } }
+        response.setStatusCode(handlerResponse.status)
         response.writer.write(handlerResponse.bodyString())
     }
 }

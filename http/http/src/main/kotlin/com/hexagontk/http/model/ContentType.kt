@@ -9,9 +9,12 @@ data class ContentType(
     val boundary: String? = null,
     val charset: Charset? = null,
     val q: Double? = null,
-) {
+) : HttpField {
 
-    val text by lazy {
+    override val name: String = "content-type"
+    override val value by lazy { text }
+
+    override val text by lazy {
         listOfNotNull(
             mediaType.fullType,
             boundary?.let { "boundary=$it" },

@@ -61,9 +61,9 @@ abstract class MultipartTest(
                 val bodyString = p.bodyString()
                 val size = p.size.toString()
                 Headers(
-                    Header("name", name),
-                    Header("body", bodyString),
-                    Header("size", size),
+                    Field("name", name),
+                    Field("body", bodyString),
+                    Field("size", size),
                 )
             }
 
@@ -74,20 +74,20 @@ abstract class MultipartTest(
             val part = parts.first()
             val content = part.bodyString()
             val submittedFile = part.submittedFileName ?: ""
-            ok(content, headers = response.headers + Header("submitted-file", submittedFile))
+            ok(content, headers = response.headers + Field("submitted-file", submittedFile))
         }
 
         post("/form") {
-            fun <T : HttpField> serializeMap(map: Collection<T>): List<String> = listOf(
-                map.joinToString("\n") { "${it.name}:${it.values.joinToString(",")}" }
+            fun serializeMap(map: Parameters): List<String> = listOf(
+                map.all.entries.joinToString("\n") { (k, v) ->
+                    "$k:${v.joinToString(",") { it.text }}"
+                }
             )
 
-            val queryParams = serializeMap(queryParameters.values)
-            val formParams = serializeMap(formParameters.values)
-            val headers =
-                Headers(Header("query-params", queryParams), Header("form-params", formParams))
+            val queryParams = serializeMap(queryParameters).map { Field("query-params", it) }
+            val formParams = serializeMap(formParameters).map { Field("form-params", it) }
 
-            ok(headers = response.headers + headers)
+            ok(headers = response.headers + Headers(queryParams) + Headers(formParams))
         }
     }
     // files
@@ -100,9 +100,9 @@ abstract class MultipartTest(
             HttpRequest(POST, path = "/form?queryName=queryValue", parts = parts)
         )
         assertEquals("queryName:queryValue", response.headers["query-params"]?.value)
-        assert(!(response.headers["query-params"]?.string()?.contains("name:value") ?: true))
-        assert(response.headers["form-params"]?.string()?.contains("name:value") ?: false)
-        assert(!(response.headers["form-params"]?.string()?.contains("queryName:queryValue") ?: true))
+        assert(!(response.headers["query-params"]?.text?.contains("name:value") ?: true))
+        assert(response.headers["form-params"]?.text?.contains("name:value") ?: false)
+        assert(!(response.headers["form-params"]?.text?.contains("queryName:queryValue") ?: true))
     }
 
     @Test fun `Sending multi part content works properly`() {
@@ -111,12 +111,12 @@ abstract class MultipartTest(
         val response = client.send(HttpRequest(POST, path = "/multipart", parts = parts))
         // clientForm
         val expectedHeaders = Headers(
-            Header("name", "name"),
-            Header("body", "value"),
-            Header("size", "5"),
+            Field("name", "name"),
+            Field("body", "value"),
+            Field("size", "5"),
         )
         expectedHeaders.forEach {
-            assertEquals(it.value, response.headers[it.key])
+            assertEquals(it.value, response.headers[it.name]?.text)
         }
     }
 

@@ -8,7 +8,6 @@ import com.hexagontk.handlers.ChainHandler
 import com.hexagontk.handlers.Handler
 import com.hexagontk.http.model.*
 import com.hexagontk.http.model.HttpMethod.Companion.ALL
-import com.hexagontk.http.model.HttpStatusType.SERVER_ERROR
 import java.lang.System.Logger
 
 data class PathHandler(
@@ -59,10 +58,11 @@ data class PathHandler(
                 logger.error(exception) {
                     "Exception received at call processing end. Clear/handle exception in a handler"
                 }
-                if (response.status.type != SERVER_ERROR)
+                if (response.status !in SERVER_ERROR)
                     it.with(
-                        event = event.copy(
-                            response = response.with(
+                        event = HttpCall(
+                            event.request,
+                            response.with(
                                 body = exception.toText(),
                                 contentType = ContentType(TEXT_PLAIN),
                                 status = INTERNAL_SERVER_ERROR_500,

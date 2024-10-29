@@ -10,6 +10,7 @@ package com.hexagontk.http
  * @property MULTIPART .
  * @property WEBSOCKETS Support for server Web Sockets.
  * @property SSE Support for Server Sent Events.
+ * @property UNIX_DOMAIN_SOCKETS Support for Unix Domain Sockets.
  */
 enum class HttpFeature {
     ZIP,
@@ -17,4 +18,5 @@ enum class HttpFeature {
     MULTIPART,
     WEBSOCKETS,
     SSE,
+    UNIX_DOMAIN_SOCKETS,
 }

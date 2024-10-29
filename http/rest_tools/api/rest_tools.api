@@ -9,8 +9,7 @@ public final class com/hexagontk/rest/tools/HttpClientTool {
 	public final fun assertContentType (Lcom/hexagontk/core/media/MediaType;)V
 	public final fun assertContentType (Lcom/hexagontk/http/model/ContentType;)V
 	public final fun assertOk ()V
-	public final fun assertStatus (Lcom/hexagontk/http/model/HttpStatus;)V
-	public final fun assertStatus (Lcom/hexagontk/http/model/HttpStatusType;)V
+	public final fun assertStatus (I)V
 	public final fun assertSuccess ()V
 	public final fun delete (Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public final fun delete (Lkotlin/Pair;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
@@ -29,7 +28,7 @@ public final class com/hexagontk/rest/tools/HttpClientTool {
 	public final fun getHttpHeaders ()Ljava/util/Map;
 	public final fun getRequest ()Lcom/hexagontk/http/model/HttpRequest;
 	public final fun getResponse ()Lcom/hexagontk/http/model/HttpResponsePort;
-	public final fun getStatus ()Lcom/hexagontk/http/model/HttpStatus;
+	public final fun getStatus ()I
 	public final fun options (Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public final fun options (Lkotlin/Pair;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public static synthetic fun options$default (Lcom/hexagontk/rest/tools/HttpClientTool;Ljava/lang/String;Ljava/lang/Object;Ljava/util/List;Ljava/util/Map;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;

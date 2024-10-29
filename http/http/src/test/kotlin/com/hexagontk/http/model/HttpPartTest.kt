@@ -14,7 +14,7 @@ internal class HttpPartTest {
     private val fullPart = HttpPart(
         name = "name",
         body = "content",
-        headers = Headers(Header("header", "value")),
+        headers = Headers(Field("header", "value")),
         contentType = ContentType(MediaType(TEXT, "plain")),
         size = "content".length.toLong(),
         submittedFileName = "filename",
@@ -31,7 +31,7 @@ internal class HttpPartTest {
     @Test fun `Full part contains expected values`() {
         assertEquals("name", fullPart.name)
         assertEquals("content", fullPart.body)
-        assertEquals(Headers(Header("header", "value")), fullPart.headers)
+        assertEquals(Headers(Field("header", "value")), fullPart.headers)
         assertEquals("text/plain", fullPart.contentType?.mediaType?.fullType)
         assertEquals("content".length.toLong(), fullPart.size)
         assertEquals("filename", fullPart.submittedFileName)
@@ -73,7 +73,7 @@ internal class HttpPartTest {
         assertFalse(part.equals(""))
         assertNotEquals(part, part.copy(name = "other"))
         assertNotEquals(part, part.copy(body = "other"))
-        assertNotEquals(part, part.copy(headers = Headers(Header("a", "b"))))
+        assertNotEquals(part, part.copy(headers = Headers(Field("a", "b"))))
         assertNotEquals(part, part.copy(contentType = ContentType(TEXT_HTML)))
         assertNotEquals(part, part.copy(size = 10))
         assertNotEquals(part, part.copy(submittedFileName = "other"))

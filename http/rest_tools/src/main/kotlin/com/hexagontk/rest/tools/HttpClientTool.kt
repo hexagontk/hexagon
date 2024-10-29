@@ -11,7 +11,6 @@ import com.hexagontk.http.handlers.HttpHandler
 import com.hexagontk.http.model.HttpRequest
 import com.hexagontk.http.model.*
 import com.hexagontk.http.model.HttpMethod.*
-import com.hexagontk.http.model.HttpStatusType.SUCCESS
 import com.hexagontk.http.patterns.createPathPattern
 import com.hexagontk.rest.SerializeRequestCallback
 
@@ -53,7 +52,7 @@ class HttpClientTool(
     val request: HttpRequest get() = lastRequest
     val attributes: Map<String, *> get() = lastAttributes
     val response: HttpResponsePort get() = lastResponse
-    val status: HttpStatus get() = lastResponse.status
+    val status: Int get() = lastResponse.status
     val body: Any get() = lastResponse.body
     val cookies: Map<String, Cookie> get() = lastResponse.cookiesMap()
     val headers: Headers get() = lastResponse.headers
@@ -91,7 +90,7 @@ class HttpClientTool(
         client.request { block.invoke(this@HttpClientTool) }
     }
 
-    fun assertStatus(status: HttpStatus) {
+    fun assertStatus(status: Int) {
         assert(status == lastResponse.status)
     }
 
@@ -99,12 +98,8 @@ class HttpClientTool(
         assertStatus(OK_200)
     }
 
-    fun assertStatus(statusType: HttpStatusType) {
-        assert(statusType == lastResponse.status.type)
-    }
-
     fun assertSuccess() {
-        assertStatus(SUCCESS)
+        assert(lastResponse.status in SUCCESS)
     }
 
     fun assertContentType(contentType: ContentType) {
@@ -124,14 +119,11 @@ class HttpClientTool(
     }
 
     private fun toHeaders(map: Map<String, *>): Headers = Headers(
-        map.mapValues { (k, v) ->
-            Header(
-                k,
-                when (v) {
-                    is Collection<*> -> v.map { it.toString() }.toList()
-                    else -> listOf(v.toString())
-                }
-            )
+        map.flatMap { (k, v) ->
+            when (v) {
+                is Collection<*> -> v.map { Field(k, it) }.toList()
+                else -> listOf(Field(k, v))
+            }
         }
     )
 
@@ -139,7 +131,7 @@ class HttpClientTool(
         method: HttpMethod = GET,
         path: String = "/",
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -157,7 +149,7 @@ class HttpClientTool(
                     path = path,
                     body = body,
                     headers = toHeaders(headers),
-                    formParameters = FormParameters(formParameters),
+                    formParameters = Parameters(formParameters),
                     parts = parts,
                     contentType = contentType,
                     accept = accept,
@@ -170,7 +162,7 @@ class HttpClientTool(
         method: HttpMethod = GET,
         path: Pair<String, Map<String, Any>>,
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -182,7 +174,7 @@ class HttpClientTool(
             path = createPathPattern(path.first, false).insertParameters(path.second),
             body = body,
             formParameters = formParameters,
-            headers = toHeaders(headers),
+            headers = headers,
             parts = parts,
             contentType = contentType,
             accept = accept,
@@ -193,7 +185,7 @@ class HttpClientTool(
     fun get(
         path: String = "/",
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -204,7 +196,7 @@ class HttpClientTool(
     fun put(
         path: String = "/",
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -214,7 +206,7 @@ class HttpClientTool(
 
     fun put(
         path: String = "/",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -226,7 +218,7 @@ class HttpClientTool(
     fun post(
         path: String = "/",
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -236,7 +228,7 @@ class HttpClientTool(
 
     fun post(
         path: String = "/",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -248,7 +240,7 @@ class HttpClientTool(
     fun options(
         path: String = "/",
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -259,7 +251,7 @@ class HttpClientTool(
     fun delete(
         path: String = "/",
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -270,7 +262,7 @@ class HttpClientTool(
     fun patch(
         path: String = "/",
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -281,7 +273,7 @@ class HttpClientTool(
     fun trace(
         path: String = "/",
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -292,7 +284,7 @@ class HttpClientTool(
     fun get(
         path: Pair<String, Map<String, Any>>,
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -303,7 +295,7 @@ class HttpClientTool(
     fun put(
         path: Pair<String, Map<String, Any>>,
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -313,18 +305,18 @@ class HttpClientTool(
 
     fun put(
         path: Pair<String, Map<String, Any>>,
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
         accept: List<ContentType> = settings.accept,
         body: () -> Any,
     ): HttpResponsePort =
-        put(path, body(), formParameters, Headers(), parts, contentType, accept)
+        put(path, body(), formParameters, mapOf<String, Any>(), parts, contentType, accept)
 
     fun post(
         path: Pair<String, Map<String, Any>>,
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -334,7 +326,7 @@ class HttpClientTool(
 
     fun post(
         path: Pair<String, Map<String, Any>>,
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -346,7 +338,7 @@ class HttpClientTool(
     fun options(
         path: Pair<String, Map<String, Any>>,
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -357,7 +349,7 @@ class HttpClientTool(
     fun delete(
         path: Pair<String, Map<String, Any>>,
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -368,7 +360,7 @@ class HttpClientTool(
     fun patch(
         path: Pair<String, Map<String, Any>>,
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
@@ -379,7 +371,7 @@ class HttpClientTool(
     fun trace(
         path: Pair<String, Map<String, Any>>,
         body: Any = "",
-        formParameters: List<FormParameter> = emptyList(),
+        formParameters: List<HttpField> = emptyList(),
         headers: Map<String, *> = emptyMap<String, Any>(),
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,

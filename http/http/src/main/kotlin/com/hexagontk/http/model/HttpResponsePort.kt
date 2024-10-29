@@ -3,7 +3,9 @@ package com.hexagontk.http.model
 import com.hexagontk.http.model.ws.WsSession
 
 interface HttpResponsePort : HttpMessage {
-    val status: HttpStatus
+    val status: Int
+    // TODO Status reason
+//    val reason: String?
 
     val contentLength: Long                        // length of response.body (or 0)
 
@@ -15,7 +17,7 @@ interface HttpResponsePort : HttpMessage {
     val onClose: WsSession.(status: Int, reason: String) -> Unit
 
     fun with(
-        status: HttpStatus = this.status,
+        status: Int = this.status,
         body: Any = this.body,
         headers: Headers = this.headers,
         contentType: ContentType? = this.contentType,
@@ -28,7 +30,7 @@ interface HttpResponsePort : HttpMessage {
         onClose: WsSession.(status: Int, reason: String) -> Unit = this.onClose,
     ): HttpResponsePort
 
-    operator fun plus(header: Header): HttpResponsePort =
+    operator fun plus(header: Field): HttpResponsePort =
         with(headers = headers + header)
 
     operator fun plus(cookie: Cookie): HttpResponsePort =
@@ -39,4 +41,14 @@ interface HttpResponsePort : HttpMessage {
 
     operator fun plus(cookies: List<Cookie>): HttpResponsePort =
         with(cookies = this.cookies + cookies)
+
+//    fun reason(): String = when (status) {
+//        in INFORMATION -> "INFORMATION"
+//        in SUCCESS -> "SUCCESS"
+//        in REDIRECTION -> "REDIRECTION"
+//        in CLIENT_ERROR -> "CLIENT_ERROR"
+//        in SERVER_ERROR -> "SERVER_ERROR"
+//        else -> throw IllegalArgumentException()
+//        else -> throw IllegalArgumentException(INVALID_CODE_ERROR_MESSAGE + code)
+//    }
 }

@@ -3,7 +3,6 @@ package com.hexagontk.http.handlers
 import com.hexagontk.handlers.AfterHandler
 import com.hexagontk.handlers.Handler
 import com.hexagontk.http.model.HttpMethod
-import com.hexagontk.http.model.HttpStatus
 import com.hexagontk.http.model.HttpCall
 import kotlin.reflect.KClass
 
@@ -16,7 +15,7 @@ data class AfterHandler(
         methods: Set<HttpMethod> = emptySet(),
         pattern: String = "",
         exception: KClass<out Exception>? = null,
-        status: HttpStatus? = null,
+        status: Int? = null,
         block: HttpCallbackType,
     ) :
         this(HttpPredicate(methods, pattern, exception, status), block)

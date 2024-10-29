@@ -86,7 +86,12 @@ internal class HttpClientToolTest {
 
         for (entry in checkedHeaders.entries) {
             assertTrue(bodyString.contains(entry.key))
-            assertTrue(bodyString.contains(entry.value.toString()))
+
+            val ev: Collection<*> =
+                if (entry.value is Collection<*>) entry.value as Collection<*>
+                else listOf(entry.value)
+
+            ev.forEach { assertTrue(bodyString.contains(it.toString())) }
         }
     }
 }

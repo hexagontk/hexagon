@@ -1,6 +1,5 @@
 package com.hexagontk.http.test.examples
 
-import com.hexagontk.core.require
 import com.hexagontk.core.media.APPLICATION_JSON
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.SslSettings
@@ -59,9 +58,9 @@ abstract class ClientHttp2Test(
             ok(
                 body = bodyString,
                 headers = response.headers
-                    + Header("body", bodyHeader)
-                    + Header("ct", request.contentType?.text ?: "")
-                    + Header("query-parameters", formatQueryString(queryParameters)),
+                    + Field("body", bodyHeader)
+                    + Field("ct", request.contentType?.text ?: "")
+                    + Field("query-parameters", formatQueryString(queryParameters)),
                 contentType = contentType,
             )
         }
@@ -103,7 +102,7 @@ abstract class ClientHttp2Test(
             get("/hello") {
                 // We can access the certificate used by the client from the request
                 val subjectDn = request.certificate()?.subjectX500Principal?.name ?: ""
-                ok("Hello World!", headers = response.headers + Header("cert", subjectDn) )
+                ok("Hello World!", headers = response.headers + Field("cert", subjectDn) )
             }
         }
 
@@ -116,7 +115,7 @@ abstract class ClientHttp2Test(
         client.start()
         client.get("/hello").apply {
             // Assure the certificate received (and returned) by the server is correct
-            assert(headers.require("cert").string()?.startsWith("CN=hexagontk.com") ?: false)
+            assert(headers.require("cert").text.startsWith("CN=hexagontk.com"))
             assertEquals(body, "Hello World!")
         }
 

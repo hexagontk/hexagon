@@ -12,6 +12,6 @@ internal class CorsCallbackTest {
         val e = assertFailsWith<IllegalArgumentException> {
             CorsCallback(preFlightStatus = NOT_FOUND_404)
         }
-        assertEquals("Preflight Status must be a success status: CLIENT_ERROR", e.message)
+        assertEquals("Preflight Status must be a success status: 404", e.message)
     }
 }

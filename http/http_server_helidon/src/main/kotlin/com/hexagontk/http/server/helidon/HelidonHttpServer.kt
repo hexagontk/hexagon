@@ -156,10 +156,10 @@ class HelidonHttpServer(
         helidonResponse: ServerResponse
     ) {
         try {
-            helidonResponse.status(Status.create(response.status.code))
+            helidonResponse.status(Status.create(response.status))
 
-            response.headers.values.forEach {
-                helidonResponse.header(HeaderNames.create(it.name), *it.strings().toTypedArray())
+            response.headers.all.forEach { (k, v) ->
+                helidonResponse.header(HeaderNames.create(k), *v.map { it.text }.toTypedArray())
             }
 
             val headers = helidonResponse.headers()

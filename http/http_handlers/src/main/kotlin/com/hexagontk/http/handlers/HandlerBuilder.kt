@@ -1,7 +1,6 @@
 package com.hexagontk.http.handlers
 
 import com.hexagontk.http.model.HttpMethod
-import com.hexagontk.http.model.HttpStatus
 import kotlin.reflect.KClass
 
 class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
@@ -41,7 +40,7 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         methods: Set<HttpMethod> = emptySet(),
         pattern: String = "",
         exception: KClass<out Exception>? = null,
-        status: HttpStatus? = null,
+        status: Int? = null,
         callback: HttpCallbackType,
     ) {
         use(OnHandler(methods, pattern, exception, status, callback))
@@ -66,7 +65,7 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         methods: Set<HttpMethod> = emptySet(),
         pattern: String = "",
         exception: KClass<out Exception>? = null,
-        status: HttpStatus? = null,
+        status: Int? = null,
         callback: HttpCallbackType,
     ) {
         use(
@@ -93,7 +92,7 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         methods: Set<HttpMethod> = emptySet(),
         pattern: String = "",
         exception: KClass<out Exception>? = null,
-        status: HttpStatus? = null,
+        status: Int? = null,
         callback: HttpCallbackType,
     ) {
         use(AfterHandler(methods, pattern, exception, status, callback))
@@ -118,7 +117,7 @@ class HandlerBuilder(var handlers: List<HttpHandler> = emptyList()) {
         methods: Set<HttpMethod> = emptySet(),
         pattern: String = "",
         exception: KClass<out Exception>? = null,
-        status: HttpStatus? = null,
+        status: Int? = null,
         callback: HttpCallbackType,
     ) {
         use(BeforeHandler(methods, pattern, exception, status, callback))

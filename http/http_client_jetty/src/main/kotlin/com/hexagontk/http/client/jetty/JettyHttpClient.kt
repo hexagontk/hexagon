@@ -3,7 +3,6 @@ package com.hexagontk.http.client.jetty
 import com.hexagontk.core.media.TEXT_EVENT_STREAM
 import com.hexagontk.core.security.loadKeyStore
 import com.hexagontk.http.handlers.bodyToBytes
-import com.hexagontk.http.CHECKED_HEADERS
 import com.hexagontk.http.HttpFeature
 import com.hexagontk.http.HttpFeature.*
 import com.hexagontk.http.client.HttpClient
@@ -28,7 +27,7 @@ import org.eclipse.jetty.client.StringRequestContent
 import org.eclipse.jetty.http.HttpCookie
 import org.eclipse.jetty.http.HttpCookie.SameSite
 import org.eclipse.jetty.http.HttpCookieStore
-import org.eclipse.jetty.http.HttpFields
+import org.eclipse.jetty.http.HttpFields as JettyHttpFields
 import org.eclipse.jetty.http.HttpFields.EMPTY
 import org.eclipse.jetty.http.HttpMethod
 import org.eclipse.jetty.http.MultiPart.ContentSourcePart
@@ -113,7 +112,7 @@ open class JettyHttpClient : HttpClientPort {
 
         val sseRequest = request.with(
             accept = listOf(ContentType(TEXT_EVENT_STREAM)),
-            headers = request.headers + Header("connection", "keep-alive")
+            headers = request.headers + Field("connection", "keep-alive")
         )
 
         createJettyRequest(jettyClient, sseRequest)
@@ -174,24 +173,24 @@ open class JettyHttpClient : HttpClientPort {
             headers = convertHeaders(response.headers),
             contentType = response.headers["content-type"]?.let { parseContentType(it) },
             cookies = adapterHttpClient.cookies,
-            status = HttpStatus(response.status),
+            status = response.status,
             contentLength = bodyString.length.toLong(),
         )
     }
 
-    private fun convertHeaders(headers: HttpFields): Headers =
+    private fun convertHeaders(headers: JettyHttpFields): Headers =
         Headers(
             headers
                 .fieldNamesCollection
                 .map { it.lowercase() }
-                .filter { it !in CHECKED_HEADERS }
-                .map { Header(it, headers.getValuesList(it)) }
+                .flatMap { h -> headers.getValuesList(h).map { Field(h, it) } }
         )
 
     private fun createJettyRequest(
         adapterJettyClient: JettyClient, request: HttpRequestPort
     ): Request {
 
+        // TODO Remove these fields and handle them as headers
         val contentType = request.contentType
         val authorization = request.authorization
         val baseUrl = httpSettings.baseUrl
@@ -210,15 +209,15 @@ open class JettyHttpClient : HttpClientPort {
                     it.put("content-type", contentType.text)
                 if (authorization != null)
                     it.put("authorization", authorization.text)
-                request.headers.values.forEach { (k, v) ->
-                    v.map(Any::toString).forEach { s -> it.add(k, s)}
+                request.headers.all.forEach { (k, v) ->
+                    v.map(HttpField::text).forEach { s -> it.add(k, s)}
                 }
             }
             .body(createBody(request))
             .accept(*request.accept.map { it.text }.toTypedArray())
 
-        request.queryParameters
-            .forEach { (k, v) -> v.strings().forEach { jettyRequest.param(k, it) } }
+        request.queryParameters.all
+            .forEach { (k, v) -> v.forEach { jettyRequest.param(k, it.text) } }
 
         return jettyRequest
     }
@@ -247,12 +246,10 @@ open class JettyHttpClient : HttpClientPort {
                 )
         }
 
-        request.formParameters
-            .forEach { (k, v) ->
-                v.strings().forEach {
-                    multiPart.addPart(ContentSourcePart(k, null, EMPTY, StringRequestContent(it)))
-                }
-            }
+        request.formParameters.fields.forEach {
+            val part = ContentSourcePart(it.name, null, EMPTY, StringRequestContent(it.text))
+            multiPart.addPart(part)
+        }
 
         multiPart.close()
 

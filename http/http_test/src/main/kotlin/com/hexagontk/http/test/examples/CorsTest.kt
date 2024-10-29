@@ -1,17 +1,13 @@
 package com.hexagontk.http.test.examples
 
 import com.hexagontk.http.client.HttpClientPort
-import com.hexagontk.http.model.FORBIDDEN_403
-import com.hexagontk.http.model.Header
-import com.hexagontk.http.model.Headers
 import com.hexagontk.http.model.HttpMethod.POST
-import com.hexagontk.http.model.NO_CONTENT_204
-import com.hexagontk.http.model.OK_200
 import com.hexagontk.http.server.*
 import com.hexagontk.http.handlers.HandlerBuilder
 import com.hexagontk.http.handlers.PathHandler
 import com.hexagontk.http.handlers.HttpHandler
 import com.hexagontk.http.handlers.path
+import com.hexagontk.http.model.*
 import com.hexagontk.http.server.callbacks.CorsCallback
 import com.hexagontk.http.server.handlers.CorsHandler
 import com.hexagontk.http.test.BaseTest
@@ -68,8 +64,8 @@ abstract class CorsTest(
 
     @Test fun `Request with not allowed origin is forbidden`() {
         listOf(
-            client.get("/example/org", Headers(Header("origin", "other.com"))),
-            client.get("/example/org/path", Headers(Header("origin", "other.com")))
+            client.get("/example/org", Headers(Field("origin", "other.com"))),
+            client.get("/example/org/path", Headers(Field("origin", "other.com")))
         ).forEach {
             assertEquals(FORBIDDEN_403, it.status)
             assertEquals("Not allowed origin: other.com", it.body)
@@ -78,53 +74,53 @@ abstract class CorsTest(
 
     @Test fun `Allowed origin is returned properly`() {
         listOf(
-            client.get("/no/credentials", Headers(Header("origin", "other.com"))),
-            client.get("/no/credentials/path", Headers(Header("origin", "other.com")))
+            client.get("/no/credentials", Headers(Field("origin", "other.com"))),
+            client.get("/no/credentials/path", Headers(Field("origin", "other.com")))
         ).forEach {
             assertEquals(OK_200, it.status)
             assertEquals("GET", it.body)
             assertEquals("*", it.headers["access-control-allow-origin"]?.value)
-            assert(it.headers["vary"]?.string()?.contains("Origin")?.not() ?: true)
+            assert(it.headers["vary"]?.text?.contains("Origin")?.not() ?: true)
         }
     }
 
     @Test fun `Simple CORS request`() {
-        val result = client.get("/default", Headers(Header("origin", "example.org")))
+        val result = client.get("/default", Headers(Field("origin", "example.org")))
         assertEquals(OK_200, result.status)
         assertEquals("example.org", result.headers["access-control-allow-origin"]?.value)
-        assert(result.headers["vary"]?.string()?.contains("Origin") ?: false)
+        assert(result.headers["vary"]?.text?.contains("Origin") ?: false)
         assertEquals("true", result.headers["access-control-allow-credentials"]?.value)
     }
 
     @Test fun `Simple CORS request with not allowed method`() {
-        val result = client.get("/only/post", Headers(Header("origin", "example.org")))
+        val result = client.get("/only/post", Headers(Field("origin", "example.org")))
         assertEquals(FORBIDDEN_403, result.status)
         assertEquals("Not allowed method: GET", result.body)
     }
 
     @Test fun `Simple CORS request with exposed headers`() {
         val result = client.get("/exposed/headers", Headers(
-            Header("origin", "example.org"),
-            Header("head", "exposed header"),
+            Field("origin", "example.org"),
+            Field("head", "exposed header"),
         ))
         assertEquals(OK_200, result.status)
         assertEquals("example.org", result.headers["access-control-allow-origin"]?.value)
-        assert(result.headers["vary"]?.string()?.contains("Origin") ?: false)
+        assert(result.headers["vary"]?.text?.contains("Origin") ?: false)
         assertEquals("true", result.headers["access-control-allow-credentials"]?.value)
         assertEquals("head", result.headers["access-control-expose-headers"]?.value)
     }
 
     @Test fun `CORS pre-flight with empty request method`() {
         val result = client.options("/default", headers = Headers(
-            Header("origin", "example.org"),
-            Header("access-control-request-method"),
+            Field("origin", "example.org"),
+            Field("access-control-request-method"),
         ))
         assertEquals(FORBIDDEN_403, result.status)
         assertEquals("access-control-request-method required header not found", result.body)
     }
 
     @Test fun `CORS pre-flight without request method`() {
-        val headers = Headers(Header("origin", "example.org"))
+        val headers = Headers(Field("origin", "example.org"))
         val result = client.options("/default", headers = headers)
         assertEquals(FORBIDDEN_403, result.status)
         assertEquals("access-control-request-method required header not found", result.body)
@@ -132,8 +128,8 @@ abstract class CorsTest(
 
     @Test fun `CORS pre-flight`() {
         val result = client.options("/default", headers = Headers(
-            Header("origin", "example.org"),
-            Header("access-control-request-method", "GET"),
+            Field("origin", "example.org"),
+            Field("access-control-request-method", "GET"),
         ))
         assertEquals("example.org", result.headers["access-control-allow-origin"]?.value)
         assertEquals(NO_CONTENT_204, result.status)
@@ -143,12 +139,12 @@ abstract class CorsTest(
     @Test fun `CORS pre-flight with mismatched origin`() {
         listOf(
             client.options("/example/org", headers = Headers(
-                Header("origin", "other.com"),
-                Header("access-control-request-method", "GET"),
+                Field("origin", "other.com"),
+                Field("access-control-request-method", "GET"),
             )),
             client.options("/example/org/path", headers = Headers(
-                Header("origin", "other.com"),
-                Header("access-control-request-method", "GET"),
+                Field("origin", "other.com"),
+                Field("access-control-request-method", "GET"),
             ))
         ).forEach {
             assertEquals(FORBIDDEN_403, it.status)
@@ -160,10 +156,10 @@ abstract class CorsTest(
     @Test fun `CORS pre-flight without origin`() {
         listOf(
             client.options("/example/org", headers = Headers(
-                Header("access-control-request-method", "GET"),
+                Field("access-control-request-method", "GET"),
             )),
             client.options("/example/org/path", headers = Headers(
-                Header("access-control-request-method", "GET"),
+                Field("access-control-request-method", "GET"),
             ))
         ).forEach {
             assertEquals(FORBIDDEN_403, it.status)
@@ -175,7 +171,7 @@ abstract class CorsTest(
     @Test fun `Allowed CORS pre-flight without origin`() {
         listOf(
             client.options("/default", headers = Headers(
-                Header("access-control-request-method", "GET"),
+                Field("access-control-request-method", "GET"),
             )),
         ).forEach {
             assertEquals(NO_CONTENT_204, it.status)
@@ -186,18 +182,18 @@ abstract class CorsTest(
 
     @Test fun `CORS full pre-flight`() {
         client.options("/default", headers = Headers(
-            Header("origin", "example.org"),
-            Header("access-control-request-method", "GET"),
-            Header("access-control-request-headers", "header1,header2"),
+            Field("origin", "example.org"),
+            Field("access-control-request-method", "GET"),
+            Field("access-control-request-headers", "header1,header2"),
         )).apply {
             assertEquals(NO_CONTENT_204, status)
             assertEquals("example.org", headers["access-control-allow-origin"]?.value)
             assert(bodyString().isEmpty())
         }
         client.options("/cache", headers = Headers(
-            Header("origin", "example.org"),
-            Header("access-control-request-method", "GET"),
-            Header("access-control-request-headers", "header1,header2"),
+            Field("origin", "example.org"),
+            Field("access-control-request-method", "GET"),
+            Field("access-control-request-headers", "header1,header2"),
         )).apply {
             assertEquals(NO_CONTENT_204, status)
             assert(bodyString().isEmpty())
@@ -208,8 +204,8 @@ abstract class CorsTest(
 
     @Test fun `CORS pre-flight with not allowed method`() {
         val result = client.options("/only/post", headers = Headers(
-            Header("origin", "example.org"),
-            Header("access-control-request-method", "GET"),
+            Field("origin", "example.org"),
+            Field("access-control-request-method", "GET"),
         ))
         assertEquals(FORBIDDEN_403, result.status)
         assertEquals("Not allowed method: GET", result.body)
@@ -217,9 +213,9 @@ abstract class CorsTest(
 
     @Test fun `CORS pre-flight with not allowed headers`() {
         val result = client.options("/allowed/headers", headers = Headers(
-            Header("origin", "example.org"),
-            Header("access-control-request-method", "GET"),
-            Header("access-control-request-headers", "header1,header2"),
+            Field("origin", "example.org"),
+            Field("access-control-request-method", "GET"),
+            Field("access-control-request-headers", "header1,header2"),
         ))
         assertEquals(FORBIDDEN_403, result.status)
         assertEquals("Not allowed headers", result.body)
@@ -227,9 +223,9 @@ abstract class CorsTest(
 
     @Test fun `CORS pre-flight with allowed headers`() {
         val result = client.options("/allowed/headers", headers = Headers(
-            Header("origin", "example.org"),
-            Header("access-control-request-method", "GET"),
-            Header("access-control-request-headers", "head"),
+            Field("origin", "example.org"),
+            Field("access-control-request-method", "GET"),
+            Field("access-control-request-headers", "head"),
         ))
         assertEquals(NO_CONTENT_204, result.status)
         assert(result.bodyString().isEmpty())

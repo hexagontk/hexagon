@@ -29,8 +29,8 @@ class LoggingCallback(
 
     internal fun details(m: HttpRequestPort): String {
         val headers = if (includeHeaders) {
-            val accept = Header("accept", m.accept.joinToString(", ") { it.text })
-            val contentType = Header("content-type", m.contentType?.text ?: "")
+            val accept = Field("accept", m.accept.joinToString(", ") { it.text })
+            val contentType = Field("content-type", m.contentType?.text ?: "")
             (m.headers - "accept" - "content-type" + accept + contentType).format()
         }
         else {
@@ -43,14 +43,14 @@ class LoggingCallback(
 
     internal fun details(n: HttpRequestPort, m: HttpResponsePort, ns: Long): String {
         val headers = if (includeHeaders) {
-            val contentType = Header("content-type", m.contentType?.text ?: "")
+            val contentType = Field("content-type", m.contentType?.text ?: "")
             (m.headers - "content-type" + contentType).format()
         } else {
             ""
         }
 
         val path = "${n.method} ${n.path}"
-        val result = "${m.status.type}(${m.status.code})"
+        val result = "${m.status}"
         val time = "(${ns / 10e5} ms)"
         val body = m.formatBody()
         return "$path -> $result $time$headers$body".trim()
@@ -60,8 +60,8 @@ class LoggingCallback(
         if (includeBody) "\n\n${bodyString()}" else ""
 
     private fun Headers.format(): String =
-        httpFields
-            .filter { (_, v) -> v.strings().any { it.isNotBlank() } }
-            .map { (k, v) -> "$k: ${v.strings().joinToString(", ")}" }
+        all
+            .filter { (_, v) -> v.any { it.text.isNotBlank() } }
+            .map { (k, v) -> "$k: ${v.joinToString(", ") { it.text}}" }
             .joinToString("\n", prefix = "\n\n")
 }

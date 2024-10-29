@@ -61,9 +61,9 @@ abstract class FilesTest(
                 val bodyString = p.bodyString()
                 val size = p.size.toString()
                 Headers(
-                    Header("name", name),
-                    Header("body", bodyString),
-                    Header("size", size),
+                    Field("name", name),
+                    Field("body", bodyString),
+                    Field("size", size),
                 )
             }
 
@@ -74,18 +74,22 @@ abstract class FilesTest(
             val part = parts.first()
             val content = part.bodyString()
             val submittedFile = part.submittedFileName ?: ""
-            ok(content, headers = response.headers + Header("submitted-file", submittedFile))
+            ok(content, headers = response.headers + Field("submitted-file", submittedFile))
         }
 
         post("/form") {
-            fun <T : HttpField> serializeMap(map: Collection<T>): List<String> = listOf(
-                map.joinToString("\n") { "${it.name}:${it.values.joinToString(",")}" }
+            fun serializeMap(map: Parameters): List<String> = listOf(
+                map.all.entries.joinToString("\n") { (k, v) ->
+                    "$k:${v.joinToString(",") { it.text }}"
+                }
             )
 
-            val queryParams = serializeMap(queryParameters.values)
-            val formParams = serializeMap(formParameters.values)
-            val headers =
-                Headers(Header("query-params", queryParams), Header("form-params", formParams))
+            val queryParams = serializeMap(queryParameters)
+            val formParams = serializeMap(formParameters)
+            val headers = Headers(
+                Field("query-params", queryParams),
+                Field("form-params", formParams)
+            )
 
             ok(headers = response.headers + headers)
         }

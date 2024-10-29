@@ -165,16 +165,15 @@ class JavaHttpClient(
             .newBuilder(URI(uri))
             .method(request.method.toString(), BodyPublishers.ofByteArray(bodyBytes))
 
-        request.headers.forEach { h ->
-            val name = h.value.name
-            val values = h.value.values
+        request.headers.all.forEach { (name, values) ->
             // TODO Maybe accept-encoding interferes with H2C
             if (name != "accept-encoding" && values.isNotEmpty()) {
-                val kvs = values.flatMap { v -> listOf(name, v.toString()) }.toTypedArray()
+                val kvs = values.flatMap { v -> listOf(name, v.text) }.toTypedArray()
                 javaRequest.headers(*kvs)
             }
         }
 
+        // TODO Remove these fields and handle them as headers
         request.contentType?.let { javaRequest.setHeader("content-type", it.text) }
         request.authorization?.let { javaRequest.setHeader("authorization", it.text) }
         request.accept.forEach { javaRequest.setHeader("accept", it.text) }
@@ -224,16 +223,11 @@ class JavaHttpClient(
             headers = convertHeaders(headers),
             contentType = contentType?.let { parseContentType(it) },
             cookies = cookies,
-            status = HttpStatus(response.statusCode()),
+            status = response.statusCode(),
             contentLength = bodyString.length.toLong(),
         )
     }
 
     private fun convertHeaders(headers: HttpHeaders): Headers =
-        Headers(
-            headers
-                .map()
-                .filter { it.key !in CHECKED_HEADERS }
-                .map { Header(it.key, it.value) }
-        )
+        Headers(headers.map().flatMap { (k, v) -> v.map { Field(k, it) } })
 }

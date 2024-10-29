@@ -10,7 +10,6 @@ import com.hexagontk.http.model.OK_200
 import com.hexagontk.http.handlers.path
 import com.hexagontk.http.model.HttpMethod.*
 import com.hexagontk.http.model.HttpResponsePort
-import com.hexagontk.http.model.HttpStatusType.SUCCESS
 import com.hexagontk.http.server.HttpServerSettings
 import com.hexagontk.http.server.jetty.JettyServletHttpServer
 import com.hexagontk.rest.bodyMap
@@ -277,7 +276,6 @@ class HttpServerToolTest {
         assertOk()
         assertSuccess()
         assertStatus(OK_200)
-        assertStatus(SUCCESS)
         assertContentType(textContentType)
         assertContentType(TEXT_PLAIN)
         assertBodyContains(expectedBody)
@@ -286,7 +284,12 @@ class HttpServerToolTest {
         assertEquals(OK_200, status)
 
         for ((k, v) in checkedHeaders.entries) {
-            assertBodyContains(k, v.toString())
+            assertBodyContains(k)
+            when (v) {
+                is Collection<*> -> v.forEach { assertBodyContains(it.toString()) }
+                else -> assertBodyContains(v.toString())
+            }
+
         }
     }
 
@@ -298,7 +301,12 @@ class HttpServerToolTest {
 
         for (entry in checkedHeaders.entries) {
             assertTrue(bodyString.contains(entry.key))
-            assertTrue(bodyString.contains(entry.value.toString()))
+
+            val ev: Collection<*> =
+                if (entry.value is Collection<*>) entry.value as Collection<*>
+                else listOf(entry.value)
+
+            ev.forEach { assertTrue(bodyString.contains(it.toString())) }
         }
     }
 }

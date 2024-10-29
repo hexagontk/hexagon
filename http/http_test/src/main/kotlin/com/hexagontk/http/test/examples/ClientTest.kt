@@ -1,6 +1,5 @@
 package com.hexagontk.http.test.examples
 
-import com.hexagontk.core.require
 import com.hexagontk.core.media.APPLICATION_JSON
 import com.hexagontk.core.media.APPLICATION_YAML
 import com.hexagontk.core.urlOf
@@ -67,9 +66,9 @@ abstract class ClientTest(
             ok(
                 body = bodyString,
                 headers = response.headers
-                    + Header("body", bodyHeader)
-                    + Header("ct", request.contentType?.text ?: "")
-                    + Header("query-parameters", formatQueryString(queryParameters)),
+                    + Field("body", bodyHeader)
+                    + Field("ct", request.contentType?.text ?: "")
+                    + Field("query-parameters", formatQueryString(queryParameters)),
                 contentType = contentType,
             )
         }
@@ -116,7 +115,7 @@ abstract class ClientTest(
             baseUrl = urlOf("http://host:1234/base"),
             contentType = ContentType(APPLICATION_JSON),
             useCookies = true,
-            headers = Headers(Header("x-api-Key", "cafebabe")), // Headers used in all requests
+            headers = Headers(Field("x-api-Key", "cafebabe")), // Headers used in all requests
             insecure = false,               // If true, the client doesn't check server certificates
             sslSettings = SslSettings()     // Key stores settings (check TLS section for details)
         ))
@@ -145,8 +144,8 @@ abstract class ClientTest(
             method = GET,
             path = "/",
             body = mapOf("body" to "payload").serialize(defaultFormat),
-            headers = Headers(Header("x-header", "value")),
-            queryParameters = QueryParameters(QueryParameter("qp", "qpValue")),
+            headers = Headers(Field("x-header", "value")),
+            queryParameters = Parameters(Field("qp", "qpValue")),
             contentType = ContentType(APPLICATION_JSON)
         )
 
@@ -240,7 +239,8 @@ abstract class ClientTest(
     }
 
     @Test fun `Parameters are set properly` () {
-        val clientHeaders = Headers(Header("header1", "val1", "val2"))
+        val clientHeaders =
+            Headers(Field("header1", "val1"), Field("header1", "val2"))
         val settings = HttpClientSettings(
             baseUrl = server.binding,
             contentType = ContentType(APPLICATION_JSON),
@@ -255,18 +255,18 @@ abstract class ClientTest(
         assertEquals(c.settings.headers, clientHeaders)
 
         callback = {
-            val headers = Header("head1", request.headers.require("header1").strings())
-            ok(headers = response.headers + headers)
+            val headers = request.headers.all("header1").map { Field("head1", it.text) }
+            ok(headers = Headers(response.headers + headers))
         }
 
         c.use {
             it.start()
             it.get("/auth").apply {
-                assertEquals(listOf("val1", "val2"), headers["head1"]?.values)
+                assertEquals(listOf("val1", "val2"), headers.all("head1").map { h -> h.text })
                 assertEquals(status, OK_200)
             }
             it.get().apply {
-                assertEquals(listOf("val1", "val2"), headers["head1"]?.values)
+                assertEquals(listOf("val1", "val2"), headers.all("head1").map { h -> h.text })
                 assertEquals(status, OK_200)
             }
         }
@@ -276,7 +276,7 @@ abstract class ClientTest(
         c.request {
             assertTrue(c.started())
             get("/auth").apply {
-                assertEquals(listOf("val1", "val2"), headers["head1"]?.values)
+                assertEquals(listOf("val1", "val2"), headers.all("head1").map { it.text })
                 assertEquals(status, OK_200)
             }
         }
@@ -287,7 +287,7 @@ abstract class ClientTest(
         c.request {
             assertTrue(c.started())
             get("/auth").apply {
-                assertEquals(listOf("val1", "val2"), headers["head1"]?.values)
+                assertEquals(listOf("val1", "val2"), headers.all("head1").map { it.text })
                 assertEquals(status, OK_200)
             }
         }
@@ -301,7 +301,7 @@ abstract class ClientTest(
             val number = BigInteger(request.body as ByteArray).toLong()
             ok(
                 body = number,
-                headers = response.headers + Header("body", number),
+                headers = response.headers + Field("body", number),
                 contentType = contentType
             )
         }
@@ -319,7 +319,7 @@ abstract class ClientTest(
         var run: Boolean
 
         client.post("/string", "text").apply {
-            assert(headers["body"]?.string()?.isNotEmpty() ?: false)
+            assert(headers["body"]?.text?.isNotEmpty() ?: false)
             assertEquals(status, OK_200)
             run = true
         }

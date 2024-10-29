@@ -73,8 +73,8 @@ class ServletFilter(pathHandler: HttpHandler) : HttpFilter() {
         response: HttpResponsePort,
         servletResponse: HttpServletResponse
     ) {
-        response.headers.values.forEach { (k, v) ->
-            v.forEach { servletResponse.addHeader(k, it.toString()) }
+        response.headers.all.forEach { (k, v) ->
+            v.forEach { servletResponse.addHeader(k, it.text) }
         }
 
         response.cookies
@@ -91,6 +91,6 @@ class ServletFilter(pathHandler: HttpHandler) : HttpFilter() {
             }
 
         response.contentType?.let { servletResponse.addHeader("content-type", it.text) }
-        servletResponse.status = response.status.code
+        servletResponse.status = response.status
     }
 }
