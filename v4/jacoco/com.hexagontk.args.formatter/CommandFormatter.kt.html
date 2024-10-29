@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommandFormatter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.args.formatter</a> &gt; <span class="el_source">CommandFormatter.kt</span></div><h1>CommandFormatter.kt</h1><pre class="source lang-java linenums">package com.hexagontk.args.formatter
+
+import com.hexagontk.args.Command
+import com.hexagontk.args.Property
+
+/**
+ * [summary] name, title and description
+ * [definition] Usage
+ * [detail] Commands, options and parameters
+ *
+ * @property propertyFormatter
+ */
+<span class="fc" id="L13">class CommandFormatter(</span>
+<span class="fc" id="L14">    private val indent: String = &quot;  &quot;,</span>
+<span class="fc" id="L15">    private val propertyFormatter: Formatter&lt;Property&lt;*&gt;&gt; = PropertyFormatter()</span>
+<span class="fc" id="L16">) : Formatter&lt;Command&gt; {</span>
+
+    override fun summary(component: Command): String {
+<span class="fc" id="L19">        val title = listOfNotNull(</span>
+<span class="fc" id="L20">            component.name,</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">            component.title?.let { &quot;- $it&quot; },</span>
+        )
+<span class="fc" id="L23">        .joinToString(&quot; &quot;)</span>
+
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        return &quot;$title\n\n${component.description ?: &quot;&quot;}&quot;.trim()</span>
+    }
+
+    override fun definition(component: Command): String {
+<span class="fc" id="L29">        val options = component.properties.joinToString(&quot; &quot;) { propertyFormatter.summary(it) }</span>
+<span class="fc" id="L30">        val componentSubcommands = component.subcommands</span>
+<span class="fc" id="L31">        val subcommands =</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            if (componentSubcommands.isEmpty()) &quot;&quot;</span>
+<span class="fc" id="L33">            else componentSubcommands.joinToString(&quot;|&quot;, &quot; &quot;) { it.name }</span>
+
+<span class="fc" id="L35">        return &quot;${component.name} $options$subcommands&quot;</span>
+    }
+
+    override fun detail(component: Command): String {
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        val commands = component.subcommands.dl(&quot;COMMANDS&quot;) { it.name to (it.title ?: &quot;&quot;) }</span>
+<span class="fc" id="L40">        val parameters = component.parameters.dl(&quot;PARAMETERS&quot;)</span>
+<span class="fc" id="L41">        val options = component.options.dl(&quot;OPTIONS&quot;)</span>
+<span class="fc" id="L42">        val flags = component.flags.dl(&quot;FLAGS&quot;)</span>
+
+<span class="fc" id="L44">        return &quot;$commands$parameters$options$flags&quot;.trim()</span>
+    }
+
+    private fun &lt;T : Any&gt; Collection&lt;T&gt;.dl(
+        title: String, block: (T) -&gt; Pair&lt;String, String&gt;
+    ) : String {
+
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (isEmpty())</span>
+<span class="fc" id="L52">            return &quot;&quot;</span>
+
+<span class="fc" id="L54">        return map(block)</span>
+<span class="fc" id="L55">            .let { p -&gt;</span>
+<span class="pc bpc" id="L56" title="1 of 6 branches missed.">                val m = p.maxOf { it.first.length }</span>
+<span class="fc" id="L57">                p.map { (k, v) -&gt; k.padEnd(m + 3, ' ') + v }</span>
+            }
+<span class="fc" id="L59">            .joinToString(&quot;\n&quot;, &quot;$title\n&quot;, &quot;\n\n&quot;) { it.trim().prependIndent(indent) }</span>
+    }
+
+    private fun Collection&lt;Property&lt;*&gt;&gt;.dl(title: String) : String =
+<span class="fc" id="L63">        dl(title) { propertyFormatter.definition(it) to propertyFormatter.detail(it) }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

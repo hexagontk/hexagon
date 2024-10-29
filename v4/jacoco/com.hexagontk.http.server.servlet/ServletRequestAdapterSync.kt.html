@@ -9,20 +9,22 @@ import kotlin.UnsupportedOperationException
 
 <span class="fc" id="L10">internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletRequestAdapter(req) {</span>
 
-<span class="fc" id="L12">    private val parameters: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
-<span class="fc" id="L13">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
+<span class="fc" id="L12">    private val parameters: List&lt;Pair&lt;String, String&gt;&gt; by lazy {</span>
+<span class="fc" id="L13">        req.parameterMap.flatMap { pm -&gt;</span>
+<span class="fc" id="L14">            pm.value.map { pm.key as String to it }</span>
+<span class="fc" id="L15">        }</span>
     }
 
-<span class="fc" id="L16">    override val parts: List&lt;HttpPart&gt; by lazy {</span>
-<span class="fc" id="L17">        req.parts.map { servletPartAdapter(it) }</span>
+<span class="fc" id="L18">    override val parts: List&lt;HttpPart&gt; by lazy {</span>
+<span class="fc" id="L19">        req.parts.map { servletPartAdapter(it) }</span>
     }
 
-<span class="fc" id="L20">    override val formParameters: FormParameters by lazy {</span>
-<span class="fc" id="L21">        val fields = parameters</span>
-<span class="fc bfc" id="L22" title="All 2 branches covered.">            .filter { it.key !in queryParameters.httpFields.keys }</span>
-<span class="fc" id="L23">            .map { (k, v) -&gt; FormParameter(k, v) }</span>
+<span class="fc" id="L22">    override val formParameters: Parameters by lazy {</span>
+<span class="fc" id="L23">        val fields = parameters</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">            .filter { it.first !in queryParameters.keys }</span>
+<span class="fc" id="L25">            .map { (k, v) -&gt; Field(k, v) }</span>
 
-<span class="fc" id="L25">        FormParameters(fields)</span>
+<span class="fc" id="L27">        Parameters(fields)</span>
     }
 
     override fun with(
@@ -34,29 +36,29 @@ import kotlin.UnsupportedOperationException
         host: String,
         port: Int,
         path: String,
-        queryParameters: QueryParameters,
+        queryParameters: Parameters,
         parts: List&lt;HttpPart&gt;,
-        formParameters: FormParameters,
+        formParameters: Parameters,
         cookies: List&lt;Cookie&gt;,
         accept: List&lt;ContentType&gt;,
         authorization: Authorization?,
         certificateChain: List&lt;X509Certificate&gt;,
     ): HttpRequestPort =
-<span class="nc" id="L45">        throw UnsupportedOperationException()</span>
+<span class="nc" id="L47">        throw UnsupportedOperationException()</span>
 
-<span class="fc" id="L47">    override val body: Any by lazy {</span>
-<span class="fc" id="L48">        req.inputStream.readAllBytes()</span>
+<span class="fc" id="L49">    override val body: Any by lazy {</span>
+<span class="fc" id="L50">        req.inputStream.readAllBytes()</span>
     }
 
     private fun servletPartAdapter(part: Part) : HttpPart {
-<span class="fc" id="L52">        val headerNames = part.headerNames.filterNotNull()</span>
-<span class="fc" id="L53">        return HttpPart(</span>
-<span class="fc" id="L54">            name = part.name,</span>
-<span class="fc" id="L55">            body = part.inputStream.readAllBytes(),</span>
-<span class="fc" id="L56">            headers = Headers(headerNames.map { Header(it, part.getHeaders(it).toList()) }),</span>
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">            contentType = part.contentType?.let { parseContentType(it) },</span>
-<span class="fc" id="L58">            size = part.size,</span>
-<span class="fc" id="L59">            submittedFileName = part.submittedFileName,</span>
+<span class="fc" id="L54">        val headerNames = part.headerNames.filterNotNull()</span>
+<span class="fc" id="L55">        return HttpPart(</span>
+<span class="fc" id="L56">            name = part.name,</span>
+<span class="fc" id="L57">            body = part.inputStream.readAllBytes(),</span>
+<span class="fc" id="L58">            headers = Headers(headerNames.map { Field(it, part.getHeaders(it).toList()) }),</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">            contentType = part.contentType?.let { parseContentType(it) },</span>
+<span class="fc" id="L60">            size = part.size,</span>
+<span class="fc" id="L61">            submittedFileName = part.submittedFileName,</span>
         )
     }
 }

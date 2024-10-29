@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Program.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.args</a> &gt; <span class="el_source">Program.kt</span></div><h1>Program.kt</h1><pre class="source lang-java linenums">package com.hexagontk.args
+
+import com.hexagontk.args.Property.Companion.HELP
+import com.hexagontk.args.Property.Companion.VERSION
+import com.hexagontk.args.formatter.DefaultFormatter
+import com.hexagontk.core.CodedException
+import com.hexagontk.helpers.requireNotBlank
+import java.io.BufferedReader
+
+<span class="fc" id="L10">data class Program(</span>
+<span class="pc" id="L11">    val version: String? = null,</span>
+<span class="fc" id="L12">    val command: Command,</span>
+<span class="pc" id="L13">    val formatter: Formatter = DefaultFormatter(),</span>
+<span class="pc" id="L14">    val systemSetting: Boolean = false,</span>
+<span class="pc" id="L15">    val defaultCommand: List&lt;String&gt; = emptyList(),</span>
+<span class="fc" id="L16">) {</span>
+<span class="fc" id="L17">    constructor(</span>
+        name: String,
+<span class="fc" id="L19">        version: String? = null,</span>
+<span class="fc" id="L20">        title: String? = null,</span>
+<span class="fc" id="L21">        description: String? = null,</span>
+<span class="fc" id="L22">        properties: Set&lt;Property&lt;*&gt;&gt; = emptySet(),</span>
+<span class="fc" id="L23">    ) : this(version, Command(name, title, description, properties))</span>
+
+<span class="fc" id="L25">    constructor(</span>
+        name: String,
+<span class="fc" id="L27">        version: String? = null,</span>
+<span class="fc" id="L28">        title: String? = null,</span>
+<span class="fc" id="L29">        description: String? = null,</span>
+<span class="fc" id="L30">        properties: Set&lt;Property&lt;*&gt;&gt; = emptySet(),</span>
+        commands: Set&lt;Command&gt;,
+<span class="fc" id="L32">    ) : this(version, Command(name, title, description, properties, commands))</span>
+
+<span class="fc" id="L34">    init {</span>
+<span class="fc" id="L35">        requireNotBlank(Program::version)</span>
+<span class="fc" id="L36">    }</span>
+
+    fun input(): String? =
+<span class="pc" id="L39">        BufferedReader(System.`in`.reader()).use {</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (it.ready()) it.readText()</span>
+<span class="fc" id="L41">            else null</span>
+<span class="fc" id="L42">        }</span>
+
+    fun parse(args: Array&lt;out String&gt;): Command =
+<span class="fc" id="L45">        parse(args.toList())</span>
+
+    fun parse(args: Iterable&lt;String&gt;): Command =
+<span class="fc" id="L48">        process(args)</span>
+
+    internal fun process(args: Iterable&lt;String&gt;): Command {
+<span class="fc" id="L51">        val programCommand = command.findCommand(args)</span>
+<span class="fc" id="L52">        val subcommands = programCommand.name.split(&quot; &quot;)</span>
+<span class="fc" id="L53">        val properties = subcommands.fold(args.toList()) { a, b -&gt; a - b }</span>
+
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (programCommand.contains(VERSION, properties))</span>
+<span class="fc" id="L56">            throw CodedException(0, formatter.summary(this, programCommand))</span>
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (programCommand.contains(HELP, properties))</span>
+<span class="fc" id="L59">            throw CodedException(0, formatter.help(this, programCommand))</span>
+
+<span class="fc bfc" id="L61" title="All 6 branches covered.">        if (command.subcommands.isNotEmpty() &amp;&amp; programCommand == command)</span>
+<span class="fc" id="L62">            throw CodedException(400, formatter.help(this, programCommand))</span>
+
+<span class="fc" id="L64">        val parsedCommand = try {</span>
+<span class="fc" id="L65">            programCommand.parse(properties)</span>
+        }
+<span class="fc" id="L67">        catch (e: Exception) {</span>
+<span class="fc" id="L68">            val message = formatter.error(this, programCommand, e)</span>
+<span class="fc" id="L69">            throw CodedException(400, message, e)</span>
+        }
+
+<span class="fc" id="L72">        return parsedCommand</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

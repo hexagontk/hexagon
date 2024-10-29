@@ -81,7 +81,7 @@ import com.hexagontk.http.model.HttpRequest as HexagonHttpRequest
         }
 <span class="fc" id="L82">    }</span>
 
-    private fun isWebsocket(headers: HttpHeaders, method: HttpMethod, status: HttpStatus): Boolean {
+    private fun isWebsocket(headers: HttpHeaders, method: HttpMethod, status: Int): Boolean {
 <span class="fc bfc" id="L85" title="All 2 branches covered.">        val connection = headers[CONNECTION]?.lowercase()</span>
 <span class="fc bfc" id="L86" title="All 2 branches covered.">        val upgrade = headers[UPGRADE]?.lowercase()</span>
 <span class="fc bfc" id="L87" title="All 2 branches covered.">        return connection == &quot;upgrade&quot;</span>
@@ -101,8 +101,8 @@ import com.hexagontk.http.model.HttpRequest as HexagonHttpRequest
 <span class="fc" id="L101">        val headers = nettyResponse.headers()</span>
 
 <span class="fc" id="L103">        val hexagonHeaders = response.headers</span>
-<span class="pc bpc" id="L104" title="2 of 4 branches missed.">        if (hexagonHeaders.httpFields.isNotEmpty())</span>
-<span class="fc" id="L105">            hexagonHeaders.values.map { (k, v) -&gt; headers.add(k, v) }</span>
+<span class="pc bpc" id="L104" title="2 of 4 branches missed.">        if (hexagonHeaders.fields.isNotEmpty())</span>
+<span class="fc" id="L105">            hexagonHeaders.all.map { (k, v) -&gt; headers.add(k, v.map { it.text }) }</span>
 
 <span class="fc" id="L107">        val hexagonCookies = response.cookies</span>
 <span class="pc bpc" id="L108" title="2 of 4 branches missed.">        if (hexagonCookies.isNotEmpty()) {</span>
@@ -199,8 +199,8 @@ import com.hexagontk.http.model.HttpRequest as HexagonHttpRequest
 
 <span class="fc" id="L200">        val headers = response.headers()</span>
 <span class="fc" id="L201">        val hexagonHeaders = hexagonResponse.headers</span>
-<span class="fc bfc" id="L202" title="All 4 branches covered.">        if (hexagonHeaders.httpFields.isNotEmpty())</span>
-<span class="fc" id="L203">            hexagonHeaders.values.map { (k, v) -&gt; headers.add(k, v) }</span>
+<span class="fc bfc" id="L202" title="All 4 branches covered.">        if (hexagonHeaders.fields.isNotEmpty())</span>
+<span class="fc" id="L203">            hexagonHeaders.all.map { (k, v) -&gt; headers.add(k, v.map { it.text }) }</span>
 
 <span class="fc" id="L205">        val hexagonCookies = hexagonResponse.cookies</span>
 <span class="fc bfc" id="L206" title="All 4 branches covered.">        if (hexagonCookies.isNotEmpty()) {</span>
@@ -246,68 +246,68 @@ import com.hexagontk.http.model.HttpRequest as HexagonHttpRequest
 <span class="fc" id="L246">                }</span>
 <span class="fc" id="L247">            }</span>
 
-    internal fun nettyStatus(status: HttpStatus): HttpResponseStatus =
-<span class="fc" id="L250">        when (status) {</span>
-<span class="fc bfc" id="L251" title="All 2 branches covered.">            CONTINUE_100 -&gt; CONTINUE</span>
-<span class="fc bfc" id="L252" title="All 2 branches covered.">            SWITCHING_PROTOCOLS_101 -&gt; SWITCHING_PROTOCOLS</span>
-<span class="fc bfc" id="L253" title="All 2 branches covered.">            PROCESSING_102 -&gt; PROCESSING</span>
+    internal fun nettyStatus(status: Int): HttpResponseStatus =
+<span class="fc bfc" id="L250" title="All 55 branches covered.">        when (status) {</span>
+<span class="fc" id="L251">            CONTINUE_100 -&gt; CONTINUE</span>
+<span class="fc" id="L252">            SWITCHING_PROTOCOLS_101 -&gt; SWITCHING_PROTOCOLS</span>
+<span class="fc" id="L253">            PROCESSING_102 -&gt; PROCESSING</span>
 
-<span class="fc bfc" id="L255" title="All 2 branches covered.">            OK_200 -&gt; OK</span>
-<span class="fc bfc" id="L256" title="All 2 branches covered.">            CREATED_201 -&gt; CREATED</span>
-<span class="fc bfc" id="L257" title="All 2 branches covered.">            ACCEPTED_202 -&gt; ACCEPTED</span>
-<span class="fc bfc" id="L258" title="All 2 branches covered.">            NON_AUTHORITATIVE_INFORMATION_203 -&gt; NON_AUTHORITATIVE_INFORMATION</span>
-<span class="fc bfc" id="L259" title="All 2 branches covered.">            NO_CONTENT_204 -&gt; NO_CONTENT</span>
-<span class="fc bfc" id="L260" title="All 2 branches covered.">            RESET_CONTENT_205 -&gt; RESET_CONTENT</span>
-<span class="fc bfc" id="L261" title="All 2 branches covered.">            PARTIAL_CONTENT_206 -&gt; PARTIAL_CONTENT</span>
-<span class="fc bfc" id="L262" title="All 2 branches covered.">            MULTI_STATUS_207 -&gt; MULTI_STATUS</span>
+<span class="fc" id="L255">            OK_200 -&gt; OK</span>
+<span class="fc" id="L256">            CREATED_201 -&gt; CREATED</span>
+<span class="fc" id="L257">            ACCEPTED_202 -&gt; ACCEPTED</span>
+<span class="fc" id="L258">            NON_AUTHORITATIVE_INFORMATION_203 -&gt; NON_AUTHORITATIVE_INFORMATION</span>
+<span class="fc" id="L259">            NO_CONTENT_204 -&gt; NO_CONTENT</span>
+<span class="fc" id="L260">            RESET_CONTENT_205 -&gt; RESET_CONTENT</span>
+<span class="fc" id="L261">            PARTIAL_CONTENT_206 -&gt; PARTIAL_CONTENT</span>
+<span class="fc" id="L262">            MULTI_STATUS_207 -&gt; MULTI_STATUS</span>
 
-<span class="fc bfc" id="L264" title="All 2 branches covered.">            MULTIPLE_CHOICES_300 -&gt; MULTIPLE_CHOICES</span>
-<span class="fc bfc" id="L265" title="All 2 branches covered.">            MOVED_PERMANENTLY_301 -&gt; MOVED_PERMANENTLY</span>
-<span class="fc bfc" id="L266" title="All 2 branches covered.">            FOUND_302 -&gt; FOUND</span>
-<span class="fc bfc" id="L267" title="All 2 branches covered.">            SEE_OTHER_303 -&gt; SEE_OTHER</span>
-<span class="fc bfc" id="L268" title="All 2 branches covered.">            NOT_MODIFIED_304 -&gt; NOT_MODIFIED</span>
-<span class="fc bfc" id="L269" title="All 2 branches covered.">            USE_PROXY_305 -&gt; USE_PROXY</span>
-<span class="fc bfc" id="L270" title="All 2 branches covered.">            TEMPORARY_REDIRECT_307 -&gt; TEMPORARY_REDIRECT</span>
-<span class="fc bfc" id="L271" title="All 2 branches covered.">            PERMANENT_REDIRECT_308 -&gt; PERMANENT_REDIRECT</span>
+<span class="fc" id="L264">            MULTIPLE_CHOICES_300 -&gt; MULTIPLE_CHOICES</span>
+<span class="fc" id="L265">            MOVED_PERMANENTLY_301 -&gt; MOVED_PERMANENTLY</span>
+<span class="fc" id="L266">            FOUND_302 -&gt; FOUND</span>
+<span class="fc" id="L267">            SEE_OTHER_303 -&gt; SEE_OTHER</span>
+<span class="fc" id="L268">            NOT_MODIFIED_304 -&gt; NOT_MODIFIED</span>
+<span class="fc" id="L269">            USE_PROXY_305 -&gt; USE_PROXY</span>
+<span class="fc" id="L270">            TEMPORARY_REDIRECT_307 -&gt; TEMPORARY_REDIRECT</span>
+<span class="fc" id="L271">            PERMANENT_REDIRECT_308 -&gt; PERMANENT_REDIRECT</span>
 
-<span class="fc bfc" id="L273" title="All 2 branches covered.">            BAD_REQUEST_400 -&gt; BAD_REQUEST</span>
-<span class="fc bfc" id="L274" title="All 2 branches covered.">            NOT_FOUND_404 -&gt; NOT_FOUND</span>
-<span class="fc bfc" id="L275" title="All 2 branches covered.">            UNAUTHORIZED_401 -&gt; UNAUTHORIZED</span>
-<span class="fc bfc" id="L276" title="All 2 branches covered.">            PAYMENT_REQUIRED_402 -&gt; PAYMENT_REQUIRED</span>
-<span class="fc bfc" id="L277" title="All 2 branches covered.">            FORBIDDEN_403 -&gt; FORBIDDEN</span>
-<span class="fc bfc" id="L278" title="All 2 branches covered.">            METHOD_NOT_ALLOWED_405 -&gt; METHOD_NOT_ALLOWED</span>
-<span class="fc bfc" id="L279" title="All 2 branches covered.">            NOT_ACCEPTABLE_406 -&gt; NOT_ACCEPTABLE</span>
-<span class="fc bfc" id="L280" title="All 2 branches covered.">            PROXY_AUTHENTICATION_REQUIRED_407 -&gt; PROXY_AUTHENTICATION_REQUIRED</span>
-<span class="fc bfc" id="L281" title="All 2 branches covered.">            REQUEST_TIMEOUT_408 -&gt; REQUEST_TIMEOUT</span>
-<span class="fc bfc" id="L282" title="All 2 branches covered.">            CONFLICT_409 -&gt; CONFLICT</span>
-<span class="fc bfc" id="L283" title="All 2 branches covered.">            GONE_410 -&gt; GONE</span>
-<span class="fc bfc" id="L284" title="All 2 branches covered.">            LENGTH_REQUIRED_411 -&gt; LENGTH_REQUIRED</span>
-<span class="fc bfc" id="L285" title="All 2 branches covered.">            PRECONDITION_FAILED_412 -&gt; PRECONDITION_FAILED</span>
-<span class="fc bfc" id="L286" title="All 2 branches covered.">            URI_TOO_LONG_414 -&gt; REQUEST_URI_TOO_LONG</span>
-<span class="fc bfc" id="L287" title="All 2 branches covered.">            UNSUPPORTED_MEDIA_TYPE_415 -&gt; UNSUPPORTED_MEDIA_TYPE</span>
-<span class="fc bfc" id="L288" title="All 2 branches covered.">            RANGE_NOT_SATISFIABLE_416 -&gt; REQUESTED_RANGE_NOT_SATISFIABLE</span>
-<span class="fc bfc" id="L289" title="All 2 branches covered.">            EXPECTATION_FAILED_417 -&gt; EXPECTATION_FAILED</span>
-<span class="fc bfc" id="L290" title="All 2 branches covered.">            MISDIRECTED_REQUEST_421 -&gt; MISDIRECTED_REQUEST</span>
-<span class="fc bfc" id="L291" title="All 2 branches covered.">            UNPROCESSABLE_CONTENT_422 -&gt; UNPROCESSABLE_ENTITY</span>
-<span class="fc bfc" id="L292" title="All 2 branches covered.">            LOCKED_423 -&gt; LOCKED</span>
-<span class="fc bfc" id="L293" title="All 2 branches covered.">            FAILED_DEPENDENCY_424 -&gt; FAILED_DEPENDENCY</span>
-<span class="fc bfc" id="L294" title="All 2 branches covered.">            UPGRADE_REQUIRED_426 -&gt; UPGRADE_REQUIRED</span>
-<span class="fc bfc" id="L295" title="All 2 branches covered.">            PRECONDITION_REQUIRED_428 -&gt; PRECONDITION_REQUIRED</span>
-<span class="fc bfc" id="L296" title="All 2 branches covered.">            TOO_MANY_REQUESTS_429 -&gt; TOO_MANY_REQUESTS</span>
-<span class="fc bfc" id="L297" title="All 2 branches covered.">            REQUEST_HEADER_FIELDS_TOO_LARGE_431 -&gt; REQUEST_HEADER_FIELDS_TOO_LARGE</span>
+<span class="fc" id="L273">            BAD_REQUEST_400 -&gt; BAD_REQUEST</span>
+<span class="fc" id="L274">            NOT_FOUND_404 -&gt; NOT_FOUND</span>
+<span class="fc" id="L275">            UNAUTHORIZED_401 -&gt; UNAUTHORIZED</span>
+<span class="fc" id="L276">            PAYMENT_REQUIRED_402 -&gt; PAYMENT_REQUIRED</span>
+<span class="fc" id="L277">            FORBIDDEN_403 -&gt; FORBIDDEN</span>
+<span class="fc" id="L278">            METHOD_NOT_ALLOWED_405 -&gt; METHOD_NOT_ALLOWED</span>
+<span class="fc" id="L279">            NOT_ACCEPTABLE_406 -&gt; NOT_ACCEPTABLE</span>
+<span class="fc" id="L280">            PROXY_AUTHENTICATION_REQUIRED_407 -&gt; PROXY_AUTHENTICATION_REQUIRED</span>
+<span class="fc" id="L281">            REQUEST_TIMEOUT_408 -&gt; REQUEST_TIMEOUT</span>
+<span class="fc" id="L282">            CONFLICT_409 -&gt; CONFLICT</span>
+<span class="fc" id="L283">            GONE_410 -&gt; GONE</span>
+<span class="fc" id="L284">            LENGTH_REQUIRED_411 -&gt; LENGTH_REQUIRED</span>
+<span class="fc" id="L285">            PRECONDITION_FAILED_412 -&gt; PRECONDITION_FAILED</span>
+<span class="fc" id="L286">            URI_TOO_LONG_414 -&gt; REQUEST_URI_TOO_LONG</span>
+<span class="fc" id="L287">            UNSUPPORTED_MEDIA_TYPE_415 -&gt; UNSUPPORTED_MEDIA_TYPE</span>
+<span class="fc" id="L288">            RANGE_NOT_SATISFIABLE_416 -&gt; REQUESTED_RANGE_NOT_SATISFIABLE</span>
+<span class="fc" id="L289">            EXPECTATION_FAILED_417 -&gt; EXPECTATION_FAILED</span>
+<span class="fc" id="L290">            MISDIRECTED_REQUEST_421 -&gt; MISDIRECTED_REQUEST</span>
+<span class="fc" id="L291">            UNPROCESSABLE_CONTENT_422 -&gt; UNPROCESSABLE_ENTITY</span>
+<span class="fc" id="L292">            LOCKED_423 -&gt; LOCKED</span>
+<span class="fc" id="L293">            FAILED_DEPENDENCY_424 -&gt; FAILED_DEPENDENCY</span>
+<span class="fc" id="L294">            UPGRADE_REQUIRED_426 -&gt; UPGRADE_REQUIRED</span>
+<span class="fc" id="L295">            PRECONDITION_REQUIRED_428 -&gt; PRECONDITION_REQUIRED</span>
+<span class="fc" id="L296">            TOO_MANY_REQUESTS_429 -&gt; TOO_MANY_REQUESTS</span>
+<span class="fc" id="L297">            REQUEST_HEADER_FIELDS_TOO_LARGE_431 -&gt; REQUEST_HEADER_FIELDS_TOO_LARGE</span>
 
-<span class="fc bfc" id="L299" title="All 2 branches covered.">            INTERNAL_SERVER_ERROR_500 -&gt; INTERNAL_SERVER_ERROR</span>
-<span class="fc bfc" id="L300" title="All 2 branches covered.">            NOT_IMPLEMENTED_501 -&gt; NOT_IMPLEMENTED</span>
-<span class="fc bfc" id="L301" title="All 2 branches covered.">            BAD_GATEWAY_502 -&gt; BAD_GATEWAY</span>
-<span class="fc bfc" id="L302" title="All 2 branches covered.">            SERVICE_UNAVAILABLE_503 -&gt; SERVICE_UNAVAILABLE</span>
-<span class="fc bfc" id="L303" title="All 2 branches covered.">            GATEWAY_TIMEOUT_504 -&gt; GATEWAY_TIMEOUT</span>
-<span class="fc bfc" id="L304" title="All 2 branches covered.">            HTTP_VERSION_NOT_SUPPORTED_505 -&gt; HTTP_VERSION_NOT_SUPPORTED</span>
-<span class="fc bfc" id="L305" title="All 2 branches covered.">            VARIANT_ALSO_NEGOTIATES_506 -&gt; VARIANT_ALSO_NEGOTIATES</span>
-<span class="fc bfc" id="L306" title="All 2 branches covered.">            INSUFFICIENT_STORAGE_507 -&gt; INSUFFICIENT_STORAGE</span>
-<span class="fc bfc" id="L307" title="All 2 branches covered.">            NOT_EXTENDED_510 -&gt; NOT_EXTENDED</span>
-<span class="fc bfc" id="L308" title="All 2 branches covered.">            NETWORK_AUTHENTICATION_REQUIRED_511 -&gt; NETWORK_AUTHENTICATION_REQUIRED</span>
+<span class="fc" id="L299">            INTERNAL_SERVER_ERROR_500 -&gt; INTERNAL_SERVER_ERROR</span>
+<span class="fc" id="L300">            NOT_IMPLEMENTED_501 -&gt; NOT_IMPLEMENTED</span>
+<span class="fc" id="L301">            BAD_GATEWAY_502 -&gt; BAD_GATEWAY</span>
+<span class="fc" id="L302">            SERVICE_UNAVAILABLE_503 -&gt; SERVICE_UNAVAILABLE</span>
+<span class="fc" id="L303">            GATEWAY_TIMEOUT_504 -&gt; GATEWAY_TIMEOUT</span>
+<span class="fc" id="L304">            HTTP_VERSION_NOT_SUPPORTED_505 -&gt; HTTP_VERSION_NOT_SUPPORTED</span>
+<span class="fc" id="L305">            VARIANT_ALSO_NEGOTIATES_506 -&gt; VARIANT_ALSO_NEGOTIATES</span>
+<span class="fc" id="L306">            INSUFFICIENT_STORAGE_507 -&gt; INSUFFICIENT_STORAGE</span>
+<span class="fc" id="L307">            NOT_EXTENDED_510 -&gt; NOT_EXTENDED</span>
+<span class="fc" id="L308">            NETWORK_AUTHENTICATION_REQUIRED_511 -&gt; NETWORK_AUTHENTICATION_REQUIRED</span>
 
-<span class="fc" id="L310">            else -&gt; HttpResponseStatus(status.code, status.toString())</span>
+<span class="fc" id="L310">            else -&gt; HttpResponseStatus(status, status.toString())</span>
 <span class="fc" id="L311">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

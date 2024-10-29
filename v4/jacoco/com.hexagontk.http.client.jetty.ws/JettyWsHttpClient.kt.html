@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JettyWsHttpClient.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.http.client.jetty.ws</a> &gt; <span class="el_source">JettyWsHttpClient.kt</span></div><h1>JettyWsHttpClient.kt</h1><pre class="source lang-java linenums">package com.hexagontk.http.client.jetty.ws
+
+import com.hexagontk.core.urlOf
+import com.hexagontk.http.HttpFeature
+import com.hexagontk.http.HttpFeature.*
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.client.jetty.JettyHttpClient
+import com.hexagontk.http.model.ws.WsSession
+import org.eclipse.jetty.websocket.client.WebSocketClient
+import java.net.URI
+
+/**
+ * Client to use other REST services.
+ */
+<span class="fc" id="L15">class JettyWsHttpClient : JettyHttpClient() {</span>
+
+    private lateinit var wsClient: WebSocketClient
+
+    override fun startUp(client: HttpClient) {
+<span class="fc" id="L20">        super.startUp(client)</span>
+<span class="fc" id="L21">        wsClient = WebSocketClient(jettyClient)</span>
+<span class="fc" id="L22">        wsClient.start()</span>
+<span class="fc" id="L23">    }</span>
+
+    override fun shutDown() {
+<span class="fc" id="L26">        super.shutDown()</span>
+<span class="fc" id="L27">        wsClient.stop()</span>
+<span class="fc" id="L28">    }</span>
+
+    override fun ws(
+        path: String,
+        onConnect: WsSession.() -&gt; Unit,
+        onBinary: WsSession.(data: ByteArray) -&gt; Unit,
+        onText: WsSession.(text: String) -&gt; Unit,
+        onPing: WsSession.(data: ByteArray) -&gt; Unit,
+        onPong: WsSession.(data: ByteArray) -&gt; Unit,
+        onClose: WsSession.(status: Int, reason: String) -&gt; Unit,
+    ): WsSession {
+
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        val baseUrl = httpClient.settings.baseUrl ?: urlOf(path)</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        val scheme = if (baseUrl.protocol.lowercase() == &quot;https&quot;) &quot;wss&quot; else &quot;ws&quot;</span>
+<span class="fc" id="L42">        val uri = URI(&quot;$scheme://${baseUrl.host}:${baseUrl.port}${baseUrl.path}$path&quot;)</span>
+<span class="fc" id="L43">        val adapter =</span>
+<span class="fc" id="L44">            JettyWebSocketAdapter(uri, onConnect, onBinary, onText, onPing, onPong, onClose)</span>
+<span class="fc" id="L45">        val session = wsClient.connect(adapter, uri).get()</span>
+
+<span class="fc" id="L47">        return JettyClientWsSession(uri, session)</span>
+    }
+
+    override fun supportedFeatures(): Set&lt;HttpFeature&gt; =
+<span class="nc" id="L51">        super.supportedFeatures() + WEBSOCKETS</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

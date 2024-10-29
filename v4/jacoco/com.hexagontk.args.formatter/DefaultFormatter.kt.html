@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultFormatter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.args.formatter</a> &gt; <span class="el_source">DefaultFormatter.kt</span></div><h1>DefaultFormatter.kt</h1><pre class="source lang-java linenums">package com.hexagontk.args.formatter
+
+import com.hexagontk.args.Command
+import com.hexagontk.args.Formatter as ArgsFormatter
+import com.hexagontk.args.Program
+
+<span class="fc" id="L7">class DefaultFormatter(</span>
+<span class="fc" id="L8">    private val commandFormatter: Formatter&lt;Command&gt; = CommandFormatter(),</span>
+<span class="fc" id="L9">    private val titleSeparator: String = &quot;-&quot;,</span>
+<span class="fc" id="L10">    private val versionPrefix: String = &quot;(version &quot;,</span>
+<span class="fc" id="L11">    private val versionSuffix: String = &quot;)&quot;,</span>
+<span class="fc" id="L12">) : ArgsFormatter {</span>
+
+    override fun summary(program: Program, command: Command): String {
+<span class="fc" id="L15">        val description = program.command.description</span>
+<span class="fc" id="L16">        val title = listOfNotNull(</span>
+<span class="fc" id="L17">            program.command.name,</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">            program.command.title?.let { &quot;$titleSeparator $it&quot; },</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">            program.version?.let { &quot;$versionPrefix${program.version}$versionSuffix&quot; }</span>
+        )
+<span class="fc" id="L21">        .joinToString(&quot; &quot;)</span>
+
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        return if (description == null) title else &quot;$title\n\n$description&quot;</span>
+    }
+
+    override fun help(program: Program, command: Command): String {
+<span class="fc" id="L27">        return listOf(</span>
+<span class="fc" id="L28">            definition(program, command),</span>
+<span class="fc" id="L29">            usage(program, command),</span>
+<span class="fc" id="L30">            commandFormatter.detail(command)</span>
+<span class="fc" id="L31">        ).joinToString(&quot;\n\n&quot;)</span>
+    }
+
+    override fun error(program: Program, command: Command, exception: Exception): String {
+<span class="fc" id="L35">        val helpMessage = &quot;Use the --help option (-h) to get more information&quot;</span>
+<span class="fc" id="L36">        return &quot;${exception.message}\n\n${usage(program, command)}\n\n$helpMessage&quot;</span>
+    }
+
+    private fun definition(program: Program, command: Command): String =
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (command == program.command) summary(program, command)</span>
+<span class="fc" id="L41">        else commandFormatter.summary(command)</span>
+
+    private fun usage(program: Program, command: Command): String =
+        &quot;USAGE\n  &quot; +
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            if (command == program.command) commandFormatter.definition(command)</span>
+<span class="fc" id="L46">            else program.command.name + &quot; &quot; + commandFormatter.definition(command)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

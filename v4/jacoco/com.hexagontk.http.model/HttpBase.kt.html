@@ -5,11 +5,14 @@ interface HttpBase {
     val headers: Headers
     val contentType: ContentType?
 
+    fun contentType(): ContentType? =
+<span class="nc bnc" id="L9" title="All 2 branches missed.">        headers[&quot;content-type&quot;] as? ContentType</span>
+
     fun bodyString(): String =
-<span class="fc" id="L9">        when (body) {</span>
-<span class="fc bfc" id="L10" title="All 2 branches covered.">            is String -&gt; body as String</span>
-<span class="fc bfc" id="L11" title="All 2 branches covered.">            is ByteArray -&gt; String(body as ByteArray)</span>
-<span class="fc" id="L12">            else -&gt; body.toString()</span>
-<span class="fc" id="L13">        }</span>
+<span class="fc" id="L12">        when (body) {</span>
+<span class="fc bfc" id="L13" title="All 2 branches covered.">            is String -&gt; body as String</span>
+<span class="fc bfc" id="L14" title="All 2 branches covered.">            is ByteArray -&gt; String(body as ByteArray)</span>
+<span class="fc" id="L15">            else -&gt; body.toString()</span>
+<span class="fc" id="L16">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

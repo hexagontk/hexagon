@@ -32,9 +32,9 @@ import java.util.concurrent.Flow.Publisher
 <span class="fc" id="L32">    val host: String by lazy { request.host }</span>
 <span class="fc" id="L33">    val port: Int by lazy { request.port }</span>
 <span class="fc" id="L34">    val path: String by lazy { request.path }</span>
-<span class="fc" id="L35">    val queryParameters: QueryParameters by lazy { request.queryParameters }</span>
+<span class="fc" id="L35">    val queryParameters: Parameters by lazy { request.queryParameters }</span>
 <span class="fc" id="L36">    val parts: List&lt;HttpPart&gt; by lazy { request.parts }</span>
-<span class="fc" id="L37">    val formParameters: FormParameters by lazy { request.formParameters }</span>
+<span class="fc" id="L37">    val formParameters: Parameters by lazy { request.formParameters }</span>
 <span class="fc" id="L38">    val accept: List&lt;ContentType&gt; by lazy { request.accept }</span>
 <span class="fc" id="L39">    val authorization: Authorization? by lazy { request.authorization }</span>
 <span class="fc" id="L40">    val certificateChain: List&lt;X509Certificate&gt; by lazy { request.certificateChain }</span>
@@ -46,7 +46,7 @@ import java.util.concurrent.Flow.Publisher
 <span class="fc" id="L46">    val origin: String? by lazy { request.origin() }</span>
 <span class="fc" id="L47">    val certificate: X509Certificate? by lazy { request.certificate() }</span>
 
-<span class="fc" id="L49">    val status: HttpStatus = response.status</span>
+<span class="fc" id="L49">    val status: Int = response.status</span>
 
 <span class="fc" id="L51">    val pathParameters: Map&lt;String, String&gt; by lazy {</span>
 <span class="fc" id="L52">        val httpHandler = predicate as HttpPredicate</span>
@@ -138,7 +138,7 @@ import java.util.concurrent.Flow.Publisher
 <span class="fc" id="L138">        send(INTERNAL_SERVER_ERROR_500, body, headers, contentType, cookies, attributes)</span>
 
 <span class="fc" id="L140">    fun serverError(</span>
-        status: HttpStatus,
+        status: Int,
         exception: Exception,
 <span class="fc" id="L143">        headers: Headers = response.headers,</span>
 <span class="fc" id="L144">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
@@ -170,7 +170,7 @@ import java.util.concurrent.Flow.Publisher
     fun sse(body: Publisher&lt;ServerEvent&gt;): HttpContext =
 <span class="fc" id="L171">        ok(</span>
 <span class="fc" id="L172">            body = body,</span>
-<span class="fc" id="L173">            headers = response.headers + Header(&quot;cache-control&quot;, &quot;no-cache&quot;),</span>
+<span class="fc" id="L173">            headers = response.headers + Field(&quot;cache-control&quot;, &quot;no-cache&quot;),</span>
 <span class="fc" id="L174">            contentType = ContentType(TEXT_EVENT_STREAM)</span>
 <span class="fc" id="L175">        )</span>
 
@@ -202,7 +202,7 @@ import java.util.concurrent.Flow.Publisher
 <span class="fc" id="L202">        send(CREATED_201, body, headers, contentType, cookies, attributes)</span>
 
 <span class="fc" id="L204">    fun redirect(</span>
-        status: HttpStatus,
+        status: Int,
         location: String,
 <span class="fc" id="L207">        headers: Headers = response.headers,</span>
 <span class="fc" id="L208">        cookies: List&lt;Cookie&gt; = response.cookies,</span>
@@ -210,7 +210,7 @@ import java.util.concurrent.Flow.Publisher
     ): HttpContext =
 <span class="fc" id="L211">        send(</span>
 <span class="fc" id="L212">            status,</span>
-<span class="fc" id="L213">            headers = headers + Header(&quot;location&quot;, location),</span>
+<span class="fc" id="L213">            headers = headers + Field(&quot;location&quot;, location),</span>
 <span class="fc" id="L214">            cookies = cookies,</span>
 <span class="fc" id="L215">            attributes = attributes</span>
 <span class="fc" id="L216">        )</span>
@@ -244,7 +244,7 @@ import java.util.concurrent.Flow.Publisher
 <span class="fc" id="L244">        )</span>
 
 <span class="fc" id="L246">    fun send(</span>
-<span class="fc" id="L247">        status: HttpStatus = response.status,</span>
+<span class="fc" id="L247">        status: Int = response.status,</span>
 <span class="fc" id="L248">        body: Any = response.body,</span>
 <span class="fc" id="L249">        headers: Headers = response.headers,</span>
 <span class="fc" id="L250">        contentType: ContentType? = response.contentType,</span>
@@ -264,13 +264,13 @@ import java.util.concurrent.Flow.Publisher
 
 <span class="fc" id="L265">    fun send(response: HttpResponsePort, attributes: Map&lt;*, *&gt; = this.attributes): HttpContext =</span>
 <span class="fc" id="L266">        copy(</span>
-<span class="fc" id="L267">            event = event.copy(response = response),</span>
+<span class="fc" id="L267">            event = HttpCall(event.request, response),</span>
 <span class="fc" id="L268">            attributes = attributes</span>
 <span class="fc" id="L269">        )</span>
 
 <span class="nc" id="L271">    fun send(request: HttpRequestPort, attributes: Map&lt;*, *&gt; = this.attributes): HttpContext =</span>
 <span class="fc" id="L272">        copy(</span>
-<span class="fc" id="L273">            event = event.copy(request = request),</span>
+<span class="fc" id="L273">            event = HttpCall(request, event.response),</span>
 <span class="fc" id="L274">            attributes = attributes</span>
 <span class="fc" id="L275">        )</span>
 

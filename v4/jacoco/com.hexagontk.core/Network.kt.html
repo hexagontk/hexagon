@@ -37,7 +37,7 @@ fun isPortOpened(port: Int): Boolean =
 <span class="fc" id="L37">    try {</span>
 <span class="pc" id="L38">        Socket(&quot;localhost&quot;, port).use { it.isConnected }</span>
     }
-<span class="fc" id="L40">    catch (e: Exception) {</span>
+<span class="fc" id="L40">    catch (_: Exception) {</span>
 <span class="fc" id="L41">        false</span>
 <span class="fc" id="L42">    }</span>
 
@@ -48,7 +48,7 @@ fun URL.responseCode(): Int =
 <span class="fc" id="L48">    try {</span>
 <span class="fc" id="L49">        (openConnection() as HttpURLConnection).responseCode</span>
     }
-<span class="fc" id="L51">    catch (e: java.lang.Exception) {</span>
+<span class="fc" id="L51">    catch (_: java.lang.Exception) {</span>
 <span class="fc" id="L52">        400</span>
 <span class="fc" id="L53">    }</span>
 
@@ -56,7 +56,7 @@ fun URL.responseSuccessful(): Boolean =
 <span class="pc bpc" id="L56" title="1 of 4 branches missed.">    responseCode() in 200 until 300</span>
 
 fun URL.responseFound(): Boolean =
-<span class="pc bpc" id="L59" title="2 of 8 branches missed.">    responseCode().let { it in 200 until 500 &amp;&amp; it != 404 }</span>
+<span class="pc bpc" id="L59" title="3 of 8 branches missed.">    responseCode().let { it in 200 until 500 &amp;&amp; it != 404 }</span>
 
 // TODO Review the next functions, not all cases are covered
 fun URL.exists(): Boolean =

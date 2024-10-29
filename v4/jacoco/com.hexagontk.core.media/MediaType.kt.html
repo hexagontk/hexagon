@@ -6,7 +6,7 @@ import com.hexagontk.core.media.MediaTypeGroup.ANY
 /**
  * Media type (also known as MIME type).
  */
-<span class="fc" id="L9">data class MediaType(</span>
+<span class="fc" id="L9">class MediaType(</span>
 <span class="fc" id="L10">    val group: MediaTypeGroup,</span>
 <span class="fc" id="L11">    val type: String,</span>
 ) {
@@ -29,6 +29,24 @@ import com.hexagontk.core.media.MediaTypeGroup.ANY
 
         operator fun invoke(fullType: String): MediaType =
 <span class="fc bfc" id="L31" title="All 2 branches covered.">            fullTypes[fullType] ?: parseMediaType(fullType)</span>
+    }
+
+    override fun equals(other: Any?): Boolean {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (this === other) return true</span>
+<span class="pc bpc" id="L36" title="2 of 4 branches missed.">        if (javaClass != other?.javaClass) return false</span>
+
+<span class="fc" id="L38">        other as MediaType</span>
+
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (group != other.group) return false</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (type != other.type) return false</span>
+
+<span class="fc" id="L43">        return true</span>
+    }
+
+    override fun hashCode(): Int {
+<span class="fc" id="L47">        var result = group.hashCode()</span>
+<span class="fc" id="L48">        result = 31 * result + type.hashCode()</span>
+<span class="fc" id="L49">        return result</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

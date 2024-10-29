@@ -8,9 +8,9 @@
  * If they are not called in first place, they won't be executed on the return of the next handler.
  * Their filter is evaluated after the `next` call, not before.
  */
-<span class="fc" id="L11">data class AfterHandler&lt;T : Any&gt;(</span>
-<span class="pc" id="L12">    val afterPredicate: (Context&lt;T&gt;) -&gt; Boolean = { true },</span>
-<span class="fc" id="L13">    override val callback: (Context&lt;T&gt;) -&gt; Context&lt;T&gt;,</span>
+<span class="fc" id="L11">class AfterHandler&lt;T : Any&gt;(</span>
+<span class="fc" id="L12">    private val afterPredicate: (Context&lt;T&gt;) -&gt; Boolean = { true },</span>
+<span class="pc" id="L13">    val callback: (Context&lt;T&gt;) -&gt; Context&lt;T&gt;,</span>
 <span class="fc" id="L14">) : Handler&lt;T&gt; {</span>
 
 <span class="fc" id="L16">    override val predicate: (Context&lt;T&gt;) -&gt; Boolean = { true }</span>

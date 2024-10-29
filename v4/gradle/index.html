@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.06209087.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.0253249f.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -1347,7 +1347,7 @@ section).</p>
 <p>The binaries are always published. For an Open Source project, you must also include sources and
 javadoc.</p>
 <p>To use it, apply <code>$gradleScripts/publish.gradle</code>.</p>
-<p>To set up this script's parameters, check the <a href="gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>signingKey (REQUIRED): if not defined will try to load SIGNING_KEY environment variable.</li>
 <li>signingPassword (REQUIRED): or SIGNING_PASSWORD environment variable if not defined.</li>
@@ -1373,7 +1373,7 @@ IDEs.</p>
 <p>For image rendering you will need <a href="https://github.com/GNOME/librsvg">rsvg</a> (librsvg2-bin) and <code>imagemagick</code> installed in the
 development machine.</p>
 <p>To use it, apply <code>$gradleScripts/icons.gradle</code> to your <code>build.gradle.kts</code>.</p>
-<p>To set up this script's parameters, check the <a href="gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>logo (REQUIRED): SVG file used to render the logos. Used for the favicon.</li>
 <li>logoSmall: SVG file used to render the small logo. If not supplied 'logo' will be used.</li>
@@ -1396,7 +1396,7 @@ development machine.</p>
 </ul>
 <p>To use it, apply <code>$gradleScripts/kotlin.gradle</code> and add the
 <code>id("org.jetbrains.kotlin.jvm") version("VERSION")</code> plugin to the root <code>build.gradle.kts</code>.</p>
-<p>To set up this script's parameters, check the <a href="gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.</li>
 <li>junitVersion: JUnit version (5+), the default value is the toolkit version.</li>
@@ -1415,7 +1415,7 @@ development machine.</p>
 <li>tarJlink: compress Jpackage distribution in a single file.</li>
 </ul>
 <p>To use it, apply <code>$gradleScripts/application.gradle</code> to your <code>build.gradle.kts</code>.</p>
-<p>To set up this script's parameters, check the <a href="gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>modules: comma separated list of modules to include in the generated JRE.</li>
 <li>options: JVM options passed to the jpackage generated launcher.</li>
@@ -1453,7 +1453,7 @@ used for production environments.</p>
 <li>createIdentities: creates the <code>&lt;domain&gt;.p12</code> store for all <code>sslDomain</code> variables.</li>
 </ul>
 <p>To use it, apply <code>$gradleScripts/certificates.gradle</code> to your <code>build.gradle.kts</code>.</p>
-<p>To set up this script's parameters, check the <a href="gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>sslDomain[1-9] (REQUIRED): the main domain for the identity store. You can create up to ten (from
  <code>sslDomain</code> to <code>sslDomain9</code>). Each of these variables has the format
@@ -1488,7 +1488,7 @@ script. I.e.:</p>
 <span class="w">    </span><span class="n">id</span><span class="p">(</span><span class="s">&quot;io.gitlab.arturbosch.detekt&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="p">(</span><span class="s">&quot;VERSION&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-<p>To set up this script's parameters, check the <a href="gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>detektConfigPath: file with Detekt rules and settings. If not set, the default Detekt setup will
   be used.</li>
@@ -1515,7 +1515,7 @@ script. I.e.:</p>
 <p>If you want to create a native image for your application you should execute:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>./gradlew<span class="w"> </span>nativeCompile
 </code></pre></div></td></tr></table></div>
-<p>To set up this script's parameters, check the <a href="gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="#build-variables">build variables section</a>. These helper settings are:</p>
 <h3 id="jmh">JMH<a class="headerlink" href="#jmh" title="Permanent link">&para;</a></h3>
 <p>Sets up the build to run JMH benchmarks. To use it you must apply the <code>$gradleScripts/jmh.gradle</code>
 script to your <code>build.gradle.kts</code> file.</p>
@@ -1527,7 +1527,7 @@ script. I.e.:</p>
 <span class="w">    </span><span class="n">id</span><span class="p">(</span><span class="s">&quot;me.champeau.jmh&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="p">(</span><span class="s">&quot;VERSION&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-<p>To set up this script's parameters, check the <a href="gradle/#build-variables">build variables section</a>. These helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="#build-variables">build variables section</a>. These helper settings are:</p>
 <ul>
 <li>jmhVersion: JMH version to be used. If not specified a tested JMH version will be used.</li>
 </ul>
@@ -1716,7 +1716,7 @@ script. I.e.:</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

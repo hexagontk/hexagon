@@ -1,0 +1,125 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>args</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<script type="text/javascript" src="../../dokka-mermaid.js" async></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../index.html">
+                            hexagon
+                    </a>            </div>
+            <div class="library-version">4.0.0-A6
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":extra:args:dokkaHtmlPartial/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" id="content" pageids="args::////PointingToDeclaration//-46139743">
+  <div class="breadcrumbs"></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>args</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":extra:args:dokkaHtmlPartial/main"><p class="paragraph">TODO .</p><h2 class="">Command processing</h2><ol><li><p class="paragraph">Read system.in (check if there is input piped from other command)</p></li><li><p class="paragraph">Parse command line tokens into options and positional parameters</p></li><li><p class="paragraph">Check command line definition for invalid options, etc.</p></li><li><p class="paragraph">Apply defaults: option defaults, defaults in configuration files -user dir, and current dir-</p></li><li><p class="paragraph">Check missing options: fail if no interactive, ask for input if interactive</p></li><li><p class="paragraph">Return result</p></li><li><p class="paragraph">Support - and --</p></li><li><p class="paragraph">Take care of environment variables and .env files in current dir</p></li><li><p class="paragraph">Support interactive settings prompt if mandatory options are missing</p></li><li><p class="paragraph">Support @files for long list of parameters</p></li></ol><p class="paragraph">Program, can have stream input, config files (XDG dirs), and parameters</p><p class="paragraph">Check:</p><ul><li><p class="paragraph">https://clig.dev/#the-basics</p></li><li><p class="paragraph">https://medium.com/@jdxcode/12-factor-cli-apps-dd3c227a0e46</p></li><li><p class="paragraph">https://github.com/TeXitoi/structopt</p></li><li><p class="paragraph">https://github.com/spf13/cobra</p></li><li><p class="paragraph">https://ajalt.github.io/clikt</p></li><li><p class="paragraph">https://bloomberg.github.io/stricli/docs/tutorial</p></li></ul><h2 class="">Install the Dependency</h2><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
+repositories {
+    mavenCentral()
+}
+
+implementation("com.hexagontk:args:$hexagonVersion")
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```xml
+<dependency><groupid>com.hexagontk</groupid><artifactid>args</artifactid><version>$hexagonVersion</version></dependency>
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h2 class="">TODO</h2><ul><li><p class="paragraph">Know when it is a TTY or not</p></li><li><p class="paragraph">Handle stdin (pipes)</p></li><li><p class="paragraph">Load properties from (<code class="lang-kotlin">./.program.properties</code>, <code class="lang-kotlin">~/.config/program.properties</code>)</p></li><li><p class="paragraph">Allow missing options to be searched in System Settings (See Jvm.systemSetting)</p></li><li><p class="paragraph">Load command line options from files with <code class="lang-kotlin">@file</code> parameters</p></li><li><p class="paragraph">Add color to default formatters, and honor NO_COLOR environment variable</p></li><li><p class="paragraph">Handle standard options like --help, help command -q --quiet, -v verbose, etc.</p></li><li><p class="paragraph">Control rendering with flags on <code class="lang-kotlin">ArgsManager</code></p></li><li><p class="paragraph">Check documentation rendering of <code class="lang-kotlin">http</code> (httpie) and <code class="lang-kotlin">sdk</code> (sdkman)</p></li><li><p class="paragraph">Allow interactive commands and options when something is missing</p></li><li><p class="paragraph">Add command aliases (convert name to a list)</p></li><li><p class="paragraph">Set default command on program definition (as a list or names to resolve the command)</p></li><li><p class="paragraph">Add a parameter to fetch parameters from System Properties on missing parameters</p></li><li><p class="paragraph">Loading of options from files (see below) must be done outside cli processing</p></li><li><p class="paragraph">'--' stops parsing options and threat everything from that point as positional parameters</p></li><li><p class="paragraph">Tags can be used to define groups (i.e.: of mutually exclusive options)</p></li><li><p class="paragraph">Add files and environment variables documentation on the program arguments</p></li><li><p class="paragraph">Add examples to program documentation</p></li><li><p class="paragraph">When an option can pick the value from an environment variable, manually load that env into System   properties and let the program pick values from there (see above)</p></li></ul><p class="paragraph">Allows to load a parameter from command line, environment variable or a set of files with a priority:</p><ol><li><p class="paragraph">command line</p></li><li><p class="paragraph">environment variable</p></li><li><p class="paragraph">java property (only for testing)</p></li><li><p class="paragraph">$HOME/.config/app/*.{json,yaml}</p></li><li><p class="paragraph">$HOME/.config/app/*.{json,yaml}</p></li></ol><blockquote class="quotation"><p class="paragraph">Discoverable CLIs have comprehensive help texts, provide lots of examples, suggest what command to run next, suggest what to do when there is an error. There are lots of ideas that can be stolen from GUIs to make CLIs easier to learn and use, even for power users.</p><p class="paragraph">the CLI has embodied an accidental metaphor all along: it’s a conversation.</p></blockquote></div></div>
+  </div>
+  <h2 class="">Packages</h2>
+  <div class="table"><a data-name="514713987%2FPackages%2F-46139743" anchor-label="com.hexagontk.args" id="514713987%2FPackages%2F-46139743" data-filterable-set=":extra:args:dokkaHtmlPartial/main"></a>
+    <div class="table-row" data-filterable-current=":extra:args:dokkaHtmlPartial/main" data-filterable-set=":extra:args:dokkaHtmlPartial/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.hexagontk.args/index.html">com.hexagontk.args</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="514713987%2FPackages%2F-46139743"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="514713987%2FPackages%2F-46139743" anchor-label="com.hexagontk.args" id="514713987%2FPackages%2F-46139743" data-filterable-set=":extra:args:dokkaHtmlPartial/main"></a>
+            <p class="paragraph">TODO .</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="712007071%2FPackages%2F-46139743" anchor-label="com.hexagontk.args.formatter" id="712007071%2FPackages%2F-46139743" data-filterable-set=":extra:args:dokkaHtmlPartial/main"></a>
+    <div class="table-row" data-filterable-current=":extra:args:dokkaHtmlPartial/main" data-filterable-set=":extra:args:dokkaHtmlPartial/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.hexagontk.args.formatter/index.html">com.hexagontk.args.formatter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="712007071%2FPackages%2F-46139743"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagontk/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagontk/hexagon/blob/main/license.md"> MIT License</a></span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

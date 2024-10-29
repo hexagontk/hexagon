@@ -3,12 +3,21 @@ $dokka.linkExtension:html
 
 module:core
 com.hexagontk.core
-com.hexagontk.core.logging
 com.hexagontk.core.media
 com.hexagontk.core.security
 com.hexagontk.core.text
 module:handlers
 com.hexagontk.handlers
+module:args
+com.hexagontk.args
+com.hexagontk.args.formatter
+module:helpers
+com.hexagontk.helpers
+com.hexagontk.helpers.text
+module:jul
+com.hexagontk.jul
+module:scheduler
+com.hexagontk.scheduler
 module:http
 com.hexagontk.http
 com.hexagontk.http.model

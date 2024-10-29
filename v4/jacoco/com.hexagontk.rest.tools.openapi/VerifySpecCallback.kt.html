@@ -83,11 +83,11 @@ import kotlin.jvm.optionals.getOrNull
 <span class="fc" id="L83">            builder.withBody(request.bodyString())</span>
 
 <span class="pc bpc" id="L85" title="1 of 4 branches missed.">        request.contentType?.text?.let(builder::withContentType)</span>
-<span class="pc" id="L86">        request.headers.httpFields.values.forEach { builder.withHeader(it.name, it.strings()) }</span>
+<span class="pc" id="L86">        request.headers.all.forEach { (k, v) -&gt; builder.withHeader(k, v.map { it.text }) }</span>
 <span class="fc" id="L87">        request.accept.map(ContentType::text).forEach(builder::withAccept)</span>
 <span class="pc bpc" id="L88" title="3 of 4 branches missed.">        request.authorization?.text?.let(builder::withAuthorization)</span>
-<span class="fc" id="L89">        request.queryParameters.httpFields.values.forEach {</span>
-<span class="fc" id="L90">            builder.withQueryParam(it.name, it.strings())</span>
+<span class="fc" id="L89">        request.queryParameters.all.forEach { (k, v) -&gt;</span>
+<span class="fc" id="L90">            builder.withQueryParam(k, v.map { it.text })</span>
 <span class="fc" id="L91">        }</span>
 
 <span class="fc" id="L93">        return builder.build()</span>
@@ -95,12 +95,12 @@ import kotlin.jvm.optionals.getOrNull
 
     private fun response(context: HttpContext): Response {
 <span class="fc" id="L97">        val response = context.response</span>
-<span class="fc" id="L98">        val builder = SimpleResponse.Builder(context.status.code)</span>
+<span class="fc" id="L98">        val builder = SimpleResponse.Builder(context.status)</span>
 
 <span class="fc" id="L100">        builder.withBody(response.bodyString())</span>
 
 <span class="pc bpc" id="L102" title="1 of 4 branches missed.">        response.contentType?.text?.let(builder::withContentType)</span>
-<span class="pc" id="L103">        response.headers.httpFields.values.forEach { builder.withHeader(it.name, it.strings()) }</span>
+<span class="pc" id="L103">        response.headers.all.forEach { (k, v) -&gt; builder.withHeader(k, v.map { it.text }) }</span>
 
 <span class="fc" id="L105">        return builder.build()</span>
     }

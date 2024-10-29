@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TemplateManager.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.templates</a> &gt; <span class="el_source">TemplateManager.kt</span></div><h1>TemplateManager.kt</h1><pre class="source lang-java linenums">package com.hexagontk.templates
 
-import com.hexagontk.core.Jvm
+import com.hexagontk.core.Platform
 import com.hexagontk.core.localized
 import java.net.URL
 import java.time.LocalDateTime
@@ -22,7 +22,7 @@ object TemplateManager {
      *
      * @throws IllegalStateException Thrown when no engine for URL was found.
      */
-<span class="fc" id="L25">    fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale = Jvm.locale): String {</span>
+<span class="fc" id="L25">    fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale = Platform.locale): String {</span>
 <span class="fc" id="L26">        val now = LocalDateTime.now()</span>
 <span class="fc" id="L27">        val defaultProperties = mapOf(&quot;_template_&quot; to url, &quot;_now_&quot; to now)</span>
 <span class="fc" id="L28">        return findAdapter(url.localized(locale)).render(url, context + defaultProperties, locale)</span>

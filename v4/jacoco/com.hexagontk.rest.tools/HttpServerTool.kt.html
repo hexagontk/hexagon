@@ -13,9 +13,9 @@ import java.net.URL
  * Server with dynamic handler (delegated to [path]). Root handler can be replaced at any time
  * without restarting the server.
  */
-<span class="fc" id="L16">data class HttpServerTool(</span>
-<span class="fc" id="L17">    private val adapter: HttpServerPort,</span>
-<span class="fc" id="L18">    private val settings: HttpServerSettings = HttpServerSettings(),</span>
+<span class="fc" id="L16">class HttpServerTool(</span>
+    adapter: HttpServerPort,
+<span class="fc" id="L18">    settings: HttpServerSettings = HttpServerSettings(),</span>
 <span class="pc" id="L19">    var path: PathHandler = PathHandler(),</span>
 <span class="fc" id="L20">) {</span>
 <span class="fc" id="L21">    val runtimePort: Int by lazy { server.runtimePort }</span>

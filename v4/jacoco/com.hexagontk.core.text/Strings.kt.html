@@ -235,6 +235,8 @@ fun Regex.findGroups(text: String): List&lt;MatchGroup&gt; =
 // TODO Add `box` (create a rectangle text) and doubleSpace (add a space between letters)
 // TODO These and other implemented methods can fit in a Effects.kt file
 
+// TODO Add 'translate' method (it could be handy)
+
 /**
  * [TODO](https://github.com/hexagontk/hexagon/issues/271).
  *
@@ -242,7 +244,7 @@ fun Regex.findGroups(text: String): List&lt;MatchGroup&gt; =
  * @return .
  */
 fun String.stripAccents(): String =
-<span class="fc" id="L245">    Normalizer.normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
+<span class="fc" id="L247">    Normalizer.normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
 
 /**
  * [TODO](https://github.com/hexagontk/hexagon/issues/271).
@@ -251,11 +253,11 @@ fun String.stripAccents(): String =
  * @return .
  */
 fun utf8(vararg bytes: Int): String =
-<span class="fc" id="L254">    String(bytes.map(Int::toByte).toByteArray())</span>
+<span class="fc" id="L256">    String(bytes.map(Int::toByte).toByteArray())</span>
 
 fun String.toEnumValue(): String =
-<span class="fc" id="L257">    trim().uppercase().replace(&quot; &quot;, &quot;_&quot;)</span>
+<span class="fc" id="L259">    trim().uppercase().replace(&quot; &quot;, &quot;_&quot;)</span>
 
 internal fun Sequence&lt;Int&gt;.maxOrElse(fallback: Int): Int =
-<span class="fc bfc" id="L260" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

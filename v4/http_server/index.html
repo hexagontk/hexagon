@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.06209087.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.0253249f.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -1899,7 +1899,7 @@ to declare HTTP request handlers.</p>
 handlers.</p>
 <h3 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h3>
 <p>This module is not meant to be used directly. You should include and Adapter implementing this
-feature (as <a href="http_server_jetty">http_server_jetty</a>) in order to create an HTTP server.</p>
+feature (as <a href="../http_server_jetty/">http_server_jetty</a>) in order to create an HTTP server.</p>
 <h2 id="context-on-http-processing">Context on HTTP processing<a class="headerlink" href="#context-on-http-processing" title="Permanent link">&para;</a></h2>
 <p>An HTTP server is nothing more than a function that takes a request and returns a response. Requests
 and responses comply with several Web standards.</p>
@@ -1934,7 +1934,7 @@ callbacks operate on immutable structures (the HTTP model).</p>
 <p>A server is a process listening to HTTP requests on a TCP port.</p>
 <p>You can run multiple ones on different ports at the same time on the same JVM (this can be useful to
 test many microservices at the same time).</p>
-<p>The server can be <a href="api/http/http_server/com.hexagontk.http.server/-http-server-settings">configured with different properties</a>. If you do not provide a
+<p>The server can be <a href="../api/http/http_server/com.hexagontk.http.server/-http-server-settings">configured with different properties</a>. If you do not provide a
 value for them, they are searched inside the application settings and lastly, a default value is
 picked. This is the parameters list:</p>
 <ul>
@@ -1943,8 +1943,8 @@ picked. This is the parameters list:</p>
 <li>bindPort: the port which the process listens to. By default, it is <code>2010</code>.</li>
 <li>contextPath: initial path used for the rest of the routes, by default it is empty.</li>
 </ul>
-<p>To create a server, you need to provide a handler (check the <a href="http_server/#handlers">handlers section</a> for more
-information), and after creating a server you can run it or stop it with <a href="api/http/http_server/com.hexagontk.http.server/-http-server">start()</a> and <a href="api/http/http_server/com.hexagontk.http.server/-http-server">stop()</a>
+<p>To create a server, you need to provide a handler (check the <a href="#handlers">handlers section</a> for more
+information), and after creating a server you can run it or stop it with <a href="../api/http/http_server/com.hexagontk.http.server/-http-server">start()</a> and <a href="../api/http/http_server/com.hexagontk.http.server/-http-server">stop()</a>
 methods.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -2008,7 +2008,7 @@ methods.</p>
 </code></pre></div></td></tr></table></div>
 <h3 id="servlet-web-server">Servlet Web server<a class="headerlink" href="#servlet-web-server" title="Permanent link">&para;</a></h3>
 <p>There is a special server adapter for running inside Servlet Containers. To use it you should import
-the Servlet HTTP Server Adapter into your project. Check the <a href="http_server_servlet">http_server_servlet</a> module for more
+the Servlet HTTP Server Adapter into your project. Check the <a href="../http_server_servlet/">http_server_servlet</a> module for more
 information.</p>
 <h2 id="http-context">HTTP Context<a class="headerlink" href="#http-context" title="Permanent link">&para;</a></h2>
 <p>These are the events that the handlers handle (they are also called HTTP calls or just calls along
@@ -2017,7 +2017,7 @@ used to pass data across handlers or to signal that a previous callback resulted
 <p>The HTTP context provides you with everything you need to handle an HTTP request. It contains the
 request, the response, and a bunch of utility methods to return results, read parameters or pass
 attributes among handlers.</p>
-<p>The methods are available directly from the callback. You can check the <a href="api/http/http_handlers/com.hexagontk.http.handlers/-http-context">API documentation</a> for the
+<p>The methods are available directly from the callback. You can check the <a href="../api/http/http_handlers/com.hexagontk.http.handlers/-http-context">API documentation</a> for the
 full list of methods. This sample code illustrates the usage:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -2051,8 +2051,8 @@ simple pieces:</p>
 <li>A <strong>callback</strong>: code that receives an HTTP context and returns another (or the same) context.</li>
 </ul>
 <p>IMPORTANT: the order in which handlers are declared is NOT the order, it is the depth. Handlers are
-not linked, they are NESTED. The <a href="api/http/http_handlers/com.hexagontk.http.handlers/-http-context">next()</a> method passes control to the next level. If
-<a href="api/http/http_handlers/com.hexagontk.http.handlers/-http-context">next()</a> is not called in a Handler, following Handlers WON'T be executed (However, the
+not linked, they are NESTED. The <a href="../api/http/http_handlers/com.hexagontk.http.handlers/-http-context">next()</a> method passes control to the next level. If
+<a href="../api/http/http_handlers/com.hexagontk.http.handlers/-http-context">next()</a> is not called in a Handler, following Handlers WON'T be executed (However, the
 "after" part of already executed Handlers will be run).</p>
 <p>For example, this definition:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -2092,7 +2092,7 @@ H1 (after)
 <h2 id="handler-predicates">Handler Predicates<a class="headerlink" href="#handler-predicates" title="Permanent link">&para;</a></h2>
 <p>A predicate is a function that is applied to a call context and returns a boolean. If the result is
 true, the handler will be executed.</p>
-<p>The default implementation (<a href="api/http/http_handlers/com.hexagontk.http.handlers/-http-predicate">HttpPredicate</a>) is based on a template with any combination of
+<p>The default implementation (<a href="../api/http/http_handlers/com.hexagontk.http.handlers/-http-predicate">HttpPredicate</a>) is based on a template with any combination of
 the following fields:</p>
 <ul>
 <li>a list of HTTP methods</li>
@@ -2144,24 +2144,24 @@ that pattern.</p>
 <span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
-<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">before</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;b-all&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">before</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;b-all&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
 
-<span class="n">before</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;b-filters&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
+<span class="n">before</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;b-filters&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
 <span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters/route&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;filters route&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
-<span class="n">after</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;a-filters&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
+<span class="n">after</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;a-filters&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
 
 <span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;filters&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 
 <span class="n">path</span><span class="p">(</span><span class="s">&quot;/nested&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">before</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;b-nested&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
-<span class="w">    </span><span class="n">before</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;b-nested-2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">before</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;b-nested&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">before</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;b-nested-2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
 <span class="w">    </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;nested filters&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
-<span class="w">    </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/halted&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">499</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;halted&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/halted&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="m">499</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;halted&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 <span class="w">    </span><span class="k">get</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;nested also&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
-<span class="w">    </span><span class="n">after</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;a-nested&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">after</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;a-nested&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
 <span class="p">}</span>
 
-<span class="n">after</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;a-all&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
+<span class="n">after</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;a-all&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <h3 id="path-handlers">Path Handlers<a class="headerlink" href="#path-handlers" title="Permanent link">&para;</a></h3>
 <p>Handlers can be grouped by calling the <code>path()</code> method, which takes a String prefix and gives you a
@@ -2275,7 +2275,7 @@ Callbacks results are the input for the next handler's callbacks in the pipeline
 <span class="w">    </span><span class="c1">// Headers</span>
 <span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="w">                  </span><span class="c1">// The HTTP headers map</span>
 <span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="o">[</span><span class="s">&quot;BAR&quot;</span><span class="o">]?.</span><span class="na">value</span><span class="w">    </span><span class="c1">// First value of BAR header</span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="o">[</span><span class="s">&quot;BAR&quot;</span><span class="o">]?.</span><span class="na">values</span><span class="w">   </span><span class="c1">// List of values of BAR header</span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="p">.</span><span class="na">all</span><span class="p">(</span><span class="s">&quot;BAR&quot;</span><span class="p">)</span><span class="w">       </span><span class="c1">// List of values of BAR header</span>
 
 <span class="w">    </span><span class="c1">// Common headers shortcuts</span>
 <span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">contentType</span><span class="w">              </span><span class="c1">// Content type of request.body</span>
@@ -2329,7 +2329,7 @@ object:</p>
 <span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/queryParam&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="w">                      </span><span class="c1">// The query params map</span>
 <span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]?.</span><span class="na">value</span><span class="w">        </span><span class="c1">// Value of FOO query param</span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]?.</span><span class="na">values</span><span class="w">       </span><span class="c1">// All values of FOO query param</span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="p">.</span><span class="na">all</span><span class="p">(</span><span class="s">&quot;FOO&quot;</span><span class="p">)</span><span class="w">           </span><span class="c1">// All values of FOO query param</span>
 <span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="p">.</span><span class="na">values</span><span class="w">               </span><span class="c1">// The query params list</span>
 
 <span class="w">    </span><span class="n">ok</span><span class="p">()</span>
@@ -2346,7 +2346,7 @@ object:</p>
 <span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/formParam&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="w">                       </span><span class="c1">// The form params map</span>
 <span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]?.</span><span class="na">value</span><span class="w">         </span><span class="c1">// Value of FOO form param</span>
-<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]?.</span><span class="na">values</span><span class="w">        </span><span class="c1">// All values of FOO form param</span>
+<span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="p">.</span><span class="na">all</span><span class="p">(</span><span class="s">&quot;FOO&quot;</span><span class="p">)</span><span class="w">            </span><span class="c1">// All values of FOO form param</span>
 <span class="w">    </span><span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="p">.</span><span class="na">values</span><span class="w">                </span><span class="c1">// The form params list</span>
 <span class="w">    </span><span class="n">ok</span><span class="p">()</span>
 <span class="p">}</span>
@@ -2397,7 +2397,8 @@ object:</p>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
-<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/response&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="normal">35</span>
+<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/response&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">body</span><span class="w">                     </span><span class="c1">// Get response content</span>
 <span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">status</span><span class="w">                   </span><span class="c1">// Get the response status</span>
 <span class="w">    </span><span class="n">response</span><span class="p">.</span><span class="na">contentType</span><span class="w">              </span><span class="c1">// Get the content type</span>
@@ -2409,8 +2410,9 @@ object:</p>
 <span class="w">        </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w">                             </span><span class="c1">// Sets content to Hello</span>
 <span class="w">        </span><span class="n">contentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentType</span><span class="p">(</span><span class="n">APPLICATION_XML</span><span class="p">),</span><span class="w"> </span><span class="c1">// Set application/xml content type</span>
 <span class="w">        </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span>
-<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">)</span><span class="w">    </span><span class="c1">// Sets header FOO with single value bar</span>
-<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// Sets header FOO values with [ bar ]</span>
+<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">)</span><span class="w">    </span><span class="c1">// Sets header FOO with single value bar</span>
+<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// Sets header FOO values with [ bar ]</span>
 <span class="w">    </span><span class="p">)</span>
 
 <span class="w">    </span><span class="c1">// Utility methods for generating common responses</span>
@@ -2507,9 +2509,9 @@ handlers returning error codes.</p>
 <span class="p">}</span>
 
 <span class="c1">// Register handler for routes halted with 512 code</span>
-<span class="k">get</span><span class="p">(</span><span class="s">&quot;/errors&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">512</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/errors&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="m">512</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 
-<span class="n">before</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">512</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">INTERNAL_SERVER_ERROR_500</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ouch&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="n">before</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">512</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">INTERNAL_SERVER_ERROR_500</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ouch&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <h3 id="exception-mapping">Exception Mapping<a class="headerlink" href="#exception-mapping" title="Permanent link">&para;</a></h3>
 <p>You can handle previously thrown exceptions of a given type (or subtype). The handler allows you to
@@ -2525,10 +2527,10 @@ refer to the thrown exception. Look at the following code for a detailed example
 <span class="normal"> 9</span>
 <span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Register handler for routes which callbacks throw exceptions</span>
 <span class="k">get</span><span class="p">(</span><span class="s">&quot;/exceptions&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Message&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
-<span class="k">get</span><span class="p">(</span><span class="s">&quot;/codedExceptions&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">509</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;code&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/codedExceptions&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="m">509</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;code&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 
-<span class="n">before</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">509</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">599</span><span class="p">))</span>
+<span class="n">before</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">509</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="m">599</span><span class="p">)</span>
 <span class="p">}</span>
 <span class="n">exception</span><span class="o">&lt;</span><span class="n">IllegalStateException</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">HTTP_VERSION_NOT_SUPPORTED_505</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="o">?.</span><span class="na">message</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">&quot;empty&quot;</span><span class="p">)</span>
@@ -2565,10 +2567,10 @@ have a parameter to provide the file to be fetched inside the folder.</p>
 </code></pre></div></td></tr></table></div>
 <h3 id="media-types">Media Types<a class="headerlink" href="#media-types" title="Permanent link">&para;</a></h3>
 <p>The media types of static files are computed from the file extension using the utility methods of
-the <a href="api/core/com.hexagontk.core.media">com.hexagontk.core.media</a> package.</p>
+the <a href="../api/core/com.hexagontk.core.media">com.hexagontk.core.media</a> package.</p>
 <h2 id="cors">CORS<a class="headerlink" href="#cors" title="Permanent link">&para;</a></h2>
-<p>CORS behaviour can be different depending on the path. You can attach different <a href="api/http/http_server/com.hexagontk.http.server.callbacks/-cors-callback">CORS Callbacks</a> to
-different handlers. Check the <a href="api/http/http_server/com.hexagontk.http.server.callbacks/-cors-callback">CorsCallback</a> class for more details.</p>
+<p>CORS behaviour can be different depending on the path. You can attach different <a href="../api/http/http_server/com.hexagontk.http.server.callbacks/-cors-callback">CORS Callbacks</a> to
+different handlers. Check the <a href="../api/http/http_server/com.hexagontk.http.server.callbacks/-cors-callback">CorsCallback</a> class for more details.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -2621,19 +2623,19 @@ different handlers. Check the <a href="api/http/http_server/com.hexagontk.http.s
 </code></pre></div></td></tr></table></div>
 <h2 id="https">HTTPS<a class="headerlink" href="#https" title="Permanent link">&para;</a></h2>
 <p>It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
-certificate and its key in the server's <a href="api/http/http/com.hexagontk.http/-ssl-settings">SslSettings</a>. Once you use a server certificate, it is also
+certificate and its key in the server's <a href="../api/http/http/com.hexagontk.http/-ssl-settings">SslSettings</a>. Once you use a server certificate, it is also
 possible to serve content using <a href="https://en.wikipedia.org/wiki/HTTP/2">HTTP/2</a>, for this to work, <a href="https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation">ALPN</a> is required (however, this is
 already handled if you use Java 11).</p>
 <p>The certificate common name should match the host that will serve the content in order to be
 accepted by an HTTP client without a security error. There is a <a href="https://gradle.org">Gradle</a> helper to
-<a href="gradle/#certificates">create sample certificates</a> for development purposes.</p>
+<a href="../gradle/#certificates">create sample certificates</a> for development purposes.</p>
 <p>HTTP clients can also be configured to use a certificate. This is required to implement a double
-ended authorization (<a href="https://en.wikipedia.org/wiki/Mutual_authentication">mutual TLS</a>). This is also done by passing an <a href="api/http/http/com.hexagontk.http/-ssl-settings">SslSettings</a> object the HTTP
+ended authorization (<a href="https://en.wikipedia.org/wiki/Mutual_authentication">mutual TLS</a>). This is also done by passing an <a href="../api/http/http/com.hexagontk.http/-ssl-settings">SslSettings</a> object the HTTP
 client.</p>
 <p>If you want to implement mutual trust, you must enforce client certificate in the server
-configuration (check <a href="api/http/http/com.hexagontk.http/-ssl-settings">SslSettings.clientAuth</a>). If this is done, you can access the certificate the
+configuration (check <a href="../api/http/http/com.hexagontk.http/-ssl-settings">SslSettings.clientAuth</a>). If this is done, you can access the certificate the
 client used to connect (assuming it is valid, if not the connection will end with an error) with the
-<a href="api/http/http/com.hexagontk.http.model/-http-request">Request.certificateChain</a> property.</p>
+<a href="../api/http/http/com.hexagontk.http.model/-http-request">Request.certificateChain</a> property.</p>
 <p>Below you can find a simple example to set up an HTTPS server and client with mutual TLS:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -2711,7 +2713,7 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="w">    </span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// We can access the certificate used by the client from the request</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">subjectDn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">certificate</span><span class="p">()</span><span class="o">?.</span><span class="na">subjectX500Principal</span><span class="o">?.</span><span class="na">name</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">subjectDn</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">subjectDn</span><span class="p">)</span>
 <span class="w">        </span><span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -2725,7 +2727,7 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="n">client</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Assure the certificate received (and returned) by the server is correct</span>
-<span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">headers</span><span class="p">.</span><span class="na">require</span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="p">).</span><span class="na">string</span><span class="p">()</span><span class="o">?.</span><span class="na">startsWith</span><span class="p">(</span><span class="s">&quot;CN=hexagontk.com&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">headers</span><span class="p">.</span><span class="na">require</span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="p">).</span><span class="na">text</span><span class="p">.</span><span class="na">startsWith</span><span class="p">(</span><span class="s">&quot;CN=hexagontk.com&quot;</span><span class="p">))</span>
 <span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
@@ -2886,7 +2888,7 @@ code below for an example:</p>
 <span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">settings</span><span class="p">)</span>
 <span class="n">client</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 
-<span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Headers</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;accept-encoding&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;gzip&quot;</span><span class="p">))).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
+<span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Headers</span><span class="p">(</span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;accept-encoding&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;gzip&quot;</span><span class="p">))).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">body</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="c1">// &#39;content-encoding&#39; cannot be checked, the header is removed when response is decoded</span>
 <span class="p">}</span>
@@ -2968,7 +2970,7 @@ relying on mocking libraries.</p>
 <span class="c1">// You can test callbacks with fake data</span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">resultContext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">callback</span><span class="p">.</span><span class="na">process</span><span class="p">(</span>
 <span class="w">    </span><span class="n">attributes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;fake&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;attribute&quot;</span><span class="p">),</span>
-<span class="w">    </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Headers</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="s">&quot;fake&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;header&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Headers</span><span class="p">(</span><span class="n">Field</span><span class="p">(</span><span class="s">&quot;fake&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;header&quot;</span><span class="p">))</span>
 <span class="p">)</span>
 
 <span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Callback result attribute header&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">resultContext</span><span class="p">.</span><span class="na">response</span><span class="p">.</span><span class="na">bodyString</span><span class="p">())</span>
@@ -3177,7 +3179,7 @@ HTTP handlers (AfterHandler, OnHandler, PathHandler and FilterHandler) and the H
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

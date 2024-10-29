@@ -1,67 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoggingCallback.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.http.server.callbacks</a> &gt; <span class="el_source">LoggingCallback.kt</span></div><h1>LoggingCallback.kt</h1><pre class="source lang-java linenums">package com.hexagontk.http.server.callbacks
 
-import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.loggerOf
 import com.hexagontk.http.model.*
 import com.hexagontk.http.handlers.HttpContext
+import java.lang.System.Logger
 import java.lang.System.Logger.Level
 import kotlin.system.measureNanoTime
 
 /**
  * Callback that logs server requests and responses.
  */
-<span class="fc" id="L12">class LoggingCallback(</span>
-<span class="fc" id="L13">    private val level: Level = Level.INFO,</span>
-<span class="fc" id="L14">    private val logger: Logger = Logger(LoggingCallback::class),</span>
-<span class="fc" id="L15">    private val includeHeaders: Boolean = false,</span>
-<span class="fc" id="L16">    private val includeBody: Boolean = true,</span>
-<span class="fc" id="L17">) : (HttpContext) -&gt; HttpContext {</span>
+<span class="fc" id="L13">class LoggingCallback(</span>
+<span class="fc" id="L14">    private val level: Level = Level.INFO,</span>
+<span class="fc" id="L15">    private val logger: Logger = loggerOf(LoggingCallback::class),</span>
+<span class="fc" id="L16">    private val includeHeaders: Boolean = false,</span>
+<span class="fc" id="L17">    private val includeBody: Boolean = true,</span>
+<span class="fc" id="L18">) : (HttpContext) -&gt; HttpContext {</span>
 
     override fun invoke(context: HttpContext): HttpContext {
-<span class="fc" id="L20">        var result: HttpContext</span>
+<span class="fc" id="L21">        var result: HttpContext</span>
 
-<span class="fc" id="L22">        logger.log(level) { details(context.request) }</span>
-<span class="fc" id="L23">        val ns = measureNanoTime { result = context.next() }</span>
-<span class="fc" id="L24">        logger.log(level) { details(context.request, result.response, ns) }</span>
+<span class="fc" id="L23">        logger.log(level) { details(context.request) }</span>
+<span class="fc" id="L24">        val ns = measureNanoTime { result = context.next() }</span>
+<span class="fc" id="L25">        logger.log(level) { details(context.request, result.response, ns) }</span>
 
-<span class="fc" id="L26">        return result</span>
+<span class="fc" id="L27">        return result</span>
     }
 
     internal fun details(m: HttpRequestPort): String {
-<span class="fc bfc" id="L30" title="All 2 branches covered.">        val headers = if (includeHeaders) {</span>
-<span class="fc" id="L31">            val accept = Header(&quot;accept&quot;, m.accept.joinToString(&quot;, &quot;) { it.text })</span>
-<span class="pc bpc" id="L32" title="1 of 4 branches missed.">            val contentType = Header(&quot;content-type&quot;, m.contentType?.text ?: &quot;&quot;)</span>
-<span class="fc" id="L33">            (m.headers - &quot;accept&quot; - &quot;content-type&quot; + accept + contentType).format()</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        val headers = if (includeHeaders) {</span>
+<span class="fc" id="L32">            val accept = Field(&quot;accept&quot;, m.accept.joinToString(&quot;, &quot;) { it.text })</span>
+<span class="pc bpc" id="L33" title="1 of 4 branches missed.">            val contentType = Field(&quot;content-type&quot;, m.contentType?.text ?: &quot;&quot;)</span>
+<span class="fc" id="L34">            (m.headers - &quot;accept&quot; - &quot;content-type&quot; + accept + contentType).format()</span>
         }
         else {
-<span class="fc" id="L36">            &quot;&quot;</span>
+<span class="fc" id="L37">            &quot;&quot;</span>
         }
 
-<span class="fc" id="L39">        val body = m.formatBody()</span>
-<span class="fc" id="L40">        return &quot;${m.method} ${m.path}$headers$body&quot;.trim()</span>
+<span class="fc" id="L40">        val body = m.formatBody()</span>
+<span class="fc" id="L41">        return &quot;${m.method} ${m.path}$headers$body&quot;.trim()</span>
     }
 
     internal fun details(n: HttpRequestPort, m: HttpResponsePort, ns: Long): String {
-<span class="fc bfc" id="L44" title="All 2 branches covered.">        val headers = if (includeHeaders) {</span>
-<span class="pc bpc" id="L45" title="1 of 4 branches missed.">            val contentType = Header(&quot;content-type&quot;, m.contentType?.text ?: &quot;&quot;)</span>
-<span class="fc" id="L46">            (m.headers - &quot;content-type&quot; + contentType).format()</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        val headers = if (includeHeaders) {</span>
+<span class="pc bpc" id="L46" title="1 of 4 branches missed.">            val contentType = Field(&quot;content-type&quot;, m.contentType?.text ?: &quot;&quot;)</span>
+<span class="fc" id="L47">            (m.headers - &quot;content-type&quot; + contentType).format()</span>
         } else {
-<span class="fc" id="L48">            &quot;&quot;</span>
+<span class="fc" id="L49">            &quot;&quot;</span>
         }
 
-<span class="fc" id="L51">        val path = &quot;${n.method} ${n.path}&quot;</span>
-<span class="fc" id="L52">        val result = &quot;${m.status.type}(${m.status.code})&quot;</span>
-<span class="fc" id="L53">        val time = &quot;(${ns / 10e5} ms)&quot;</span>
-<span class="fc" id="L54">        val body = m.formatBody()</span>
-<span class="fc" id="L55">        return &quot;$path -&gt; $result $time$headers$body&quot;.trim()</span>
+<span class="fc" id="L52">        val path = &quot;${n.method} ${n.path}&quot;</span>
+<span class="fc" id="L53">        val result = &quot;${m.status}&quot;</span>
+<span class="fc" id="L54">        val time = &quot;(${ns / 10e5} ms)&quot;</span>
+<span class="fc" id="L55">        val body = m.formatBody()</span>
+<span class="fc" id="L56">        return &quot;$path -&gt; $result $time$headers$body&quot;.trim()</span>
     }
 
     private fun HttpMessage.formatBody(): String =
-<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (includeBody) &quot;\n\n${bodyString()}&quot; else &quot;&quot;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (includeBody) &quot;\n\n${bodyString()}&quot; else &quot;&quot;</span>
 
     private fun Headers.format(): String =
-<span class="fc" id="L62">        httpFields</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">            .filter { (_, v) -&gt; v.strings().any { it.isNotBlank() } }</span>
-<span class="fc" id="L64">            .map { (k, v) -&gt; &quot;$k: ${v.strings().joinToString(&quot;, &quot;)}&quot; }</span>
-<span class="fc" id="L65">            .joinToString(&quot;\n&quot;, prefix = &quot;\n\n&quot;)</span>
+<span class="fc" id="L63">        all</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">            .filter { (_, v) -&gt; v.any { it.text.isNotBlank() } }</span>
+<span class="fc" id="L65">            .map { (k, v) -&gt; &quot;$k: ${v.joinToString(&quot;, &quot;) { it.text}}&quot; }</span>
+<span class="fc" id="L66">            .joinToString(&quot;\n&quot;, prefix = &quot;\n\n&quot;)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpServletRequest
 
 <span class="fc" id="L30">    override val contentLength: Long by lazy { req.contentLength.toLong() }</span>
 
-<span class="fc" id="L32">    override val queryParameters: QueryParameters by lazy {</span>
+<span class="fc" id="L32">    override val queryParameters: Parameters by lazy {</span>
 <span class="fc bfc" id="L33" title="All 2 branches covered.">        parseQueryString(req.queryString ?: &quot;&quot;)</span>
     }
 
@@ -64,7 +64,7 @@ import jakarta.servlet.http.HttpServletRequest
 <span class="fc" id="L64">            req.headerNames</span>
 <span class="fc" id="L65">                .toList()</span>
 <span class="fc" id="L66">                .map { it.lowercase() }</span>
-<span class="fc" id="L67">                .map { Header(it, req.getHeaders(it).toList()) }</span>
+<span class="fc" id="L67">                .flatMap { req.getHeaders(it).toList().map { v -&gt; Field(it, v) } }</span>
 <span class="fc" id="L68">        )</span>
     }
 
