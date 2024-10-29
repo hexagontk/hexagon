@@ -1,6 +1,5 @@
 package com.hexagontk.core.text
 
-import kotlin.IllegalArgumentException
 import java.util.regex.PatternSyntaxException
 
 /**
@@ -8,7 +7,7 @@ import java.util.regex.PatternSyntaxException
  *
  * @property pattern .
  */
-data class Glob(val pattern: String) {
+class Glob(val pattern: String) {
 
     /** [TODO](https://github.com/hexagontk/hexagon/issues/271). */
     val regex: Regex =

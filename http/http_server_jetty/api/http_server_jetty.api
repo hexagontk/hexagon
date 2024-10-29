@@ -5,7 +5,7 @@ public final class com/hexagontk/http/server/jetty/JettyKt {
 	public static synthetic fun serve$default (Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagontk/http/server/HttpServer;
 }
 
-public final class com/hexagontk/http/server/jetty/JettyServletAdapter : com/hexagontk/http/server/HttpServerPort {
+public final class com/hexagontk/http/server/jetty/JettyServletHttpServer : com/hexagontk/http/server/HttpServerPort {
 	public fun <init> ()V
 	public fun <init> (IIIIZZZZ)V
 	public synthetic fun <init> (IIIIZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V

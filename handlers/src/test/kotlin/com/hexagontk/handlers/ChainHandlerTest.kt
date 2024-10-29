@@ -28,7 +28,7 @@ internal class ChainHandlerTest {
 
     @Test fun `Chain handler initial state is correct`() {
         val ch = ChainHandler<String>(emptyList())
-        assertEquals("test", ch.callback(EventContext("test", { true })).event)
+        assertEquals("test", ch.process(EventContext("test", { true })).event)
         assert(ch.predicate(EventContext("test", { true })))
     }
 
@@ -115,7 +115,7 @@ internal class ChainHandlerTest {
         assertEquals(3, handlers.size)
         assertEquals(2, (handlers[2] as? ChainHandler<Any>)?.handlers?.size)
 
-        val canonicalChain = ChainHandler(listOf(AfterHandler { it })) { false }
+        val canonicalChain = ChainHandler(listOf(AfterHandler { it }), { false })
         assertEquals(1, canonicalChain.handlers.size)
         val listChain = ChainHandler(listOf(AfterHandler { it }))
         assertEquals(1, listChain.handlers.size)

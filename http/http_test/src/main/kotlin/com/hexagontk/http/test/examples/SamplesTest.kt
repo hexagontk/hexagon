@@ -191,7 +191,7 @@ abstract class SamplesTest(
                 // Headers
                 request.headers                  // The HTTP headers map
                 request.headers["BAR"]?.value    // First value of BAR header
-                request.headers["BAR"]?.values   // List of values of BAR header
+                request.headers.all("BAR")       // List of values of BAR header
 
                 // Common headers shortcuts
                 request.contentType              // Content type of request.body
@@ -232,8 +232,9 @@ abstract class SamplesTest(
                     body = "Hello",                             // Sets content to Hello
                     contentType = ContentType(APPLICATION_XML), // Set application/xml content type
                     headers = response.headers
-                        + Header("foo", "bar")    // Sets header FOO with single value bar
-                        + Header("baz", "1", "2") // Sets header FOO values with [ bar ]
+                        + Field("foo", "bar")    // Sets header FOO with single value bar
+                        + Field("baz", "1")
+                        + Field("baz", "2")      // Sets header FOO values with [ bar ]
                 )
 
                 // Utility methods for generating common responses
@@ -269,7 +270,7 @@ abstract class SamplesTest(
             get("/queryParam") {
                 request.queryParameters                      // The query params map
                 request.queryParameters["FOO"]?.value        // Value of FOO query param
-                request.queryParameters["FOO"]?.values       // All values of FOO query param
+                request.queryParameters.all("FOO")           // All values of FOO query param
                 request.queryParameters.values               // The query params list
 
                 ok()
@@ -280,7 +281,7 @@ abstract class SamplesTest(
             get("/formParam") {
                 request.formParameters                       // The form params map
                 request.formParameters["FOO"]?.value         // Value of FOO form param
-                request.formParameters["FOO"]?.values        // All values of FOO form param
+                request.formParameters.all("FOO")            // All values of FOO form param
                 request.formParameters.values                // The form params list
                 ok()
             }
@@ -347,42 +348,42 @@ abstract class SamplesTest(
             assertEquals(OK_200, response.status)
             assertEquals(body, response.body)
             (headers.toList() + "b-all" + "a-all").forEach {
-                assert(response.headers.httpFields.containsKey(it))
+                assert(response.headers.keys.contains(it))
             }
         }
 
         fun assertFail(
-            code: HttpStatus,
+            code: Int,
             response: HttpResponsePort,
             body: String,
             vararg headers: String
         ) {
             assertEquals(code, response.status)
             (headers.toList() + "b-all" + "a-all")
-                .forEach { assert(response.headers.httpFields.contains(it)) }
+                .forEach { assert(response.headers.keys.contains(it)) }
             assertEquals(body, response.body)
         }
 
         val server = HttpServer(serverAdapter()) {
             // filters
-            before("/*") { send(response + Header("b-all", "true")) }
+            before("/*") { send(response + Field("b-all", "true")) }
 
-            before("/filters/*") { send(response + Header("b-filters", "true")) }
+            before("/filters/*") { send(response + Field("b-filters", "true")) }
             get("/filters/route") { ok("filters route") }
-            after("/filters/*") { send(response + Header("a-filters", "true")) }
+            after("/filters/*") { send(response + Field("a-filters", "true")) }
 
             get("/filters") { ok("filters") }
 
             path("/nested") {
-                before("*") { send(response + Header("b-nested", "true")) }
-                before { send(response + Header("b-nested-2", "true")) }
+                before("*") { send(response + Field("b-nested", "true")) }
+                before { send(response + Field("b-nested-2", "true")) }
                 get("/filters") { ok("nested filters") }
-                get("/halted") { send(HttpStatus(499), "halted") }
+                get("/halted") { send(499, "halted") }
                 get { ok("nested also") }
-                after("*") { send(response + Header("a-nested", "true")) }
+                after("*") { send(response + Field("a-nested", "true")) }
             }
 
-            after("/*") { send(response + Header("a-all", "true")) }
+            after("/*") { send(response + Field("a-all", "true")) }
             // filters
         }
 
@@ -397,9 +398,9 @@ abstract class SamplesTest(
                 val responseNested = it.get("/nested")
                 assertResponse(responseNested, "nested also", "b-nested", "b-nested-2", "a-nested")
                 val responseHalted = it.get("/nested/halted")
-                assertFail(HttpStatus(499), responseHalted, "halted", "b-nested", "a-nested")
-                assert(!it.get("/filters/route").headers.httpFields.contains("b-nested"))
-                assert(!it.get("/filters/route").headers.httpFields.contains("a-nested"))
+                assertFail(499, responseHalted, "halted", "b-nested", "a-nested")
+                assert(!it.get("/filters/route").headers.keys.contains("b-nested"))
+                assert(!it.get("/filters/route").headers.keys.contains("a-nested"))
             }
         }
     }
@@ -414,9 +415,9 @@ abstract class SamplesTest(
             }
 
             // Register handler for routes halted with 512 code
-            get("/errors") { send(HttpStatus(512)) }
+            get("/errors") { send(512) }
 
-            before(pattern = "*", status = HttpStatus(512)) { send(INTERNAL_SERVER_ERROR_500, "Ouch") }
+            before(pattern = "*", status = 512) { send(INTERNAL_SERVER_ERROR_500, "Ouch") }
             // errors
 
             exception<NumberException> { e ->
@@ -430,10 +431,10 @@ abstract class SamplesTest(
             // exceptions
             // Register handler for routes which callbacks throw exceptions
             get("/exceptions") { error("Message") }
-            get("/codedExceptions") { send(HttpStatus(509), "code") }
+            get("/codedExceptions") { send(509, "code") }
 
-            before(pattern = "*", status = HttpStatus(509)) {
-                send(HttpStatus(599))
+            before(pattern = "*", status = 509) {
+                send(599)
             }
             exception<IllegalStateException> {
                 send(HTTP_VERSION_NOT_SUPPORTED_505, exception?.message ?: "empty")
@@ -455,7 +456,7 @@ abstract class SamplesTest(
                 assertEquals("Message", exceptions.body)
 
                 val codedExceptions = it.get("/codedExceptions")
-                assertEquals(HttpStatus(599), codedExceptions.status)
+                assertEquals(599, codedExceptions.status)
                 assertEquals("code", codedExceptions.body)
 
                 it.get("/codeException").apply {
@@ -534,7 +535,7 @@ abstract class SamplesTest(
         // You can test callbacks with fake data
         val resultContext = callback.process(
             attributes = mapOf("fake" to "attribute"),
-            headers = Headers(Header("fake", "header"))
+            headers = Headers(Field("fake", "header"))
         )
 
         assertEquals("Callback result attribute header", resultContext.response.bodyString())

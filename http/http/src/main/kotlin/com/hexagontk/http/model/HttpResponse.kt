@@ -1,6 +1,5 @@
 package com.hexagontk.http.model
 
-import com.hexagontk.http.checkHeaders
 import com.hexagontk.http.model.ws.WsSession
 
 data class HttpResponse(
@@ -8,7 +7,7 @@ data class HttpResponse(
     override val headers: Headers = Headers(),
     override val contentType: ContentType? = null,
     override val cookies: List<Cookie> = emptyList(),
-    override val status: HttpStatus = NOT_FOUND_404,
+    override val status: Int = NOT_FOUND_404,
     override val contentLength: Long = -1L,
     override val onConnect: WsSession.() -> Unit = {},
     override val onBinary: WsSession.(data: ByteArray) -> Unit = {},
@@ -18,12 +17,8 @@ data class HttpResponse(
     override val onClose: WsSession.(status: Int, reason: String) -> Unit = { _, _ -> },
 ) : HttpResponsePort {
 
-    init {
-        checkHeaders(headers)
-    }
-
     override fun with(
-        status: HttpStatus,
+        status: Int,
         body: Any,
         headers: Headers,
         contentType: ContentType?,

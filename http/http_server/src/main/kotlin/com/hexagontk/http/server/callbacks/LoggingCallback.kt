@@ -1,8 +1,9 @@
 package com.hexagontk.http.server.callbacks
 
-import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.loggerOf
 import com.hexagontk.http.model.*
 import com.hexagontk.http.handlers.HttpContext
+import java.lang.System.Logger
 import java.lang.System.Logger.Level
 import kotlin.system.measureNanoTime
 
@@ -11,7 +12,7 @@ import kotlin.system.measureNanoTime
  */
 class LoggingCallback(
     private val level: Level = Level.INFO,
-    private val logger: Logger = Logger(LoggingCallback::class),
+    private val logger: Logger = loggerOf(LoggingCallback::class),
     private val includeHeaders: Boolean = false,
     private val includeBody: Boolean = true,
 ) : (HttpContext) -> HttpContext {
@@ -28,8 +29,8 @@ class LoggingCallback(
 
     internal fun details(m: HttpRequestPort): String {
         val headers = if (includeHeaders) {
-            val accept = Header("accept", m.accept.joinToString(", ") { it.text })
-            val contentType = Header("content-type", m.contentType?.text ?: "")
+            val accept = Field("accept", m.accept.joinToString(", ") { it.text })
+            val contentType = Field("content-type", m.contentType?.text ?: "")
             (m.headers - "accept" - "content-type" + accept + contentType).format()
         }
         else {
@@ -42,14 +43,14 @@ class LoggingCallback(
 
     internal fun details(n: HttpRequestPort, m: HttpResponsePort, ns: Long): String {
         val headers = if (includeHeaders) {
-            val contentType = Header("content-type", m.contentType?.text ?: "")
+            val contentType = Field("content-type", m.contentType?.text ?: "")
             (m.headers - "content-type" + contentType).format()
         } else {
             ""
         }
 
         val path = "${n.method} ${n.path}"
-        val result = "${m.status.type}(${m.status.code})"
+        val result = "${m.status}"
         val time = "(${ns / 10e5} ms)"
         val body = m.formatBody()
         return "$path -> $result $time$headers$body".trim()
@@ -59,8 +60,8 @@ class LoggingCallback(
         if (includeBody) "\n\n${bodyString()}" else ""
 
     private fun Headers.format(): String =
-        httpFields
-            .filter { (_, v) -> v.strings().any { it.isNotBlank() } }
-            .map { (k, v) -> "$k: ${v.strings().joinToString(", ")}" }
+        all
+            .filter { (_, v) -> v.any { it.text.isNotBlank() } }
+            .map { (k, v) -> "$k: ${v.joinToString(", ") { it.text}}" }
             .joinToString("\n", prefix = "\n\n")
 }

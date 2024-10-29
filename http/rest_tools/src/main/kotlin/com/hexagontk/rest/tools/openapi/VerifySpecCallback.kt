@@ -83,11 +83,11 @@ class VerifySpecCallback(spec: URL) : HttpCallback {
             builder.withBody(request.bodyString())
 
         request.contentType?.text?.let(builder::withContentType)
-        request.headers.httpFields.values.forEach { builder.withHeader(it.name, it.strings()) }
+        request.headers.all.forEach { (k, v) -> builder.withHeader(k, v.map { it.text }) }
         request.accept.map(ContentType::text).forEach(builder::withAccept)
         request.authorization?.text?.let(builder::withAuthorization)
-        request.queryParameters.httpFields.values.forEach {
-            builder.withQueryParam(it.name, it.strings())
+        request.queryParameters.all.forEach { (k, v) ->
+            builder.withQueryParam(k, v.map { it.text })
         }
 
         return builder.build()
@@ -95,12 +95,12 @@ class VerifySpecCallback(spec: URL) : HttpCallback {
 
     private fun response(context: HttpContext): Response {
         val response = context.response
-        val builder = SimpleResponse.Builder(context.status.code)
+        val builder = SimpleResponse.Builder(context.status)
 
         builder.withBody(response.bodyString())
 
         response.contentType?.text?.let(builder::withContentType)
-        response.headers.httpFields.values.forEach { builder.withHeader(it.name, it.strings()) }
+        response.headers.all.forEach { (k, v) -> builder.withHeader(k, v.map { it.text }) }
 
         return builder.build()
     }

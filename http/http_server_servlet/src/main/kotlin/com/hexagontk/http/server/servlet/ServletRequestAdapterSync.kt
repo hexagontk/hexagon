@@ -9,20 +9,22 @@ import kotlin.UnsupportedOperationException
 
 internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletRequestAdapter(req) {
 
-    private val parameters: Map<String, List<String>> by lazy {
-        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()
+    private val parameters: List<Pair<String, String>> by lazy {
+        req.parameterMap.flatMap { pm ->
+            pm.value.map { pm.key as String to it }
+        }
     }
 
     override val parts: List<HttpPart> by lazy {
         req.parts.map { servletPartAdapter(it) }
     }
 
-    override val formParameters: FormParameters by lazy {
+    override val formParameters: Parameters by lazy {
         val fields = parameters
-            .filter { it.key !in queryParameters.httpFields.keys }
-            .map { (k, v) -> FormParameter(k, v) }
+            .filter { it.first !in queryParameters.keys }
+            .map { (k, v) -> Field(k, v) }
 
-        FormParameters(fields)
+        Parameters(fields)
     }
 
     override fun with(
@@ -34,9 +36,9 @@ internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletReque
         host: String,
         port: Int,
         path: String,
-        queryParameters: QueryParameters,
+        queryParameters: Parameters,
         parts: List<HttpPart>,
-        formParameters: FormParameters,
+        formParameters: Parameters,
         cookies: List<Cookie>,
         accept: List<ContentType>,
         authorization: Authorization?,
@@ -53,7 +55,7 @@ internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletReque
         return HttpPart(
             name = part.name,
             body = part.inputStream.readAllBytes(),
-            headers = Headers(headerNames.map { Header(it, part.getHeaders(it).toList()) }),
+            headers = Headers(headerNames.map { Field(it, part.getHeaders(it).toList()) }),
             contentType = part.contentType?.let { parseContentType(it) },
             size = part.size,
             submittedFileName = part.submittedFileName,

@@ -1,4 +1,4 @@
-public final class com/hexagontk/http/server/netty/epoll/NettyEpollServerAdapter : com/hexagontk/http/server/netty/NettyServerAdapter {
+public final class com/hexagontk/http/server/netty/epoll/NettyEpollHttpServer : com/hexagontk/http/server/netty/NettyHttpServer {
 	public fun <init> ()V
 	public fun <init> (IIIIZZJJZZZZ)V
 	public synthetic fun <init> (IIIIZZJJZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V

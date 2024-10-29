@@ -1,6 +1,6 @@
 package com.hexagontk.http.server.callbacks
 
-import com.hexagontk.http.model.Header
+import com.hexagontk.http.model.Field
 import com.hexagontk.http.handlers.HttpContext
 import com.hexagontk.http.toHttpFormat
 import java.time.Instant
@@ -23,6 +23,6 @@ class DateCallback(private val name: String = "date") : (HttpContext) -> HttpCon
             date.set(Instant.ofEpochMilli(lastUpdate.get()).toHttpFormat())
         }
 
-        return context.send(headers = context.response.headers + Header(name, date.get())).next()
+        return context.send(headers = context.response.headers + Field(name, date.get())).next()
     }
 }

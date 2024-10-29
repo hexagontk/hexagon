@@ -6,7 +6,7 @@ import com.hexagontk.http.parseQueryString
 import kotlin.test.assertEquals
 
 internal fun assertResponseContains(
-    response: HttpResponsePort?, status: HttpStatus, vararg content: String) {
+    response: HttpResponsePort?, status: Int, vararg content: String) {
 
     assertEquals(status, response?.status)
     val payload = response?.body?.let { b -> b as String }
@@ -49,7 +49,7 @@ internal fun HttpRequest.auth(
 }
 
 internal fun assertResponseEquals(
-    response: HttpResponsePort?, content: String, status: HttpStatus = OK_200) {
+    response: HttpResponsePort?, content: String, status: Int = OK_200) {
 
     assertEquals(status, response?.status)
     assertEquals(content, response?.body?.let { it as String })

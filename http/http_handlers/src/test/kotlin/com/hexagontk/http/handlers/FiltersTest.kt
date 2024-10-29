@@ -3,7 +3,7 @@ package com.hexagontk.http.handlers
 import com.hexagontk.core.text.decodeBase64
 import com.hexagontk.http.model.FORBIDDEN_403
 import com.hexagontk.http.model.UNAUTHORIZED_401
-import com.hexagontk.http.model.Header
+import com.hexagontk.http.model.Field
 import com.hexagontk.http.model.HttpMethod.GET
 import com.hexagontk.http.model.HttpMethod.PUT
 import com.hexagontk.http.model.*
@@ -24,12 +24,12 @@ internal class FiltersTest {
             val next = next()
             val time = (System.nanoTime() - start).toString()
             // Copies result from chain with the extra data
-            next.send(headers = response.headers + Header("time", time))
+            next.send(headers = response.headers + Field("time", time))
         }
 
         filter("/protected/*") {
             val authorization = request.authorization ?: return@filter unauthorized("Unauthorized")
-            val credentials = authorization.value
+            val credentials = authorization.body
             val userPassword = String(credentials.decodeBase64()).split(":")
 
             // Parameters set in call attributes are accessible in other filters and routes
@@ -79,28 +79,28 @@ internal class FiltersTest {
 
     @Test fun `Request without authorization returns 401`() {
         val response = path.send(GET, "/protected/hi")
-        val time = response.headers["time"]?.string()?.toLong() ?: 0
+        val time = response.headers["time"]?.text?.toLong() ?: 0
         assertResponseEquals(response, "Unauthorized", UNAUTHORIZED_401)
         assert(time > 0)
     }
 
     @Test fun `HTTP request with valid credentials returns valid response`() {
         val response = path.send(GET, "/protected/hi", user = "Turing", password = "London")
-        val time = response.headers["time"]?.string()?.toLong() ?: 0
+        val time = response.headers["time"]?.text?.toLong() ?: 0
         assertResponseEquals(response, "Hello Turing!", OK_200)
         assert(time > 0)
     }
 
     @Test fun `Request with invalid password returns 403`() {
         val response = path.send(GET, "/protected/hi", user = "Turing", password = "Millis")
-        val time = response.headers["time"]?.string()?.toLong() ?: 0
+        val time = response.headers["time"]?.text?.toLong() ?: 0
         assertResponseEquals(response, "Forbidden", FORBIDDEN_403)
         assert(time > 0)
     }
 
     @Test fun `Request with invalid user returns 403`() {
         val response = path.send(GET, "/protected/hi", user = "Curry", password = "Millis")
-        val time = response.headers["time"]?.string()?.toLong() ?: 0
+        val time = response.headers["time"]?.text?.toLong() ?: 0
         assertResponseEquals(response, "Forbidden", FORBIDDEN_403)
         assert(time > 0)
     }

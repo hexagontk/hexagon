@@ -31,7 +31,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: build (${{ matrix.os }})
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
       os: ${{ matrix.os }}
       check_directory: core/build
@@ -44,7 +44,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: sample_keystores (${{ matrix.os }})
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
       os: ${{ matrix.os }}
       ref: develop
@@ -77,7 +77,7 @@ jobs:
         run: ./gradlew --stacktrace nativeTest
 
   jmh:
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
       ref: develop
       tasks: jmh
@@ -94,7 +94,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: test_publishing (${{ matrix.os }})
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@master
+    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
       os: ${{ matrix.os }}
       ref: develop

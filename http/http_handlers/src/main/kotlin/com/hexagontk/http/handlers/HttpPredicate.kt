@@ -1,24 +1,25 @@
 package com.hexagontk.http.handlers
 
+import com.hexagontk.core.debug
+import com.hexagontk.core.loggerOf
 import com.hexagontk.handlers.Context
-import com.hexagontk.core.logging.Logger
 import com.hexagontk.http.patterns.LiteralPathPattern
 import com.hexagontk.http.model.HttpMethod
-import com.hexagontk.http.model.HttpStatus
 import com.hexagontk.http.patterns.PathPattern
 import com.hexagontk.http.patterns.createPathPattern
 import com.hexagontk.http.model.HttpCall
+import java.lang.System.Logger
 import kotlin.reflect.KClass
 
 data class HttpPredicate(
     val methods: Set<HttpMethod> = emptySet(),
     val pathPattern: PathPattern = LiteralPathPattern(),
     val exception: KClass<out Exception>? = null,
-    val status: HttpStatus? = null,
+    val status: Int? = null,
 ) : (Context<HttpCall>) -> Boolean {
 
     private companion object {
-        val logger: Logger = Logger(HttpPredicate::class)
+        val logger: Logger = loggerOf(HttpPredicate::class)
     }
 
     private fun PathPattern.isEmpty(): Boolean =
@@ -32,7 +33,7 @@ data class HttpPredicate(
         methods: Set<HttpMethod> = emptySet(),
         pattern: String = "",
         exception: KClass<out Exception>? = null,
-        status: HttpStatus? = null,
+        status: Int? = null,
         prefix: Boolean = false,
     ) :
         this(methods, createPathPattern(pattern, prefix), exception, status)

@@ -5,6 +5,9 @@ interface HttpBase {
     val headers: Headers
     val contentType: ContentType?
 
+    fun contentType(): ContentType? =
+        headers["content-type"] as? ContentType
+
     fun bodyString(): String =
         when (body) {
             is String -> body as String

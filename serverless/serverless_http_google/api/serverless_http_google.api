@@ -1,0 +1,5 @@
+public final class com/hexagontk/serverless/http/google/GoogleHttpFunction : com/google/cloud/functions/HttpFunction {
+	public fun <init> (Lcom/hexagontk/http/handlers/HttpHandler;)V
+	public fun service (Lcom/google/cloud/functions/HttpRequest;Lcom/google/cloud/functions/HttpResponse;)V
+}
+

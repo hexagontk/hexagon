@@ -23,10 +23,10 @@ Hexagon is designed to fit in applications that conform to the [Hexagonal Archit
 [Clean Architecture], [Onion Architecture] or [Ports and Adapters Architecture]). Its design
 principles also fit into this architecture.
 
-[The HTTP server]: http_server
-[The HTTP client]: http_client
-[Serialization]: serialization
-[Template Processing]: templates
+[The HTTP server]: http_server.md
+[The HTTP client]: http_client.md
+[Serialization]: serialization.md
+[Template Processing]: templates.md
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Onion Architecture]: https://dzone.com/articles/onion-architecture-is-interesting
@@ -39,8 +39,8 @@ Simple Hello World HTTP example.
 
 You can check the [code examples] and [demo projects] for more complex use cases.
 
-[code examples]: examples/http_server_examples/
-[demo projects]: examples/example_projects/
+[code examples]: examples/http_server_examples.md
+[demo projects]: examples/example_projects.md
 
 # Features
 Hexagon's goals and design principles:
@@ -103,14 +103,14 @@ Module that provide functionality that does not depend on different implementati
 ## Manager
 Singleton object to manage a cross toolkit aspect. I.e., Serialization or Templates.
 
-[core]: core
-[handlers]: handlers
+[core]: core.md
+[handlers]: handlers.md
 
-[http_server]: http_server
-[templates]: templates
+[http_server]: http_server.md
+[templates]: templates.md
 
-[http_client_jetty]: http_client_jetty
-[http_server_jetty]: http_server_jetty
+[http_client_jetty]: http_client_jetty.md
+[http_server_jetty]: http_server_jetty.md
 
 # Hexagon Extras
 The libraries inside the [hexagon_extra] repository provide extra features. They may be useful to
@@ -121,7 +121,7 @@ develop applications, but not strictly required. Some of these modules are:
 * Args: Command line arguments definition and parsing.
 
 [hexagon_extra]: https://github.com/hexagontk/hexagon_extra
-[Web]: web
+[Web]: web.md
 [Cron]: https://en.wikipedia.org/wiki/Cron
 
 # Architecture
@@ -144,21 +144,21 @@ Ports with their provided implementations (Adapters).
 | [Templates]             | [Pebble], [FreeMarker], [Rocker], [jte]               |
 | [Serialization Formats] | [JSON], [YAML], [CSV], [XML], [TOML]                  |
 
-[HTTP Server]: http_server
-[Netty]: http_server_netty
-[Netty Epoll]: http_server_netty_epoll
-[Jetty]: http_server_jetty
-[Servlet]: http_server_servlet
-[Helidon]: http_server_helidon
-[HTTP Client]: http_client
-[Java Client]: http_client_java
-[Jetty Client]: http_client_jetty
-[Templates]: templates
-[Pebble]: templates_pebble
-[FreeMarker]: templates_freemarker
-[Rocker]: templates_rocker
-[jte]: templates_jte
-[Serialization Formats]: serialization
+[HTTP Server]: http_server.md
+[Netty]: http_server_netty.md
+[Netty Epoll]: http_server_netty_epoll.md
+[Jetty]: http_server_jetty.md
+[Servlet]: http_server_servlet.md
+[Helidon]: http_server_helidon.md
+[HTTP Client]: http_client.md
+[Java Client]: http_client_java.md
+[Jetty Client]: http_client_jetty.md
+[Templates]: templates.md
+[Pebble]: templates_pebble.md
+[FreeMarker]: templates_freemarker.md
+[Rocker]: templates_rocker.md
+[jte]: templates_jte.md
+[Serialization Formats]: serialization.md
 [JSON]: api/serialization/serialization_jackson_json/com.hexagontk.serialization.jackson.json/-json
 [YAML]: api/serialization/serialization_jackson_yaml/com.hexagontk.serialization.jackson.yaml/-yaml
 [CSV]: api/serialization/serialization_jackson_csv/com.hexagontk.serialization.jackson.csv/-csv

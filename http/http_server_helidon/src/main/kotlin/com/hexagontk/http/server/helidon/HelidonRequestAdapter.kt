@@ -3,7 +3,6 @@ package com.hexagontk.http.server.helidon
 import com.hexagontk.core.media.MediaType
 import com.hexagontk.core.media.MediaTypeGroup
 import com.hexagontk.http.model.*
-import com.hexagontk.http.model.Headers
 import io.helidon.http.HeaderNames
 import io.helidon.http.Method
 import io.helidon.http.media.multipart.MultiPart
@@ -36,10 +35,12 @@ class HelidonRequestAdapter(
         req.headers().get(HeaderNames.CONTENT_LENGTH).get().toLong()
     }
 
-    override val queryParameters: QueryParameters by lazy {
-        QueryParameters(
-            req.query().names().map {
-                QueryParameter(it, req.query().all(it))
+    override val queryParameters: Parameters by lazy {
+        Parameters(
+            req.query().names().flatMap { n ->
+                val all = req.query().all(n)
+                if (all.isEmpty()) listOf(Field(n))
+                else all.map { Field(n, it) }
             }
         )
     }
@@ -65,12 +66,12 @@ class HelidonRequestAdapter(
         }
     }
 
-    override val formParameters: FormParameters by lazy {
+    override val formParameters: Parameters by lazy {
         val fields = parts
             .filter { it.submittedFileName == null }
-            .map { FormParameter(it.name, it.bodyString()) }
+            .map { Field(it.name, it.bodyString()) }
 
-        FormParameters(fields)
+        Parameters(fields)
     }
 
     override val method: HttpMethod by lazy {
@@ -102,7 +103,9 @@ class HelidonRequestAdapter(
     }
 
     override val headers: Headers by lazy {
-        Headers(req.headers().map { Header(it.name(), it.allValues()) })
+        Headers(
+            req.headers().flatMap { h -> h.allValues().map { Field(h.name(), it) } }
+        )
     }
 
     override val contentType: ContentType? by lazy {
@@ -126,9 +129,9 @@ class HelidonRequestAdapter(
         host: String,
         port: Int,
         path: String,
-        queryParameters: QueryParameters,
+        queryParameters: Parameters,
         parts: List<HttpPart>,
-        formParameters: FormParameters,
+        formParameters: Parameters,
         cookies: List<Cookie>,
         accept: List<ContentType>,
         authorization: Authorization?,

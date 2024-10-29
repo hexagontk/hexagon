@@ -1,8 +1,8 @@
 package com.hexagontk.handlers
 
-data class FilterHandler<T : Any>(
+class FilterHandler<T : Any>(
     override val predicate: (Context<T>) -> Boolean = { true },
-    override val callback: (Context<T>) -> Context<T>,
+    val callback: (Context<T>) -> Context<T>,
 ) : Handler<T> {
 
     override fun process(context: Context<T>): Context<T> =

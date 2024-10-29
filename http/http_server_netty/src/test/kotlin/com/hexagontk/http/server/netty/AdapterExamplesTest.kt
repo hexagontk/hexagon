@@ -1,6 +1,8 @@
 package com.hexagontk.http.server.netty
 
-import com.hexagontk.http.client.jetty.ws.JettyWsClientAdapter
+import com.hexagontk.http.client.HttpClientPort
+import com.hexagontk.http.client.jetty.ws.JettyWsHttpClient
+import com.hexagontk.http.server.HttpServerPort
 import com.hexagontk.http.test.examples.*
 import com.hexagontk.serialization.jackson.JacksonTextFormat
 import com.hexagontk.serialization.jackson.json.Json
@@ -10,8 +12,8 @@ import org.junit.jupiter.api.condition.DisabledInNativeImage
 // TODO Assert context methods (request.method, request.protocol...)
 // TODO Check response headers don't contain invalid chars (\n, \t...)
 
-val clientAdapter: () -> JettyWsClientAdapter = ::JettyWsClientAdapter
-val serverAdapter: () -> NettyServerAdapter = ::NettyServerAdapter
+val clientAdapter: () -> HttpClientPort = ::JettyWsHttpClient
+val serverAdapter: () -> HttpServerPort = ::NettyHttpServer
 val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 
 internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)
@@ -35,8 +37,8 @@ internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
 @DisabledInNativeImage // TODO Fix this
 internal class AdapterWebSocketsTest : WebSocketsTest(clientAdapter, serverAdapter)
 
-val liteServerAdapter: () -> NettyServerAdapter = {
-    NettyServerAdapter(
+val liteServerAdapter: () -> HttpServerPort = {
+    NettyHttpServer(
         keepAliveHandler = false,
         httpAggregatorHandler = false,
         chunkedHandler = false,

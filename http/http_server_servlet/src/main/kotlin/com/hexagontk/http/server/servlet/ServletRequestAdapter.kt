@@ -29,7 +29,7 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpReq
 
     override val contentLength: Long by lazy { req.contentLength.toLong() }
 
-    override val queryParameters: QueryParameters by lazy {
+    override val queryParameters: Parameters by lazy {
         parseQueryString(req.queryString ?: "")
     }
 
@@ -64,7 +64,7 @@ internal abstract class ServletRequestAdapter(req: HttpServletRequest) : HttpReq
             req.headerNames
                 .toList()
                 .map { it.lowercase() }
-                .map { Header(it, req.getHeaders(it).toList()) }
+                .flatMap { req.getHeaders(it).toList().map { v -> Field(it, v) } }
         )
     }
 

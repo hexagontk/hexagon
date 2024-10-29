@@ -4,11 +4,11 @@ import com.hexagontk.core.urlOf
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientPort
 import com.hexagontk.http.client.HttpClientSettings
-import com.hexagontk.http.model.Header
-import com.hexagontk.http.model.Headers
+import com.hexagontk.http.model.Field
 import com.hexagontk.http.server.*
 import com.hexagontk.http.handlers.HttpHandler
 import com.hexagontk.http.handlers.path
+import com.hexagontk.http.model.Headers
 import com.hexagontk.http.test.BaseTest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -42,7 +42,7 @@ abstract class ZipTest(
         val client = HttpClient(clientAdapter(), settings)
         client.start()
 
-        client.get("/hello", Headers(Header("accept-encoding", "gzip"))).apply {
+        client.get("/hello", Headers(Field("accept-encoding", "gzip"))).apply {
             assertEquals(body, "Hello World!")
             // 'content-encoding' cannot be checked, the header is removed when response is decoded
         }
@@ -71,7 +71,7 @@ abstract class ZipTest(
         val client = HttpClient(clientAdapter(), settings)
         client.start()
 
-        client.get("/hello", Headers(Header("accept-encoding", "gzip"))).apply {
+        client.get("/hello", Headers(Field("accept-encoding", "gzip"))).apply {
             assertEquals(body, "Hello World!")
             assertNull(headers["content-encoding"])
             assertNull(headers["Content-Encoding"])

@@ -27,11 +27,12 @@ internal class HttpContextTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path/v1",
-            queryParameters = QueryParameters(QueryParameter("k", "v")),
-            headers = Headers(Header("h1", "h1v1", "h1v2")),
+            queryParameters = Parameters(Field("k", "v")),
+            headers = Headers(Field("h1", "h1v1"), Field("h1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
-            formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
+            formParameters =
+                Parameters(Field("fp1", "fp1v1"), Field("fp1", "fp1v2")),
             cookies = listOf(Cookie("cn", "cv")),
             contentType = ContentType(TEXT_PLAIN),
             certificateChain = emptyList(),
@@ -60,7 +61,7 @@ internal class HttpContextTest {
         assertSame(context.referer, context.event.request.referer())
         assertSame(context.origin, context.event.request.origin())
         assertSame(context.certificate, context.event.request.certificate())
-        assertSame(context.status, context.event.response.status)
+        assertEquals(context.status, context.event.response.status)
     }
 
     @Test fun `Send without parameters return the same response`() {
@@ -69,7 +70,8 @@ internal class HttpContextTest {
             predicate = HttpPredicate(pathPattern = TemplatePathPattern("/path/{p1}", true)),
         )
 
-        assertEquals(serverContext, serverContext.send())
+        assertEquals(serverContext.request, serverContext.send().request)
+        assertEquals(serverContext.response, serverContext.send().response)
     }
 
     @Test fun `Response helpers return correct values`() {

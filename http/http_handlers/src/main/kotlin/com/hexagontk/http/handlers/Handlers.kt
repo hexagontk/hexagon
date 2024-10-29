@@ -2,18 +2,21 @@
 
 package com.hexagontk.http.handlers
 
-import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.error
+import com.hexagontk.core.loggerOf
 import com.hexagontk.handlers.Context
 import com.hexagontk.http.model.*
 import com.hexagontk.http.model.HttpMethod.*
 import com.hexagontk.http.model.HttpProtocol.HTTP
+import java.lang.System.Logger
 import java.math.BigInteger
 import java.security.cert.X509Certificate
 
 typealias HttpCallbackType = HttpContext.() -> HttpContext
 typealias HttpExceptionCallbackType<T> = HttpContext.(T) -> HttpContext
 
-private val logger: Logger by lazy { Logger(HttpHandler::class.java.packageName) }
+private val logger: Logger by lazy { loggerOf(HttpHandler::class.java.packageName) }
+
 private val BODY_TYPES_NAMES: String by lazy {
     val bodyTypes = setOf(String::class, ByteArray::class, Int::class, Long::class)
     bodyTypes.joinToString(", ") { it.simpleName.toString() }
@@ -39,11 +42,11 @@ fun HttpCallbackType.process(
     host: String = "localhost",
     port: Int = 80,
     path: String = "",
-    queryParameters: QueryParameters = QueryParameters(),
+    queryParameters: Parameters = Parameters(),
     headers: Headers = Headers(),
     body: Any = "",
     parts: List<HttpPart> = emptyList(),
-    formParameters: FormParameters = FormParameters(),
+    formParameters: Parameters = Parameters(),
     cookies: List<Cookie> = emptyList(),
     contentType: ContentType? = null,
     certificateChain: List<X509Certificate> = emptyList(),
@@ -72,6 +75,7 @@ fun HttpCallbackType.process(
         attributes,
     )
 
+// TODO rename to 'buildPath' to follow same pattern as Kotlin's 'buildList' or 'buildMap'???
 fun path(pattern: String = "", block: HandlerBuilder.() -> Unit): PathHandler {
     val builder = HandlerBuilder()
     builder.block()

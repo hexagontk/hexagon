@@ -32,9 +32,9 @@ data class HttpContext(
     val host: String by lazy { request.host }
     val port: Int by lazy { request.port }
     val path: String by lazy { request.path }
-    val queryParameters: QueryParameters by lazy { request.queryParameters }
+    val queryParameters: Parameters by lazy { request.queryParameters }
     val parts: List<HttpPart> by lazy { request.parts }
-    val formParameters: FormParameters by lazy { request.formParameters }
+    val formParameters: Parameters by lazy { request.formParameters }
     val accept: List<ContentType> by lazy { request.accept }
     val authorization: Authorization? by lazy { request.authorization }
     val certificateChain: List<X509Certificate> by lazy { request.certificateChain }
@@ -46,7 +46,7 @@ data class HttpContext(
     val origin: String? by lazy { request.origin() }
     val certificate: X509Certificate? by lazy { request.certificate() }
 
-    val status: HttpStatus = response.status
+    val status: Int = response.status
 
     val pathParameters: Map<String, String> by lazy {
         val httpHandler = predicate as HttpPredicate
@@ -138,7 +138,7 @@ data class HttpContext(
         send(INTERNAL_SERVER_ERROR_500, body, headers, contentType, cookies, attributes)
 
     fun serverError(
-        status: HttpStatus,
+        status: Int,
         exception: Exception,
         headers: Headers = response.headers,
         attributes: Map<*, *> = this.attributes,
@@ -170,7 +170,7 @@ data class HttpContext(
     fun sse(body: Publisher<ServerEvent>): HttpContext =
         ok(
             body = body,
-            headers = response.headers + Header("cache-control", "no-cache"),
+            headers = response.headers + Field("cache-control", "no-cache"),
             contentType = ContentType(TEXT_EVENT_STREAM)
         )
 
@@ -202,7 +202,7 @@ data class HttpContext(
         send(CREATED_201, body, headers, contentType, cookies, attributes)
 
     fun redirect(
-        status: HttpStatus,
+        status: Int,
         location: String,
         headers: Headers = response.headers,
         cookies: List<Cookie> = response.cookies,
@@ -210,7 +210,7 @@ data class HttpContext(
     ): HttpContext =
         send(
             status,
-            headers = headers + Header("location", location),
+            headers = headers + Field("location", location),
             cookies = cookies,
             attributes = attributes
         )
@@ -244,7 +244,7 @@ data class HttpContext(
         )
 
     fun send(
-        status: HttpStatus = response.status,
+        status: Int = response.status,
         body: Any = response.body,
         headers: Headers = response.headers,
         contentType: ContentType? = response.contentType,
@@ -264,13 +264,13 @@ data class HttpContext(
 
     fun send(response: HttpResponsePort, attributes: Map<*, *> = this.attributes): HttpContext =
         copy(
-            event = event.copy(response = response),
+            event = HttpCall(event.request, response),
             attributes = attributes
         )
 
     fun send(request: HttpRequestPort, attributes: Map<*, *> = this.attributes): HttpContext =
         copy(
-            event = event.copy(request = request),
+            event = HttpCall(request, event.response),
             attributes = attributes
         )
 

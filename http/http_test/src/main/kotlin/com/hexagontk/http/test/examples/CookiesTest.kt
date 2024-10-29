@@ -33,18 +33,15 @@ abstract class CookiesTest(
         }
 
         post("/addCookie") {
-            val name = queryParameters.require("cookieName").string()
-                ?: return@post badRequest("No cookie name")
-            val value = queryParameters.require("cookieValue").string()
-                ?: return@post badRequest("No cookie value")
-
-            val maxAge = queryParameters["maxAge"]?.string()
-            val secure = queryParameters["secure"]?.string()
-            val cookiePath = queryParameters["path"]?.string()
-            val httpOnly = queryParameters["httpOnly"]?.string()
-            val domain = queryParameters["domain"]?.string()
-            val sameSite = queryParameters["sameSite"]?.string()
-            val expires = queryParameters["expires"]?.string()
+            val name = queryParameters.require("cookieName").text
+            val value = queryParameters.require("cookieValue").text
+            val maxAge = queryParameters["maxAge"]?.text
+            val secure = queryParameters["secure"]?.text
+            val cookiePath = queryParameters["path"]?.text
+            val httpOnly = queryParameters["httpOnly"]?.text
+            val domain = queryParameters["domain"]?.text
+            val sameSite = queryParameters["sameSite"]?.text
+            val expires = queryParameters["expires"]?.text
 
             ok(
                 cookies = response.cookies + Cookie(

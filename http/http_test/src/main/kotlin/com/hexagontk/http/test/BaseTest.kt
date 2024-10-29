@@ -5,7 +5,6 @@ import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientPort
 import com.hexagontk.http.client.HttpClientSettings
 import com.hexagontk.http.model.HttpResponsePort
-import com.hexagontk.http.model.HttpStatus
 import com.hexagontk.http.model.OK_200
 import com.hexagontk.http.server.HttpServer
 import com.hexagontk.http.server.HttpServerPort
@@ -49,7 +48,7 @@ abstract class BaseTest {
     }
 
     protected fun assertResponseContains(
-        response: HttpResponsePort?, status: HttpStatus, vararg content: String) {
+        response: HttpResponsePort?, status: Int, vararg content: String) {
 
         assertEquals(status, response?.status)
         val payload = response?.body?.let { b -> b as String }
@@ -63,7 +62,7 @@ abstract class BaseTest {
     }
 
     protected fun assertResponseEquals(
-        response: HttpResponsePort?, status: HttpStatus = OK_200, content: String
+        response: HttpResponsePort?, status: Int = OK_200, content: String
     ) {
         assertEquals(status, response?.status)
         assertEquals(content, response?.body?.let { it as String }?.trim())

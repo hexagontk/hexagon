@@ -157,6 +157,7 @@ tasks.register<Exec>("defaultSite") {
 }
 
 tasks.register<Exec>("serveSite") {
+    dependsOn("checkDocs", "installMkDocs")
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
     commandLine("$venv/bin/mike serve".split(" "))
 }

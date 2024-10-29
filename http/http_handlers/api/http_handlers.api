@@ -4,8 +4,8 @@ public final class com/hexagontk/http/handlers/AfterHandler : com/hexagontk/hand
 	public fun <init> (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun <init> (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
-	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public fun byMethod ()Ljava/util/Map;
 	public final fun component1 ()Lcom/hexagontk/http/handlers/HttpPredicate;
@@ -15,7 +15,6 @@ public final class com/hexagontk/http/handlers/AfterHandler : com/hexagontk/hand
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getBlock ()Lkotlin/jvm/functions/Function1;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public fun hashCode ()I
@@ -31,8 +30,8 @@ public final class com/hexagontk/http/handlers/BeforeHandler : com/hexagontk/han
 	public fun <init> (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun <init> (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
-	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public fun byMethod ()Ljava/util/Map;
 	public final fun component1 ()Lcom/hexagontk/http/handlers/HttpPredicate;
@@ -42,7 +41,6 @@ public final class com/hexagontk/http/handlers/BeforeHandler : com/hexagontk/han
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getBlock ()Lkotlin/jvm/functions/Function1;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public fun hashCode ()I
@@ -65,7 +63,6 @@ public final class com/hexagontk/http/handlers/ExceptionHandler : com/hexagontk/
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getBlock ()Lkotlin/jvm/functions/Function2;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public final fun getClear ()Z
 	public final fun getException ()Lkotlin/reflect/KClass;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
@@ -83,8 +80,8 @@ public final class com/hexagontk/http/handlers/FilterHandler : com/hexagontk/han
 	public fun <init> (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun <init> (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
-	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public fun byMethod ()Ljava/util/Map;
 	public final fun component1 ()Lcom/hexagontk/http/handlers/HttpPredicate;
@@ -94,7 +91,6 @@ public final class com/hexagontk/http/handlers/FilterHandler : com/hexagontk/han
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getBlock ()Lkotlin/jvm/functions/Function1;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public fun hashCode ()I
@@ -111,17 +107,17 @@ public final class com/hexagontk/http/handlers/HandlerBuilder {
 	public final fun after (Lcom/hexagontk/http/handlers/HttpPredicate;Lkotlin/jvm/functions/Function1;)V
 	public final fun after (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public final fun after (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
-	public final fun after (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;)V
+	public final fun after (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun after$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Lcom/hexagontk/http/handlers/HttpPredicate;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public static synthetic fun after$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-	public static synthetic fun after$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static synthetic fun after$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun before (Lcom/hexagontk/http/handlers/HttpPredicate;Lkotlin/jvm/functions/Function1;)V
 	public final fun before (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public final fun before (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
-	public final fun before (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;)V
+	public final fun before (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun before$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Lcom/hexagontk/http/handlers/HttpPredicate;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public static synthetic fun before$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-	public static synthetic fun before$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static synthetic fun before$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun delete (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun delete$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun exception (Lkotlin/reflect/KClass;ZLkotlin/jvm/functions/Function2;)V
@@ -129,10 +125,10 @@ public final class com/hexagontk/http/handlers/HandlerBuilder {
 	public final fun filter (Lcom/hexagontk/http/handlers/HttpPredicate;Lkotlin/jvm/functions/Function1;)V
 	public final fun filter (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public final fun filter (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
-	public final fun filter (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;)V
+	public final fun filter (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun filter$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Lcom/hexagontk/http/handlers/HttpPredicate;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public static synthetic fun filter$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-	public static synthetic fun filter$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static synthetic fun filter$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun get (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun get$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun getHandlers ()Ljava/util/List;
@@ -143,10 +139,10 @@ public final class com/hexagontk/http/handlers/HandlerBuilder {
 	public final fun on (Lcom/hexagontk/http/handlers/HttpPredicate;Lkotlin/jvm/functions/Function1;)V
 	public final fun on (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public final fun on (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
-	public final fun on (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;)V
+	public final fun on (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun on$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Lcom/hexagontk/http/handlers/HttpPredicate;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public static synthetic fun on$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-	public static synthetic fun on$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static synthetic fun on$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun options (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun options$default (Lcom/hexagontk/http/handlers/HandlerBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun patch (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
@@ -191,9 +187,9 @@ public final class com/hexagontk/http/handlers/HandlersKt {
 	public static final fun path (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lcom/hexagontk/http/handlers/PathHandler;
 	public static synthetic fun path$default (Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/PathHandler;
 	public static synthetic fun path$default (Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/PathHandler;
-	public static final fun process (Lkotlin/jvm/functions/Function1;Lcom/hexagontk/http/model/HttpMethod;Lcom/hexagontk/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagontk/http/model/QueryParameters;Lcom/hexagontk/http/model/Headers;Ljava/lang/Object;Ljava/util/List;Lcom/hexagontk/http/model/FormParameters;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/List;JLjava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
+	public static final fun process (Lkotlin/jvm/functions/Function1;Lcom/hexagontk/http/model/HttpMethod;Lcom/hexagontk/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagontk/http/model/Parameters;Lcom/hexagontk/http/model/Headers;Ljava/lang/Object;Ljava/util/List;Lcom/hexagontk/http/model/Parameters;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/List;JLjava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
 	public static final fun process (Lkotlin/jvm/functions/Function1;Lcom/hexagontk/http/model/HttpRequest;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
-	public static synthetic fun process$default (Lkotlin/jvm/functions/Function1;Lcom/hexagontk/http/model/HttpMethod;Lcom/hexagontk/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagontk/http/model/QueryParameters;Lcom/hexagontk/http/model/Headers;Ljava/lang/Object;Ljava/util/List;Lcom/hexagontk/http/model/FormParameters;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/List;JLjava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
+	public static synthetic fun process$default (Lkotlin/jvm/functions/Function1;Lcom/hexagontk/http/model/HttpMethod;Lcom/hexagontk/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagontk/http/model/Parameters;Lcom/hexagontk/http/model/Headers;Ljava/lang/Object;Ljava/util/List;Lcom/hexagontk/http/model/Parameters;Ljava/util/List;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/List;JLjava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
 	public static synthetic fun process$default (Lkotlin/jvm/functions/Function1;Lcom/hexagontk/http/model/HttpRequest;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
 }
 
@@ -234,7 +230,7 @@ public final class com/hexagontk/http/handlers/HttpContext : com/hexagontk/handl
 	public fun getEvent ()Lcom/hexagontk/http/model/HttpCall;
 	public synthetic fun getEvent ()Ljava/lang/Object;
 	public fun getException ()Ljava/lang/Exception;
-	public final fun getFormParameters ()Lcom/hexagontk/http/model/FormParameters;
+	public final fun getFormParameters ()Lcom/hexagontk/http/model/Parameters;
 	public fun getHandled ()Z
 	public final fun getHost ()Ljava/lang/String;
 	public final fun getMethod ()Lcom/hexagontk/http/model/HttpMethod;
@@ -248,11 +244,11 @@ public final class com/hexagontk/http/handlers/HttpContext : com/hexagontk/handl
 	public final fun getPort ()I
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public final fun getProtocol ()Lcom/hexagontk/http/model/HttpProtocol;
-	public final fun getQueryParameters ()Lcom/hexagontk/http/model/QueryParameters;
+	public final fun getQueryParameters ()Lcom/hexagontk/http/model/Parameters;
 	public final fun getReferer ()Ljava/lang/String;
 	public final fun getRequest ()Lcom/hexagontk/http/model/HttpRequestPort;
 	public final fun getResponse ()Lcom/hexagontk/http/model/HttpResponsePort;
-	public final fun getStatus ()Lcom/hexagontk/http/model/HttpStatus;
+	public final fun getStatus ()I
 	public final fun getUrl ()Ljava/net/URL;
 	public final fun getUserAgent ()Ljava/lang/String;
 	public fun hashCode ()I
@@ -268,16 +264,16 @@ public final class com/hexagontk/http/handlers/HttpContext : com/hexagontk/handl
 	public static synthetic fun ok$default (Lcom/hexagontk/http/handlers/HttpContext;Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
 	public final fun receive (Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/List;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
 	public static synthetic fun receive$default (Lcom/hexagontk/http/handlers/HttpContext;Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
-	public final fun redirect (Lcom/hexagontk/http/model/HttpStatus;Ljava/lang/String;Lcom/hexagontk/http/model/Headers;Ljava/util/List;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
-	public static synthetic fun redirect$default (Lcom/hexagontk/http/handlers/HttpContext;Lcom/hexagontk/http/model/HttpStatus;Ljava/lang/String;Lcom/hexagontk/http/model/Headers;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
+	public final fun redirect (ILjava/lang/String;Lcom/hexagontk/http/model/Headers;Ljava/util/List;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
+	public static synthetic fun redirect$default (Lcom/hexagontk/http/handlers/HttpContext;ILjava/lang/String;Lcom/hexagontk/http/model/Headers;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
+	public final fun send (ILjava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
 	public final fun send (Lcom/hexagontk/http/model/HttpRequestPort;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
 	public final fun send (Lcom/hexagontk/http/model/HttpResponsePort;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
-	public final fun send (Lcom/hexagontk/http/model/HttpStatus;Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
+	public static synthetic fun send$default (Lcom/hexagontk/http/handlers/HttpContext;ILjava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
 	public static synthetic fun send$default (Lcom/hexagontk/http/handlers/HttpContext;Lcom/hexagontk/http/model/HttpRequestPort;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
 	public static synthetic fun send$default (Lcom/hexagontk/http/handlers/HttpContext;Lcom/hexagontk/http/model/HttpResponsePort;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
-	public static synthetic fun send$default (Lcom/hexagontk/http/handlers/HttpContext;Lcom/hexagontk/http/model/HttpStatus;Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
-	public final fun serverError (Lcom/hexagontk/http/model/HttpStatus;Ljava/lang/Exception;Lcom/hexagontk/http/model/Headers;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
-	public static synthetic fun serverError$default (Lcom/hexagontk/http/handlers/HttpContext;Lcom/hexagontk/http/model/HttpStatus;Ljava/lang/Exception;Lcom/hexagontk/http/model/Headers;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
+	public final fun serverError (ILjava/lang/Exception;Lcom/hexagontk/http/model/Headers;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
+	public static synthetic fun serverError$default (Lcom/hexagontk/http/handlers/HttpContext;ILjava/lang/Exception;Lcom/hexagontk/http/model/Headers;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpContext;
 	public final fun sse (Ljava/util/concurrent/Flow$Publisher;)Lcom/hexagontk/http/handlers/HttpContext;
 	public fun toString ()Ljava/lang/String;
 	public final fun unauthorized (Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Ljava/util/Map;)Lcom/hexagontk/http/handlers/HttpContext;
@@ -288,7 +284,6 @@ public final class com/hexagontk/http/handlers/HttpContext : com/hexagontk/handl
 
 public abstract interface class com/hexagontk/http/handlers/HttpController : com/hexagontk/http/handlers/HttpHandler {
 	public abstract fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
-	public abstract fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public abstract fun getHandler ()Lcom/hexagontk/http/handlers/HttpHandler;
 	public abstract fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public abstract fun getPredicate ()Lkotlin/jvm/functions/Function1;
@@ -299,7 +294,6 @@ public final class com/hexagontk/http/handlers/HttpController$DefaultImpls {
 	public static fun addPrefix (Lcom/hexagontk/http/handlers/HttpController;Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public static fun byMethod (Lcom/hexagontk/http/handlers/HttpController;)Ljava/util/Map;
 	public static fun filter (Lcom/hexagontk/http/handlers/HttpController;Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
-	public static fun getCallback (Lcom/hexagontk/http/handlers/HttpController;)Lkotlin/jvm/functions/Function1;
 	public static fun getHandlerPredicate (Lcom/hexagontk/http/handlers/HttpController;)Lcom/hexagontk/http/handlers/HttpPredicate;
 	public static fun getPredicate (Lcom/hexagontk/http/handlers/HttpController;)Lkotlin/jvm/functions/Function1;
 	public static fun process (Lcom/hexagontk/http/handlers/HttpController;Lcom/hexagontk/handlers/Context;)Lcom/hexagontk/handlers/Context;
@@ -328,25 +322,25 @@ public final class com/hexagontk/http/handlers/HttpHandler$DefaultImpls {
 
 public final class com/hexagontk/http/handlers/HttpPredicate : kotlin/jvm/functions/Function1 {
 	public fun <init> ()V
-	public fun <init> (Ljava/util/Set;Lcom/hexagontk/http/patterns/PathPattern;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;)V
-	public synthetic fun <init> (Ljava/util/Set;Lcom/hexagontk/http/patterns/PathPattern;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Z)V
-	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/util/Set;Lcom/hexagontk/http/patterns/PathPattern;Lkotlin/reflect/KClass;Ljava/lang/Integer;)V
+	public synthetic fun <init> (Ljava/util/Set;Lcom/hexagontk/http/patterns/PathPattern;Lkotlin/reflect/KClass;Ljava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Z)V
+	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpPredicate;
 	public final fun clearMethods ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public final fun component1 ()Ljava/util/Set;
 	public final fun component2 ()Lcom/hexagontk/http/patterns/PathPattern;
 	public final fun component3 ()Lkotlin/reflect/KClass;
-	public final fun component4 ()Lcom/hexagontk/http/model/HttpStatus;
-	public final fun copy (Ljava/util/Set;Lcom/hexagontk/http/patterns/PathPattern;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;)Lcom/hexagontk/http/handlers/HttpPredicate;
-	public static synthetic fun copy$default (Lcom/hexagontk/http/handlers/HttpPredicate;Ljava/util/Set;Lcom/hexagontk/http/patterns/PathPattern;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpPredicate;
+	public final fun component4 ()Ljava/lang/Integer;
+	public final fun copy (Ljava/util/Set;Lcom/hexagontk/http/patterns/PathPattern;Lkotlin/reflect/KClass;Ljava/lang/Integer;)Lcom/hexagontk/http/handlers/HttpPredicate;
+	public static synthetic fun copy$default (Lcom/hexagontk/http/handlers/HttpPredicate;Ljava/util/Set;Lcom/hexagontk/http/patterns/PathPattern;Lkotlin/reflect/KClass;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/hexagontk/http/handlers/HttpPredicate;
 	public final fun describe ()Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getException ()Lkotlin/reflect/KClass;
 	public final fun getMethods ()Ljava/util/Set;
 	public final fun getPathPattern ()Lcom/hexagontk/http/patterns/PathPattern;
 	public final fun getPredicate ()Lkotlin/jvm/functions/Function1;
-	public final fun getStatus ()Lcom/hexagontk/http/model/HttpStatus;
+	public final fun getStatus ()Ljava/lang/Integer;
 	public fun hashCode ()I
 	public fun invoke (Lcom/hexagontk/handlers/Context;)Ljava/lang/Boolean;
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
@@ -359,8 +353,8 @@ public final class com/hexagontk/http/handlers/OnHandler : com/hexagontk/handler
 	public fun <init> (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun <init> (Lcom/hexagontk/http/model/HttpMethod;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
-	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Lcom/hexagontk/http/model/HttpStatus;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public fun byMethod ()Ljava/util/Map;
 	public final fun component1 ()Lcom/hexagontk/http/handlers/HttpPredicate;
@@ -370,7 +364,6 @@ public final class com/hexagontk/http/handlers/OnHandler : com/hexagontk/handler
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getBlock ()Lkotlin/jvm/functions/Function1;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public fun hashCode ()I
@@ -394,7 +387,6 @@ public final class com/hexagontk/http/handlers/PathHandler : com/hexagontk/handl
 	public final fun describe ()Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public final fun getHandlers ()Ljava/util/List;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;

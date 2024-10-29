@@ -1,6 +1,7 @@
 package com.hexagontk.core.text
 
-import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.info
+import com.hexagontk.core.loggerOf
 import com.hexagontk.core.text.Ansi.OSC
 import com.hexagontk.core.text.Ansi.RESET
 import com.hexagontk.core.text.Ansi.ST
@@ -9,12 +10,13 @@ import com.hexagontk.core.text.AnsiColor.BLUE_BG
 import com.hexagontk.core.text.AnsiEffect.UNDERLINE
 import org.junit.jupiter.api.Test
 import java.lang.IllegalArgumentException
+import java.lang.System.Logger
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 internal class AnsiTest {
 
-    private val logger: Logger by lazy { Logger(this::class) }
+    private val logger: Logger by lazy { loggerOf(this::class) }
 
     @Test fun `Color edge values`() {
         println("${AnsiColor.bg(0, 0, 0)}${AnsiColor.fg(0, 0, 0)}TEST$RESET")

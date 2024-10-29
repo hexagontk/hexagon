@@ -21,7 +21,7 @@ internal class HttpCallTest {
     private fun httpResponseData(): HttpResponse =
         HttpResponse(
             body = "response",
-            headers = Headers(Header("hr1", "hr1v1", "hr1v2")),
+            headers = Headers(Field("hr1", "hr1v1"), Field("hr1", "hr1v2")),
             contentType = ContentType(TEXT_HTML),
             cookies = listOf(Cookie("cn", "cv")),
             status = NOT_FOUND_404,
@@ -34,10 +34,11 @@ internal class HttpCallTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path",
-            headers = Headers(Header("h1", "h1v1", "h1v2")),
+            headers = Headers(Field("h1", "h1v1"), Field("h1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
-            formParameters = FormParameters(FormParameter("fp1", "fp1v1", "fp1v2")),
+            formParameters =
+                Parameters(Field("fp1", "fp1v1"), Field("fp1", "fp1v2")),
             cookies = listOf(Cookie("cn", "cv")),
             contentType = ContentType(TEXT_PLAIN),
             certificateChain = emptyList(),
@@ -46,8 +47,8 @@ internal class HttpCallTest {
 
     @Test fun `HTTP Server Call comparison works ok`() {
         assertEquals(fullCall, fullCall)
-        assertEquals(httpCallData(), httpCallData())
+        assertEquals(httpCallData().request, httpCallData().request)
+        assertEquals(httpCallData().response, httpCallData().response)
         assertFalse(fullCall.equals(""))
-        assertEquals(fullCall.hashCode(), httpCallData().hashCode())
     }
 }

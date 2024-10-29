@@ -1,6 +1,6 @@
 package com.hexagontk.http.server.callbacks
 
-import com.hexagontk.http.model.Header
+import com.hexagontk.http.model.Field
 import com.hexagontk.http.handlers.HttpContext
 import com.hexagontk.http.toHttpFormat
 import org.openjdk.jmh.annotations.Benchmark
@@ -14,7 +14,7 @@ open class DateBenchmark {
 
     private object SimpleDateCallback : (HttpContext) -> HttpContext {
         override fun invoke(context: HttpContext): HttpContext {
-            val header = Header("date", Instant.now().toHttpFormat())
+            val header = Field("date", Instant.now().toHttpFormat())
             return context.send(headers = context.response.headers + header).next()
         }
     }

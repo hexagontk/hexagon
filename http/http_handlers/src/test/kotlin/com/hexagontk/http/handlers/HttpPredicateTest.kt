@@ -1,6 +1,5 @@
 package com.hexagontk.http.handlers
 
-import com.hexagontk.http.model.HttpStatus
 import com.hexagontk.http.model.HttpMethod
 import com.hexagontk.http.model.HttpMethod.*
 import com.hexagontk.http.model.HttpMethod.Companion.ALL
@@ -45,7 +44,7 @@ internal class HttpPredicateTest {
     @Test fun `Predicate without filter works properly`() {
         setOf(HttpPredicate(pattern = "*"), HttpPredicate(ALL, "*")).forEach {
             entries.forEach { method ->
-                HttpStatus.codes.values.forEach { status ->
+                (100..599).forEach { status ->
                     listOf("/", "/a").forEach { pattern ->
                         assertTrue(it.predicate(serverContext(method, pattern, status)))
                         assertTrue(it.predicate(serverContext(method, pattern, status)))
@@ -76,7 +75,7 @@ internal class HttpPredicateTest {
     @Test fun `Predicate with exception filter works properly`() {
         HttpPredicate(pattern = "*", exception = RuntimeException::class).let {
             entries.forEach { method ->
-                HttpStatus.codes.values.forEach { status ->
+                (100..599).forEach { status ->
                     listOf("/", "/a").forEach { pattern ->
                         val c1 = serverContext(method, pattern, status, RuntimeException())
                         assertTrue(it.predicate(c1))
@@ -97,7 +96,7 @@ internal class HttpPredicateTest {
             entries.forEach { method ->
                 listOf("/", "/a").forEach { pattern ->
                     assertTrue(it.predicate(serverContext(method, pattern, OK_200)))
-                    (HttpStatus.codes.values.toList() - OK_200).forEach { status ->
+                    ((100..599).toList() - OK_200).forEach { status ->
                         assertFalse(it.predicate(serverContext(method, pattern, status)))
                     }
                 }
@@ -119,7 +118,7 @@ internal class HttpPredicateTest {
             entries.forEach { method ->
                 listOf("/b", "/c").forEach { pattern ->
                     listOf(null, IOException()).forEach { exception ->
-                        (HttpStatus.codes.values.toList() - OK_200).forEach { status ->
+                        ((100..599).toList() - OK_200).forEach { status ->
                             val c = serverContext(method, pattern, status, exception)
                             assertFalse(it.predicate(c))
                         }
@@ -133,7 +132,7 @@ internal class HttpPredicateTest {
             exception = RuntimeException::class).let {
 
             entries.forEach { method ->
-                HttpStatus.codes.values.toList().forEach { status ->
+                (100..599).toList().forEach { status ->
                     listOf(RuntimeException(), IllegalStateException()).forEach { exception ->
                         assertTrue(it.predicate(serverContext(method, "/a", status, exception)))
                         assertTrue(it.predicate(serverContext(method, "/a", status, exception)))
@@ -144,7 +143,7 @@ internal class HttpPredicateTest {
             entries.forEach { method ->
                 listOf("/b", "/c").forEach { pattern ->
                     listOf(null, IOException()).forEach { exception ->
-                        HttpStatus.codes.values.toList().forEach { status ->
+                        (100..599).toList().forEach { status ->
                             val c = serverContext(method, pattern, status, exception)
                             assertFalse(it.predicate(c))
                         }
@@ -173,7 +172,7 @@ internal class HttpPredicateTest {
             entries.forEach { method ->
                 listOf("/b", "/c").forEach { pattern ->
                     listOf(null, IOException()).forEach { exception ->
-                        (HttpStatus.codes.values.toList() - OK_200).forEach { status ->
+                        ((100..599).toList() - OK_200).forEach { status ->
                             val c = it.predicate(serverContext(method, pattern, status, exception))
                             assertFalse(c)
                         }
@@ -193,7 +192,7 @@ internal class HttpPredicateTest {
     private fun serverContext(
         method: HttpMethod,
         path: String,
-        status: HttpStatus,
+        status: Int,
         exception: Exception? = null,
     ) =
         HttpContext(

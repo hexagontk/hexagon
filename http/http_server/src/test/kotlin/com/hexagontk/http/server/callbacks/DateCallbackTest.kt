@@ -1,7 +1,5 @@
 package com.hexagontk.http.server.callbacks
 
-import com.hexagontk.core.fail
-import com.hexagontk.core.require
 import com.hexagontk.http.handlers.HttpContext
 import com.hexagontk.http.toHttpFormat
 import java.time.Instant
@@ -13,7 +11,7 @@ internal class DateCallbackTest {
     @Test fun `Date callback creates the proper response`() {
         val context = HttpContext()
         val instant = Instant.now()
-        val date = DateCallback()(context).response.headers.require("date").string() ?: fail
+        val date = DateCallback()(context).response.headers.require("date").text
         assertEquals(instant.toHttpFormat().substringBeforeLast(':'), date.substringBeforeLast(':'))
     }
 }

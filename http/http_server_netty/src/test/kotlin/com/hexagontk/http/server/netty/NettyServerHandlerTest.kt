@@ -11,7 +11,7 @@ internal class NettyServerHandlerTest {
     @Test fun `Statuses are mapped properly`() {
         val handler = NettyServerHandler(emptyMap(), null)
 
-        fun check(hexagonStatus: HttpStatus, nettyStatus: HttpResponseStatus) {
+        fun check(hexagonStatus: Int, nettyStatus: HttpResponseStatus) {
             assertEquals(nettyStatus, handler.nettyStatus(hexagonStatus))
         }
 
@@ -74,7 +74,6 @@ internal class NettyServerHandlerTest {
         check(NOT_EXTENDED_510, NOT_EXTENDED)
         check(NETWORK_AUTHENTICATION_REQUIRED_511, NETWORK_AUTHENTICATION_REQUIRED)
 
-        val status = HttpStatus(599)
-        check(status, HttpResponseStatus(599, status.toString()))
+        check(599, HttpResponseStatus(599, ""))
     }
 }

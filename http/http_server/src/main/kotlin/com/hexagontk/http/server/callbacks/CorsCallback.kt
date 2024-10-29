@@ -4,7 +4,6 @@ import com.hexagontk.core.text.Glob
 import com.hexagontk.http.model.*
 import com.hexagontk.http.model.HttpMethod.Companion.ALL
 import com.hexagontk.http.model.HttpMethod.OPTIONS
-import com.hexagontk.http.model.HttpStatusType.SUCCESS
 import com.hexagontk.http.handlers.HttpContext
 
 /**
@@ -16,7 +15,7 @@ class CorsCallback(
     private val allowedHeaders: Set<String> = emptySet(),
     private val exposedHeaders: Set<String> = emptySet(),
     private val supportCredentials: Boolean = true,
-    private val preFlightStatus: HttpStatus = NO_CONTENT_204,
+    private val preFlightStatus: Int = NO_CONTENT_204,
     private val preFlightMaxAge: Long = 0
 ) : (HttpContext) -> HttpContext {
 
@@ -36,7 +35,7 @@ class CorsCallback(
         allowedHeaders: Set<String> = emptySet(),
         exposedHeaders: Set<String> = emptySet(),
         supportCredentials: Boolean = true,
-        preFlightStatus: HttpStatus = NO_CONTENT_204,
+        preFlightStatus: Int = NO_CONTENT_204,
         preFlightMaxAge: Long = 0) :
         this(
             Glob(allowedOrigin).regex,
@@ -49,10 +48,8 @@ class CorsCallback(
         )
 
     init {
-        val preFlightStatusType = preFlightStatus.type
-
-        require(preFlightStatusType == SUCCESS) {
-            "Preflight Status must be a success status: $preFlightStatusType"
+        require(preFlightStatus in SUCCESS) {
+            "Preflight Status must be a success status: $preFlightStatus"
         }
     }
 
@@ -78,13 +75,13 @@ class CorsCallback(
             return forbidden("Not allowed origin: $origin")
 
         val accessControlAllowOrigin = accessControlAllowOrigin(origin)
-        var h = response.headers + Header(ALLOW_ORIGIN, accessControlAllowOrigin)
+        var h = response.headers + Field(ALLOW_ORIGIN, accessControlAllowOrigin)
 
         if (accessControlAllowOrigin != "*")
-            h += Header("vary", "Origin")
+            h += Field("vary", "Origin")
 
         if (supportCredentials)
-            h += Header(ALLOW_CREDENTIALS, true)
+            h += Field(ALLOW_CREDENTIALS, true)
 
         val accessControlRequestMethod = request.headers[REQUEST_METHOD]
         if (request.method == OPTIONS && accessControlRequestMethod != null)
@@ -94,10 +91,10 @@ class CorsCallback(
             return forbidden("Not allowed method: ${request.method}")
 
         if (exposedHeaders.isNotEmpty()) {
-            val requestHeaderNames = request.headers.httpFields.keys.toSet()
+            val requestHeaderNames = request.headers.keys.toSet()
             val requestHeaders = requestHeaderNames.filter { it in exposedHeaders }
 
-            h += Header(EXPOSE_HEADERS, requestHeaders.joinToString(","))
+            h += Field(EXPOSE_HEADERS, requestHeaders.joinToString(","))
         }
 
         return send(preFlightStatus, headers = h)
@@ -108,6 +105,10 @@ class CorsCallback(
         val methodHeader = request.headers[REQUEST_METHOD]?.value as? String
         val requestMethod = methodHeader
             ?: return forbidden("$REQUEST_METHOD required header not found")
+
+        // TODO Refactor this with the check above
+        if (requestMethod.isBlank())
+            return forbidden("$REQUEST_METHOD required header not found")
 
         val method = HttpMethod.valueOf(requestMethod)
         if (method !in allowedMethods)
@@ -127,21 +128,21 @@ class CorsCallback(
                 return forbidden("Not allowed headers")
 
             val headers = this@CorsCallback.allowedHeaders
-            val requestHeaders = headers.ifEmpty { request.headers.httpFields.keys.toSet() }
-            h += Header(ALLOW_HEADERS, requestHeaders.joinToString(","))
+            val requestHeaders = headers.ifEmpty { request.headers.keys.toSet() }
+            h += Field(ALLOW_HEADERS, requestHeaders.joinToString(","))
         }
 
-        h += Header(REQUEST_METHOD, allowedMethods.joinToString(","))
+        h += Field(REQUEST_METHOD, allowedMethods.joinToString(","))
 
         if (preFlightMaxAge > 0)
-            h += Header(MAX_AGE, preFlightMaxAge.toString())
+            h += Field(MAX_AGE, preFlightMaxAge.toString())
 
         val origin = request.origin() ?: ""
         return when {
             allowOrigin(origin) && origin.isBlank() ->
                 send(preFlightStatus, headers = h)
             allowOrigin(origin) ->
-                send(preFlightStatus, headers = h + Header(ALLOW_ORIGIN, accessControlAllowOrigin(origin)))
+                send(preFlightStatus, headers = h + Field(ALLOW_ORIGIN, accessControlAllowOrigin(origin)))
             !allowOrigin(origin) && origin.isNotBlank() ->
                 forbidden("Not allowed origin: $origin")
             else ->

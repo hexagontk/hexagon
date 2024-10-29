@@ -5,34 +5,18 @@ public final class com/hexagontk/http/server/HttpServer : java/io/Closeable {
 	public fun <init> (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun <init> (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
-	public final fun component2 ()Lcom/hexagontk/http/handlers/HttpHandler;
-	public final fun component3 ()Lcom/hexagontk/http/server/HttpServerSettings;
-	public final fun copy (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/server/HttpServerSettings;)Lcom/hexagontk/http/server/HttpServer;
-	public static synthetic fun copy$default (Lcom/hexagontk/http/server/HttpServer;Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/server/HttpServerSettings;ILjava/lang/Object;)Lcom/hexagontk/http/server/HttpServer;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBinding ()Ljava/net/URL;
 	public final fun getHandler ()Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getPortName ()Ljava/lang/String;
 	public final fun getRuntimePort ()I
 	public final fun getSettings ()Lcom/hexagontk/http/server/HttpServerSettings;
-	public fun hashCode ()I
 	public final fun start ()V
 	public final fun started ()Z
 	public final fun stop ()V
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/hexagontk/http/server/HttpServer$Companion {
 	public final fun getBanner ()Ljava/lang/String;
-}
-
-public final class com/hexagontk/http/server/HttpServerFeature : java/lang/Enum {
-	public static final field SSE Lcom/hexagontk/http/server/HttpServerFeature;
-	public static final field WEB_SOCKETS Lcom/hexagontk/http/server/HttpServerFeature;
-	public static final field ZIP Lcom/hexagontk/http/server/HttpServerFeature;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lcom/hexagontk/http/server/HttpServerFeature;
-	public static fun values ()[Lcom/hexagontk/http/server/HttpServerFeature;
 }
 
 public abstract interface class com/hexagontk/http/server/HttpServerPort {
@@ -86,10 +70,10 @@ public final class com/hexagontk/http/server/callbacks/CorsCallback : kotlin/jvm
 	public static final field MAX_AGE Ljava/lang/String;
 	public static final field REQUEST_HEADERS Ljava/lang/String;
 	public static final field REQUEST_METHOD Ljava/lang/String;
-	public fun <init> (Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;J)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun <init> (Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;J)V
-	public synthetic fun <init> (Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJ)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJ)V
+	public synthetic fun <init> (Lkotlin/text/Regex;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun invoke (Lcom/hexagontk/http/handlers/HttpContext;)Lcom/hexagontk/http/handlers/HttpContext;
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
 }
@@ -111,8 +95,8 @@ public final class com/hexagontk/http/server/callbacks/FileCallback : kotlin/jvm
 
 public final class com/hexagontk/http/server/callbacks/LoggingCallback : kotlin/jvm/functions/Function1 {
 	public fun <init> ()V
-	public fun <init> (Ljava/lang/System$Logger$Level;Lcom/hexagontk/core/logging/Logger;ZZ)V
-	public synthetic fun <init> (Ljava/lang/System$Logger$Level;Lcom/hexagontk/core/logging/Logger;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/System$Logger$Level;Ljava/lang/System$Logger;ZZ)V
+	public synthetic fun <init> (Ljava/lang/System$Logger$Level;Ljava/lang/System$Logger;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun invoke (Lcom/hexagontk/http/handlers/HttpContext;)Lcom/hexagontk/http/handlers/HttpContext;
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
 }
@@ -127,12 +111,11 @@ public final class com/hexagontk/http/server/callbacks/UrlCallback : kotlin/jvm/
 public final class com/hexagontk/http/server/handlers/CorsHandler : com/hexagontk/http/handlers/HttpHandler {
 	public fun <init> (Lcom/hexagontk/http/server/callbacks/CorsCallback;)V
 	public fun <init> (Ljava/lang/String;Lcom/hexagontk/http/server/callbacks/CorsCallback;)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;J)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZLcom/hexagontk/http/model/HttpStatus;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJ)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;ZIJILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public fun byMethod ()Ljava/util/Map;
 	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
-	public fun getCallback ()Lkotlin/jvm/functions/Function1;
 	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
 	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
 	public fun process (Lcom/hexagontk/handlers/Context;)Lcom/hexagontk/handlers/Context;

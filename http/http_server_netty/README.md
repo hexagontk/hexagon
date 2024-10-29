@@ -3,7 +3,7 @@
 [Netty] adapter for the [http_server] port.
 
 [Netty]: https://netty.io
-[http_server]: http_server
+[http_server]: http_server.md
 
 ### Install the Dependency
 

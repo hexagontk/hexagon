@@ -1,5 +1,7 @@
 /*
  * Check usage information at: http://hexagontk.com/gradle/#dokka
+ *
+ * TODO Migrate do Dokka 2: https://kotlinlang.org/docs/dokka-migration.html
  */
 
 apply(plugin: "kotlin")

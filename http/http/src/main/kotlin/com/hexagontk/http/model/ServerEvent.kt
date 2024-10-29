@@ -1,5 +1,6 @@
 package com.hexagontk.http.model
 
+// TODO Remove 'data'
 data class ServerEvent(
     val event: String? = null,
     val data: String? = null,

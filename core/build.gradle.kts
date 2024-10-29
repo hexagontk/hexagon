@@ -4,13 +4,16 @@ plugins {
 }
 
 apply(from = "$rootDir/gradle/kotlin.gradle")
-apply(from = "$rootDir/gradle/publish.gradle")
-apply(from = "$rootDir/gradle/dokka.gradle")
-apply(from = "$rootDir/gradle/native.gradle")
-apply(from = "$rootDir/gradle/detekt.gradle")
 apply(from = "$rootDir/gradle/resources.gradle")
 
-description = "Hexagon core utilities. Includes logging helpers."
+if (findProperty("fullBuild") != null) {
+    apply(from = "$rootDir/gradle/publish.gradle")
+    apply(from = "$rootDir/gradle/dokka.gradle")
+    apply(from = "$rootDir/gradle/native.gradle")
+    apply(from = "$rootDir/gradle/detekt.gradle")
+}
+
+description = "Hexagon core utilities (dates, exceptions, logging, etc.)."
 
 dependencies {
     val mockkVersion = libs.versions.mockk.get()

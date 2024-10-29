@@ -1,6 +1,6 @@
 package com.hexagontk.rest.tools.openapi
 
-import com.hexagontk.core.logging.info
+import com.hexagontk.core.info
 import com.hexagontk.core.media.APPLICATION_JSON
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.handlers.HttpContext
@@ -26,7 +26,7 @@ internal class VerifySpecCallbackTest {
         verify(
             HttpRequest(
                 path = "/pet/findByStatus",
-                queryParameters = QueryParameters(QueryParameter("status", "invalid"))
+                queryParameters = Parameters(Field("status", "invalid"))
             ),
             HttpResponse(
                 status = OK_200,
@@ -134,7 +134,7 @@ internal class VerifySpecCallbackTest {
         verify(
             HttpRequest(
                 path = "/pet/findByStatus",
-                queryParameters = QueryParameters(QueryParameter("status", "sold"))
+                queryParameters = Parameters(Field("status", "sold"))
             ),
             HttpResponse(
                 status = OK_200,

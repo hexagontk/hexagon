@@ -1,18 +1,17 @@
 package com.hexagontk.rest.tools
 
-import com.hexagontk.core.logging.info
+import com.hexagontk.core.info
 import com.hexagontk.core.media.TEXT_PLAIN
 import com.hexagontk.core.require
-import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.handlers.FilterHandler
 import com.hexagontk.http.handlers.PathHandler
 import com.hexagontk.http.model.OK_200
 import com.hexagontk.http.handlers.path
 import com.hexagontk.http.model.HttpMethod.*
 import com.hexagontk.http.model.HttpResponsePort
-import com.hexagontk.http.model.HttpStatusType.SUCCESS
 import com.hexagontk.http.server.HttpServerSettings
-import com.hexagontk.http.server.jetty.JettyServletAdapter
+import com.hexagontk.http.server.jetty.JettyServletHttpServer
 import com.hexagontk.rest.bodyMap
 import com.hexagontk.rest.jsonContentType
 import com.hexagontk.rest.textContentType
@@ -28,7 +27,7 @@ import kotlin.test.assertTrue
 
 @TestInstance(PER_CLASS)
 class HttpServerToolTest {
-    private val dynamicServer: HttpServerTool = HttpServerTool(JettyServletAdapter())
+    private val dynamicServer: HttpServerTool = HttpServerTool(JettyServletHttpServer())
 
     @BeforeAll fun `Set up mock services`() {
         SerializationManager.formats = setOf(Json)
@@ -49,7 +48,7 @@ class HttpServerToolTest {
         }
 
         val url = "http://localhost:${dynamicServer.runtimePort}"
-        HttpClientTool(JettyClientAdapter(), url).request {
+        HttpClientTool(JettyHttpClient(), url).request {
             start()
             get("/hello/mike")
             assertOk()
@@ -64,7 +63,7 @@ class HttpServerToolTest {
         }
 
         val url = "http://localhost:${dynamicServer.runtimePort}"
-        HttpClientTool(JettyClientAdapter(), url).request {
+        HttpClientTool(JettyHttpClient(), url).request {
             get("/foo")
             assertOk()
             assertBody("dynamic")
@@ -88,7 +87,7 @@ class HttpServerToolTest {
         }
 
         val port = dynamicServer.runtimePort
-        val adapter = JettyClientAdapter()
+        val adapter = JettyHttpClient()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val recordCallback = RecordCallback()
         val recordHandler = FilterHandler("*", recordCallback)
@@ -136,7 +135,7 @@ class HttpServerToolTest {
         }
 
         val url = "http://localhost:${dynamicServer.runtimePort}"
-        val adapter = JettyClientAdapter()
+        val adapter = JettyHttpClient()
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val http = HttpClientTool(adapter, url, httpHeaders = headers)
 
@@ -190,11 +189,11 @@ class HttpServerToolTest {
         SerializationManager.formats = linkedSetOf(Json)
 
         val settings = HttpServerSettings(bindPort = 0)
-        val serverAdapter = JettyServletAdapter()
+        val serverAdapter = JettyServletHttpServer()
         val server = HttpServerTool(serverAdapter, settings).apply(HttpServerTool::start)
         val headers = mapOf("alfa" to "beta", "charlie" to listOf("delta", "echo"))
         val binding = server.binding.toString()
-        val adapter = JettyClientAdapter()
+        val adapter = JettyHttpClient()
         val http = HttpClientTool(adapter, binding, jsonContentType, httpHeaders = headers)
 
         server.path {
@@ -277,7 +276,6 @@ class HttpServerToolTest {
         assertOk()
         assertSuccess()
         assertStatus(OK_200)
-        assertStatus(SUCCESS)
         assertContentType(textContentType)
         assertContentType(TEXT_PLAIN)
         assertBodyContains(expectedBody)
@@ -286,7 +284,12 @@ class HttpServerToolTest {
         assertEquals(OK_200, status)
 
         for ((k, v) in checkedHeaders.entries) {
-            assertBodyContains(k, v.toString())
+            assertBodyContains(k)
+            when (v) {
+                is Collection<*> -> v.forEach { assertBodyContains(it.toString()) }
+                else -> assertBodyContains(v.toString())
+            }
+
         }
     }
 
@@ -298,7 +301,12 @@ class HttpServerToolTest {
 
         for (entry in checkedHeaders.entries) {
             assertTrue(bodyString.contains(entry.key))
-            assertTrue(bodyString.contains(entry.value.toString()))
+
+            val ev: Collection<*> =
+                if (entry.value is Collection<*>) entry.value as Collection<*>
+                else listOf(entry.value)
+
+            ev.forEach { assertTrue(bodyString.contains(it.toString())) }
         }
     }
 }

@@ -59,11 +59,11 @@ To continue learning about this toolkit, you can:
 
 [Gradle Starter]: https://github.com/hexagontk/gradle_starter
 [Maven Starter]: https://github.com/hexagontk/maven_starter
-[Examples]: examples/http_server_examples/
+[Examples]: examples/http_server_examples.md
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [Gradle]: https://gradle.org
 [Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello
-[Core]: core
-[HTTP Server]: http_server
+[Core]: core.md
+[HTTP Server]: http_server.md

@@ -1,18 +1,3 @@
-public final class com/hexagontk/core/ChecksKt {
-	public static final fun check (Ljava/lang/String;[Lkotlin/jvm/functions/Function0;)V
-	public static final fun checkSize (Ljava/util/Collection;Lkotlin/ranges/IntRange;)Ljava/util/Collection;
-	public static final fun requireGreater (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
-	public static final fun requireGreater (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
-	public static final fun requireGreaterOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
-	public static final fun requireGreaterOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
-	public static final fun requireLower (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
-	public static final fun requireLower (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
-	public static final fun requireLowerOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Ljava/lang/Object;)V
-	public static final fun requireLowerOrEquals (Ljava/lang/Object;Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)V
-	public static final fun requireNotBlank (Ljava/lang/Object;Lkotlin/reflect/KProperty1;)V
-	public static final fun requireNotBlanks (Ljava/lang/Object;Lkotlin/reflect/KProperty1;)V
-}
-
 public final class com/hexagontk/core/ClasspathHandler : java/net/URLStreamHandler {
 	public static final field INSTANCE Lcom/hexagontk/core/ClasspathHandler;
 	public final fun createURLStreamHandler (Ljava/lang/String;)Ljava/net/URLStreamHandler;
@@ -90,14 +75,8 @@ public final class com/hexagontk/core/DatesKt {
 	public static final fun toDate (Ljava/time/LocalDate;)Ljava/util/Date;
 	public static final fun toDate (Ljava/time/LocalDateTime;)Ljava/util/Date;
 	public static final fun toDate (Ljava/time/ZonedDateTime;)Ljava/util/Date;
-	public static final fun toLocalDate (I)Ljava/time/LocalDate;
 	public static final fun toLocalDate (Ljava/util/Date;)Ljava/time/LocalDate;
-	public static final fun toLocalDateTime (J)Ljava/time/LocalDateTime;
 	public static final fun toLocalDateTime (Ljava/util/Date;)Ljava/time/LocalDateTime;
-	public static final fun toLocalTime (I)Ljava/time/LocalTime;
-	public static final fun toNumber (Ljava/time/LocalDate;)I
-	public static final fun toNumber (Ljava/time/LocalDateTime;)J
-	public static final fun toNumber (Ljava/time/LocalTime;)I
 	public static final fun toTotalDays (Ljava/time/Period;)D
 	public static final fun withZone (Ljava/time/LocalDateTime;Ljava/time/ZoneId;)Ljava/time/ZonedDateTime;
 	public static synthetic fun withZone$default (Ljava/time/LocalDateTime;Ljava/time/ZoneId;ILjava/lang/Object;)Ljava/time/ZonedDateTime;
@@ -111,67 +90,26 @@ public final class com/hexagontk/core/ExceptionsKt {
 	public static synthetic fun toText$default (Ljava/lang/Throwable;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
 }
 
-public final class com/hexagontk/core/HelpersKt {
-	public static final fun exec (Ljava/lang/String;Ljava/io/File;JZ)Ljava/lang/String;
-	public static final fun exec (Ljava/util/List;Ljava/io/File;JZ)Ljava/lang/String;
-	public static synthetic fun exec$default (Ljava/lang/String;Ljava/io/File;JZILjava/lang/Object;)Ljava/lang/String;
-	public static synthetic fun exec$default (Ljava/util/List;Ljava/io/File;JZILjava/lang/Object;)Ljava/lang/String;
-	public static final fun properties (Ljava/net/URL;)Ljava/util/Map;
-	public static final fun retry (IJLkotlin/jvm/functions/Function0;)Ljava/lang/Object;
-	public static final fun shell (Ljava/lang/String;Ljava/io/File;JZ)Ljava/lang/String;
-	public static synthetic fun shell$default (Ljava/lang/String;Ljava/io/File;JZILjava/lang/Object;)Ljava/lang/String;
-}
-
-public final class com/hexagontk/core/I18nKt {
-	public static final fun countryOf (Ljava/lang/String;)Ljava/util/Locale;
-	public static final fun countryOfOrNull (Ljava/lang/String;)Ljava/util/Locale;
-	public static final fun getCountryCodes ()Ljava/util/Set;
-	public static final fun getCurrencyCodes ()Ljava/util/Set;
-	public static final fun getLanguageCodes ()Ljava/util/Set;
-	public static final fun languageOf (Ljava/lang/String;)Ljava/util/Locale;
-	public static final fun languageOfOrNull (Ljava/lang/String;)Ljava/util/Locale;
-	public static final fun localeOf (Ljava/lang/String;Ljava/lang/String;)Ljava/util/Locale;
-	public static synthetic fun localeOf$default (Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/util/Locale;
-	public static final fun localeOfOrNull (Ljava/lang/String;Ljava/lang/String;)Ljava/util/Locale;
-	public static synthetic fun localeOfOrNull$default (Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/util/Locale;
-	public static final fun parseLocale (Ljava/lang/String;)Ljava/util/Locale;
-	public static final fun parseLocaleOrNull (Ljava/lang/String;)Ljava/util/Locale;
-	public static final fun resourceBundle (Lkotlin/reflect/KClass;Ljava/util/Locale;)Ljava/util/ResourceBundle;
-	public static synthetic fun resourceBundle$default (Lkotlin/reflect/KClass;Ljava/util/Locale;ILjava/lang/Object;)Ljava/util/ResourceBundle;
-}
-
-public final class com/hexagontk/core/Jvm {
-	public static final field INSTANCE Lcom/hexagontk/core/Jvm;
-	public final fun getCharset ()Ljava/nio/charset/Charset;
-	public final fun getConsole ()Ljava/io/Console;
-	public final fun getCpuCount ()I
-	public final fun getHostName ()Ljava/lang/String;
-	public final fun getIp ()Ljava/lang/String;
-	public final fun getLocale ()Ljava/util/Locale;
-	public final fun getLocaleCode ()Ljava/lang/String;
-	public final fun getName ()Ljava/lang/String;
-	public final fun getOs ()Ljava/lang/String;
-	public final fun getOsKind ()Lcom/hexagontk/core/OsKind;
-	public final fun getRuntime ()Ljava/lang/Runtime;
-	public final fun getTimeZone ()Ljava/util/TimeZone;
-	public final fun getVersion ()Ljava/lang/String;
-	public final fun getZoneId ()Ljava/time/ZoneId;
-	public final fun isConsole ()Z
-	public final fun loadSystemSettings (Ljava/util/Map;)V
-	public final fun systemFlag (Ljava/lang/String;)Z
-	public final fun systemSetting (Lkotlin/reflect/KClass;Ljava/lang/String;)Ljava/lang/Object;
-	public final fun systemSetting (Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
-	public final fun systemSettingOrNull (Lkotlin/reflect/KClass;Ljava/lang/String;)Ljava/lang/Object;
-	public final fun totalMemory ()Ljava/lang/String;
-	public final fun usedMemory ()Ljava/lang/String;
-}
-
-public abstract class com/hexagontk/core/MapResourceBundle : java/util/ListResourceBundle {
-	public fun <init> (Ljava/util/Map;)V
-	public fun <init> ([Lkotlin/Pair;)V
-	protected fun getContents ()[[Ljava/lang/Object;
-	public final fun getData ()[[Ljava/lang/Object;
-	public final fun getMap ()Ljava/util/Map;
+public final class com/hexagontk/core/LoggersKt {
+	public static final fun debug (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+	public static final fun debug (Ljava/lang/System$Logger;Lkotlin/jvm/functions/Function0;)V
+	public static synthetic fun debug$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
+	public static final fun error (Ljava/lang/System$Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
+	public static final fun error (Ljava/lang/System$Logger;Lkotlin/jvm/functions/Function0;)V
+	public static synthetic fun error$default (Ljava/lang/System$Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static final fun getLogger ()Ljava/lang/System$Logger;
+	public static final fun info (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+	public static final fun info (Ljava/lang/System$Logger;Lkotlin/jvm/functions/Function0;)V
+	public static synthetic fun info$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
+	public static final fun log (Ljava/lang/System$Logger;Ljava/lang/System$Logger$Level;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
+	public static final fun loggerOf (Ljava/lang/String;)Ljava/lang/System$Logger;
+	public static final fun loggerOf (Lkotlin/reflect/KClass;)Ljava/lang/System$Logger;
+	public static final fun trace (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+	public static final fun trace (Ljava/lang/System$Logger;Lkotlin/jvm/functions/Function0;)V
+	public static synthetic fun trace$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
+	public static final fun warn (Ljava/lang/System$Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
+	public static final fun warn (Ljava/lang/System$Logger;Lkotlin/jvm/functions/Function0;)V
+	public static synthetic fun warn$default (Ljava/lang/System$Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 }
 
 public final class com/hexagontk/core/MultipleException : java/lang/RuntimeException {
@@ -208,59 +146,44 @@ public final class com/hexagontk/core/OsKind : java/lang/Enum {
 	public static fun values ()[Lcom/hexagontk/core/OsKind;
 }
 
+public final class com/hexagontk/core/Platform {
+	public static final field INSTANCE Lcom/hexagontk/core/Platform;
+	public final fun getCharset ()Ljava/nio/charset/Charset;
+	public final fun getConsole ()Ljava/io/Console;
+	public final fun getCpuCount ()I
+	public final fun getHostName ()Ljava/lang/String;
+	public final fun getIp ()Ljava/lang/String;
+	public final fun getLocale ()Ljava/util/Locale;
+	public final fun getLocaleCode ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOs ()Ljava/lang/String;
+	public final fun getOsKind ()Lcom/hexagontk/core/OsKind;
+	public final fun getRuntime ()Ljava/lang/Runtime;
+	public final fun getTimeZone ()Ljava/util/TimeZone;
+	public final fun getVersion ()Ljava/lang/String;
+	public final fun getZoneId ()Ljava/time/ZoneId;
+	public final fun isConsole ()Z
+	public final fun loadSystemSettings (Ljava/util/Map;)V
+	public final fun systemFlag (Ljava/lang/String;)Z
+	public final fun systemSetting (Lkotlin/reflect/KClass;Ljava/lang/String;)Ljava/lang/Object;
+	public final fun systemSetting (Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+	public final fun systemSettingOrNull (Lkotlin/reflect/KClass;Ljava/lang/String;)Ljava/lang/Object;
+	public final fun totalMemory ()Ljava/lang/String;
+	public final fun usedMemory ()Ljava/lang/String;
+}
+
 public final class com/hexagontk/core/ResourceNotFoundException : java/io/IOException {
 	public fun <init> (Ljava/lang/String;)V
-}
-
-public final class com/hexagontk/core/UuidsKt {
-	public static final fun bytes (Ljava/util/UUID;)[B
-	public static final fun toBase64 (Ljava/util/UUID;)Ljava/lang/String;
-	public static final fun uuid (Ljava/lang/String;)Ljava/util/UUID;
-	public static final fun uuid ([B)Ljava/util/UUID;
-}
-
-public final class com/hexagontk/core/logging/Logger {
-	public fun <init> (Ljava/lang/String;Ljava/lang/System$Logger;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/System$Logger;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun <init> (Lkotlin/reflect/KClass;)V
-	public final fun debug (Lkotlin/jvm/functions/Function0;)V
-	public final fun error (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
-	public final fun error (Lkotlin/jvm/functions/Function0;)V
-	public static synthetic fun error$default (Lcom/hexagontk/core/logging/Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-	public final fun getName ()Ljava/lang/String;
-	public final fun info (Lkotlin/jvm/functions/Function0;)V
-	public final fun isLoggable (Ljava/lang/System$Logger$Level;)Z
-	public final fun log (Ljava/lang/System$Logger$Level;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
-	public final fun log (Ljava/lang/System$Logger$Level;Lkotlin/jvm/functions/Function0;)V
-	public final fun trace (Lkotlin/jvm/functions/Function0;)V
-	public final fun warn (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
-	public final fun warn (Lkotlin/jvm/functions/Function0;)V
-	public static synthetic fun warn$default (Lcom/hexagontk/core/logging/Logger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-}
-
-public final class com/hexagontk/core/logging/LoggingKt {
-	public static final fun debug (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
-	public static synthetic fun debug$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
-	public static final fun getLogger ()Lcom/hexagontk/core/logging/Logger;
-	public static final fun info (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
-	public static synthetic fun info$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
-	public static final fun trace (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
-	public static synthetic fun trace$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
 public final class com/hexagontk/core/media/MediaType {
 	public static final field Companion Lcom/hexagontk/core/media/MediaType$Companion;
 	public fun <init> (Lcom/hexagontk/core/media/MediaTypeGroup;Ljava/lang/String;)V
-	public final fun component1 ()Lcom/hexagontk/core/media/MediaTypeGroup;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Lcom/hexagontk/core/media/MediaTypeGroup;Ljava/lang/String;)Lcom/hexagontk/core/media/MediaType;
-	public static synthetic fun copy$default (Lcom/hexagontk/core/media/MediaType;Lcom/hexagontk/core/media/MediaTypeGroup;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagontk/core/media/MediaType;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFullType ()Ljava/lang/String;
 	public final fun getGroup ()Lcom/hexagontk/core/media/MediaTypeGroup;
 	public final fun getType ()Ljava/lang/String;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/hexagontk/core/media/MediaType$Companion {
@@ -292,9 +215,8 @@ public final class com/hexagontk/core/media/MediaTypesKt {
 	public static final fun getAPPLICATION_BZIP ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_BZIP2 ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_CBOR ()Lcom/hexagontk/core/media/MediaType;
-	public static final fun getAPPLICATION_CDF ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_COMPRESS ()Lcom/hexagontk/core/media/MediaType;
-	public static final fun getAPPLICATION_EPUB_ZIP ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getAPPLICATION_FORM_URLENCODED ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_GZIP ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_JAVA_ARCHIVE ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_JSON ()Lcom/hexagontk/core/media/MediaType;
@@ -302,21 +224,13 @@ public final class com/hexagontk/core/media/MediaTypesKt {
 	public static final fun getAPPLICATION_OGG ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_PDF ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_PHP ()Lcom/hexagontk/core/media/MediaType;
-	public static final fun getAPPLICATION_POSTSCRIPT ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_RAR ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_RTF ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_TOML ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_WEB_MANIFEST ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_XHTML ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_XML ()Lcom/hexagontk/core/media/MediaType;
-	public static final fun getAPPLICATION_X_CSH ()Lcom/hexagontk/core/media/MediaType;
-	public static final fun getAPPLICATION_X_GTAR ()Lcom/hexagontk/core/media/MediaType;
-	public static final fun getAPPLICATION_X_LATEX ()Lcom/hexagontk/core/media/MediaType;
-	public static final fun getAPPLICATION_X_SH ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_X_TAR ()Lcom/hexagontk/core/media/MediaType;
-	public static final fun getAPPLICATION_X_TCL ()Lcom/hexagontk/core/media/MediaType;
-	public static final fun getAPPLICATION_X_TEX ()Lcom/hexagontk/core/media/MediaType;
-	public static final fun getAPPLICATION_X_TEXINFO ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_YAML ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAPPLICATION_ZIP ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getAUDIO_AAC ()Lcom/hexagontk/core/media/MediaType;
@@ -342,8 +256,8 @@ public final class com/hexagontk/core/media/MediaTypesKt {
 	public static final fun getIMAGE_WEBP ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getMEDIA_TYPE_FORMAT ()Lkotlin/text/Regex;
 	public static final fun getMULTIPART_ALTERNATIVE ()Lcom/hexagontk/core/media/MediaType;
-	public static final fun getMULTIPART_APPLEDOUBLE ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getMULTIPART_DIGEST ()Lcom/hexagontk/core/media/MediaType;
+	public static final fun getMULTIPART_FORM_DATA ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getMULTIPART_MIXED ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getMULTIPART_PARALLEL ()Lcom/hexagontk/core/media/MediaType;
 	public static final fun getTEXT_CALENDAR ()Lcom/hexagontk/core/media/MediaType;
@@ -465,37 +379,11 @@ public final class com/hexagontk/core/text/AnsiEffect {
 	public static final field UNDERLINE_OFF Ljava/lang/String;
 }
 
-public final class com/hexagontk/core/text/CasesKt {
-	public static final fun camelToSnake (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun camelToWords (Ljava/lang/String;)Ljava/util/List;
-	public static final fun getCAMEL_CASE ()Lkotlin/text/Regex;
-	public static final fun getKEBAB_CASE ()Lkotlin/text/Regex;
-	public static final fun getPASCAL_CASE ()Lkotlin/text/Regex;
-	public static final fun getSNAKE_CASE ()Lkotlin/text/Regex;
-	public static final fun kebabToWords (Ljava/lang/String;)Ljava/util/List;
-	public static final fun snakeToCamel (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun snakeToWords (Ljava/lang/String;)Ljava/util/List;
-	public static final fun toWords (Ljava/lang/Enum;)Ljava/lang/String;
-	public static final fun toWords (Ljava/util/List;)Ljava/util/List;
-	public static final fun wordsToCamel (Ljava/util/List;)Ljava/lang/String;
-	public static final fun wordsToKebab (Ljava/util/List;)Ljava/lang/String;
-	public static final fun wordsToPascal (Ljava/util/List;)Ljava/lang/String;
-	public static final fun wordsToSentence (Ljava/util/List;)Ljava/lang/String;
-	public static final fun wordsToSnake (Ljava/util/List;)Ljava/lang/String;
-	public static final fun wordsToTitle (Ljava/util/List;)Ljava/lang/String;
-}
-
 public final class com/hexagontk/core/text/Glob {
 	public fun <init> (Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;)Lcom/hexagontk/core/text/Glob;
-	public static synthetic fun copy$default (Lcom/hexagontk/core/text/Glob;Ljava/lang/String;ILjava/lang/Object;)Lcom/hexagontk/core/text/Glob;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getPattern ()Ljava/lang/String;
 	public final fun getRegex ()Lkotlin/text/Regex;
-	public fun hashCode ()I
 	public final fun matches (Ljava/lang/String;)Z
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/hexagontk/core/text/StringsKt {

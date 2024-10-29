@@ -1,6 +1,6 @@
 package com.hexagontk.http.server
 
-import com.hexagontk.core.Jvm
+import com.hexagontk.core.Platform
 import com.hexagontk.core.urlOf
 import com.hexagontk.http.SslSettings
 import com.hexagontk.http.model.HttpProtocol
@@ -30,8 +30,10 @@ data class HttpServerSettings(
     val zip: Boolean = false,
 ) {
     val bindUrl: URL by lazy {
-        val hostName = if (bindAddress.isAnyLocalAddress) Jvm.ip else bindAddress.canonicalHostName
         val scheme = if (protocol == HTTP) "http" else "https"
+        val hostName =
+            if (bindAddress.isAnyLocalAddress) Platform.ip else bindAddress.canonicalHostName
+
         urlOf("$scheme://$hostName")
     }
 }

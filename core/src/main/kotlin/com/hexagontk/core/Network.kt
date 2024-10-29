@@ -37,7 +37,7 @@ fun isPortOpened(port: Int): Boolean =
     try {
         Socket("localhost", port).use { it.isConnected }
     }
-    catch (e: Exception) {
+    catch (_: Exception) {
         false
     }
 
@@ -48,7 +48,7 @@ fun URL.responseCode(): Int =
     try {
         (openConnection() as HttpURLConnection).responseCode
     }
-    catch (e: java.lang.Exception) {
+    catch (_: java.lang.Exception) {
         400
     }
 

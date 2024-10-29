@@ -2,8 +2,7 @@ package com.hexagontk.http.handlers
 
 import com.hexagontk.core.fail
 import com.hexagontk.http.model.NOT_FOUND_404
-import com.hexagontk.http.model.HttpStatus
-import com.hexagontk.http.model.Header
+import com.hexagontk.http.model.Field
 import com.hexagontk.http.model.HttpMethod.GET
 import com.hexagontk.http.model.INTERNAL_SERVER_ERROR_500
 import org.junit.jupiter.api.Test
@@ -20,18 +19,18 @@ internal class ErrorsTest {
         get("/unhandledException") { error("error message") }
 
         get("/halt") { internalServerError("halted") }
-        get("/588") { send(HttpStatus(588)) }
+        get("/588") { send(588) }
 
         before(pattern = "*", exception = UnsupportedOperationException::class) {
             val error = exception?.message ?: exception?.javaClass?.name ?: fail
-            val newHeaders = response.headers + Header("error", error)
-            send(HttpStatus(599), "Unsupported", headers = newHeaders)
+            val newHeaders = response.headers + Field("error", error)
+            send(599, "Unsupported", headers = newHeaders)
         }
 
         before(pattern = "*", exception = IllegalArgumentException::class) {
             val error = exception?.message ?: exception?.javaClass?.name ?: fail
-            val newHeaders = response.headers + Header("runtime-error", error)
-            send(HttpStatus(598), "Runtime", headers = newHeaders)
+            val newHeaders = response.headers + Field("runtime-error", error)
+            send(598, "Runtime", headers = newHeaders)
         }
 
         // Catching `Exception` handles any unhandled exception before (it has to be the last)
@@ -40,8 +39,8 @@ internal class ErrorsTest {
         }
 
         // It is possible to execute a handler upon a given status code before returning
-        before(pattern = "*", status = HttpStatus(588)) {
-            send(HttpStatus(578), "588 -> 578")
+        before(pattern = "*", status = 588) {
+            send(578, "588 -> 578")
         }
     }
 
@@ -52,20 +51,20 @@ internal class ErrorsTest {
 
     @Test fun `Handling status code allows to change the returned code`() {
         val response = path.send(GET, "/588")
-        assertResponseEquals(response, "588 -> 578", HttpStatus(578))
+        assertResponseEquals(response, "588 -> 578", 578)
     }
 
     @Test fun `Handle exception allows to catch unhandled callback exceptions`() {
         val response = path.send(GET, "/exception")
         assertEquals("error message", response.headers["error"]?.value)
-        assertResponseContains(response, HttpStatus(599), "Unsupported")
+        assertResponseContains(response, 599, "Unsupported")
     }
 
     @Test fun `Base error handler catch all exceptions that subclass a given one`() {
         val response = path.send(GET, "/baseException")
         val runtimeError = response.headers["runtime-error"]?.value
         assertEquals(CustomException::class.java.name, runtimeError)
-        assertResponseContains(response, HttpStatus(598), "Runtime")
+        assertResponseContains(response, 598, "Runtime")
     }
 
     @Test fun `A runtime exception returns a 500 code`() {

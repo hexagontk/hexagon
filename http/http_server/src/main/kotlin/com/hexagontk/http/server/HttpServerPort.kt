@@ -1,9 +1,12 @@
 package com.hexagontk.http.server
 
+import com.hexagontk.http.HttpFeature
 import com.hexagontk.http.model.HttpProtocol
 
 /**
  * Server instance of one kind.
+ *
+ * TODO Replace startUp by listen(address, port)
  */
 interface HttpServerPort {
 
@@ -45,7 +48,7 @@ interface HttpServerPort {
      *
      * @return Set of supported features.
      */
-    fun supportedFeatures(): Set<HttpServerFeature>
+    fun supportedFeatures(): Set<HttpFeature>
 
     /**
      * Return the adapter's allowed configuration options with its values.

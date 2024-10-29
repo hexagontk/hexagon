@@ -1,11 +1,13 @@
 package com.hexagontk.web.examples
 
 import com.hexagontk.core.*
-import com.hexagontk.core.logging.Logger
+import com.hexagontk.core.debug
+import com.hexagontk.core.error
+import com.hexagontk.core.loggerOf
 import com.hexagontk.core.media.APPLICATION_JSON
 import com.hexagontk.http.client.HttpClient
 import com.hexagontk.http.client.HttpClientSettings
-import com.hexagontk.http.client.jetty.JettyClientAdapter
+import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.model.*
 import com.hexagontk.http.server.HttpServer
 import com.hexagontk.http.server.HttpServerPort
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.lang.System.Logger
 import kotlin.test.assertEquals
 
 /**
@@ -26,7 +29,7 @@ import kotlin.test.assertEquals
 abstract class TodoTest(adapter: HttpServerPort) {
 
     // sample
-    private val log: Logger = Logger(TodoTest::class)
+    private val log: Logger = loggerOf(TodoTest::class)
 
     data class Task(
         val number: Int = 0,
@@ -138,7 +141,7 @@ abstract class TodoTest(adapter: HttpServerPort) {
 
     private val client: HttpClient by lazy {
         HttpClient(
-            JettyClientAdapter(),
+            JettyHttpClient(),
             HttpClientSettings(
                 baseUrl = urlOf("http://localhost:${server.runtimePort}"),
                 contentType = ContentType(APPLICATION_JSON)
@@ -196,7 +199,7 @@ abstract class TodoTest(adapter: HttpServerPort) {
     }
 
     private fun assertResponseContains(
-        response: HttpResponsePort?, status: HttpStatus, vararg content: String) {
+        response: HttpResponsePort?, status: Int, vararg content: String) {
 
         assertEquals(status, response?.status)
         content.forEach {

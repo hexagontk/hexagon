@@ -3,12 +3,8 @@ package com.hexagontk.http.server.callbacks
 import com.hexagontk.core.media.APPLICATION_JSON
 import com.hexagontk.core.media.TEXT_HTML
 import com.hexagontk.core.media.TEXT_PLAIN
-import com.hexagontk.http.model.ContentType
-import com.hexagontk.http.model.Header
-import com.hexagontk.http.model.Headers
 import com.hexagontk.http.handlers.HttpContext
-import com.hexagontk.http.model.HttpRequest
-import com.hexagontk.http.model.HttpResponse
+import com.hexagontk.http.model.*
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -45,7 +41,7 @@ internal class LoggingCallbackTest {
     }
 
     @Test fun `Details are configurable for responses`() {
-        val prefix = "GET  -> CLIENT_ERROR(404) (1.0 ms)"
+        val prefix = "GET  -> 404 (1.0 ms)"
 
         assertEquals("$prefix\n\nh: 42\n\nb", responseDetails(headers = true, body = true))
         assertEquals("$prefix\n\nh: 42", responseDetails(headers = true, body = false))
@@ -54,7 +50,7 @@ internal class LoggingCallbackTest {
     }
 
     @Test fun `Response headers are displayed properly`() {
-        val prefix = "GET  -> CLIENT_ERROR(404) (1.0 ms)"
+        val prefix = "GET  -> 404 (1.0 ms)"
 
         assertEquals(
             "$prefix\n\ncontent-type: application/json",
@@ -69,7 +65,7 @@ internal class LoggingCallbackTest {
         body: Boolean = true,
         request: HttpRequest =
             HttpRequest(
-                headers = Headers(Header("h", 42)),
+                headers = Headers(Field("h", 42)),
                 body = "b"
             )
     ): String =
@@ -80,12 +76,12 @@ internal class LoggingCallbackTest {
         body: Boolean = true,
         request: HttpRequest =
             HttpRequest(
-                headers = Headers(Header("h", 42)),
+                headers = Headers(Field("h", 42)),
                 body = "b"
             ),
         response: HttpResponse =
             HttpResponse(
-                headers = Headers(Header("h", 42)),
+                headers = Headers(Field("h", 42)),
                 body = "b",
             ),
         t: Long = 1_000_000,

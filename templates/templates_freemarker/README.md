@@ -3,7 +3,7 @@
 This module provides an adapter for the templates Port supporting the Apache [FreeMarker] template
 engine.
 
-For usage instructions, refer to the [Templates Port documentation](/templates/).
+For usage instructions, refer to the [Templates Port documentation](templates.md).
 
 [FreeMarker]: https://freemarker.apache.org
 

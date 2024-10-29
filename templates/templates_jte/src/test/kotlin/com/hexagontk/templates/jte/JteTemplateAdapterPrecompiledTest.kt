@@ -5,4 +5,4 @@ import com.hexagontk.core.urlOf
 import com.hexagontk.templates.test.TemplateAdapterTest
 
 internal class JteTemplateAdapterPrecompiledTest :
-    TemplateAdapterTest(urlOf("classpath:test.jte"), JteAdapter(TEXT_HTML, precompiled = true))
+    TemplateAdapterTest(urlOf("classpath:test.jte"), Jte(TEXT_HTML, precompiled = true))

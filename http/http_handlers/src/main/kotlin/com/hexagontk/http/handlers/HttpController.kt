@@ -20,7 +20,4 @@ interface HttpController : HttpHandler {
 
     override val predicate: (Context<HttpCall>) -> Boolean
         get() = handler.predicate
-
-    override val callback: (Context<HttpCall>) -> Context<HttpCall>
-        get() = handler.callback
 }
