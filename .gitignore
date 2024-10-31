@@ -2,6 +2,7 @@
 # Private / Local
 private_*
 local_*
+NOTES.md
 
 # Maven
 target/
