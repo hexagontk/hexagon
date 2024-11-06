@@ -28,10 +28,10 @@ dependencyResolutionManagement {
             version("detekt", "1.23.7")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.10.2")
-            version("mkdocsMaterial", "9.5.42")
+            version("mkdocsMaterial", "9.5.44")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.9")
-            version("jreleaser", "1.14.0")
+            version("jreleaser", "1.15.0")
 
             // Testing
             version("mockk", "1.13.13")
@@ -47,7 +47,7 @@ dependencyResolutionManagement {
 
             // http_server_netty
             version("netty", "4.1.114.Final")
-            version("nettyTcNative", "2.0.66.Final")
+            version("nettyTcNative", "2.0.69.Final")
 
             // http_server_helidon
             version("helidon", "4.1.3")
@@ -60,7 +60,7 @@ dependencyResolutionManagement {
             version("swaggerRequestValidator", "2.43.0")
 
             // serialization
-            version("jackson", "2.18.0")
+            version("jackson", "2.18.1")
             version("dslJson", "2.0.2")
 
             // serverless_http_google

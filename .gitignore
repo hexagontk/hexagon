@@ -3,6 +3,7 @@
 private_*
 local_*
 NOTES.md
+tools
 
 # Maven
 target/
