@@ -4,7 +4,6 @@ import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
 apply(from = "../gradle/kotlin.gradle")
-apply(from = "../gradle/icons.gradle")
 
 val venv: String = "build/mkdocs"
 
@@ -51,7 +50,6 @@ rootProject
 
 task("mkDocs") {
     dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
-    dependsOn("icons")
 
     doLast {
         val contentTarget = project.file("build/content").absolutePath
@@ -164,6 +162,7 @@ tasks.register<Exec>("defaultSite") {
  * 5. Push stable
  */
 tasks.register<Exec>("serveSite") {
+    dependsOn("installMkDocs")
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
     commandLine("$venv/bin/mike serve".split(" "))
 }
