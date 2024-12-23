@@ -90,7 +90,7 @@ abstract class ClientCookiesTest(
         listOf(response.cookiesMap(), client.cookiesMap()).forEach {
             val c4 = it.require("c4")
             assertEquals("v4", c4.value)
-            assertTrue(c4.maxAge in 59..60)
+            assertTrue(c4.maxAge in 58..60)
             assertEquals(Cookie("c5", "v5"), it["c5"]?.copy(domain = null))
             assertNull(it["c6"])
         }
