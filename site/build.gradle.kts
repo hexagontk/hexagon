@@ -162,6 +162,7 @@ tasks.register<Exec>("defaultSite") {
  * 5. Push stable
  */
 tasks.register<Exec>("serveSite") {
+    dependsOn("installMkDocs")
     environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
     commandLine("$venv/bin/mike serve".split(" "))
 }
