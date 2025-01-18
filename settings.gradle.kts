@@ -26,12 +26,12 @@ dependencyResolutionManagement {
             version("detekt", "1.23.7")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.10.2")
-            version("mkdocsMaterial", "9.5.49")
+            version("mkdocsMaterial", "9.5.50")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.9")
 
             // Testing
-            version("mockk", "1.13.14")
+            version("mockk", "1.13.16")
             version("gatling", "3.10.5")
             version("jmh", "1.37")
 
@@ -39,7 +39,7 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.16")
 
             // http_server_netty
-            version("netty", "4.1.116.Final")
+            version("netty", "4.1.117.Final")
             version("nettyTcNative", "2.0.69.Final")
 
             // http_server_helidon
@@ -57,10 +57,10 @@ dependencyResolutionManagement {
             version("dslJson", "2.0.2")
 
             // templates_freemarker
-            version("freemarker", "2.3.33")
+            version("freemarker", "2.3.34")
 
             // templates_jte
-            version("jte", "3.1.15")
+            version("jte", "3.1.16")
 
             // templates_pebble
             version("pebble", "3.2.2")
