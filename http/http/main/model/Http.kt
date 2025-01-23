@@ -1,9 +1,5 @@
 package com.hexagontk.http.model
 
-// TODO Use value class
-//@JvmInline
-//value class HttpStatus(val code: Int)
-
 typealias Header = Field
 typealias Parameter = Field
 
