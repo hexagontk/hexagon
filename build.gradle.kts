@@ -58,7 +58,7 @@ mapOf(
 apply(from = "gradle/certificates.gradle")
 
 allprojects {
-    version = "4.0.0-B2"
+    version = "4.0.0-B1"
     group = "com.hexagontk"
 }
 
@@ -193,6 +193,8 @@ apiValidation {
 }
 
 jreleaser {
+    mkdir("build/jreleaser")
+
     signing {
         active.set(ALWAYS)
         armored = true
