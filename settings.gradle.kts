@@ -72,7 +72,7 @@ dependencyResolutionManagement {
             version("pebble", "3.2.2")
 
             // templates_rocker
-            version("rocker", "2.1.0")
+            version("rocker", "2.2.1")
         }
     }
 }
