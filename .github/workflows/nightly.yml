@@ -24,19 +24,6 @@ jobs:
           close-issue-message:
             "This issue was closed because it has been stalled for 7 days with no activity."
 
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
-
-    name: build (${{ matrix.os }})
-    uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
-    with:
-      os: ${{ matrix.os }}
-      check_directory: core/build
-      ref: develop
-
   sample_keystores:
     strategy:
       fail-fast: false

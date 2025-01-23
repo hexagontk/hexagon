@@ -15,7 +15,7 @@ tasks.register("dokkaJar", Jar) {
 
     archiveClassifier.set("javadoc")
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    from(fileTree("$buildDir/dokka/javadoc"))
+    from(fileTree("${layout.buildDirectory.get().asFile.absolutePath}/dokka/javadoc"))
 }
 
 publishing {

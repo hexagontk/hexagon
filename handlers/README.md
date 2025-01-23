@@ -67,10 +67,10 @@ Types of handlers:
   executed after. `next` is called before the callback
 * Filter Handler: `next` is not called by this handler, its callback is responsible for doing so if
   needed.
-* Chain Handler: this handler contains a list of handlers inside.
+* Chain Handler: this handler contains a list of handlers that will be applied in order.
 
-IMPORTANT: the order is NOT the order, it is the depth. Handlers are not linked, they are NESTED.
-The `next()` method passes control to the next level.
+IMPORTANT: the definition order is NOT the execution order, it is the depth. Handlers are not
+linked, they are NESTED. The `next()` method passes control to the next level.
 
 This definition:
 

@@ -6,14 +6,15 @@ plugins {
 }
 
 apply(from = "$rootDir/gradle/kotlin.gradle")
+apply(from = "$rootDir/gradle/lean.gradle")
 
 if (findProperty("fullBuild") != null) {
     apply(from = "$rootDir/gradle/publish.gradle")
     apply(from = "$rootDir/gradle/dokka.gradle")
     apply(from = "$rootDir/gradle/native.gradle")
-    apply(from = "$rootDir/gradle/detekt.gradle")
 }
 
+group = "com.hexagontk.templates"
 description = "Template processor adapter for 'jte'."
 
 dependencies {
@@ -30,8 +31,6 @@ dependencies {
 
 tasks.named("compileKotlin") { dependsOn("generateJte") }
 tasks.named("processResources") { dependsOn("processTestResources") }
-if (findProperty("fullBuild") != null)
-    tasks.named("detektMain") { dependsOn("compileTestKotlin") }
 tasks.named("sourcesJar") { dependsOn("compileTestKotlin") }
 
 // TODO Remove when settings prevent this directory from being created (check .gitignore also)
@@ -40,7 +39,7 @@ tasks.named<Delete>("clean") {
 }
 
 jte {
-    sourceDirectory.set(projectDir.resolve("src/test/resources/templates").toPath())
+    sourceDirectory.set(projectDir.resolve("test/templates").toPath())
     targetDirectory.set(projectDir.resolve("build/classes/kotlin/test").toPath())
     contentType.set(Html)
 

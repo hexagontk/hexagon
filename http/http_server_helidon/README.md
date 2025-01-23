@@ -2,9 +2,6 @@
 # Module http_server_helidon
 [Helidon] adapter for the [http_server] port.
 
-IMPORTANT: There is a [known bug] in this adapter.
-
-[known bug]: https://github.com/hexagontk/hexagon/issues/704
 [Helidon]: https://helidon.io
 [http_server]: http_server.md
 
@@ -18,7 +15,7 @@ IMPORTANT: There is a [known bug] in this adapter.
     }
 
     dependencies {
-      implementation("com.hexagontk:http_server_helidon:$hexagonVersion")
+      implementation("com.hexagontk.http:http_server_helidon:$hexagonVersion")
     }
     ```
 
@@ -26,7 +23,7 @@ IMPORTANT: There is a [known bug] in this adapter.
 
     ```xml
     <dependency>
-      <groupId>com.hexagontk</groupId>
+      <groupId>com.hexagontk.http</groupId>
       <artifactId>http_server_helidon</artifactId>
       <version>$hexagonVersion</version>
     </dependency>

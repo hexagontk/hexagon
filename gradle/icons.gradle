@@ -2,14 +2,15 @@
  * Check usage information at: http://hexagontk.com/gradle/#icons
  */
 
-task("icons").doLast {
+tasks.register("icons") {
     group = "build setup"
     description =
         "Create web icons (favicon and thumbnails for browsers/mobile) from image SVGs (logos)."
 
     final String logoSmall = findProperty("logoSmall") ?: findProperty("logo")
     final String logoLarge = findProperty("logoLarge") ?: logoSmall
-    final String iconsDirectory = findProperty("iconsDirectory") ?: "${buildDir.name}/icons"
+    final String buildPath = layout.buildDirectory.get().asFile.name
+    final String iconsDirectory = buildPath + "/" + (findProperty("iconsDirectory") ?: "icons")
 
     project.file(iconsDirectory).mkdirs()
 
@@ -20,14 +21,13 @@ task("icons").doLast {
 
 private void createPng(final String svg, final String out, final int width, final int height) {
     exec {
-        // TODO This is failing on the Ubuntu 24 LTS
         commandLine(
-            "convert",
+            "magick",
+            project.file(svg).toString(),
             "-gravity", "center",
             "-background", "transparent",
             "-resize", "${width}x${height}",
-            svg,
-            "$buildDir/$out"
+            project.file(out).toString()
         )
     }
 }

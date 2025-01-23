@@ -37,7 +37,7 @@ Provides a logging management capabilities abstracting the application from logg
 
 The following code block shows the most common use cases for the logging utilities:
 
-@code core/src/test/kotlin/com/hexagontk/core/LoggersTest.kt?logger
+@code core/test/LoggersTest.kt?logger
 
 By default, Hexagon uses the [System.Logger] class.
 
@@ -51,12 +51,4 @@ Media types definitions and constants for default media types.
 Cryptography and key stores utilities.
 
 # Package com.hexagontk.core.text
-Text utilities to allow the use of ANSI escape codes and case converting tools among other features.
-
-> TODO Create 'Pairs' class to model a list of pairs with repeatable keys
->  Should allow to convert to list if keys are null, grouping values if there are duplicates
->  Use it in serialization and HTTP fields (query params, forms, etc.)
->
-> TODO Remove logger class and make log utilities extension methods (creating a loggerOf() helper)
->
-> TODO logger and security may be removed and their content moved to root
+Text utilities to allow the use of ANSI escape codes among other features.

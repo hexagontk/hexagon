@@ -86,7 +86,6 @@ Other useful Gradle commands are:
 * Build: `./gradlew build`
 * Rebuild: `./gradlew clean build`
 * Documentation: `./gradlew javadoc`
-* Code Analysis: `./gradlew detekt`
 * Test: `./gradlew test`
 * Run: `./gradlew ${MODULE}:run`
 * Profile Build: `./gradlew ${TASK} --profile`
@@ -121,6 +120,7 @@ If you want to generate the documentation site, check the Hexagon's site module 
   * X (Twitter)
   * LinkedIn
   * Mailing lists (Awesome Kotlin, Kotlin Weekly)
+  * JetBrains Slack
 
 [Nexus Repository Manager]: https://oss.sonatype.org
 

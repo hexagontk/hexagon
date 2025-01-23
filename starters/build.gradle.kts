@@ -39,23 +39,17 @@ extensions.configure<PublishingExtension> {
                 "kotlin.version" to libs.versions.kotlin.get(),
                 "dokka.version" to libs.versions.dokka.get(),
                 "native.tools.version" to libs.versions.nativeTools.get(),
+                "mainSource" to "src/main/kotlin",
+                "mainResources" to "src/main/resources",
+                "testSource" to "src/test/kotlin",
+                "testResources" to "src/test/resources",
+                "siteSource" to "src/site",
             ))
 
             withXml {
-                listOf("dependencies", "build").forEach {
+                listOf("dependencies", "build", "profiles").forEach {
                     asElement().importElement(pomDom.firstElement(it))
                 }
-            }
-        }
-
-        createPomPublication("kotlin_lean_pom") { pomDom ->
-            withXml {
-                val root = asElement()
-                val version = rootProject.version.toString()
-                listOf("parent", "build").forEach {
-                    root.importElement(pomDom.firstElement(it))
-                }
-                root.ownerDocument.firstElement("parent").appendElement("version", version)
             }
         }
     }

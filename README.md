@@ -122,7 +122,8 @@ from scratch following these steps:
 import com.hexagontk.core.media.TEXT_PLAIN
 import com.hexagontk.http.model.ContentType
 import com.hexagontk.http.server.HttpServer
-import com.hexagontk.http.server.jetty.serve
+import com.hexagontk.http.server.HttpServerSettings
+import com.hexagontk.http.server.serve
 
 lateinit var server: HttpServer
 
@@ -130,7 +131,7 @@ lateinit var server: HttpServer
  * Start a Hello World server, serving at path "/hello".
  */
 fun main() {
-    server = serve {
+    server = serve(JettyServletHttpServer(), HttpServerSettings(bindPort = 0)) {
         get("/hello/{name}") {
             val name = pathParameters["name"]
             ok("Hello $name!", contentType = ContentType(TEXT_PLAIN))
@@ -154,7 +155,7 @@ fun main() {
 <summary>Books Example</summary>
 
 A simple CRUD example showing how to manage book resources. Here you can check the
-[full test](http_test/src/main/kotlin/com/hexagontk/http/test/examples/BooksTest.kt).
+[full test](http_test/main/examples/BooksTest.kt).
 
 ```kotlin
 // books
@@ -212,7 +213,7 @@ private val path: PathHandler = path {
     }
 
     // Matches path's requests with *any* HTTP method as a fallback (return 405 instead 404)
-    after(ALL - DELETE - PUT - GET, "/books/{id}", status = NOT_FOUND_404) {
+    after(ALL - DELETE - PUT - GET, "/books/{id}") {
         send(METHOD_NOT_ALLOWED_405)
     }
 
@@ -228,7 +229,7 @@ private val path: PathHandler = path {
 <summary>Error Handling Example</summary>
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
-[full test](http_test/src/main/kotlin/com/hexagontk/http/test/examples/ErrorsTest.kt).
+[full test](http_test/main/examples/ErrorsTest.kt).
 
 ```kotlin
 // errors
@@ -246,13 +247,13 @@ private val path: PathHandler = path {
 
     exception<IllegalArgumentException> {
         val error = exception?.message ?: exception?.javaClass?.name ?: fail
-        val newHeaders = response.headers + Field("runtime-error", error)
+        val newHeaders = response.headers + Header("runtime-error", error)
         send(598, "Runtime", headers = newHeaders)
     }
 
     exception<UnsupportedOperationException> {
         val error = exception?.message ?: exception?.javaClass?.name ?: fail
-        val newHeaders = response.headers + Field("error", error)
+        val newHeaders = response.headers + Header("error", error)
         send(599, "Unsupported", headers = newHeaders)
     }
 
@@ -277,7 +278,7 @@ private val path: PathHandler = path {
 <summary>Filters Example</summary>
 
 This example shows how to add filters before and after route execution. Here you can check the
-[full test](http_test/src/main/kotlin/com/hexagontk/http/test/examples/FiltersTest.kt).
+[full test](http_test/main/examples/FiltersTest.kt).
 
 ```kotlin
 // filters
@@ -293,7 +294,7 @@ private val path: PathHandler = path {
         val next = next()
         val time = (System.nanoTime() - start).toString()
         // Copies result from chain with the extra data
-        next.send(headers = response.headers + Field("time", time))
+        next.send(headers = response.headers + Header("time", time))
     }
 
     filter("/protected/*") {
@@ -345,8 +346,8 @@ private val path: PathHandler = path {
 <details>
 <summary>Files Example</summary>
 
-The following code shows how to serve resources and receive files. Here you can check the
-[full test](http_test/src/main/kotlin/com/hexagontk/http/test/examples/FilesTest.kt).
+The following code shows how to serve resources. Here you can check the
+[full test](http_test/main/examples/FilesTest.kt).
 
 ```kotlin
 // files
@@ -367,16 +368,30 @@ private val path: PathHandler = path {
 
     get("/html/*", UrlCallback(urlOf("classpath:assets"))) // Serve `assets` files on `/html/*`
     get("/pub/*", FileCallback(File(directory))) // Serve `test` folder on `/pub/*`
+}
+// files
+```
+</details>
+<details>
+<summary>Multipart Example</summary>
 
+The following code shows how to receive files. Here you can check the
+[full test](http_test/main/examples/FilesTest.kt).
+
+```kotlin
+// multipart
+private val path: PathHandler = path {
+
+    // Serve `public` resources folder on `/*`
     post("/multipart") {
         val headers = parts.first().let { p ->
             val name = p.name
             val bodyString = p.bodyString()
             val size = p.size.toString()
             Headers(
-                Field("name", name),
-                Field("body", bodyString),
-                Field("size", size),
+                Header("name", name),
+                Header("body", bodyString),
+                Header("size", size),
             )
         }
 
@@ -387,7 +402,7 @@ private val path: PathHandler = path {
         val part = parts.first()
         val content = part.bodyString()
         val submittedFile = part.submittedFileName ?: ""
-        ok(content, headers = response.headers + Field("submitted-file", submittedFile))
+        ok(content, headers = response.headers + Header("submitted-file", submittedFile))
     }
 
     post("/form") {
@@ -397,17 +412,13 @@ private val path: PathHandler = path {
             }
         )
 
-        val queryParams = serializeMap(queryParameters)
-        val formParams = serializeMap(formParameters)
-        val headers = Headers(
-            Field("query-params", queryParams),
-            Field("form-params", formParams)
-        )
+        val queryParams = serializeMap(queryParameters).map { Parameter("query-params", it) }
+        val formParams = serializeMap(formParameters).map { Parameter("form-params", it) }
 
-        ok(headers = response.headers + headers)
+        ok(headers = response.headers + Headers(queryParams) + Headers(formParams))
     }
 }
-// files
+// multipart
 ```
 </details>
 

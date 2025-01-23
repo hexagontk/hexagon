@@ -9,14 +9,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
-      <version>${junit.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-test</artifactId>
+      <artifactId>kotlin-test-junit5</artifactId>
       <scope>test</scope>
       <version>${kotlin.version}</version>
     </dependency>
@@ -24,8 +18,28 @@
 
   <build>
     <defaultGoal>verify</defaultGoal>
-    <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-    <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+
+    <sourceDirectory>${project.basedir}/${mainSource}</sourceDirectory>
+    <testSourceDirectory>${project.basedir}/${testSource}</testSourceDirectory>
+
+    <resources>
+      <resource>
+        <directory>${project.basedir}/${mainResources}</directory>
+        <excludes>
+          <exclude>**/*.kt</exclude>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>${project.basedir}/${testResources}</directory>
+        <excludes>
+          <exclude>**/*.kt</exclude>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
 
     <plugins>
       <plugin>
@@ -104,6 +118,11 @@
               <goals>
                 <goal>compile</goal>
               </goals>
+              <configuration>
+                <sourceDirs>
+                  <sourceDir>${project.basedir}/${mainSource}</sourceDir>
+                </sourceDirs>
+              </configuration>
             </execution>
 
             <execution>
@@ -112,6 +131,11 @@
               <goals>
                 <goal>test-compile</goal>
               </goals>
+              <configuration>
+                <sourceDirs>
+                  <sourceDir>${project.basedir}/${testSource}</sourceDir>
+                </sourceDirs>
+              </configuration>
             </execution>
           </executions>
         </plugin>
@@ -126,7 +150,7 @@
                 <directory>log</directory>
               </fileset>
               <fileset>
-                <directory>${basedir}</directory>
+                <directory>${project.basedir}</directory>
                 <includes>
                   <include>**/*.log</include>
                   <include>**/*.hprof</include>
@@ -226,6 +250,7 @@
           <version>3.11.0</version>
           <configuration>
             <port>9000</port>
+            <siteDirectory>${project.basedir}/${siteSource}</siteDirectory>
           </configuration>
           <dependencies>
             <dependency>
@@ -276,6 +301,9 @@
                 <goal>test</goal>
               </goals>
               <phase>test</phase>
+              <configuration>
+                <quickBuild>true</quickBuild>
+              </configuration>
             </execution>
           </executions>
           <configuration>
@@ -339,4 +367,37 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <profiles>
+    <profile>
+      <id>kotlin_lean</id>
+
+      <activation>
+        <file>
+          <exists>main</exists>
+        </file>
+      </activation>
+
+      <properties>
+        <mainSource>main</mainSource>
+        <mainResource>main</mainResource>
+        <testSource>test</testSource>
+        <testResource>test</testResource>
+        <siteSource>site</siteSource>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>native</id>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.graalvm.buildtools</groupId>
+            <artifactId>native-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

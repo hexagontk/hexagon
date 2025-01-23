@@ -1,11 +1,12 @@
 public final class com/hexagontk/http/server/HttpServer : java/io/Closeable {
-	public static final field Companion Lcom/hexagontk/http/server/HttpServer$Companion;
 	public fun <init> (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/server/HttpServerSettings;)V
 	public synthetic fun <init> (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/server/HttpServerSettings;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun <init> (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
-	public final fun getBinding ()Ljava/net/URL;
+	public final fun createBanner (JLjava/lang/String;Z)Ljava/lang/String;
+	public static synthetic fun createBanner$default (Lcom/hexagontk/http/server/HttpServer;JLjava/lang/String;ZILjava/lang/Object;)Ljava/lang/String;
+	public final fun getBinding ()Ljava/net/URI;
 	public final fun getHandler ()Lcom/hexagontk/http/handlers/HttpHandler;
 	public final fun getPortName ()Ljava/lang/String;
 	public final fun getRuntimePort ()I
@@ -13,10 +14,6 @@ public final class com/hexagontk/http/server/HttpServer : java/io/Closeable {
 	public final fun start ()V
 	public final fun started ()Z
 	public final fun stop ()V
-}
-
-public final class com/hexagontk/http/server/HttpServer$Companion {
-	public final fun getBanner ()Ljava/lang/String;
 }
 
 public abstract interface class com/hexagontk/http/server/HttpServerPort {
@@ -31,31 +28,20 @@ public abstract interface class com/hexagontk/http/server/HttpServerPort {
 
 public final class com/hexagontk/http/server/HttpServerSettings {
 	public fun <init> ()V
-	public fun <init> (Ljava/net/InetAddress;ILjava/lang/String;Lcom/hexagontk/http/model/HttpProtocol;Lcom/hexagontk/http/SslSettings;Ljava/lang/String;Z)V
-	public synthetic fun <init> (Ljava/net/InetAddress;ILjava/lang/String;Lcom/hexagontk/http/model/HttpProtocol;Lcom/hexagontk/http/SslSettings;Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/net/InetAddress;
-	public final fun component2 ()I
-	public final fun component3 ()Ljava/lang/String;
-	public final fun component4 ()Lcom/hexagontk/http/model/HttpProtocol;
-	public final fun component5 ()Lcom/hexagontk/http/SslSettings;
-	public final fun component6 ()Ljava/lang/String;
-	public final fun component7 ()Z
-	public final fun copy (Ljava/net/InetAddress;ILjava/lang/String;Lcom/hexagontk/http/model/HttpProtocol;Lcom/hexagontk/http/SslSettings;Ljava/lang/String;Z)Lcom/hexagontk/http/server/HttpServerSettings;
-	public static synthetic fun copy$default (Lcom/hexagontk/http/server/HttpServerSettings;Ljava/net/InetAddress;ILjava/lang/String;Lcom/hexagontk/http/model/HttpProtocol;Lcom/hexagontk/http/SslSettings;Ljava/lang/String;ZILjava/lang/Object;)Lcom/hexagontk/http/server/HttpServerSettings;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBanner ()Ljava/lang/String;
+	public fun <init> (Ljava/net/InetAddress;ILcom/hexagontk/http/model/HttpProtocol;Lcom/hexagontk/http/SslSettings;Z)V
+	public synthetic fun <init> (Ljava/net/InetAddress;ILcom/hexagontk/http/model/HttpProtocol;Lcom/hexagontk/http/SslSettings;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getBindAddress ()Ljava/net/InetAddress;
 	public final fun getBindPort ()I
-	public final fun getBindUrl ()Ljava/net/URL;
-	public final fun getContextPath ()Ljava/lang/String;
+	public final fun getBindUrl ()Ljava/net/URI;
 	public final fun getProtocol ()Lcom/hexagontk/http/model/HttpProtocol;
 	public final fun getSslSettings ()Lcom/hexagontk/http/SslSettings;
 	public final fun getZip ()Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
+	public final fun with (Ljava/net/InetAddress;ILcom/hexagontk/http/model/HttpProtocol;Lcom/hexagontk/http/SslSettings;Z)Lcom/hexagontk/http/server/HttpServerSettings;
+	public static synthetic fun with$default (Lcom/hexagontk/http/server/HttpServerSettings;Ljava/net/InetAddress;ILcom/hexagontk/http/model/HttpProtocol;Lcom/hexagontk/http/SslSettings;ZILjava/lang/Object;)Lcom/hexagontk/http/server/HttpServerSettings;
 }
 
 public final class com/hexagontk/http/server/HttpServersKt {
+	public static final fun getServerBanner ()Ljava/lang/String;
 	public static final fun serve (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/server/HttpServerSettings;)Lcom/hexagontk/http/server/HttpServer;
 	public static final fun serve (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;)Lcom/hexagontk/http/server/HttpServer;
 	public static synthetic fun serve$default (Lcom/hexagontk/http/server/HttpServerPort;Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/server/HttpServerSettings;ILjava/lang/Object;)Lcom/hexagontk/http/server/HttpServer;

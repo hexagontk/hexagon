@@ -1,7 +1,8 @@
 /*
  * Check usage information at: http://hexagontk.com/gradle/#application
  */
-import org.gradle.api.tasks.bundling.Compression
+
+import java.nio.file.Files
 
 apply(plugin: "application")
 
@@ -14,19 +15,25 @@ application {
         applicationDefaultJvmArgs = options.split(" ").toList()
 }
 
-task("buildInfo") {
+tasks.register("buildInfo") {
     group = "build"
     description =
         "Add configuration file (`META-INF/build.properties`) with build variables to the package."
 
+    final String buildPath = layout.buildDirectory.get().asFile.absolutePath
+    final String projectName = project.name
+    final String projectVersion = project.version.toString()
+    final String projectGroup = project.group
+    final String projectDescription = project.description
+
     doLast {
-        file("$buildDir/resources/main/META-INF").mkdirs()
-        file("$buildDir/resources/main/META-INF/build.properties").write("""
+        file("$buildPath/resources/main/META-INF").mkdirs()
+        file("$buildPath/resources/main/META-INF/build.properties").write("""
         project=$rootProject.name
-        module=$project.name
-        version=${project.version.toString()}
-        group=$project.group
-        description=$project.description
+        module=$projectName
+        version=$projectVersion
+        group=$projectGroup
+        description=$projectDescription
     """.stripIndent ())
     }
 }
@@ -59,17 +66,17 @@ tasks.register("jpackage") {
     dependsOn("jarAll")
 
     doLast {
-        final java.nio.file.Path buildDir = project.buildDir.toPath()
+        final java.nio.file.Path buildPath = layout.buildDirectory.get().asFile.toPath()
         final String name = project.name
         final String version = project.version
-        final File tmp = buildDir.resolve("jpackage").toFile()
+        final File tmp = buildPath.resolve("jpackage").toFile()
 
         final String options = findProperty("options")
         final String icon = findProperty("icon")
         final String modules = findProperty("modules")
         final String jarAllName = "$name-all-${version}.jar"
-        final java.nio.file.Path jarAll = buildDir.resolve("libs/$jarAllName")
-        final java.nio.file.Path jpackageJar = buildDir.resolve("jpackage/$jarAllName")
+        final java.nio.file.Path jarAll = buildPath.resolve("libs/$jarAllName")
+        final java.nio.file.Path jpackageJar = buildPath.resolve("jpackage/$jarAllName")
 
         List<String> command = [
             "${System.getenv("JAVA_HOME")}/bin/jpackage",
@@ -91,12 +98,12 @@ tasks.register("jpackage") {
             command += [ "--icon", icon ]
 
         tmp.mkdirs()
-        buildDir.resolve(name).toFile().deleteDir()
+        buildPath.resolve(name).toFile().deleteDir()
         jpackageJar.toFile().delete()
-        java.nio.file.Files.copy(jarAll, jpackageJar)
+        Files.copy(jarAll, jpackageJar)
 
         exec {
-            workingDir(buildDir.toFile())
+            workingDir(buildPath.toFile())
             commandLine(command)
         }
     }
@@ -107,9 +114,10 @@ tasks.register("zipJpackage", Zip) {
     description = "Compress Jpackage distribution in a single file."
     dependsOn("jpackage")
 
-    from(buildDir.toPath().resolve(project.name).toFile())
+    final java.nio.file.Path buildPath = layout.buildDirectory.get().asFile.toPath()
+    from(buildPath.resolve(project.name).toFile())
     archiveFileName.set("${project.name}-${project.version}-jpackage.zip")
-    destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
+    destinationDirectory.set(buildPath.resolve("distributions").toFile())
 }
 
 tasks.register("jlink", Exec) {
@@ -120,6 +128,7 @@ tasks.register("jlink", Exec) {
     final String projectName = project.name
     final String jarFileName = "${project.name}-all-${project.version}.jar"
     final String modules = findProperty("modules") ?: "java.logging"
+    final String buildPath = layout.buildDirectory.get().asFile.absolutePath
 
     commandLine(
         [
@@ -128,18 +137,18 @@ tasks.register("jlink", Exec) {
             "--strip-debug",
             "--no-header-files",
             "--no-man-pages",
-            "--output", "$buildDir/$projectName",
+            "--output", "$buildPath/$projectName",
         ]
     )
 
     doLast {
         copy {
-            from("$buildDir/libs")
+            from("$buildPath/libs")
             include(jarFileName)
-            into("$buildDir/$projectName/lib")
+            into("$buildPath/$projectName/lib")
         }
 
-        final File launcher = file("$buildDir/$projectName/bin/$projectName")
+        final File launcher = file("$buildPath/$projectName/bin/$projectName")
         launcher.write("""\
             #!/usr/bin/env sh
             set -e
@@ -155,7 +164,8 @@ tasks.register("zipJlink", Zip) {
     description = "Compress JRE distribution in a single file."
     dependsOn("jlink")
 
-    from(buildDir.toPath().resolve(project.name).toFile())
+    final java.nio.file.Path buildPath = layout.buildDirectory.get().asFile.toPath()
+    from(buildPath.resolve(project.name).toFile())
     archiveFileName.set("${project.name}-${project.version}-jlink.zip")
-    destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
+    destinationDirectory.set(buildPath.resolve("distributions").toFile())
 }

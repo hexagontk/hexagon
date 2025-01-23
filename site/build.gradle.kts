@@ -6,18 +6,16 @@ import org.jetbrains.dokka.gradle.DokkaTaskPartial
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
 
-val venv: String = "build/mkdocs"
+val venv: String = "${project.projectDir}/build/mkdocs"
 
 tasks.register<JacocoReport>("jacocoRootReport") {
     dependsOn(":dokkaHtmlMultiModule")
 
     val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
-    val modulesSources = rootProject.modulesPaths("src/main/kotlin")
+    val modulesSources = rootProject.modulesPaths("main")
     val modulesClasses = rootProject.modulesPaths("build/classes/kotlin/main")
         .asSequence()
-        .filterNot { it.absolutePath.contains("http_test") }
-        .filterNot { it.absolutePath.contains("serialization_test") }
-        .filterNot { it.absolutePath.contains("templates_test") }
+        .filterNot { it.absolutePath.contains("_test") }
         .toList()
 
     executionData.from(projectExecutionData)
@@ -51,8 +49,7 @@ rootProject
 
 task("mkDocs") {
     dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
-    // TODO Fix 'convert' command execution (icons.gradle) in latest Ubuntu 24 LTS (used in runners)
-//    dependsOn("icons")
+    dependsOn("icons")
 
     doLast {
         val contentTarget = project.file("build/content").absolutePath
@@ -95,9 +92,8 @@ task("checkDocs") {
     dependsOn("mkDocs")
     doLast {
         val readme = rootProject.file("README.md")
-        val helloWorld = "com/hexagontk/http/server/jetty/HelloWorldTest.kt"
-        val service = rootProject.file("http/http_server_jetty/src/test/kotlin/$helloWorld")
-        val examples = "http/http_test/src/main/kotlin/com/hexagontk/http/test/examples"
+        val service = rootProject.file("http/http_server_jetty/test/HelloWorldTest.kt")
+        val examples = "http/http_test/main/examples"
 
         checkSampleCode(readme, rootProject.file(service), "hello_world")
         checkSampleCode(readme, rootProject.file("$examples/BooksTest.kt"), "books")
@@ -105,6 +101,7 @@ task("checkDocs") {
         checkSampleCode(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors")
         checkSampleCode(readme, rootProject.file("$examples/FiltersTest.kt"), "filters")
         checkSampleCode(readme, rootProject.file("$examples/FilesTest.kt"), "files")
+        checkSampleCode(readme, rootProject.file("$examples/MultipartTest.kt"), "multipart")
         checkSampleCode(readme, rootProject.file("$examples/CorsTest.kt"), "cors")
         checkSampleCode(readme, rootProject.file("$examples/HttpsTest.kt"), "https")
         checkSampleCode(readme, rootProject.file("$examples/ZipTest.kt"), "zip")

@@ -16,161 +16,166 @@
       </dependency>
       <dependency>
         <groupId>com.hexagontk</groupId>
+        <artifactId>handlers</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>http</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>http_client</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
-        <artifactId>http_client_java</artifactId>
+        <groupId>com.hexagontk.http</groupId>
+        <artifactId>http_client_jdk</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>http_client_jetty</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>http_client_jetty_ws</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
-        <artifactId>http_server_helidon</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>http_server</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
+        <artifactId>http_server_helidon</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.http</groupId>
+        <artifactId>http_server_jdk</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>http_server_jetty</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>http_server_netty</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>http_server_netty_epoll</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>http_server_servlet</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>http_test</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>rest</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>rest_tools</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.http</groupId>
         <artifactId>web</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
-        <artifactId>logging_jul</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagontk</groupId>
-        <artifactId>logging_logback</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagontk</groupId>
-        <artifactId>logging_slf4j_jul</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.serialization</groupId>
         <artifactId>serialization</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.serialization</groupId>
         <artifactId>serialization_dsl_json</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.serialization</groupId>
         <artifactId>serialization_jackson</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.serialization</groupId>
         <artifactId>serialization_jackson_csv</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.serialization</groupId>
         <artifactId>serialization_jackson_json</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
-        <artifactId>serialization_jackson_xml</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagontk</groupId>
-        <artifactId>serialization_jackson_yaml</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.serialization</groupId>
         <artifactId>serialization_jackson_toml</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.serialization</groupId>
+        <artifactId>serialization_jackson_xml</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.serialization</groupId>
+        <artifactId>serialization_jackson_yaml</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.serialization</groupId>
         <artifactId>serialization_test</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.serverless</groupId>
+        <artifactId>serverless_http_google</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.templates</groupId>
         <artifactId>templates</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.templates</groupId>
         <artifactId>templates_freemarker</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.templates</groupId>
+        <artifactId>templates_jte</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.templates</groupId>
         <artifactId>templates_pebble</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.templates</groupId>
         <artifactId>templates_rocker</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.hexagontk</groupId>
+        <groupId>com.hexagontk.templates</groupId>
         <artifactId>templates_test</artifactId>
         <version>${hexagon.version}</version>
       </dependency>

@@ -11,7 +11,7 @@ apply(plugin: "maven-publish")
 defaultTasks("build")
 
 java {
-    sourceCompatibility = JavaVersion.toVersion(findProperty("jvmTarget") ?: "11")
+    sourceCompatibility = JavaVersion.toVersion(findProperty("jvmTarget") ?: "21")
     targetCompatibility = sourceCompatibility
 }
 
@@ -40,17 +40,17 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
 }
 
-sourceSets.main.java.srcDirs = sourceSets.main.kotlin.srcDirs
+sourceSets.main.java.srcDirs.add(sourceSets.main.kotlin.srcDirs)
 tasks.compileJava.destinationDirectory.set(tasks.compileKotlin.destinationDirectory)
 
 tasks.compileKotlin.kotlinOptions.jvmTarget = tasks.compileJava.targetCompatibility
 
-tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
-tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
+tasks.compileTestKotlin.compilerOptions.jvmTarget = tasks.compileKotlin.compilerOptions.jvmTarget
+tasks.compileTestKotlin.compilerOptions.apiVersion = tasks.compileKotlin.compilerOptions.apiVersion
 
 clean {
     delete("log", "out", ".vertx", "file-uploads", "kotlin-js-store", ".kotlin")
@@ -93,7 +93,7 @@ tasks.register("verify", Test) {
 check.dependsOn("test", "verify")
 
 // Show useful testing information while running tests
-tasks.withType(Test) { testTask ->
+tasks.withType(Test).configureEach { testTask ->
     testTask.useJUnitPlatform()
     testTask.systemProperties(project.getProperties().findAll { it.value instanceof String })
     testTask.systemProperty("file.encoding", "utf-8")
@@ -122,7 +122,7 @@ tasks.jacocoTestReport {
 
 build.dependsOn(tasks.jacocoTestReport)
 
-task("jacocoReportSources") {
+tasks.register("jacocoReportSources") {
     group = "verification"
     description = "Add base directory to Kotlin sources (fix report for Kotlin coding standard)."
 
@@ -144,6 +144,7 @@ task("jacocoReportSources") {
 tasks.register("sourcesJar", Jar) {
     group = "distribution"
     description = "Create a jar file with the source code files."
+    dependsOn(classes)
 
     archiveClassifier.set("sources")
     from(project.sourceSets.main.allSource)

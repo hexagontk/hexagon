@@ -16,14 +16,14 @@ For usage instructions, refer to the [Templates Port documentation](templates.md
         mavenCentral()
     }
 
-    implementation("com.hexagontk:templates_freemarker:$hexagonVersion")
+    implementation("com.hexagontk.templates:templates_freemarker:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagontk</groupId>
+      <groupId>com.hexagontk.templates</groupId>
       <artifactId>templates_freemarker</artifactId>
       <version>$hexagonVersion</version>
     </dependency>

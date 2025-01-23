@@ -15,7 +15,7 @@
     }
 
     dependencies {
-      implementation("com.hexagontk:http_server_netty_epoll:$hexagonVersion")
+      implementation("com.hexagontk.http:http_server_netty_epoll:$hexagonVersion")
       // $arch could be 'x86_64' among other linux architectures
       implementation("io.netty:netty-transport-native-epoll:$nettyVersion:linux-$arch")
     }
@@ -25,7 +25,7 @@
 
     ```xml
     <dependency>
-      <groupId>com.hexagontk</groupId>
+      <groupId>com.hexagontk.http</groupId>
       <artifactId>http_server_netty_epoll</artifactId>
       <version>$hexagonVersion</version>
     </dependency>

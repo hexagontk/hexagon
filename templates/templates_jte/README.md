@@ -15,14 +15,14 @@ For usage instructions, refer to the [Templates Port documentation](templates.md
         mavenCentral()
     }
 
-    implementation("com.hexagontk:templates_jte:$hexagonVersion")
+    implementation("com.hexagontk.templates:templates_jte:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagontk</groupId>
+      <groupId>com.hexagontk.templates</groupId>
       <artifactId>templates_jte</artifactId>
       <version>$hexagonVersion</version>
     </dependency>

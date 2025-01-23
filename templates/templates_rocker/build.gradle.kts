@@ -2,19 +2,20 @@
 plugins {
     id("java-library")
     id("nu.studer.rocker") version("3.0.4")
-    // TODO Check 'official' plugin again
+    // TODO Check 'official' plugin
 //    id("com.fizzed.rocker") version(libs.versions.rocker.get())
 }
 
 apply(from = "$rootDir/gradle/kotlin.gradle")
+apply(from = "$rootDir/gradle/lean.gradle")
 
 if (findProperty("fullBuild") != null) {
     apply(from = "$rootDir/gradle/publish.gradle")
     apply(from = "$rootDir/gradle/dokka.gradle")
     apply(from = "$rootDir/gradle/native.gradle")
-    apply(from = "$rootDir/gradle/detekt.gradle")
 }
 
+group = "com.hexagontk.templates"
 description = "Template processor adapter for Rocker. Don't support dynamic template loading."
 
 dependencies {
@@ -30,7 +31,7 @@ dependencies {
 rocker {
     configurations {
         create("test") {
-            templateDir.set(file("src/test/resources"))
+            templateDir.set(file("test"))
             optimize.set(true)
         }
     }
@@ -38,3 +39,16 @@ rocker {
 
 if (findProperty("fullBuild") != null)
     tasks.named("dokkaJavadoc") { dependsOn("compileTestJava") }
+
+// TODO Check 'official' plugin
+//tasks.named("compileKotlin") {
+//    dependsOn("generateRockerTemplateSource")
+//}
+//
+//tasks.named("compileTestKotlin") {
+//    dependsOn("generateTestRockerTemplateSource")
+//}
+//
+//rocker {
+//    optimize = true
+//}

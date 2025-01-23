@@ -52,30 +52,18 @@ public final class com/hexagontk/http/client/HttpClientPort$DefaultImpls {
 
 public final class com/hexagontk/http/client/HttpClientSettings {
 	public fun <init> ()V
-	public fun <init> (Ljava/net/URL;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ZLcom/hexagontk/http/model/Headers;ZLcom/hexagontk/http/SslSettings;Lcom/hexagontk/http/model/Authorization;Z)V
-	public synthetic fun <init> (Ljava/net/URL;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ZLcom/hexagontk/http/model/Headers;ZLcom/hexagontk/http/SslSettings;Lcom/hexagontk/http/model/Authorization;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/net/URL;
-	public final fun component2 ()Lcom/hexagontk/http/model/ContentType;
-	public final fun component3 ()Ljava/util/List;
-	public final fun component4 ()Z
-	public final fun component5 ()Lcom/hexagontk/http/model/Headers;
-	public final fun component6 ()Z
-	public final fun component7 ()Lcom/hexagontk/http/SslSettings;
-	public final fun component8 ()Lcom/hexagontk/http/model/Authorization;
-	public final fun component9 ()Z
-	public final fun copy (Ljava/net/URL;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ZLcom/hexagontk/http/model/Headers;ZLcom/hexagontk/http/SslSettings;Lcom/hexagontk/http/model/Authorization;Z)Lcom/hexagontk/http/client/HttpClientSettings;
-	public static synthetic fun copy$default (Lcom/hexagontk/http/client/HttpClientSettings;Ljava/net/URL;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ZLcom/hexagontk/http/model/Headers;ZLcom/hexagontk/http/SslSettings;Lcom/hexagontk/http/model/Authorization;ZILjava/lang/Object;)Lcom/hexagontk/http/client/HttpClientSettings;
-	public fun equals (Ljava/lang/Object;)Z
+	public fun <init> (Ljava/net/URI;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ZLcom/hexagontk/http/model/Headers;ZLcom/hexagontk/http/SslSettings;Lcom/hexagontk/http/model/Authorization;Z)V
+	public synthetic fun <init> (Ljava/net/URI;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ZLcom/hexagontk/http/model/Headers;ZLcom/hexagontk/http/SslSettings;Lcom/hexagontk/http/model/Authorization;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getAccept ()Ljava/util/List;
 	public final fun getAuthorization ()Lcom/hexagontk/http/model/Authorization;
-	public final fun getBaseUrl ()Ljava/net/URL;
+	public final fun getBaseUri ()Ljava/net/URI;
 	public final fun getContentType ()Lcom/hexagontk/http/model/ContentType;
 	public final fun getFollowRedirects ()Z
 	public final fun getHeaders ()Lcom/hexagontk/http/model/Headers;
 	public final fun getInsecure ()Z
 	public final fun getSslSettings ()Lcom/hexagontk/http/SslSettings;
 	public final fun getUseCookies ()Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
+	public final fun with (Ljava/net/URI;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ZLcom/hexagontk/http/model/Headers;ZLcom/hexagontk/http/SslSettings;Lcom/hexagontk/http/model/Authorization;Z)Lcom/hexagontk/http/client/HttpClientSettings;
+	public static synthetic fun with$default (Lcom/hexagontk/http/client/HttpClientSettings;Ljava/net/URI;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ZLcom/hexagontk/http/model/Headers;ZLcom/hexagontk/http/SslSettings;Lcom/hexagontk/http/model/Authorization;ZILjava/lang/Object;)Lcom/hexagontk/http/client/HttpClientSettings;
 }
 

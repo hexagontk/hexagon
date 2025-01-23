@@ -35,7 +35,7 @@ principles also fit into this architecture.
 # Hello World
 Simple Hello World HTTP example.
 
-@code http/http_server_jetty/src/test/kotlin/com/hexagontk/http/server/jetty/HelloWorldTest.kt?hello_world
+@code http/http_server_jetty/test/HelloWorldTest.kt?hello_world
 
 You can check the [code examples] and [demo projects] for more complex use cases.
 
@@ -140,7 +140,7 @@ Ports with their provided implementations (Adapters).
 | PORT                    | ADAPTERS                                              |
 |-------------------------|-------------------------------------------------------|
 | [HTTP Server]           | [Netty], [Netty Epoll], [Jetty], [Servlet], [Helidon] |
-| [HTTP Client]           | [Java][Java Client], [Jetty][Jetty Client]            |
+| [HTTP Client]           | [JDK][JDK Client], [Jetty][Jetty Client]            |
 | [Templates]             | [Pebble], [FreeMarker], [Rocker], [jte]               |
 | [Serialization Formats] | [JSON], [YAML], [CSV], [XML], [TOML]                  |
 
@@ -151,7 +151,7 @@ Ports with their provided implementations (Adapters).
 [Servlet]: http_server_servlet.md
 [Helidon]: http_server_helidon.md
 [HTTP Client]: http_client.md
-[Java Client]: http_client_java.md
+[JDK Client]: http_client_jdk.md
 [Jetty Client]: http_client_jetty.md
 [Templates]: templates.md
 [Pebble]: templates_pebble.md

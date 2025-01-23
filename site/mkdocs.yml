@@ -68,9 +68,9 @@ nav:
       - HTTP Server: examples/http_server_examples.md
       - HTTP Client: examples/http_client_examples.md
       - Templates: examples/templates_examples.md
+      - Serialization: examples/serialization_examples.md
   - Community:
     - Help and Support: help.md
-    - Planning: planning.md
     - Contributing ↗: https://github.com/hexagontk/hexagon/contribute
     - GitHub ↗: https://github.com/hexagontk
     - Dev.to ↗: https://dev.to/hexagontk

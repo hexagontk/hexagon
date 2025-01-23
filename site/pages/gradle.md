@@ -192,27 +192,6 @@ Kotlin plugin.
 After applying this script, the source folders will be `${projectDir}/main` and
 `${projectDir}/test`, and the resources will be stored also in these folders.
 
-## Detekt
-This script sets up the build to analyze the code with the [Detekt] static code analyzer. To use it
-you must apply the `$gradleScripts/detekt.gradle` script to your `build.gradle.kts` file. It must be
-applied after the Kotlin plugin.
-
-For the script to work you need to add the plugin to the plugins build section before importing the
-script. I.e.:
-
-```kotlin
-plugins {
-    id("io.gitlab.arturbosch.detekt") version("VERSION") apply(false)
-}
-```
-
-To set up this script's parameters, check the [build variables section]. These helper settings are:
-
-* detektConfigPath: file with Detekt rules and settings. If not set, the default Detekt setup will
-  be used.
-
-[Detekt]: https://detekt.github.io/detekt
-
 ## Native
 This script sets up the build to add [GraalVM] configuration files for [native image] generation
 into JAR files (for library projects), and also allows to easily generate a native image for an
@@ -262,8 +241,3 @@ plugins {
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
 * jmhVersion: JMH version to be used. If not specified a tested JMH version will be used.
-
-## Resources
-Process project resources (replacing build variables)
-
-To use it, apply `$gradleScripts/resources.gradle` to the project's `build.gradle.kts` file.

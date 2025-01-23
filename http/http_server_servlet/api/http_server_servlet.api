@@ -6,9 +6,10 @@ public final class com/hexagontk/http/server/servlet/ServletFilter : jakarta/ser
 
 public abstract class com/hexagontk/http/server/servlet/ServletServer : jakarta/servlet/ServletContextListener {
 	public fun <init> ()V
-	public fun <init> (Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/server/HttpServerSettings;)V
-	public synthetic fun <init> (Lcom/hexagontk/http/handlers/HttpHandler;Lcom/hexagontk/http/server/HttpServerSettings;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun contextDestroyed (Ljakarta/servlet/ServletContextEvent;)V
+	public fun <init> (Lcom/hexagontk/http/handlers/HttpHandler;)V
+	public synthetic fun <init> (Lcom/hexagontk/http/handlers/HttpHandler;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun contextInitialized (Ljakarta/servlet/ServletContextEvent;)V
+	public final fun createBanner (JLjava/lang/String;Z)Ljava/lang/String;
+	public static synthetic fun createBanner$default (Lcom/hexagontk/http/server/servlet/ServletServer;JLjava/lang/String;ZILjava/lang/Object;)Ljava/lang/String;
 }
 
