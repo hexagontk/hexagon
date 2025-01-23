@@ -9,6 +9,8 @@ apply(from = "../gradle/publish.gradle")
 if (findProperty("fullBuild") != null)
     apply(from = "../gradle/dokka.gradle")
 
+description = "Project starters."
+
 extensions.configure<PublishingExtension> {
     publications {
         createPomPublication("hexagon_bom") { pomDom ->
