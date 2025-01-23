@@ -30,7 +30,7 @@ dependencyResolutionManagement {
             version("mkdocsMaterial", "9.5.50")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.9")
-            version("jreleaser", "1.16.0")
+            version("jreleaser", "1.15.0")
 
             // Testing
             version("mockk", "1.13.16")

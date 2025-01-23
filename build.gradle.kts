@@ -193,7 +193,7 @@ apiValidation {
 }
 
 jreleaser {
-    mkdir("build/jreleaser")
+//    mkdir("build/jreleaser")
 
     signing {
         active.set(ALWAYS)
