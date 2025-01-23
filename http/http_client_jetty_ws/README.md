@@ -18,14 +18,14 @@
         mavenCentral()
     }
 
-    implementation("com.hexagontk:http_client_jetty_ws:$hexagonVersion")
+    implementation("com.hexagontk.http:http_client_jetty_ws:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagontk</groupId>
+      <groupId>com.hexagontk.http</groupId>
       <artifactId>http_client_jetty_ws</artifactId>
       <version>$hexagonVersion</version>
     </dependency>

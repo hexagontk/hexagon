@@ -10,7 +10,7 @@ final String sslValidity = findProperty("sslValidity") ?: 365.toString()
 final String sslCountry = findProperty("sslCountry") ?: System.getProperty("user.country")
 final String sslOrganization = findProperty("sslOrganization")
 
-task("createCa").doLast {
+tasks.register("createCa") {
     group = "build setup"
     description = "Creates `ca.p12` and import its public certificate inside `trust.p12`."
 
@@ -30,7 +30,7 @@ task("createCa").doLast {
     delete(caPem)
 }
 
-task("createIdentities").doLast {
+tasks.register("createIdentities") {
     group = "build setup"
     description = "Creates the `<domain>.p12` store for all `sslDomain` variables."
 
@@ -106,13 +106,14 @@ private void concatenate(final String output, final String... files) {
 
 private String sslPath(final String fileName) {
     final String sslPath = findProperty("sslPath")
+    final String buildPath = layout.buildDirectory.get().asFile.absolutePath
+    final File sslPathFile = file(sslPath == null? buildPath : sslPath)
 
-    final File sslPathFile = file(sslPath == null? project.buildDir.absolutePath : sslPath)
     if (!sslPathFile.exists())
         sslPathFile.mkdir()
 
     if (sslPath == null)
-        return project.buildDir.absolutePath + "/" + fileName
+        return buildPath + "/" + fileName
 
     final List<String> pathSegments = [ projectDir.absolutePath, sslPath, fileName ]
     return pathSegments.findAll { !it.isBlank() }.join("/")

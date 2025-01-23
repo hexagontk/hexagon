@@ -10,7 +10,7 @@ signing {
     String signingPassword = findProperty("signingPassword") ?: System.getenv("SIGNING_PASSWORD")
 
     useInMemoryPgpKeys(signingKey, signingPassword)
-    required { gradle.taskGraph.hasTask("publish") }
+    required = gradle.taskGraph.hasTask("publish")
     sign(publishing.publications)
 }
 

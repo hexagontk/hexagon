@@ -1,0 +1,74 @@
+package com.hexagontk.http.server.servlet
+
+import com.hexagontk.core.info
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.client.HttpClientSettings
+import com.hexagontk.http.client.jetty.JettyHttpClient
+import com.hexagontk.http.model.NOT_FOUND_404
+import com.hexagontk.http.handlers.path
+import jakarta.servlet.MultipartConfigElement
+import jakarta.servlet.ServletContextEvent
+import org.eclipse.jetty.ee10.webapp.WebAppContext
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.net.InetSocketAddress
+import jakarta.servlet.annotation.WebListener
+import org.eclipse.jetty.ee10.servlet.DefaultServlet
+import org.eclipse.jetty.ee10.servlet.ServletHolder
+import java.net.URI
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import org.eclipse.jetty.server.Server as JettyServer
+
+@TestInstance(PER_CLASS)
+internal class ServletServerTest {
+
+    @WebListener
+    class WebAppServer : ServletServer(
+        path {
+            get {
+                assertEquals(emptyList(), request.certificateChain)
+                assertNull(request.certificate())
+                ok("Hello Servlet!")
+            }
+        }
+    ) {
+        override fun contextInitialized(sce: ServletContextEvent) {
+            super.contextInitialized(sce)
+            createBanner(0).info()
+        }
+    }
+
+    private val jettyServer = JettyServer(InetSocketAddress("127.0.0.1", 9897))
+
+    @BeforeAll fun `Run server`() {
+        val context = WebAppContext()
+        context.contextPath = "/"
+        context.war = "."
+        context.addEventListener(WebAppServer())
+
+        val servletHolder = ServletHolder("default", DefaultServlet())
+        servletHolder.registration.setMultipartConfig(MultipartConfigElement("/tmp"))
+        context.addServlet(servletHolder, "/*")
+
+        jettyServer.handler = context
+        jettyServer.start()
+    }
+
+    @AfterAll fun shutdown() {
+        jettyServer.stopAtShutdown = true
+        jettyServer.stop()
+    }
+
+    @Test fun `Servlet server starts`() {
+        val settings = HttpClientSettings(URI("http://127.0.0.1:9897"))
+        HttpClient(JettyHttpClient(), settings).use {
+            it.start()
+            assertEquals("Hello Servlet!", it.get("/").body)
+            assertEquals(NOT_FOUND_404, it.post("/").status)
+        }
+    }
+}

@@ -13,19 +13,11 @@ public class com/hexagontk/http/server/netty/NettyHttpServer : com/hexagontk/htt
 	public fun supportedProtocols ()Ljava/util/Set;
 }
 
-public final class com/hexagontk/http/server/netty/NettyKt {
-	public static final fun serve (Lcom/hexagontk/http/server/HttpServerSettings;Lcom/hexagontk/http/handlers/HttpHandler;)Lcom/hexagontk/http/server/HttpServer;
-	public static final fun serve (Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;)Lcom/hexagontk/http/server/HttpServer;
-	public static synthetic fun serve$default (Lcom/hexagontk/http/server/HttpServerSettings;Lcom/hexagontk/http/handlers/HttpHandler;ILjava/lang/Object;)Lcom/hexagontk/http/server/HttpServer;
-	public static synthetic fun serve$default (Lcom/hexagontk/http/server/HttpServerSettings;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hexagontk/http/server/HttpServer;
-}
-
 public final class com/hexagontk/http/server/netty/NettyRequestAdapter : com/hexagontk/http/model/HttpRequestPort {
 	public fun <init> (Lio/netty/handler/codec/http/HttpMethod;Lio/netty/handler/codec/http/HttpRequest;Ljava/util/List;Lio/netty/channel/Channel;Lio/netty/handler/codec/http/HttpHeaders;)V
 	public fun authorization ()Lcom/hexagontk/http/model/Authorization;
 	public fun bodyString ()Ljava/lang/String;
 	public fun certificate ()Ljava/security/cert/X509Certificate;
-	public fun contentType ()Lcom/hexagontk/http/model/ContentType;
 	public fun cookiesMap ()Ljava/util/Map;
 	public fun getAccept ()Ljava/util/List;
 	public fun getAuthorization ()Lcom/hexagontk/http/model/Authorization;
@@ -40,18 +32,20 @@ public final class com/hexagontk/http/server/netty/NettyRequestAdapter : com/hex
 	public fun getMethod ()Lcom/hexagontk/http/model/HttpMethod;
 	public fun getParts ()Ljava/util/List;
 	public fun getPath ()Ljava/lang/String;
+	public fun getPathParameters ()Ljava/util/Map;
+	public fun getPathPattern ()Lcom/hexagontk/http/patterns/PathPattern;
 	public fun getPort ()I
 	public fun getProtocol ()Lcom/hexagontk/http/model/HttpProtocol;
 	public fun getQueryParameters ()Lcom/hexagontk/http/model/Parameters;
 	public fun origin ()Ljava/lang/String;
 	public fun partsMap ()Ljava/util/Map;
 	public fun plus (Lcom/hexagontk/http/model/Cookie;)Lcom/hexagontk/http/model/HttpRequestPort;
-	public fun plus (Lcom/hexagontk/http/model/Field;)Lcom/hexagontk/http/model/HttpRequestPort;
 	public fun plus (Lcom/hexagontk/http/model/Headers;)Lcom/hexagontk/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagontk/http/model/HttpField;)Lcom/hexagontk/http/model/HttpRequestPort;
 	public fun plus (Lcom/hexagontk/http/model/HttpPart;)Lcom/hexagontk/http/model/HttpRequestPort;
 	public fun referer ()Ljava/lang/String;
-	public fun url ()Ljava/net/URL;
+	public fun uri ()Ljava/net/URI;
 	public fun userAgent ()Ljava/lang/String;
-	public fun with (Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Lcom/hexagontk/http/model/HttpMethod;Lcom/hexagontk/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagontk/http/model/Parameters;Ljava/util/List;Lcom/hexagontk/http/model/Parameters;Ljava/util/List;Ljava/util/List;Lcom/hexagontk/http/model/Authorization;Ljava/util/List;)Lcom/hexagontk/http/model/HttpRequestPort;
+	public fun with (Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Lcom/hexagontk/http/model/HttpMethod;Lcom/hexagontk/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagontk/http/model/Parameters;Ljava/util/List;Lcom/hexagontk/http/model/Parameters;Ljava/util/List;Ljava/util/List;Lcom/hexagontk/http/model/Authorization;Ljava/util/List;Lcom/hexagontk/http/patterns/PathPattern;Ljava/util/Map;)Lcom/hexagontk/http/model/HttpRequestPort;
 }
 

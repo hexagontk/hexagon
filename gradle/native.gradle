@@ -10,7 +10,7 @@ graalvmNative {
 
         metadataCopy {
             inputTaskNames.add("test")
-            final String buildPath = project.buildDir.absolutePath
+            final String buildPath = layout.buildDirectory.get().asFile.absolutePath
             outputDirectories.add("$buildPath/resources/main/META-INF/native-image")
         }
     }
@@ -49,8 +49,9 @@ tasks.register("upx", Exec) {
     description = "Compress the native executable using 'upx'."
     dependsOn("nativeCompile")
 
-    final String source = "$buildDir/native/nativeCompile/${project.name}"
-    final String target = "$buildDir/native/${project.name}"
+    final String buildPath = layout.buildDirectory.get().asFile.absolutePath
+    final String source = "$buildPath/native/nativeCompile/${project.name}"
+    final String target = "$buildPath/native/${project.name}"
     final String os = System.getProperty("os.name").toLowerCase()
     final String command =
         os.contains("windows")? "upx ${source}.exe -o ${target}.exe" : "upx $source -o $target"
@@ -69,8 +70,9 @@ tasks.register("zipNative", Zip) {
     final String os = System.getProperty("os.name").toLowerCase()
     final String arch = System.getProperty("os.arch").toLowerCase()
     final String source = os.contains("windows")? "${project.name}.exe" : project.name
-    from("$buildDir/native/nativeCompile")
+    final java.nio.file.Path buildPath = layout.buildDirectory.get().asFile.toPath()
+    from("$buildPath/native/nativeCompile")
     include(source)
     archiveFileName.set("${project.name}-${project.version}-${os}-${arch}.zip")
-    destinationDirectory.set(buildDir.toPath().resolve("distributions").toFile())
+    destinationDirectory.set(buildPath.resolve("distributions").toFile())
 }

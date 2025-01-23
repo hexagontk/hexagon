@@ -4,8 +4,18 @@
 
 apply(plugin: "me.champeau.jmh")
 
-tasks.compileJmhKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
-tasks.compileJmhKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
+tasks.compileJmhKotlin.compilerOptions.jvmTarget = tasks.compileKotlin.compilerOptions.jvmTarget
+tasks.compileJmhKotlin.compilerOptions.apiVersion = tasks.compileKotlin.compilerOptions.apiVersion
+
+sourceSets {
+    jmh {
+        kotlin {
+            srcDir project.file("main").exists()
+                ? project.file("jmh")
+                : project.file("src/jmh/kotlin")
+        }
+    }
+}
 
 jmh {
     final String jhmVersion = findProperty("jhmVersion") ?: "1.37"

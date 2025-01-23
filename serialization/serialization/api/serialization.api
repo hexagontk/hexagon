@@ -1,7 +1,6 @@
 public abstract interface class com/hexagontk/serialization/Data : java/util/Map, kotlin/jvm/internal/markers/KMappedMarker {
 	public abstract fun containsKey (Ljava/lang/String;)Z
 	public abstract fun containsValue (Ljava/lang/Object;)Z
-	public abstract fun copy (Ljava/util/Map;)Ljava/lang/Object;
 	public abstract fun get (Ljava/lang/String;)Ljava/lang/Object;
 	public abstract fun get (Lkotlin/reflect/KProperty1;)Ljava/lang/Object;
 	public abstract fun getData ()Ljava/util/Map;
@@ -10,6 +9,7 @@ public abstract interface class com/hexagontk/serialization/Data : java/util/Map
 	public abstract fun getSize ()I
 	public abstract fun getValues ()Ljava/util/Collection;
 	public abstract fun isEmpty ()Z
+	public abstract fun with (Ljava/util/Map;)Ljava/lang/Object;
 }
 
 public final class com/hexagontk/serialization/Data$DefaultImpls {

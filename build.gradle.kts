@@ -30,11 +30,37 @@ plugins {
     id("com.github.jk1.dependency-license-report") version(libs.versions.licenseReport)
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version(libs.versions.binValidator)
     id("org.graalvm.buildtools.native") version(libs.versions.nativeTools) apply(false)
-    id("io.gitlab.arturbosch.detekt") version(libs.versions.detekt) apply(false)
     id("me.champeau.jmh") version(libs.versions.jmhGradle) apply(false)
 }
 
+mapOf(
+    // Publish
+    "licenses" to "MIT",
+    "vcsUrl" to "https://github.com/hexagontk/hexagon.git",
+
+    // SSL
+    "sslOrganization" to "Hexagon",
+    "sslDomain" to "hexagontk.com",
+    // Domain to test `certificates` helper
+    "sslDomain1" to "benchmark.test",
+    // Domain to test `certificates` helper
+    "sslDomain2" to "name1|name2|subdomains.es",
+    // Used to test the Gradle helper script
+    "sslLogCommands" to true,
+
+    // Site
+    "siteHost" to "https://hexagontk.com",
+    "logoSmall" to "assets/img/logo.svg",
+    "iconsDirectory" to "content",
+)
+.forEach { (k, v) -> ext.set(k, v.toString()) }
+
 apply(from = "gradle/certificates.gradle")
+
+allprojects {
+    version = "4.0.0-B1"
+    group = "com.hexagontk"
+}
 
 defaultTasks("build")
 
@@ -42,28 +68,30 @@ repositories {
     mavenCentral()
 }
 
-task("setUp") {
+tasks.register("setUp") {
     group = "build setup"
     description = "Set up project for development. Creates the Git pre push hook (run build task)."
 
     doLast {
         val dotfiles = "https://raw.githubusercontent.com/hexagontk/.github/master"
-        exec { commandLine("curl $dotfiles/.gitignore -o .gitignore".split(" ")) }
-        exec { commandLine("curl $dotfiles/commit_template.txt -o .git/message".split(" ")) }
-        exec { commandLine("curl $dotfiles/.editorconfig -o .editorconfig".split(" ")) }
-        exec { commandLine("git config commit.template .git/message".split(" ")) }
 
-        val prePush = file(".git/hooks/pre-push")
-        prePush.writeText("""
-            #!/usr/bin/env sh
-            set -e
-            ./gradlew
-        """.trimIndent() + "\n")
-        prePush.setExecutable(true)
+        execute("curl $dotfiles/.gitignore -o .gitignore")
+        execute("curl $dotfiles/commit_template.txt -o .git/message")
+        execute("curl $dotfiles/.editorconfig -o .editorconfig")
+        execute("git config commit.template .git/message")
+
+        file(".git/hooks/pre-push").apply {
+            writeText("""
+                #!/usr/bin/env sh
+                set -e
+                ./gradlew
+            """.trimIndent() + "\n")
+            setExecutable(true)
+        }
     }
 }
 
-task("release") {
+tasks.register("release") {
     group = "publishing"
     description = "Tag the source code with the version number after publishing all artifacts."
     dependsOn(project.getTasksByName("publish", true))
@@ -72,13 +100,13 @@ task("release") {
         val release = version.toString()
         val actor = System.getenv("GITHUB_ACTOR")
 
-        project.exec { commandLine = listOf("git", "config", "--global", "user.name", actor) }
-        project.exec { commandLine = listOf("git", "tag", "-m", "Release $release", release) }
-        project.exec { commandLine = listOf("git", "push", "--tags") }
+        execute(listOf("git", "config", "--global", "user.name", actor))
+        execute(listOf("git", "tag", "-m", "Release $release", release))
+        execute(listOf("git", "push", "--tags"))
     }
 }
 
-task("nativeTestModules") {
+tasks.register("nativeTestModules") {
     group = "reporting"
     description = "Print module descriptions to be used in the GraalVM native compliant directory."
 
@@ -91,7 +119,7 @@ task("nativeTestModules") {
                 val n = sp.name
                 val g = sp.group
                 val d = gitHub + sp.projectDir.absolutePath.removePrefix(rootDir.absolutePath)
-                val r = sp.projectDir.resolve("src/main/resources/META-INF/native-image/$g/$n")
+                val r = sp.projectDir.resolve("main/META-INF/native-image/$g/$n")
                 val t = "$d/src/test"
                 val m =
                     if (r.exists()) {
@@ -148,6 +176,8 @@ tasks.wrapper {
 }
 
 apiValidation {
+    validationDisabled = rootProject.version.toString().matches(".*A.*".toRegex())
+
     ignoredProjects.addAll(
         listOf(
             // Utility modules
@@ -193,4 +223,58 @@ jreleaser {
             }
         }
     }
+}
+
+private fun execute(command: String) {
+    execute(command.split(" "))
+}
+
+private fun execute(command: List<String>) {
+    exec { commandLine(command) }
+}
+
+// TODO Move this logic to 'kotlin.gradle'
+val generatedDir = "build/generated/sources/annotationProcessor/java/main"
+val moduleFile = "main/module-info.java"
+val classFile = "z.java"
+val classContent = """package %s; class z {}"""
+
+subprojects
+    .filter { it.file(moduleFile).exists() }
+    .forEach {
+        it.afterEvaluate {
+            it.tasks.named("compileJava") {
+                doFirst {
+                    it.createPackages()
+                }
+            }
+
+            it.sourceSets {
+                main {
+                    java {
+                        srcDir(generatedDir)
+                        exclude("**/$classFile")
+                    }
+                }
+            }
+        }
+    }
+
+private fun Project.createPackages() {
+    file(moduleFile)
+        .readLines()
+        .asSequence()
+        .map { it.trim() }
+        .filter { it.startsWith("exports ") }
+        .map { it.removePrefix("exports ") }
+        .map { it.removeSuffix(";") }
+        .sorted()
+        .forEach { packageName ->
+            val packageDir = packageName.replace('.', '/')
+            val classPath = "$generatedDir/$packageDir/$classFile"
+            val classBody = classContent.format(packageName)
+
+            mkdir("$generatedDir/$packageDir")
+            file(classPath).writeText(classBody)
+        }
 }

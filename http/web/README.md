@@ -15,14 +15,14 @@ ports.
         mavenCentral()
     }
 
-    implementation("com.hexagontk:web:$hexagonVersion")
+    implementation("com.hexagontk.http:web:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagontk</groupId>
+      <groupId>com.hexagontk.http</groupId>
       <artifactId>web</artifactId>
       <version>$hexagonVersion</version>
     </dependency>

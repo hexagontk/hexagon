@@ -4,13 +4,14 @@ plugins {
 }
 
 apply(from = "$rootDir/gradle/kotlin.gradle")
+apply(from = "$rootDir/gradle/lean.gradle")
 
 if (findProperty("fullBuild") != null) {
     apply(from = "$rootDir/gradle/publish.gradle")
     apply(from = "$rootDir/gradle/dokka.gradle")
-    apply(from = "$rootDir/gradle/detekt.gradle")
 }
 
+group = "com.hexagontk.serverless"
 description = "Google Functions Serverless adapter."
 
 private val target = "com.hexagontk.serverless.http.google.GoogleServerlessHttpAdapter"
@@ -23,9 +24,11 @@ dependencies {
     "api"(project(":http:http_handlers"))
     "compileOnly"("com.google.cloud.functions:functions-framework-api:$functionsVersion")
 
-    "testImplementation"("com.google.cloud.functions:functions-framework-api:$functionsVersion")
     "testImplementation"("com.google.cloud.functions.invoker:java-function-invoker:$invokerVersion")
-    "testImplementation"(project(":http:http_client_java"))
+    "testImplementation"(project(":http:http_client_jdk"))
+    "testImplementation"(project(":http:http_test"))
+    "testImplementation"(project(":serialization:serialization_jackson_json"))
+    "testImplementation"(project(":serialization:serialization_jackson_yaml"))
 
     "invoker"("com.google.cloud.functions.invoker:java-function-invoker:$invokerVersion")
 }

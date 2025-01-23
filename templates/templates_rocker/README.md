@@ -19,14 +19,14 @@ Adding the classes used in the templates to the `reflect-config.json` file is al
         mavenCentral()
     }
 
-    implementation("com.hexagontk:templates_rocker:$hexagonVersion")
+    implementation("com.hexagontk.templates:templates_rocker:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagontk</groupId>
+      <groupId>com.hexagontk.templates</groupId>
       <artifactId>templates_rocker</artifactId>
       <version>$hexagonVersion</version>
     </dependency>

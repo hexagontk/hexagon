@@ -3,10 +3,15 @@ public final class com/hexagontk/serialization/jackson/json/Json : com/hexagontk
 	public final fun getRaw ()Lcom/hexagontk/serialization/jackson/json/JsonFormat;
 }
 
+public final class com/hexagontk/serialization/jackson/json/Json5 : com/hexagontk/serialization/jackson/json/JsonFormat {
+	public static final field INSTANCE Lcom/hexagontk/serialization/jackson/json/Json5;
+	public final fun getRaw ()Lcom/hexagontk/serialization/jackson/json/JsonFormat;
+}
+
 public class com/hexagontk/serialization/jackson/json/JsonFormat : com/hexagontk/serialization/jackson/JacksonTextFormat {
 	public fun <init> ()V
-	public fun <init> (Z)V
-	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (ZZ)V
+	public synthetic fun <init> (ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getMediaType ()Lcom/hexagontk/core/media/MediaType;
 }
 

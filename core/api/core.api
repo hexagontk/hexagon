@@ -91,6 +91,8 @@ public final class com/hexagontk/core/ExceptionsKt {
 }
 
 public final class com/hexagontk/core/LoggersKt {
+	public static final field HEXAGONTK_LOGGING_COLOR Ljava/lang/String;
+	public static final field HEXAGONTK_LOGGING_LOGGER_NAME Ljava/lang/String;
 	public static final fun debug (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
 	public static final fun debug (Ljava/lang/System$Logger;Lkotlin/jvm/functions/Function0;)V
 	public static synthetic fun debug$default (Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
@@ -158,6 +160,7 @@ public final class com/hexagontk/core/Platform {
 	public final fun getName ()Ljava/lang/String;
 	public final fun getOs ()Ljava/lang/String;
 	public final fun getOsKind ()Lcom/hexagontk/core/OsKind;
+	public final fun getPid ()J
 	public final fun getRuntime ()Ljava/lang/Runtime;
 	public final fun getTimeZone ()Ljava/util/TimeZone;
 	public final fun getVersion ()Ljava/lang/String;
@@ -169,6 +172,7 @@ public final class com/hexagontk/core/Platform {
 	public final fun systemSetting (Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
 	public final fun systemSettingOrNull (Lkotlin/reflect/KClass;Ljava/lang/String;)Ljava/lang/Object;
 	public final fun totalMemory ()Ljava/lang/String;
+	public final fun uptime ()J
 	public final fun usedMemory ()Ljava/lang/String;
 }
 
