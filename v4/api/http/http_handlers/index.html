@@ -42,7 +42,7 @@
 <a class="library-name--link" href="../../index.html">
                             hexagon
                     </a>            </div>
-            <div class="library-version">4.0.0-A6
+            <div class="library-version">4.0.0-B1
             </div>
         </div>
         <div class="filter-section" id="filter-section">
@@ -63,7 +63,56 @@
   <div class="breadcrumbs"></div>
   <div class="cover ">
     <h1 class="cover"><span><span>http_handlers</span></span></h1>
-    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_handlers:dokkaHtmlPartial/main"><p class="paragraph">This port's purpose is to develop HTTP servers (REST services or Web applications). It defines a DSL to declare HTTP request handlers.</p><p class="paragraph">Adapters implementing this port are in charge of processing HTTP requests through a list of handlers.</p><h2 class="">Install the Dependency</h2><p class="paragraph">This module is not meant to be used directly. You should include and Adapter implementing this feature (as http_server_jetty.md) in order to create an HTTP server.</p><h1 class="">Chaining changes</h1><p class="paragraph">The response can be modified chaining <code class="lang-kotlin">send</code> calls (or its utility methods). However, If calls are not chained, only the last one will be applied. I.e.: <code class="lang-kotlin">send().send()</code> will apply both calls changes, while <code class="lang-kotlin">send(); send()</code> will pass only the last send method result.</p><h1 class="">Context on HTTP processing</h1><p class="paragraph">An HTTP server is nothing more than a function that takes a request and returns a response. Requests and responses comply with several Web standards.</p><p class="paragraph">For the sake of ease of use, HTTP toolkits (or frameworks) are built. These tools make easier to write an HTTP server that has to deal with different behaviour based on requests attributes.</p><p class="paragraph">These development tools usually have different layers/parts (the ones below are some of the most common ones):</p><ul><li><p class="paragraph">IO: sockets and buffers management, SSL and thread scheduling is usually handled here also.</p></li><li><p class="paragraph">HTTP messages parsing: parse requests to internal model and serialize responses to bytes.</p></li><li><p class="paragraph">Routing: makes easy to run different blocks of code based on requests (usually supporting   pipelining among different blocks).</p></li></ul><p class="paragraph">Hexagon takes care of the third layer, it's "just" an abstraction layer for the IO engine and HTTP parser underneath, those two layers depends on the adapter (which you can select from a few alternatives).</p><p class="paragraph">This particularity allows users to swap adapters for different use cases. For example, You can use a low memory for embedded boards (as Raspberry Pi) or high through-output for servers, another use case would be to use a fast boot adapter for development, and select a different one for production.</p><p class="paragraph">To be agnostic of the adapter below, a custom HTTP model is implemented in Hexagon, and adapters must map their own structures to this model.</p><p class="paragraph">Now we'll talk about how HTTP routing is done in the toolkit. The cornerstone of HTTP handling in Hexagon is the handler: Hexagon handlers are a list of functions that may or may not be applied to an HTTP call depending on a predicate.</p><p class="paragraph">Handlers have a predicate, and they are only applied to a given request if the current request matches the predicate.</p><p class="paragraph">The functions that handle HTTP requests (named 'callbacks' in Hexagon) are blocks of code that get an HTTP call and return an HTTP call (probably the received one with a modified response), callbacks operate on immutable structures (the HTTP model).</p><p class="paragraph">Below you can find an in deep description of the concepts and components of this toolkit.</p><h1 class="">Servers</h1><p class="paragraph">A server is a process listening to HTTP requests on a TCP port.</p><p class="paragraph">You can run multiple ones on different ports at the same time on the same JVM (this can be useful to test many microservices at the same time).</p><p class="paragraph">The server can be server settings. If you do not provide a value for them, they are searched inside the application settings and lastly, a default value is picked. This is the parameters list:</p><ul><li><p class="paragraph">banner: informative text shown at start up logs. If not set only runtime information is displayed.</p></li><li><p class="paragraph">bindAddress: address to which this process is bound. If none is provided, <code class="lang-kotlin">127.0.0.1</code> is taken.</p></li><li><p class="paragraph">bindPort: the port which the process listens to. By default, it is <code class="lang-kotlin">2010</code>.</p></li><li><p class="paragraph">contextPath: initial path used for the rest of the routes, by default it is empty.</p></li></ul><p class="paragraph">To create a server, you need to provide a handler (check the handlers section for more information), and after creating a server you can run it or stop it with start() and stop() methods.</p></div></div>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_handlers:dokkaHtmlPartial/main"><p class="paragraph">This port's purpose is to develop HTTP servers (REST services or Web applications). It defines a DSL to declare HTTP request handlers.</p><p class="paragraph">Adapters implementing this port are in charge of processing HTTP requests through a list of handlers.</p><h2 class="">Install the Dependency</h2><p class="paragraph">This module is not meant to be used directly. It is used by HTTP client and HTTP server modules.</p><h2 class="">HTTP Routing Documentation (TODO)</h2><ul><li><p class="paragraph">Filters/callbacks definitions and how they can be combined</p></li><li><p class="paragraph">Design makes easy to test routing, not only callbacks</p></li><li><p class="paragraph">Functional approach design (immutability, no side effects)</p></li></ul><div class="sample-container"><div id="mermaid-container-1cdr8kkjtutik"></div></div><script>
+window.addEventListener('load', function() {
+  var graphDef =  `classDiagram
+  class HttpServerContext
+  HttpServerContext: HttpServerRequest request
+  HttpServerContext: HttpServerResponse response
+  HttpServerContext: Map attributes
+  HttpServerContext: Exception exception
+  HttpServerContext: HttpServerContext next()
+  class HttpHandler
+  HttpHandler : Boolean predicate(HttpServerContext)
+  HttpHandler : HttpServerContext callback(HttpServerContext)
+  HttpHandler : HttpServerContext process(HttpServerContext)
+  class OnHandler
+  class AfterHandler
+  class FilterHandler
+  class PathHandler
+  PathHandler : List handlers
+  HttpHandler <|-- OnHandler
+  HttpHandler <|-- AfterHandler
+  HttpHandler <|-- PathHandler
+  HttpHandler <|-- FilterHandler`;
+  var container = document.getElementById('mermaid-container-1cdr8kkjtutik');
+  container.innerHTML = '<div id="mermaid-target-1cdr8kkjtutik"></div>';
+  var updateGraph1cdr8kkjtutik = function() {
+    // setTimeout required or else the 1st render could be done before mermaid.initialize() has applied the theme.
+    // Also required because we can't listen to localStorage events reliably, and it's changed on the same click event...
+    setTimeout(() => {
+      var dokkaDarkModeItem = localStorage.getItem("dokka-dark-mode");
+      var isDarkMode = dokkaDarkModeItem ? JSON.parse(dokkaDarkModeItem) : false
+      var theme = 'default';
+      if (isDarkMode === true) {
+        theme = 'dark';
+      }
+      mermaid.initialize({'theme': theme});
+      mermaid.render('mermaid-target-1cdr8kkjtutik', graphDef).then(({ svg, bindFunctions }) => {
+          container.innerHTML = svg;
+          // Trick to make the graph takes only the required height.
+          document.getElementById('mermaid-target-1cdr8kkjtutik').removeAttribute('height')
+          bindFunctions?.(element);
+      });
+    }, 0);
+  }
+  updateGraph1cdr8kkjtutik();
+  
+  var themeToggleButton = document.getElementById('theme-toggle-button');
+  themeToggleButton.addEventListener('click', () => {
+    updateGraph1cdr8kkjtutik();
+  });
+});</script><h1 class="">HTTP Context</h1><p class="paragraph">These are the events that the handlers handle (they are also called HTTP calls or just calls along this documentation). They wrap HTTP requests and responses along with some attributes that may be used to pass data across handlers or to signal that a previous callback resulted in an error.</p><p class="paragraph">The HTTP context provides you with everything you need to handle an HTTP request. It contains the request, the response, and a bunch of utility methods to return results, read parameters or pass attributes among handlers.</p><p class="paragraph">The methods are available directly from the callback. You can check the API documentation for the full list of methods. This sample code illustrates the usage:</p></div></div>
   </div>
   <h2 class="">Packages</h2>
   <div class="table"><a data-name="-172956755%2FPackages%2F1111015354" anchor-label="com.hexagontk.http.handlers" id="-172956755%2FPackages%2F1111015354" data-filterable-set=":http:http_handlers:dokkaHtmlPartial/main"></a>
@@ -81,7 +130,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="-172956755%2FPackages%2F1111015354" anchor-label="com.hexagontk.http.handlers" id="-172956755%2FPackages%2F1111015354" data-filterable-set=":http:http_handlers:dokkaHtmlPartial/main"></a>
+            <p class="paragraph">This package defines server interfaces for HTTP server adapters.</p>
+          </span></div>
       </div>
     </div>
   </div>

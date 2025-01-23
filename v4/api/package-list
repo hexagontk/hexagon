@@ -8,16 +8,9 @@ com.hexagontk.core.security
 com.hexagontk.core.text
 module:handlers
 com.hexagontk.handlers
-module:args
-com.hexagontk.args
-com.hexagontk.args.formatter
 module:helpers
 com.hexagontk.helpers
 com.hexagontk.helpers.text
-module:jul
-com.hexagontk.jul
-module:scheduler
-com.hexagontk.scheduler
 module:http
 com.hexagontk.http
 com.hexagontk.http.model
@@ -25,8 +18,8 @@ com.hexagontk.http.model.ws
 com.hexagontk.http.patterns
 module:http_client
 com.hexagontk.http.client
-module:http_client_java
-com.hexagontk.http.client.java
+module:http_client_jdk
+com.hexagontk.http.client.jdk
 module:http_client_jetty
 com.hexagontk.http.client.jetty
 module:http_client_jetty_ws
