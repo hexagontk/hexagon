@@ -99,12 +99,6 @@ inline fun <reified T : Any> Map<*, *>.getOrDefault(key: KProperty1<*, *>, defau
 /**
  * .
  *
- * Mermaid test:
- * ```mermaid
- * graph LR
- *   A --> B
- * ```
- *
  * @param mapA .
  * @param mapB .
  * @return .

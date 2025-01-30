@@ -25,4 +25,5 @@ dependencies {
     "testImplementation"(project(":http:http_client_jetty"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
     "testImplementation"(project(":serialization:serialization_jackson_yaml"))
+    "testImplementation"("io.netty:netty-transport-native-epoll:$nettyVersion:linux-x86_64")
 }

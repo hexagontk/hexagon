@@ -29,4 +29,3 @@ internal class AdapterMultipartTest : MultipartTest(clientAdapter, serverAdapter
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
 internal class AdapterMultipartSamplesTest : MultipartSamplesTest(clientAdapter, serverAdapter)
-internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)

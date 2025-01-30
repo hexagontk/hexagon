@@ -29,7 +29,6 @@ internal class AdapterMultipartSamplesTest : MultipartSamplesTest(clientAdapter,
 internal class AdapterFilesTest : FilesTest(clientAdapter, serverAdapter)
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
-internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)
 internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
 @DisabledInNativeImage
 internal class AdapterWebSocketsTest : WebSocketsTest(clientAdapter, serverAdapter)

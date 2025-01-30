@@ -20,13 +20,13 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.1.0")
-            version("dokka", "1.9.20")
+            version("kotlin", "2.1.10")
+            version("dokka", "2.0.0")
             version("licenseReport", "2.9")
             version("binValidator", "0.17.0")
             version("nativeTools", "0.10.3")
             version("jmhGradle", "0.7.2")
-            version("gradleWrapper", "8.12")
+            version("gradleWrapper", "8.12.1")
             version("mkdocsMaterial", "9.5.50")
             version("mermaidDokka", "0.6.0")
             version("maven", "3.9.9")
@@ -34,7 +34,6 @@ dependencyResolutionManagement {
 
             // Testing
             version("mockk", "1.13.16")
-            version("gatling", "3.10.5")
             version("jmh", "1.37")
 
             // Shared

@@ -26,11 +26,12 @@ plugins {
     id("eclipse")
     id("project-report")
     id("org.jreleaser") version(libs.versions.jreleaser)
-    id("org.jetbrains.dokka") version(libs.versions.dokka)
     id("com.github.jk1.dependency-license-report") version(libs.versions.licenseReport)
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version(libs.versions.binValidator)
     id("org.graalvm.buildtools.native") version(libs.versions.nativeTools) apply(false)
     id("me.champeau.jmh") version(libs.versions.jmhGradle) apply(false)
+    id("org.jetbrains.dokka") version(libs.versions.dokka) apply(false)
+    id("org.jetbrains.dokka-javadoc") version(libs.versions.dokka) apply(false)
 }
 
 mapOf(

@@ -32,7 +32,6 @@ internal class AdapterMultipartTest : MultipartTest(clientAdapter, serverAdapter
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
 internal class AdapterMultipartSamplesTest : MultipartSamplesTest(clientAdapter, serverAdapter)
-internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)
 internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
 @DisabledInNativeImage // TODO Fix this
 internal class AdapterWebSocketsTest : WebSocketsTest(clientAdapter, serverAdapter)
@@ -53,5 +52,4 @@ internal class LiteAdapterHttpsTest : HttpsTest(clientAdapter, liteServerAdapter
 internal class LiteAdapterZipTest : ZipTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterCookiesTest : CookiesTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterCorsTest : CorsTest(clientAdapter, liteServerAdapter)
-internal class LiteAdapterBenchmarkIT : BenchmarkIT(clientAdapter, liteServerAdapter)
 internal class LiteAdapterSseTest : SseTest(clientAdapter, liteServerAdapter)

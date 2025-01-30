@@ -1,12 +1,11 @@
 /*
  * Check usage information at: http://hexagontk.com/gradle/#dokka
- *
- * TODO Migrate do Dokka 2: https://kotlinlang.org/docs/dokka-migration.html
  */
 
 apply(plugin: "kotlin")
 apply(plugin: "maven-publish")
 apply(plugin: "org.jetbrains.dokka")
+apply(plugin: "org.jetbrains.dokka-javadoc")
 
 tasks.register("dokkaJar", Jar) {
     group = "distribution"
@@ -26,32 +25,35 @@ publishing {
     }
 }
 
-setUpDokka(dokkaHtmlPartial)
-setUpDokka(dokkaJavadoc)
+tasks.named("dokkaGenerateModuleJavadoc") {
+    dependsOn("dokkaGenerateModuleHtml")
+}
 
-private void setUpDokka(final Object dokkaTask) {
-    dokkaTask.dependsOn(
+tasks.named("dokkaGenerateModuleHtml") {
+    dependsOn("dokkaGeneratePublicationHtml")
+}
+
+tasks.named("dokkaGeneratePublicationHtml") {
+    dependsOn("dokkaGeneratePublicationJavadoc")
+}
+
+tasks.named("dokkaGeneratePublicationJavadoc") {
+    dependsOn(
         "compileJava",
         "compileKotlin",
         "compileTestKotlin",
         "processResources",
         "processTestResources"
     )
+}
 
-    dokkaTask.moduleName.set(project.name)
-    dokkaTask.offlineMode.set(true)
-    dokkaTask.dokkaSourceSets {
+dokka {
+    moduleName.set(project.name)
+    dokkaSourceSets {
         configureEach {
-            includeNonPublic.set(false)
             reportUndocumented.set(false)
             includes.from(fileTree(projectDir) { include("*.md") })
             samples.from(fileTree(projectDir) { include("**/*Test.kt") })
         }
     }
-}
-
-dependencies {
-    final String mermaidDokkaVersion = findProperty("mermaidDokkaVersion") ?: "0.6.0"
-
-    dokkaHtmlPartialPlugin("com.glureau:html-mermaid-dokka-plugin:$mermaidDokkaVersion")
 }
