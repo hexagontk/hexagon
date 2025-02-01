@@ -25,62 +25,93 @@
 <link href="../../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../../styles/logo-styles.css" rel="Stylesheet">
 <link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
 <script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
 <script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
-<script type="text/javascript" src="../../../../dokka-mermaid.js" async></script></head>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
     <div class="root">
-<nav class="navigation" id="navigation-wrapper">
-    <div class="navigation--inner">
-        <div class="navigation-title">
-            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
-            <div class="library-name">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
 <a class="library-name--link" href="../../../../index.html">
-                            hexagon
-                    </a>            </div>
-            <div class="library-version">4.0.0-B1
+                    hexagon
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">4.0.0-B2
+        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http_client_jetty_ws/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":http:http_client_jetty_ws/main" data-filter=":http:http_client_jetty_ws/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
         </div>
-        <div class="filter-section" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http_client_jetty_ws:dokkaHtmlPartial/main">jvm</button>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
         </div>
-    </div>
-    <div class="navigation-controls">
-        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
-        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
-    </div>
-</nav>
+    </nav>
         <div id="container">
             <div class="sidebar" id="leftColumn">
-                <div class="sidebar--inner" id="sideMenu"></div>
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    hexagon
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="classlike" id="content" pageids="http_client_jetty_ws::com.hexagontk.http.client.jetty.ws/JettyClientWsSession///PointingToDeclaration//-2066863090">
+<div class="main-content" data-page-type="classlike" id="content" pageids="http_client_jetty_ws::com.hexagontk.http.client.jetty.ws/JettyClientWsSession///PointingToDeclaration//697281594">
   <div class="breadcrumbs"><a href="../../index.html">http_client_jetty_ws</a><span class="delimiter">/</span><a href="../index.html">com.hexagontk.http.client.jetty.ws</a><span class="delimiter">/</span><span class="current">JettyClientWsSession</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Jetty</span><wbr><span>Client</span><wbr><span>Ws</span><wbr><span><span>Session</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">JettyClientWsSession</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>uri<span class="token operator">: </span><span data-unresolved-link="java.net/URI///PointingToDeclaration/">URI</span><span class="token punctuation">, </span></span><span class="parameter ">session<span class="token operator">: </span><span data-unresolved-link="org.eclipse.jetty.websocket.api/Session///PointingToDeclaration/">Session</span></span></span><span class="token punctuation">)</span> : <a href="../../../../http/http/com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">JettyClientWsSession</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>uri<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/URI.html">URI</a><span class="token punctuation">, </span></span><span class="parameter ">session<span class="token operator">: </span><span data-unresolved-link="org.eclipse.jetty.websocket.api/Session///PointingToDeclaration/">Session</span></span></span><span class="token punctuation">)</span> : <a href="../../../../http/http/com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
         <h2 class="">Constructors</h2>
-        <div class="table"><a data-name="-2106057686%2FConstructors%2F-2066863090" anchor-label="JettyClientWsSession" id="-2106057686%2FConstructors%2F-2066863090" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http_client_jetty_ws:dokkaHtmlPartial/main" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main">
+        <div class="table"><a data-name="-2106057686%2FConstructors%2F697281594" anchor-label="JettyClientWsSession" id="-2106057686%2FConstructors%2F697281594" data-filterable-set=":http:http_client_jetty_ws/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http_client_jetty_ws/main" data-filterable-set=":http:http_client_jetty_ws/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-jetty-client-ws-session.html"><span>Jetty</span><wbr><span>Client</span><wbr><span>Ws</span><wbr><span><span>Session</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2106057686%2FConstructors%2F-2066863090"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2106057686%2FConstructors%2F697281594"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">uri<span class="token operator">: </span><span data-unresolved-link="java.net/URI///PointingToDeclaration/">URI</span><span class="token punctuation">, </span></span><span class="parameter ">session<span class="token operator">: </span><span data-unresolved-link="org.eclipse.jetty.websocket.api/Session///PointingToDeclaration/">Session</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">uri<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/URI.html">URI</a><span class="token punctuation">, </span></span><span class="parameter ">session<span class="token operator">: </span><span data-unresolved-link="org.eclipse.jetty.websocket.api/Session///PointingToDeclaration/">Session</span></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -89,77 +120,77 @@
       </div>
       <div data-togglable="PROPERTY">
         <h2 class="">Properties</h2>
-        <div class="table"><a data-name="975424682%2FProperties%2F-2066863090" anchor-label="attributes" id="975424682%2FProperties%2F-2066863090" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws:dokkaHtmlPartial/main" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main">
+        <div class="table"><a data-name="975424682%2FProperties%2F697281594" anchor-label="attributes" id="975424682%2FProperties%2F697281594" data-filterable-set=":http:http_client_jetty_ws/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws/main" data-filterable-set=":http:http_client_jetty_ws/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="attributes.html"><span><span>attributes</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="975424682%2FProperties%2F-2066863090"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="975424682%2FProperties%2F697281594"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="attributes.html">attributes</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/Map///PointingToDeclaration/">Map</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token punctuation">, </span><span class="token operator">*</span><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="attributes.html">attributes</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token punctuation">, </span><span class="token operator">*</span><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-1780864150%2FProperties%2F-2066863090" anchor-label="exception" id="-1780864150%2FProperties%2F-2066863090" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws:dokkaHtmlPartial/main" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main">
+<a data-name="-1780864150%2FProperties%2F697281594" anchor-label="exception" id="-1780864150%2FProperties%2F697281594" data-filterable-set=":http:http_client_jetty_ws/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws/main" data-filterable-set=":http:http_client_jetty_ws/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="exception.html"><span><span>exception</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1780864150%2FProperties%2F-2066863090"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1780864150%2FProperties%2F697281594"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="exception.html">exception</a><span class="token operator">: </span><span data-unresolved-link="java.lang/Exception///PointingToDeclaration/">Exception</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="exception.html">exception</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-exception/index.html">Exception</a></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1310975762%2FProperties%2F-2066863090" anchor-label="pathParameters" id="1310975762%2FProperties%2F-2066863090" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws:dokkaHtmlPartial/main" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main">
+<a data-name="1310975762%2FProperties%2F697281594" anchor-label="pathParameters" id="1310975762%2FProperties%2F697281594" data-filterable-set=":http:http_client_jetty_ws/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws/main" data-filterable-set=":http:http_client_jetty_ws/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="path-parameters.html"><span>path</span><wbr><span><span>Parameters</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1310975762%2FProperties%2F-2066863090"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1310975762%2FProperties%2F697281594"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="path-parameters.html">pathParameters</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/Map///PointingToDeclaration/">Map</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="path-parameters.html">pathParameters</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-364140502%2FProperties%2F-2066863090" anchor-label="request" id="-364140502%2FProperties%2F-2066863090" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws:dokkaHtmlPartial/main" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main">
+<a data-name="-364140502%2FProperties%2F697281594" anchor-label="request" id="-364140502%2FProperties%2F697281594" data-filterable-set=":http:http_client_jetty_ws/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws/main" data-filterable-set=":http:http_client_jetty_ws/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="request.html"><span><span>request</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-364140502%2FProperties%2F-2066863090"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-364140502%2FProperties%2F697281594"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="request.html">request</a><span class="token operator">: </span><a href="../../../../http/http/com.hexagontk.http.model/-http-request-port/index.html">HttpRequestPort</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="request.html">request</a><span class="token operator">: </span><a href="../../../../http/http/com.hexagontk.http.model/-http-request-port/index.html">HttpRequestPort</a></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1558595053%2FProperties%2F-2066863090" anchor-label="uri" id="1558595053%2FProperties%2F-2066863090" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws:dokkaHtmlPartial/main" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main">
+<a data-name="1558595053%2FProperties%2F697281594" anchor-label="uri" id="1558595053%2FProperties%2F697281594" data-filterable-set=":http:http_client_jetty_ws/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws/main" data-filterable-set=":http:http_client_jetty_ws/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="uri.html"><span><span>uri</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1558595053%2FProperties%2F-2066863090"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1558595053%2FProperties%2F697281594"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="uri.html">uri</a><span class="token operator">: </span><span data-unresolved-link="java.net/URI///PointingToDeclaration/">URI</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="uri.html">uri</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/URI.html">URI</a></div></div></div>
                 </div>
               </div>
             </div>
@@ -168,62 +199,62 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="2131977956%2FFunctions%2F-2066863090" anchor-label="close" id="2131977956%2FFunctions%2F-2066863090" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws:dokkaHtmlPartial/main" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main">
+        <div class="table"><a data-name="2131977956%2FFunctions%2F697281594" anchor-label="close" id="2131977956%2FFunctions%2F697281594" data-filterable-set=":http:http_client_jetty_ws/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws/main" data-filterable-set=":http:http_client_jetty_ws/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="close.html"><span><span>close</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2131977956%2FFunctions%2F-2066863090"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2131977956%2FFunctions%2F697281594"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="close.html"><span class="token function">close</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">status<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">reason<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="close.html"><span class="token function">close</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">status<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">reason<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1768653323%2FFunctions%2F-2066863090" anchor-label="ping" id="1768653323%2FFunctions%2F-2066863090" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws:dokkaHtmlPartial/main" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main">
+<a data-name="1768653323%2FFunctions%2F697281594" anchor-label="ping" id="1768653323%2FFunctions%2F697281594" data-filterable-set=":http:http_client_jetty_ws/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws/main" data-filterable-set=":http:http_client_jetty_ws/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="ping.html"><span><span>ping</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1768653323%2FFunctions%2F-2066863090"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1768653323%2FFunctions%2F697281594"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="ping.html"><span class="token function">ping</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="ping.html"><span class="token function">ping</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">data<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-84542907%2FFunctions%2F-2066863090" anchor-label="pong" id="-84542907%2FFunctions%2F-2066863090" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws:dokkaHtmlPartial/main" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main">
+<a data-name="-84542907%2FFunctions%2F697281594" anchor-label="pong" id="-84542907%2FFunctions%2F697281594" data-filterable-set=":http:http_client_jetty_ws/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws/main" data-filterable-set=":http:http_client_jetty_ws/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="pong.html"><span><span>pong</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-84542907%2FFunctions%2F-2066863090"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-84542907%2FFunctions%2F697281594"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="pong.html"><span class="token function">pong</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="pong.html"><span class="token function">pong</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">data<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="764073396%2FFunctions%2F-2066863090" anchor-label="send" id="764073396%2FFunctions%2F-2066863090" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws:dokkaHtmlPartial/main" data-filterable-set=":http:http_client_jetty_ws:dokkaHtmlPartial/main">
+<a data-name="764073396%2FFunctions%2F697281594" anchor-label="send" id="764073396%2FFunctions%2F697281594" data-filterable-set=":http:http_client_jetty_ws/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_client_jetty_ws/main" data-filterable-set=":http:http_client_jetty_ws/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="send.html"><span><span>send</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="764073396%2FFunctions%2F-2066863090"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="764073396%2FFunctions%2F697281594"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="send.html"><span class="token function">send</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">data<span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="send.html"><span class="token function">send</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">text<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_client_jetty_ws/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="send.html"><span class="token function">send</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">data<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="send.html"><span class="token function">send</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">text<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -233,12 +264,18 @@
     </div>
   </div>
 </div>
-      <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagontk/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagontk/hexagon/blob/main/license.md"> MIT License</a></span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
-      </div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>© 2025 Copyright</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
             </div>
         </div>
     </div>
 </body>
 </html>
-

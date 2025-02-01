@@ -25,77 +25,108 @@
 <link href="../../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../../styles/logo-styles.css" rel="Stylesheet">
 <link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
 <script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
 <script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
-<script type="text/javascript" src="../../../../dokka-mermaid.js" async></script></head>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
     <div class="root">
-<nav class="navigation" id="navigation-wrapper">
-    <div class="navigation--inner">
-        <div class="navigation-title">
-            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
-            <div class="library-name">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
 <a class="library-name--link" href="../../../../index.html">
-                            hexagon
-                    </a>            </div>
-            <div class="library-version">4.0.0-B1
+                    hexagon
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">4.0.0-B2
+        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":serialization:serialization_jackson_xml/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":serialization:serialization_jackson_xml/main" data-filter=":serialization:serialization_jackson_xml/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
         </div>
-        <div class="filter-section" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main">jvm</button>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
         </div>
-    </div>
-    <div class="navigation-controls">
-        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
-        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
-    </div>
-</nav>
+    </nav>
         <div id="container">
             <div class="sidebar" id="leftColumn">
-                <div class="sidebar--inner" id="sideMenu"></div>
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    hexagon
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="classlike" id="content" pageids="serialization_jackson_xml::com.hexagontk.serialization.jackson.xml/Xml///PointingToDeclaration//670874248">
+<div class="main-content" data-page-type="classlike" id="content" pageids="serialization_jackson_xml::com.hexagontk.serialization.jackson.xml/Xml///PointingToDeclaration//2110894720">
   <div class="breadcrumbs"><a href="../../index.html">serialization_jackson_xml</a><span class="delimiter">/</span><a href="../index.html">com.hexagontk.serialization.jackson.xml</a><span class="delimiter">/</span><span class="current">Xml</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Xml</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">Xml</a> : <a href="../../../../serialization/serialization/com.hexagontk.serialization/-serialization-format/index.html">SerializationFormat</a></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">Xml</a> : <a href="../../../../serialization/serialization/com.hexagontk.serialization/-serialization-format/index.html">SerializationFormat</a></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="PROPERTY">
         <h2 class="">Properties</h2>
-        <div class="table"><a data-name="-1883059828%2FProperties%2F670874248" anchor-label="mediaType" id="-1883059828%2FProperties%2F670874248" data-filterable-set=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main" data-filterable-set=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main">
+        <div class="table"><a data-name="-1883059828%2FProperties%2F2110894720" anchor-label="mediaType" id="-1883059828%2FProperties%2F2110894720" data-filterable-set=":serialization:serialization_jackson_xml/main"></a>
+          <div class="table-row" data-filterable-current=":serialization:serialization_jackson_xml/main" data-filterable-set=":serialization:serialization_jackson_xml/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="media-type.html"><span>media</span><wbr><span><span>Type</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1883059828%2FProperties%2F670874248"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1883059828%2FProperties%2F2110894720"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="media-type.html">mediaType</a><span class="token operator">: </span><a href="../../../../core/com.hexagontk.core.media/-media-type/index.html">MediaType</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="media-type.html">mediaType</a><span class="token operator">: </span><a href="../../../../core/com.hexagontk.core.media/-media-type/index.html">MediaType</a></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1265103116%2FProperties%2F670874248" anchor-label="textFormat" id="1265103116%2FProperties%2F670874248" data-filterable-set=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main" data-filterable-set=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main">
+<a data-name="1265103116%2FProperties%2F2110894720" anchor-label="textFormat" id="1265103116%2FProperties%2F2110894720" data-filterable-set=":serialization:serialization_jackson_xml/main"></a>
+          <div class="table-row" data-filterable-current=":serialization:serialization_jackson_xml/main" data-filterable-set=":serialization:serialization_jackson_xml/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="text-format.html"><span>text</span><wbr><span><span>Format</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1265103116%2FProperties%2F670874248"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1265103116%2FProperties%2F2110894720"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="text-format.html">textFormat</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator"> = </span><span class="token boolean">true</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="text-format.html">textFormat</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -104,47 +135,47 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="-1890133218%2FFunctions%2F670874248" anchor-label="parse" id="-1890133218%2FFunctions%2F670874248" data-filterable-set=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main" data-filterable-set=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main">
+        <div class="table"><a data-name="-1890133218%2FFunctions%2F2110894720" anchor-label="parse" id="-1890133218%2FFunctions%2F2110894720" data-filterable-set=":serialization:serialization_jackson_xml/main"></a>
+          <div class="table-row" data-filterable-current=":serialization:serialization_jackson_xml/main" data-filterable-set=":serialization:serialization_jackson_xml/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-148487665%2FFunctions%2F670874248"><span><span>parse</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1890133218%2FFunctions%2F670874248"></span>
+                  <div><a href="index.html#-148487665%2FFunctions%2F2110894720"><span><span>parse</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1890133218%2FFunctions%2F2110894720"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-148487665%2FFunctions%2F670874248"><span class="token function">parse</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="parse.html"><span class="token function">parse</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><span data-unresolved-link="java.io/InputStream///PointingToDeclaration/">InputStream</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-148487665%2FFunctions%2F2110894720"><span class="token function">parse</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="parse.html"><span class="token function">parse</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/InputStream.html">InputStream</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-2069598602%2FFunctions%2F670874248" anchor-label="serialize" id="-2069598602%2FFunctions%2F670874248" data-filterable-set=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main" data-filterable-set=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main">
+<a data-name="-2069598602%2FFunctions%2F2110894720" anchor-label="serialize" id="-2069598602%2FFunctions%2F2110894720" data-filterable-set=":serialization:serialization_jackson_xml/main"></a>
+          <div class="table-row" data-filterable-current=":serialization:serialization_jackson_xml/main" data-filterable-set=":serialization:serialization_jackson_xml/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="serialize.html"><span><span>serialize</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2069598602%2FFunctions%2F670874248"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2069598602%2FFunctions%2F2110894720"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="serialize.html"><span class="token function">serialize</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="serialize.html"><span class="token function">serialize</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span><span class="token punctuation">, </span></span><span class="parameter ">output<span class="token operator">: </span><span data-unresolved-link="java.io/OutputStream///PointingToDeclaration/">OutputStream</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="serialize.html"><span class="token function">serialize</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="serialize.html"><span class="token function">serialize</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter ">output<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/OutputStream.html">OutputStream</a></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1693901480%2FFunctions%2F670874248" anchor-label="serializeBytes" id="1693901480%2FFunctions%2F670874248" data-filterable-set=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main" data-filterable-set=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main">
+<a data-name="1693901480%2FFunctions%2F2110894720" anchor-label="serializeBytes" id="1693901480%2FFunctions%2F2110894720" data-filterable-set=":serialization:serialization_jackson_xml/main"></a>
+          <div class="table-row" data-filterable-current=":serialization:serialization_jackson_xml/main" data-filterable-set=":serialization:serialization_jackson_xml/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1693901480%2FFunctions%2F670874248"><span>serialize</span><wbr><span><span>Bytes</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1693901480%2FFunctions%2F670874248"></span>
+                  <div><a href="index.html#1693901480%2FFunctions%2F2110894720"><span>serialize</span><wbr><span><span>Bytes</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1693901480%2FFunctions%2F2110894720"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1693901480%2FFunctions%2F670874248"><span class="token function">serializeBytes</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/ByteArray///PointingToDeclaration/">ByteArray</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization:serialization_jackson_xml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1693901480%2FFunctions%2F2110894720"><span class="token function">serializeBytes</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a></div></div></div>
                 </div>
               </div>
             </div>
@@ -154,12 +185,18 @@
     </div>
   </div>
 </div>
-      <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagontk/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagontk/hexagon/blob/main/license.md"> MIT License</a></span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
-      </div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>© 2025 Copyright</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
             </div>
         </div>
     </div>
 </body>
 </html>
-

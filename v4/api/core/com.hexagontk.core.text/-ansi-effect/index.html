@@ -25,272 +25,303 @@
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
 <link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
 <script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
-<script type="text/javascript" src="../../../dokka-mermaid.js" async></script></head>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
     <div class="root">
-<nav class="navigation" id="navigation-wrapper">
-    <div class="navigation--inner">
-        <div class="navigation-title">
-            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
-            <div class="library-name">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
 <a class="library-name--link" href="../../../index.html">
-                            hexagon
-                    </a>            </div>
-            <div class="library-version">4.0.0-B1
+                    hexagon
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">4.0.0-B2
+        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":core/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":core/main" data-filter=":core/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
         </div>
-        <div class="filter-section" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":core:dokkaHtmlPartial/main">jvm</button>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
         </div>
-    </div>
-    <div class="navigation-controls">
-        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
-        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
-    </div>
-</nav>
+    </nav>
         <div id="container">
             <div class="sidebar" id="leftColumn">
-                <div class="sidebar--inner" id="sideMenu"></div>
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    hexagon
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="classlike" id="content" pageids="core::com.hexagontk.core.text/AnsiEffect///PointingToDeclaration//537371977">
+<div class="main-content" data-page-type="classlike" id="content" pageids="core::com.hexagontk.core.text/AnsiEffect///PointingToDeclaration//-431355489">
   <div class="breadcrumbs"><a href="../../index.html">core</a><span class="delimiter">/</span><a href="../index.html">com.hexagontk.core.text</a><span class="delimiter">/</span><span class="current">AnsiEffect</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Ansi</span><wbr><span><span>Effect</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">AnsiEffect</a></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">AnsiEffect</a></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="PROPERTY">
         <h2 class="">Properties</h2>
-        <div class="table"><a data-name="393536229%2FProperties%2F537371977" anchor-label="BLINK" id="393536229%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+        <div class="table"><a data-name="393536229%2FProperties%2F-431355489" anchor-label="BLINK" id="393536229%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-l-i-n-k.html"><span><span>BLINK</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="393536229%2FProperties%2F537371977"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="393536229%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-l-i-n-k.html">BLINK</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Enable blinking text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-l-i-n-k.html">BLINK</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Enable blinking text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1303343189%2FProperties%2F537371977" anchor-label="BLINK_OFF" id="1303343189%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="1303343189%2FProperties%2F-431355489" anchor-label="BLINK_OFF" id="1303343189%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-b-l-i-n-k_-o-f-f.html"><span><span>BLINK_OFF</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1303343189%2FProperties%2F537371977"></span>
+                  <div><a href="-b-l-i-n-k_-o-f-f.html"><span>BLINK_</span><wbr><span>OFF</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1303343189%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-l-i-n-k_-o-f-f.html">BLINK_OFF</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Disable blinking text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-l-i-n-k_-o-f-f.html">BLINK_OFF</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Disable blinking text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1396988276%2FProperties%2F537371977" anchor-label="BOLD" id="1396988276%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="1396988276%2FProperties%2F-431355489" anchor-label="BOLD" id="1396988276%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-o-l-d.html"><span><span>BOLD</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1396988276%2FProperties%2F537371977"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1396988276%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-o-l-d.html">BOLD</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Enable bold text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-o-l-d.html">BOLD</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Enable bold text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-1867315356%2FProperties%2F537371977" anchor-label="BOLD_OFF" id="-1867315356%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="-1867315356%2FProperties%2F-431355489" anchor-label="BOLD_OFF" id="-1867315356%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-b-o-l-d_-o-f-f.html"><span><span>BOLD_OFF</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1867315356%2FProperties%2F537371977"></span>
+                  <div><a href="-b-o-l-d_-o-f-f.html"><span>BOLD_</span><wbr><span>OFF</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1867315356%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-o-l-d_-o-f-f.html">BOLD_OFF</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Disable bold text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-o-l-d_-o-f-f.html">BOLD_OFF</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Disable bold text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="443704377%2FProperties%2F537371977" anchor-label="DIM" id="443704377%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="443704377%2FProperties%2F-431355489" anchor-label="DIM" id="443704377%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-d-i-m.html"><span><span>DIM</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="443704377%2FProperties%2F537371977"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="443704377%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-d-i-m.html">DIM</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Enable dim text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-d-i-m.html">DIM</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Enable dim text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-1465636951%2FProperties%2F537371977" anchor-label="DIM_OFF" id="-1465636951%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="-1465636951%2FProperties%2F-431355489" anchor-label="DIM_OFF" id="-1465636951%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-d-i-m_-o-f-f.html"><span><span>DIM_OFF</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1465636951%2FProperties%2F537371977"></span>
+                  <div><a href="-d-i-m_-o-f-f.html"><span>DIM_</span><wbr><span>OFF</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1465636951%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-d-i-m_-o-f-f.html">DIM_OFF</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Disable dim text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-d-i-m_-o-f-f.html">DIM_OFF</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Disable dim text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1105547232%2FProperties%2F537371977" anchor-label="FAST_BLINK" id="1105547232%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="1105547232%2FProperties%2F-431355489" anchor-label="FAST_BLINK" id="1105547232%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-f-a-s-t_-b-l-i-n-k.html"><span><span>FAST_BLINK</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1105547232%2FProperties%2F537371977"></span>
+                  <div><a href="-f-a-s-t_-b-l-i-n-k.html"><span>FAST_</span><wbr><span>BLINK</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1105547232%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-f-a-s-t_-b-l-i-n-k.html">FAST_BLINK</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Enable fast blinking text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-f-a-s-t_-b-l-i-n-k.html">FAST_BLINK</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Enable fast blinking text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1204666513%2FProperties%2F537371977" anchor-label="INVERSE" id="1204666513%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="1204666513%2FProperties%2F-431355489" anchor-label="INVERSE" id="1204666513%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-i-n-v-e-r-s-e.html"><span><span>INVERSE</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1204666513%2FProperties%2F537371977"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1204666513%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-i-n-v-e-r-s-e.html">INVERSE</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Enable inverse color text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-i-n-v-e-r-s-e.html">INVERSE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Enable inverse color text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-976644095%2FProperties%2F537371977" anchor-label="INVERSE_OFF" id="-976644095%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="-976644095%2FProperties%2F-431355489" anchor-label="INVERSE_OFF" id="-976644095%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-i-n-v-e-r-s-e_-o-f-f.html"><span><span>INVERSE_OFF</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-976644095%2FProperties%2F537371977"></span>
+                  <div><a href="-i-n-v-e-r-s-e_-o-f-f.html"><span>INVERSE_</span><wbr><span>OFF</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-976644095%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-i-n-v-e-r-s-e_-o-f-f.html">INVERSE_OFF</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Disable inverse color text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-i-n-v-e-r-s-e_-o-f-f.html">INVERSE_OFF</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Disable inverse color text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-725447383%2FProperties%2F537371977" anchor-label="ITALIC" id="-725447383%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="-725447383%2FProperties%2F-431355489" anchor-label="ITALIC" id="-725447383%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-i-t-a-l-i-c.html"><span><span>ITALIC</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-725447383%2FProperties%2F537371977"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-725447383%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-i-t-a-l-i-c.html">ITALIC</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Enable italic text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-i-t-a-l-i-c.html">ITALIC</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Enable italic text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-69838695%2FProperties%2F537371977" anchor-label="ITALIC_OFF" id="-69838695%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="-69838695%2FProperties%2F-431355489" anchor-label="ITALIC_OFF" id="-69838695%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-i-t-a-l-i-c_-o-f-f.html"><span><span>ITALIC_OFF</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-69838695%2FProperties%2F537371977"></span>
+                  <div><a href="-i-t-a-l-i-c_-o-f-f.html"><span>ITALIC_</span><wbr><span>OFF</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-69838695%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-i-t-a-l-i-c_-o-f-f.html">ITALIC_OFF</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Disable italic text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-i-t-a-l-i-c_-o-f-f.html">ITALIC_OFF</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Disable italic text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="134888935%2FProperties%2F537371977" anchor-label="STRIKE" id="134888935%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="134888935%2FProperties%2F-431355489" anchor-label="STRIKE" id="134888935%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-s-t-r-i-k-e.html"><span><span>STRIKE</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="134888935%2FProperties%2F537371977"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="134888935%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-s-t-r-i-k-e.html">STRIKE</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Enable strike text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-s-t-r-i-k-e.html">STRIKE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Enable strike text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-298091945%2FProperties%2F537371977" anchor-label="STRIKE_OFF" id="-298091945%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="-298091945%2FProperties%2F-431355489" anchor-label="STRIKE_OFF" id="-298091945%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-s-t-r-i-k-e_-o-f-f.html"><span><span>STRIKE_OFF</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-298091945%2FProperties%2F537371977"></span>
+                  <div><a href="-s-t-r-i-k-e_-o-f-f.html"><span>STRIKE_</span><wbr><span>OFF</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-298091945%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-s-t-r-i-k-e_-o-f-f.html">STRIKE_OFF</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Disable strike text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-s-t-r-i-k-e_-o-f-f.html">STRIKE_OFF</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Disable strike text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-2060587147%2FProperties%2F537371977" anchor-label="UNDERLINE" id="-2060587147%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="-2060587147%2FProperties%2F-431355489" anchor-label="UNDERLINE" id="-2060587147%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-u-n-d-e-r-l-i-n-e.html"><span><span>UNDERLINE</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2060587147%2FProperties%2F537371977"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2060587147%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-u-n-d-e-r-l-i-n-e.html">UNDERLINE</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Enable underline text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-u-n-d-e-r-l-i-n-e.html">UNDERLINE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Enable underline text.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-403720987%2FProperties%2F537371977" anchor-label="UNDERLINE_OFF" id="-403720987%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
+<a data-name="-403720987%2FProperties%2F-431355489" anchor-label="UNDERLINE_OFF" id="-403720987%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
+          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-u-n-d-e-r-l-i-n-e_-o-f-f.html"><span><span>UNDERLINE_OFF</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-403720987%2FProperties%2F537371977"></span>
+                  <div><a href="-u-n-d-e-r-l-i-n-e_-o-f-f.html"><span>UNDERLINE_</span><wbr><span>OFF</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-403720987%2FProperties%2F-431355489"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-u-n-d-e-r-l-i-n-e_-o-f-f.html">UNDERLINE_OFF</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Disable underline text.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-u-n-d-e-r-l-i-n-e_-o-f-f.html">UNDERLINE_OFF</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Disable underline text.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -300,12 +331,18 @@
     </div>
   </div>
 </div>
-      <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagontk/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagontk/hexagon/blob/main/license.md"> MIT License</a></span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
-      </div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>© 2025 Copyright</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
             </div>
         </div>
     </div>
 </body>
 </html>
-

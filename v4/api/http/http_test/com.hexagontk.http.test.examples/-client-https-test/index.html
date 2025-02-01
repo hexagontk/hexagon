@@ -25,62 +25,93 @@
 <link href="../../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../../styles/logo-styles.css" rel="Stylesheet">
 <link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
 <script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
 <script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
-<script type="text/javascript" src="../../../../dokka-mermaid.js" async></script></head>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
     <div class="root">
-<nav class="navigation" id="navigation-wrapper">
-    <div class="navigation--inner">
-        <div class="navigation-title">
-            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
-            <div class="library-name">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
 <a class="library-name--link" href="../../../../index.html">
-                            hexagon
-                    </a>            </div>
-            <div class="library-version">4.0.0-B1
+                    hexagon
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">4.0.0-B2
+        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http_test/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":http:http_test/main" data-filter=":http:http_test/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
         </div>
-        <div class="filter-section" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http_test:dokkaHtmlPartial/main">jvm</button>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
         </div>
-    </div>
-    <div class="navigation-controls">
-        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
-        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
-    </div>
-</nav>
+    </nav>
         <div id="container">
             <div class="sidebar" id="leftColumn">
-                <div class="sidebar--inner" id="sideMenu"></div>
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    hexagon
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="classlike" id="content" pageids="http_test::com.hexagontk.http.test.examples/ClientHttpsTest///PointingToDeclaration//1365834161">
+<div class="main-content" data-page-type="classlike" id="content" pageids="http_test::com.hexagontk.http.test.examples/ClientHttpsTest///PointingToDeclaration//83408951">
   <div class="breadcrumbs"><a href="../../index.html">http_test</a><span class="delimiter">/</span><a href="../index.html">com.hexagontk.http.test.examples</a><span class="delimiter">/</span><span class="current">ClientHttpsTest</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Client</span><wbr><span>Https</span><wbr><span><span>Test</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">ClientHttpsTest</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">clientAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../../../../http/http_client/com.hexagontk.http.client/-http-client-port/index.html">HttpClientPort</a><span class="token punctuation">, </span></span><span class="parameter ">serverAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../../../../http/http_server/com.hexagontk.http.server/-http-server-port/index.html">HttpServerPort</a><span class="token punctuation">, </span></span><span class="parameter ">serializationFormats<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><a href="../../../../serialization/serialization/com.hexagontk.serialization/-serialization-format/index.html">SerializationFormat</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">serverSettings<span class="token operator">: </span><a href="../../../../http/http_server/com.hexagontk.http.server/-http-server-settings/index.html">HttpServerSettings</a><span class="token operator"> = </span>HttpServerSettings()</span></span><span class="token punctuation">)</span> : <a href="../../com.hexagontk.http.test/-base-test/index.html">BaseTest</a></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">ClientHttpsTest</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">clientAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../../../../http/http_client/com.hexagontk.http.client/-http-client-port/index.html">HttpClientPort</a><span class="token punctuation">, </span></span><span class="parameter ">serverAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../../../../http/http_server/com.hexagontk.http.server/-http-server-port/index.html">HttpServerPort</a><span class="token punctuation">, </span></span><span class="parameter ">serializationFormats<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../../../serialization/serialization/com.hexagontk.serialization/-serialization-format/index.html">SerializationFormat</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">serverSettings<span class="token operator">: </span><a href="../../../../http/http_server/com.hexagontk.http.server/-http-server-settings/index.html">HttpServerSettings</a><span class="token operator"> = </span>HttpServerSettings()</span></span><span class="token punctuation">)</span> : <a href="../../com.hexagontk.http.test/-base-test/index.html">BaseTest</a></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
         <h2 class="">Constructors</h2>
-        <div class="table"><a data-name="1773738211%2FConstructors%2F1365834161" anchor-label="ClientHttpsTest" id="1773738211%2FConstructors%2F1365834161" data-filterable-set=":http:http_test:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http_test:dokkaHtmlPartial/main" data-filterable-set=":http:http_test:dokkaHtmlPartial/main">
+        <div class="table"><a data-name="1773738211%2FConstructors%2F83408951" anchor-label="ClientHttpsTest" id="1773738211%2FConstructors%2F83408951" data-filterable-set=":http:http_test/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-client-https-test.html"><span>Client</span><wbr><span>Https</span><wbr><span><span>Test</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1773738211%2FConstructors%2F1365834161"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1773738211%2FConstructors%2F83408951"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">clientAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../../../../http/http_client/com.hexagontk.http.client/-http-client-port/index.html">HttpClientPort</a><span class="token punctuation">, </span></span><span class="parameter ">serverAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../../../../http/http_server/com.hexagontk.http.server/-http-server-port/index.html">HttpServerPort</a><span class="token punctuation">, </span></span><span class="parameter ">serializationFormats<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><a href="../../../../serialization/serialization/com.hexagontk.serialization/-serialization-format/index.html">SerializationFormat</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">serverSettings<span class="token operator">: </span><a href="../../../../http/http_server/com.hexagontk.http.server/-http-server-settings/index.html">HttpServerSettings</a><span class="token operator"> = </span>HttpServerSettings()</span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">clientAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../../../../http/http_client/com.hexagontk.http.client/-http-client-port/index.html">HttpClientPort</a><span class="token punctuation">, </span></span><span class="parameter ">serverAdapter<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../../../../http/http_server/com.hexagontk.http.server/-http-server-port/index.html">HttpServerPort</a><span class="token punctuation">, </span></span><span class="parameter ">serializationFormats<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../../../serialization/serialization/com.hexagontk.serialization/-serialization-format/index.html">SerializationFormat</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">serverSettings<span class="token operator">: </span><a href="../../../../http/http_server/com.hexagontk.http.server/-http-server-settings/index.html">HttpServerSettings</a><span class="token operator"> = </span>HttpServerSettings()</span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -89,77 +120,77 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="-1172488690%2FFunctions%2F1365834161" anchor-label="nativeMac" id="-1172488690%2FFunctions%2F1365834161" data-filterable-set=":http:http_test:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test:dokkaHtmlPartial/main" data-filterable-set=":http:http_test:dokkaHtmlPartial/main">
+        <div class="table"><a data-name="-1172488690%2FFunctions%2F83408951" anchor-label="nativeMac" id="-1172488690%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="native-mac.html"><span>native</span><wbr><span><span>Mac</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1172488690%2FFunctions%2F1365834161"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1172488690%2FFunctions%2F83408951"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="native-mac.html"><span class="token function">nativeMac</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="native-mac.html"><span class="token function">nativeMac</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1948739746%2FFunctions%2F1365834161" anchor-label="Request HTTPS example" id="1948739746%2FFunctions%2F1365834161" data-filterable-set=":http:http_test:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test:dokkaHtmlPartial/main" data-filterable-set=":http:http_test:dokkaHtmlPartial/main">
+<a data-name="1948739746%2FFunctions%2F83408951" anchor-label="Request HTTPS example" id="1948739746%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-request -h-t-t-p-s example.html"><span><span>Request</span></span> <span><span>HTTPS</span></span> <span><span>example</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1948739746%2FFunctions%2F1365834161"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1948739746%2FFunctions%2F83408951"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api.condition/DisabledIf///PointingToDeclaration/"><span class="token annotation builtin">DisabledIf</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">"nativeMac"</span></span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><a href="-request -h-t-t-p-s example.html"><span class="token function">Request HTTPS example</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/Test///PointingToDeclaration/"><span class="token annotation builtin">Test</span></span></div><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api.condition/DisabledIf///PointingToDeclaration/"><span class="token annotation builtin">DisabledIf</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">"nativeMac"</span></span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><a href="-request -h-t-t-p-s example.html"><span class="token function">Request HTTPS example</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-454278279%2FFunctions%2F1365834161" anchor-label="resetHandler" id="-454278279%2FFunctions%2F1365834161" data-filterable-set=":http:http_test:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test:dokkaHtmlPartial/main" data-filterable-set=":http:http_test:dokkaHtmlPartial/main">
+<a data-name="-454278279%2FFunctions%2F83408951" anchor-label="resetHandler" id="-454278279%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="reset-handler.html"><span>reset</span><wbr><span><span>Handler</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-454278279%2FFunctions%2F1365834161"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-454278279%2FFunctions%2F83408951"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/BeforeEach///PointingToDeclaration/"><span class="token annotation builtin">BeforeEach</span></span></div></div><span class="token keyword">fun </span><a href="reset-handler.html"><span class="token function">resetHandler</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/BeforeEach///PointingToDeclaration/"><span class="token annotation builtin">BeforeEach</span></span></div></div><span class="token keyword">fun </span><a href="reset-handler.html"><span class="token function">resetHandler</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1046838109%2FFunctions%2F1365834161" anchor-label="setUpSerializationFormats" id="1046838109%2FFunctions%2F1365834161" data-filterable-set=":http:http_test:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test:dokkaHtmlPartial/main" data-filterable-set=":http:http_test:dokkaHtmlPartial/main">
+<a data-name="1046838109%2FFunctions%2F83408951" anchor-label="setUpSerializationFormats" id="1046838109%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="set-up-serialization-formats.html"><span>set</span><wbr><span>Up</span><wbr><span>Serialization</span><wbr><span><span>Formats</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1046838109%2FFunctions%2F1365834161"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1046838109%2FFunctions%2F83408951"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/BeforeAll///PointingToDeclaration/"><span class="token annotation builtin">BeforeAll</span></span></div></div><span class="token keyword">fun </span><a href="set-up-serialization-formats.html"><span class="token function">setUpSerializationFormats</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/BeforeAll///PointingToDeclaration/"><span class="token annotation builtin">BeforeAll</span></span></div></div><span class="token keyword">fun </span><a href="set-up-serialization-formats.html"><span class="token function">setUpSerializationFormats</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-215439727%2FFunctions%2F1365834161" anchor-label="startUp" id="-215439727%2FFunctions%2F1365834161" data-filterable-set=":http:http_test:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test:dokkaHtmlPartial/main" data-filterable-set=":http:http_test:dokkaHtmlPartial/main">
+<a data-name="-215439727%2FFunctions%2F83408951" anchor-label="startUp" id="-215439727%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
+          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../../com.hexagontk.http.test/-base-test/start-up.html"><span>start</span><wbr><span><span>Up</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-215439727%2FFunctions%2F1365834161"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-215439727%2FFunctions%2F83408951"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/BeforeAll///PointingToDeclaration/"><span class="token annotation builtin">BeforeAll</span></span></div></div><span class="token keyword">fun </span><a href="../../com.hexagontk.http.test/-base-test/start-up.html"><span class="token function">startUp</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_test/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.junit.jupiter.api/BeforeAll///PointingToDeclaration/"><span class="token annotation builtin">BeforeAll</span></span></div></div><span class="token keyword">fun </span><a href="../../com.hexagontk.http.test/-base-test/start-up.html"><span class="token function">startUp</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -169,12 +200,18 @@
     </div>
   </div>
 </div>
-      <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagontk/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagontk/hexagon/blob/main/license.md"> MIT License</a></span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
-      </div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>© 2025 Copyright</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
             </div>
         </div>
     </div>
 </body>
 </html>
-
