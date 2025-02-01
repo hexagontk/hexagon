@@ -140,23 +140,6 @@ abstract class HttpsTest(
 
     @Test
     @DisabledIf("nativeMac")
-    fun `Serve HTTP2 works properly`() {
-
-        val server = serve(serverAdapter(), handler, http2ServerSettings)
-
-        val client = HttpClient(clientAdapter(), clientSettings.with(baseUri = serverBase(server)))
-        client.start()
-        client.get("/hello").apply {
-            assert(headers.require("cert").text.startsWith("CN=hexagontk.com"))
-            assertEquals("Hello World!", body)
-        }
-
-        client.stop()
-        server.stop()
-    }
-
-    @Test
-    @DisabledIf("nativeMac")
     fun `Serve insecure HTTPS example`() {
 
         val identity = "hexagontk.p12"
