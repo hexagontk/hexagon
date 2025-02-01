@@ -112,17 +112,7 @@ Singleton object to manage a cross toolkit aspect. I.e., Serialization or Templa
 [http_client_jetty]: http_client_jetty.md
 [http_server_jetty]: http_server_jetty.md
 
-# Hexagon Extras
-The libraries inside the [hexagon_extra] repository provide extra features. They may be useful to
-develop applications, but not strictly required. Some of these modules are:
-
-* Schedulers: Provides repeated tasks execution based on [Cron] expressions.
-* Models: Contain classes that model common data objects.
-* Args: Command line arguments definition and parsing.
-
-[hexagon_extra]: https://github.com/hexagontk/hexagon_extra
 [Web]: web.md
-[Cron]: https://en.wikipedia.org/wiki/Cron
 
 # Architecture
 How Hexagon fits in your architecture in a picture.

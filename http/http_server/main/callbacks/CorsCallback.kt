@@ -92,7 +92,8 @@ class CorsCallback(
 
         if (exposedHeaders.isNotEmpty()) {
             val requestHeaderNames = request.headers.keys.toSet()
-            val requestHeaders = requestHeaderNames.filter { it in exposedHeaders }
+            val requestHeaders =
+                requestHeaderNames.map { it.lowercase() }.filter { it in exposedHeaders }
 
             h += Header(EXPOSE_HEADERS, requestHeaders.joinToString(","))
         }

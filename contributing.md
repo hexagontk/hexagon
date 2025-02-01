@@ -104,7 +104,7 @@ If you want to generate the documentation site, check the Hexagon's site module 
 
 ## Major Release Checklist
 1. Replace documents' links: `/blob/main/` to `/blob/release/${version}/`
-2. Release site's dependent projects (`hexagon_extra`)
+2. Release site's dependent projects (i.e.: `gradle_starter`)
 3. Publish their packages using the [Nexus Repository Manager]
 4. Merge Hexagon main project to `main` in GitHub
 5. Check the site deployment is OK ([https://hexagontk.com])

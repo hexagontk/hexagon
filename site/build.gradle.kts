@@ -1,15 +1,80 @@
 
+import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier.Public
 import kotlin.math.floor
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
+
+plugins {
+    id("org.jetbrains.dokka")
+}
 
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
 
 val venv: String = "${project.projectDir}/build/mkdocs"
 
+dependencies {
+    dokka(project(":core"))
+    dokka(project(":handlers"))
+    dokka(project(":helpers"))
+
+    dokka(project(":http:http"))
+    dokka(project(":http:http_client"))
+    dokka(project(":http:http_client_jdk"))
+    dokka(project(":http:http_client_jetty"))
+    dokka(project(":http:http_client_jetty_ws"))
+    dokka(project(":http:http_handlers"))
+    dokka(project(":http:http_server"))
+    dokka(project(":http:http_server_helidon"))
+    dokka(project(":http:http_server_jetty"))
+    dokka(project(":http:http_server_netty"))
+    dokka(project(":http:http_server_netty_epoll"))
+    dokka(project(":http:http_server_servlet"))
+    dokka(project(":http:http_test"))
+    dokka(project(":http:rest"))
+    dokka(project(":http:rest_tools"))
+    dokka(project(":http:web"))
+
+    dokka(project(":serialization:serialization"))
+    dokka(project(":serialization:serialization_dsl_json"))
+    dokka(project(":serialization:serialization_jackson"))
+    dokka(project(":serialization:serialization_jackson_csv"))
+    dokka(project(":serialization:serialization_jackson_json"))
+    dokka(project(":serialization:serialization_jackson_toml"))
+    dokka(project(":serialization:serialization_jackson_xml"))
+    dokka(project(":serialization:serialization_jackson_yaml"))
+    dokka(project(":serialization:serialization_test"))
+
+    dokka(project(":serverless:serverless_http_google"))
+
+    dokka(project(":templates:templates"))
+    dokka(project(":templates:templates_freemarker"))
+    dokka(project(":templates:templates_jte"))
+    dokka(project(":templates:templates_pebble"))
+    dokka(project(":templates:templates_rocker"))
+    dokka(project(":templates:templates_test"))
+}
+
+dokka {
+    moduleName.set(rootProject.name)
+    dokkaSourceSets {
+        configureEach {
+            documentedVisibilities.set(setOf(Public))
+        }
+        dokkaPublications.html {
+            outputDirectory.set(project.file("build/content/api"))
+        }
+        pluginsConfiguration.html {
+            val footerLines = rootProject.file("site/footer.txt").readLines()
+            val footer = footerLines.joinToString(" ") { it.trim() }
+
+            footerMessage.set(footer)
+            customStyleSheets.from("assets/css/dokka.css")
+            customAssets.from("assets/img/logo.svg")
+        }
+    }
+}
+
 tasks.register<JacocoReport>("jacocoRootReport") {
-    dependsOn(":dokkaHtmlMultiModule")
+    dependsOn(tasks["dokkaGenerate"])
 
     val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
     val modulesSources = rootProject.modulesPaths("main")
@@ -32,23 +97,8 @@ tasks.register<JacocoReport>("jacocoRootReport") {
     }
 }
 
-val footer = file("footer.txt").readLines().joinToString(" ") { it.trim() }
-
-val dokkaConfiguration =
-    mapOf("org.jetbrains.dokka.base.DokkaBase" to """{ "footerMessage": "$footer" }""")
-
-rootProject.tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
-    outputDirectory.set(rootProject.file("site/build/content/api"))
-    pluginsMapConfiguration.set(dokkaConfiguration)
-}
-
-rootProject
-    .getTasksByName("dokkaHtmlPartial", true)
-    .filterIsInstance<DokkaTaskPartial>()
-    .forEach { it.pluginsMapConfiguration.set(dokkaConfiguration) }
-
 task("mkDocs") {
-    dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
+    dependsOn(tasks["jacocoRootReport"])
 //    dependsOn("icons")
 
     doLast {
@@ -69,9 +119,6 @@ task("mkDocs") {
 
         overwrite("assets/img/logo.svg", "$contentTarget/api/images/logo-icon.svg")
         overwrite("assets/img/logo_white_text.svg", "$contentTarget/api/images/docs_logo.svg")
-        overwrite("$contentTarget/api/core/dokka-mermaid.js", "$contentTarget/api/dokka-mermaid.js")
-        project.file("build/content/api/styles/main.css")
-            .appendText(project.file("assets/css/dokka.css").readText())
 
         val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
         markdownFiles.forEach { markdownFile ->

@@ -13,17 +13,13 @@ if (findProperty("fullBuild") != null) {
 }
 
 group = "com.hexagontk.http"
-description = "HTTP server adapter for Netty (using Linux Epoll)."
+description = "HTTP server adapter for JDK HTTP server."
 
 dependencies {
-    val nettyVersion = libs.versions.netty.get()
-
-    "api"(project(":http:http_server_netty"))
-    "api"("io.netty:netty-transport-native-epoll:$nettyVersion")
+    "api"(project(":http:http_server"))
 
     "testImplementation"(project(":http:http_test"))
     "testImplementation"(project(":http:http_client_jetty"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
     "testImplementation"(project(":serialization:serialization_jackson_yaml"))
-    "testImplementation"("io.netty:netty-transport-native-epoll:$nettyVersion:linux-x86_64")
 }

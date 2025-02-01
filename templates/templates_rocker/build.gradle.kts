@@ -37,9 +37,6 @@ rocker {
     }
 }
 
-if (findProperty("fullBuild") != null)
-    tasks.named("dokkaJavadoc") { dependsOn("compileTestJava") }
-
 // TODO Check 'official' plugin
 //tasks.named("compileKotlin") {
 //    dependsOn("generateRockerTemplateSource")

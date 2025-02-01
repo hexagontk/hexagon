@@ -15,7 +15,6 @@ group = "com.hexagontk.http"
 description = "Test cases for HTTP client and server adapters."
 
 dependencies {
-    val gatlingVersion = libs.versions.gatling.get()
     val slf4jVersion = libs.versions.slf4j.get()
 
     "api"(project(":serialization:serialization"))
@@ -25,7 +24,4 @@ dependencies {
     "api"("org.slf4j:log4j-over-slf4j:$slf4jVersion")
     "api"("org.slf4j:jcl-over-slf4j:$slf4jVersion")
     "api"("org.slf4j:slf4j-jdk14:$slf4jVersion")
-    "api"("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion") {
-        exclude("ch.qos.logback")
-    }
 }
