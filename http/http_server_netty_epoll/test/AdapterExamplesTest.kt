@@ -34,6 +34,8 @@ internal class AdapterClientHttpsTest : ClientHttpsTest(clientAdapter, serverAda
 @EnabledOnOs(OS.LINUX)
 internal class AdapterClientMultipartTest : ClientMultipartTest(clientAdapter, serverAdapter, formats)
 @EnabledOnOs(OS.LINUX)
+internal class AdapterHttp2Test : Http2Test(clientAdapter, serverAdapter)
+@EnabledOnOs(OS.LINUX)
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 @EnabledOnOs(OS.LINUX)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)

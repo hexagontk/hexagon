@@ -12,7 +12,6 @@ val clientAdapter: () -> HttpClientPort = ::JdkHttpClient
 val serverAdapter: () -> HttpServerPort = ::JettyServletHttpServer
 val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 
-// TODO Add multipart and file upload tests
 internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)
 internal class AdapterErrorsTest : ErrorsTest(clientAdapter, serverAdapter)
 internal class AdapterFiltersTest : FiltersTest(clientAdapter, serverAdapter)
@@ -20,6 +19,7 @@ internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter, form
 internal class AdapterClientCookiesTest : ClientCookiesTest(clientAdapter, serverAdapter, formats)
 internal class AdapterClientHttp2Test : ClientHttp2Test(clientAdapter, serverAdapter, formats)
 internal class AdapterClientHttpsTest : ClientHttpsTest(clientAdapter, serverAdapter, formats)
+internal class AdapterHttp2Test : Http2Test(clientAdapter, serverAdapter)
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
 internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)

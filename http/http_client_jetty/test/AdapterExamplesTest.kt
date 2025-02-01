@@ -20,6 +20,7 @@ internal class AdapterClientCookiesTest : ClientCookiesTest(clientAdapter, serve
 internal class AdapterClientHttp2Test : ClientHttp2Test(clientAdapter, serverAdapter, formats)
 internal class AdapterClientHttpsTest : ClientHttpsTest(clientAdapter, serverAdapter, formats)
 internal class AdapterClientMultipartTest : ClientMultipartTest(clientAdapter, serverAdapter, formats)
+internal class AdapterHttp2Test : Http2Test(clientAdapter, serverAdapter)
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
 internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)
