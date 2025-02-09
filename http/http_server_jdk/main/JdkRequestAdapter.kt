@@ -11,7 +11,7 @@ import com.sun.net.httpserver.HttpsExchange
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLSession
 
-class JdkRequestAdapter(
+internal class JdkRequestAdapter(
     methodName: String,
     exchange: HttpExchange,
 ) : HttpRequestPort {
