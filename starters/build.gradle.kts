@@ -6,6 +6,8 @@ import javax.xml.parsers.DocumentBuilderFactory
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 
+description = "Project starters."
+
 extensions.configure<PublishingExtension> {
     publications {
         createPomPublication("hexagon_bom") { pomDom ->
