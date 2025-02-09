@@ -16,14 +16,14 @@ a project from scratch following these steps:
         mavenCentral()
     }
 
-    implementation("com.hexagontk:http_server_jetty:$hexagonVersion")
+    implementation("com.hexagontk.http:http_server_jetty:$hexagonVersion")
     ```
 
 === "pom.xml"
 
     ```xml
     <dependency>
-      <groupId>com.hexagontk</groupId>
+      <groupId>com.hexagontk.http</groupId>
       <artifactId>http_server_jetty</artifactId>
       <version>$hexagonVersion</version>
     </dependency>

@@ -136,6 +136,7 @@ tasks.register("jacocoReportSources") {
             copy {
                 from(project.sourceSets.main.allSource)
                 into(relativePackageDirectory)
+                include("*.kt")
             }
         }
     }

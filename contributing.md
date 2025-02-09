@@ -50,18 +50,6 @@ Create a new issue using the [enhancement template] to file an improvement.
 [commit guidelines]: https://github.com/hexagontk/.github/blob/master/commits.md
 [ideas]: https://github.com/hexagontk/hexagon/discussions/categories/ideas
 
-## Project Structure
-The Hexagon project is composed of several modules. Most of the modules publish libraries for their
-use by other projects (check the [Hexagon Structure] section of the readme file for more details).
-
-Aside of that kind of modules, you can also find infrastructure modules: components used by the
-project itself. These are internal modules not intended to be directly used by users (like the
-[starters] or the [site]).
-
-[Hexagon Structure]: https://github.com/hexagontk/hexagon/blob/main/README.md#hexagon-structure
-[starters]: https://github.com/hexagontk/hexagon/blob/main/starters/README.md
-[site]: https://github.com/hexagontk/hexagon/blob/main/site/README.md
-
 ## Local Setup
 Hexagon build process requires a JDK 21+ to compile. You can check the required software, build the
 project, generate the documentation and install it in your local repository typing:
@@ -116,6 +104,7 @@ If you want to generate the documentation site, check the Hexagon's site module 
 11. Create a changelog to announce the release
 12. Publish changelog on:
   * Dev.to
+  * Daily.dev
   * Reddit Kotlin
   * X (Twitter)
   * LinkedIn
