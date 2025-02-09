@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GoogleHttpFunction.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.serverless.http.google</a> &gt; <span class="el_source">GoogleHttpFunction.kt</span></div><h1>GoogleHttpFunction.kt</h1><pre class="source lang-java linenums">package com.hexagontk.serverless.http.google
+
+import com.hexagontk.http.handlers.bodyToBytes
+import com.google.cloud.functions.HttpFunction
+import com.google.cloud.functions.HttpRequest
+import com.google.cloud.functions.HttpResponse
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.core.toText
+import com.hexagontk.http.handlers.HttpContext
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.model.*
+import com.hexagontk.http.parseContentType
+import java.net.URI
+
+<span class="fc" id="L15">class GoogleHttpFunction(private val handler: HttpHandler): HttpFunction {</span>
+
+    override fun service(request: HttpRequest, response: HttpResponse) {
+<span class="fc" id="L18">        val handlerRequest = createRequest(request)</span>
+<span class="fc" id="L19">        val handlerContext = handler.process(handlerRequest)</span>
+<span class="fc" id="L20">        writeResponse(response, handlerContext)</span>
+<span class="fc" id="L21">    }</span>
+
+    private fun createRequest(request: HttpRequest): com.hexagontk.http.model.HttpRequest {
+<span class="fc" id="L24">        val uri = URI(request.uri)</span>
+<span class="fc" id="L25">        val qp =</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">            request.queryParameters?.flatMap { (k, v) -&gt; v.map { Parameter(k, it) } } ?: emptyList()</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">        val h = request.headers?.flatMap { (k, v) -&gt; v.map { Header(k, it) } } ?: emptyList()</span>
+<span class="fc" id="L28">        val contentType = request.contentType.map { parseContentType(it) }.orElse(null)</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        val accept = request.headers[&quot;accept&quot;]?.map { parseContentType(it) } ?: emptyList()</span>
+<span class="fc" id="L30">        val authorization = request.headers[&quot;authorization&quot;]</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">            ?.first()</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">            ?.split(&quot; &quot;, limit = 2)</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">            ?.let { Authorization(it.first(), it.last()) }</span>
+
+        // TODO Fix parts upload
+<span class="fc" id="L36">        val parts = emptyList&lt;HttpPart&gt;()</span>
+//            if (request.contentType.orElse(&quot;&quot;).contains(&quot;multipart&quot;)) {
+//                request.parts.map { (k, v) -&gt;
+//                    HttpPart(
+//                        name = k,
+//                        body = v.inputStream.readAllBytes(),
+//                        headers = Headers(),
+//                        contentType = v.contentType?.map { parseContentType(it) }?.orElse(null),
+//                        size = v.contentLength,
+//                        submittedFileName = v.fileName.orElse(null),
+//                    )
+//                }
+//            }
+//            else emptyList()
+
+<span class="fc" id="L51">        return HttpRequest(</span>
+<span class="fc" id="L52">            method = HttpMethod.valueOf(request.method),</span>
+<span class="fc" id="L53">            protocol = HttpProtocol.valueOf(uri.scheme.uppercase()),</span>
+<span class="fc" id="L54">            host = uri.host,</span>
+<span class="fc" id="L55">            port = uri.port,</span>
+<span class="fc" id="L56">            path = request.path,</span>
+<span class="fc" id="L57">            queryParameters = Parameters(qp),</span>
+<span class="fc" id="L58">            headers = Headers(h),</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">            body = request.inputStream.readAllBytes() ?: ByteArray(0),</span>
+<span class="fc" id="L60">            parts = parts,</span>
+<span class="fc" id="L61">            contentType = contentType,</span>
+<span class="fc" id="L62">            accept = accept,</span>
+<span class="fc" id="L63">            contentLength = request.contentLength,</span>
+<span class="fc" id="L64">            authorization = authorization,</span>
+        )
+    }
+
+    private fun writeResponse(response: HttpResponse, context: HttpContext) {
+<span class="fc" id="L69">        val handlerResponse = context.response</span>
+
+<span class="pc bpc" id="L71" title="1 of 4 branches missed.">        handlerResponse.contentType?.text?.let(response::setContentType)</span>
+<span class="fc" id="L72">        handlerResponse.headers.forEach { response.appendHeader(it.name, it.text) }</span>
+<span class="fc" id="L73">        response.setStatusCode(handlerResponse.status)</span>
+
+<span class="fc" id="L75">        try {</span>
+<span class="fc" id="L76">            response.outputStream.write(bodyToBytes(handlerResponse.body))</span>
+        }
+<span class="fc" id="L78">        catch (e: Exception) {</span>
+<span class="fc" id="L79">            response.setContentType(TEXT_PLAIN.fullType)</span>
+<span class="fc" id="L80">            response.setStatusCode(500)</span>
+<span class="fc" id="L81">            response.outputStream.write(bodyToBytes(e.toText()))</span>
+        }
+<span class="fc" id="L83">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

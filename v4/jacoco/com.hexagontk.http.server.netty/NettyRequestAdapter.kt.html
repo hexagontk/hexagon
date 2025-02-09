@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NettyRequestAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.http.server.netty</a> &gt; <span class="el_source">NettyRequestAdapter.kt</span></div><h1>NettyRequestAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagontk.http.server.netty
+
+import com.hexagontk.http.model.*
+import com.hexagontk.http.parseContentType
+import com.hexagontk.http.patterns.PathPattern
+import io.netty.buffer.ByteBufHolder
+import io.netty.buffer.ByteBufUtil
+import io.netty.buffer.Unpooled
+import io.netty.channel.Channel
+import io.netty.handler.codec.http.HttpHeaderNames.*
+import io.netty.handler.codec.http.HttpHeaders
+import io.netty.handler.codec.http.QueryStringDecoder
+import io.netty.handler.codec.http.cookie.Cookie
+import io.netty.handler.codec.http.cookie.ServerCookieDecoder
+import io.netty.handler.codec.http.multipart.*
+import io.netty.handler.codec.http.HttpRequest
+import io.netty.handler.codec.http.cookie.CookieHeaderNames.SameSite.*
+import io.netty.handler.codec.http.cookie.DefaultCookie
+import java.net.InetSocketAddress
+import java.net.URI
+import java.security.cert.X509Certificate
+import kotlin.Long.Companion.MIN_VALUE
+import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
+
+<span class="pc" id="L25">class NettyRequestAdapter(</span>
+    methodName: NettyHttpMethod,
+    req: HttpRequest,
+<span class="fc" id="L28">    override val certificateChain: List&lt;X509Certificate&gt;,</span>
+    channel: Channel,
+    nettyHeaders: HttpHeaders,
+) : HttpRequestPort {
+
+<span class="fc" id="L33">    private val address: InetSocketAddress by lazy { channel.remoteAddress() as InetSocketAddress }</span>
+
+<span class="fc" id="L35">    override val accept: List&lt;ContentType&gt; by lazy {</span>
+<span class="pc" id="L36">        nettyHeaders.getAll(ACCEPT).flatMap { it.split(&quot;,&quot;) }.map { parseContentType(it) }</span>
+    }
+
+<span class="fc" id="L39">    override val contentLength: Long by lazy {</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        nettyHeaders[CONTENT_LENGTH]?.toLong() ?: 0L</span>
+    }
+
+<span class="fc" id="L43">    override val queryParameters: Parameters by lazy {</span>
+<span class="fc" id="L44">        val queryStringDecoder = QueryStringDecoder(req.uri())</span>
+<span class="fc" id="L45">        Parameters(</span>
+<span class="fc" id="L46">            queryStringDecoder.parameters().flatMap { (k, v) -&gt; v.map { Parameter(k, it) } }</span>
+<span class="fc" id="L47">        )</span>
+    }
+
+<span class="fc" id="L50">    override val parts: List&lt;HttpPart&gt; by lazy {</span>
+<span class="fc" id="L51">        HttpPostRequestDecoder(req).bodyHttpDatas.map {</span>
+<span class="fc" id="L52">            when (it) {</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                is FileUpload -&gt; HttpPart(</span>
+<span class="fc" id="L54">                    name = it.name,</span>
+<span class="fc" id="L55">                    body = ByteBufUtil.getBytes(it.content()),</span>
+<span class="fc" id="L56">                    submittedFileName = it.filename,</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                    contentType = it.contentType?.let { ct -&gt; parseContentType(ct) },</span>
+                )
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                is Attribute -&gt; HttpPart(it.name, it.value)</span>
+<span class="nc" id="L60">                else -&gt; error(&quot;Unknown part type: ${it.javaClass}&quot;)</span>
+<span class="fc" id="L61">            }</span>
+<span class="fc" id="L62">        }</span>
+    }
+
+<span class="fc" id="L65">    override val formParameters: Parameters by lazy {</span>
+<span class="fc" id="L66">        val fields = parts</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">            .filter { it.submittedFileName == null }</span>
+<span class="fc" id="L68">            .map { Parameter(it.name, it.bodyString()) }</span>
+
+<span class="fc" id="L70">        Parameters(fields)</span>
+    }
+
+<span class="fc" id="L73">    override val method: HttpMethod by lazy {</span>
+<span class="fc" id="L74">        HttpMethod.valueOf(methodName.name())</span>
+    }
+
+<span class="fc" id="L77">    override val protocol: HttpProtocol by lazy {</span>
+<span class="fc" id="L78">        HttpProtocol.valueOf(req.protocolVersion().protocolName())</span>
+    }
+
+<span class="fc" id="L81">    override val host: String by lazy {</span>
+<span class="fc" id="L82">        address.hostName</span>
+    }
+
+<span class="fc" id="L85">    override val port: Int by lazy {</span>
+<span class="fc" id="L86">        address.port</span>
+    }
+
+<span class="fc" id="L89">    override val path: String by lazy { URI(req.uri()).path }</span>
+
+<span class="fc" id="L91">    override val cookies: List&lt;com.hexagontk.http.model.Cookie&gt; by lazy {</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        val cookieHeader: String = nettyHeaders.get(COOKIE)</span>
+<span class="fc" id="L93">            ?: return@lazy emptyList&lt;com.hexagontk.http.model.Cookie&gt;()</span>
+
+<span class="fc" id="L95">        val cookies: Set&lt;Cookie&gt; = ServerCookieDecoder.STRICT.decode(cookieHeader)</span>
+
+<span class="fc" id="L97">        cookies.map {</span>
+<span class="fc" id="L98">            Cookie(</span>
+<span class="fc" id="L99">                name = it.name(),</span>
+<span class="fc" id="L100">                value = it.value(),</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">                maxAge = if (it.maxAge() == MIN_VALUE) -1 else it.maxAge(),</span>
+<span class="fc" id="L102">                secure = it.isSecure,</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">                path = it.path() ?: &quot;/&quot;,</span>
+<span class="fc" id="L104">                httpOnly = it.isHttpOnly,</span>
+<span class="pc bpc" id="L105" title="3 of 6 branches missed.">                sameSite = (it as? DefaultCookie)?.sameSite()?.let { ss -&gt;</span>
+<span class="nc bnc" id="L106" title="All 3 branches missed.">                    when (ss) {</span>
+<span class="nc" id="L107">                        Strict -&gt; CookieSameSite.STRICT</span>
+<span class="nc" id="L108">                        Lax -&gt; CookieSameSite.LAX</span>
+<span class="nc" id="L109">                        None -&gt; CookieSameSite.NONE</span>
+<span class="nc" id="L110">                    }</span>
+                },
+<span class="fc" id="L112">                domain = it.domain(),</span>
+<span class="fc" id="L113">            )</span>
+<span class="fc" id="L114">        }</span>
+    }
+
+<span class="fc" id="L117">    override val body: Any by lazy {</span>
+<span class="fc" id="L118">        val content =</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">            if (req is ByteBufHolder) req.content()</span>
+<span class="nc" id="L120">            else Unpooled.buffer(0)</span>
+
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        if (content.isReadable) ByteBufUtil.getBytes(content)</span>
+<span class="fc" id="L123">        else byteArrayOf()</span>
+    }
+
+<span class="fc" id="L126">    override val headers: Headers by lazy {</span>
+<span class="fc" id="L127">        Headers(</span>
+<span class="fc" id="L128">            nettyHeaders.names()</span>
+<span class="fc" id="L129">                .toList()</span>
+<span class="fc" id="L130">                .map { it.lowercase() }</span>
+<span class="fc" id="L131">                .flatMap { h -&gt; nettyHeaders.getAll(h).map { Header(h, it) } }</span>
+<span class="fc" id="L132">        )</span>
+    }
+
+<span class="fc" id="L135">    override val contentType: ContentType? by lazy {</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">        nettyHeaders[CONTENT_TYPE]?.let { parseContentType(it) }</span>
+    }
+
+<span class="fc" id="L139">    override val authorization: Authorization? by lazy { authorization() }</span>
+
+<span class="fc" id="L141">    override val pathPattern: PathPattern? = null</span>
+
+<span class="pc" id="L143">    override val pathParameters: Map&lt;String, Any&gt; by lazy { throw UnsupportedOperationException() }</span>
+
+    override fun with(
+        body: Any,
+        headers: Headers,
+        contentType: ContentType?,
+        method: HttpMethod,
+        protocol: HttpProtocol,
+        host: String,
+        port: Int,
+        path: String,
+        queryParameters: Parameters,
+        parts: List&lt;HttpPart&gt;,
+        formParameters: Parameters,
+        cookies: List&lt;com.hexagontk.http.model.Cookie&gt;,
+        accept: List&lt;ContentType&gt;,
+        authorization: Authorization?,
+        certificateChain: List&lt;X509Certificate&gt;,
+        pathPattern: PathPattern?,
+        pathParameters: Map&lt;String, Any&gt;,
+    ): HttpRequestPort =
+<span class="nc" id="L164">        throw UnsupportedOperationException()</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

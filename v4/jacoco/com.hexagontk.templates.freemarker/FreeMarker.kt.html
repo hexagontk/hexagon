@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FreeMarker.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.templates.freemarker</a> &gt; <span class="el_source">FreeMarker.kt</span></div><h1>FreeMarker.kt</h1><pre class="source lang-java linenums">package com.hexagontk.templates.freemarker
+
+import com.hexagontk.core.ResourceNotFoundException
+import com.hexagontk.core.urlOf
+import com.hexagontk.templates.TemplatePort
+import freemarker.cache.StringTemplateLoader
+import freemarker.cache.TemplateLookupContext
+import freemarker.cache.TemplateLookupResult
+import freemarker.cache.TemplateLookupStrategy
+import freemarker.cache.URLTemplateLoader
+import freemarker.template.Configuration
+import freemarker.template.Template
+import freemarker.template.Version
+import java.io.StringWriter
+import java.net.URL
+import java.util.*
+
+<span class="fc" id="L18">class FreeMarker : TemplatePort {</span>
+
+<span class="fc" id="L20">    private val freeMarkerVersion = Version(&quot;2.3.34&quot;)</span>
+
+    object AdapterTemplateLookupStrategy : TemplateLookupStrategy() {
+        override fun lookup(ctx: TemplateLookupContext): TemplateLookupResult =
+<span class="fc" id="L24">            try {</span>
+<span class="fc" id="L25">                val templateName = ctx.templateName</span>
+<span class="fc" id="L26">                urlOf(templateName)</span>
+<span class="fc" id="L27">                ctx.lookupWithAcquisitionStrategy(templateName)</span>
+            }
+<span class="fc" id="L29">            catch (e: ResourceNotFoundException) {</span>
+<span class="fc" id="L30">                ctx.createNegativeLookupResult()</span>
+<span class="fc" id="L31">            }</span>
+    }
+
+    object AdapterTemplateLoader : URLTemplateLoader() {
+        override fun getURL(name: String): URL =
+<span class="fc" id="L36">            urlOf(name)</span>
+    }
+
+    override fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale): String {
+<span class="fc" id="L40">        val configuration = Configuration(freeMarkerVersion).apply {</span>
+<span class="fc" id="L41">            defaultEncoding = &quot;UTF-8&quot;</span>
+<span class="fc" id="L42">            templateLookupStrategy = AdapterTemplateLookupStrategy</span>
+<span class="fc" id="L43">            templateLoader = AdapterTemplateLoader</span>
+<span class="fc" id="L44">        }</span>
+
+<span class="fc" id="L46">        val template = configuration.getTemplate(url.toString())</span>
+<span class="fc" id="L47">        return processTemplate(template, context, locale)</span>
+    }
+
+    override fun render(
+        name: String, templates: Map&lt;String, String&gt;, context: Map&lt;String, *&gt;, locale: Locale
+    ): String {
+<span class="fc" id="L53">        val configuration = Configuration(freeMarkerVersion).apply {</span>
+<span class="fc" id="L54">            defaultEncoding = &quot;UTF-8&quot;</span>
+<span class="fc" id="L55">            templateLoader = StringTemplateLoader().apply {</span>
+<span class="fc" id="L56">                templates.forEach { (k, v) -&gt; putTemplate(k, v) }</span>
+<span class="fc" id="L57">            }</span>
+<span class="fc" id="L58">        }</span>
+
+<span class="fc" id="L60">        val template = configuration.getTemplate(name)</span>
+<span class="fc" id="L61">        return processTemplate(template, context, locale)</span>
+    }
+
+    private fun processTemplate(
+        template: Template,
+        context: Map&lt;String, *&gt;,
+        locale: Locale
+    ): String =
+<span class="pc" id="L69">        StringWriter().use {</span>
+<span class="fc" id="L70">            val templateUrl = context[&quot;_template_&quot;]</span>
+<span class="fc" id="L71">            val freemarkerContext = context + (&quot;_template_&quot; to templateUrl.toString())</span>
+<span class="fc" id="L72">            val env = template.createProcessingEnvironment(freemarkerContext, it)</span>
+<span class="fc" id="L73">            env.locale = locale</span>
+<span class="fc" id="L74">            env.process()</span>
+<span class="fc" id="L75">            it.buffer.toString()</span>
+<span class="fc" id="L76">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

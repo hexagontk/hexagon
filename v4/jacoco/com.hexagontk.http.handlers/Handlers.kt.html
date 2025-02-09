@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Handlers.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.http.handlers</a> &gt; <span class="el_source">Handlers.kt</span></div><h1>Handlers.kt</h1><pre class="source lang-java linenums">@file:Suppress(&quot;FunctionName&quot;) // Uppercase functions are used for providing named constructors
+
+package com.hexagontk.http.handlers
+
+import com.hexagontk.handlers.Context
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.*
+import com.hexagontk.http.model.HttpProtocol.HTTP
+import java.math.BigInteger
+import java.security.cert.X509Certificate
+
+typealias HttpCallbackType = HttpContext.() -&gt; HttpContext
+typealias HttpExceptionCallbackType&lt;T&gt; = HttpContext.(T) -&gt; HttpContext
+
+<span class="fc" id="L15">private val BODY_TYPES_NAMES: String by lazy {</span>
+<span class="fc" id="L16">    val bodyTypes = setOf(String::class, ByteArray::class, Int::class, Long::class)</span>
+<span class="fc" id="L17">    bodyTypes.joinToString(&quot;, &quot;) { it.simpleName.toString() }</span>
+}
+
+internal fun toCallback(block: HttpCallbackType): (Context&lt;HttpCall&gt;) -&gt; Context&lt;HttpCall&gt; =
+<span class="fc" id="L21">    { context -&gt; HttpContext(context).block() }</span>
+
+internal fun &lt;E : Exception&gt; toCallback(
+    block: HttpExceptionCallbackType&lt;E&gt;
+): (Context&lt;HttpCall&gt;, E) -&gt; Context&lt;HttpCall&gt; =
+<span class="fc" id="L26">    { context, e -&gt; HttpContext(context).block(e) }</span>
+
+<span class="nc" id="L28">fun HttpCallbackType.process(</span>
+    request: HttpRequest,
+<span class="nc" id="L30">    attributes: Map&lt;*, *&gt; = emptyMap&lt;Any, Any&gt;()</span>
+): HttpContext =
+<span class="fc" id="L32">    this(HttpContext(request = request, attributes = attributes))</span>
+
+<span class="fc" id="L34">fun HttpCallbackType.process(</span>
+<span class="fc" id="L35">    method: HttpMethod = GET,</span>
+<span class="fc" id="L36">    protocol: HttpProtocol = HTTP,</span>
+<span class="fc" id="L37">    host: String = &quot;localhost&quot;,</span>
+<span class="fc" id="L38">    port: Int = 80,</span>
+<span class="fc" id="L39">    path: String = &quot;&quot;,</span>
+<span class="fc" id="L40">    queryParameters: Parameters = Parameters(),</span>
+<span class="nc" id="L41">    headers: Headers = Headers(),</span>
+<span class="fc" id="L42">    body: Any = &quot;&quot;,</span>
+<span class="fc" id="L43">    parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L44">    formParameters: Parameters = Parameters(),</span>
+<span class="fc" id="L45">    cookies: List&lt;Cookie&gt; = emptyList(),</span>
+<span class="fc" id="L46">    contentType: ContentType? = null,</span>
+<span class="fc" id="L47">    certificateChain: List&lt;X509Certificate&gt; = emptyList(),</span>
+<span class="fc" id="L48">    accept: List&lt;ContentType&gt; = emptyList(),</span>
+<span class="fc" id="L49">    contentLength: Long = -1L,</span>
+<span class="nc" id="L50">    attributes: Map&lt;*, *&gt; = emptyMap&lt;Any, Any&gt;(),</span>
+<span class="fc" id="L51">    authorization: Authorization? = null,</span>
+): HttpContext =
+<span class="fc" id="L53">    this.process(</span>
+<span class="fc" id="L54">        HttpRequest(</span>
+<span class="fc" id="L55">            method,</span>
+<span class="fc" id="L56">            protocol,</span>
+<span class="fc" id="L57">            host,</span>
+<span class="fc" id="L58">            port,</span>
+<span class="fc" id="L59">            path,</span>
+<span class="fc" id="L60">            queryParameters,</span>
+<span class="fc" id="L61">            headers,</span>
+<span class="fc" id="L62">            body,</span>
+<span class="fc" id="L63">            parts,</span>
+<span class="fc" id="L64">            formParameters,</span>
+<span class="fc" id="L65">            cookies,</span>
+<span class="fc" id="L66">            contentType,</span>
+<span class="fc" id="L67">            certificateChain,</span>
+<span class="fc" id="L68">            accept,</span>
+<span class="fc" id="L69">            contentLength,</span>
+<span class="fc" id="L70">            authorization</span>
+        ),
+<span class="fc" id="L72">        attributes,</span>
+<span class="fc" id="L73">    )</span>
+
+// TODO rename to 'buildPath' to follow same pattern as Kotlin's 'buildList' or 'buildMap'???
+<span class="fc" id="L76">fun path(pattern: String = &quot;&quot;, block: HandlerBuilder.() -&gt; Unit): PathHandler {</span>
+<span class="fc" id="L77">    val builder = HandlerBuilder()</span>
+<span class="fc" id="L78">    builder.block()</span>
+<span class="fc" id="L79">    return path(pattern, builder.handlers)</span>
+}
+
+<span class="fc" id="L82">fun path(contextPath: String = &quot;&quot;, handlers: List&lt;HttpHandler&gt;): PathHandler =</span>
+<span class="fc" id="L83">    handlers</span>
+<span class="fc" id="L84">        .let {</span>
+<span class="fc bfc" id="L85" title="All 4 branches covered.">            if (it.size == 1 &amp;&amp; it[0] is PathHandler)</span>
+<span class="fc" id="L86">                (it[0] as PathHandler).addPrefix(contextPath) as PathHandler</span>
+            else
+<span class="fc" id="L88">                PathHandler(contextPath, it)</span>
+<span class="fc" id="L89">        }</span>
+
+<span class="fc" id="L91">fun Get(pattern: String = &quot;&quot;, callback: HttpCallbackType): OnHandler =</span>
+<span class="fc" id="L92">    OnHandler(GET, pattern, callback)</span>
+
+<span class="nc" id="L94">fun Ws(pattern: String = &quot;&quot;, callback: HttpCallbackType): OnHandler =</span>
+<span class="fc" id="L95">    Get(pattern, callback)</span>
+
+<span class="nc" id="L97">fun Head(pattern: String = &quot;&quot;, callback: HttpCallbackType): OnHandler =</span>
+<span class="fc" id="L98">    OnHandler(HEAD, pattern, callback)</span>
+
+<span class="nc" id="L100">fun Post(pattern: String = &quot;&quot;, callback: HttpCallbackType): OnHandler =</span>
+<span class="fc" id="L101">    OnHandler(POST, pattern, callback)</span>
+
+<span class="nc" id="L103">fun Put(pattern: String = &quot;&quot;, callback: HttpCallbackType): OnHandler =</span>
+<span class="fc" id="L104">    OnHandler(PUT, pattern, callback)</span>
+
+<span class="nc" id="L106">fun Delete(pattern: String = &quot;&quot;, callback: HttpCallbackType): OnHandler =</span>
+<span class="fc" id="L107">    OnHandler(DELETE, pattern, callback)</span>
+
+<span class="nc" id="L109">fun Trace(pattern: String = &quot;&quot;, callback: HttpCallbackType): OnHandler =</span>
+<span class="fc" id="L110">    OnHandler(TRACE, pattern, callback)</span>
+
+<span class="nc" id="L112">fun Options(pattern: String = &quot;&quot;, callback: HttpCallbackType): OnHandler =</span>
+<span class="fc" id="L113">    OnHandler(OPTIONS, pattern, callback)</span>
+
+<span class="nc" id="L115">fun Patch(pattern: String = &quot;&quot;, callback: HttpCallbackType): OnHandler =</span>
+<span class="fc" id="L116">    OnHandler(PATCH, pattern, callback)</span>
+
+/**
+ * Convert an object to a byte array. If the body class is not supported, it throws a runtime
+ * exception. IMPORTANT: Must be enclosed on a try/catch block to check runtime errors.
+ *
+ * @param body Object to convert to bytes.
+ * @return The bytes of the supplied object.
+ */
+fun bodyToBytes(body: Any): ByteArray =
+<span class="fc" id="L126">    when (body) {</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        is String -&gt; body.toByteArray()</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        is ByteArray -&gt; body</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        is Int -&gt; BigInteger.valueOf(body.toLong()).toByteArray()</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        is Long -&gt; BigInteger.valueOf(body).toByteArray()</span>
+        else -&gt; {
+<span class="fc" id="L132">            val className = body.javaClass.simpleName</span>
+<span class="fc" id="L133">            val message = &quot;Unsupported body type: $className. Must be: $BODY_TYPES_NAMES&quot;</span>
+
+<span class="fc" id="L135">            throw IllegalStateException(message)</span>
+        }
+<span class="fc" id="L137">    }</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

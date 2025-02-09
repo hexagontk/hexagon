@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PathHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.http.handlers</a> &gt; <span class="el_source">PathHandler.kt</span></div><h1>PathHandler.kt</h1><pre class="source lang-java linenums">package com.hexagontk.http.handlers
+
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.core.toText
+import com.hexagontk.handlers.ChainHandler
+import com.hexagontk.handlers.Handler
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.Companion.ALL
+
+<span class="fc" id="L10">class PathHandler(</span>
+<span class="fc" id="L11">    override val handlerPredicate: HttpPredicate,</span>
+<span class="fc" id="L12">    val handlers: List&lt;HttpHandler&gt;,</span>
+) :
+    HttpHandler,
+<span class="fc" id="L15">    Handler&lt;HttpCall&gt; by ChainHandler(</span>
+<span class="fc" id="L16">        handlers.map { it.addPrefix(handlerPredicate.pathPattern.pattern) },</span>
+<span class="fc" id="L17">        handlerPredicate,</span>
+    )
+{
+
+    private companion object {
+        fun nestedMethods(handlers: List&lt;HttpHandler&gt;): Set&lt;HttpMethod&gt; =
+<span class="fc" id="L23">            handlers</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">                .flatMap { it.handlerPredicate.methods.ifEmpty { ALL } }</span>
+<span class="fc" id="L25">                .toSet()</span>
+    }
+
+    constructor(vararg handlers: HttpHandler) :
+<span class="fc" id="L29">        this(</span>
+<span class="fc" id="L30">            HttpPredicate(methods = nestedMethods(handlers.toList())),</span>
+<span class="fc" id="L31">            handlers.toList()</span>
+<span class="fc" id="L32">        )</span>
+
+    constructor(pattern: String, handlers: List&lt;HttpHandler&gt;) :
+<span class="fc" id="L35">        this(</span>
+<span class="fc" id="L36">            HttpPredicate(</span>
+<span class="fc" id="L37">                methods = nestedMethods(handlers.toList()),</span>
+<span class="fc" id="L38">                pattern = pattern,</span>
+<span class="fc" id="L39">                prefix = true,</span>
+            ),
+<span class="fc" id="L41">            handlers</span>
+<span class="fc" id="L42">        )</span>
+
+    constructor(pattern: String, vararg handlers: HttpHandler) :
+<span class="fc" id="L45">        this(pattern, handlers.toList())</span>
+
+    override fun process(request: HttpRequestPort): HttpContext =
+<span class="fc" id="L48">        process(HttpContext(HttpCall(request = request), predicate)).let {</span>
+<span class="fc" id="L49">            val event = it.event</span>
+<span class="fc" id="L50">            val response = event.response</span>
+<span class="fc" id="L51">            val exception = it.exception</span>
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">            if (exception != null) {</span>
+<span class="pc bpc" id="L54" title="4 of 6 branches missed.">                if (response.status !in SERVER_ERROR)</span>
+<span class="fc" id="L55">                    it.with(</span>
+<span class="fc" id="L56">                        event = HttpCall(</span>
+<span class="fc" id="L57">                            event.request,</span>
+<span class="fc" id="L58">                            response.with(</span>
+<span class="fc" id="L59">                                body = exception.toText(),</span>
+<span class="fc" id="L60">                                contentType = ContentType(TEXT_PLAIN),</span>
+<span class="fc" id="L61">                                status = INTERNAL_SERVER_ERROR_500,</span>
+                            )
+                        )
+                    )
+                else
+<span class="nc" id="L66">                    it</span>
+            }
+            else {
+<span class="fc" id="L69">                it</span>
+<span class="fc" id="L70">            }</span>
+<span class="fc" id="L71">        } as HttpContext</span>
+
+    override fun addPrefix(prefix: String): HttpHandler =
+<span class="fc" id="L74">        PathHandler(handlerPredicate.addPrefix(prefix), handlers)</span>
+
+    fun describe(): String =
+<span class="fc" id="L77">        listOf(</span>
+<span class="fc" id="L78">            listOf(handlerPredicate.describe()),</span>
+<span class="fc" id="L79">            handlers</span>
+<span class="fc" id="L80">                .map {</span>
+<span class="fc" id="L81">                    when (it) {</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                        is PathHandler -&gt; it.describe()</span>
+<span class="fc" id="L83">                        else -&gt; it.handlerPredicate.describe()</span>
+<span class="fc" id="L84">                    }</span>
+                }
+<span class="fc" id="L86">                .map {it.prependIndent(&quot; &quot;.repeat(4)) }</span>
+        )
+<span class="fc" id="L88">        .flatten()</span>
+<span class="fc" id="L89">        .joinToString(&quot;\n&quot;) { it }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

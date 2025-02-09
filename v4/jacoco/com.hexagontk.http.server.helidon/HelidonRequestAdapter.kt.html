@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HelidonRequestAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.http.server.helidon</a> &gt; <span class="el_source">HelidonRequestAdapter.kt</span></div><h1>HelidonRequestAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagontk.http.server.helidon
+
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.core.media.MediaTypeGroup
+import com.hexagontk.http.model.*
+import com.hexagontk.http.patterns.PathPattern
+import io.helidon.http.HeaderNames
+import io.helidon.http.Method
+import io.helidon.http.media.multipart.MultiPart
+import io.helidon.webserver.http.ServerRequest
+import java.security.cert.X509Certificate
+import kotlin.jvm.optionals.getOrNull
+
+<span class="pc" id="L14">class HelidonRequestAdapter(</span>
+    methodName: Method,
+    req: ServerRequest,
+) : HttpRequestPort {
+
+<span class="fc" id="L19">    override val certificateChain: List&lt;X509Certificate&gt; by lazy {</span>
+<span class="fc" id="L20">        req.remotePeer().tlsCertificates().getOrNull()</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">            ?.toList()</span>
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">            ?.map { it as X509Certificate }</span>
+<span class="pc" id="L23">            ?: emptyList()</span>
+    }
+
+<span class="fc" id="L26">    override val accept: List&lt;ContentType&gt; by lazy {</span>
+<span class="fc" id="L27">        req.headers().acceptedTypes().map {</span>
+<span class="nc" id="L28">            val mt = it.mediaType()</span>
+<span class="nc" id="L29">            val t = mt.type().uppercase()</span>
+<span class="nc" id="L30">            val st = mt.subtype()</span>
+<span class="nc" id="L31">            ContentType(MediaType(MediaTypeGroup.valueOf(t), st))</span>
+<span class="fc" id="L32">        }</span>
+    }
+
+<span class="fc" id="L35">    override val contentLength: Long by lazy {</span>
+<span class="fc" id="L36">        req.headers().get(HeaderNames.CONTENT_LENGTH).get().toLong()</span>
+    }
+
+<span class="fc" id="L39">    override val queryParameters: Parameters by lazy {</span>
+<span class="fc" id="L40">        Parameters(</span>
+<span class="fc" id="L41">            req.query().names().flatMap { n -&gt;</span>
+<span class="fc" id="L42">                val all = req.query().all(n)</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">                if (all.isEmpty()) listOf(Parameter(n))</span>
+<span class="fc" id="L44">                else all.map { Parameter(n, it) }</span>
+            }
+<span class="fc" id="L46">        )</span>
+    }
+
+<span class="fc" id="L49">    override val parts: List&lt;HttpPart&gt; by lazy {</span>
+<span class="fc" id="L50">        try {</span>
+<span class="fc" id="L51">            val multiPart = req.content().`as`(MultiPart::class.java)</span>
+<span class="fc" id="L52">            var parts = emptyList&lt;HttpPart&gt;()</span>
+            // TODO Fails when parsing multiple parts !?
+<span class="fc" id="L54">            multiPart.forEach { p -&gt;</span>
+<span class="fc" id="L55">                val name = p.name()</span>
+<span class="fc" id="L56">                val bytes = p.inputStream().readAllBytes()</span>
+<span class="fc" id="L57">                val fileName = p.fileName().getOrNull()</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">                    ?.let { HttpPart(name, bytes, it) }</span>
+<span class="fc" id="L59">                    ?: HttpPart(name, String(bytes))</span>
+
+<span class="fc" id="L61">                parts = parts + fileName</span>
+<span class="fc" id="L62">            }</span>
+<span class="fc" id="L63">            parts</span>
+        }
+<span class="fc" id="L65">        catch (e: Exception) {</span>
+<span class="fc" id="L66">            emptyList()</span>
+<span class="fc" id="L67">        }</span>
+    }
+
+<span class="fc" id="L70">    override val formParameters: Parameters by lazy {</span>
+<span class="fc" id="L71">        val fields = parts</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            .filter { it.submittedFileName == null }</span>
+<span class="fc" id="L73">            .map { Parameter(it.name, it.bodyString()) }</span>
+
+<span class="fc" id="L75">        Parameters(fields)</span>
+    }
+
+<span class="fc" id="L78">    override val method: HttpMethod by lazy {</span>
+<span class="fc" id="L79">        HttpMethod.valueOf(methodName.text())</span>
+    }
+
+<span class="fc" id="L82">    override val protocol: HttpProtocol by lazy {</span>
+<span class="fc" id="L83">        HttpProtocol.valueOf(req.prologue().protocol())</span>
+    }
+
+<span class="fc" id="L86">    override val host: String by lazy {</span>
+<span class="fc" id="L87">        req.remotePeer().host()</span>
+    }
+
+<span class="fc" id="L90">    override val port: Int by lazy {</span>
+<span class="fc" id="L91">        req.remotePeer().port()</span>
+    }
+
+<span class="fc" id="L94">    override val path: String by lazy {</span>
+<span class="fc" id="L95">        req.path().path()</span>
+    }
+
+<span class="fc" id="L98">    override val cookies: List&lt;Cookie&gt; by lazy {</span>
+<span class="fc" id="L99">        req.headers().cookies().toMap().map { (k, v) -&gt; Cookie(k, v.first()) }</span>
+    }
+
+<span class="fc" id="L102">    override val body: Any by lazy {</span>
+<span class="fc" id="L103">        req.content().inputStream().readAllBytes()</span>
+    }
+
+<span class="fc" id="L106">    override val headers: Headers by lazy {</span>
+<span class="fc" id="L107">        Headers(</span>
+<span class="fc" id="L108">            req.headers().flatMap { h -&gt; h.allValues().map { Header(h.name(), it) } }</span>
+<span class="fc" id="L109">        )</span>
+    }
+
+<span class="fc" id="L112">    override val contentType: ContentType? by lazy {</span>
+<span class="fc" id="L113">        req.headers().contentType().map {</span>
+<span class="fc" id="L114">            val mt = it.mediaType()</span>
+<span class="fc" id="L115">            val t = mt.type().uppercase()</span>
+<span class="fc" id="L116">            val st = mt.subtype()</span>
+<span class="fc" id="L117">            ContentType(MediaType(MediaTypeGroup.valueOf(t), st))</span>
+        }
+<span class="fc" id="L119">        .orElse(null)</span>
+    }
+
+<span class="fc" id="L122">    override val authorization: Authorization? by lazy { authorization() }</span>
+
+<span class="fc" id="L124">    override val pathPattern: PathPattern? = null</span>
+
+<span class="pc" id="L126">    override val pathParameters: Map&lt;String, Any&gt; by lazy { throw UnsupportedOperationException() }</span>
+
+    override fun with(
+        body: Any,
+        headers: Headers,
+        contentType: ContentType?,
+        method: HttpMethod,
+        protocol: HttpProtocol,
+        host: String,
+        port: Int,
+        path: String,
+        queryParameters: Parameters,
+        parts: List&lt;HttpPart&gt;,
+        formParameters: Parameters,
+        cookies: List&lt;Cookie&gt;,
+        accept: List&lt;ContentType&gt;,
+        authorization: Authorization?,
+        certificateChain: List&lt;X509Certificate&gt;,
+        pathPattern: PathPattern?,
+        pathParameters: Map&lt;String, Any&gt;,
+    ): HttpRequestPort =
+<span class="nc" id="L147">        throw UnsupportedOperationException()</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

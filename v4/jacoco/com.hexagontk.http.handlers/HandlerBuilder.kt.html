@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HandlerBuilder.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.http.handlers</a> &gt; <span class="el_source">HandlerBuilder.kt</span></div><h1>HandlerBuilder.kt</h1><pre class="source lang-java linenums">package com.hexagontk.http.handlers
+
+import com.hexagontk.http.model.HttpMethod
+import kotlin.reflect.KClass
+
+<span class="pc" id="L6">class HandlerBuilder(var handlers: List&lt;HttpHandler&gt; = emptyList()) {</span>
+
+<span class="nc" id="L8">    fun handler(contextPath: String = &quot;&quot;): HttpHandler =</span>
+<span class="nc bnc" id="L9" title="All 2 branches missed.">        if (handlers.size == 1) handlers[0].addPrefix(contextPath)</span>
+<span class="nc" id="L10">        else PathHandler(contextPath, handlers)</span>
+
+    fun use(handler: HttpHandler) {
+<span class="fc" id="L13">        this.handlers += handler</span>
+<span class="fc" id="L14">    }</span>
+
+    fun path(pattern: String, block: HandlerBuilder.() -&gt; Unit) {
+<span class="fc" id="L17">        use(com.hexagontk.http.handlers.path(pattern, block))</span>
+<span class="fc" id="L18">    }</span>
+
+    fun path(pattern: String, pathHandler: PathHandler) {
+<span class="fc" id="L21">        use(pathHandler.addPrefix(pattern))</span>
+<span class="fc" id="L22">    }</span>
+
+    fun path(pattern: String, pathHandlers: List&lt;HttpHandler&gt;) {
+<span class="fc" id="L25">        use(PathHandler(pattern, pathHandlers))</span>
+<span class="fc" id="L26">    }</span>
+
+    fun path(pattern: String, vararg pathHandlers: HttpHandler) {
+<span class="fc" id="L29">        path(pattern, pathHandlers.toList())</span>
+<span class="fc" id="L30">    }</span>
+
+<span class="fc" id="L32">    fun on(</span>
+<span class="fc" id="L33">        predicate: HttpPredicate = HttpPredicate(),</span>
+        callback: HttpCallbackType
+    ) {
+<span class="fc" id="L36">        use(OnHandler(predicate, callback))</span>
+<span class="fc" id="L37">    }</span>
+
+<span class="fc" id="L39">    fun on(</span>
+<span class="fc" id="L40">        methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
+<span class="fc" id="L41">        pattern: String = &quot;&quot;,</span>
+<span class="fc" id="L42">        status: Int? = null,</span>
+        callback: HttpCallbackType,
+    ) {
+<span class="fc" id="L45">        use(OnHandler(methods, pattern, status, callback))</span>
+<span class="fc" id="L46">    }</span>
+
+<span class="fc" id="L48">    fun on(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L49">        use(OnHandler(method, pattern, callback))</span>
+<span class="fc" id="L50">    }</span>
+
+    fun on(pattern: String, callback: HttpCallbackType) {
+<span class="fc" id="L53">        use(OnHandler(pattern, callback))</span>
+<span class="fc" id="L54">    }</span>
+
+<span class="fc" id="L56">    fun filter(</span>
+<span class="fc" id="L57">        predicate: HttpPredicate = HttpPredicate(),</span>
+        callback: HttpCallbackType
+    ) {
+<span class="fc" id="L60">        use(FilterHandler(predicate, callback))</span>
+<span class="fc" id="L61">    }</span>
+
+<span class="fc" id="L63">    fun filter(</span>
+<span class="nc" id="L64">        methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
+<span class="fc" id="L65">        pattern: String = &quot;&quot;,</span>
+<span class="fc" id="L66">        status: Int? = null,</span>
+        callback: HttpCallbackType,
+    ) {
+<span class="fc" id="L69">        use(</span>
+<span class="fc" id="L70">            FilterHandler(methods, pattern, status, callback)</span>
+        )
+<span class="fc" id="L72">    }</span>
+
+<span class="fc" id="L74">    fun filter(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L75">        use(FilterHandler(method, pattern, callback))</span>
+<span class="fc" id="L76">    }</span>
+
+    fun filter(pattern: String, callback: HttpCallbackType) {
+<span class="fc" id="L79">        use(FilterHandler(pattern, callback))</span>
+<span class="fc" id="L80">    }</span>
+
+<span class="fc" id="L82">    fun after(</span>
+<span class="fc" id="L83">        predicate: HttpPredicate = HttpPredicate(),</span>
+        callback: HttpCallbackType
+    ) {
+<span class="fc" id="L86">        use(AfterHandler(predicate, callback))</span>
+<span class="fc" id="L87">    }</span>
+
+<span class="fc" id="L89">    fun after(</span>
+<span class="fc" id="L90">        methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
+<span class="fc" id="L91">        pattern: String = &quot;&quot;,</span>
+<span class="fc" id="L92">        status: Int? = null,</span>
+        callback: HttpCallbackType,
+    ) {
+<span class="fc" id="L95">        use(AfterHandler(methods, pattern, status, callback))</span>
+<span class="fc" id="L96">    }</span>
+
+<span class="fc" id="L98">    fun after(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L99">        use(AfterHandler(method, pattern, callback))</span>
+<span class="fc" id="L100">    }</span>
+
+    fun after(pattern: String, callback: HttpCallbackType) {
+<span class="fc" id="L103">        use(AfterHandler(pattern, callback))</span>
+<span class="fc" id="L104">    }</span>
+
+<span class="fc" id="L106">    fun before(</span>
+<span class="fc" id="L107">        predicate: HttpPredicate = HttpPredicate(),</span>
+        callback: HttpCallbackType
+    ) {
+<span class="fc" id="L110">        use(BeforeHandler(predicate, callback))</span>
+<span class="fc" id="L111">    }</span>
+
+<span class="fc" id="L113">    fun before(</span>
+<span class="fc" id="L114">        methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
+<span class="nc" id="L115">        pattern: String = &quot;&quot;,</span>
+<span class="nc" id="L116">        status: Int? = null,</span>
+        callback: HttpCallbackType,
+    ) {
+<span class="fc" id="L119">        use(BeforeHandler(methods, pattern, status, callback))</span>
+<span class="fc" id="L120">    }</span>
+
+<span class="nc" id="L122">    fun before(method: HttpMethod, pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="nc" id="L123">        use(BeforeHandler(method, pattern, callback))</span>
+<span class="nc" id="L124">    }</span>
+
+    fun before(pattern: String, callback: HttpCallbackType) {
+<span class="fc" id="L127">        use(BeforeHandler(pattern, callback))</span>
+<span class="fc" id="L128">    }</span>
+
+    fun &lt;T : Exception&gt; exception(exception: KClass&lt;T&gt;, callback: HttpExceptionCallbackType&lt;T&gt;) {
+<span class="fc" id="L131">        use(ExceptionHandler(exception, callback))</span>
+<span class="fc" id="L132">    }</span>
+
+    inline fun &lt;reified T : Exception&gt; exception(noinline callback: HttpExceptionCallbackType&lt;T&gt;) {
+        use(ExceptionHandler(T::class, callback))
+    }
+
+<span class="fc" id="L138">    fun get(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L139">        use(Get(pattern, callback))</span>
+<span class="fc" id="L140">    }</span>
+
+<span class="nc" id="L142">    fun ws(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L143">        use(Ws(pattern, callback))</span>
+<span class="fc" id="L144">    }</span>
+
+<span class="fc" id="L146">    fun head(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L147">        use(Head(pattern, callback))</span>
+<span class="fc" id="L148">    }</span>
+
+<span class="fc" id="L150">    fun post(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L151">        use(Post(pattern, callback))</span>
+<span class="fc" id="L152">    }</span>
+
+<span class="fc" id="L154">    fun put(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L155">        use(Put(pattern, callback))</span>
+<span class="fc" id="L156">    }</span>
+
+<span class="fc" id="L158">    fun delete(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L159">        use(Delete(pattern, callback))</span>
+<span class="fc" id="L160">    }</span>
+
+<span class="fc" id="L162">    fun trace(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L163">        use(Trace(pattern, callback))</span>
+<span class="fc" id="L164">    }</span>
+
+<span class="fc" id="L166">    fun options(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L167">        use(Options(pattern, callback))</span>
+<span class="fc" id="L168">    }</span>
+
+<span class="fc" id="L170">    fun patch(pattern: String = &quot;&quot;, callback: HttpCallbackType) {</span>
+<span class="fc" id="L171">        use(Patch(pattern, callback))</span>
+<span class="fc" id="L172">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

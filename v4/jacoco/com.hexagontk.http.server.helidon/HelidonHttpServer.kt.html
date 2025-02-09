@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HelidonHttpServer.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.http.server.helidon</a> &gt; <span class="el_source">HelidonHttpServer.kt</span></div><h1>HelidonHttpServer.kt</h1><pre class="source lang-java linenums">package com.hexagontk.http.server.helidon
+
+import com.hexagontk.core.fieldsMapOf
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.core.security.createKeyManagerFactory
+import com.hexagontk.core.security.createTrustManagerFactory
+import com.hexagontk.core.toText
+import com.hexagontk.http.SslSettings
+import com.hexagontk.http.handlers.bodyToBytes
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.model.HttpProtocol
+import com.hexagontk.http.model.HttpProtocol.*
+import com.hexagontk.http.model.HttpResponse
+import com.hexagontk.http.model.HttpResponsePort
+import com.hexagontk.http.server.HttpServer
+import com.hexagontk.http.HttpFeature
+import com.hexagontk.http.HttpFeature.*
+import com.hexagontk.http.server.HttpServerPort
+import io.helidon.common.socket.SocketOptions
+import io.helidon.http.Method
+import io.helidon.http.Status
+import io.helidon.http.HeaderNames
+import io.helidon.http.HeaderNames.CONTENT_TYPE
+import io.helidon.http.HttpMediaType
+import io.helidon.http.SetCookie
+import io.helidon.webserver.WebServer
+import io.helidon.webserver.http.ServerResponse
+import io.helidon.webserver.http1.Http1Config
+import io.helidon.webserver.http2.Http2Config
+import java.security.SecureRandom
+import java.time.Duration
+import javax.net.ssl.KeyManagerFactory
+import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLParameters
+import javax.net.ssl.TrustManagerFactory
+
+/**
+ * Implements [HttpServerPort] using Helidon.
+ *
+ * TODO Add settings for HTTP2 and separate them on constructor parameters
+ */
+<span class="pc" id="L42">class HelidonHttpServer(</span>
+<span class="pc" id="L43">    private val backlog: Int = 1_024,</span>
+<span class="pc" id="L44">    private val writeQueueLength: Int = 0,</span>
+<span class="pc" id="L45">    private val readTimeout: Duration = Duration.ofSeconds(30),</span>
+<span class="pc" id="L46">    private val connectTimeout: Duration = Duration.ofSeconds(10),</span>
+<span class="pc" id="L47">    private val tcpNoDelay: Boolean = false,</span>
+<span class="pc" id="L48">    private val receiveLog: Boolean = true,</span>
+<span class="pc" id="L49">    private val sendLog: Boolean = true,</span>
+<span class="pc" id="L50">    private val validatePath: Boolean = true,</span>
+<span class="pc" id="L51">    private val validateRequestHeaders: Boolean = true,</span>
+<span class="pc" id="L52">    private val validateResponseHeaders: Boolean = false,</span>
+<span class="nc" id="L53">) : HttpServerPort {</span>
+
+    private companion object {
+        const val START_ERROR_MESSAGE = &quot;Helidon server not started correctly&quot;
+    }
+
+    private var helidonServer: WebServer? = null
+
+<span class="fc" id="L61">    constructor() : this(</span>
+<span class="fc" id="L62">        backlog = 1_024,</span>
+<span class="fc" id="L63">        writeQueueLength = 0,</span>
+<span class="fc" id="L64">        readTimeout = Duration.ofSeconds(30),</span>
+<span class="fc" id="L65">        connectTimeout = Duration.ofSeconds(10),</span>
+<span class="fc" id="L66">        tcpNoDelay = false,</span>
+<span class="fc" id="L67">        receiveLog = true,</span>
+<span class="fc" id="L68">        sendLog = true,</span>
+<span class="fc" id="L69">        validatePath = true,</span>
+<span class="fc" id="L70">        validateRequestHeaders = true,</span>
+<span class="fc" id="L71">        validateResponseHeaders = false</span>
+<span class="fc" id="L72">    )</span>
+
+    override fun runtimePort(): Int {
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        return helidonServer?.port() ?: error(START_ERROR_MESSAGE)</span>
+    }
+
+    override fun started() =
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        helidonServer?.isRunning ?: false</span>
+
+    override fun startUp(server: HttpServer) {
+<span class="fc" id="L82">        val settings = server.settings</span>
+<span class="fc" id="L83">        val sslSettings = settings.sslSettings</span>
+
+<span class="fc" id="L85">        val handlers: Map&lt;Method, HttpHandler&gt; =</span>
+<span class="fc" id="L86">            server.handler</span>
+<span class="fc" id="L87">                .byMethod()</span>
+<span class="fc" id="L88">                .mapKeys { Method.create(it.key.toString()) }</span>
+
+        // TODO features(): [Config, Encoding, Media, WebServer] Maybe Multipart can be added there
+<span class="fc" id="L91">        val serverBuilder = WebServer</span>
+<span class="fc" id="L92">            .builder()</span>
+<span class="fc" id="L93">            .host(settings.bindAddress.hostName)</span>
+<span class="fc" id="L94">            .port(settings.bindPort)</span>
+<span class="fc" id="L95">            .routing {</span>
+<span class="fc" id="L96">                it.any({ helidonRequest, helidonResponse -&gt;</span>
+<span class="fc" id="L97">                    val method = helidonRequest.prologue().method()</span>
+<span class="fc" id="L98">                    val request = HelidonRequestAdapter(method, helidonRequest)</span>
+<span class="pc bpc" id="L99" title="3 of 6 branches missed.">                    val response = handlers[method]?.process(request)?.response ?: HttpResponse()</span>
+<span class="fc" id="L100">                    setResponse(request.protocol.secure, response, helidonResponse)</span>
+<span class="fc" id="L101">                })</span>
+<span class="fc" id="L102">            }</span>
+
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (sslSettings != null)</span>
+<span class="fc" id="L105">            serverBuilder.tls {</span>
+<span class="fc" id="L106">                val sslClientAuth = sslSettings.clientAuth</span>
+<span class="fc" id="L107">                it</span>
+<span class="fc" id="L108">                    .sslParameters(SSLParameters().apply { needClientAuth = sslClientAuth })</span>
+<span class="fc" id="L109">                    .sslContext(sslContext(sslSettings))</span>
+<span class="fc" id="L110">            }</span>
+
+<span class="fc" id="L112">        val protocolConfig =</span>
+<span class="fc bfc" id="L113" title="All 4 branches covered.">            if (settings.protocol == HTTP || settings.protocol == HTTPS)</span>
+                Http1Config
+<span class="fc" id="L115">                    .builder()</span>
+<span class="fc" id="L116">                    .receiveLog(receiveLog)</span>
+<span class="fc" id="L117">                    .sendLog(sendLog)</span>
+<span class="fc" id="L118">                    .validatePath(validatePath)</span>
+<span class="fc" id="L119">                    .validateRequestHeaders(validateRequestHeaders)</span>
+<span class="fc" id="L120">                    .validateResponseHeaders(validateResponseHeaders)</span>
+<span class="fc" id="L121">                    .build()</span>
+            else
+                Http2Config
+<span class="fc" id="L124">                    .builder()</span>
+<span class="fc" id="L125">                    .validatePath(validatePath)</span>
+<span class="fc" id="L126">                    .build()</span>
+
+<span class="fc" id="L128">        helidonServer = serverBuilder</span>
+<span class="fc" id="L129">            .backlog(backlog)</span>
+<span class="fc" id="L130">            .writeQueueLength(writeQueueLength)</span>
+<span class="fc" id="L131">            .connectionOptions(SocketOptions</span>
+<span class="fc" id="L132">                .builder()</span>
+<span class="fc" id="L133">                .readTimeout(readTimeout)</span>
+<span class="fc" id="L134">                .connectTimeout(connectTimeout)</span>
+<span class="fc" id="L135">                .tcpNoDelay(tcpNoDelay)</span>
+<span class="fc" id="L136">                .build()</span>
+            )
+<span class="fc" id="L138">            .protocols(listOf(protocolConfig))</span>
+<span class="fc" id="L139">            .build()</span>
+
+<span class="pc bpc" id="L141" title="2 of 4 branches missed.">        helidonServer?.start() ?: error(START_ERROR_MESSAGE)</span>
+<span class="fc" id="L142">    }</span>
+
+    override fun shutDown() {
+<span class="pc bpc" id="L145" title="2 of 4 branches missed.">        helidonServer?.stop() ?: error(START_ERROR_MESSAGE)</span>
+<span class="fc" id="L146">    }</span>
+
+    override fun supportedProtocols(): Set&lt;HttpProtocol&gt; =
+<span class="fc" id="L149">        setOf(HTTP, HTTPS, HTTP2)</span>
+
+    override fun supportedFeatures(): Set&lt;HttpFeature&gt; =
+<span class="fc" id="L152">        setOf(ZIP, COOKIES, MULTIPART)</span>
+
+    override fun options(): Map&lt;String, *&gt; =
+<span class="fc" id="L155">        fieldsMapOf(</span>
+<span class="fc" id="L156">            HelidonHttpServer::backlog to backlog,</span>
+<span class="fc" id="L157">            HelidonHttpServer::writeQueueLength to writeQueueLength,</span>
+<span class="fc" id="L158">            HelidonHttpServer::readTimeout to readTimeout,</span>
+<span class="fc" id="L159">            HelidonHttpServer::connectTimeout to connectTimeout,</span>
+<span class="fc" id="L160">            HelidonHttpServer::tcpNoDelay to tcpNoDelay,</span>
+<span class="fc" id="L161">            HelidonHttpServer::receiveLog to receiveLog,</span>
+<span class="fc" id="L162">            HelidonHttpServer::sendLog to sendLog,</span>
+<span class="fc" id="L163">            HelidonHttpServer::validatePath to validatePath,</span>
+<span class="fc" id="L164">            HelidonHttpServer::validateRequestHeaders to validateRequestHeaders,</span>
+<span class="fc" id="L165">            HelidonHttpServer::validateResponseHeaders to validateResponseHeaders,</span>
+<span class="fc" id="L166">        )</span>
+
+    private fun setResponse(
+        secureRequest: Boolean,
+        response: HttpResponsePort,
+        helidonResponse: ServerResponse
+    ) {
+<span class="fc" id="L173">        try {</span>
+<span class="fc" id="L174">            helidonResponse.status(Status.create(response.status))</span>
+
+<span class="fc" id="L176">            response.headers.all.forEach { (k, v) -&gt;</span>
+<span class="fc" id="L177">                helidonResponse.header(HeaderNames.create(k), *v.map { it.text }.toTypedArray())</span>
+<span class="fc" id="L178">            }</span>
+
+<span class="fc" id="L180">            val headers = helidonResponse.headers()</span>
+<span class="fc" id="L181">            response.cookies</span>
+<span class="pc bpc" id="L182" title="1 of 4 branches missed.">                .filter { if (secureRequest) true else !it.secure }</span>
+<span class="fc" id="L183">                .forEach {</span>
+<span class="fc" id="L184">                    val cookie = SetCookie</span>
+<span class="fc" id="L185">                        .builder(it.name, it.value)</span>
+<span class="fc" id="L186">                        .maxAge(Duration.ofSeconds(it.maxAge))</span>
+<span class="fc" id="L187">                        .path(it.path)</span>
+<span class="fc" id="L188">                        .httpOnly(it.httpOnly)</span>
+<span class="fc" id="L189">                        .secure(it.secure)</span>
+
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">                    if (it.expires != null)</span>
+<span class="nc" id="L192">                        cookie.expires(it.expires)</span>
+
+<span class="fc bfc" id="L194" title="All 2 branches covered.">                    if (it.deleted)</span>
+<span class="fc" id="L195">                        headers.clearCookie(it.name)</span>
+                    else
+<span class="fc" id="L197">                        headers.addCookie(cookie.build())</span>
+<span class="fc" id="L198">                }</span>
+
+<span class="fc bfc" id="L200" title="All 2 branches covered.">            response.contentType?.let { ct -&gt; headers.contentType(HttpMediaType.create(ct.text)) }</span>
+
+<span class="fc" id="L202">            helidonResponse.send(bodyToBytes(response.body))</span>
+        }
+<span class="fc" id="L204">        catch (e: Exception) {</span>
+<span class="fc" id="L205">            helidonResponse.status(Status.INTERNAL_SERVER_ERROR_500)</span>
+<span class="fc" id="L206">            helidonResponse.header(CONTENT_TYPE, TEXT_PLAIN.fullType)</span>
+<span class="fc" id="L207">            helidonResponse.send(bodyToBytes(e.toText()))</span>
+        }
+<span class="fc" id="L209">    }</span>
+
+    private fun sslContext(sslSettings: SslSettings): SSLContext {
+<span class="fc" id="L212">        val keyManager = keyManagerFactory(sslSettings)</span>
+<span class="fc" id="L213">        val trustManager = trustManagerFactory(sslSettings)</span>
+
+<span class="fc" id="L215">        val eng = SSLContext.getDefault().createSSLEngine()</span>
+<span class="fc" id="L216">        eng.needClientAuth = sslSettings.clientAuth</span>
+<span class="fc" id="L217">        val context = SSLContext.getInstance(&quot;TLSv1.3&quot;)</span>
+<span class="fc" id="L218">        context.init(</span>
+<span class="fc" id="L219">            keyManager.keyManagers,</span>
+<span class="pc bpc" id="L220" title="1 of 4 branches missed.">            trustManager?.trustManagers ?: emptyArray(),</span>
+<span class="fc" id="L221">            SecureRandom.getInstanceStrong()</span>
+        )
+<span class="fc" id="L223">        return context</span>
+    }
+
+    private fun trustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
+<span class="fc bfc" id="L227" title="All 2 branches covered.">        val trustStoreUrl = sslSettings.trustStore ?: return null</span>
+<span class="fc" id="L228">        val trustStorePassword = sslSettings.trustStorePassword</span>
+<span class="fc" id="L229">        return createTrustManagerFactory(trustStoreUrl, trustStorePassword)</span>
+    }
+
+    private fun keyManagerFactory(sslSettings: SslSettings): KeyManagerFactory {
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">        val keyStoreUrl = sslSettings.keyStore ?: error(&quot;&quot;)</span>
+<span class="fc" id="L234">        val keyStorePassword = sslSettings.keyStorePassword</span>
+<span class="fc" id="L235">        return createKeyManagerFactory(keyStoreUrl, keyStorePassword)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

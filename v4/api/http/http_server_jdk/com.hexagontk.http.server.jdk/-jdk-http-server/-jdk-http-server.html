@@ -1,0 +1,114 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>JdkHttpServer</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+<a class="library-name--link" href="../../../../index.html">
+                    hexagon
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">4.0.0-B3
+        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http_server_jdk/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":http:http_server_jdk/main" data-filter=":http:http_server_jdk/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    hexagon
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="member" id="content" pageids="http_server_jdk::com.hexagontk.http.server.jdk/JdkHttpServer/JdkHttpServer/#/PointingToDeclaration//-1443667814">
+  <div class="breadcrumbs"><a href="../../index.html">http_server_jdk</a><span class="delimiter">/</span><a href="../index.html">com.hexagontk.http.server.jdk</a><span class="delimiter">/</span><a href="index.html">JdkHttpServer</a><span class="delimiter">/</span><span class="current">JdkHttpServer</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Jdk</span><wbr><span>Http</span><wbr><span><span>Server</span></span></h1>
+  </div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_server_jdk/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div><br><hr><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">backlog<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">executor<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/Executor.html">Executor</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">stopDelay<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">idleInterval<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">30</span><span class="token punctuation">, </span></span><span class="parameter ">maxConnections<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>-1<span class="token punctuation">, </span></span><span class="parameter ">maxIdleConnections<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">200</span><span class="token punctuation">, </span></span><span class="parameter ">drainAmount<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">65536</span><span class="token punctuation">, </span></span><span class="parameter ">maxReqHeaders<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">200</span><span class="token punctuation">, </span></span><span class="parameter ">maxReqTime<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>-1<span class="token punctuation">, </span></span><span class="parameter ">maxRspTime<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>-1<span class="token punctuation">, </span></span><span class="parameter ">nodelay<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span></div><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":http:http_server_jdk/main" data-filterable-set=":http:http_server_jdk/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>backlog</span></span></u></div></span></div><div><div class="title"><p class="paragraph">.</p></div></div></div></div><div class="table-row" data-filterable-current=":http:http_server_jdk/main" data-filterable-set=":http:http_server_jdk/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>executor</span></span></u></div></span></div><div><div class="title"><p class="paragraph">.</p></div></div></div></div><div class="table-row" data-filterable-current=":http:http_server_jdk/main" data-filterable-set=":http:http_server_jdk/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>stop</span><wbr><span><span>Delay</span></span></u></div></span></div><div><div class="title"><p class="paragraph">.</p></div></div></div></div><div class="table-row" data-filterable-current=":http:http_server_jdk/main" data-filterable-set=":http:http_server_jdk/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>idle</span><wbr><span><span>Interval</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Maximum duration in seconds which an idle connection is kept open. This timer has an implementation specific granularity that may mean that idle connections are closed later than the specified interval. Values less than or equal to zero are mapped to* the default setting.</p></div></div></div></div><div class="table-row" data-filterable-current=":http:http_server_jdk/main" data-filterable-set=":http:http_server_jdk/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>max</span><wbr><span><span>Connections</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The maximum number of open connections at a time. This includes active and idle connections. If zero or negative, then no limit is enforced.</p></div></div></div></div><div class="table-row" data-filterable-current=":http:http_server_jdk/main" data-filterable-set=":http:http_server_jdk/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>max</span><wbr><span>Idle</span><wbr><span><span>Connections</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The maximum number of idle connections at a time. If set to zero or a negative value then connections are closed after use.</p></div></div></div></div><div class="table-row" data-filterable-current=":http:http_server_jdk/main" data-filterable-set=":http:http_server_jdk/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>drain</span><wbr><span><span>Amount</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The maximum number of bytes that will be automatically read and discarded from a request body that has not been completely consumed by its HttpHandler. If the number of remaining unread bytes are less than this limit then the connection will be put in the idle connection cache. If not, then it will be closed.</p></div></div></div></div><div class="table-row" data-filterable-current=":http:http_server_jdk/main" data-filterable-set=":http:http_server_jdk/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>max</span><wbr><span>Req</span><wbr><span><span>Headers</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The maximum number of header fields accepted in a request. If this limit is exceeded while the headers are being read, then the connection is terminated and the request ignored. If the value is less than or equal to zero, then the default value is used.</p></div></div></div></div><div class="table-row" data-filterable-current=":http:http_server_jdk/main" data-filterable-set=":http:http_server_jdk/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>max</span><wbr><span>Req</span><wbr><span><span>Time</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The maximum time in milliseconds allowed to receive a request headers and body. In practice, the actual time is a function of request size, network speed, and handler processing delays. A value less than or equal to zero means the time is not limited. If the limit is exceeded then the connection is terminated and the handler will receive a IOException. This timer has an implementation specific granularity that may mean requests are aborted later than the specified interval.</p></div></div></div></div><div class="table-row" data-filterable-current=":http:http_server_jdk/main" data-filterable-set=":http:http_server_jdk/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>max</span><wbr><span>Rsp</span><wbr><span><span>Time</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The maximum time in milliseconds allowed to receive a response headers and body. In practice, the actual time is a function of response size, network speed, and handler processing delays. A value less than or equal to zero means the time is not limited. If the limit is exceeded then the connection is terminated and the handler will receive a IOException. This timer has an implementation specific granularity that may mean responses are aborted later than the specified interval.</p></div></div></div></div><div class="table-row" data-filterable-current=":http:http_server_jdk/main" data-filterable-set=":http:http_server_jdk/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>nodelay</span></span></u></div></span></div><div><div class="title"><p class="paragraph">If true, sets the TCP_NODELAY socket option on all incoming connections.</p></div></div></div></div></div></div></div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>© 2025 Copyright</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

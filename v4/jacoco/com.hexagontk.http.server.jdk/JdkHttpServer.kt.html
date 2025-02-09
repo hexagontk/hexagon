@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JdkHttpServer.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.http.server.jdk</a> &gt; <span class="el_source">JdkHttpServer.kt</span></div><h1>JdkHttpServer.kt</h1><pre class="source lang-java linenums">package com.hexagontk.http.server.jdk
+
+import com.hexagontk.core.fieldsMapOf
+import com.hexagontk.core.media.TEXT_PLAIN
+import com.hexagontk.core.security.createKeyManagerFactory
+import com.hexagontk.core.security.createTrustManagerFactory
+import com.hexagontk.core.toText
+import com.hexagontk.http.SslSettings
+import com.hexagontk.http.model.HttpProtocol
+import com.hexagontk.http.model.HttpProtocol.*
+import com.hexagontk.http.server.HttpServer
+import com.hexagontk.http.HttpFeature
+import com.hexagontk.http.handlers.bodyToBytes
+import com.hexagontk.http.model.HttpResponse
+import com.hexagontk.http.model.HttpResponsePort
+import com.hexagontk.http.model.INTERNAL_SERVER_ERROR_500
+import com.hexagontk.http.server.HttpServerPort
+import com.sun.net.httpserver.Headers
+import com.sun.net.httpserver.HttpExchange
+import com.sun.net.httpserver.HttpsConfigurator
+import com.sun.net.httpserver.HttpServer as SunHttpServer
+import com.sun.net.httpserver.HttpsServer as SunHttpsServer
+import java.net.InetSocketAddress
+import com.sun.net.httpserver.HttpHandler as SunHttpHandler
+import java.security.SecureRandom
+import java.util.concurrent.Executor
+import javax.net.ssl.KeyManagerFactory
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManagerFactory
+
+/**
+ * Implements [HttpServerPort] using the JDK HTTP server.
+ *
+ * @param backlog .
+ * @param executor .
+ * @param stopDelay .
+ * @param idleInterval Maximum duration in seconds which an idle connection is kept open. This timer
+ *  has an implementation specific granularity that may mean that idle connections are closed later
+ *  than the specified interval. Values less than or equal to zero are mapped to* the default
+ *  setting.
+ * @param maxConnections The maximum number of open connections at a time. This includes active
+ *  and idle connections. If zero or negative, then no limit is enforced.
+ * @param maxIdleConnections The maximum number of idle connections at a time. If set to zero or a
+ *  negative value then connections are closed after use.
+ * @param drainAmount The maximum number of bytes that will be automatically read and discarded
+ *  from a request body that has not been completely consumed by its HttpHandler. If the number of
+ *  remaining unread bytes are less than this limit then the connection will be put in the idle
+ *  connection cache. If not, then it will be closed.
+ * @param maxReqHeaders The maximum number of header fields accepted in a request. If this limit is
+ *  exceeded while the headers are being read, then the connection is terminated and the request
+ *  ignored. If the value is less than or equal to zero, then the default value is used.
+ * @param maxReqTime The maximum time in milliseconds allowed to receive a request headers and body.
+ *  In practice, the actual time is a function of request size, network speed, and handler
+ *  processing delays. A value less than or equal to zero means the time is not limited. If the
+ *  limit is exceeded then the connection is terminated and the handler will receive a IOException.
+ *  This timer has an implementation specific granularity that may mean requests are aborted later
+ *  than the specified interval.
+ * @param maxRspTime The maximum time in milliseconds allowed to receive a response headers and
+ *  body. In practice, the actual time is a function of response size, network speed, and handler
+ *  processing delays. A value less than or equal to zero means the time is not limited. If the
+ *  limit is exceeded then the connection is terminated and the handler will receive a IOException.
+ *  This timer has an implementation specific granularity that may mean responses are aborted later
+ *  than the specified interval.
+ * @param nodelay If true, sets the TCP_NODELAY socket option on all incoming connections.
+ */
+<span class="pc" id="L66">class JdkHttpServer(</span>
+<span class="pc" id="L67">    private val backlog: Int = 1_024,</span>
+<span class="pc" id="L68">    private val executor: Executor? = null,</span>
+<span class="pc" id="L69">    private val stopDelay: Int = 0,</span>
+<span class="pc" id="L70">    private val idleInterval: Int = 30,</span>
+<span class="pc" id="L71">    private val maxConnections: Int = -1,</span>
+<span class="pc" id="L72">    private val maxIdleConnections: Int = 200,</span>
+<span class="pc" id="L73">    private val drainAmount: Int = 65536,</span>
+<span class="pc" id="L74">    private val maxReqHeaders: Int = 200,</span>
+<span class="pc" id="L75">    private val maxReqTime: Int = -1,</span>
+<span class="pc" id="L76">    private val maxRspTime: Int = -1,</span>
+<span class="pc" id="L77">    private val nodelay: Boolean = false,</span>
+<span class="nc" id="L78">) : HttpServerPort {</span>
+
+    private companion object {
+        const val START_ERROR_MESSAGE = &quot;JDK HTTP server not started correctly&quot;
+    }
+
+    private var started = false
+    private var sunServer: SunHttpServer? = null
+
+<span class="fc" id="L87">    constructor() : this(</span>
+<span class="fc" id="L88">        backlog = 1_024,</span>
+<span class="fc" id="L89">        executor = null,</span>
+<span class="fc" id="L90">        stopDelay = 0,</span>
+<span class="fc" id="L91">        idleInterval = 30,</span>
+<span class="fc" id="L92">        maxConnections = -1,</span>
+<span class="fc" id="L93">        maxIdleConnections = 200,</span>
+<span class="fc" id="L94">        drainAmount = 65536,</span>
+<span class="fc" id="L95">        maxReqHeaders = 200,</span>
+<span class="fc" id="L96">        maxReqTime = -1,</span>
+<span class="fc" id="L97">        maxRspTime = -1,</span>
+<span class="fc" id="L98">        nodelay = false,</span>
+<span class="fc" id="L99">    )</span>
+
+<span class="fc" id="L101">    init {</span>
+<span class="fc" id="L102">        System.setProperty(&quot;sun.net.httpserver.idleInterval&quot;, idleInterval.toString())</span>
+<span class="fc" id="L103">        System.setProperty(&quot;jdk.httpserver.maxConnections&quot;, maxConnections.toString())</span>
+<span class="fc" id="L104">        System.setProperty(&quot;sun.net.httpserver.maxIdleConnections&quot;, maxIdleConnections.toString())</span>
+<span class="fc" id="L105">        System.setProperty(&quot;sun.net.httpserver.drainAmount&quot;, drainAmount.toString())</span>
+<span class="fc" id="L106">        System.setProperty(&quot;sun.net.httpserver.maxReqHeaders&quot;, maxReqHeaders.toString())</span>
+<span class="fc" id="L107">        System.setProperty(&quot;sun.net.httpserver.maxReqTime&quot;, maxReqTime.toString())</span>
+<span class="fc" id="L108">        System.setProperty(&quot;sun.net.httpserver.maxRspTime&quot;, maxRspTime.toString())</span>
+<span class="fc" id="L109">        System.setProperty(&quot;sun.net.httpserver.nodelay&quot;, nodelay.toString())</span>
+<span class="fc" id="L110">    }</span>
+
+    override fun runtimePort(): Int {
+<span class="pc bpc" id="L113" title="2 of 4 branches missed.">        return sunServer?.address?.port ?: error(START_ERROR_MESSAGE)</span>
+    }
+
+    override fun started() =
+<span class="fc" id="L117">        started</span>
+
+    override fun startUp(server: HttpServer) {
+<span class="fc" id="L120">        val settings = server.settings</span>
+<span class="fc" id="L121">        val sslSettings = settings.sslSettings</span>
+<span class="fc" id="L122">        val handlers = server.handler.byMethod().mapKeys { it.key.toString() }</span>
+
+<span class="fc" id="L124">        val host = settings.bindAddress.hostName</span>
+<span class="fc" id="L125">        val port = settings.bindPort</span>
+<span class="fc" id="L126">        val address = InetSocketAddress(host, port)</span>
+
+<span class="fc" id="L128">        var jdkServer =</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">            if (sslSettings == null)</span>
+<span class="fc" id="L130">                SunHttpServer.create(address, backlog)</span>
+            else
+<span class="fc" id="L132">                SunHttpsServer.create(address, backlog).apply {</span>
+<span class="fc" id="L133">                    val sslContext = sslContext(sslSettings)</span>
+<span class="fc" id="L134">                    httpsConfigurator = HttpsConfigurator(sslContext)</span>
+<span class="fc" id="L135">                }</span>
+
+<span class="fc" id="L137">        jdkServer.createContext(&quot;/&quot;, object : SunHttpHandler {</span>
+            override fun handle(exchange: HttpExchange) {
+<span class="fc" id="L139">                val method = exchange.requestMethod</span>
+<span class="fc" id="L140">                val request = JdkRequestAdapter(method, exchange)</span>
+<span class="pc bpc" id="L141" title="3 of 6 branches missed.">                val response = handlers[method]?.process(request)?.response ?: HttpResponse()</span>
+<span class="fc" id="L142">                reply(response, exchange)</span>
+<span class="fc" id="L143">            }</span>
+        })
+
+<span class="fc" id="L146">        jdkServer.executor = executor</span>
+<span class="fc" id="L147">        jdkServer.start()</span>
+
+<span class="fc" id="L149">        sunServer = jdkServer</span>
+<span class="fc" id="L150">        started = true</span>
+<span class="fc" id="L151">    }</span>
+
+    override fun shutDown() {
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        sunServer?.stop(stopDelay) ?: error(START_ERROR_MESSAGE)</span>
+<span class="fc" id="L155">        started = false</span>
+<span class="fc" id="L156">    }</span>
+
+    override fun supportedProtocols(): Set&lt;HttpProtocol&gt; =
+<span class="fc" id="L159">        setOf(HTTP, HTTPS)</span>
+
+    override fun supportedFeatures(): Set&lt;HttpFeature&gt; =
+<span class="fc" id="L162">        emptySet()</span>
+
+    override fun options(): Map&lt;String, *&gt; =
+<span class="fc" id="L165">        fieldsMapOf(</span>
+<span class="fc" id="L166">            JdkHttpServer::backlog to backlog,</span>
+<span class="fc" id="L167">            JdkHttpServer::executor to executor,</span>
+<span class="fc" id="L168">            JdkHttpServer::stopDelay to stopDelay,</span>
+<span class="fc" id="L169">            JdkHttpServer::idleInterval to idleInterval,</span>
+<span class="fc" id="L170">            JdkHttpServer::maxConnections to maxConnections,</span>
+<span class="fc" id="L171">            JdkHttpServer::maxIdleConnections to maxIdleConnections,</span>
+<span class="fc" id="L172">            JdkHttpServer::drainAmount to drainAmount,</span>
+<span class="fc" id="L173">            JdkHttpServer::maxReqHeaders to maxReqHeaders,</span>
+<span class="fc" id="L174">            JdkHttpServer::maxReqTime to maxReqTime,</span>
+<span class="fc" id="L175">            JdkHttpServer::maxRspTime to maxRspTime,</span>
+<span class="fc" id="L176">            JdkHttpServer::nodelay to nodelay,</span>
+<span class="fc" id="L177">        )</span>
+
+    private fun reply(response: HttpResponsePort, exchange: HttpExchange) {
+<span class="fc" id="L180">        var headers = exchange.responseHeaders</span>
+
+<span class="fc" id="L182">        try {</span>
+<span class="fc" id="L183">            response.headers.forEach { headers.add(it.name, it.text) }</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">            send(response.status, response.body, response.contentType?.text, headers, exchange)</span>
+        }
+<span class="fc" id="L186">        catch (e: Exception) {</span>
+<span class="fc" id="L187">            send(INTERNAL_SERVER_ERROR_500, e.toText(), TEXT_PLAIN.fullType, headers, exchange)</span>
+        }
+        finally {
+<span class="fc" id="L190">            exchange.close()</span>
+        }
+<span class="fc" id="L192">    }</span>
+
+    private fun send(
+        status: Int, result: Any, contentType: String?, headers: Headers, exchange: HttpExchange
+    ) {
+<span class="fc bfc" id="L197" title="All 2 branches covered.">        if (contentType != null)</span>
+<span class="fc" id="L198">            headers.set(&quot;content-type&quot;, contentType)</span>
+
+<span class="fc" id="L200">        var body = bodyToBytes(result)</span>
+<span class="fc bfc" id="L201" title="All 4 branches covered.">        val size = if (body.isEmpty()) -1 else body.size.toLong()</span>
+<span class="fc" id="L202">        exchange.sendResponseHeaders(status, size)</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">        if (size != -1L)</span>
+<span class="pc" id="L204">            exchange.responseBody.use { it.write(body) }</span>
+<span class="fc" id="L205">    }</span>
+
+    private fun sslContext(sslSettings: SslSettings): SSLContext {
+<span class="fc" id="L208">        val keyManager = keyManagerFactory(sslSettings)</span>
+<span class="fc" id="L209">        val trustManager = trustManagerFactory(sslSettings)</span>
+
+<span class="fc" id="L211">        val eng = SSLContext.getDefault().createSSLEngine()</span>
+<span class="fc" id="L212">        eng.needClientAuth = sslSettings.clientAuth</span>
+<span class="fc" id="L213">        val context = SSLContext.getInstance(&quot;TLSv1.3&quot;)</span>
+<span class="fc" id="L214">        context.init(</span>
+<span class="fc" id="L215">            keyManager.keyManagers,</span>
+<span class="pc bpc" id="L216" title="1 of 4 branches missed.">            trustManager?.trustManagers ?: emptyArray(),</span>
+<span class="fc" id="L217">            SecureRandom.getInstanceStrong()</span>
+        )
+<span class="fc" id="L219">        return context</span>
+    }
+
+    private fun trustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
+<span class="fc bfc" id="L223" title="All 2 branches covered.">        val trustStoreUrl = sslSettings.trustStore ?: return null</span>
+<span class="fc" id="L224">        val trustStorePassword = sslSettings.trustStorePassword</span>
+<span class="fc" id="L225">        return createTrustManagerFactory(trustStoreUrl, trustStorePassword)</span>
+    }
+
+    private fun keyManagerFactory(sslSettings: SslSettings): KeyManagerFactory {
+<span class="pc bpc" id="L229" title="1 of 2 branches missed.">        val keyStoreUrl = sslSettings.keyStore ?: error(&quot;&quot;)</span>
+<span class="fc" id="L230">        val keyStorePassword = sslSettings.keyStorePassword</span>
+<span class="fc" id="L231">        return createKeyManagerFactory(keyStoreUrl, keyStorePassword)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

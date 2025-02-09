@@ -32,6 +32,8 @@ com.hexagontk.http.server.callbacks
 com.hexagontk.http.server.handlers
 module:http_server_helidon
 com.hexagontk.http.server.helidon
+module:http_server_jdk
+com.hexagontk.http.server.jdk
 module:http_server_jetty
 com.hexagontk.http.server.jetty
 module:http_server_netty
@@ -43,6 +45,7 @@ com.hexagontk.http.server.servlet
 module:http_test
 com.hexagontk.http.test
 com.hexagontk.http.test.examples
+com.hexagontk.http.test.examples.examples
 module:rest
 com.hexagontk.rest
 module:rest_tools

@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpClientTool.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.rest.tools</a> &gt; <span class="el_source">HttpClientTool.kt</span></div><h1>HttpClientTool.kt</h1><pre class="source lang-java linenums">package com.hexagontk.rest.tools
+
+import com.hexagontk.core.media.MediaType
+import com.hexagontk.http.SslSettings
+import com.hexagontk.http.client.HttpClient
+import com.hexagontk.http.client.HttpClientPort
+import com.hexagontk.http.client.HttpClientSettings
+import com.hexagontk.http.handlers.BeforeHandler
+import com.hexagontk.http.handlers.HttpHandler
+import com.hexagontk.http.model.HttpRequest
+import com.hexagontk.http.model.*
+import com.hexagontk.http.model.HttpMethod.*
+import com.hexagontk.http.patterns.createPathPattern
+import com.hexagontk.rest.SerializeRequestCallback
+import java.net.URI
+
+<span class="fc" id="L17">class HttpClientTool(</span>
+    adapter: HttpClientPort,
+<span class="fc" id="L19">    url: String? = null,</span>
+<span class="fc" id="L20">    httpContentType: ContentType? = null,</span>
+<span class="fc" id="L21">    httpAccept: List&lt;ContentType&gt; = emptyList(),</span>
+<span class="pc" id="L22">    val httpHeaders: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L23">    sslSettings: SslSettings? = SslSettings(),</span>
+<span class="pc" id="L24">    val handler: HttpHandler? = serializeHandler,</span>
+<span class="fc" id="L25">    authorization: Authorization? = null,</span>
+<span class="fc" id="L26">    followRedirects: Boolean = false</span>
+<span class="fc" id="L27">) {</span>
+    companion object {
+        // TODO Use SerializeRequestHandler when created
+<span class="fc" id="L30">        val serializeHandler: HttpHandler = BeforeHandler(&quot;*&quot;, SerializeRequestCallback())</span>
+    }
+
+    private val settings =
+<span class="fc" id="L34">        HttpClientSettings(</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">            baseUri = url?.let(::URI),</span>
+<span class="fc" id="L36">            contentType = httpContentType,</span>
+<span class="fc" id="L37">            accept = httpAccept,</span>
+<span class="fc" id="L38">            useCookies = true,</span>
+<span class="fc" id="L39">            headers = toHeaders(httpHeaders),</span>
+<span class="fc" id="L40">            insecure = true,</span>
+<span class="fc" id="L41">            sslSettings = sslSettings,</span>
+<span class="fc" id="L42">            authorization = authorization,</span>
+<span class="fc" id="L43">            followRedirects = followRedirects</span>
+        )
+
+<span class="fc" id="L46">    private val client = HttpClient(adapter, settings, handler = handler)</span>
+
+    private lateinit var lastRequest: HttpRequest
+    private lateinit var lastAttributes: Map&lt;String, *&gt;
+    private lateinit var lastResponse: HttpResponsePort
+
+<span class="fc" id="L52">    val request: HttpRequest get() = lastRequest</span>
+<span class="fc" id="L53">    val attributes: Map&lt;String, *&gt; get() = lastAttributes</span>
+<span class="fc" id="L54">    val response: HttpResponsePort get() = lastResponse</span>
+<span class="fc" id="L55">    val status: Int get() = lastResponse.status</span>
+<span class="nc" id="L56">    val body: Any get() = lastResponse.body</span>
+<span class="fc" id="L57">    val cookies: Map&lt;String, Cookie&gt; get() = lastResponse.cookiesMap()</span>
+<span class="nc" id="L58">    val headers: Headers get() = lastResponse.headers</span>
+<span class="fc" id="L59">    val contentType: ContentType? get() = lastResponse.contentType</span>
+
+<span class="fc" id="L61">    constructor(</span>
+        adapter: HttpClientPort,
+<span class="nc" id="L63">        url: String? = null,</span>
+        mediaType: MediaType,
+<span class="fc" id="L65">        accept: List&lt;MediaType&gt; = emptyList(),</span>
+<span class="nc" id="L66">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L67">        sslSettings: SslSettings? = SslSettings(),</span>
+<span class="fc" id="L68">        handler: HttpHandler? = serializeHandler,</span>
+<span class="fc" id="L69">    ) : this(</span>
+<span class="fc" id="L70">        adapter,</span>
+<span class="fc" id="L71">        url,</span>
+<span class="fc" id="L72">        ContentType(mediaType),</span>
+<span class="pc" id="L73">        accept.map(::ContentType),</span>
+<span class="fc" id="L74">        headers,</span>
+<span class="fc" id="L75">        sslSettings,</span>
+<span class="fc" id="L76">        handler</span>
+<span class="fc" id="L77">    )</span>
+
+    fun start() {
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (!client.started())</span>
+<span class="nc" id="L81">            client.start()</span>
+<span class="fc" id="L82">    }</span>
+
+    fun stop() {
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (client.started())</span>
+<span class="fc" id="L86">            client.stop()</span>
+<span class="fc" id="L87">    }</span>
+
+    fun request(block: HttpClientTool.() -&gt; Unit) {
+<span class="fc" id="L90">        client.request { block.invoke(this@HttpClientTool) }</span>
+<span class="fc" id="L91">    }</span>
+
+    fun assertStatus(status: Int) {
+<span class="pc bpc" id="L94" title="3 of 6 branches missed.">        assert(status == lastResponse.status)</span>
+<span class="fc" id="L95">    }</span>
+
+    fun assertOk() {
+<span class="fc" id="L98">        assertStatus(OK_200)</span>
+<span class="fc" id="L99">    }</span>
+
+    fun assertSuccess() {
+<span class="pc bpc" id="L102" title="4 of 8 branches missed.">        assert(lastResponse.status in SUCCESS)</span>
+<span class="fc" id="L103">    }</span>
+
+    fun assertContentType(contentType: ContentType) {
+<span class="pc bpc" id="L106" title="3 of 6 branches missed.">        assert(this.contentType?.text == contentType.text)</span>
+<span class="fc" id="L107">    }</span>
+
+    fun assertContentType(mediaType: MediaType) {
+<span class="fc" id="L110">        assertContentType(ContentType(mediaType))</span>
+<span class="fc" id="L111">    }</span>
+
+    fun assertBody(body: Any) {
+<span class="pc bpc" id="L114" title="2 of 4 branches missed.">        assert(body == lastResponse.body)</span>
+<span class="fc" id="L115">    }</span>
+
+    fun assertBodyContains(vararg texts: String) {
+<span class="pc bpc" id="L118" title="2 of 4 branches missed.">        texts.forEach { assert(lastResponse.bodyString().contains(it)) }</span>
+<span class="fc" id="L119">    }</span>
+
+<span class="fc" id="L121">    private fun toHeaders(map: Map&lt;String, *&gt;): Headers = Headers(</span>
+<span class="fc" id="L122">        map.flatMap { (k, v) -&gt;</span>
+<span class="fc" id="L123">            when (v) {</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">                is Collection&lt;*&gt; -&gt; v.map { Header(k, it) }.toList()</span>
+<span class="fc" id="L125">                else -&gt; listOf(Header(k, v))</span>
+<span class="fc" id="L126">            }</span>
+        }
+<span class="fc" id="L128">    )</span>
+
+<span class="fc" id="L130">    private fun send(</span>
+        method: HttpMethod,
+        path: String?,
+<span class="nc" id="L133">        body: Any = &quot;&quot;,</span>
+<span class="nc" id="L134">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="nc" id="L135">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="nc" id="L136">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="nc" id="L137">        contentType: ContentType? = settings.contentType,</span>
+<span class="nc" id="L138">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+<span class="fc" id="L139">        attributes: Map&lt;String, Any&gt; = emptyMap(),</span>
+<span class="fc" id="L140">        pathPattern: String? = null,</span>
+<span class="fc" id="L141">        pathParameters: Map&lt;String, Any&gt; = emptyMap(),</span>
+    ): HttpResponsePort =
+<span class="fc" id="L143">        client</span>
+<span class="fc" id="L144">            .apply {</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">                if (!started())</span>
+<span class="fc" id="L146">                    start()</span>
+
+<span class="fc" id="L148">                val (pattern, patternPath) = when {</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">                    pathPattern != null -&gt;</span>
+<span class="fc" id="L150">                        createPathPattern(pathPattern)</span>
+<span class="fc" id="L151">                            .let { it to it.insertParameters(pathParameters) }</span>
+
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">                    else -&gt; null to (path ?: &quot;&quot;)</span>
+                }
+
+<span class="fc" id="L156">                lastAttributes = attributes</span>
+<span class="fc" id="L157">                lastRequest = HttpRequest(</span>
+<span class="fc" id="L158">                    method = method,</span>
+<span class="fc" id="L159">                    path = patternPath,</span>
+<span class="fc" id="L160">                    body = body,</span>
+<span class="fc" id="L161">                    headers = toHeaders(headers),</span>
+<span class="fc" id="L162">                    formParameters = Parameters(formParameters),</span>
+<span class="fc" id="L163">                    parts = parts,</span>
+<span class="fc" id="L164">                    contentType = contentType,</span>
+<span class="fc" id="L165">                    accept = accept,</span>
+<span class="fc" id="L166">                    pathPattern = pattern,</span>
+<span class="fc" id="L167">                    pathParameters = pathParameters,</span>
+                )
+<span class="fc" id="L169">            }</span>
+<span class="fc" id="L170">            .send(lastRequest, attributes = attributes)</span>
+<span class="fc" id="L171">            .apply { lastResponse = this }</span>
+
+<span class="fc" id="L173">    private fun send(</span>
+        method: HttpMethod,
+        pathPattern: String,
+        pathParameters: Map&lt;String, Any&gt;,
+<span class="nc" id="L177">        body: Any = &quot;&quot;,</span>
+<span class="nc" id="L178">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="nc" id="L179">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="nc" id="L180">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="nc" id="L181">        contentType: ContentType? = settings.contentType,</span>
+<span class="nc" id="L182">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+<span class="fc" id="L183">        attributes: Map&lt;String, Any&gt; = emptyMap(),</span>
+    ): HttpResponsePort =
+<span class="fc" id="L185">        send(</span>
+<span class="fc" id="L186">            method,</span>
+<span class="fc" id="L187">            null,</span>
+<span class="fc" id="L188">            body,</span>
+<span class="fc" id="L189">            formParameters,</span>
+<span class="fc" id="L190">            headers,</span>
+<span class="fc" id="L191">            parts,</span>
+<span class="fc" id="L192">            contentType,</span>
+<span class="fc" id="L193">            accept,</span>
+<span class="fc" id="L194">            attributes,</span>
+<span class="fc" id="L195">            pathPattern,</span>
+<span class="fc" id="L196">            pathParameters,</span>
+<span class="fc" id="L197">        )</span>
+
+<span class="fc" id="L199">    fun get(</span>
+<span class="fc" id="L200">        path: String = &quot;/&quot;,</span>
+<span class="fc" id="L201">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L202">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L203">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L204">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L205">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L206">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L208">        send(GET, path, body, formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L210">    fun put(</span>
+<span class="fc" id="L211">        path: String = &quot;/&quot;,</span>
+<span class="fc" id="L212">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L213">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L214">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L215">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L216">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L217">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L219">        send(PUT, path, body, formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L221">    fun put(</span>
+<span class="nc" id="L222">        path: String = &quot;/&quot;,</span>
+<span class="fc" id="L223">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L224">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L225">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L226">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L227">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+        body: () -&gt; Any,
+    ): HttpResponsePort =
+<span class="fc" id="L230">        put(path, body(), formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L232">    fun post(</span>
+<span class="fc" id="L233">        path: String = &quot;/&quot;,</span>
+<span class="fc" id="L234">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L235">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L236">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L237">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L238">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L239">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L241">        send(POST, path, body, formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L243">    fun post(</span>
+<span class="nc" id="L244">        path: String = &quot;/&quot;,</span>
+<span class="fc" id="L245">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L246">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L247">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L248">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L249">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+        body: () -&gt; Any,
+    ): HttpResponsePort =
+<span class="fc" id="L252">        post(path, body(), formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L254">    fun options(</span>
+<span class="fc" id="L255">        path: String = &quot;/&quot;,</span>
+<span class="fc" id="L256">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L257">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L258">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L259">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L260">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L261">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L263">        send(OPTIONS, path, body, formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L265">    fun delete(</span>
+<span class="fc" id="L266">        path: String = &quot;/&quot;,</span>
+<span class="fc" id="L267">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L268">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L269">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L270">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L271">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L272">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L274">        send(DELETE, path, body, formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L276">    fun patch(</span>
+<span class="fc" id="L277">        path: String = &quot;/&quot;,</span>
+<span class="fc" id="L278">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L279">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L280">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L281">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L282">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L283">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L285">        send(PATCH, path, body, formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L287">    fun trace(</span>
+<span class="fc" id="L288">        path: String = &quot;/&quot;,</span>
+<span class="fc" id="L289">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L290">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L291">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L292">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L293">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L294">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L296">        send(TRACE, path, body, formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L298">    fun get(</span>
+        path: String,
+        pathParameters: Map&lt;String, Any&gt;,
+<span class="fc" id="L301">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L302">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L303">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L304">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L305">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L306">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L308">        send(GET, path, pathParameters, body, formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L310">    fun put(</span>
+        path: String,
+        pathParameters: Map&lt;String, Any&gt;,
+<span class="fc" id="L313">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L314">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L315">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L316">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L317">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L318">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L320">        send(PUT, path, pathParameters, body, formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L322">    fun put(</span>
+        path: String,
+        pathParameters: Map&lt;String, Any&gt;,
+<span class="fc" id="L325">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L326">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L327">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L328">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+        body: () -&gt; Any,
+    ): HttpResponsePort =
+<span class="fc" id="L331">        put(</span>
+<span class="fc" id="L332">            path,</span>
+<span class="fc" id="L333">            pathParameters,</span>
+<span class="fc" id="L334">            body(),</span>
+<span class="fc" id="L335">            formParameters,</span>
+<span class="fc" id="L336">            mapOf&lt;String, Any&gt;(),</span>
+<span class="fc" id="L337">            parts,</span>
+<span class="fc" id="L338">            contentType,</span>
+<span class="fc" id="L339">            accept</span>
+<span class="fc" id="L340">        )</span>
+
+<span class="fc" id="L342">    fun post(</span>
+        path: String,
+        pathParameters: Map&lt;String, Any&gt;,
+<span class="fc" id="L345">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L346">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L347">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L348">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L349">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L350">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L352">        send(POST, path, pathParameters, body, formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L354">    fun post(</span>
+        path: String,
+        pathParameters: Map&lt;String, Any&gt;,
+<span class="fc" id="L357">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L358">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L359">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L360">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L361">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+        body: () -&gt; Any,
+    ): HttpResponsePort =
+<span class="fc" id="L364">        post(path, pathParameters, body(), formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L366">    fun options(</span>
+        path: String,
+        pathParameters: Map&lt;String, Any&gt;,
+<span class="fc" id="L369">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L370">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L371">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L372">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L373">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L374">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L376">        send(</span>
+<span class="fc" id="L377">            OPTIONS, path, pathParameters, body, formParameters, headers, parts, contentType, accept</span>
+<span class="fc" id="L378">        )</span>
+
+<span class="fc" id="L380">    fun delete(</span>
+        path: String,
+        pathParameters: Map&lt;String, Any&gt;,
+<span class="fc" id="L383">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L384">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L385">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L386">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L387">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L388">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L390">        send(</span>
+<span class="fc" id="L391">            DELETE, path, pathParameters, body, formParameters, headers, parts, contentType, accept</span>
+<span class="fc" id="L392">        )</span>
+
+<span class="fc" id="L394">    fun patch(</span>
+        path: String,
+        pathParameters: Map&lt;String, Any&gt;,
+<span class="fc" id="L397">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L398">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L399">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L400">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L401">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L402">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L404">        send(PATCH, path, pathParameters, body, formParameters, headers, parts, contentType, accept)</span>
+
+<span class="fc" id="L406">    fun trace(</span>
+        path: String,
+        pathParameters: Map&lt;String, Any&gt;,
+<span class="fc" id="L409">        body: Any = &quot;&quot;,</span>
+<span class="fc" id="L410">        formParameters: List&lt;HttpField&gt; = emptyList(),</span>
+<span class="fc" id="L411">        headers: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;(),</span>
+<span class="fc" id="L412">        parts: List&lt;HttpPart&gt; = emptyList(),</span>
+<span class="fc" id="L413">        contentType: ContentType? = settings.contentType,</span>
+<span class="fc" id="L414">        accept: List&lt;ContentType&gt; = settings.accept,</span>
+    ): HttpResponsePort =
+<span class="fc" id="L416">        send(TRACE, path, pathParameters, body, formParameters, headers, parts, contentType, accept)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

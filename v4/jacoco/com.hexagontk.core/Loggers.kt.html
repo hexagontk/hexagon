@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Loggers.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.core</a> &gt; <span class="el_source">Loggers.kt</span></div><h1>Loggers.kt</h1><pre class="source lang-java linenums">package com.hexagontk.core
+
+import com.hexagontk.core.text.stripAnsi
+import java.lang.System.Logger
+import java.lang.System.Logger.Level
+import java.lang.System.Logger.Level.*
+import kotlin.reflect.KClass
+
+const val HEXAGONTK_LOGGING_COLOR = &quot;hexagontk_logging_color&quot;
+const val HEXAGONTK_LOGGING_LOGGER_NAME = &quot;hexagontk_logging_logger_name&quot;
+
+<span class="fc" id="L12">internal val useColor: Boolean by lazy { Platform.systemFlag(HEXAGONTK_LOGGING_COLOR) }</span>
+<span class="fc" id="L13">internal val defaultLoggerName: String by lazy {</span>
+<span class="fc" id="L14">    Platform.systemSetting(HEXAGONTK_LOGGING_LOGGER_NAME, &quot;com.hexagontk.core.logging&quot;)</span>
+}
+
+/** Default logger for when you feel too lazy to declare one. */
+<span class="fc" id="L18">val logger: Logger by lazy { loggerOf(defaultLoggerName) }</span>
+
+/**
+ * Use this [T] to log a message with a prefix using [TRACE] level.
+ *
+ * [com.hexagontk.core.logger] must have the [TRACE] level enabled.
+ *
+ * @receiver Object which string representation will be logged.
+ * @param T Type of the logged object.
+ * @param prefix Prefix for the logging message.
+ * @return The receiver reference for chaining methods.
+ */
+<span class="fc" id="L30">fun &lt;T&gt; T.trace(prefix: String = &quot;&quot;): T =</span>
+<span class="fc" id="L31">    apply { logger.trace { &quot;$prefix$this&quot; } }</span>
+
+/**
+ * Use this [T] to log a message with a prefix using [DEBUG] level.
+ *
+ * [com.hexagontk.core.logger] must have the [DEBUG] level enabled.
+ *
+ * @receiver Object which string representation will be logged.
+ * @param T Type of the logged object.
+ * @param prefix Prefix for the logging message.
+ * @return The receiver reference for chaining methods.
+ */
+<span class="fc" id="L43">fun &lt;T&gt; T.debug(prefix: String = &quot;&quot;): T =</span>
+<span class="fc" id="L44">    apply { logger.debug { &quot;$prefix$this&quot; } }</span>
+
+/**
+ * Use this [T] to log a message with a prefix using [INFO] level.
+ *
+ * [com.hexagontk.core.logger] must have the [INFO] level enabled.
+ *
+ * @receiver Object which string representation will be logged.
+ * @param T Type of the logged object.
+ * @param prefix Prefix for the logging message.
+ * @return The receiver reference for chaining methods.
+ */
+<span class="fc" id="L56">fun &lt;T&gt; T.info(prefix: String = &quot;&quot;): T =</span>
+<span class="fc" id="L57">    apply { logger.info { &quot;$prefix$this&quot; } }</span>
+
+/**
+ * Logger constructor function.
+ *
+ * @param type Logger type. It is shown in the logs messages and used for log filtering.
+ */
+fun loggerOf(type: KClass&lt;*&gt;): Logger =
+<span class="fc bfc" id="L65" title="All 2 branches covered.">    loggerOf(type.qualifiedName ?: error(&quot;Cannot get qualified name of type&quot;))</span>
+
+/**
+ * Logger constructor function.
+ *
+ * @param name Logger name. It is shown in the logs messages and used for log filtering.
+ */
+fun loggerOf(name: String): Logger =
+<span class="fc" id="L73">    System.getLogger(name)</span>
+
+/**
+ * Log a message, with associated exception information.
+ *
+ * @param level Level used in the log statement.
+ * @param exception The exception associated with log message.
+ * @param message The message supplier to use in the log statement.
+ */
+fun &lt;E : Throwable&gt; Logger.log(level: Level, exception: E, message: (E) -&gt; Any?) {
+<span class="fc" id="L83">    val messageSupplier = { stripAnsi(message(exception), useColor) }</span>
+<span class="fc" id="L84">    log(level, messageSupplier, exception)</span>
+<span class="fc" id="L85">}</span>
+
+/**
+ * Log a message using [TRACE] level.
+ *
+ * @param message The required message to log.
+ */
+fun Logger.trace(message: () -&gt; Any?) {
+<span class="fc" id="L93">    logMessage(TRACE, message)</span>
+<span class="fc" id="L94">}</span>
+
+/**
+ * Log a message using [DEBUG] level.
+ *
+ * @param message The required message to log.
+ */
+fun Logger.debug(message: () -&gt; Any?) {
+<span class="fc" id="L102">    logMessage(DEBUG, message)</span>
+<span class="fc" id="L103">}</span>
+
+/**
+ * Log a message using [INFO] level.
+ *
+ * @param message The required message to log.
+ */
+fun Logger.info(message: () -&gt; Any?) {
+<span class="fc" id="L111">    logMessage(INFO, message)</span>
+<span class="fc" id="L112">}</span>
+
+/**
+ * Log a message using [WARNING] level.
+ *
+ * @param message The required message to log.
+ */
+fun Logger.warn(message: () -&gt; Any?) {
+<span class="fc" id="L120">    logMessage(WARNING, message)</span>
+<span class="fc" id="L121">}</span>
+
+/**
+ * Log a message using [ERROR] level.
+ *
+ * @param message The required message to log.
+ */
+fun Logger.error(message: () -&gt; Any?) {
+<span class="fc" id="L129">    logMessage(ERROR, message)</span>
+<span class="fc" id="L130">}</span>
+
+/**
+ * Log a message using [WARNING] level with associated exception information.
+ *
+ * @param exception The exception associated with log message.
+ * @param message The message to log (optional). If not supplied it will be empty.
+ */
+<span class="fc" id="L138">fun &lt;E : Throwable&gt; Logger.warn(exception: E?, message: (E?) -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="pc bpc" id="L139" title="1 of 4 branches missed.">    if (exception == null) log(WARNING) { message(null)?.toString() }</span>
+<span class="fc" id="L140">    else log(WARNING, exception, message)</span>
+<span class="fc" id="L141">}</span>
+
+/**
+ * Log a message using [ERROR] level with associated exception information.
+ *
+ * @param exception The exception associated with log message.
+ * @param message The message to log (function to optional). If not supplied it will be empty.
+ */
+<span class="fc" id="L149">fun &lt;E : Throwable&gt; Logger.error(exception: E?, message: (E?) -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="pc bpc" id="L150" title="1 of 4 branches missed.">    if (exception == null) log(ERROR) { message(null)?.toString() }</span>
+<span class="fc" id="L151">    else log(ERROR, exception, message)</span>
+<span class="fc" id="L152">}</span>
+
+internal fun &lt;T&gt; stripAnsi(receiver: T?, apply: Boolean): String? =
+<span class="pc bpc" id="L155" title="2 of 6 branches missed.">    receiver?.toString()?.let { if (apply) it.stripAnsi() else it }</span>
+
+private fun Logger.logMessage(level: Level, message: () -&gt; Any?) {
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">    val messageSupplier = { stripAnsi(message(), !useColor) }</span>
+<span class="fc" id="L159">    log(level, messageSupplier)</span>
+<span class="fc" id="L160">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
