@@ -13,7 +13,7 @@ jobs:
   native_test:
     uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
-      tasks: -P fullBuild nativeTest
+      tasks: nativeTest
 
   jmh:
     uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
@@ -27,4 +27,4 @@ jobs:
     uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
     with:
       check_directory: core/build
-      tasks: publishToMavenLocal -P fullBuild -x test
+      tasks: publishToMavenLocal -x test
