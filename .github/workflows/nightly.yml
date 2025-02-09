@@ -61,7 +61,7 @@ jobs:
           cache: gradle
       - run: echo "COMMIT_COUNT=$(git log --oneline --since '24 hours ago' | wc -l)" >> $GITHUB_ENV
       - if: ${{ env.COMMIT_COUNT > 0 }}
-        run: ./gradlew --stacktrace -P fullBuild nativeTest
+        run: ./gradlew --stacktrace nativeTest
 
   jmh:
     uses: hexagontk/.github/.github/workflows/graalvm_gradle.yml@main
@@ -86,4 +86,4 @@ jobs:
       os: ${{ matrix.os }}
       ref: develop
       check_directory: core/build
-      tasks: publishToMavenLocal -P fullBuild -x test
+      tasks: publishToMavenLocal -x test
