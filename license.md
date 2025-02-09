@@ -26,18 +26,18 @@ SOFTWARE.
 
 ### Testing
 * [org.junit.jupiter](https://junit.org/junit5): [Eclipse Public License, Version 2.0]
-* [io.gatling](https://gatling.io): [Apache License, Version 2.0]
+* [io.mockk:mockk](https://mockk.io): [Apache License, Version 2.0]
 
 ### HTTP
 * [io.netty](https://netty.io): [Apache License, Version 2.0]
-* [io.vertx](https://vertx.io): [Apache License, Version 2.0]
 * [org.eclipse.jetty:client](https://www.eclipse.org/jetty): [Eclipse Public License, Version 2.0]
 * [org.eclipse.jetty:webapp](https://www.eclipse.org/jetty): [Eclipse Public License, Version 2.0]
 * [io.swagger.parser.v3](https://swagger.io): [Apache License, Version 2.0]
+* [com.atlassian.oai:swagger-request-validator-core](https://bitbucket.org/atlassian/swagger-request-validator): [Apache License, Version 2.0]
+* [io.helidon:helidon](https://helidon.io): [Apache License, Version 2.0]
 
 ### Logging
 * [org.slf4j](https://www.slf4j.org): [MIT License]
-* [ch.qos.logback](https://www.qos.ch): [GNU Lesser General Public License]
 
 ### Serialization
 * [com.dslplatform](https://github.com/ngs-doo/dsl-json): [BSD 3-Clause License]
@@ -48,6 +48,7 @@ SOFTWARE.
 * [com.fizzed](https://github.com/fizzed/rocker): [Apache License, Version 2.0]
 * [io.pebbletemplates](https://pebbletemplates.io): [BSD 3-Clause License]
 * [org.freemarker](https://freemarker.apache.org): [Apache License, Version 2.0]
+* [gg.jte:jte](https://jte.gg): [Apache License, Version 2.0]
 
 [Apache License, Version 2.0]: https://www.apache.org/licenses/LICENSE-2.0
 [Eclipse Public License, Version 2.0]: https://www.eclipse.org/legal/epl-2.0

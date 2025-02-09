@@ -6,11 +6,6 @@ import javax.xml.parsers.DocumentBuilderFactory
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 
-if (findProperty("fullBuild") != null)
-    apply(from = "../gradle/dokka.gradle")
-
-description = "Project starters."
-
 extensions.configure<PublishingExtension> {
     publications {
         createPomPublication("hexagon_bom") { pomDom ->
@@ -62,11 +57,6 @@ fun File.parseDom(): Document =
 
 fun Document.firstElement(name: String): Element =
     getElementsByTagName(name).item(0) as Element
-
-fun Element.appendElement(name: String, value: Any?): Element =
-    appendChild(
-        ownerDocument.createElement(name).also { it.textContent = value.toString() }
-    ) as Element
 
 fun Element.importElement(element: Element): Element =
     appendChild(ownerDocument.importNode(element, true)) as Element

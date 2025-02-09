@@ -387,7 +387,7 @@ To do this kind of tests without creating a custom server (using the real produc
 Check the [tests of the starter projects].
 
 [tests of the starter projects]:
-https://github.com/hexagontk/gradle_starter/blob/test/ApplicationTest.kt
+https://github.com/hexagontk/gradle_starter/blob/main/src/test/kotlin/ApplicationTest.kt
 
 ## Mocking Calls
 To unit test callbacks and handlers you can create test calls with hardcoded requests without

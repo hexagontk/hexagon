@@ -24,10 +24,10 @@ dependencyResolutionManagement {
             version("dokka", "2.0.0")
             version("licenseReport", "2.9")
             version("binValidator", "0.17.0")
-            version("nativeTools", "0.10.3")
+            version("nativeTools", "0.10.5")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.12.1")
-            version("mkdocsMaterial", "9.6.1")
+            version("mkdocsMaterial", "9.6.3")
             version("maven", "3.9.9")
             version("jreleaser", "1.14.0")
 
@@ -67,7 +67,7 @@ dependencyResolutionManagement {
             version("jte", "3.1.16")
 
             // templates_pebble
-            version("pebble", "3.2.2")
+            version("pebble", "3.2.3")
 
             // templates_rocker
             version("rocker", "2.2.1")
@@ -75,11 +75,11 @@ dependencyResolutionManagement {
     }
 }
 
-fun includeNestedModules(vararg directories: String) {
+private fun includeNestedModules(vararg directories: String) {
     directories.forEach(::includeNestedModules)
 }
 
-fun includeNestedModules(directory: String) {
+private fun includeNestedModules(directory: String) {
     val dir = rootDir.resolve(directory)
 
     if (!dir.exists() || !dir.isDirectory)

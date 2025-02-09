@@ -59,7 +59,7 @@ mapOf(
 apply(from = "gradle/certificates.gradle")
 
 allprojects {
-    version = "4.0.0-B2"
+    version = "4.0.0-B3"
     group = "com.hexagontk"
 }
 
@@ -235,10 +235,10 @@ private fun execute(command: List<String>) {
 }
 
 // TODO Move this logic to 'kotlin.gradle'
-val generatedDir = "build/generated/sources/annotationProcessor/java/main"
-val moduleFile = "main/module-info.java"
-val classFile = "z.java"
-val classContent = """package %s; class z {}"""
+private val generatedDir = "build/generated/sources/annotationProcessor/java/main"
+private val moduleFile = "main/module-info.java"
+private val classFile = "z.java"
+private val classContent = """package %s; class z {}"""
 
 subprojects
     .filter { it.file(moduleFile).exists() }
@@ -256,6 +256,19 @@ subprojects
                         srcDir(generatedDir)
                         exclude("**/$classFile")
                     }
+                }
+            }
+        }
+    }
+
+subprojects
+    .filter { it.file("main").exists() }
+    .forEach {
+        it.afterEvaluate {
+            it.tasks.named("jacocoReportSources") {
+                doFirst {
+                    val baseSrc = rootProject.group.toString() + '.' + it.name.replace("_", "/")
+                    it.ext.set("basePackage", baseSrc)
                 }
             }
         }

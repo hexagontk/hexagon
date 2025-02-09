@@ -21,11 +21,11 @@ class MediaType(
 
     companion object {
         val fullTypes: Map<String, MediaType> by lazy {
-            MEDIA_TYPES_EXTENSIONS.values.toSet().associateBy { it.fullType }
+            mediaTypesExtensions.values.toSet().associateBy { it.fullType }
         }
 
         operator fun get(extension: String): MediaType =
-            MEDIA_TYPES_EXTENSIONS[extension] ?: DEFAULT_MEDIA_TYPE
+            mediaTypesExtensions[extension] ?: DEFAULT_MEDIA_TYPE
 
         operator fun invoke(fullType: String): MediaType =
             fullTypes[fullType] ?: parseMediaType(fullType)

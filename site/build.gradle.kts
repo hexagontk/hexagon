@@ -24,6 +24,7 @@ dependencies {
     dokka(project(":http:http_handlers"))
     dokka(project(":http:http_server"))
     dokka(project(":http:http_server_helidon"))
+    dokka(project(":http:http_server_jdk"))
     dokka(project(":http:http_server_jetty"))
     dokka(project(":http:http_server_netty"))
     dokka(project(":http:http_server_netty_epoll"))
@@ -74,13 +75,14 @@ dokka {
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
-    dependsOn(tasks["dokkaGenerate"])
+    dependsOn(rootProject.getTasksByName("jacocoReportSources", true), tasks["dokkaGenerate"])
 
     val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
-    val modulesSources = rootProject.modulesPaths("main")
+    val modulesSources = rootProject.modulesPaths("build/jacoco/src")
     val modulesClasses = rootProject.modulesPaths("build/classes/kotlin/main")
         .asSequence()
         .filterNot { it.absolutePath.contains("_test") }
+        .filterNot { it.absolutePath.contains("starters") }
         .toList()
 
     executionData.from(projectExecutionData)
@@ -169,10 +171,10 @@ tasks.register("installMkDocs") {
     doLast {
         val mkdocsMaterialVersion = libs.versions.mkdocsMaterial.get()
         val pip = "$venv/bin/pip"
-        exec { commandLine("python -m venv $venv".split(" ")) }
-        exec { commandLine("$pip install mkdocs-material==$mkdocsMaterialVersion".split(" ")) }
-        exec { commandLine("$pip install mkdocs-htmlproofer-plugin".split(" ")) }
-        exec { commandLine("$pip install mike".split(" ")) }
+        execute("python -m venv $venv")
+        execute("$pip install mkdocs-material==$mkdocsMaterialVersion")
+        execute("$pip install mkdocs-htmlproofer-plugin")
+        execute("$pip install mike")
     }
 }
 
@@ -209,7 +211,7 @@ tasks.register<Exec>("serveSite") {
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
 tasks.withType<PublishToMavenRepository>().configureEach { enabled = false }
 
-fun generateCoverageBadge() {
+private fun generateCoverageBadge() {
     val coverageReport = file("build/content/jacoco/jacoco.xml")
     val coverageReportLength = coverageReport.length()
     val groups = coverageReport.reader().use {
@@ -233,20 +235,20 @@ fun generateCoverageBadge() {
     badge.writeText(svg)
 }
 
-fun generateDownloadBadge() {
+private fun generateDownloadBadge() {
     val downloadBadge = file("build/content/img/download.svg")
     val downloadSvg = downloadBadge.readText().replace("\${download}", "${rootProject.version}")
     downloadBadge.writeText(downloadSvg)
 }
 
-fun Project.modulesPaths(path: String): List<File> =
+private fun Project.modulesPaths(path: String): List<File> =
     subprojects.map { sp -> sp.file(path) }.filter { it .exists() }
 
-fun overwrite(source: String, target: String) {
+private fun overwrite(source: String, target: String) {
     project.file(source).copyTo(file(target), true)
 }
 
-fun checkSampleCode(documentationFile: File, sourceFile: File, tag: String) {
+private fun checkSampleCode(documentationFile: File, sourceFile: File, tag: String) {
     val fileTag = "// $tag"
     val documentationFileLines = documentationFile.readLines()
     val sourceFileLines = sourceFile.readLines()
@@ -272,7 +274,7 @@ fun checkSampleCode(documentationFile: File, sourceFile: File, tag: String) {
         """.trimIndent())
 }
 
-fun insertSamplesCode(parent: File, content: String): String =
+private fun insertSamplesCode(parent: File, content: String): String =
     content.replace("@code (.*)".toRegex()) {
         try {
             val sampleLocation = it.groups[1]?.value?.trim() ?: error("Location expected")
@@ -288,13 +290,21 @@ fun insertSamplesCode(parent: File, content: String): String =
         }
     }
 
-fun fixCodeTabs(content: String): String =
+private fun fixCodeTabs(content: String): String =
     content
         .replace("""=== "(.*)"\n\n```""".toRegex(), "=== \"$1\"\n")
         .replace("    ```\n```", "    ```")
 
-fun List<String>.rangeOf(tag: String): IntRange {
+private fun List<String>.rangeOf(tag: String): IntRange {
     val start = indexOfFirst { it.contains(tag) } + 1
     val end = indexOfLast { it.contains(tag) } - 1
     return start .. end
+}
+
+private fun execute(command: String) {
+    execute(command.split(" "))
+}
+
+private fun execute(command: List<String>) {
+    exec { commandLine(command) }
 }

@@ -33,18 +33,20 @@
 ## What is Hexagon
 
 Hexagon is a microservices' toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
-the building of server applications (Web applications, APIs or queue consumers) that run inside a
-cloud platform.
+the building of server applications (Web applications, APIs or Serverless handlers) that run inside
+a cloud platform.
 
 The Hexagon Toolkit provides several libraries to build server applications. These libraries provide
 single standalone features and are referred to as ["Ports"][Ports and Adapters Architecture].
 
 The main ports are:
 
-* [The HTTP server]: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
-  processing, cookies, CORS and more.
-* [The HTTP client]: which supports mutual TLS, HTTP/2, cookies, form fields and files among other
-  features.
+* [The HTTP server]: supports HTTPS, HTTP/2, WebSockets, mutual TLS, static files (serve and
+  upload), forms processing, cookies, CORS and more.
+* [The HTTP client]: which supports mutual TLS, HTTP/2, WebSockets, cookies, form fields and files
+  among other features.
+* [Serialization]: provides a common way of using different data formats. Data formats are pluggable
+  and are handled in the same way regardless of their library.
 * [Template Processing]: allows template processing from URLs (local files, resources or HTTP
   content) binding name patterns to different engines.
 
@@ -69,8 +71,8 @@ The Hexagon's goals and design principles are:
 * **Batteries Included**: It contains all the required pieces to make production-grade applications:
   logging utilities, serialization, resource handling and build helpers.
 
-* **Kotlin First**: Take full advantage of Kotlin instead of just calling Java code from Kotlin. The
-  library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a Language).
+* **Native Image**: most of the toolkit libraries include GraalVM metadata (check the [libraries
+  catalog]), native tests are run on CI to ensure native images can be built out of the box.
 
 * **Properly Tested**: The project's coverage is checked in every Pull Request. It is also
   stress-tested at [TechEmpower Frameworks Benchmark][benchmark].
@@ -81,11 +83,13 @@ For more information check the [Quick Start Guide].
 [Kotlin]: http://kotlinlang.org
 [The HTTP server]: http://hexagontk.com/http_server
 [The HTTP client]: http://hexagontk.com/http_client
+[Serialization]: http://hexagontk.com/serialization
 [Template Processing]: http://hexagontk.com/templates
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
 [Quick Start Guide]: http://hexagontk.com/quick_start
+[libraries catalog]: https://www.graalvm.org/native-image/libraries-and-frameworks
 
 ## Simple HTTP service
 
@@ -102,14 +106,14 @@ from scratch following these steps:
         mavenCentral()
     }
 
-    implementation("com.hexagontk:http_server_jetty:$hexagonVersion")
+    implementation("com.hexagontk.http:http_server_jetty:$hexagonVersion")
     ```
 
   * In Maven. Declare the dependency in `pom.xml`:
 
     ```xml
     <dependency>
-      <groupId>com.hexagontk</groupId>
+      <groupId>com.hexagontk.http</groupId>
       <artifactId>http_server_jetty</artifactId>
       <version>$hexagonVersion</version>
     </dependency>

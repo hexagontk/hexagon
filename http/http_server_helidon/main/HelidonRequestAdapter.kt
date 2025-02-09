@@ -123,7 +123,7 @@ class HelidonRequestAdapter(
 
     override val pathPattern: PathPattern? = null
 
-    override val pathParameters: Map<String, Any> = emptyMap()
+    override val pathParameters: Map<String, Any> by lazy { throw UnsupportedOperationException() }
 
     override fun with(
         body: Any,

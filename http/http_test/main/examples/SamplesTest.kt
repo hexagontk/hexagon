@@ -199,9 +199,11 @@ abstract class SamplesTest(
                 pathParameters                    // Map with all path parameters
                 request.formParameters            // Map with all form fields
                 request.queryParameters           // Map with all query parameters
+                request.parts                     // List of all body parts
 
                 queryParameters                   // Shortcut of `request.queryParameters`
                 formParameters                    // Shortcut of `request.formParameters`
+                parts                             // Shortcut of `request.parts`
 
                 // Body processing
                 request.contentLength             // Length of request body

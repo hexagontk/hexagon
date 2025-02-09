@@ -1,13 +1,58 @@
 package com.hexagontk.core.media
 
 import com.hexagontk.core.media.MediaTypeGroup.*
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import kotlin.IllegalArgumentException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertSame
 
+@TestInstance(PER_CLASS)
 internal class MediaTypeTest {
+
+    val mediaTypes: Map<String, MediaType> = mediaTypesExtensions
+
+    val audioBasic = MediaType(AUDIO, "basic")
+    val audioMpeg = MediaType(AUDIO, "mpeg")
+    val audioWav = MediaType(AUDIO, "wav")
+    val audioAac = MediaType(AUDIO, "aac")
+    val audioMidi = MediaType(AUDIO, "midi")
+    val audioOgg = MediaType(AUDIO, "ogg")
+    val audioOpus = MediaType(AUDIO, "opus")
+    val audioWebm = MediaType(AUDIO, "webm")
+
+    val fontOtf = MediaType(FONT, "otf")
+    val fontTtf = MediaType(FONT, "ttf")
+    val fontWoff = MediaType(FONT, "woff")
+    val fontWoff2 = MediaType(FONT, "woff2")
+
+    val imageGif = MediaType(IMAGE, "gif")
+    val imageJpeg = MediaType(IMAGE, "jpeg")
+    val imagePng = MediaType(IMAGE, "png")
+    val imageTiff = MediaType(IMAGE, "tiff")
+    val imageSvg = MediaType(IMAGE, "svg+xml")
+    val imageIco = MediaType(IMAGE, "vnd.microsoft.icon")
+    val imageWebp = MediaType(IMAGE, "webp")
+    val imageAvif = MediaType(IMAGE, "avif")
+
+    val videoMpeg = MediaType(VIDEO, "mpeg")
+    val videoQuicktime = MediaType(VIDEO, "quicktime")
+    val videoXMsvideo = MediaType(VIDEO, "x-msvideo")
+    val videoMp4 = MediaType(VIDEO, "mp4")
+    val videoOgg = MediaType(VIDEO, "ogg")
+    val videoWebm = MediaType(VIDEO, "webm")
+
+    @BeforeAll fun setUp() {
+        mediaTypesExtensions += createExtraMediaTypes()
+    }
+
+    @AfterAll fun shutDown() {
+        mediaTypesExtensions = mediaTypes
+    }
 
     @Test fun `MediaType init checks are disabled in production mode`() {
         assertFailsWith<IllegalArgumentException> { MediaType(TEXT, "&plain") }
@@ -142,30 +187,30 @@ internal class MediaTypeTest {
         assertEquals(listOf("webmanifest"), extensionsOf(APPLICATION_WEB_MANIFEST))
         assertEquals(listOf("toml"), extensionsOf(APPLICATION_TOML))
 
-        assertEquals(listOf("au", "snd"), extensionsOf(AUDIO_BASIC))
-        assertEquals(listOf("mpga", "mp2", "mp2a", "mp3", "m2a", "m3a"), extensionsOf(AUDIO_MPEG))
-        assertEquals(listOf("wav"), extensionsOf(AUDIO_WAV))
-        assertEquals(listOf("aac"), extensionsOf(AUDIO_AAC))
-        assertEquals(listOf("mid", "midi"), extensionsOf(AUDIO_MIDI))
-        assertEquals(listOf("oga"), extensionsOf(AUDIO_OGG))
-        assertEquals(listOf("opus"), extensionsOf(AUDIO_OPUS))
-        assertEquals(listOf("weba"), extensionsOf(AUDIO_WEBM))
+        assertEquals(listOf("au", "snd"), extensionsOf(audioBasic))
+        assertEquals(listOf("mpga", "mp2", "mp2a", "mp3", "m2a", "m3a"), extensionsOf(audioMpeg))
+        assertEquals(listOf("wav"), extensionsOf(audioWav))
+        assertEquals(listOf("aac"), extensionsOf(audioAac))
+        assertEquals(listOf("mid", "midi"), extensionsOf(audioMidi))
+        assertEquals(listOf("oga"), extensionsOf(audioOgg))
+        assertEquals(listOf("opus"), extensionsOf(audioOpus))
+        assertEquals(listOf("weba"), extensionsOf(audioWebm))
 
-        assertEquals(listOf("otf"), extensionsOf(FONT_OTF))
-        assertEquals(listOf("ttf"), extensionsOf(FONT_TTF))
-        assertEquals(listOf("woff"), extensionsOf(FONT_WOFF))
-        assertEquals(listOf("woff2"), extensionsOf(FONT_WOFF2))
+        assertEquals(listOf("otf"), extensionsOf(fontOtf))
+        assertEquals(listOf("ttf"), extensionsOf(fontTtf))
+        assertEquals(listOf("woff"), extensionsOf(fontWoff))
+        assertEquals(listOf("woff2"), extensionsOf(fontWoff2))
 
-        assertEquals(listOf("gif"), extensionsOf(IMAGE_GIF))
-        assertEquals(listOf("jpeg", "jpg"), extensionsOf(IMAGE_JPEG))
-        assertEquals(listOf("png"), extensionsOf(IMAGE_PNG))
-        assertEquals(listOf("tiff", "tif"), extensionsOf(IMAGE_TIFF))
+        assertEquals(listOf("gif"), extensionsOf(imageGif))
+        assertEquals(listOf("jpeg", "jpg"), extensionsOf(imageJpeg))
+        assertEquals(listOf("png"), extensionsOf(imagePng))
+        assertEquals(listOf("tiff", "tif"), extensionsOf(imageTiff))
 
-        assertEquals(listOf("svg"), extensionsOf(IMAGE_SVG))
-        assertEquals(listOf("ico"), extensionsOf(IMAGE_ICO))
+        assertEquals(listOf("svg"), extensionsOf(imageSvg))
+        assertEquals(listOf("ico"), extensionsOf(imageIco))
 
-        assertEquals(listOf("webp"), extensionsOf(IMAGE_WEBP))
-        assertEquals(listOf("avif"), extensionsOf(IMAGE_AVIF))
+        assertEquals(listOf("webp"), extensionsOf(imageWebp))
+        assertEquals(listOf("avif"), extensionsOf(imageAvif))
 
         assertEquals(listOf("csv"), extensionsOf(TEXT_CSV))
         assertEquals(listOf("properties"), extensionsOf(TEXT_X_JAVA_PROPERTIES))
@@ -178,12 +223,56 @@ internal class MediaTypeTest {
         assertEquals(listOf("tsv"), extensionsOf(TEXT_TAB_SEPARATED_VALUES))
         assertEquals(listOf("ics"), extensionsOf(TEXT_CALENDAR))
 
-        assertEquals(listOf("mpeg", "mpg", "mpe", "m1v", "m2v"), extensionsOf(VIDEO_MPEG))
-        assertEquals(listOf("qt", "mov"), extensionsOf(VIDEO_QUICKTIME))
-        assertEquals(listOf("avi"), extensionsOf(VIDEO_X_MSVIDEO))
+        assertEquals(listOf("mpeg", "mpg", "mpe", "m1v", "m2v"), extensionsOf(videoMpeg))
+        assertEquals(listOf("qt", "mov"), extensionsOf(videoQuicktime))
+        assertEquals(listOf("avi"), extensionsOf(videoXMsvideo))
     }
 
     @Test fun `Not found extension returns the default media type`() {
         assertEquals(DEFAULT_MEDIA_TYPE, MediaType["___"])
     }
+
+    private fun createExtraMediaTypes(): Map<String, MediaType> =
+        mapOf(
+            "au" to audioBasic,
+            "snd" to audioBasic,
+            "mpga" to audioMpeg,
+            "mp2" to audioMpeg,
+            "mp2a" to audioMpeg,
+            "mp3" to audioMpeg,
+            "m2a" to audioMpeg,
+            "m3a" to audioMpeg,
+            "wav" to audioWav,
+            "aac" to audioAac,
+            "mid" to audioMidi,
+            "midi" to audioMidi,
+            "oga" to audioOgg,
+            "opus" to audioOpus,
+            "weba" to audioWebm,
+            "otf" to fontOtf,
+            "ttf" to fontTtf,
+            "woff" to fontWoff,
+            "woff2" to fontWoff2,
+            "gif" to imageGif,
+            "jpeg" to imageJpeg,
+            "jpg" to imageJpeg,
+            "png" to imagePng,
+            "tiff" to imageTiff,
+            "tif" to imageTiff,
+            "svg" to imageSvg,
+            "ico" to imageIco,
+            "webp" to imageWebp,
+            "avif" to imageAvif,
+            "mpeg" to videoMpeg,
+            "mpg" to videoMpeg,
+            "mpe" to videoMpeg,
+            "m1v" to videoMpeg,
+            "m2v" to videoMpeg,
+            "qt" to videoQuicktime,
+            "mov" to videoQuicktime,
+            "avi" to videoXMsvideo,
+            "mp4" to videoMp4,
+            "ogv" to videoOgg,
+            "webm" to videoWebm,
+        )
 }
