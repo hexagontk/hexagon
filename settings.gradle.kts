@@ -29,7 +29,7 @@ dependencyResolutionManagement {
             version("gradleWrapper", "8.12.1")
             version("mkdocsMaterial", "9.6.3")
             version("maven", "3.9.9")
-            version("jreleaser", "1.14.0")
+            version("jreleaser", "1.15.0")
 
             // Testing
             version("mockk", "1.13.16")
