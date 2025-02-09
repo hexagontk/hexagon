@@ -3,6 +3,7 @@ package com.hexagontk.http.server.servlet
 import com.hexagontk.http.model.*
 import com.hexagontk.http.parseContentType
 import com.hexagontk.http.patterns.PathPattern
+import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.Part
 import java.security.cert.X509Certificate
@@ -17,7 +18,12 @@ internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletReque
     }
 
     override val parts: List<HttpPart> by lazy {
-        req.parts.map { servletPartAdapter(it) }
+        try {
+            req.parts.map { servletPartAdapter(it) }
+        }
+        catch (_: ServletException) {
+            emptyList<HttpPart>()
+        }
     }
 
     override val formParameters: Parameters by lazy {
@@ -55,7 +61,7 @@ internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletReque
 
     override val pathPattern: PathPattern? = null
 
-    override val pathParameters: Map<String, Any> = emptyMap()
+    override val pathParameters: Map<String, Any> by lazy { throw UnsupportedOperationException() }
 
     private fun servletPartAdapter(part: Part) : HttpPart {
         val headerNames = part.headerNames.filterNotNull()

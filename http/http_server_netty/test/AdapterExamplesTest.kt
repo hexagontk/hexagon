@@ -1,9 +1,11 @@
 package com.hexagontk.http.server.netty
 
+import com.hexagontk.http.HttpFeature.*
 import com.hexagontk.http.client.HttpClientPort
 import com.hexagontk.http.client.jetty.ws.JettyWsHttpClient
 import com.hexagontk.http.server.HttpServerPort
 import com.hexagontk.http.test.examples.*
+import com.hexagontk.http.test.examples.examples.ServerTest
 import com.hexagontk.serialization.jackson.JacksonTextFormat
 import com.hexagontk.serialization.jackson.json.Json
 import com.hexagontk.serialization.jackson.yaml.Yaml
@@ -36,6 +38,24 @@ internal class AdapterMultipartSamplesTest : MultipartSamplesTest(clientAdapter,
 internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
 @DisabledInNativeImage // TODO Fix this
 internal class AdapterWebSocketsTest : WebSocketsTest(clientAdapter, serverAdapter)
+internal class AdapterServerTest : ServerTest(
+    clientAdapter,
+    serverAdapter,
+    options = setOf(
+        "bossGroupThreads",
+        "workerGroupThreads",
+        "executorThreads",
+        "soBacklog",
+        "soKeepAlive",
+        "shutdownQuietSeconds",
+        "shutdownTimeoutSeconds",
+        "keepAliveHandler",
+        "httpAggregatorHandler",
+        "chunkedHandler",
+        "enableWebsockets",
+    ),
+    features = setOf(ZIP, COOKIES, MULTIPART, WEBSOCKETS, SSE)
+)
 
 val liteServerAdapter: () -> HttpServerPort = {
     NettyHttpServer(
@@ -55,3 +75,21 @@ internal class LiteAdapterZipTest : ZipTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterCookiesTest : CookiesTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterCorsTest : CorsTest(clientAdapter, liteServerAdapter)
 internal class LiteAdapterSseTest : SseTest(clientAdapter, liteServerAdapter)
+internal class LiteAdapterServerTest : ServerTest(
+    clientAdapter,
+    serverAdapter,
+    options = setOf(
+        "bossGroupThreads",
+        "workerGroupThreads",
+        "executorThreads",
+        "soBacklog",
+        "soKeepAlive",
+        "shutdownQuietSeconds",
+        "shutdownTimeoutSeconds",
+        "keepAliveHandler",
+        "httpAggregatorHandler",
+        "chunkedHandler",
+        "enableWebsockets",
+    ),
+    features = setOf(ZIP, COOKIES, MULTIPART, WEBSOCKETS, SSE)
+)

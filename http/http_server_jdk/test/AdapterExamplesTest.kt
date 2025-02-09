@@ -1,9 +1,11 @@
 package com.hexagontk.http.server.jdk
 
+import com.hexagontk.http.HttpFeature
 import com.hexagontk.http.client.HttpClientPort
 import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.server.HttpServerPort
 import com.hexagontk.http.test.examples.*
+import com.hexagontk.http.test.examples.examples.ServerTest
 import com.hexagontk.serialization.jackson.JacksonTextFormat
 import com.hexagontk.serialization.jackson.json.Json
 import com.hexagontk.serialization.jackson.yaml.Yaml
@@ -21,3 +23,21 @@ internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterFilesTest : FilesTest(clientAdapter, serverAdapter)
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
+internal class AdapterServerTest : ServerTest(
+    clientAdapter,
+    serverAdapter,
+    options = setOf(
+        "backlog",
+        "executor",
+        "stopDelay",
+        "idleInterval",
+        "maxConnections",
+        "maxIdleConnections",
+        "drainAmount",
+        "maxReqHeaders",
+        "maxReqTime",
+        "maxRspTime",
+        "nodelay",
+    ),
+    features = emptySet<HttpFeature>()
+)
