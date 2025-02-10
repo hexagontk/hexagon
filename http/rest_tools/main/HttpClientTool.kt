@@ -46,11 +46,9 @@ class HttpClientTool(
     private val client = HttpClient(adapter, settings, handler = handler)
 
     private lateinit var lastRequest: HttpRequest
-    private lateinit var lastAttributes: Map<String, *>
     private lateinit var lastResponse: HttpResponsePort
 
     val request: HttpRequest get() = lastRequest
-    val attributes: Map<String, *> get() = lastAttributes
     val response: HttpResponsePort get() = lastResponse
     val status: Int get() = lastResponse.status
     val body: Any get() = lastResponse.body
@@ -136,7 +134,6 @@ class HttpClientTool(
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
         accept: List<ContentType> = settings.accept,
-        attributes: Map<String, Any> = emptyMap(),
         pathPattern: String? = null,
         pathParameters: Map<String, Any> = emptyMap(),
     ): HttpResponsePort =
@@ -153,7 +150,6 @@ class HttpClientTool(
                     else -> null to (path ?: "")
                 }
 
-                lastAttributes = attributes
                 lastRequest = HttpRequest(
                     method = method,
                     path = patternPath,
@@ -167,7 +163,7 @@ class HttpClientTool(
                     pathParameters = pathParameters,
                 )
             }
-            .send(lastRequest, attributes = attributes)
+            .send(lastRequest)
             .apply { lastResponse = this }
 
     private fun send(
@@ -180,7 +176,6 @@ class HttpClientTool(
         parts: List<HttpPart> = emptyList(),
         contentType: ContentType? = settings.contentType,
         accept: List<ContentType> = settings.accept,
-        attributes: Map<String, Any> = emptyMap(),
     ): HttpResponsePort =
         send(
             method,
@@ -191,7 +186,6 @@ class HttpClientTool(
             parts,
             contentType,
             accept,
-            attributes,
             pathPattern,
             pathParameters,
         )
