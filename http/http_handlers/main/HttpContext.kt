@@ -275,24 +275,14 @@ class HttpContext(
 
     fun send(response: HttpResponsePort, attributes: Map<*, *> = this.attributes): HttpContext =
         apply {
-            this.event = HttpCall(event.request, response)
-            this.predicate = this.predicate
-            this.nextHandlers = this.nextHandlers
-            this.nextHandler = this.nextHandler
-            this.exception = this.exception
+            this.event.response = response
             this.attributes = attributes
-            this.handled = this.handled
         }
 
     fun send(request: HttpRequestPort, attributes: Map<*, *> = this.attributes): HttpContext =
         apply {
-            this.event = HttpCall(request, event.response)
-            this.predicate = this.predicate
-            this.nextHandlers = this.nextHandlers
-            this.nextHandler = this.nextHandler
-            this.exception = this.exception
+            this.event.request = request
             this.attributes = attributes
-            this.handled = this.handled
         }
 
     fun receive(

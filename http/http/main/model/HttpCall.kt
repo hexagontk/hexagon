@@ -1,6 +1,6 @@
 package com.hexagontk.http.model
 
 class HttpCall(
-    val request: HttpRequestPort = HttpRequest(),
-    val response: HttpResponsePort = HttpResponse(),
+    var request: HttpRequestPort = HttpRequest(),
+    var response: HttpResponsePort = HttpResponse(),
 )
