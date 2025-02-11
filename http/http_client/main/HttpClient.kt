@@ -1,6 +1,5 @@
 package com.hexagontk.http.client
 
-import com.hexagontk.http.handlers.HttpContext
 import com.hexagontk.http.handlers.HttpHandler
 import com.hexagontk.http.handlers.OnHandler
 import com.hexagontk.http.handlers.path
@@ -65,12 +64,12 @@ class HttpClient(
     /**
      * Synchronous execution.
      */
-    fun send(request: HttpRequest, attributes: Map<String, Any> = emptyMap()): HttpResponsePort =
+    fun send(request: HttpRequest): HttpResponsePort =
         if (!started())
             error("HTTP client *MUST BE STARTED* before sending requests")
         else
             rootHandler
-                ?.process(request.setUp(), attributes)
+                ?.process(request.setUp())
                 ?.let {
                     if (it.exception != null) throw it.exception as Exception
                     else it.response
@@ -103,16 +102,16 @@ class HttpClient(
         contentType: ContentType? = settings.contentType,
         accept: List<ContentType> = settings.accept,
     ): HttpResponsePort =
-            send(
-                HttpRequest(
-                    method = GET,
-                    path = path,
-                    body = body ?: "",
-                    headers = headers,
-                    contentType = contentType,
-                    accept = accept,
-                )
+        send(
+            HttpRequest(
+                method = GET,
+                path = path,
+                body = body ?: "",
+                headers = headers,
+                contentType = contentType,
+                accept = accept,
             )
+        )
 
     fun head(path: String = "", headers: Headers = Headers()): HttpResponsePort =
         send(HttpRequest(HEAD, path = path, body = ByteArray(0), headers = headers))
@@ -213,13 +212,6 @@ class HttpClient(
                 contentType = contentType,
                 accept = accept,
             )
-        )
-
-    private fun HttpHandler.process(
-        request: HttpRequestPort, attributes: Map<String, Any>
-    ): HttpContext =
-        processHttp(
-            HttpContext(HttpCall(request = request), handlerPredicate, attributes = attributes)
         )
 
     private fun HttpRequestPort.setUp(): HttpRequestPort {

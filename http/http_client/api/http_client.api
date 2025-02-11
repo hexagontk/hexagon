@@ -21,8 +21,7 @@ public final class com/hexagontk/http/client/HttpClient : java/io/Closeable {
 	public final fun put (Ljava/lang/String;Ljava/lang/Object;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public static synthetic fun put$default (Lcom/hexagontk/http/client/HttpClient;Ljava/lang/String;Ljava/lang/Object;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public final fun request (Lkotlin/jvm/functions/Function1;)V
-	public final fun send (Lcom/hexagontk/http/model/HttpRequest;Ljava/util/Map;)Lcom/hexagontk/http/model/HttpResponsePort;
-	public static synthetic fun send$default (Lcom/hexagontk/http/client/HttpClient;Lcom/hexagontk/http/model/HttpRequest;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;
+	public final fun send (Lcom/hexagontk/http/model/HttpRequest;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public final fun setCookies (Ljava/util/List;)V
 	public final fun sse (Lcom/hexagontk/http/model/HttpRequest;)Ljava/util/concurrent/Flow$Publisher;
 	public final fun sse (Ljava/lang/String;)Ljava/util/concurrent/Flow$Publisher;

@@ -76,7 +76,6 @@ internal class HttpClientToolTest {
             assertEquals(text.text, contentType?.text)
             assertBodyContains("TRACE /hello/mike")
             assertTrue(cookies.isEmpty())
-            assertTrue(attributes.isEmpty())
         }
     }
 

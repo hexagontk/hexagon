@@ -59,7 +59,7 @@ mapOf(
 apply(from = "gradle/certificates.gradle")
 
 allprojects {
-    version = "4.0.0-B3"
+    version = "4.0.0-B4"
     group = "com.hexagontk"
 }
 
@@ -234,7 +234,6 @@ private fun execute(command: List<String>) {
     exec { commandLine(command) }
 }
 
-// TODO Move this logic to 'kotlin.gradle'
 private val generatedDir = "build/generated/sources/annotationProcessor/java/main"
 private val moduleFile = "main/module-info.java"
 private val classFile = "z.java"

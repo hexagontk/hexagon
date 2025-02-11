@@ -116,6 +116,8 @@ public final class com/hexagontk/http/model/HttpCall {
 	public synthetic fun <init> (Lcom/hexagontk/http/model/HttpRequestPort;Lcom/hexagontk/http/model/HttpResponsePort;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getRequest ()Lcom/hexagontk/http/model/HttpRequestPort;
 	public final fun getResponse ()Lcom/hexagontk/http/model/HttpResponsePort;
+	public final fun setRequest (Lcom/hexagontk/http/model/HttpRequestPort;)V
+	public final fun setResponse (Lcom/hexagontk/http/model/HttpResponsePort;)V
 }
 
 public abstract interface class com/hexagontk/http/model/HttpField {
