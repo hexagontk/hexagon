@@ -234,7 +234,6 @@ private fun execute(command: List<String>) {
     exec { commandLine(command) }
 }
 
-// TODO Move this logic to 'kotlin.gradle'
 private val generatedDir = "build/generated/sources/annotationProcessor/java/main"
 private val moduleFile = "main/module-info.java"
 private val classFile = "z.java"
