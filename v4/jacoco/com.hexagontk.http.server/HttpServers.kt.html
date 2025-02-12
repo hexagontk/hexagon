@@ -51,9 +51,9 @@ import com.hexagontk.http.handlers.HttpHandler
  *
  * @return The started [HttpServer] instance.
  */
-<span class="fc" id="L54">fun serve(</span>
+<span class="nc" id="L54">fun serve(</span>
     adapter: HttpServerPort,
-<span class="fc" id="L56">    settings: HttpServerSettings = HttpServerSettings(),</span>
+<span class="nc" id="L56">    settings: HttpServerSettings = HttpServerSettings(),</span>
     block: HandlerBuilder.() -&gt; Unit
 ): HttpServer =
 <span class="fc" id="L59">    HttpServer(adapter, settings, block).apply { start() }</span>
