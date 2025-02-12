@@ -59,7 +59,7 @@ mapOf(
 apply(from = "gradle/certificates.gradle")
 
 allprojects {
-    version = "4.0.0"
+    version = "4.0.0-B5"
     group = "com.hexagontk"
 }
 

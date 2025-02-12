@@ -27,7 +27,7 @@ dependencyResolutionManagement {
             version("nativeTools", "0.10.5")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.12.1")
-            version("mkdocsMaterial", "9.6.3")
+            version("mkdocsMaterial", "9.6.4")
             version("maven", "3.9.9")
             version("jreleaser", "1.15.0")
 
@@ -39,8 +39,8 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.16")
 
             // http_server_netty
-            version("netty", "4.1.117.Final")
-            version("nettyTcNative", "2.0.69.Final")
+            version("netty", "4.1.118.Final")
+            version("nettyTcNative", "2.0.70.Final")
 
             // http_server_helidon
             version("helidon", "4.1.6")
