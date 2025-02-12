@@ -1,5 +1,6 @@
 package com.hexagontk.http.server.netty.poc
 
+import com.hexagontk.http.server.HttpServerSettings
 import com.hexagontk.http.server.netty.NettyHttpServer
 import com.hexagontk.http.server.serve
 import io.netty.bootstrap.Bootstrap
@@ -25,7 +26,7 @@ import kotlin.test.assertEquals
 internal class NettyWsClientTest {
 
     @Test fun `WS connections`() {
-        val server = serve(NettyHttpServer()) {
+        val server = serve(NettyHttpServer(), HttpServerSettings(bindPort = 0)) {
             ws("/ws") {
                 accepted(onText = { send(it) })
             }
