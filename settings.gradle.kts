@@ -27,7 +27,7 @@ dependencyResolutionManagement {
             version("nativeTools", "0.10.5")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.12.1")
-            version("mkdocsMaterial", "9.6.4")
+            version("mkdocsMaterial", "9.6.5")
             version("maven", "3.9.9")
             version("jreleaser", "1.15.0")
 
