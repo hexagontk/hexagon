@@ -1,7 +1,7 @@
 
 <h3 align="center">
   <a href="https://hexagontk.com">
-    <img alt="Hexagon" src="https://hexagontk.com/tile-small.png" />
+    <img alt="Hexagon" src="https://hexagontk.com/stable/icon-small.png" />
   </a>
   <br>
   Hexagon
@@ -13,13 +13,13 @@
   <a href="https://github.com/hexagontk/hexagon/actions">
     <img
       alt="GitHub Actions"
-      src="https://github.com/hexagontk/hexagon/workflows/Release/badge.svg" />
+      src="https://github.com/hexagontk/hexagon/actions/workflows/release.yml/badge.svg" />
   </a>
   <a href="https://hexagontk.com/jacoco">
-    <img src="https://hexagontk.com/img/coverage.svg" alt="Coverage" />
+    <img src="https://hexagontk.com/stable/img/coverage.svg" alt="Coverage" />
   </a>
   <a href="https://search.maven.org/search?q=g:com.hexagontk">
-    <img src="https://hexagontk.com/img/download.svg" alt="Maven Central Repository" />
+    <img src="https://hexagontk.com/stable/img/download.svg" alt="Maven Central Repository" />
   </a>
 </p>
 
