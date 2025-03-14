@@ -48,6 +48,7 @@ internal class AdapterServerTest : ServerTest(
         "validatePath",
         "validateRequestHeaders",
         "validateResponseHeaders",
+        "smartAsyncWrites",
     ),
     features = setOf(ZIP, COOKIES, MULTIPART)
 )

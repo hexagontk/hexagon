@@ -26,34 +26,34 @@ dependencyResolutionManagement {
             version("binValidator", "0.17.0")
             version("nativeTools", "0.10.5")
             version("jmhGradle", "0.7.2")
-            version("gradleWrapper", "8.12.1")
-            version("mkdocsMaterial", "9.6.4")
+            version("gradleWrapper", "8.13")
+            version("mkdocsMaterial", "9.6.8")
             version("maven", "3.9.9")
             version("jreleaser", "1.15.0")
 
             // Testing
-            version("mockk", "1.13.16")
+            version("mockk", "1.13.17")
             version("jmh", "1.37")
 
             // Shared
-            version("slf4j", "2.0.16")
+            version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.1.118.Final")
+            version("netty", "4.1.119.Final")
             version("nettyTcNative", "2.0.70.Final")
 
             // http_server_helidon
-            version("helidon", "4.1.6")
+            version("helidon", "4.2.0")
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.0.16")
+            version("jetty", "12.0.17")
 
             // rest_tools
             version("swaggerRequestValidator", "2.44.1")
 
             // serialization
-            version("jackson", "2.18.2")
+            version("jackson", "2.18.3")
             version("dslJson", "2.0.2")
 
             // serverless_http_google

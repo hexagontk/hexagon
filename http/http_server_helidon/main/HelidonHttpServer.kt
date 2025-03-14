@@ -50,6 +50,7 @@ class HelidonHttpServer(
     private val validatePath: Boolean = true,
     private val validateRequestHeaders: Boolean = true,
     private val validateResponseHeaders: Boolean = false,
+    private val smartAsyncWrites: Boolean = false,
 ) : HttpServerPort {
 
     private companion object {
@@ -68,7 +69,8 @@ class HelidonHttpServer(
         sendLog = true,
         validatePath = true,
         validateRequestHeaders = true,
-        validateResponseHeaders = false
+        validateResponseHeaders = false,
+        smartAsyncWrites = false,
     )
 
     override fun runtimePort(): Int {
@@ -128,6 +130,7 @@ class HelidonHttpServer(
         helidonServer = serverBuilder
             .backlog(backlog)
             .writeQueueLength(writeQueueLength)
+            .smartAsyncWrites(smartAsyncWrites)
             .connectionOptions(SocketOptions
                 .builder()
                 .readTimeout(readTimeout)
@@ -163,6 +166,7 @@ class HelidonHttpServer(
             HelidonHttpServer::validatePath to validatePath,
             HelidonHttpServer::validateRequestHeaders to validateRequestHeaders,
             HelidonHttpServer::validateResponseHeaders to validateResponseHeaders,
+            HelidonHttpServer::smartAsyncWrites to smartAsyncWrites,
         )
 
     private fun setResponse(
