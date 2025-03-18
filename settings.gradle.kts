@@ -24,10 +24,10 @@ dependencyResolutionManagement {
             version("dokka", "2.0.0")
             version("licenseReport", "2.9")
             version("binValidator", "0.17.0")
-            version("nativeTools", "0.10.5")
+            version("nativeTools", "0.10.6")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.13")
-            version("mkdocsMaterial", "9.6.8")
+            version("mkdocsMaterial", "9.6.9")
             version("maven", "3.9.9")
             version("jreleaser", "1.15.0")
 
@@ -47,7 +47,7 @@ dependencyResolutionManagement {
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.0.17")
+            version("jetty", "12.0.18")
 
             // rest_tools
             version("swaggerRequestValidator", "2.44.1")
