@@ -15,7 +15,7 @@
       alt="GitHub Actions"
       src="https://github.com/hexagontk/hexagon/actions/workflows/release.yml/badge.svg" />
   </a>
-  <a href="https://hexagontk.com/jacoco">
+  <a href="https://hexagontk.com/stable/jacoco">
     <img src="https://hexagontk.com/stable/img/coverage.svg" alt="Coverage" />
   </a>
   <a href="https://search.maven.org/search?q=g:com.hexagontk">
@@ -25,7 +25,7 @@
 
 <p align="center">
   <a href="https://hexagontk.com">Home Site</a> |
-  <a href="https://hexagontk.com/quick_start">Quick Start</a>
+  <a href="https://hexagontk.com/stable/quick_start">Quick Start</a>
 </p>
 
 ---
@@ -430,23 +430,6 @@ You can check more sample projects and snippets at the [examples page].
 
 [examples page]: https://hexagontk.com/examples/example_projects
 
-## Thanks
-
-This project is supported by:
-
-<a href="https://www.digitalocean.com/?utm_medium=opensource&utm_source=Hexagon-Toolkit">
-  <img
-    height="128px"
-    src=
-      "https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_vertical_blue.svg">
-</a>
-
-<a href="https://www.jetbrains.com/?from=Hexagon-Toolkit">
-  <img
-    height="96px"
-    src="https://hexagontk.com/img/sponsors/jetbrains-variant-4.svg">
-</a>
-
 ## Status
 
 The toolkit is properly tested. This is the coverage report:
@@ -456,8 +439,8 @@ The toolkit is properly tested. This is the coverage report:
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
 in the [TechEmpower Web Framework Benchmarks][benchmark].
 
-[Coverage]: https://hexagontk.com/img/coverage.svg
-[CoverageReport]: https://hexagontk.com/jacoco
+[Coverage]: https://hexagontk.com/stable/img/coverage.svg
+[CoverageReport]: https://hexagontk.com/stable/jacoco
 [benchmark]: https://www.techempower.com/benchmarks
 
 ## Contribute
@@ -480,8 +463,6 @@ be up-to-date of project's news following [@hexagontk] on X (Twitter).
 
 Thanks to all project's [contributors]!
 
-[![CodeTriage](https://www.codetriage.com/hexagontk/hexagon/badges/users.svg)][CodeTriage]
-
 [give it a star]: https://github.com/hexagontk/hexagon/stargazers
 [discussions]: https://github.com/hexagontk/hexagon/discussions/categories/q-a
 [@hexagontk]: https://twitter.com/hexagontk
@@ -490,7 +471,6 @@ Thanks to all project's [contributors]!
 [contributing]: https://github.com/hexagontk/hexagon/contribute
 [Organization Board]: https://github.com/orgs/hexagontk/projects/2
 [contributors]: https://github.com/hexagontk/hexagon/graphs/contributors
-[CodeTriage]: https://www.codetriage.com/hexagontk/hexagon
 
 ## License
 
