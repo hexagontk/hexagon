@@ -20,7 +20,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.1.10")
+            version("kotlin", "2.1.20")
             version("dokka", "2.0.0")
             version("licenseReport", "2.9")
             version("binValidator", "0.17.0")
