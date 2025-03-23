@@ -6,7 +6,7 @@ final String sslCaFile = findProperty("sslCaFile") ?: "ca.p12"
 final String sslCaAlias = findProperty("sslCaAlias") ?: "ca"
 final String sslTrustFile = findProperty("sslTrustFile") ?: "trust.p12"
 
-final String sslValidity = findProperty("sslValidity") ?: 365.toString()
+final String sslValidity = findProperty("sslValidity") ?: 3650.toString()
 final String sslCountry = findProperty("sslCountry") ?: System.getProperty("user.country")
 final String sslOrganization = findProperty("sslOrganization")
 
