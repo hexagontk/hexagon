@@ -1,0 +1,50 @@
+public abstract interface class com/hexagontk/store/Store {
+	public abstract fun count (Ljava/util/Map;)J
+	public abstract fun deleteMany (Ljava/util/Map;)J
+	public abstract fun deleteOne (Ljava/lang/Object;)Z
+	public abstract fun drop ()V
+	public abstract fun fields (Ljava/util/Map;)Ljava/util/Map;
+	public abstract fun fields ([Lkotlin/Pair;)Ljava/util/Map;
+	public abstract fun findAll (Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;)Ljava/util/List;
+	public abstract fun findAll (Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;)Ljava/util/List;
+	public abstract fun findMany (Ljava/util/Map;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;)Ljava/util/List;
+	public abstract fun findMany (Ljava/util/Map;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;)Ljava/util/List;
+	public abstract fun findOne (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun findOne (Ljava/lang/Object;Ljava/util/List;)Ljava/util/Map;
+	public abstract fun findOne (Ljava/util/Map;)Ljava/lang/Object;
+	public abstract fun findOne (Ljava/util/Map;Ljava/util/List;)Ljava/util/Map;
+	public abstract fun getDecoder ()Lkotlin/jvm/functions/Function1;
+	public abstract fun getEncoder ()Lkotlin/jvm/functions/Function1;
+	public abstract fun getKey ()Lkotlin/reflect/KProperty1;
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun getType ()Lkotlin/reflect/KClass;
+	public abstract fun insertMany (Ljava/util/List;)Ljava/util/List;
+	public abstract fun insertMany ([Ljava/lang/Object;)Ljava/util/List;
+	public abstract fun insertOne (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun replaceMany (Ljava/util/List;)Ljava/util/List;
+	public abstract fun replaceMany ([Ljava/lang/Object;)Ljava/util/List;
+	public abstract fun replaceOne (Ljava/lang/Object;)Z
+	public abstract fun saveMany (Ljava/util/List;)Ljava/util/List;
+	public abstract fun saveOne (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun updateMany (Ljava/util/Map;Ljava/util/Map;)J
+	public abstract fun updateOne (Ljava/lang/Object;Ljava/util/Map;)Z
+	public abstract fun updateOne (Ljava/lang/Object;[Lkotlin/Pair;)Z
+}
+
+public final class com/hexagontk/store/Store$DefaultImpls {
+	public static synthetic fun count$default (Lcom/hexagontk/store/Store;Ljava/util/Map;ILjava/lang/Object;)J
+	public static fun fields (Lcom/hexagontk/store/Store;Ljava/util/Map;)Ljava/util/Map;
+	public static fun fields (Lcom/hexagontk/store/Store;[Lkotlin/Pair;)Ljava/util/Map;
+	public static fun findAll (Lcom/hexagontk/store/Store;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;)Ljava/util/List;
+	public static fun findAll (Lcom/hexagontk/store/Store;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;)Ljava/util/List;
+	public static synthetic fun findAll$default (Lcom/hexagontk/store/Store;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;ILjava/lang/Object;)Ljava/util/List;
+	public static synthetic fun findAll$default (Lcom/hexagontk/store/Store;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;ILjava/lang/Object;)Ljava/util/List;
+	public static synthetic fun findMany$default (Lcom/hexagontk/store/Store;Ljava/util/Map;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;ILjava/lang/Object;)Ljava/util/List;
+	public static synthetic fun findMany$default (Lcom/hexagontk/store/Store;Ljava/util/Map;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;ILjava/lang/Object;)Ljava/util/List;
+	public static fun findOne (Lcom/hexagontk/store/Store;Ljava/util/Map;)Ljava/lang/Object;
+	public static fun findOne (Lcom/hexagontk/store/Store;Ljava/util/Map;Ljava/util/List;)Ljava/util/Map;
+	public static fun insertMany (Lcom/hexagontk/store/Store;[Ljava/lang/Object;)Ljava/util/List;
+	public static fun replaceMany (Lcom/hexagontk/store/Store;[Ljava/lang/Object;)Ljava/util/List;
+	public static fun updateOne (Lcom/hexagontk/store/Store;Ljava/lang/Object;[Lkotlin/Pair;)Z
+}
+

@@ -13,6 +13,7 @@ includeNestedModules(
     "http",
     "serialization",
     "serverless",
+    "store",
     "templates",
 )
 
@@ -34,6 +35,8 @@ dependencyResolutionManagement {
             // Testing
             version("mockk", "1.13.17")
             version("jmh", "1.37")
+            version("testcontainers", "1.20.5")
+            version("commonsCompress", "1.27.1")
 
             // Shared
             version("slf4j", "2.0.17")
@@ -59,6 +62,9 @@ dependencyResolutionManagement {
             // serverless_http_google
             version("functions", "1.1.4")
             version("invoker", "1.3.3")
+
+            // store_mongodb
+            version("mongodb", "5.3.1")
 
             // templates_freemarker
             version("freemarker", "2.3.34")
