@@ -10,6 +10,7 @@ include(
 )
 
 includeNestedModules(
+    "extra",
     "http",
     "serialization",
     "serverless",
@@ -77,6 +78,9 @@ dependencyResolutionManagement {
 
             // templates_rocker
             version("rocker", "2.2.1")
+
+            // scheduler
+            version("cronutils", "9.2.1")
         }
     }
 }

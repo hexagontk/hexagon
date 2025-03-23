@@ -1,0 +1,208 @@
+public final class com/hexagontk/shell/Command {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun contains (Lcom/hexagontk/shell/Flag;Ljava/lang/Iterable;)Z
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;)Lcom/hexagontk/shell/Command;
+	public static synthetic fun copy$default (Lcom/hexagontk/shell/Command;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;ILjava/lang/Object;)Lcom/hexagontk/shell/Command;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun findCommand (Ljava/lang/Iterable;)Lcom/hexagontk/shell/Command;
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getFlags ()Ljava/util/Set;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOptions ()Ljava/util/Set;
+	public final fun getOptionsMap ()Ljava/util/Map;
+	public final fun getParameters ()Ljava/util/Set;
+	public final fun getParametersMap ()Ljava/util/Map;
+	public final fun getProperties ()Ljava/util/Set;
+	public final fun getPropertiesMap ()Ljava/util/Map;
+	public final fun getSubcommands ()Ljava/util/Set;
+	public final fun getSubcommandsMap ()Ljava/util/Map;
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun parse (Ljava/util/List;)Lcom/hexagontk/shell/Command;
+	public final fun propertyValue (Ljava/lang/String;)Ljava/lang/Object;
+	public final fun propertyValueOrNull (Ljava/lang/String;)Ljava/lang/Object;
+	public final fun propertyValues (Ljava/lang/String;)Ljava/util/List;
+}
+
+public final class com/hexagontk/shell/Flag : com/hexagontk/shell/Property {
+	public fun <init> (Ljava/lang/Character;Ljava/lang/String;Ljava/lang/String;Z)V
+	public synthetic fun <init> (Ljava/lang/Character;Ljava/lang/String;Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/util/Set;Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/util/Set;Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addValue (Ljava/lang/String;)Lcom/hexagontk/shell/Flag;
+	public synthetic fun addValue (Ljava/lang/String;)Lcom/hexagontk/shell/Property;
+	public fun addValues (Lcom/hexagontk/shell/Property;)Lcom/hexagontk/shell/Property;
+	public fun check (Ljava/lang/String;Lkotlin/text/Regex;)V
+	public fun clearValues ()Lcom/hexagontk/shell/Flag;
+	public synthetic fun clearValues ()Lcom/hexagontk/shell/Property;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getDescription ()Ljava/lang/String;
+	public fun getMultiple ()Z
+	public fun getNames ()Ljava/util/Set;
+	public fun getOptional ()Z
+	public fun getRegex ()Lkotlin/text/Regex;
+	public fun getTag ()Ljava/lang/String;
+	public fun getType ()Lkotlin/reflect/KClass;
+	public fun getValues ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun typeText ()Ljava/lang/String;
+}
+
+public abstract interface class com/hexagontk/shell/Formatter {
+	public abstract fun error (Lcom/hexagontk/shell/Program;Lcom/hexagontk/shell/Command;Ljava/lang/Exception;)Ljava/lang/String;
+	public abstract fun help (Lcom/hexagontk/shell/Program;Lcom/hexagontk/shell/Command;)Ljava/lang/String;
+	public abstract fun summary (Lcom/hexagontk/shell/Program;Lcom/hexagontk/shell/Command;)Ljava/lang/String;
+}
+
+public final class com/hexagontk/shell/Option : com/hexagontk/shell/Property {
+	public static final field Companion Lcom/hexagontk/shell/Option$Companion;
+	public fun <init> (Lkotlin/reflect/KClass;Ljava/lang/Character;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Ljava/lang/String;Ljava/lang/Object;)V
+	public synthetic fun <init> (Lkotlin/reflect/KClass;Ljava/lang/Character;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Ljava/lang/String;Ljava/lang/Object;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lkotlin/reflect/KClass;Ljava/lang/Character;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Lkotlin/reflect/KClass;Ljava/lang/Character;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lkotlin/reflect/KClass;Ljava/lang/Character;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;ZZLjava/lang/String;)V
+	public synthetic fun <init> (Lkotlin/reflect/KClass;Ljava/lang/Character;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;ZZLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lkotlin/reflect/KClass;Ljava/util/Set;Ljava/lang/String;Lkotlin/text/Regex;ZZLjava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Lkotlin/reflect/KClass;Ljava/util/Set;Ljava/lang/String;Lkotlin/text/Regex;ZZLjava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addValue (Ljava/lang/String;)Lcom/hexagontk/shell/Option;
+	public synthetic fun addValue (Ljava/lang/String;)Lcom/hexagontk/shell/Property;
+	public fun addValues (Lcom/hexagontk/shell/Property;)Lcom/hexagontk/shell/Property;
+	public fun check (Ljava/lang/String;Lkotlin/text/Regex;)V
+	public fun clearValues ()Lcom/hexagontk/shell/Option;
+	public synthetic fun clearValues ()Lcom/hexagontk/shell/Property;
+	public final fun copy (Lkotlin/reflect/KClass;Ljava/util/Set;Ljava/lang/String;Lkotlin/text/Regex;ZZLjava/lang/String;Ljava/util/List;)Lcom/hexagontk/shell/Option;
+	public static synthetic fun copy$default (Lcom/hexagontk/shell/Option;Lkotlin/reflect/KClass;Ljava/util/Set;Ljava/lang/String;Lkotlin/text/Regex;ZZLjava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/shell/Option;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getDescription ()Ljava/lang/String;
+	public fun getMultiple ()Z
+	public fun getNames ()Ljava/util/Set;
+	public fun getOptional ()Z
+	public fun getRegex ()Lkotlin/text/Regex;
+	public fun getTag ()Ljava/lang/String;
+	public fun getType ()Lkotlin/reflect/KClass;
+	public fun getValues ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun typeText ()Ljava/lang/String;
+}
+
+public final class com/hexagontk/shell/Option$Companion {
+	public final fun getOptionRegex ()Lkotlin/text/Regex;
+}
+
+public final class com/hexagontk/shell/Parameter : com/hexagontk/shell/Property {
+	public static final field Companion Lcom/hexagontk/shell/Parameter$Companion;
+	public fun <init> (Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Ljava/lang/String;Ljava/lang/Object;)V
+	public synthetic fun <init> (Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Ljava/lang/String;Ljava/lang/Object;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;ZZLjava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;ZZLjava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addValue (Ljava/lang/String;)Lcom/hexagontk/shell/Parameter;
+	public synthetic fun addValue (Ljava/lang/String;)Lcom/hexagontk/shell/Property;
+	public fun addValues (Lcom/hexagontk/shell/Property;)Lcom/hexagontk/shell/Property;
+	public fun check (Ljava/lang/String;Lkotlin/text/Regex;)V
+	public fun clearValues ()Lcom/hexagontk/shell/Parameter;
+	public synthetic fun clearValues ()Lcom/hexagontk/shell/Property;
+	public final fun copy (Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;ZZLjava/lang/String;Ljava/util/List;)Lcom/hexagontk/shell/Parameter;
+	public static synthetic fun copy$default (Lcom/hexagontk/shell/Parameter;Lkotlin/reflect/KClass;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;ZZLjava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/hexagontk/shell/Parameter;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getDescription ()Ljava/lang/String;
+	public fun getMultiple ()Z
+	public final fun getName ()Ljava/lang/String;
+	public fun getNames ()Ljava/util/Set;
+	public fun getOptional ()Z
+	public fun getRegex ()Lkotlin/text/Regex;
+	public fun getTag ()Ljava/lang/String;
+	public fun getType ()Lkotlin/reflect/KClass;
+	public fun getValues ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun typeText ()Ljava/lang/String;
+}
+
+public final class com/hexagontk/shell/Parameter$Companion {
+}
+
+public final class com/hexagontk/shell/Program {
+	public fun <init> (Ljava/lang/String;Lcom/hexagontk/shell/Command;Lcom/hexagontk/shell/Formatter;ZLjava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/hexagontk/shell/Command;Lcom/hexagontk/shell/Formatter;ZLjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getCommand ()Lcom/hexagontk/shell/Command;
+	public final fun getDefaultCommand ()Ljava/util/List;
+	public final fun getFormatter ()Lcom/hexagontk/shell/Formatter;
+	public final fun getSystemSetting ()Z
+	public final fun getVersion ()Ljava/lang/String;
+	public final fun input ()Ljava/lang/String;
+	public final fun parse (Ljava/lang/Iterable;)Lcom/hexagontk/shell/Command;
+	public final fun parse ([Ljava/lang/String;)Lcom/hexagontk/shell/Command;
+}
+
+public abstract interface class com/hexagontk/shell/Property {
+	public static final field Companion Lcom/hexagontk/shell/Property$Companion;
+	public abstract fun addValue (Ljava/lang/String;)Lcom/hexagontk/shell/Property;
+	public abstract fun addValues (Lcom/hexagontk/shell/Property;)Lcom/hexagontk/shell/Property;
+	public abstract fun check (Ljava/lang/String;Lkotlin/text/Regex;)V
+	public abstract fun clearValues ()Lcom/hexagontk/shell/Property;
+	public abstract fun getDescription ()Ljava/lang/String;
+	public abstract fun getMultiple ()Z
+	public abstract fun getNames ()Ljava/util/Set;
+	public abstract fun getOptional ()Z
+	public abstract fun getRegex ()Lkotlin/text/Regex;
+	public abstract fun getTag ()Ljava/lang/String;
+	public abstract fun getType ()Lkotlin/reflect/KClass;
+	public abstract fun getValues ()Ljava/util/List;
+	public abstract fun typeText ()Ljava/lang/String;
+}
+
+public final class com/hexagontk/shell/Property$Companion {
+	public final fun getHELP ()Lcom/hexagontk/shell/Flag;
+	public final fun getVERSION ()Lcom/hexagontk/shell/Flag;
+}
+
+public final class com/hexagontk/shell/Property$DefaultImpls {
+	public static fun check (Lcom/hexagontk/shell/Property;Ljava/lang/String;Lkotlin/text/Regex;)V
+	public static fun typeText (Lcom/hexagontk/shell/Property;)Ljava/lang/String;
+}
+
+public final class com/hexagontk/shell/formatter/CommandFormatter : com/hexagontk/shell/formatter/Formatter {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Lcom/hexagontk/shell/formatter/Formatter;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/hexagontk/shell/formatter/Formatter;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun definition (Lcom/hexagontk/shell/Command;)Ljava/lang/String;
+	public synthetic fun definition (Ljava/lang/Object;)Ljava/lang/String;
+	public fun detail (Lcom/hexagontk/shell/Command;)Ljava/lang/String;
+	public synthetic fun detail (Ljava/lang/Object;)Ljava/lang/String;
+	public fun summary (Lcom/hexagontk/shell/Command;)Ljava/lang/String;
+	public synthetic fun summary (Ljava/lang/Object;)Ljava/lang/String;
+}
+
+public final class com/hexagontk/shell/formatter/DefaultFormatter : com/hexagontk/shell/Formatter {
+	public fun <init> ()V
+	public fun <init> (Lcom/hexagontk/shell/formatter/Formatter;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Lcom/hexagontk/shell/formatter/Formatter;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun error (Lcom/hexagontk/shell/Program;Lcom/hexagontk/shell/Command;Ljava/lang/Exception;)Ljava/lang/String;
+	public fun help (Lcom/hexagontk/shell/Program;Lcom/hexagontk/shell/Command;)Ljava/lang/String;
+	public fun summary (Lcom/hexagontk/shell/Program;Lcom/hexagontk/shell/Command;)Ljava/lang/String;
+}
+
+public abstract interface class com/hexagontk/shell/formatter/Formatter {
+	public abstract fun definition (Ljava/lang/Object;)Ljava/lang/String;
+	public abstract fun detail (Ljava/lang/Object;)Ljava/lang/String;
+	public abstract fun summary (Ljava/lang/Object;)Ljava/lang/String;
+}
+
+public final class com/hexagontk/shell/formatter/PropertyFormatter : com/hexagontk/shell/formatter/Formatter {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;ZLjava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ZLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun definition (Lcom/hexagontk/shell/Property;)Ljava/lang/String;
+	public synthetic fun definition (Ljava/lang/Object;)Ljava/lang/String;
+	public fun detail (Lcom/hexagontk/shell/Property;)Ljava/lang/String;
+	public synthetic fun detail (Ljava/lang/Object;)Ljava/lang/String;
+	public fun summary (Lcom/hexagontk/shell/Property;)Ljava/lang/String;
+	public synthetic fun summary (Ljava/lang/Object;)Ljava/lang/String;
+}
+
