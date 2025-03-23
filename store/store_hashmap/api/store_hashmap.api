@@ -1,0 +1,35 @@
+public final class com/hexagontk/store/hashmap/HashMapStore : com/hexagontk/store/Store {
+	public fun <init> (Lkotlin/reflect/KClass;Lkotlin/reflect/KProperty1;Ljava/lang/String;Ljava/util/HashMap;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Lkotlin/reflect/KClass;Lkotlin/reflect/KProperty1;Ljava/lang/String;Ljava/util/HashMap;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun count (Ljava/util/Map;)J
+	public fun deleteMany (Ljava/util/Map;)J
+	public fun deleteOne (Ljava/lang/Object;)Z
+	public fun drop ()V
+	public fun fields (Ljava/util/Map;)Ljava/util/Map;
+	public fun fields ([Lkotlin/Pair;)Ljava/util/Map;
+	public fun findAll (Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;)Ljava/util/List;
+	public fun findAll (Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;)Ljava/util/List;
+	public fun findMany (Ljava/util/Map;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;)Ljava/util/List;
+	public fun findMany (Ljava/util/Map;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Map;)Ljava/util/List;
+	public fun findOne (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun findOne (Ljava/lang/Object;Ljava/util/List;)Ljava/util/Map;
+	public fun findOne (Ljava/util/Map;)Ljava/lang/Object;
+	public fun findOne (Ljava/util/Map;Ljava/util/List;)Ljava/util/Map;
+	public fun getDecoder ()Lkotlin/jvm/functions/Function1;
+	public fun getEncoder ()Lkotlin/jvm/functions/Function1;
+	public fun getKey ()Lkotlin/reflect/KProperty1;
+	public fun getName ()Ljava/lang/String;
+	public fun getType ()Lkotlin/reflect/KClass;
+	public fun insertMany (Ljava/util/List;)Ljava/util/List;
+	public fun insertMany ([Ljava/lang/Object;)Ljava/util/List;
+	public fun insertOne (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun replaceMany (Ljava/util/List;)Ljava/util/List;
+	public fun replaceMany ([Ljava/lang/Object;)Ljava/util/List;
+	public fun replaceOne (Ljava/lang/Object;)Z
+	public fun saveMany (Ljava/util/List;)Ljava/util/List;
+	public fun saveOne (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun updateMany (Ljava/util/Map;Ljava/util/Map;)J
+	public fun updateOne (Ljava/lang/Object;Ljava/util/Map;)Z
+	public fun updateOne (Ljava/lang/Object;[Lkotlin/Pair;)Z
+}
+

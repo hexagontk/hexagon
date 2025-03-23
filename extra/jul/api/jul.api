@@ -1,0 +1,8 @@
+public final class com/hexagontk/jul/PatternFormat : java/util/logging/Formatter {
+	public static final field COLOR_PATTERN Ljava/lang/String;
+	public static final field PATTERN Ljava/lang/String;
+	public fun <init> (ZZ)V
+	public synthetic fun <init> (ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun format (Ljava/util/logging/LogRecord;)Ljava/lang/String;
+}
+
