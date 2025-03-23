@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Parameter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.shell</a> &gt; <span class="el_source">Parameter.kt</span></div><h1>Parameter.kt</h1><pre class="source lang-java linenums">package com.hexagontk.shell
+
+import com.hexagontk.core.text.parseOrNull
+import kotlin.reflect.KClass
+
+<span class="fc" id="L6">class Parameter&lt;T : Any&gt;(</span>
+<span class="fc" id="L7">    override val type: KClass&lt;T&gt;,</span>
+<span class="fc" id="L8">    val name: String,</span>
+<span class="fc" id="L9">    override val description: String? = null,</span>
+<span class="fc" id="L10">    override val regex: Regex? = null,</span>
+<span class="fc" id="L11">    override val optional: Boolean = true,</span>
+<span class="fc" id="L12">    override val multiple: Boolean = false,</span>
+<span class="fc" id="L13">    override val tag: String? = null,</span>
+<span class="fc" id="L14">    override val values: List&lt;T&gt; = emptyList(),</span>
+<span class="fc" id="L15">) : Property&lt;T&gt; {</span>
+
+<span class="fc" id="L17">    override val names: Set&lt;String&gt; = setOf(name)</span>
+
+    companion object {
+<span class="fc" id="L20">        private val parameterRegex = &quot;[a-z0-9\\-]{2,}&quot;.toRegex()</span>
+    }
+
+<span class="nc" id="L23">    constructor(</span>
+        type: KClass&lt;T&gt;,
+        name: String,
+<span class="nc" id="L26">        description: String? = null,</span>
+<span class="nc" id="L27">        regex: Regex? = null,</span>
+<span class="nc" id="L28">        tag: String? = null,</span>
+        value: T,
+<span class="pc" id="L30">    ) : this(type, name, description, regex, true, false, tag, listOf(value))</span>
+
+<span class="nc" id="L32">    constructor(</span>
+        type: KClass&lt;T&gt;,
+        name: String,
+<span class="nc" id="L35">        description: String? = null,</span>
+<span class="nc" id="L36">        regex: Regex? = null,</span>
+<span class="nc" id="L37">        tag: String? = null,</span>
+        values: List&lt;T&gt;,
+<span class="pc" id="L39">    ) : this(type, name, description, regex, true, true, tag, values)</span>
+
+<span class="fc" id="L41">    init {</span>
+<span class="fc" id="L42">        check(&quot;Parameter&quot;, parameterRegex)</span>
+<span class="fc" id="L43">    }</span>
+
+    @Suppress(&quot;UNCHECKED_CAST&quot;) // Types checked at runtime
+    override fun addValues(value: Property&lt;*&gt;): Property&lt;T&gt; =
+<span class="fc" id="L47">        Parameter(</span>
+<span class="fc" id="L48">            type,</span>
+<span class="fc" id="L49">            name,</span>
+<span class="fc" id="L50">            description,</span>
+<span class="fc" id="L51">            regex,</span>
+<span class="fc" id="L52">            optional,</span>
+<span class="fc" id="L53">            multiple,</span>
+<span class="fc" id="L54">            tag,</span>
+<span class="fc" id="L55">            values + value.values as List&lt;T&gt;</span>
+<span class="fc" id="L56">        )</span>
+
+    override fun addValue(value: String): Parameter&lt;T&gt; =
+<span class="fc" id="L59">        value.parseOrNull(type)</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            ?.let {</span>
+<span class="fc" id="L61">                Parameter(type, name, description, regex, optional, multiple, tag, values + it)</span>
+            }
+<span class="fc" id="L63">            ?: error(&quot;Parameter '$name' of type '${typeText()}' can not hold '$value'&quot;)</span>
+
+    override fun clearValues(): Parameter&lt;T&gt; =
+<span class="fc" id="L66">        Parameter(type, name, description, regex, optional, multiple, tag, emptyList())</span>
+
+    // TODO Only used in tests
+<span class="fc" id="L69">    fun copy(</span>
+<span class="fc" id="L70">        type: KClass&lt;T&gt; = this.type,</span>
+<span class="fc" id="L71">        name: String = this.name,</span>
+<span class="fc" id="L72">        description: String? = this.description,</span>
+<span class="fc" id="L73">        regex: Regex? = this.regex,</span>
+<span class="fc" id="L74">        optional: Boolean = this.optional,</span>
+<span class="fc" id="L75">        multiple: Boolean = this.multiple,</span>
+<span class="fc" id="L76">        tag: String? = this.tag,</span>
+<span class="fc" id="L77">        values: List&lt;T&gt; = this.values,</span>
+    ): Parameter&lt;T&gt; =
+<span class="fc" id="L79">        Parameter(type, name, description, regex, optional, multiple, tag, values)</span>
+
+    // TODO Only used in tests
+    override fun equals(other: Any?): Boolean {
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if (this === other) return true</span>
+<span class="pc bpc" id="L84" title="2 of 4 branches missed.">        if (javaClass != other?.javaClass) return false</span>
+
+<span class="fc" id="L86">        other as Parameter&lt;*&gt;</span>
+
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if (type != other.type) return false</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if (name != other.name) return false</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (description != other.description) return false</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        if (regex != other.regex) return false</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if (optional != other.optional) return false</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        if (multiple != other.multiple) return false</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (tag != other.tag) return false</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if (values != other.values) return false</span>
+
+<span class="fc" id="L97">        return true</span>
+    }
+
+    // TODO Only used in tests
+    override fun hashCode(): Int {
+<span class="fc" id="L102">        var result = type.hashCode()</span>
+<span class="fc" id="L103">        result = 31 * result + name.hashCode()</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        result = 31 * result + (description?.hashCode() ?: 0)</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        result = 31 * result + (regex?.hashCode() ?: 0)</span>
+<span class="fc" id="L106">        result = 31 * result + optional.hashCode()</span>
+<span class="fc" id="L107">        result = 31 * result + multiple.hashCode()</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        result = 31 * result + (tag?.hashCode() ?: 0)</span>
+<span class="fc" id="L109">        result = 31 * result + values.hashCode()</span>
+<span class="fc" id="L110">        return result</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

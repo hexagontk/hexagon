@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Command.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.shell</a> &gt; <span class="el_source">Command.kt</span></div><h1>Command.kt</h1><pre class="source lang-java linenums">package com.hexagontk.shell
+
+import com.hexagontk.helpers.requireNotBlank
+
+/**
+ * A program can have multiple commands with their own set of options and positional parameters.
+ *
+ * TODO Support aliases
+ */
+<span class="fc" id="L10">class Command(</span>
+<span class="fc" id="L11">    val name: String,</span>
+<span class="fc" id="L12">    val title: String? = null,</span>
+<span class="fc" id="L13">    val description: String? = null,</span>
+<span class="fc" id="L14">    val properties: Set&lt;Property&lt;*&gt;&gt; = emptySet(),</span>
+<span class="fc" id="L15">    val subcommands: Set&lt;Command&gt; = emptySet(),</span>
+<span class="fc" id="L16">) {</span>
+<span class="fc" id="L17">    val flags: Set&lt;Flag&gt; =</span>
+<span class="fc" id="L18">        properties.filterIsInstance&lt;Flag&gt;().toSet()</span>
+
+<span class="fc" id="L20">    val options: Set&lt;Option&lt;*&gt;&gt; =</span>
+<span class="fc" id="L21">        properties.filterIsInstance&lt;Option&lt;*&gt;&gt;().toSet()</span>
+
+<span class="fc" id="L23">    val parameters: Set&lt;Parameter&lt;*&gt;&gt; =</span>
+<span class="fc" id="L24">        properties.filterIsInstance&lt;Parameter&lt;*&gt;&gt;().toSet()</span>
+
+<span class="fc" id="L26">    val propertiesMap: Map&lt;String, Property&lt;*&gt;&gt; =</span>
+<span class="fc" id="L27">        properties</span>
+<span class="fc" id="L28">            .flatMap { p -&gt; p.names.map { it to p } }</span>
+<span class="fc" id="L29">            .toMap()</span>
+
+<span class="fc" id="L31">    val optionsMap: Map&lt;String, Option&lt;*&gt;&gt; =</span>
+<span class="fc" id="L32">        propertiesMap</span>
+<span class="fc" id="L33">            .filterValues { it is Option&lt;*&gt; }</span>
+<span class="fc" id="L34">            .mapValues { it.value as Option&lt;*&gt; }</span>
+
+<span class="fc" id="L36">    val parametersMap: Map&lt;String, Parameter&lt;*&gt;&gt; =</span>
+<span class="fc" id="L37">        propertiesMap</span>
+<span class="fc" id="L38">            .filterValues { it is Parameter&lt;*&gt; }</span>
+<span class="fc" id="L39">            .mapValues { it.value as Parameter&lt;*&gt; }</span>
+
+<span class="fc" id="L41">    val subcommandsMap: Map&lt;String, Command&gt; =</span>
+<span class="fc" id="L42">        nestedSubcommands().associateBy { it.name }</span>
+
+    private val emptyPropertiesMap: Map&lt;String, Property&lt;*&gt;&gt; =
+<span class="fc" id="L45">        propertiesMap.mapValues { (_, v) -&gt; v.clearValues() }</span>
+
+<span class="fc" id="L47">    private val emptyParametersList: List&lt;Parameter&lt;*&gt;&gt; by lazy {</span>
+<span class="fc" id="L48">        parameters.map { it.clearValues() }</span>
+    }
+
+<span class="fc" id="L51">    init {</span>
+<span class="fc" id="L52">        requireNotBlank(Command::name)</span>
+<span class="fc" id="L53">        requireNotBlank(Command::title)</span>
+<span class="fc" id="L54">        requireNotBlank(Command::description)</span>
+
+<span class="fc bfc" id="L56" title="All 4 branches covered.">        if (parametersMap.isNotEmpty()) {</span>
+<span class="fc" id="L57">            val parameters = parametersMap.values.reversed().drop(1)</span>
+<span class="fc bfc" id="L58" title="All 4 branches covered.">            require(parameters.all { !it.multiple }) {</span>
+<span class="fc" id="L59">                &quot;Only the last positional parameter can be multiple&quot;</span>
+            }
+        }
+<span class="fc" id="L62">    }</span>
+
+    fun findCommand(args: Iterable&lt;String&gt;): Command {
+<span class="fc" id="L65">        val line = args.joinToString(&quot; &quot;)</span>
+<span class="fc" id="L66">        return subcommandsMap</span>
+<span class="fc" id="L67">            .mapKeys { it.key.removePrefix(&quot;$name &quot;) }</span>
+<span class="fc" id="L68">            .entries</span>
+<span class="fc" id="L69">            .sortedByDescending { it.key.count { c -&gt; c == ' ' } }</span>
+<span class="fc bfc" id="L70" title="All 4 branches covered.">            .find { line.contains(it.key) }</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">            ?.let { (k, v) -&gt; Command(k, v.title, v.description, v.properties, v.subcommands) }</span>
+<span class="fc" id="L72">            ?: this</span>
+    }
+
+    fun parse(args: List&lt;String&gt;): Command {
+<span class="fc" id="L76">        val argsIterator = args.iterator()</span>
+<span class="fc" id="L77">        var parsedProperties = emptyList&lt;Property&lt;*&gt;&gt;()</span>
+<span class="fc" id="L78">        var parsedParameter = 0</span>
+
+<span class="fc" id="L80">        argsIterator.forEach { value -&gt;</span>
+<span class="fc" id="L81">            parsedProperties = when {</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                value.startsWith(&quot;--&quot;) -&gt;</span>
+<span class="fc" id="L83">                    parsedProperties + parseOption(value.removePrefix(&quot;--&quot;), argsIterator)</span>
+
+<span class="fc bfc" id="L85" title="All 2 branches covered.">                value.startsWith('-') -&gt;</span>
+<span class="fc" id="L86">                    parsedProperties + parseOptions(value.removePrefix(&quot;-&quot;), argsIterator)</span>
+
+                else -&gt;
+<span class="fc" id="L89">                    parsedProperties + parseParameter(value, ++parsedParameter)</span>
+            }
+<span class="fc" id="L91">        }</span>
+
+<span class="fc" id="L93">        val groupedProperties = addDefaultProperties(parsedProperties.groupValues())</span>
+<span class="fc" id="L94">        checkMandatoryProperties(groupedProperties)</span>
+<span class="fc" id="L95">        return Command(name, title, description, groupedProperties.toSet(), subcommands)</span>
+    }
+
+    private fun addDefaultProperties(groupedProperties: List&lt;Property&lt;*&gt;&gt;): List&lt;Property&lt;*&gt;&gt; =
+<span class="fc" id="L99">        groupedProperties + properties</span>
+<span class="fc bfc" id="L100" title="All 6 branches covered.">            .filter { it.optional &amp;&amp; it.values.isNotEmpty() }</span>
+<span class="fc" id="L101">            .filterNot { it.names.any { n -&gt; n in groupedProperties.flatMap { gp -&gt; gp.names } } }</span>
+
+    @Suppress(&quot;UNCHECKED_CAST&quot;) // Types checked at runtime
+    fun &lt;T : Any&gt; propertyValues(name: String): List&lt;T&gt; =
+<span class="pc bpc" id="L105" title="2 of 6 branches missed.">        propertiesMap[name]?.values?.mapNotNull { it as? T } ?: emptyList()</span>
+
+    fun &lt;T : Any&gt; propertyValueOrNull(name: String): T? =
+<span class="fc" id="L108">        propertyValues&lt;T&gt;(name).firstOrNull()</span>
+
+    fun &lt;T : Any&gt; propertyValue(name: String): T {
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        return propertyValueOrNull(name) ?: error(&quot;Property '$name' does not have a value&quot;)</span>
+    }
+
+    private fun checkMandatoryProperties(parsedProperties: List&lt;Property&lt;*&gt;&gt;) {
+<span class="fc" id="L115">        val mandatoryProperties = properties.filterNot { it.optional }</span>
+<span class="fc" id="L116">        val names = parsedProperties.flatMap { it.names }</span>
+<span class="fc" id="L117">        val missingProperties = mandatoryProperties.filterNot { it.names.any { n -&gt; n in names } }</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        check(missingProperties.isEmpty()) {</span>
+<span class="fc" id="L119">            val missingNames = missingProperties.joinToString(&quot;, &quot;) { &quot;'${it.names.first()}'&quot; }</span>
+<span class="fc" id="L120">            &quot;Missing properties: $missingNames&quot;</span>
+        }
+<span class="fc" id="L122">    }</span>
+
+    private fun List&lt;Property&lt;*&gt;&gt;.groupValues(): List&lt;Property&lt;*&gt;&gt; =
+<span class="fc" id="L125">        groupBy { it.names }</span>
+<span class="fc" id="L126">            .map { (_, v) -&gt;</span>
+<span class="fc" id="L127">                v.reduceIndexed { i, a, b -&gt;</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">                    if (a.multiple) a.addValues(b)</span>
+<span class="fc" id="L129">                    else error(&quot;Unknown argument at position ${i + 1}: ${b.values.first()}&quot;)</span>
+<span class="fc" id="L130">                }</span>
+<span class="fc" id="L131">            }</span>
+
+    private fun parseParameter(value: String, parsedParameter: Int): Property&lt;*&gt; =
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">        (emptyParametersList.getOrNull(parsedParameter) ?: emptyParametersList.lastOrNull())</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">            ?.addValue(value)</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">            ?: error(&quot;No parameters&quot;)</span>
+
+    private fun parseOptions(
+        names: String, argsIterator: Iterator&lt;String&gt;
+    ): Collection&lt;Property&lt;*&gt;&gt; {
+<span class="fc" id="L141">        val namesIterator = names.iterator()</span>
+<span class="fc" id="L142">        var result = emptyList&lt;Property&lt;*&gt;&gt;()</span>
+
+<span class="fc" id="L144">        namesIterator.forEach {</span>
+<span class="fc" id="L145">            val name = it.toString()</span>
+<span class="fc" id="L146">            val isOption = optionsMap.contains(name)</span>
+<span class="fc bfc" id="L147" title="All 4 branches covered.">            val option = if (isOption &amp;&amp; namesIterator.hasNext()) {</span>
+<span class="fc" id="L148">                val firstValueChar = namesIterator.next()</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">                val valueStart = if (firstValueChar != '=') &quot;=$firstValueChar&quot; else firstValueChar</span>
+<span class="fc" id="L150">                val buffer = StringBuffer(name + valueStart)</span>
+
+<span class="fc" id="L152">                namesIterator.forEachRemaining(buffer::append)</span>
+<span class="fc" id="L153">                buffer.toString()</span>
+            }
+<span class="fc" id="L155">            else name</span>
+
+<span class="fc" id="L157">            result = result + parseOption(option, argsIterator)</span>
+<span class="fc" id="L158">        }</span>
+
+<span class="fc" id="L160">        return result</span>
+    }
+
+    private fun parseOption(option: String, propertiesIterator: Iterator&lt;String&gt;): Property&lt;*&gt; {
+<span class="fc" id="L164">        val nameValue = option.split('=', limit = 2)</span>
+<span class="fc" id="L165">        val name = nameValue.first()</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        val property = emptyPropertiesMap[name] ?: error(&quot;Option '$name' not found&quot;)</span>
+<span class="fc" id="L167">        val value =</span>
+<span class="fc bfc" id="L168" title="All 4 branches covered.">            if (property is Option&lt;*&gt;) nameValue.getOrNull(1) ?: propertiesIterator.next()</span>
+<span class="fc" id="L169">            else &quot;true&quot;</span>
+
+<span class="fc" id="L171">        return property.addValue(value)</span>
+    }
+
+    private fun nestedSubcommands(): Set&lt;Command&gt; =
+<span class="fc" id="L175">        subcommands</span>
+<span class="fc" id="L176">            .map {</span>
+<span class="fc" id="L177">                Command(&quot;$name ${it.name}&quot;, it.title, it.description, it.properties, it.subcommands)</span>
+            }
+<span class="fc" id="L179">            .let { c -&gt; c + c.flatMap { it.nestedSubcommands() } }</span>
+<span class="fc" id="L180">            .toSet()</span>
+
+    fun contains(flag: Flag, args: Iterable&lt;String&gt;): Boolean =
+<span class="fc" id="L183">        flags</span>
+<span class="fc" id="L184">            .flatMap { it.names }</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">            .any { it in flag.names }</span>
+<span class="fc" id="L186">            &amp;&amp; args</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">                .map { it.dropWhile { c -&gt; c == '-' } }</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">                .any { it in flag.names }</span>
+
+    // TODO Only used in tests
+<span class="fc" id="L191">    fun copy(</span>
+<span class="nc" id="L192">        name: String = this.name,</span>
+<span class="fc" id="L193">        title: String? = this.title,</span>
+<span class="fc" id="L194">        description: String? = this.description,</span>
+<span class="fc" id="L195">        properties: Set&lt;Property&lt;*&gt;&gt; = this.properties,</span>
+<span class="fc" id="L196">        subcommands: Set&lt;Command&gt; = this.subcommands,</span>
+    ): Command =
+<span class="fc" id="L198">        Command(name, title, description, properties, subcommands)</span>
+
+    // TODO Only used in tests
+    override fun equals(other: Any?): Boolean {
+<span class="fc bfc" id="L202" title="All 2 branches covered.">        if (this === other) return true</span>
+<span class="pc bpc" id="L203" title="2 of 4 branches missed.">        if (javaClass != other?.javaClass) return false</span>
+
+<span class="fc" id="L205">        other as Command</span>
+
+<span class="fc bfc" id="L207" title="All 2 branches covered.">        if (name != other.name) return false</span>
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">        if (title != other.title) return false</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">        if (description != other.description) return false</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">        if (properties != other.properties) return false</span>
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">        if (subcommands != other.subcommands) return false</span>
+
+<span class="fc" id="L213">        return true</span>
+    }
+
+    // TODO Only used in tests
+    override fun hashCode(): Int {
+<span class="fc" id="L218">        var result = name.hashCode()</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">        result = 31 * result + (title?.hashCode() ?: 0)</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">        result = 31 * result + (description?.hashCode() ?: 0)</span>
+<span class="fc" id="L221">        result = 31 * result + properties.hashCode()</span>
+<span class="fc" id="L222">        result = 31 * result + subcommands.hashCode()</span>
+<span class="fc" id="L223">        return result</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

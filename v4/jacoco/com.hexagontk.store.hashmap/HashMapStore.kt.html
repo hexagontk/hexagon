@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HashMapStore.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.store.hashmap</a> &gt; <span class="el_source">HashMapStore.kt</span></div><h1>HashMapStore.kt</h1><pre class="source lang-java linenums">package com.hexagontk.store.hashmap
+
+import com.hexagontk.core.filterNotEmpty
+import com.hexagontk.store.Store
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
+
+<span class="fc" id="L8">class HashMapStore&lt;T : Any, K : Any&gt;(</span>
+<span class="fc" id="L9">    override val type: KClass&lt;T&gt;,</span>
+<span class="fc" id="L10">    override val key: KProperty1&lt;T, K&gt;,</span>
+<span class="pc" id="L11">    override val name: String = type.java.simpleName,</span>
+<span class="fc" id="L12">    private val store: HashMap&lt;K, Map&lt;String, Any&gt;&gt; = hashMapOf(),</span>
+<span class="fc" id="L13">    override val encoder: (T) -&gt; Map&lt;String, *&gt;,</span>
+<span class="fc" id="L14">    override val decoder: (Map&lt;String, *&gt;) -&gt; T,</span>
+<span class="fc" id="L15">) : Store&lt;T, K&gt; {</span>
+
+    override fun insertOne(instance: T): K {
+<span class="fc" id="L18">        store[key.get(instance)] = map(instance)</span>
+<span class="fc" id="L19">        return key.get(instance)</span>
+    }
+
+    override fun insertMany(instances: List&lt;T&gt;): List&lt;K&gt; {
+<span class="fc" id="L23">        instances.forEach {</span>
+<span class="fc" id="L24">            store[key.get(it)] = map(it)</span>
+<span class="fc" id="L25">        }</span>
+
+<span class="fc" id="L27">        return instances.map { key.get(it) }</span>
+    }
+
+    override fun saveOne(instance: T): K? {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (store.containsKey(key.get(instance))) {</span>
+<span class="fc" id="L32">            store[key.get(instance)] = map(instance)</span>
+<span class="fc" id="L33">            return null</span>
+        }
+
+<span class="fc" id="L36">        store[key.get(instance)] = map(instance)</span>
+        @Suppress(&quot;UNCHECKED_CAST&quot;)
+<span class="fc" id="L38">        return fromStore(key.get(instance)) as K</span>
+    }
+
+    override fun saveMany(instances: List&lt;T&gt;): List&lt;K?&gt; {
+<span class="fc" id="L42">        return instances.map(::saveOne)</span>
+    }
+
+    override fun replaceOne(instance: T): Boolean =
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        store.replace(key.get(instance), map(instance)) != null</span>
+
+
+    override fun replaceMany(instances: List&lt;T&gt;): List&lt;T&gt; =
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        instances.mapNotNull { if (replaceOne(it)) it else null }</span>
+
+
+    override fun updateOne(key: K, updates: Map&lt;String, *&gt;): Boolean {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (!store.containsKey(key)) return false</span>
+
+<span class="fc" id="L56">        val instance = store[key]!!.toMutableMap()</span>
+
+<span class="fc" id="L58">        updates</span>
+<span class="fc" id="L59">            .filterNotEmpty()</span>
+<span class="fc" id="L60">            .forEach {</span>
+<span class="fc" id="L61">                instance[it.key] = toStore(it.value)</span>
+<span class="fc" id="L62">            }</span>
+
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        return store.replace(key, instance) != null</span>
+    }
+
+    override fun updateMany(filter: Map&lt;String, *&gt;, updates: Map&lt;String, *&gt;): Long {
+<span class="fc" id="L68">        val filteredInstances = store.filter(filter)</span>
+
+<span class="fc" id="L70">        return filteredInstances.map { updateOne(it, updates) }.count { it }.toLong()</span>
+    }
+
+    override fun deleteOne(id: K): Boolean =
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        store.remove(id) != null</span>
+
+    override fun deleteMany(filter: Map&lt;String, *&gt;): Long {
+<span class="fc" id="L77">        val filteredInstances = store.filter(filter)</span>
+
+<span class="fc" id="L79">        return filteredInstances.map { deleteOne(it) }.count { it }.toLong()</span>
+    }
+
+    override fun findOne(key: K): T? {
+<span class="fc" id="L83">        val result = store[key]</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        return result?.let { fromStore(result) }</span>
+    }
+
+    override fun findOne(key: K, fields: List&lt;String&gt;): Map&lt;String, *&gt;? {
+<span class="fc" id="L88">        val instance = store[key]</span>
+
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        return if (instance == null) null else fields.associateWith { instance[it] }</span>
+    }
+
+    override fun findMany(
+        filter: Map&lt;String, *&gt;,
+        limit: Int?,
+        skip: Int?,
+        sort: Map&lt;String, Boolean&gt;
+    ): List&lt;T&gt; {
+<span class="fc" id="L99">        val filteredKeys = store.filter(filter)</span>
+<span class="fc" id="L100">        val filteredInstances = filteredKeys.map { store[it]!! }</span>
+
+        @Suppress(&quot;UNCHECKED_CAST&quot;)
+<span class="fc" id="L103">        return filteredInstances</span>
+<span class="fc" id="L104">            .sort(sort)</span>
+<span class="fc bfc" id="L105" title="All 4 branches covered.">            .paginate(skip ?: 0, limit ?: filteredKeys.size)</span>
+<span class="fc" id="L106">            .map { fromStore(it as Map&lt;String, Any&gt;) }</span>
+    }
+
+    override fun findMany(
+        filter: Map&lt;String, *&gt;,
+        fields: List&lt;String&gt;,
+        limit: Int?,
+        skip: Int?,
+        sort: Map&lt;String, Boolean&gt;
+    ): List&lt;Map&lt;String, *&gt;&gt; {
+<span class="fc" id="L116">        val filteredInstances = store.filter(filter)</span>
+<span class="fc" id="L117">        val result = filteredInstances.mapNotNull { findOne(it, fields) }</span>
+
+<span class="fc" id="L119">        return result</span>
+<span class="fc bfc" id="L120" title="All 4 branches covered.">            .paginate(skip ?: 0, limit ?: result.size)</span>
+<span class="fc" id="L121">            .sort(sort)</span>
+    }
+
+    override fun count(filter: Map&lt;String, *&gt;): Long =
+<span class="fc" id="L125">        store.filter(filter).size.toLong()</span>
+
+    override fun drop() =
+<span class="fc" id="L128">        store.clear()</span>
+
+<span class="fc" id="L130">    private fun map(instance: T): Map&lt;String, Any&gt; = toStore(instance)</span>
+
+    private fun HashMap&lt;K, Map&lt;String, Any&gt;&gt;.filter(filter: Map&lt;String, *&gt;): List&lt;K&gt; =
+<span class="fc" id="L133">        filter { it.value.containsValues(filter) }</span>
+<span class="fc" id="L134">            .map { it.key }</span>
+
+    private fun Map&lt;String, Any&gt;.containsValues(filter: Map&lt;String, *&gt;): Boolean =
+<span class="fc" id="L137">        filter.all {</span>
+<span class="fc" id="L138">            when (val value = it.value) {</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">                is List&lt;*&gt; -&gt; value.contains(this[it.key])</span>
+<span class="fc" id="L140">                else -&gt; value == this[it.key]</span>
+<span class="fc" id="L141">            }</span>
+<span class="fc" id="L142">        }</span>
+
+    private fun List&lt;Map&lt;String, *&gt;&gt;.paginate(skip: Int, limit: Int): List&lt;Map&lt;String, *&gt;&gt; =
+<span class="fc" id="L145">        let {</span>
+<span class="fc" id="L146">            var endIndex = skip + limit</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">            if (endIndex &gt; this.size) endIndex = this.size</span>
+
+<span class="fc" id="L149">            this.subList(skip, endIndex)</span>
+<span class="fc" id="L150">        }</span>
+
+    // TODO: Add sorting functionality (now only sorts by first field)
+    private fun List&lt;Map&lt;String, *&gt;&gt;.sort(sortFields: Map&lt;String, Boolean&gt;): List&lt;Map&lt;String, *&gt;&gt; =
+<span class="fc bfc" id="L154" title="All 2 branches covered.">        if (sortFields.isEmpty())</span>
+<span class="fc" id="L155">            this</span>
+        else
+<span class="fc" id="L157">            sortedBy {</span>
+                val firstSortField = sortFields.entries.first()
+                val sortingValue = it[firstSortField.key]
+                @Suppress(&quot;UNCHECKED_CAST&quot;)
+                if (sortingValue is Comparable&lt;*&gt;)
+                    sortingValue as? Comparable&lt;Any&gt;
+                else
+                    error(&quot;Not comparable value&quot;)
+<span class="fc" id="L165">            }</span>
+
+    private fun toStore(instance: T): Map&lt;String, Any&gt;  =
+<span class="fc" id="L168">        encoder(instance)</span>
+<span class="fc" id="L169">            .filterNotEmpty()</span>
+<span class="fc" id="L170">            .mapKeys { it.key.toString() }</span>
+<span class="fc" id="L171">            .mapValues { it.value }</span>
+
+<span class="fc" id="L173">    private fun toStore(value: Any): Any = value</span>
+
+    private fun fromStore(map: Map&lt;String, Any&gt;): T =
+<span class="fc" id="L176">        decoder(map.filterNotEmpty())</span>
+
+    private fun fromStore(value: Any): Any =
+<span class="fc" id="L179">        value</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

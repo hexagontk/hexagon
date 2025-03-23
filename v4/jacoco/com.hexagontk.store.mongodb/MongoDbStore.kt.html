@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MongoDbStore.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.store.mongodb</a> &gt; <span class="el_source">MongoDbStore.kt</span></div><h1>MongoDbStore.kt</h1><pre class="source lang-java linenums">package com.hexagontk.store.mongodb
+
+import com.hexagontk.core.fail
+import com.hexagontk.core.filterNotEmpty
+import com.hexagontk.core.toLocalDateTime
+import com.hexagontk.store.Store
+import com.mongodb.ConnectionString
+import com.mongodb.client.FindIterable
+import com.mongodb.client.MongoClients
+import com.mongodb.client.MongoCollection
+import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.ReplaceOptions
+import com.mongodb.client.model.Updates
+import org.bson.BsonBinary
+import org.bson.BsonString
+import org.bson.Document
+import org.bson.conversions.Bson
+import org.bson.types.Binary
+import java.net.URL
+import java.nio.ByteBuffer
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.util.*
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
+
+<span class="pc" id="L29">class MongoDbStore&lt;T : Any, K : Any&gt;(</span>
+<span class="fc" id="L30">    override val type: KClass&lt;T&gt;,</span>
+<span class="fc" id="L31">    override val key: KProperty1&lt;T, K&gt;,</span>
+<span class="fc" id="L32">    private val database: MongoDatabase,</span>
+<span class="pc" id="L33">    override val name: String = type.java.simpleName,</span>
+<span class="fc" id="L34">    override val encoder: (T) -&gt; Map&lt;String, *&gt;,</span>
+<span class="fc" id="L35">    override val decoder: (Map&lt;String, *&gt;) -&gt; T,</span>
+<span class="nc" id="L36">) : Store&lt;T, K&gt; {</span>
+
+    companion object {
+<span class="fc" id="L39">        fun database(url: String): MongoDatabase = ConnectionString(url).let {</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">            MongoClients.create(it).getDatabase(it.database ?: fail)</span>
+<span class="fc" id="L41">        }</span>
+    }
+
+<span class="fc" id="L44">    val collection: MongoCollection&lt;Document&gt; = this.database.getCollection(name)</span>
+
+<span class="nc" id="L46">    constructor(</span>
+        type: KClass&lt;T&gt;,
+        key: KProperty1&lt;T, K&gt;,
+        url: String,
+<span class="nc" id="L50">        name: String = type.java.simpleName,</span>
+        encoder: (T) -&gt; Map&lt;String, *&gt;,
+        decoder: (Map&lt;String, *&gt;) -&gt; T,
+    ) :
+<span class="pc" id="L54">        this(type, key, database(url), name, encoder, decoder)</span>
+
+    override fun insertOne(instance: T): K {
+<span class="fc" id="L57">        collection.insertOne(map(instance))</span>
+<span class="fc" id="L58">        return key.get(instance)</span>
+    }
+
+    override fun insertMany(instances: List&lt;T&gt;): List&lt;K&gt; {
+<span class="fc" id="L62">        collection.insertMany(instances.map { instance -&gt; map(instance) })</span>
+<span class="fc" id="L63">        return instances.map { key.get(it) }</span>
+    }
+
+    override fun saveOne(instance: T): K? {
+<span class="fc" id="L67">        val filter = createKeyFilter(key.get(instance))</span>
+<span class="fc" id="L68">        val options = ReplaceOptions().upsert(true)</span>
+<span class="fc" id="L69">        val result = collection.replaceOne(filter, map(instance), options)</span>
+<span class="fc" id="L70">        val upsertedId = result.upsertedId</span>
+
+        @Suppress(&quot;UNCHECKED_CAST&quot;)
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        return if (upsertedId == null) null</span>
+<span class="fc" id="L74">            else fromStore(upsertedId as Any) as K</span>
+    }
+
+    override fun saveMany(instances: List&lt;T&gt;): List&lt;K?&gt; =
+<span class="fc" id="L78">        instances.map(this::saveOne)</span>
+
+    override fun replaceOne(instance: T): Boolean {
+<span class="fc" id="L81">        val document = map(instance)</span>
+<span class="fc" id="L82">        val filter = createKeyFilter(key.get(instance))</span>
+<span class="fc" id="L83">        val result = collection.replaceOne(filter, document)</span>
+        // *NOTE* that 'modifiedCount' returns 0 for matched records with unchanged update values
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        return result.matchedCount == 1L</span>
+    }
+
+    override fun replaceMany(instances: List&lt;T&gt;): List&lt;T&gt; =
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        instances.mapNotNull { if (replaceOne(it)) it else null }</span>
+
+    override fun updateOne(key: K, updates: Map&lt;String, *&gt;): Boolean {
+<span class="pc bpc" id="L92" title="2 of 4 branches missed.">        require(updates.isNotEmpty())</span>
+<span class="fc" id="L93">        val filter = createKeyFilter(key)</span>
+<span class="fc" id="L94">        val update = createUpdate(updates)</span>
+<span class="fc" id="L95">        val result = collection.updateOne(filter, update)</span>
+        // *NOTE* that 'modifiedCount' returns 0 for matched records with unchanged update values
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        return result.matchedCount == 1L</span>
+    }
+
+    override fun updateMany(filter: Map&lt;String, *&gt;, updates: Map&lt;String, *&gt;): Long {
+<span class="pc bpc" id="L101" title="2 of 4 branches missed.">        require(updates.isNotEmpty())</span>
+<span class="fc" id="L102">        val updateFilter = createFilter(filter)</span>
+<span class="fc" id="L103">        val update = createUpdate(updates)</span>
+<span class="fc" id="L104">        val result = collection.updateMany(updateFilter, update)</span>
+        // *NOTE* that 'modifiedCount' returns 0 for matched records with unchanged update values
+<span class="fc" id="L106">        return result.matchedCount</span>
+    }
+
+    override fun deleteOne(id: K): Boolean {
+<span class="fc" id="L110">        val filter = createKeyFilter(id)</span>
+<span class="fc" id="L111">        val result = collection.deleteOne(filter)</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        return result.deletedCount == 1L</span>
+    }
+
+    override fun deleteMany(filter: Map&lt;String, *&gt;): Long {
+<span class="fc" id="L116">        val deleteFilter = createFilter(filter)</span>
+<span class="fc" id="L117">        val result = collection.deleteMany(deleteFilter)</span>
+<span class="fc" id="L118">        return result.deletedCount</span>
+    }
+
+    override fun findOne(key: K): T? {
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        val result = collection.find(createKeyFilter(key)).first()?.filterNotEmpty()</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        return if (result == null) null else fromStore(result)</span>
+    }
+
+    override fun findOne(key: K, fields: List&lt;String&gt;): Map&lt;String, *&gt;? {
+<span class="fc" id="L127">        val filter = createKeyFilter(key)</span>
+<span class="fc" id="L128">        val result = collection</span>
+<span class="fc" id="L129">            .find(filter)</span>
+<span class="fc" id="L130">            .projection(createProjection(fields))</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">            .first()?.filterNotEmpty()</span>
+
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        return result?.mapValues { fromStore(it.value) }</span>
+    }
+
+    override fun findMany(
+        filter: Map&lt;String, *&gt;,
+        limit: Int?,
+        skip: Int?,
+        sort: Map&lt;String, Boolean&gt;
+    ): List&lt;T&gt; {
+
+<span class="fc" id="L143">        val findFilter = createFilter(filter)</span>
+<span class="fc" id="L144">        val findSort = createSort(sort)</span>
+<span class="fc" id="L145">        val query = collection.find(findFilter).sort(findSort)</span>
+
+<span class="fc" id="L147">        pageQuery(limit, query, skip)</span>
+
+<span class="fc" id="L149">        val result = query.into(ArrayList())</span>
+<span class="fc" id="L150">        return result.map { fromStore(it.filterNotEmpty()) }</span>
+    }
+
+    override fun findMany(
+        filter: Map&lt;String, *&gt;,
+        fields: List&lt;String&gt;,
+        limit: Int?,
+        skip: Int?,
+        sort: Map&lt;String, Boolean&gt;
+    ): List&lt;Map&lt;String, *&gt;&gt; {
+
+<span class="fc" id="L161">        val findFilter = createFilter(filter)</span>
+<span class="fc" id="L162">        val projection = createProjection(fields)</span>
+<span class="fc" id="L163">        val findSort = createSort(sort)</span>
+<span class="fc" id="L164">        val query = collection.find(findFilter).projection(projection).sort(findSort)</span>
+
+<span class="fc" id="L166">        pageQuery(limit, query, skip)</span>
+
+<span class="fc" id="L168">        val result = query.into(ArrayList())</span>
+
+<span class="fc" id="L170">        return result.map { resultMap -&gt;</span>
+<span class="fc" id="L171">            resultMap</span>
+<span class="fc" id="L172">                .map { pair -&gt; pair.key to fromStore(pair.value) }</span>
+<span class="fc" id="L173">                .toMap()</span>
+<span class="fc" id="L174">                .filterNotEmpty()</span>
+        }
+    }
+
+    override fun count(filter: Map&lt;String, *&gt;): Long {
+<span class="fc" id="L179">        val countFilter = createFilter(filter)</span>
+<span class="fc" id="L180">        return collection.countDocuments(countFilter)</span>
+    }
+
+    override fun drop() {
+<span class="fc" id="L184">        collection.drop()</span>
+<span class="fc" id="L185">    }</span>
+
+    private fun pageQuery(limit: Int?, query: FindIterable&lt;Document&gt;, skip: Int?) {
+<span class="fc bfc" id="L188" title="All 2 branches covered.">        if (limit != null)</span>
+<span class="fc" id="L189">            query.limit(limit)</span>
+
+<span class="fc bfc" id="L191" title="All 2 branches covered.">        if (skip != null)</span>
+<span class="fc" id="L192">            query.skip(skip)</span>
+<span class="fc" id="L193">    }</span>
+
+<span class="fc" id="L195">    private fun map(instance: T): Document = Document(toStore(instance))</span>
+
+<span class="fc" id="L197">    private fun createKeyFilter(key: K) = Filters.eq(&quot;_id&quot;, key)</span>
+
+<span class="fc" id="L199">    private fun createFilter(filter: Map&lt;String, *&gt;): Bson = filter</span>
+<span class="fc" id="L200">        .filterNotEmpty()</span>
+<span class="fc" id="L201">        .map {</span>
+<span class="fc" id="L202">            val keyFields = it.key.split(&quot;:&quot;)</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">            val key = keyFields.firstOrNull() ?: fail</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">            val collectionKey = if (key == this.key.name) &quot;_id&quot; else key</span>
+<span class="fc" id="L205">            val operator = keyFields.getOrNull(1)</span>
+<span class="fc" id="L206">            val value = it.value</span>
+
+<span class="fc" id="L208">            when {</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">                value is List&lt;*&gt; -&gt;</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">                    if (value.size &gt; 1) Filters.`in`(collectionKey, value)</span>
+<span class="nc" id="L211">                    else Filters.eq(collectionKey, value.first())</span>
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">                operator != null -&gt;</span>
+<span class="nc bnc" id="L213" title="All 16 branches missed.">                    when (operator) {</span>
+<span class="nc" id="L214">                        &quot;gt&quot; -&gt; Filters.gt(collectionKey, value)</span>
+<span class="nc" id="L215">                        &quot;gte&quot; -&gt; Filters.gte(collectionKey, value)</span>
+<span class="nc" id="L216">                        &quot;lt&quot; -&gt; Filters.lt(collectionKey, value)</span>
+<span class="nc" id="L217">                        &quot;lte&quot; -&gt; Filters.lte(collectionKey, value)</span>
+<span class="nc" id="L218">                        &quot;re&quot; -&gt; Filters.regex(collectionKey, value.toString())</span>
+<span class="nc" id="L219">                        else -&gt; Filters.eq(collectionKey, value)</span>
+                    }
+                else -&gt;
+<span class="fc" id="L222">                    Filters.eq(collectionKey, value)</span>
+<span class="fc" id="L223">            }</span>
+        }
+<span class="fc" id="L225">        .let {</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">            if (it.isEmpty()) Document()</span>
+<span class="fc" id="L227">            else Filters.and(it)</span>
+<span class="fc" id="L228">        }</span>
+
+    private fun createUpdate(update: Map&lt;String, *&gt;): Bson =
+<span class="fc" id="L231">        Updates.combine(</span>
+<span class="fc" id="L232">            update</span>
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">                .filter { it.value != null }</span>
+<span class="fc" id="L234">                .mapValues { toStore(it.value as Any) }</span>
+<span class="fc" id="L235">                .map { Updates.set(it.key, it.value) }</span>
+<span class="fc" id="L236">        )</span>
+
+    private fun createProjection(fields: List&lt;String&gt;): Bson =
+<span class="pc bpc" id="L239" title="1 of 2 branches missed.">        if (fields.isEmpty()) Document()</span>
+        else
+<span class="fc" id="L241">            fields</span>
+<span class="fc" id="L242">                .asSequence()</span>
+<span class="fc" id="L243">                .filter { fields.contains(it) }</span>
+<span class="fc" id="L244">                .map { it to 1 }</span>
+<span class="fc" id="L245">                .toMap()</span>
+<span class="fc" id="L246">                .toDocument()</span>
+<span class="fc" id="L247">                .append(&quot;_id&quot;, 0)</span>
+
+    private fun createSort(fields: Map&lt;String, Boolean&gt;): Bson =
+<span class="fc" id="L250">        fields</span>
+<span class="fc" id="L251">            .filter { fields.contains(it.key) }</span>
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">            .mapValues { if (it.value) -1 else 1 }</span>
+<span class="fc" id="L253">            .toDocument()</span>
+
+<span class="fc" id="L255">    private fun Map&lt;String, *&gt;.toDocument() = Document(this)</span>
+
+    private fun toStore(instance: T): Map&lt;String, Any&gt; =
+<span class="fc" id="L258">        (encoder(instance) + (&quot;_id&quot; to key.get(instance)) - key.name)</span>
+<span class="fc" id="L259">            .filterNotEmpty()</span>
+<span class="fc" id="L260">            .mapKeys { it.key }</span>
+<span class="fc" id="L261">            .mapValues { toStore(it.value) }</span>
+
+    private fun fromStore(map: Map&lt;String, Any&gt;): T =
+<span class="fc" id="L264">        (map + (key.name to map[&quot;_id&quot;]))</span>
+<span class="fc" id="L265">            .filterNotEmpty()</span>
+<span class="fc" id="L266">            .mapValues { fromStore(it.value) }</span>
+<span class="fc" id="L267">            .let(decoder)</span>
+
+<span class="fc" id="L269">    private fun fromStore(value: Any): Any = when (value) {</span>
+<span class="fc bfc" id="L270" title="All 2 branches covered.">        is Binary -&gt; value.data</span>
+<span class="pc bpc" id="L271" title="1 of 2 branches missed.">        is BsonBinary -&gt; value.data</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">        is BsonString -&gt; value.value</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">        is Date -&gt; value.toLocalDateTime()</span>
+<span class="pc bpc" id="L274" title="1 of 4 branches missed.">        is Iterable&lt;*&gt; -&gt; value.map { i -&gt; i?.let { fromStore(it) } }</span>
+<span class="pc bpc" id="L275" title="1 of 4 branches missed.">        is Map&lt;*, *&gt; -&gt; value.mapValues { v -&gt; v.value?.let { fromStore(it) } }</span>
+<span class="fc" id="L276">        else -&gt; value</span>
+<span class="fc" id="L277">    }</span>
+
+<span class="fc" id="L279">    private fun toStore(value: Any): Any = when (value) {</span>
+<span class="fc bfc" id="L280" title="All 2 branches covered.">        is Enum&lt;*&gt; -&gt; value.name</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        is ByteArray -&gt; BsonBinary(value)</span>
+<span class="pc bpc" id="L282" title="1 of 2 branches missed.">        is ByteBuffer -&gt; BsonBinary(value.array())</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">        is URL -&gt; value.toString()</span>
+<span class="fc bfc" id="L284" title="All 2 branches covered.">        is LocalDateTime -&gt; value</span>
+<span class="fc" id="L285">            .atZone(ZoneId.systemDefault())</span>
+<span class="fc" id="L286">            .withZoneSameInstant(ZoneOffset.UTC)</span>
+<span class="fc" id="L287">            .toLocalDateTime()</span>
+<span class="pc bpc" id="L288" title="1 of 4 branches missed.">        is Iterable&lt;*&gt; -&gt; value.map { i -&gt; i?.let { toStore(it) } }</span>
+<span class="pc bpc" id="L289" title="1 of 4 branches missed.">        is Map&lt;*, *&gt; -&gt; value.mapValues { v -&gt; v.value?.let { toStore(it) } }</span>
+<span class="fc" id="L290">        else -&gt; value</span>
+<span class="fc" id="L291">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
