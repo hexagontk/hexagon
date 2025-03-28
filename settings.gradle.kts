@@ -36,7 +36,7 @@ dependencyResolutionManagement {
             // Testing
             version("mockk", "1.13.17")
             version("jmh", "1.37")
-            version("testcontainers", "1.20.5")
+            version("testcontainers", "1.20.6")
             version("commonsCompress", "1.27.1")
 
             // Shared
@@ -65,13 +65,13 @@ dependencyResolutionManagement {
             version("invoker", "1.3.3")
 
             // store_mongodb
-            version("mongodb", "5.3.1")
+            version("mongodb", "5.4.0")
 
             // templates_freemarker
             version("freemarker", "2.3.34")
 
             // templates_jte
-            version("jte", "3.1.16")
+            version("jte", "3.2.0")
 
             // templates_pebble
             version("pebble", "3.2.3")
