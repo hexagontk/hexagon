@@ -17,6 +17,6 @@ class LiteralPathPattern(
         if (prefix) requestUri.startsWith(pattern)
         else requestUri == pattern
 
-    override fun extractParameters(requestUrl: String): Map<String, String> =
+    override fun extractParameters(requestUri: String): Map<String, String> =
         emptyMap()
 }

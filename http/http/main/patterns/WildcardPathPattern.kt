@@ -13,6 +13,6 @@ class WildcardPathPattern(override val prefix: Boolean = false) : PathPattern {
     override fun matches(requestUri: String): Boolean =
         true
 
-    override fun extractParameters(requestUrl: String): Map<String, String> =
-        mapOf(1.toString() to requestUrl)
+    override fun extractParameters(requestUri: String): Map<String, String> =
+        mapOf(1.toString() to requestUri)
 }

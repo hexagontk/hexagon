@@ -14,6 +14,4 @@ description = "Hexagon helpers. Not used inside the toolkit but useful for appli
 
 dependencies {
     "api"(project(":core"))
-
-    "testImplementation"("org.jetbrains.kotlin:kotlin-reflect")
 }
