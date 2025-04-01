@@ -29,7 +29,7 @@ dependencyResolutionManagement {
             version("nativeTools", "0.10.6")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.13")
-            version("mkdocsMaterial", "9.6.9")
+            version("mkdocsMaterial", "9.6.11")
             version("maven", "3.9.9")
             version("jreleaser", "1.15.0")
 
@@ -74,7 +74,7 @@ dependencyResolutionManagement {
             version("jte", "3.2.0")
 
             // templates_pebble
-            version("pebble", "3.2.3")
+            version("pebble", "3.2.4")
 
             // templates_rocker
             version("rocker", "2.2.1")
