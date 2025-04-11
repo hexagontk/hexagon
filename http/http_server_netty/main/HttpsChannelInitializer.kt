@@ -8,13 +8,13 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.handler.codec.http.*
 import io.netty.handler.ssl.SslContext
 import io.netty.handler.stream.ChunkedWriteHandler
-import io.netty.util.concurrent.EventExecutorGroup
+import java.util.concurrent.Executor
 
 internal class HttpsChannelInitializer(
     private val handlers: Map<HttpMethod, HttpHandler>,
     private val sslContext: SslContext,
     private val sslSettings: SslSettings,
-    private val executorGroup: EventExecutorGroup?,
+    private val executor: Executor?,
     private val settings: HttpServerSettings,
     private val keepAliveHandler: Boolean = true,
     private val httpAggregatorHandler: Boolean = true,
@@ -39,11 +39,8 @@ internal class HttpsChannelInitializer(
         if (settings.zip)
             pipeline.addLast(HttpContentCompressor())
 
-        val serverHandler = NettyServerHandler(handlers, handlerSsl, enableWebsockets)
+        val serverHandler = NettyServerHandler(handlers, executor, handlerSsl, enableWebsockets)
 
-        if (executorGroup == null)
-            pipeline.addLast(serverHandler)
-        else
-            pipeline.addLast(executorGroup, serverHandler)
+        pipeline.addLast(serverHandler)
     }
 }

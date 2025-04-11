@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 internal class NettyServerHandlerTest {
 
     @Test fun `Statuses are mapped properly`() {
-        val handler = NettyServerHandler(emptyMap(), null)
+        val handler = NettyServerHandler(emptyMap(), null, null)
 
         fun check(hexagonStatus: Int, nettyStatus: HttpResponseStatus) {
             assertEquals(nettyStatus, handler.nettyStatus(hexagonStatus))

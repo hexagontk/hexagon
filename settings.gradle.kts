@@ -29,21 +29,21 @@ dependencyResolutionManagement {
             version("nativeTools", "0.10.6")
             version("jmhGradle", "0.7.2")
             version("gradleWrapper", "8.13")
-            version("mkdocsMaterial", "9.6.9")
+            version("mkdocsMaterial", "9.6.11")
             version("maven", "3.9.9")
             version("jreleaser", "1.15.0")
 
             // Testing
-            version("mockk", "1.13.17")
+            version("mockk", "1.14.0")
             version("jmh", "1.37")
-            version("testcontainers", "1.20.5")
+            version("testcontainers", "1.20.6")
             version("commonsCompress", "1.27.1")
 
             // Shared
             version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.1.119.Final")
+            version("netty", "4.2.0.Final")
             version("nettyTcNative", "2.0.70.Final")
 
             // http_server_helidon
@@ -51,7 +51,7 @@ dependencyResolutionManagement {
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.0.18")
+            version("jetty", "12.0.19")
 
             // rest_tools
             version("swaggerRequestValidator", "2.44.1")
@@ -65,16 +65,16 @@ dependencyResolutionManagement {
             version("invoker", "1.3.3")
 
             // store_mongodb
-            version("mongodb", "5.3.1")
+            version("mongodb", "5.4.0")
 
             // templates_freemarker
             version("freemarker", "2.3.34")
 
             // templates_jte
-            version("jte", "3.1.16")
+            version("jte", "3.2.0")
 
             // templates_pebble
-            version("pebble", "3.2.3")
+            version("pebble", "3.2.4")
 
             // templates_rocker
             version("rocker", "2.2.1")

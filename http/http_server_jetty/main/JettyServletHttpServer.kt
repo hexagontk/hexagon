@@ -1,6 +1,5 @@
 package com.hexagontk.http.server.jetty
 
-import com.hexagontk.core.Platform
 import com.hexagontk.core.fieldsMapOf
 import com.hexagontk.http.HttpFeature
 import com.hexagontk.http.HttpFeature.*
@@ -20,11 +19,9 @@ import org.eclipse.jetty.ee10.servlet.ServletHolder
 import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory
 import org.eclipse.jetty.server.*
 import org.eclipse.jetty.server.handler.gzip.GzipHandler
-import org.eclipse.jetty.util.VirtualThreads
 import org.eclipse.jetty.util.VirtualThreads.getDefaultVirtualThreadsExecutor
 import org.eclipse.jetty.util.ssl.SslContextFactory
 import org.eclipse.jetty.util.thread.ExecutorThreadPool
-import org.eclipse.jetty.util.thread.QueuedThreadPool
 import org.eclipse.jetty.util.thread.ThreadPool
 import java.security.KeyStore
 import java.util.*
@@ -43,6 +40,7 @@ class JettyServletHttpServer(
     private val sendDateHeader: Boolean = false,
     private val sendServerVersion: Boolean = false,
     private val sendXPoweredBy: Boolean = false,
+    @Deprecated("Being the supported version JDK 21+, virtual threads will always be available")
     private val useVirtualThreads: Boolean = false,
 ) : HttpServerPort {
 
@@ -61,14 +59,6 @@ class JettyServletHttpServer(
         useVirtualThreads = false,
     )
 
-    init {
-        if (useVirtualThreads)
-            check(VirtualThreads.areSupported()) {
-                val jvm = "JVM: ${Platform.version}"
-                "Virtual threads not supported or not enabled (--enable-preview) $jvm"
-            }
-    }
-
     override fun runtimePort(): Int =
         jettyConnector().localPort
 
@@ -78,16 +68,12 @@ class JettyServletHttpServer(
     private fun jettyConnector(): ServerConnector =
         jettyServer?.connectors?.get(0) as? ServerConnector ?: error("Jetty must have a connector")
 
-    private fun createThreadPool(): ThreadPool =
-        if (useVirtualThreads) {
-            val virtualThreadPool = getDefaultVirtualThreadsExecutor()
-            val threadPool = ExecutorThreadPool(maxThreads, minThreads)
-            threadPool.virtualThreadsExecutor = virtualThreadPool
-            threadPool
-        }
-        else {
-            QueuedThreadPool(maxThreads, minThreads)
-        }
+    private fun createThreadPool(): ThreadPool {
+        val virtualThreadPool = getDefaultVirtualThreadsExecutor()
+        val threadPool = ExecutorThreadPool(maxThreads, minThreads)
+        threadPool.virtualThreadsExecutor = virtualThreadPool
+        return threadPool
+    }
 
     override fun startUp(server: HttpServer) {
         val settings = server.settings

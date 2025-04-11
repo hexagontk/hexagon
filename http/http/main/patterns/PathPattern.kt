@@ -9,7 +9,7 @@ interface PathPattern {
 
     fun matches(requestUri: String): Boolean
 
-    fun extractParameters(requestUrl: String): Map<String, String>
+    fun extractParameters(requestUri: String): Map<String, String>
 
     fun insertParameters(parameters: Map<String, Any>): String =
         error("${type()} path pattern does not accept parameters")
