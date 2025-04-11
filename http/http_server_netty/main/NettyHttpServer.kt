@@ -1,6 +1,5 @@
 package com.hexagontk.http.server.netty
 
-import com.hexagontk.core.Platform
 import com.hexagontk.core.fieldsMapOf
 import com.hexagontk.core.security.createKeyManagerFactory
 import com.hexagontk.core.security.createTrustManagerFactory
@@ -15,15 +14,16 @@ import com.hexagontk.http.server.HttpServerSettings
 import com.hexagontk.http.handlers.HttpHandler
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.*
-import io.netty.channel.nio.NioEventLoopGroup
+import io.netty.channel.nio.NioIoHandler
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.codec.http.*
 import io.netty.handler.ssl.ClientAuth.OPTIONAL
 import io.netty.handler.ssl.ClientAuth.REQUIRE
 import io.netty.handler.ssl.SslContext
 import io.netty.handler.ssl.SslContextBuilder
-import io.netty.util.concurrent.DefaultEventExecutorGroup
 import java.net.InetSocketAddress
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.TrustManagerFactory
@@ -34,7 +34,7 @@ import javax.net.ssl.TrustManagerFactory
 open class NettyHttpServer(
     private val bossGroupThreads: Int = 1,
     private val workerGroupThreads: Int = 0,
-    private val executorThreads: Int = Platform.cpuCount * 2,
+    private val executor: Executor? = newVirtualThreadPerTaskExecutor(),
     private val soBacklog: Int = 4 * 1_024,
     private val soReuseAddr: Boolean = true,
     private val soKeepAlive: Boolean = true,
@@ -53,7 +53,7 @@ open class NettyHttpServer(
     constructor() : this(
         bossGroupThreads = 1,
         workerGroupThreads = 0,
-        executorThreads = Platform.cpuCount * 2,
+        executor = newVirtualThreadPerTaskExecutor(),
         soBacklog = 4 * 1_024,
         soReuseAddr = true,
         soKeepAlive = true,
@@ -77,9 +77,6 @@ open class NettyHttpServer(
         val workerGroup =
             if (workerGroupThreads < 0) bossGroup
             else groupSupplier(workerGroupThreads)
-        val executorGroup =
-            if (executorThreads > 0) DefaultEventExecutorGroup(executorThreads)
-            else null
 
         try {
             val settings = server.settings
@@ -90,7 +87,7 @@ open class NettyHttpServer(
                     .mapKeys { HttpMethod.valueOf(it.key.toString()) }
 
             val nettyServer = serverBootstrapSupplier(bossGroup, workerGroup)
-                .childHandler(createInitializer(sslSettings, handlers, executorGroup, settings))
+                .childHandler(createInitializer(sslSettings, handlers, settings))
 
             val address = settings.bindAddress
             val port = settings.bindPort
@@ -103,12 +100,11 @@ open class NettyHttpServer(
         catch (_: Exception) {
             bossGroup.shutdownGracefully()
             workerGroup.shutdownGracefully()
-            executorGroup?.shutdownGracefully()
         }
     }
 
     open fun groupSupplier(it: Int): MultithreadEventLoopGroup =
-        NioEventLoopGroup(it)
+        MultiThreadIoEventLoopGroup(NioIoHandler.newFactory())
 
     open fun serverBootstrapSupplier(
         bossGroup: MultithreadEventLoopGroup,
@@ -124,14 +120,13 @@ open class NettyHttpServer(
     private fun createInitializer(
         sslSettings: SslSettings?,
         handlers: Map<HttpMethod, HttpHandler>,
-        group: DefaultEventExecutorGroup?,
         settings: HttpServerSettings
     ) =
         when {
-            sslSettings != null -> sslInitializer(sslSettings, handlers, group, settings)
+            sslSettings != null -> sslInitializer(sslSettings, handlers, settings)
             else -> HttpChannelInitializer(
                 handlers,
-                group,
+                executor,
                 settings,
                 keepAliveHandler,
                 httpAggregatorHandler,
@@ -143,14 +138,13 @@ open class NettyHttpServer(
     private fun sslInitializer(
         sslSettings: SslSettings,
         handlers: Map<HttpMethod, HttpHandler>,
-        group: DefaultEventExecutorGroup?,
         settings: HttpServerSettings
     ): HttpsChannelInitializer =
         HttpsChannelInitializer(
             handlers,
             sslContext(sslSettings),
             sslSettings,
-            group,
+            executor,
             settings,
             keepAliveHandler,
             httpAggregatorHandler,
@@ -202,7 +196,7 @@ open class NettyHttpServer(
         fieldsMapOf(
             NettyHttpServer::bossGroupThreads to bossGroupThreads,
             NettyHttpServer::workerGroupThreads to workerGroupThreads,
-            NettyHttpServer::executorThreads to executorThreads,
+            NettyHttpServer::executor to executor,
             NettyHttpServer::soBacklog to soBacklog,
             NettyHttpServer::soKeepAlive to soKeepAlive,
             NettyHttpServer::shutdownQuietSeconds to shutdownQuietSeconds,

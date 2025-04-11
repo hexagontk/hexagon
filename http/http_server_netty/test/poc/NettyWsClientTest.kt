@@ -5,7 +5,7 @@ import com.hexagontk.http.server.netty.NettyHttpServer
 import com.hexagontk.http.server.serve
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.*
-import io.netty.channel.nio.NioEventLoopGroup
+import io.netty.channel.nio.NioIoHandler
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
 import io.netty.handler.codec.http.DefaultHttpHeaders
@@ -74,7 +74,7 @@ internal class NettyWsClientTest {
         }
 
         return Bootstrap()
-            .group(NioEventLoopGroup())
+            .group(MultiThreadIoEventLoopGroup(NioIoHandler.newFactory()))
             .channel(NioSocketChannel::class.java)
             .handler(channelInitializer)
     }

@@ -31,20 +31,37 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory
 import io.netty.handler.ssl.SslHandler
 import io.netty.handler.ssl.SslHandshakeCompletionEvent
 import java.security.cert.X509Certificate
+import java.util.concurrent.Executor
 import java.util.concurrent.Flow.*
 import com.hexagontk.http.model.HttpRequest as HexagonHttpRequest
 
 internal class NettyServerHandler(
     private val handlers: Map<HttpMethod, HttpHandler>,
+    executor: Executor?,
     private val sslHandler: SslHandler?,
     private val enableWebsockets: Boolean = true,
 ) : ChannelInboundHandlerAdapter() {
 
     private var certificates: List<X509Certificate> = emptyList()
+    private val httpRequestProcessor: (ChannelHandlerContext, HttpRequest) -> Unit =
+        executor
+            ?.let { x ->
+                { context: ChannelHandlerContext, nettyRequest: HttpRequest ->
+                    x.execute {
+                        try {
+                            readHttpRequest(context, nettyRequest)
+                        }
+                        catch (e: Exception) {
+                            exceptionCaught(context, e)
+                        }
+                    }
+                }
+            }
+            ?: this::readHttpRequest
 
     override fun channelRead(context: ChannelHandlerContext, nettyRequest: Any) {
         if (nettyRequest is HttpRequest)
-            readHttpRequest(context, nettyRequest)
+            httpRequestProcessor(context, nettyRequest)
     }
 
     private fun readHttpRequest(context: ChannelHandlerContext, nettyRequest: HttpRequest) {

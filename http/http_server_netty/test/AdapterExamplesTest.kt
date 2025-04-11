@@ -44,7 +44,7 @@ internal class AdapterServerTest : ServerTest(
     options = setOf(
         "bossGroupThreads",
         "workerGroupThreads",
-        "executorThreads",
+        "executor",
         "soBacklog",
         "soKeepAlive",
         "shutdownQuietSeconds",
@@ -81,7 +81,7 @@ internal class LiteAdapterServerTest : ServerTest(
     options = setOf(
         "bossGroupThreads",
         "workerGroupThreads",
-        "executorThreads",
+        "executor",
         "soBacklog",
         "soKeepAlive",
         "shutdownQuietSeconds",
