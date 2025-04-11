@@ -34,7 +34,7 @@ dependencyResolutionManagement {
             version("jreleaser", "1.15.0")
 
             // Testing
-            version("mockk", "1.13.17")
+            version("mockk", "1.14.0")
             version("jmh", "1.37")
             version("testcontainers", "1.20.6")
             version("commonsCompress", "1.27.1")
@@ -43,7 +43,7 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.1.119.Final")
+            version("netty", "4.2.0.Final")
             version("nettyTcNative", "2.0.70.Final")
 
             // http_server_helidon

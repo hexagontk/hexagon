@@ -1,15 +1,17 @@
 package com.hexagontk.http.server.netty.epoll
 
-import com.hexagontk.core.Platform
 import com.hexagontk.http.server.HttpServerPort
 import com.hexagontk.http.server.netty.NettyHttpServer
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.Channel
 import io.netty.channel.ChannelOption
+import io.netty.channel.MultiThreadIoEventLoopGroup
 import io.netty.channel.MultithreadEventLoopGroup
 import io.netty.channel.epoll.EpollChannelOption
-import io.netty.channel.epoll.EpollEventLoopGroup
+import io.netty.channel.epoll.EpollIoHandler
 import io.netty.channel.epoll.EpollServerSocketChannel
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor
 
 /**
  * Implements [HttpServerPort] using Netty Epoll [Channel].
@@ -17,7 +19,7 @@ import io.netty.channel.epoll.EpollServerSocketChannel
 class NettyEpollHttpServer(
     bossGroupThreads: Int = 1,
     workerGroupThreads: Int = 0,
-    executorThreads: Int = Platform.cpuCount * 2,
+    executor: Executor? = newVirtualThreadPerTaskExecutor(),
     private val soBacklog: Int = 4 * 1_024,
     private val soReuseAddr: Boolean = true,
     private val soKeepAlive: Boolean = true,
@@ -30,7 +32,7 @@ class NettyEpollHttpServer(
 ) : NettyHttpServer(
     bossGroupThreads,
     workerGroupThreads,
-    executorThreads,
+    executor,
     soBacklog,
     soReuseAddr,
     soKeepAlive,
@@ -43,10 +45,23 @@ class NettyEpollHttpServer(
 ) {
 
     constructor() :
-        this(1, 0, Platform.cpuCount * 2, 4 * 1_024, true, true, 0, 0, true, true, true, true)
+        this(
+            bossGroupThreads = 1,
+            workerGroupThreads = 0,
+            executor = newVirtualThreadPerTaskExecutor(),
+            soBacklog = 4 * 1_024,
+            soReuseAddr = true,
+            soKeepAlive = true,
+            shutdownQuietSeconds = 0,
+            shutdownTimeoutSeconds = 0,
+            keepAliveHandler = true,
+            httpAggregatorHandler = true,
+            chunkedHandler = true,
+            enableWebsockets = true
+        )
 
     override fun groupSupplier(it: Int): MultithreadEventLoopGroup =
-        EpollEventLoopGroup(it)
+        MultiThreadIoEventLoopGroup(EpollIoHandler.newFactory())
 
     override fun serverBootstrapSupplier(
         bossGroup: MultithreadEventLoopGroup,
