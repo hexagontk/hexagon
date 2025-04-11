@@ -155,13 +155,13 @@ import kotlin.reflect.KProperty1
 <span class="fc" id="L155">            this</span>
         else
 <span class="fc" id="L157">            sortedBy {</span>
-                val firstSortField = sortFields.entries.first()
-                val sortingValue = it[firstSortField.key]
+<span class="fc" id="L158">                val firstSortField = sortFields.entries.first()</span>
+<span class="fc" id="L159">                val sortingValue = it[firstSortField.key]</span>
                 @Suppress(&quot;UNCHECKED_CAST&quot;)
-                if (sortingValue is Comparable&lt;*&gt;)
-                    sortingValue as? Comparable&lt;Any&gt;
+<span class="fc" id="L161">                if (sortingValue is Comparable&lt;*&gt;)</span>
+<span class="fc" id="L162">                    sortingValue as? Comparable&lt;Any&gt;</span>
                 else
-                    error(&quot;Not comparable value&quot;)
+<span class="fc" id="L164">                    error(&quot;Not comparable value&quot;)</span>
 <span class="fc" id="L165">            }</span>
 
     private fun toStore(instance: T): Map&lt;String, Any&gt;  =
@@ -178,4 +178,4 @@ import kotlin.reflect.KProperty1
     private fun fromStore(value: Any): Any =
 <span class="fc" id="L179">        value</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

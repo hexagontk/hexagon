@@ -60,7 +60,7 @@ fun URL.responseFound(): Boolean =
 
 // TODO Review the next functions, not all cases are covered
 fun URL.exists(): Boolean =
-<span class="pc bpc" id="L63" title="1 of 7 branches missed.">    when (protocol) {</span>
+<span class="fc bfc" id="L63" title="All 5 branches covered.">    when (protocol) {</span>
 <span class="fc" id="L64">        &quot;http&quot; -&gt; responseSuccessful()</span>
 <span class="fc" id="L65">        &quot;https&quot; -&gt; responseSuccessful()</span>
 <span class="pc bpc" id="L66" title="1 of 4 branches missed.">        &quot;file&quot; -&gt; File(file).let { it.exists() &amp;&amp; !it.isDirectory }</span>
@@ -86,4 +86,4 @@ fun URL.localized(locale: Locale): URL {
 <span class="fc" id="L86">    val country = locale.country</span>
 <span class="fc" id="L87">    return firstVariant(&quot;_${language}_$country&quot;, &quot;_${language}&quot;)</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -102,7 +102,7 @@ import com.hexagontk.helpers.requireNotBlank
 
     @Suppress(&quot;UNCHECKED_CAST&quot;) // Types checked at runtime
     fun &lt;T : Any&gt; propertyValues(name: String): List&lt;T&gt; =
-<span class="pc bpc" id="L105" title="2 of 6 branches missed.">        propertiesMap[name]?.values?.mapNotNull { it as? T } ?: emptyList()</span>
+<span class="pc bpc" id="L105" title="1 of 6 branches missed.">        propertiesMap[name]?.values?.mapNotNull { it as? T } ?: emptyList()</span>
 
     fun &lt;T : Any&gt; propertyValueOrNull(name: String): T? =
 <span class="fc" id="L108">        propertyValues&lt;T&gt;(name).firstOrNull()</span>
@@ -223,4 +223,4 @@ import com.hexagontk.helpers.requireNotBlank
 <span class="fc" id="L223">        return result</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

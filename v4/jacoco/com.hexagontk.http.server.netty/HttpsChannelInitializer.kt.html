@@ -8,13 +8,13 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.handler.codec.http.*
 import io.netty.handler.ssl.SslContext
 import io.netty.handler.stream.ChunkedWriteHandler
-import io.netty.util.concurrent.EventExecutorGroup
+import java.util.concurrent.Executor
 
 <span class="pc" id="L13">internal class HttpsChannelInitializer(</span>
 <span class="fc" id="L14">    private val handlers: Map&lt;HttpMethod, HttpHandler&gt;,</span>
 <span class="fc" id="L15">    private val sslContext: SslContext,</span>
 <span class="fc" id="L16">    private val sslSettings: SslSettings,</span>
-<span class="fc" id="L17">    private val executorGroup: EventExecutorGroup?,</span>
+<span class="fc" id="L17">    private val executor: Executor?,</span>
 <span class="fc" id="L18">    private val settings: HttpServerSettings,</span>
 <span class="pc" id="L19">    private val keepAliveHandler: Boolean = true,</span>
 <span class="pc" id="L20">    private val httpAggregatorHandler: Boolean = true,</span>
@@ -39,12 +39,9 @@ import io.netty.util.concurrent.EventExecutorGroup
 <span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if (settings.zip)</span>
 <span class="nc" id="L40">            pipeline.addLast(HttpContentCompressor())</span>
 
-<span class="fc" id="L42">        val serverHandler = NettyServerHandler(handlers, handlerSsl, enableWebsockets)</span>
+<span class="fc" id="L42">        val serverHandler = NettyServerHandler(handlers, executor, handlerSsl, enableWebsockets)</span>
 
-<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if (executorGroup == null)</span>
-<span class="nc" id="L45">            pipeline.addLast(serverHandler)</span>
-        else
-<span class="fc" id="L47">            pipeline.addLast(executorGroup, serverHandler)</span>
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L44">        pipeline.addLast(serverHandler)</span>
+<span class="fc" id="L45">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -6,11 +6,11 @@ import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
 import io.netty.handler.codec.http.*
 import io.netty.handler.stream.ChunkedWriteHandler
-import io.netty.util.concurrent.EventExecutorGroup
+import java.util.concurrent.Executor
 
 <span class="pc" id="L11">internal class HttpChannelInitializer(</span>
 <span class="fc" id="L12">    private val handlers: Map&lt;HttpMethod, HttpHandler&gt;,</span>
-<span class="fc" id="L13">    private val executorGroup: EventExecutorGroup?,</span>
+<span class="fc" id="L13">    private val executor: Executor?,</span>
 <span class="fc" id="L14">    private val settings: HttpServerSettings,</span>
 <span class="pc" id="L15">    private val keepAliveHandler: Boolean = true,</span>
 <span class="pc" id="L16">    private val httpAggregatorHandler: Boolean = true,</span>
@@ -32,12 +32,9 @@ import io.netty.util.concurrent.EventExecutorGroup
 <span class="fc bfc" id="L32" title="All 2 branches covered.">        if (settings.zip)</span>
 <span class="fc" id="L33">            pipeline.addLast(HttpContentCompressor())</span>
 
-<span class="fc" id="L35">        val nettyServerHandler = NettyServerHandler(handlers, null, enableWebsockets)</span>
+<span class="fc" id="L35">        val nettyServerHandler = NettyServerHandler(handlers, executor, null, enableWebsockets)</span>
 
-<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if (executorGroup == null)</span>
-<span class="nc" id="L38">            pipeline.addLast(nettyServerHandler)</span>
-        else
-<span class="fc" id="L40">            pipeline.addLast(executorGroup, nettyServerHandler)</span>
-<span class="fc" id="L41">    }</span>
+<span class="fc" id="L37">        pipeline.addLast(nettyServerHandler)</span>
+<span class="fc" id="L38">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

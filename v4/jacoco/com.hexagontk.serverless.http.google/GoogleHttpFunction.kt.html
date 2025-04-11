@@ -68,7 +68,7 @@ import java.net.URI
     private fun writeResponse(response: HttpResponse, context: HttpContext) {
 <span class="fc" id="L69">        val handlerResponse = context.response</span>
 
-<span class="pc bpc" id="L71" title="1 of 4 branches missed.">        handlerResponse.contentType?.text?.let(response::setContentType)</span>
+<span class="fc bfc" id="L71" title="All 4 branches covered.">        handlerResponse.contentType?.text?.let(response::setContentType)</span>
 <span class="fc" id="L72">        handlerResponse.headers.forEach { response.appendHeader(it.name, it.text) }</span>
 <span class="fc" id="L73">        response.setStatusCode(handlerResponse.status)</span>
 
@@ -82,4 +82,4 @@ import java.net.URI
         }
 <span class="fc" id="L83">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

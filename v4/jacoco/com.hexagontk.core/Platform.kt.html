@@ -150,13 +150,13 @@ object Platform {
      *   found on the OS environment variables or in JVM system properties.
      */
     inline fun &lt;reified T: Any&gt; systemSettingOrNull(name: String): T? =
-        systemSettingOrNull(T::class, name)
+<span class="nc" id="L153">        systemSettingOrNull(T::class, name)</span>
 
     inline fun &lt;reified T: Any&gt; systemSetting(name: String): T =
-        systemSetting(T::class, name)
+<span class="nc" id="L156">        systemSetting(T::class, name)</span>
 
     inline fun &lt;reified T: Any&gt; systemSetting(name: String, defaultValue: T): T =
-        systemSetting(T::class, name, defaultValue)
+<span class="fc" id="L159">        systemSetting(T::class, name, defaultValue)</span>
 
     private fun systemSettingRaw(name: String): String? {
 <span class="fc" id="L162">        val correctName = name.matches(systemSettingPattern)</span>
@@ -180,4 +180,4 @@ object Platform {
 <span class="fc" id="L180">            }</span>
 <span class="fc" id="L181">        }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

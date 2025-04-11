@@ -10,22 +10,22 @@ import kotlin.reflect.KProperty1
  * @return .
  */
 inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.getPath(vararg keys: Any): T? {
-    val mappedKeys = keys.map {
-        when (it) {
-            is KProperty1&lt;*, *&gt; -&gt; it.name
-            else -&gt; it
-        }
+<span class="nc" id="L13">    val mappedKeys = keys.map {</span>
+<span class="nc" id="L14">        when (it) {</span>
+<span class="nc" id="L15">            is KProperty1&lt;*, *&gt; -&gt; it.name</span>
+<span class="nc" id="L16">            else -&gt; it</span>
+<span class="nc" id="L17">        }</span>
     }
 
-    return mappedKeys
-        .dropLast(1)
-        .fold(this) { result, element -&gt;
-            when (val value = result[element]) {
-                is Map&lt;*, *&gt; -&gt; value
-                is Collection&lt;*&gt; -&gt; value.mapIndexed { ii, item -&gt; ii to item }.toMap()
-                else -&gt; emptyMap&lt;Any, Any&gt;()
-            }
-        }[mappedKeys.last()] as? T
+<span class="nc" id="L20">    return mappedKeys</span>
+<span class="nc" id="L21">        .dropLast(1)</span>
+<span class="nc" id="L22">        .fold(this) { result, element -&gt;</span>
+<span class="nc" id="L23">            when (val value = result[element]) {</span>
+<span class="nc" id="L24">                is Map&lt;*, *&gt; -&gt; value</span>
+<span class="nc" id="L25">                is Collection&lt;*&gt; -&gt; value.mapIndexed { ii, item -&gt; ii to item }.toMap()</span>
+<span class="nc" id="L26">                else -&gt; emptyMap&lt;Any, Any&gt;()</span>
+<span class="nc" id="L27">            }</span>
+<span class="nc" id="L28">        }[mappedKeys.last()] as? T</span>
 }
 
 /**
@@ -36,7 +36,7 @@ inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.getPath(vararg keys: Any): T?
  * @return .
  */
 inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.requirePath(vararg name: Any): T =
-    this.getPath(*name) ?: error(&quot;$name required key not found&quot;)
+<span class="nc bnc" id="L39" title="All 2 branches missed.">    this.getPath(*name) ?: error(&quot;$name required key not found&quot;)</span>
 
 /**
  * .
@@ -83,7 +83,7 @@ fun &lt;K, V&gt; Map&lt;K, V&gt;.require(name: K): V =
  * @return .
  */
 inline operator fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.get(key: KProperty1&lt;*, *&gt;): T? =
-    this[key.name] as? T
+<span class="fc" id="L86">    this[key.name] as? T</span>
 
 /**
  * .
@@ -94,7 +94,7 @@ inline operator fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.get(key: KProperty1&
  * @return .
  */
 inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.getOrDefault(key: KProperty1&lt;*, *&gt;, default: T): T =
-    this[key] ?: default
+<span class="nc bnc" id="L97" title="All 2 branches missed.">    this[key] ?: default</span>
 
 /**
  * .
@@ -279,8 +279,8 @@ fun Map&lt;*, *&gt;.getMapsOrEmpty(key: KProperty1&lt;*, *&gt;): Collection&lt;M
 <span class="fc bfc" id="L279" title="All 2 branches covered.">    getMaps(key) ?: emptyList()</span>
 
 inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.requireKey(key: KProperty1&lt;*, *&gt;): T =
-    get(key)
-        ?: error(&quot;'${key.name}' key not found, or wrong type (must be ${T::class.qualifiedName})&quot;)
+<span class="fc" id="L282">    get(key)</span>
+<span class="fc" id="L283">        ?: error(&quot;'${key.name}' key not found, or wrong type (must be ${T::class.qualifiedName})&quot;)</span>
 
 fun Map&lt;*, *&gt;.requireInt(key: KProperty1&lt;*, *&gt;): Int =
 <span class="fc" id="L286">    requireKey(key)</span>
@@ -329,4 +329,4 @@ fun Map&lt;*, *&gt;.requireLists(key: KProperty1&lt;*, *&gt;): Collection&lt;Col
 
 fun Map&lt;*, *&gt;.requireMaps(key: KProperty1&lt;*, *&gt;): Collection&lt;Map&lt;String, *&gt;&gt; =
 <span class="fc" id="L331">    requireKey(key)</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
