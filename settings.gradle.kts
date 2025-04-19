@@ -27,9 +27,9 @@ dependencyResolutionManagement {
             version("licenseReport", "2.9")
             version("binValidator", "0.17.0")
             version("nativeTools", "0.10.6")
-            version("jmhGradle", "0.7.2")
+            version("jmhGradle", "0.7.3")
             version("gradleWrapper", "8.13")
-            version("mkdocsMaterial", "9.6.11")
+            version("mkdocsMaterial", "9.6.12")
             version("maven", "3.9.9")
             version("jreleaser", "1.15.0")
 
