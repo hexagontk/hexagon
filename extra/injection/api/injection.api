@@ -1,0 +1,73 @@
+public final class com/hexagontk/injection/InjectionManager {
+	public static final field INSTANCE Lcom/hexagontk/injection/InjectionManager;
+	public final fun getInjector ()Lcom/hexagontk/injection/Injector;
+	public final fun getModule ()Lcom/hexagontk/injection/Module;
+}
+
+public final class com/hexagontk/injection/Injector {
+	public fun <init> ()V
+	public fun <init> (Lcom/hexagontk/injection/Module;)V
+	public synthetic fun <init> (Lcom/hexagontk/injection/Module;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun inject (Lkotlin/reflect/KClass;)Ljava/lang/Object;
+	public final fun inject (Lkotlin/reflect/KClass;Ljava/lang/Object;)Ljava/lang/Object;
+	public final fun injectList (Lkotlin/reflect/KClass;)Ljava/util/List;
+	public final fun injectMap (Lkotlin/reflect/KClass;)Ljava/util/Map;
+	public final fun injectOrNull (Lkotlin/reflect/KClass;)Ljava/lang/Object;
+	public final fun injectOrNull (Lkotlin/reflect/KClass;Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/hexagontk/injection/Module {
+	public fun <init> ()V
+	public final fun bind (Lcom/hexagontk/injection/Target;Lcom/hexagontk/injection/Provider;)V
+	public final fun bind (Lkotlin/reflect/KClass;Ljava/util/List;)V
+	public final fun bind (Lkotlin/reflect/KClass;Ljava/util/Map;)V
+	public final fun clear ()V
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class com/hexagontk/injection/Provider {
+	public abstract fun provide ()Ljava/lang/Object;
+}
+
+public final class com/hexagontk/injection/Provider$Generator : com/hexagontk/injection/Provider {
+	public fun <init> (Lkotlin/jvm/functions/Function0;)V
+	public final fun component1 ()Lkotlin/jvm/functions/Function0;
+	public final fun copy (Lkotlin/jvm/functions/Function0;)Lcom/hexagontk/injection/Provider$Generator;
+	public static synthetic fun copy$default (Lcom/hexagontk/injection/Provider$Generator;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lcom/hexagontk/injection/Provider$Generator;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGenerator ()Lkotlin/jvm/functions/Function0;
+	public fun hashCode ()I
+	public fun provide ()Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagontk/injection/Provider$Instance : com/hexagontk/injection/Provider {
+	public fun <init> (Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun copy (Ljava/lang/Object;)Lcom/hexagontk/injection/Provider$Instance;
+	public static synthetic fun copy$default (Lcom/hexagontk/injection/Provider$Instance;Ljava/lang/Object;ILjava/lang/Object;)Lcom/hexagontk/injection/Provider$Instance;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInstance ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public fun provide ()Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagontk/injection/Target {
+	public static final field Companion Lcom/hexagontk/injection/Target$Companion;
+	public fun <init> (Lkotlin/reflect/KClass;Ljava/lang/Object;)V
+	public synthetic fun <init> (Lkotlin/reflect/KClass;Ljava/lang/Object;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lkotlin/reflect/KClass;
+	public final fun component2 ()Ljava/lang/Object;
+	public final fun copy (Lkotlin/reflect/KClass;Ljava/lang/Object;)Lcom/hexagontk/injection/Target;
+	public static synthetic fun copy$default (Lcom/hexagontk/injection/Target;Lkotlin/reflect/KClass;Ljava/lang/Object;ILjava/lang/Object;)Lcom/hexagontk/injection/Target;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTag ()Ljava/lang/Object;
+	public final fun getType ()Lkotlin/reflect/KClass;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/hexagontk/injection/Target$Companion {
+}
+

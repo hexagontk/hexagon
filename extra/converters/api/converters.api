@@ -1,0 +1,13 @@
+public final class com/hexagontk/converters/ConvertersKt {
+	public static final fun convert (Ljava/lang/Object;Lkotlin/reflect/KClass;)Ljava/lang/Object;
+	public static final fun convertObjects (Ljava/lang/Iterable;Lkotlin/reflect/KClass;)Ljava/util/List;
+}
+
+public final class com/hexagontk/converters/ConvertersManager {
+	public static final field INSTANCE Lcom/hexagontk/converters/ConvertersManager;
+	public final fun convert (Ljava/lang/Object;Lkotlin/reflect/KClass;)Ljava/lang/Object;
+	public final fun convertObjects (Ljava/lang/Iterable;Lkotlin/reflect/KClass;)Ljava/util/List;
+	public final fun register (Lkotlin/Pair;Lkotlin/jvm/functions/Function1;)V
+	public final fun remove (Lkotlin/Pair;)V
+}
+
