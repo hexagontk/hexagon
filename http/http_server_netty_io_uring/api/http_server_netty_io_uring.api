@@ -1,0 +1,8 @@
+public final class com/hexagontk/http/server/netty/io/uring/NettyIoUringHttpServer : com/hexagontk/http/server/netty/NettyHttpServer {
+	public fun <init> ()V
+	public fun <init> (IILjava/util/concurrent/Executor;IZZJJZZZZ)V
+	public synthetic fun <init> (IILjava/util/concurrent/Executor;IZZJJZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun groupSupplier (I)Lio/netty/channel/MultithreadEventLoopGroup;
+	public fun serverBootstrapSupplier (Lio/netty/channel/MultithreadEventLoopGroup;Lio/netty/channel/MultithreadEventLoopGroup;)Lio/netty/bootstrap/ServerBootstrap;
+}
+
