@@ -20,6 +20,31 @@
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
+        <groupId>com.hexagontk.extra</groupId>
+        <artifactId>converters</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.extra</groupId>
+        <artifactId>injection</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.extra</groupId>
+        <artifactId>jul</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.extra</groupId>
+        <artifactId>scheduler</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.extra</groupId>
+        <artifactId>shell</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
         <groupId>com.hexagontk.http</groupId>
         <artifactId>http</artifactId>
         <version>${hexagon.version}</version>
@@ -27,6 +52,11 @@
       <dependency>
         <groupId>com.hexagontk.http</groupId>
         <artifactId>http_client</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.http</groupId>
+        <artifactId>http_client_helidon</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
@@ -72,6 +102,11 @@
       <dependency>
         <groupId>com.hexagontk.http</groupId>
         <artifactId>http_server_netty_epoll</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.http</groupId>
+        <artifactId>http_server_netty_io_uring</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
@@ -147,6 +182,21 @@
       <dependency>
         <groupId>com.hexagontk.serverless</groupId>
         <artifactId>serverless_http_google</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.store</groupId>
+        <artifactId>store</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.store</groupId>
+        <artifactId>store_hashmap</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.store</groupId>
+        <artifactId>store_mongodb</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>

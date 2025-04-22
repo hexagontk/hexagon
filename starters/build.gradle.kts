@@ -22,7 +22,6 @@ extensions.configure<PublishingExtension> {
 
         createPomPublication("kotlin_pom") { pomDom ->
             val javaPlugin = extensions.getByType(JavaPluginExtension::class.java)
-            val source = javaPlugin.sourceCompatibility.toString()
             val target = javaPlugin.targetCompatibility.toString()
 
             properties.set(mapOf(
@@ -31,13 +30,14 @@ extensions.configure<PublishingExtension> {
                 "downloadJavadocs" to true.toString(),
                 "linkXRef" to false.toString(),
                 "project.build.sourceEncoding" to Charsets.UTF_8.name(),
-                "maven.compiler.source" to source,
-                "maven.compiler.target" to target,
+                "maven.compiler.release" to target,
                 "kotlin.compiler.jvmTarget" to target,
                 "maven" to libs.versions.maven.get(),
                 "kotlin.version" to libs.versions.kotlin.get(),
                 "dokka.version" to libs.versions.dokka.get(),
                 "native.tools.version" to libs.versions.nativeTools.get(),
+                "jacoco.version" to libs.versions.jacoco.get(),
+                "jmh.version" to libs.versions.jmh.get(),
                 "mainSource" to "src/main/kotlin",
                 "mainResources" to "src/main/resources",
                 "testSource" to "src/test/kotlin",
