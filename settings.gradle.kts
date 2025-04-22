@@ -35,6 +35,7 @@ dependencyResolutionManagement {
 
             // Testing
             version("mockk", "1.14.0")
+            version("jacoco", "0.8.13")
             version("jmh", "1.37")
             version("testcontainers", "1.20.6")
             version("commonsCompress", "1.27.1")
@@ -47,7 +48,7 @@ dependencyResolutionManagement {
             version("nettyTcNative", "2.0.70.Final")
 
             // http_server_helidon
-            version("helidon", "4.2.0")
+            version("helidon", "4.2.1")
 
             // http_server_servlet
             version("servlet", "6.1.0")
