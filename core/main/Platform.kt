@@ -2,8 +2,6 @@ package com.hexagontk.core
 
 import com.hexagontk.core.text.parseOrNull
 import java.io.Console
-import java.lang.management.ManagementFactory.getRuntimeMXBean
-import java.lang.management.RuntimeMXBean
 import java.net.InetAddress
 import java.nio.charset.Charset
 import java.time.ZoneId
@@ -16,16 +14,12 @@ import kotlin.reflect.KClass
  */
 object Platform {
     private val systemSettingPattern: Regex by lazy { Regex("[_A-Za-z]+[_A-Za-z0-9]*") }
-    private val runtimeBean: RuntimeMXBean by lazy { getRuntimeMXBean() }
 
     /** Operating system name ('os.name' property). If `null` throws an exception. */
     val os: String by lazy { os() }
 
     /** Operating system type. */
     val osKind: OsKind by lazy { osKind() }
-
-    /** OS Process ID. */
-    val pid: Long by lazy { runtimeBean.pid }
 
     /**
      * JVM Console, if the program don't have a console (i.e.: input or output redirected), an
@@ -72,14 +66,6 @@ object Platform {
     val localeCode: String by lazy {
         "%s_%s.%s".format(locale.language, locale.country, charset.name())
     }
-
-    /**
-     * Milliseconds since the process was created.
-     *
-     * @return Milliseconds since the process was created.
-     */
-    fun uptime(): Long =
-        runtimeBean.uptime
 
     /**
      * Amount of memory in kilobytes available to the JVM.

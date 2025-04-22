@@ -14,6 +14,7 @@ import com.hexagontk.core.Platform.timeZone
 import com.hexagontk.core.Platform.totalMemory
 import com.hexagontk.core.Platform.usedMemory
 import com.hexagontk.core.Platform.version
+import com.hexagontk.core.Process
 import com.hexagontk.core.text.prependIndent
 import com.hexagontk.core.require
 import com.hexagontk.http.server.HttpServer
@@ -84,7 +85,7 @@ abstract class ServletServer(
         charsetValue: String,
         startTime: String
     ): String {
-        val bootTime = "%01.3f".format(Platform.uptime() / 1e3)
+        val bootTime = "%01.3f".format(Process.uptime() / 1e3)
         val uptimeValue = "$BOLD$MAGENTA$bootTime s$RESET"
         val jvmMemoryValue = "$BLUE${totalMemory()} KB$RESET"
         val usedMemoryValue = "$BOLD$MAGENTA${usedMemory()} KB$RESET"
