@@ -1,0 +1,21 @@
+
+<project>
+  <name>Hexagon POM</name>
+  <description>Hexagon's starter POM.</description>
+
+  <properties>
+    <!-- Placeholder. Populated by Gradle build script -->
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.hexagontk</groupId>
+        <artifactId>hexagon_bom</artifactId>
+        <version>${hexagon.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>
