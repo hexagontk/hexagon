@@ -1,0 +1,40 @@
+public final class com/hexagontk/http/client/helidon/HelidonClientWsSession : com/hexagontk/http/model/ws/WsSession {
+	public fun <init> (Ljava/net/URI;Lorg/eclipse/jetty/websocket/api/Session;)V
+	public fun close (ILjava/lang/String;)V
+	public fun getAttributes ()Ljava/util/Map;
+	public fun getException ()Ljava/lang/Exception;
+	public fun getPathParameters ()Ljava/util/Map;
+	public fun getRequest ()Lcom/hexagontk/http/model/HttpRequestPort;
+	public fun getUri ()Ljava/net/URI;
+	public fun ping ([B)V
+	public fun pong ([B)V
+	public fun send (Ljava/lang/String;)V
+	public fun send ([B)V
+}
+
+public class com/hexagontk/http/client/helidon/HelidonHttpClient : com/hexagontk/http/client/HttpClientPort {
+	protected field httpClient Lcom/hexagontk/http/client/HttpClient;
+	protected field jettyClient Lorg/eclipse/jetty/client/HttpClient;
+	public fun <init> ()V
+	protected final fun getHttpClient ()Lcom/hexagontk/http/client/HttpClient;
+	protected final fun getJettyClient ()Lorg/eclipse/jetty/client/HttpClient;
+	public fun send (Lcom/hexagontk/http/model/HttpRequestPort;)Lcom/hexagontk/http/model/HttpResponsePort;
+	protected final fun setHttpClient (Lcom/hexagontk/http/client/HttpClient;)V
+	protected final fun setJettyClient (Lorg/eclipse/jetty/client/HttpClient;)V
+	public fun shutDown ()V
+	public fun sse (Lcom/hexagontk/http/model/HttpRequestPort;)Ljava/util/concurrent/Flow$Publisher;
+	public fun startUp (Lcom/hexagontk/http/client/HttpClient;)V
+	public fun started ()Z
+	public fun supportedFeatures ()Ljava/util/Set;
+	public fun supportedProtocols ()Ljava/util/Set;
+	public fun ws (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagontk/http/model/ws/WsSession;
+}
+
+public final class com/hexagontk/http/client/helidon/HelidonWebSocketAdapter {
+	public fun <init> (Ljava/net/URI;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)V
+	public final fun onWebSocketBinary (Lorg/eclipse/jetty/websocket/api/Session;Ljava/nio/ByteBuffer;Lorg/eclipse/jetty/websocket/api/Callback;)V
+	public final fun onWebSocketClose (Lorg/eclipse/jetty/websocket/api/Session;ILjava/lang/String;)V
+	public final fun onWebSocketConnect (Lorg/eclipse/jetty/websocket/api/Session;)V
+	public final fun onWebSocketText (Lorg/eclipse/jetty/websocket/api/Session;Ljava/lang/String;)V
+}
+

@@ -1,24 +1,18 @@
-package com.hexagontk.http.server.helidon
+package com.hexagontk.http.client.helidon
 
-import com.hexagontk.http.HttpFeature.ZIP
-import com.hexagontk.http.HttpFeature.COOKIES
-import com.hexagontk.http.HttpFeature.MULTIPART
-import com.hexagontk.http.HttpFeature.SSE
-import com.hexagontk.http.HttpFeature.WEBSOCKETS
 import com.hexagontk.http.client.HttpClientPort
-import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.server.HttpServerPort
+import com.hexagontk.http.server.netty.NettyHttpServer
 import com.hexagontk.http.test.examples.*
-import com.hexagontk.http.test.examples.examples.ServerTest
 import com.hexagontk.serialization.jackson.JacksonTextFormat
 import com.hexagontk.serialization.jackson.json.Json
 import com.hexagontk.serialization.jackson.yaml.Yaml
+import org.junit.jupiter.api.condition.DisabledInNativeImage
 
-val clientAdapter: () -> HttpClientPort = ::JettyHttpClient
-val serverAdapter: () -> HttpServerPort = ::HelidonHttpServer
+val clientAdapter: () -> HttpClientPort = ::HelidonHttpClient
+val serverAdapter: () -> HttpServerPort = ::NettyHttpServer
 val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 
-// TODO Add SSE and WebSockets test
 internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)
 internal class AdapterErrorsTest : ErrorsTest(clientAdapter, serverAdapter)
 internal class AdapterFiltersTest : FiltersTest(clientAdapter, serverAdapter)
@@ -31,28 +25,11 @@ internal class AdapterHttp2Test : Http2Test(clientAdapter, serverAdapter)
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
 internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)
-internal class AdapterFilesTest : FilesTest(clientAdapter, serverAdapter)
 internal class AdapterMultipartTest : MultipartTest(clientAdapter, serverAdapter)
+internal class AdapterMultipartSamplesTest : MultipartSamplesTest(clientAdapter, serverAdapter)
+internal class AdapterFilesTest : FilesTest(clientAdapter, serverAdapter)
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
-internal class AdapterMultipartSamplesTest : MultipartSamplesTest(clientAdapter, serverAdapter)
-//internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
-//internal class AdapterWebSocketsTest : WebSocketsTest(clientAdapter, serverAdapter)
-internal class AdapterServerTest : ServerTest(
-    clientAdapter,
-    serverAdapter,
-    options = setOf(
-        "backlog",
-        "writeQueueLength",
-        "readTimeout",
-        "connectTimeout",
-        "tcpNoDelay",
-        "receiveLog",
-        "sendLog",
-        "validatePath",
-        "validateRequestHeaders",
-        "validateResponseHeaders",
-        "smartAsyncWrites",
-    ),
-    features = setOf(ZIP, COOKIES, MULTIPART, WEBSOCKETS, SSE)
-)
+internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
+@DisabledInNativeImage
+internal class AdapterWebSocketsTest : WebSocketsTest(clientAdapter, serverAdapter)

@@ -89,7 +89,6 @@ class HelidonHttpServer(
                 .byMethod()
                 .mapKeys { Method.create(it.key.toString()) }
 
-        // TODO features(): [Config, Encoding, Media, WebServer] Maybe Multipart can be added there
         val serverBuilder = WebServer
             .builder()
             .host(settings.bindAddress.hostName)
@@ -152,7 +151,7 @@ class HelidonHttpServer(
         setOf(HTTP, HTTPS, HTTP2)
 
     override fun supportedFeatures(): Set<HttpFeature> =
-        setOf(ZIP, COOKIES, MULTIPART)
+        setOf(ZIP, COOKIES, MULTIPART, WEBSOCKETS, SSE)
 
     override fun options(): Map<String, *> =
         fieldsMapOf(

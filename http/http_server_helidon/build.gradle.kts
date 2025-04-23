@@ -18,11 +18,13 @@ dependencies {
 
     "api"(project(":http:http_server"))
     "api"("io.helidon.webserver:helidon-webserver-http2:$helidonVersion")
+    "api"("io.helidon.webserver:helidon-webserver-websocket:$helidonVersion")
+    "api"("io.helidon.webserver:helidon-webserver-sse:$helidonVersion")
     "api"("io.helidon.http.encoding:helidon-http-encoding-gzip:$helidonVersion")
     "api"("io.helidon.http.media:helidon-http-media-multipart:$helidonVersion")
 
     "testImplementation"(project(":http:http_test"))
-    "testImplementation"(project(":http:http_client_jetty"))
+    "testImplementation"(project(":http:http_client_jetty_ws"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
     "testImplementation"(project(":serialization:serialization_jackson_yaml"))
 }
