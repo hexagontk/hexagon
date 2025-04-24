@@ -31,6 +31,24 @@
     </dependency>
     ```
 
+For WebSockets support, import also:
+
+=== "build.gradle"
+
+    ```groovy
+    implementation("org.eclipse.jetty.websocket:jetty-websocket-jetty-client:$jettyVersion")
+    ```
+
+=== "pom.xml"
+
+    ```xml
+    <dependency>
+      <groupId>org.eclipse.jetty.websocket</groupId>
+      <artifactId>jetty-websocket-jetty-client</artifactId>
+      <version>$jettyVersion</version>
+    </dependency>
+    ```
+
 # Package com.hexagontk.http.client.jetty
 Jetty HTTP client implementation classes.
 
