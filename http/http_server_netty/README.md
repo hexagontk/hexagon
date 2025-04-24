@@ -10,10 +10,6 @@
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     dependencies {
       implementation("com.hexagontk.http:http_server_netty:$hexagonVersion")
     }
@@ -34,10 +30,6 @@
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     dependencies {
       implementation("com.hexagontk.http:http_server_netty_epoll:$hexagonVersion")
       // $arch could be 'x86_64' among other linux architectures
@@ -67,10 +59,6 @@
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     dependencies {
       implementation("com.hexagontk.http:http_server_netty_io_uring:$hexagonVersion")
       // $arch could be 'x86_64' among other linux architectures

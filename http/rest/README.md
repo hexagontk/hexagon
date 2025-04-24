@@ -7,10 +7,6 @@ TODO.
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     implementation("com.hexagontk.http:rest:$hexagonVersion")
     ```
 

@@ -9,10 +9,6 @@ If you want to use these utilities, you can import this module with the followin
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     implementation("com.hexagontk:helpers:$hexagonVersion")
     ```
 

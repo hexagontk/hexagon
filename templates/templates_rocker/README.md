@@ -15,10 +15,6 @@ Adding the classes used in the templates to the `reflect-config.json` file is al
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     implementation("com.hexagontk.templates:templates_rocker:$hexagonVersion")
     ```
 

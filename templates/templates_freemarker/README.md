@@ -12,10 +12,6 @@ For usage instructions, refer to the [Templates Port documentation](templates.md
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     implementation("com.hexagontk.templates:templates_freemarker:$hexagonVersion")
     ```
 

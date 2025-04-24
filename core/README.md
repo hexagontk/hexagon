@@ -12,10 +12,6 @@ application), you can import it with the following code:
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     implementation("com.hexagontk:core:$hexagonVersion")
     ```
 

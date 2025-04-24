@@ -7,10 +7,6 @@ Basic dependency injection support.
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     implementation("com.hexagontk.extra:injection:$hexagonVersion")
     ```
 
