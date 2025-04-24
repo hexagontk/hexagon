@@ -12,5 +12,12 @@ module com.hexagontk.http_server_netty {
     requires io.netty.handler;
     requires io.netty.transport;
 
+    requires static io.netty.transport.classes.epoll;
+
+    requires static io.netty.transport.unix.common;
+    requires static io.netty.transport.classes.io_uring;
+
     exports com.hexagontk.http.server.netty;
+    exports com.hexagontk.http.server.netty.epoll;
+    exports com.hexagontk.http.server.netty.io.uring;
 }

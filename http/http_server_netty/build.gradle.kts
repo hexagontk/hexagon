@@ -22,6 +22,8 @@ dependencies {
     "api"(project(":http:http_server"))
     "api"("io.netty:netty-codec-http2:$nettyVersion") { exclude(group = "org.slf4j") }
     "api"("io.netty:netty-tcnative-boringssl-static:$nettyTcNativeVersion")
+    "compileOnlyApi"("io.netty:netty-transport-native-epoll:$nettyVersion")
+    "compileOnlyApi"("io.netty:netty-transport-native-io_uring:$nettyVersion")
 
     "testImplementation"(project(":http:http_test"))
     "testImplementation"(project(":http:http_client_jetty"))
@@ -29,4 +31,8 @@ dependencies {
     "testImplementation"(project(":serialization:serialization_jackson_yaml"))
     "testImplementation"("org.slf4j:slf4j-jdk14:$slf4jVersion")
     "testImplementation"("org.eclipse.jetty.websocket:jetty-websocket-jetty-client:$jettyVersion")
+    "testImplementation"("io.netty:netty-transport-native-epoll:$nettyVersion")
+    "testImplementation"("io.netty:netty-transport-native-epoll:$nettyVersion:linux-x86_64")
+    "testImplementation"("io.netty:netty-transport-native-io_uring:$nettyVersion")
+    "testImplementation"("io.netty:netty-transport-native-io_uring:$nettyVersion:linux-x86_64")
 }

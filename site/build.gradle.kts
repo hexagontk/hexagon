@@ -26,7 +26,6 @@ dependencies {
     dokka(project(":http:http_server_jdk"))
     dokka(project(":http:http_server_jetty"))
     dokka(project(":http:http_server_netty"))
-    dokka(project(":http:http_server_netty_epoll"))
     dokka(project(":http:http_server_servlet"))
     dokka(project(":http:http_test"))
     dokka(project(":http:rest"))
