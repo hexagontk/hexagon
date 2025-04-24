@@ -12,7 +12,7 @@ import java.nio.ByteBuffer
 
 @WebSocket
 @Suppress("UNUSED_PARAMETER", "UNUSED") // Signatures must match the annotation expected parameters
-class JettyWebSocketAdapter(
+internal class JettyWebSocketAdapter(
     private val uri: URI,
     private val onConnect: WsSession.() -> Unit,
     private val onBinary: WsSession.(data: ByteArray) -> Unit,

@@ -20,7 +20,6 @@ dependencies {
     dokka(project(":http:http_client"))
     dokka(project(":http:http_client_jdk"))
     dokka(project(":http:http_client_jetty"))
-    dokka(project(":http:http_client_jetty_ws"))
     dokka(project(":http:http_handlers"))
     dokka(project(":http:http_server"))
     dokka(project(":http:http_server_helidon"))

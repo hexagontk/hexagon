@@ -2,6 +2,10 @@
 # Module http_client_jetty
 [http_client] implementation using the [Jetty HTTP Client] library.
 
+> ️⚠️ **Warning**
+>
+> <sup>WebSockets are not supported on GraalVM native images at the moment.</sup>
+
 [http_client]: http_client.md
 [Jetty HTTP Client]: https://jetty.org/docs/jetty/12/programming-guide
 
@@ -29,3 +33,6 @@
 
 # Package com.hexagontk.http.client.jetty
 Jetty HTTP client implementation classes.
+
+# Package com.hexagontk.http.client.jetty.ws
+Jetty HTTP client implementation classes (with WebSockets support).

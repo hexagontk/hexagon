@@ -9,9 +9,9 @@ import com.hexagontk.serialization.jackson.json.Json
 import com.hexagontk.serialization.jackson.yaml.Yaml
 import org.junit.jupiter.api.condition.DisabledInNativeImage
 
-val clientAdapter: () -> HttpClientPort = ::JettyWsHttpClient
-val serverAdapter: () -> HttpServerPort = ::NettyHttpServer
-val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
+internal val clientAdapter: () -> HttpClientPort = ::JettyWsHttpClient
+internal val serverAdapter: () -> HttpServerPort = ::NettyHttpServer
+internal val formats: List<JacksonTextFormat> = listOf(Json, Yaml)
 
 internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)
 internal class AdapterErrorsTest : ErrorsTest(clientAdapter, serverAdapter)

@@ -24,7 +24,7 @@ dependencies {
     "api"("io.helidon.http.media:helidon-http-media-multipart:$helidonVersion")
 
     "testImplementation"(project(":http:http_test"))
-    "testImplementation"(project(":http:http_client_jetty_ws"))
+    "testImplementation"(project(":http:http_client_jetty"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
     "testImplementation"(project(":serialization:serialization_jackson_yaml"))
 }

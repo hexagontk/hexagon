@@ -14,6 +14,7 @@ group = "com.hexagontk.http"
 description = "HTTP server adapter for Netty."
 
 dependencies {
+    val jettyVersion = libs.versions.jetty.get()
     val nettyVersion = libs.versions.netty.get()
     val nettyTcNativeVersion = libs.versions.nettyTcNative.get()
     val slf4jVersion = libs.versions.slf4j.get()
@@ -23,8 +24,9 @@ dependencies {
     "api"("io.netty:netty-tcnative-boringssl-static:$nettyTcNativeVersion")
 
     "testImplementation"(project(":http:http_test"))
-    "testImplementation"(project(":http:http_client_jetty_ws"))
+    "testImplementation"(project(":http:http_client_jetty"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
     "testImplementation"(project(":serialization:serialization_jackson_yaml"))
     "testImplementation"("org.slf4j:slf4j-jdk14:$slf4jVersion")
+    "testImplementation"("org.eclipse.jetty.websocket:jetty-websocket-jetty-client:$jettyVersion")
 }

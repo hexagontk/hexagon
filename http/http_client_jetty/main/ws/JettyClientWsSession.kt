@@ -7,7 +7,7 @@ import org.eclipse.jetty.websocket.api.Session
 import java.net.URI
 import java.nio.ByteBuffer
 
-class JettyClientWsSession(
+internal class JettyClientWsSession(
     override val uri: URI,
     private val session: Session
 ) : WsSession {
