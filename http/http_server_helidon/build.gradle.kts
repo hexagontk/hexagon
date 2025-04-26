@@ -18,8 +18,6 @@ dependencies {
 
     "api"(project(":http:http_server"))
     "api"("io.helidon.webserver:helidon-webserver-http2:$helidonVersion")
-    "api"("io.helidon.webserver:helidon-webserver-websocket:$helidonVersion")
-    "api"("io.helidon.webserver:helidon-webserver-sse:$helidonVersion")
     "api"("io.helidon.http.encoding:helidon-http-encoding-gzip:$helidonVersion")
     "api"("io.helidon.http.media:helidon-http-media-multipart:$helidonVersion")
 

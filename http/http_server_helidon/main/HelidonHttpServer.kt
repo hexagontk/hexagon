@@ -151,7 +151,7 @@ class HelidonHttpServer(
         setOf(HTTP, HTTPS, HTTP2)
 
     override fun supportedFeatures(): Set<HttpFeature> =
-        setOf(ZIP, COOKIES, MULTIPART, WEBSOCKETS, SSE)
+        setOf(ZIP, COOKIES, MULTIPART)
 
     override fun options(): Map<String, *> =
         fieldsMapOf(
