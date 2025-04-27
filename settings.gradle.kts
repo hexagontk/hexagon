@@ -28,7 +28,7 @@ dependencyResolutionManagement {
             version("binValidator", "0.17.0")
             version("nativeTools", "0.10.6")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "8.13")
+            version("gradleWrapper", "8.14")
             version("mkdocsMaterial", "9.6.12")
             version("maven", "3.9.9")
             version("jreleaser", "1.15.0")
@@ -72,7 +72,7 @@ dependencyResolutionManagement {
             version("freemarker", "2.3.34")
 
             // templates_jte
-            version("jte", "3.2.0")
+            version("jte", "3.2.1")
 
             // templates_pebble
             version("pebble", "3.2.4")
