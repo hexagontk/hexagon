@@ -1,0 +1,23 @@
+public class com/hexagontk/messaging/Message {
+	public fun <init> ()V
+	public fun <init> (JLjava/time/LocalDateTime;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (JLjava/time/LocalDateTime;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDateTime ()Ljava/time/LocalDateTime;
+	public final fun getHostname ()Ljava/lang/String;
+	public final fun getIp ()Ljava/lang/String;
+	public final fun getThread ()Ljava/lang/String;
+	public final fun getTimestamp ()J
+}
+
+public abstract interface class com/hexagontk/messaging/MessagingPort {
+	public abstract fun consume (Lkotlin/reflect/KClass;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public abstract fun consume (Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public abstract fun publish (Lcom/hexagontk/messaging/Message;)V
+	public abstract fun publish (Lcom/hexagontk/messaging/Message;Ljava/lang/String;)V
+}
+
+public final class com/hexagontk/messaging/MessagingPort$DefaultImpls {
+	public static fun consume (Lcom/hexagontk/messaging/MessagingPort;Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public static fun publish (Lcom/hexagontk/messaging/MessagingPort;Lcom/hexagontk/messaging/Message;)V
+}
+

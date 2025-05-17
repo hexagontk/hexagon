@@ -12,6 +12,7 @@ include(
 includeNestedModules(
     "extra",
     "http",
+    "messaging",
     "serialization",
     "serverless",
     "store",
@@ -56,6 +57,10 @@ dependencyResolutionManagement {
 
             // rest_tools
             version("swaggerRequestValidator", "2.44.1")
+
+            // messaging_rabbitmq
+            version("amqpClient", "5.25.0")
+            version("metricsJmx", "4.2.30")
 
             // serialization
             version("jackson", "2.19.0")

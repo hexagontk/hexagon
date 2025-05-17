@@ -1,0 +1,48 @@
+package com.hexagontk.messaging.rabbitmq
+
+import com.codahale.metrics.ConsoleReporter
+import com.codahale.metrics.Meter
+import com.codahale.metrics.MetricRegistry
+import com.codahale.metrics.jmx.JmxReporter
+import com.hexagontk.core.debug
+import com.rabbitmq.client.impl.StandardMetricsCollector
+import java.lang.System.Logger
+import java.util.concurrent.TimeUnit
+import com.hexagontk.core.loggerOf
+
+internal class Metrics(private val metrics: StandardMetricsCollector) {
+
+    private val log: Logger = loggerOf(this::class)
+    private val reg: MetricRegistry = metrics.metricRegistry
+
+    fun setJmxReporter() {
+        val reporter = JmxReporter.forRegistry(reg)
+            .inDomain("com.rabbitmq.client.jmx")
+            .convertRatesTo(TimeUnit.SECONDS)
+            .convertDurationsTo(TimeUnit.MILLISECONDS)
+            .build()
+        reporter.start()
+    }
+
+    fun setConsoleReporter() {
+        val reporter: ConsoleReporter = ConsoleReporter.forRegistry(reg)
+            .convertRatesTo(TimeUnit.SECONDS)
+            .convertDurationsTo(TimeUnit.MILLISECONDS)
+            .build()
+        reporter.start(1, TimeUnit.SECONDS)
+    }
+
+    fun report() {
+        val publishedMessagesCount: Meter? = metrics.publishedMessages
+        val consumedMessagesCount: Meter? = metrics.consumedMessages
+        val acknowledgedMessagesCount: Meter? = metrics.acknowledgedMessages
+        val rejectedMessagesCount: Meter? = metrics.rejectedMessages
+        val failedToPublishMessagesCount: Meter? = metrics.failedToPublishMessages
+
+        log.debug { "Number of published messages ${publishedMessagesCount?.count}" }
+        log.debug { "Number of consumed messages ${consumedMessagesCount?.count}" }
+        log.debug { "Number of acknowledged messages ${acknowledgedMessagesCount?.count}" }
+        log.debug { "Number of rejected messages ${rejectedMessagesCount?.count}" }
+        log.debug { "Number of failed to publish messages ${failedToPublishMessagesCount?.count}" }
+    }
+}
