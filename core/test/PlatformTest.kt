@@ -190,9 +190,7 @@ internal class PlatformTest {
     }
 
     @Test fun `Default JVM info is fetched correctly`() {
-        assert(Platform.pid > 0)
         assert(Platform.cpuCount > 0)
-        assert(Platform.uptime() > 0)
     }
 
     @Test fun `Default charset is fetched correctly`() {

@@ -11,10 +11,6 @@ feature (as [serialization_dsl_json]) in order to parse/serialize data.
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     implementation("com.hexagontk.serialization:serialization:$hexagonVersion")
     ```
 

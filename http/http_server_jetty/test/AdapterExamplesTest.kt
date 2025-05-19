@@ -45,7 +45,6 @@ internal class AdapterServerTest : ServerTest(
         "sendDateHeader",
         "sendServerVersion",
         "sendXPoweredBy",
-        "useVirtualThreads",
     ),
     features = setOf(ZIP, COOKIES, MULTIPART)
 )

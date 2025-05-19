@@ -15,7 +15,9 @@ description = "Hexagon core utilities (dates, exceptions, logging, etc.)."
 dependencies {
     val mockkVersion = libs.versions.mockk.get()
 
-    "api"("org.jetbrains.kotlin:kotlin-stdlib")
+    "api"("org.jetbrains.kotlin:kotlin-stdlib") {
+        exclude(group = "org.jetbrains", module = "annotations")
+    }
 
     "testImplementation"("org.jetbrains.kotlin:kotlin-reflect")
     "testImplementation"("io.mockk:mockk:$mockkVersion") {

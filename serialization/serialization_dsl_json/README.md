@@ -10,10 +10,6 @@
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     implementation("com.hexagontk.serialization:serialization_dsl_json:$hexagonVersion")
     ```
 

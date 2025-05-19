@@ -10,10 +10,6 @@ Hexagon's storage utilities for data classes.
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     implementation("com.hexagontk.store:store_mongodb:$hexagonVersion")
     ```
 

@@ -17,10 +17,6 @@ synchronization yourself.
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     implementation("com.hexagontk.extra:scheduler:$hexagonVersion")
     ```
 

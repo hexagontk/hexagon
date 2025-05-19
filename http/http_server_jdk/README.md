@@ -10,10 +10,6 @@
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     dependencies {
       implementation("com.hexagontk.http:http_server_jdk:$hexagonVersion")
     }

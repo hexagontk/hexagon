@@ -23,11 +23,12 @@ dependencies {
     "api"("org.eclipse.jetty:jetty-alpn-java-server:$jettyVersion")
 
     "testImplementation"(project(":http:http_test"))
-    "testImplementation"(project(":http:http_client_jetty_ws"))
+    "testImplementation"(project(":http:http_client_jetty"))
     "testImplementation"(project(":serialization:serialization_jackson_json"))
     "testImplementation"(project(":serialization:serialization_jackson_yaml"))
     "testImplementation"("org.slf4j:slf4j-jdk14:$slf4jVersion")
     "testImplementation"(
         "org.eclipse.jetty.ee10.websocket:jetty-ee10-websocket-jakarta-server:$jettyVersion"
     )
+    "testImplementation"("org.eclipse.jetty.websocket:jetty-websocket-jetty-client:$jettyVersion")
 }

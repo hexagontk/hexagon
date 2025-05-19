@@ -40,8 +40,6 @@ class JettyServletHttpServer(
     private val sendDateHeader: Boolean = false,
     private val sendServerVersion: Boolean = false,
     private val sendXPoweredBy: Boolean = false,
-    @Deprecated("Being the supported version JDK 21+, virtual threads will always be available")
-    private val useVirtualThreads: Boolean = false,
 ) : HttpServerPort {
 
     private var jettyServer: JettyServer? = null
@@ -56,7 +54,6 @@ class JettyServletHttpServer(
         sendDateHeader = false,
         sendServerVersion = false,
         sendXPoweredBy = false,
-        useVirtualThreads = false,
     )
 
     override fun runtimePort(): Int =
@@ -130,7 +127,6 @@ class JettyServletHttpServer(
             JettyServletHttpServer::sendDateHeader to sendDateHeader,
             JettyServletHttpServer::sendServerVersion to sendServerVersion,
             JettyServletHttpServer::sendXPoweredBy to sendXPoweredBy,
-            JettyServletHttpServer::useVirtualThreads to useVirtualThreads,
         )
 
     private fun createServerContext(settings: HttpServerSettings): ServletContextHandler {

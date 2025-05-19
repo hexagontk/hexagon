@@ -7,10 +7,6 @@ This module...
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     testImplementation("com.hexagontk.http:http_test:$hexagonVersion")
     ```
 

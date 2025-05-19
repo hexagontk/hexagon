@@ -11,7 +11,13 @@ description = "Project starters."
 extensions.configure<PublishingExtension> {
     publications {
         createPomPublication("hexagon_bom") { pomDom ->
-            properties.set(mapOf("hexagon.version" to rootProject.version.toString()))
+            properties.set(mapOf(
+                "hexagon.version" to rootProject.version.toString(),
+                "helidon.version" to libs.versions.helidon.get(),
+                "jetty.version" to libs.versions.jetty.get(),
+                "netty.version" to libs.versions.netty.get(),
+                "jackson.version" to libs.versions.jackson.get(),
+            ))
 
             withXml {
                 listOf("dependencyManagement").forEach {
@@ -22,7 +28,6 @@ extensions.configure<PublishingExtension> {
 
         createPomPublication("kotlin_pom") { pomDom ->
             val javaPlugin = extensions.getByType(JavaPluginExtension::class.java)
-            val source = javaPlugin.sourceCompatibility.toString()
             val target = javaPlugin.targetCompatibility.toString()
 
             properties.set(mapOf(
@@ -31,23 +36,67 @@ extensions.configure<PublishingExtension> {
                 "downloadJavadocs" to true.toString(),
                 "linkXRef" to false.toString(),
                 "project.build.sourceEncoding" to Charsets.UTF_8.name(),
-                "maven.compiler.source" to source,
-                "maven.compiler.target" to target,
+                "maven.compiler.release" to target,
                 "kotlin.compiler.jvmTarget" to target,
                 "maven" to libs.versions.maven.get(),
                 "kotlin.version" to libs.versions.kotlin.get(),
                 "dokka.version" to libs.versions.dokka.get(),
                 "native.tools.version" to libs.versions.nativeTools.get(),
+                "jacoco.version" to libs.versions.jacoco.get(),
+                "jmh.version" to libs.versions.jmh.get(),
                 "mainSource" to "src/main/kotlin",
                 "mainResources" to "src/main/resources",
                 "testSource" to "src/test/kotlin",
                 "testResources" to "src/test/resources",
                 "siteSource" to "src/site",
+                "doxia-module-markdown.version" to "2.0.0",
+                "maven-antrun-plugin.version" to "3.1.0",
+                "maven-assembly-plugin.version" to "3.7.1",
+                "maven-clean-plugin.version" to "3.4.0",
+                "maven-compiler-plugin.version" to "3.14.0",
+                "maven-gpg-plugin.version" to "3.2.7",
+                "maven-install-plugin.version" to "3.1.3",
+                "maven-jar-plugin.version" to "3.4.2",
+                "maven-javadoc-plugin.version" to "3.5.0",
+                "maven-jlink-plugin.version" to "3.2.0",
+                "maven-resources-plugin.version" to "3.3.1",
+                "maven-site-plugin.version" to "3.21.0",
+                "maven-source-plugin.version" to "3.3.0",
+                "maven-surefire-plugin.version" to "3.5.3",
             ))
 
             withXml {
-                listOf("dependencies", "build", "profiles").forEach {
+                listOf("dependencyManagement", "dependencies", "build", "profiles").forEach {
                     asElement().importElement(pomDom.firstElement(it))
+                }
+            }
+        }
+
+        createPomPublication("hexagon_pom") { pomDom ->
+            properties.set(mapOf("hexagon.version" to rootProject.version.toString()))
+
+            withXml {
+                val root = asElement()
+                val document = root.ownerDocument
+
+                val parent = document.createElement("parent")
+
+                val parentGroupId = document.createElement("groupId")
+                val parentArtifactId = document.createElement("artifactId")
+                val parentVersion = document.createElement("version")
+
+                parentGroupId.textContent = rootProject.group.toString()
+                parentArtifactId.textContent = "kotlin_pom"
+                parentVersion.textContent = rootProject.version.toString()
+
+                parent.appendChild(parentGroupId)
+                parent.appendChild(parentArtifactId)
+                parent.appendChild(parentVersion)
+
+                root.appendChild(parent)
+
+                listOf("dependencyManagement").forEach {
+                    root.importElement(pomDom.firstElement(it))
                 }
             }
         }

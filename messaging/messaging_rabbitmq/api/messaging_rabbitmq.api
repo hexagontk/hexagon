@@ -1,0 +1,27 @@
+public final class com/hexagontk/messaging/rabbitmq/RabbitMqAdapter : com/hexagontk/messaging/MessagingPort {
+	public fun <init> (Ljava/lang/String;Lcom/hexagontk/serialization/SerializationFormat;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/hexagontk/serialization/SerializationFormat;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun consume (Lkotlin/reflect/KClass;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public fun consume (Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public fun publish (Lcom/hexagontk/messaging/Message;)V
+	public fun publish (Lcom/hexagontk/messaging/Message;Ljava/lang/String;)V
+}
+
+public final class com/hexagontk/messaging/rabbitmq/RabbitMqClient : java/io/Closeable {
+	public fun <init> (Lcom/rabbitmq/client/ConnectionFactory;ILcom/hexagontk/serialization/SerializationFormat;)V
+	public synthetic fun <init> (Lcom/rabbitmq/client/ConnectionFactory;ILcom/hexagontk/serialization/SerializationFormat;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/net/URI;Lcom/hexagontk/serialization/SerializationFormat;)V
+	public final fun bindExchange (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun call (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun close ()V
+	public final fun consume (Ljava/lang/String;Ljava/lang/String;Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public final fun consume (Ljava/lang/String;Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public final fun declareQueue (Ljava/lang/String;)V
+	public final fun deleteQueue (Ljava/lang/String;)V
+	public final fun getConnected ()Z
+	public final fun publish (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun publish (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public static synthetic fun publish$default (Lcom/hexagontk/messaging/rabbitmq/RabbitMqClient;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)V
+	public static synthetic fun publish$default (Lcom/hexagontk/messaging/rabbitmq/RabbitMqClient;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)V
+}
+

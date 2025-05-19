@@ -20,6 +20,38 @@
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
+        <groupId>com.hexagontk</groupId>
+        <artifactId>helpers</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.hexagontk.extra</groupId>
+        <artifactId>converters</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.extra</groupId>
+        <artifactId>injection</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.extra</groupId>
+        <artifactId>jul</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.extra</groupId>
+        <artifactId>scheduler</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.extra</groupId>
+        <artifactId>shell</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>com.hexagontk.http</groupId>
         <artifactId>http</artifactId>
         <version>${hexagon.version}</version>
@@ -37,11 +69,6 @@
       <dependency>
         <groupId>com.hexagontk.http</groupId>
         <artifactId>http_client_jetty</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagontk.http</groupId>
-        <artifactId>http_client_jetty_ws</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
@@ -71,11 +98,6 @@
       </dependency>
       <dependency>
         <groupId>com.hexagontk.http</groupId>
-        <artifactId>http_server_netty_epoll</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagontk.http</groupId>
         <artifactId>http_server_servlet</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
@@ -99,6 +121,18 @@
         <artifactId>web</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>com.hexagontk.messaging</groupId>
+        <artifactId>messaging</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.messaging</groupId>
+        <artifactId>messaging_rabbitmq</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>com.hexagontk.serialization</groupId>
         <artifactId>serialization</artifactId>
@@ -144,11 +178,29 @@
         <artifactId>serialization_test</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
+
       <dependency>
         <groupId>com.hexagontk.serverless</groupId>
         <artifactId>serverless_http_google</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>com.hexagontk.store</groupId>
+        <artifactId>store</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.store</groupId>
+        <artifactId>store_hashmap</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagontk.store</groupId>
+        <artifactId>store_mongodb</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>com.hexagontk.templates</groupId>
         <artifactId>templates</artifactId>
@@ -178,6 +230,46 @@
         <groupId>com.hexagontk.templates</groupId>
         <artifactId>templates_test</artifactId>
         <version>${hexagon.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.helidon</groupId>
+        <artifactId>helidon-bom</artifactId>
+        <version>${helidon.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-bom</artifactId>
+        <version>${jetty.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.jetty.ee10</groupId>
+        <artifactId>jetty-ee10-bom</artifactId>
+        <version>${jetty.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+
+      <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-bom</artifactId>
+        <version>${netty.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
     </dependencies>
   </dependencyManagement>

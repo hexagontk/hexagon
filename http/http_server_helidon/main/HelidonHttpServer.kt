@@ -89,7 +89,6 @@ class HelidonHttpServer(
                 .byMethod()
                 .mapKeys { Method.create(it.key.toString()) }
 
-        // TODO features(): [Config, Encoding, Media, WebServer] Maybe Multipart can be added there
         val serverBuilder = WebServer
             .builder()
             .host(settings.bindAddress.hostName)

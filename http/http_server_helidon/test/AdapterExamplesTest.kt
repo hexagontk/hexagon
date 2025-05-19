@@ -3,6 +3,8 @@ package com.hexagontk.http.server.helidon
 import com.hexagontk.http.HttpFeature.ZIP
 import com.hexagontk.http.HttpFeature.COOKIES
 import com.hexagontk.http.HttpFeature.MULTIPART
+import com.hexagontk.http.HttpFeature.SSE
+import com.hexagontk.http.HttpFeature.WEBSOCKETS
 import com.hexagontk.http.client.HttpClientPort
 import com.hexagontk.http.client.jetty.JettyHttpClient
 import com.hexagontk.http.server.HttpServerPort
@@ -34,6 +36,8 @@ internal class AdapterMultipartTest : MultipartTest(clientAdapter, serverAdapter
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
 internal class AdapterMultipartSamplesTest : MultipartSamplesTest(clientAdapter, serverAdapter)
+//internal class AdapterSseTest : SseTest(clientAdapter, serverAdapter)
+//internal class AdapterWebSocketsTest : WebSocketsTest(clientAdapter, serverAdapter)
 internal class AdapterServerTest : ServerTest(
     clientAdapter,
     serverAdapter,

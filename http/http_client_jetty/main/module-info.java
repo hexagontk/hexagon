@@ -9,5 +9,9 @@ module com.hexagontk.http_client_jetty {
     requires transitive org.eclipse.jetty.http2.client;
     requires transitive org.eclipse.jetty.http2.client.transport;
 
+    requires static org.eclipse.jetty.websocket.api;
+    requires static org.eclipse.jetty.websocket.client;
+
     exports com.hexagontk.http.client.jetty;
+    exports com.hexagontk.http.client.jetty.ws;
 }

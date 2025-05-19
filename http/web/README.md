@@ -11,10 +11,6 @@ ports.
 === "build.gradle"
 
     ```groovy
-    repositories {
-        mavenCentral()
-    }
-
     implementation("com.hexagontk.http:web:$hexagonVersion")
     ```
 

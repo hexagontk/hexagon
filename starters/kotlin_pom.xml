@@ -12,9 +12,35 @@
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-test-junit5</artifactId>
       <scope>test</scope>
-      <version>${kotlin.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-stdlib</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.jetbrains</groupId>
+          <artifactId>annotations</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.openjdk.jmh</groupId>
+        <artifactId>jmh-core</artifactId>
+        <version>${jmh.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-bom</artifactId>
+        <version>${kotlin.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <defaultGoal>verify</defaultGoal>
@@ -41,113 +67,83 @@
       </testResource>
     </testResources>
 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>3.3.1</version>
-        <configuration>
-          <nonFilteredFileExtensions>
-            <extension>p12</extension>
-            <extension>jks</extension>
-            <extension>ttf</extension>
-          </nonFilteredFileExtensions>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
-      </plugin>
-    </plugins>
-
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>3.3.0</version>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>${maven-antrun-plugin.version}</version>
           <executions>
             <execution>
-              <id>attach-sources</id>
+              <id>build-properties</id>
               <goals>
-                <goal>jar-no-fork</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.5.0</version>
-          <executions>
-            <execution>
-              <id>attach-javadocs</id>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <version>3.1.0</version>
-          <executions>
-            <execution>
-              <id>sign-artifacts</id>
-              <phase>verify</phase>
-              <goals>
-                <goal>sign</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-        <plugin>
-          <groupId>org.jetbrains.kotlin</groupId>
-          <artifactId>kotlin-maven-plugin</artifactId>
-          <version>${kotlin.version}</version>
-
-          <executions>
-            <execution>
-              <id>compile</id>
-              <phase>process-sources</phase>
-              <goals>
-                <goal>compile</goal>
+                <goal>run</goal>
               </goals>
               <configuration>
-                <sourceDirs>
-                  <sourceDir>${project.basedir}/${mainSource}</sourceDir>
-                </sourceDirs>
-              </configuration>
-            </execution>
-
-            <execution>
-              <id>test-compile</id>
-              <phase>process-test-sources</phase>
-              <goals>
-                <goal>test-compile</goal>
-              </goals>
-              <configuration>
-                <sourceDirs>
-                  <sourceDir>${project.basedir}/${testSource}</sourceDir>
-                </sourceDirs>
+                <target>
+                  <propertyfile file="${project.build.outputDirectory}/META-INF/build.properties">
+                    <entry key="project" value="${project.parent.artifactId}"/>
+                    <entry key="module" value="${project.artifactId}"/>
+                    <entry key="version" value="${project.version}"/>
+                    <entry key="group" value="${project.groupId}"/>
+                    <entry key="description" value="${project.description}"/>
+                  </propertyfile>
+                </target>
               </configuration>
             </execution>
           </executions>
         </plugin>
 
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>${maven-assembly-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>assembly</id>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+          <!-- This block must be outside executions for native compile to work properly -->
+          <configuration>
+            <archive>
+              <manifest>
+                <mainClass>${exec.mainClass}</mainClass>
+              </manifest>
+            </archive>
+            <inlineDescriptors>
+              <inlineDescriptor>
+                <id>assembly</id>
+                <formats>
+                  <format>jar</format>
+                </formats>
+                <includeBaseDirectory>false</includeBaseDirectory>
+                <dependencySets>
+                  <dependencySet>
+                    <outputDirectory>/</outputDirectory>
+                    <useProjectArtifact>true</useProjectArtifact>
+                    <unpack>true</unpack>
+                    <scope>runtime</scope>
+                  </dependencySet>
+                </dependencySets>
+              </inlineDescriptor>
+            </inlineDescriptors>
+          </configuration>
+        </plugin>
+
+        <plugin>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>${maven-clean-plugin.version}</version>
           <configuration>
             <filesets>
               <fileset>
                 <directory>log</directory>
+                <directory>out</directory>
+                <directory>.vertx</directory>
+                <directory>.kotlin</directory>
+                <directory>file-uploads</directory>
+                <directory>kotlin-js-store</directory>
               </fileset>
               <fileset>
                 <directory>${project.basedir}</directory>
@@ -165,69 +161,159 @@
         </plugin>
 
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.1.2</version>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
         </plugin>
 
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.6.0</version>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>${maven-gpg-plugin.version}</version>
           <executions>
             <execution>
-              <id>jar-with-dependencies</id>
-              <phase>package</phase>
+              <id>sign-artifacts</id>
+              <phase>verify</phase>
               <goals>
-                <goal>single</goal>
+                <goal>sign</goal>
               </goals>
             </execution>
           </executions>
-          <!-- This block must be outside executions for native compile to work properly -->
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>${maven-install-plugin.version}</version>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven-jar-plugin.version}</version>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-jlink-plugin</artifactId>
+          <version>${maven-jlink-plugin.version}</version>
+          <extensions>true</extensions>
           <configuration>
-            <archive>
-              <manifest>
-                <mainClass>${exec.mainClass}</mainClass>
-              </manifest>
-            </archive>
-            <descriptorRefs>
-              <descriptorRef>jar-with-dependencies</descriptorRef>
-            </descriptorRefs>
+            <noHeaderFiles>true</noHeaderFiles>
+            <noManPages>true</noManPages>
+            <stripDebug>true</stripDebug>
+            <verbose>true</verbose>
+            <classifier>image</classifier>
+            <launcher>
+              ${project.artifactId}=${project.groupId}.${project.artifactId}/${exec.mainClass}
+            </launcher>
           </configuration>
         </plugin>
 
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-shade-plugin</artifactId>
-          <version>3.5.0</version>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven-resources-plugin.version}</version>
+          <configuration>
+            <nonFilteredFileExtensions>
+              <extension>p12</extension>
+              <extension>jks</extension>
+              <extension>ttf</extension>
+            </nonFilteredFileExtensions>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>${maven-site-plugin.version}</version>
+          <configuration>
+            <port>9000</port>
+            <siteDirectory>${project.basedir}/${siteSource}</siteDirectory>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.doxia</groupId>
+              <artifactId>doxia-module-markdown</artifactId>
+              <version>${doxia-module-markdown.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
           <executions>
             <execution>
-              <phase>package</phase>
+              <id>attach-sources</id>
               <goals>
-                <goal>shade</goal>
+                <goal>jar-no-fork</goal>
               </goals>
             </execution>
           </executions>
-          <!-- This block must be outside executions for native compile to work properly -->
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
           <configuration>
-            <transformers>
-              <transformer
-                implementation=
-                  "org.apache.maven.plugins.shade.resource.ServicesResourceTransformer">
-              </transformer>
-              <transformer
-                implementation=
-                  "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+            <useModulePath>false</useModulePath>
+            <parallel>true</parallel>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.graalvm.buildtools</groupId>
+          <artifactId>native-maven-plugin</artifactId>
+          <version>${native.tools.version}</version>
+          <extensions>true</extensions>
+          <executions>
+            <execution>
+              <id>build-native</id>
+              <goals>
+                <goal>compile-no-fork</goal>
+              </goals>
+              <phase>none</phase>
+              <configuration>
                 <mainClass>${exec.mainClass}</mainClass>
-              </transformer>
-            </transformers>
+              </configuration>
+            </execution>
+            <execution>
+              <id>test-native</id>
+              <goals>
+                <goal>test</goal>
+              </goals>
+              <phase>test</phase>
+              <configuration>
+                <quickBuild>true</quickBuild>
+                <buildArgs>
+                  <buildArg>-ea</buildArg>
+                  <buildArg>-H:IncludeResources=.*</buildArg>
+                  <buildArg>--initialize-at-build-time=kotlin.annotation.AnnotationTarget</buildArg>
+                  <buildArg>
+                    --initialize-at-build-time=kotlin.annotation.AnnotationRetention
+                  </buildArg>
+                </buildArgs>
+              </configuration>
+            </execution>
+          </executions>
+          <configuration>
+            <metadataRepository>
+              <enabled>true</enabled>
+            </metadataRepository>
           </configuration>
         </plugin>
 
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.12</version>
+          <version>${jacoco.version}</version>
           <executions>
             <execution>
               <goals>
@@ -242,23 +328,6 @@
               </goals>
             </execution>
           </executions>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.11.0</version>
-          <configuration>
-            <port>9000</port>
-            <siteDirectory>${project.basedir}/${siteSource}</siteDirectory>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.doxia</groupId>
-              <artifactId>doxia-module-markdown</artifactId>
-              <version>1.12.0</version>
-            </dependency>
-          </dependencies>
         </plugin>
 
         <plugin>
@@ -283,101 +352,72 @@
         </plugin>
 
         <plugin>
-          <groupId>org.graalvm.buildtools</groupId>
-          <artifactId>native-maven-plugin</artifactId>
-          <version>${native.tools.version}</version>
-          <extensions>true</extensions>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-maven-plugin</artifactId>
+          <version>${kotlin.version}</version>
           <executions>
             <execution>
-              <id>build-native</id>
+              <id>compile</id>
+              <phase>process-sources</phase>
               <goals>
-                <goal>build</goal>
-              </goals>
-              <phase>package</phase>
-            </execution>
-            <execution>
-              <id>test-native</id>
-              <goals>
-                <goal>test</goal>
-              </goals>
-              <phase>test</phase>
-              <configuration>
-                <quickBuild>true</quickBuild>
-              </configuration>
-            </execution>
-          </executions>
-          <configuration>
-            <metadataRepository>
-              <enabled>true</enabled>
-            </metadataRepository>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <version>3.1.0</version>
-          <executions>
-            <execution>
-              <id>build-properties</id>
-              <goals>
-                <goal>run</goal>
+                <goal>compile</goal>
               </goals>
               <configuration>
-                <target>
-                  <propertyfile file="${project.build.outputDirectory}/META-INF/build.properties">
-                    <entry key="project" value="${project.parent.artifactId}"/>
-                    <entry key="module" value="${project.artifactId}"/>
-                    <entry key="version" value="${project.version}"/>
-                    <entry key="group" value="${project.groupId}"/>
-                    <entry key="description" value="${project.description}"/>
-                  </propertyfile>
-                </target>
+                <sourceDirs>
+                  <sourceDir>${project.basedir}/${mainSource}</sourceDir>
+                </sourceDirs>
               </configuration>
             </execution>
             <execution>
-              <id>jpackage</id>
+              <id>test-compile</id>
+              <phase>process-test-sources</phase>
               <goals>
-                <goal>run</goal>
+                <goal>test-compile</goal>
               </goals>
               <configuration>
-                <target>
-                  <!--suppress UnresolvedMavenProperty-->
-                  <exec dir="${project.build.directory}" executable="${env.JAVA_HOME}/bin/jpackage">
-                    <arg value="--type"/>
-                    <arg value="app-image"/>
-                    <arg value="--app-version"/>
-                    <arg value="${project.version}"/>
-                    <arg value="--description"/>
-                    <arg value="${project.description}"/>
-                    <arg value="--name"/>
-                    <arg value="${project.name}"/>
-                    <arg value="--input"/>
-                    <arg value="${project.build.directory}/archive-tmp"/>
-                    <arg value="--add-modules"/>
-                    <arg value="java.logging"/>
-                    <arg value="--main-jar"/>
-                    <arg value="${project.build.directory}/${project.name}-${project.version}-jar-with-dependencies.jar"/>
-                  </exec>
-                </target>
+                <sourceDirs>
+                  <sourceDir>${project.basedir}/${testSource}</sourceDir>
+                </sourceDirs>
               </configuration>
             </execution>
           </executions>
         </plugin>
       </plugins>
     </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jetbrains.dokka</groupId>
+        <artifactId>dokka-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
   </build>
 
   <profiles>
     <profile>
-      <id>kotlin_lean</id>
-
+      <id>lean</id>
       <activation>
         <file>
           <exists>main</exists>
         </file>
       </activation>
-
       <properties>
         <mainSource>main</mainSource>
         <mainResource>main</mainResource>
@@ -389,12 +429,59 @@
 
     <profile>
       <id>native</id>
-
       <build>
         <plugins>
           <plugin>
             <groupId>org.graalvm.buildtools</groupId>
             <artifactId>native-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>executable</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.graalvm.buildtools</groupId>
+            <artifactId>native-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>build-native</id>
+                <phase>package</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>assembly</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>image</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-jlink-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jlink</goal>
+                </goals>
+                <phase>package</phase>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>

@@ -19,6 +19,7 @@ dependencies {
 
     "api"(project(":http:http_client"))
     "api"("org.eclipse.jetty.http2:jetty-http2-client-transport:$jettyVersion")
+    "compileOnlyApi"("org.eclipse.jetty.websocket:jetty-websocket-jetty-client:$jettyVersion")
 
     "testImplementation"(project(":http:http_test"))
     "testImplementation"(project(":http:http_server_netty"))
@@ -27,4 +28,5 @@ dependencies {
     "testImplementation"("org.slf4j:log4j-over-slf4j:$slf4jVersion")
     "testImplementation"("org.slf4j:jcl-over-slf4j:$slf4jVersion")
     "testImplementation"("org.slf4j:slf4j-jdk14:$slf4jVersion")
+    "testImplementation"("org.eclipse.jetty.websocket:jetty-websocket-jetty-client:$jettyVersion")
 }
