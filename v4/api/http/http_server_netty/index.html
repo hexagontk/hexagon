@@ -41,7 +41,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">4.1.1
+        <div class="library-version" id="library-version">4.2.0
         </div>
         <div class="navigation-controls">
         <div class="filter-section filter-section_loading" id="filter-section">
@@ -95,15 +95,27 @@
   <div class="cover ">
     <h1 class="cover"><span>http_</span><wbr><span>server_</span><wbr><span>netty</span></h1>
     <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http_server_netty/main"><p class="paragraph"><a href="https://netty.io">Netty</a> adapter for the http_server.md port.</p><h3 class="">Install the Dependency</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
-repositories {
-    mavenCentral()
-}
-
 dependencies {
   implementation("com.hexagontk.http:http_server_netty:$hexagonVersion")
 }
 ```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```xml
 <dependency><groupid>com.hexagontk.http</groupid><artifactid>http_server_netty</artifactid><version>$hexagonVersion</version></dependency>
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">epoll</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
+dependencies {
+  implementation("com.hexagontk.http:http_server_netty_epoll:$hexagonVersion")
+  // $arch could be 'x86_64' among other linux architectures
+  implementation("io.netty:netty-transport-native-epoll:$nettyVersion:linux-$arch")
+}
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```xml
+<dependency><groupid>com.hexagontk.http</groupid><artifactid>http_server_netty_epoll</artifactid><version>$hexagonVersion</version></dependency><dependency><groupid>io.netty</groupid><artifactid>netty-transport-native-epoll</artifactid><version>$nettyVersion</version><!-- $arch could be 'x86_64' among other linux architectures --><classifier>linux-$arch</classifier></dependency>
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">io_uring</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
+dependencies {
+  implementation("com.hexagontk.http:http_server_netty_io_uring:$hexagonVersion")
+  // $arch could be 'x86_64' among other linux architectures
+  implementation("io.netty:netty-transport-native-io_uring:$nettyVersion:linux-$arch")
+}
+```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```xml
+<dependency><groupid>com.hexagontk.http</groupid><artifactid>http_server_netty_io_uring</artifactid><version>$hexagonVersion</version></dependency><dependency><groupid>io.netty</groupid><artifactid>netty-transport-native-io_uring</artifactid><version>$nettyVersion</version><!-- $arch could be 'x86_64' among other linux architectures --><classifier>linux-$arch</classifier></dependency>
 ```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
   <h2 class="">Packages</h2>
@@ -124,6 +136,46 @@ dependencies {
         </div>
         <div><span class="brief-comment"><a data-name="-2111587013%2FPackages%2F-742613365" anchor-label="com.hexagontk.http.server.netty" id="-2111587013%2FPackages%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
             <p class="paragraph">Code implementing the Netty HTTP server adapter.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="1884760369%2FPackages%2F-742613365" anchor-label="com.hexagontk.http.server.netty.epoll" id="1884760369%2FPackages%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
+    <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.hexagontk.http.server.netty.epoll/index.html">com.hexagontk.http.server.netty.epoll</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1884760369%2FPackages%2F-742613365"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="1884760369%2FPackages%2F-742613365" anchor-label="com.hexagontk.http.server.netty.epoll" id="1884760369%2FPackages%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
+            <p class="paragraph">Code implementing the Netty HTTP server adapter using Epoll transport.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="-1963343756%2FPackages%2F-742613365" anchor-label="com.hexagontk.http.server.netty.io.uring" id="-1963343756%2FPackages%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
+    <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.hexagontk.http.server.netty.io.uring/index.html">com.hexagontk.http.server.netty.io.uring</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1963343756%2FPackages%2F-742613365"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="-1963343756%2FPackages%2F-742613365" anchor-label="com.hexagontk.http.server.netty.io.uring" id="-1963343756%2FPackages%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
+            <p class="paragraph">Code implementing the Netty HTTP server adapter using io_uring transport.</p>
           </span></div>
       </div>
     </div>

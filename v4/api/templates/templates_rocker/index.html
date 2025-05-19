@@ -41,7 +41,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">4.1.1
+        <div class="library-version" id="library-version">4.2.0
         </div>
         <div class="navigation-controls">
         <div class="filter-section filter-section_loading" id="filter-section">
@@ -95,10 +95,6 @@
   <div class="cover ">
     <h1 class="cover"><span>templates_</span><wbr><span>rocker</span></h1>
     <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":templates:templates_rocker/main"><p class="paragraph"><a href="https://github.com/fizzed/rocker">Rocker</a> template engine adapter for Hexagon.</p><p class="paragraph">For usage instructions, refer to the templates.md.</p><p class="paragraph">For using Rocker templates in GraalVM native images, the template file (and the classes) need to be specified as resources in the configuration (I.e.: using <code class="lang-kotlin">-H:IncludeResources=.*\\.(html|class)</code>). Adding the classes used in the templates to the <code class="lang-kotlin">reflect-config.json</code> file is also required.</p><h3 class="">Install the Dependency</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```groovy
-repositories {
-    mavenCentral()
-}
-
 implementation("com.hexagontk.templates:templates_rocker:$hexagonVersion")
 ```</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">```xml
 <dependency><groupid>com.hexagontk.templates</groupid><artifactid>templates_rocker</artifactid><version>$hexagonVersion</version></dependency>

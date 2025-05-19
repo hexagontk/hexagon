@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RabbitMqAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.messaging.rabbitmq</a> &gt; <span class="el_source">RabbitMqAdapter.kt</span></div><h1>RabbitMqAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagontk.messaging.rabbitmq
+
+import com.hexagontk.messaging.Message
+import com.hexagontk.messaging.MessagingPort
+import com.hexagontk.serialization.SerializationFormat
+import com.hexagontk.serialization.serialize
+import java.net.URI
+import kotlin.reflect.KClass
+
+<span class="pc" id="L10">class RabbitMqAdapter(</span>
+<span class="nc" id="L11">    url: String = &quot;amqp://guest:guest@localhost&quot;,</span>
+<span class="fc" id="L12">    private val serializationFormat: SerializationFormat</span>
+<span class="nc" id="L13">) : MessagingPort {</span>
+
+    private companion object {
+        private const val EXCHANGE = &quot;messages&quot;
+    }
+
+<span class="fc" id="L19">    private val client by lazy { RabbitMqClient(URI(url), serializationFormat) }</span>
+
+<span class="fc" id="L21">    init {</span>
+<span class="fc" id="L22">        client.bindExchange(EXCHANGE, &quot;topic&quot;, &quot;*.*.*&quot;, &quot;event_pool&quot;)</span>
+<span class="fc" id="L23">    }</span>
+
+    override fun &lt;T : Message&gt; consume(
+        type: KClass&lt;T&gt;, address: String, decoder: (Map&lt;String, *&gt;) -&gt; T, consumer: (T) -&gt; Unit
+    ) {
+<span class="fc" id="L28">        client.consume(EXCHANGE, address, type, decoder) { consumer(it) }</span>
+<span class="fc" id="L29">    }</span>
+
+    override fun publish(message: Message, address: String) {
+<span class="fc" id="L32">        client.publish(EXCHANGE, address, message.serialize(serializationFormat))</span>
+<span class="fc" id="L33">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

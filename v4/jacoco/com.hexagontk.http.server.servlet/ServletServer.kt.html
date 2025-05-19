@@ -14,6 +14,7 @@ import com.hexagontk.core.Platform.timeZone
 import com.hexagontk.core.Platform.totalMemory
 import com.hexagontk.core.Platform.usedMemory
 import com.hexagontk.core.Platform.version
+import com.hexagontk.core.Process
 import com.hexagontk.core.text.prependIndent
 import com.hexagontk.core.require
 import com.hexagontk.http.server.HttpServer
@@ -27,53 +28,53 @@ import java.util.*
  * Adapter to run a router inside a Servlets container. It is not a standard engine as it is not
  * started/stopped (not passed to an [HttpServer]).
  */
-<span class="pc" id="L30">abstract class ServletServer(</span>
-<span class="pc" id="L31">    private val handler: HttpHandler = OnHandler { this },</span>
-<span class="nc" id="L32">) : ServletContextListener {</span>
+<span class="pc" id="L31">abstract class ServletServer(</span>
+<span class="pc" id="L32">    private val handler: HttpHandler = OnHandler { this },</span>
+<span class="nc" id="L33">) : ServletContextListener {</span>
 
     override fun contextInitialized(sce: ServletContextEvent) {
-<span class="fc" id="L35">        val servletFilter = ServletFilter(handler)</span>
+<span class="fc" id="L36">        val servletFilter = ServletFilter(handler)</span>
         // Let's be a good JEE citizen
-<span class="fc" id="L37">        val servletContext = sce.servletContext</span>
-<span class="fc" id="L38">        servletFilter.init(object : FilterConfig {</span>
-<span class="pc" id="L39">            val params = Hashtable&lt;String, String&gt;(1).apply { put(&quot;filterName&quot;, filterName) }</span>
-<span class="fc" id="L40">            override fun getFilterName(): String = ServletFilter::class.java.name</span>
-<span class="fc" id="L41">            override fun getServletContext(): ServletContext = servletContext</span>
-<span class="fc" id="L42">            override fun getInitParameter(name: String): String = params.require(name)</span>
-<span class="fc" id="L43">            override fun getInitParameterNames(): Enumeration&lt;String&gt; = params.keys()</span>
+<span class="fc" id="L38">        val servletContext = sce.servletContext</span>
+<span class="fc" id="L39">        servletFilter.init(object : FilterConfig {</span>
+<span class="pc" id="L40">            val params = Hashtable&lt;String, String&gt;(1).apply { put(&quot;filterName&quot;, filterName) }</span>
+<span class="fc" id="L41">            override fun getFilterName(): String = ServletFilter::class.java.name</span>
+<span class="fc" id="L42">            override fun getServletContext(): ServletContext = servletContext</span>
+<span class="fc" id="L43">            override fun getInitParameter(name: String): String = params.require(name)</span>
+<span class="fc" id="L44">            override fun getInitParameterNames(): Enumeration&lt;String&gt; = params.keys()</span>
         })
-<span class="fc" id="L45">        val filter = servletContext.addFilter(&quot;filters&quot;, servletFilter)</span>
-<span class="fc" id="L46">        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, &quot;/*&quot;)</span>
-<span class="fc" id="L47">    }</span>
+<span class="fc" id="L46">        val filter = servletContext.addFilter(&quot;filters&quot;, servletFilter)</span>
+<span class="fc" id="L47">        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, &quot;/*&quot;)</span>
+<span class="fc" id="L48">    }</span>
 
-<span class="fc" id="L49">    fun createBanner(</span>
-<span class="pc" id="L50">        startUpTimestamp: Long = -1, banner: String = serverBanner, detailed: Boolean = false</span>
+<span class="fc" id="L50">    fun createBanner(</span>
+<span class="pc" id="L51">        startUpTimestamp: Long = -1, banner: String = serverBanner, detailed: Boolean = false</span>
     ): String {
-<span class="fc" id="L52">        val server = &quot;$BOLD$CYAN${javaClass.simpleName}$RESET&quot;</span>
-<span class="fc" id="L53">        val java = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
-<span class="fc" id="L54">        val locale = &quot;$BLUE$localeCode$RESET&quot;</span>
-<span class="fc" id="L55">        val timezone = &quot;$BLUE${timeZone.id}$RESET&quot;</span>
-<span class="fc" id="L56">        val charsetValue = &quot;$BLUE${Platform.charset}$RESET&quot;</span>
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        val start = if (startUpTimestamp &lt; 0) &quot;&lt;undefined&gt;&quot; else startUpTimestamp.toString()</span>
-<span class="fc" id="L58">        val startTime = &quot;$BOLD$MAGENTA in $start ms$RESET&quot;</span>
+<span class="fc" id="L53">        val server = &quot;$BOLD$CYAN${javaClass.simpleName}$RESET&quot;</span>
+<span class="fc" id="L54">        val java = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
+<span class="fc" id="L55">        val locale = &quot;$BLUE$localeCode$RESET&quot;</span>
+<span class="fc" id="L56">        val timezone = &quot;$BLUE${timeZone.id}$RESET&quot;</span>
+<span class="fc" id="L57">        val charsetValue = &quot;$BLUE${Platform.charset}$RESET&quot;</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        val start = if (startUpTimestamp &lt; 0) &quot;&lt;undefined&gt;&quot; else startUpTimestamp.toString()</span>
+<span class="fc" id="L59">        val startTime = &quot;$BOLD$MAGENTA in $start ms$RESET&quot;</span>
 
-<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        val information = if (detailed)</span>
-<span class="nc" id="L61">            detailBanner(server, java, locale, timezone, charsetValue, startTime)</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        val information = if (detailed)</span>
+<span class="nc" id="L62">            detailBanner(server, java, locale, timezone, charsetValue, startTime)</span>
         else
             &quot;&quot;&quot;
 
-<span class="fc" id="L65">            Server Adapter: $server</span>
+<span class="fc" id="L66">            Server Adapter: $server</span>
 
-<span class="fc" id="L67">            🛠 Using $java</span>
-<span class="fc" id="L68">            🌍 Locale: $locale Timezone: $timezone Charset: $charsetValue</span>
+<span class="fc" id="L68">            🛠 Using $java</span>
+<span class="fc" id="L69">            🌍 Locale: $locale Timezone: $timezone Charset: $charsetValue</span>
 
-<span class="fc" id="L70">            ⏱️ Started$startTime</span>
+<span class="fc" id="L71">            ⏱️ Started$startTime</span>
             🚀 Served at a JEE Server
 
             &quot;&quot;&quot;
 
-<span class="fc" id="L75">        val fullBanner = banner + information.trimIndent()</span>
-<span class="fc" id="L76">        return &quot;\n&quot; + fullBanner.prependIndent()</span>
+<span class="fc" id="L76">        val fullBanner = banner + information.trimIndent()</span>
+<span class="fc" id="L77">        return &quot;\n&quot; + fullBanner.prependIndent()</span>
     }
 
     private fun detailBanner(
@@ -84,22 +85,22 @@ import java.util.*
         charsetValue: String,
         startTime: String
     ): String {
-<span class="nc" id="L87">        val bootTime = &quot;%01.3f&quot;.format(Platform.uptime() / 1e3)</span>
-<span class="nc" id="L88">        val uptimeValue = &quot;$BOLD$MAGENTA$bootTime s$RESET&quot;</span>
-<span class="nc" id="L89">        val jvmMemoryValue = &quot;$BLUE${totalMemory()} KB$RESET&quot;</span>
-<span class="nc" id="L90">        val usedMemoryValue = &quot;$BOLD$MAGENTA${usedMemory()} KB$RESET&quot;</span>
-<span class="nc" id="L91">        val hostnameValue = &quot;$BLUE$hostName$RESET&quot;</span>
-<span class="nc" id="L92">        val cpuCountValue = &quot;$BLUE$cpuCount$RESET&quot;</span>
+<span class="nc" id="L88">        val bootTime = &quot;%01.3f&quot;.format(Process.uptime() / 1e3)</span>
+<span class="nc" id="L89">        val uptimeValue = &quot;$BOLD$MAGENTA$bootTime s$RESET&quot;</span>
+<span class="nc" id="L90">        val jvmMemoryValue = &quot;$BLUE${totalMemory()} KB$RESET&quot;</span>
+<span class="nc" id="L91">        val usedMemoryValue = &quot;$BOLD$MAGENTA${usedMemory()} KB$RESET&quot;</span>
+<span class="nc" id="L92">        val hostnameValue = &quot;$BLUE$hostName$RESET&quot;</span>
+<span class="nc" id="L93">        val cpuCountValue = &quot;$BLUE$cpuCount$RESET&quot;</span>
 
-<span class="nc" id="L94">        return &quot;&quot;&quot;</span>
+<span class="nc" id="L95">        return &quot;&quot;&quot;</span>
 
-<span class="nc" id="L96">            Server Adapter: $server</span>
+<span class="nc" id="L97">            Server Adapter: $server</span>
 
-<span class="nc" id="L98">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue of memory</span>
-<span class="nc" id="L99">            🛠 Using $java</span>
-<span class="nc" id="L100">            🌍 Locale: $locale Timezone: $timezone Charset: $charsetValue</span>
+<span class="nc" id="L99">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue of memory</span>
+<span class="nc" id="L100">            🛠 Using $java</span>
+<span class="nc" id="L101">            🌍 Locale: $locale Timezone: $timezone Charset: $charsetValue</span>
 
-<span class="nc" id="L102">            ⏱️ Started$startTime (uptime: $uptimeValue) using $usedMemoryValue</span>
+<span class="nc" id="L103">            ⏱️ Started$startTime (uptime: $uptimeValue) using $usedMemoryValue</span>
             🚀 Served at a JEE Server
 
             &quot;&quot;&quot;
