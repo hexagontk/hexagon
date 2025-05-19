@@ -1,3 +1,4 @@
+import org.apache.tools.ant.taskdefs.condition.Os
 
 plugins {
     id("java-library")
@@ -31,8 +32,12 @@ dependencies {
     "testImplementation"(project(":serialization:serialization_jackson_yaml"))
     "testImplementation"("org.slf4j:slf4j-jdk14:$slf4jVersion")
     "testImplementation"("org.eclipse.jetty.websocket:jetty-websocket-jetty-client:$jettyVersion")
+
     "testImplementation"("io.netty:netty-transport-native-epoll:$nettyVersion")
-    "testImplementation"("io.netty:netty-transport-native-epoll:$nettyVersion:linux-x86_64")
     "testImplementation"("io.netty:netty-transport-native-io_uring:$nettyVersion")
-    "testImplementation"("io.netty:netty-transport-native-io_uring:$nettyVersion:linux-x86_64")
+
+    if (Os.isName("linux")) {
+        "testImplementation"("io.netty:netty-transport-native-epoll:$nettyVersion:linux-x86_64")
+        "testImplementation"("io.netty:netty-transport-native-io_uring:$nettyVersion:linux-x86_64")
+    }
 }

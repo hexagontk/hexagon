@@ -11,7 +11,13 @@ description = "Project starters."
 extensions.configure<PublishingExtension> {
     publications {
         createPomPublication("hexagon_bom") { pomDom ->
-            properties.set(mapOf("hexagon.version" to rootProject.version.toString()))
+            properties.set(mapOf(
+                "hexagon.version" to rootProject.version.toString(),
+                "helidon.version" to libs.versions.helidon.get(),
+                "jetty.version" to libs.versions.jetty.get(),
+                "netty.version" to libs.versions.netty.get(),
+                "jackson.version" to libs.versions.jackson.get(),
+            ))
 
             withXml {
                 listOf("dependencyManagement").forEach {
