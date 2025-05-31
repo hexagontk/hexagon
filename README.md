@@ -30,6 +30,10 @@
 
 ---
 
+> [!WARNING]
+> Development will not continue to be in the open. Use this toolkit only if you are willing to
+> fork it and maintain it by yourself.
+
 ## What is Hexagon
 
 Hexagon is a microservices' toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
