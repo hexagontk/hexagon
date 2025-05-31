@@ -131,6 +131,7 @@ import com.hexagontk.core.media.TEXT_PLAIN
 import com.hexagontk.http.model.ContentType
 import com.hexagontk.http.server.HttpServer
 import com.hexagontk.http.server.HttpServerSettings
+import com.hexagontk.http.server.netty.NettyHttpServer
 import com.hexagontk.http.server.serve
 
 lateinit var server: HttpServer
@@ -139,12 +140,13 @@ lateinit var server: HttpServer
  * Start a Hello World server, serving at path "/hello".
  */
 fun main() {
-    server = serve(JettyServletHttpServer(), HttpServerSettings(bindPort = 0)) {
+    server = serve(NettyHttpServer(), HttpServerSettings(bindPort = 0)) {
         get("/hello/{name}") {
             val name = pathParameters["name"]
             ok("Hello $name!", contentType = ContentType(TEXT_PLAIN))
         }
     }
+    println("Try it at http://localhost:${server.runtimePort}/hello/World")
 }
 // hello_world
 ```
