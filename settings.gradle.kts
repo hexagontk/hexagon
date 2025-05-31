@@ -38,7 +38,7 @@ dependencyResolutionManagement {
             version("mockk", "1.14.0")
             version("jacoco", "0.8.13")
             version("jmh", "1.37")
-            version("testcontainers", "1.20.6")
+            version("testcontainers", "1.21.1")
             version("commonsCompress", "1.27.1")
 
             // Shared
@@ -46,7 +46,7 @@ dependencyResolutionManagement {
 
             // http_server_netty
             version("netty", "4.2.1.Final")
-            version("nettyTcNative", "2.0.71.Final")
+            version("nettyTcNative", "2.0.72.Final")
 
             // http_server_helidon
             version("helidon", "4.2.2")
@@ -56,11 +56,11 @@ dependencyResolutionManagement {
             version("jetty", "12.0.21")
 
             // rest_tools
-            version("swaggerRequestValidator", "2.44.1")
+            version("swaggerRequestValidator", "2.44.8")
 
             // messaging_rabbitmq
             version("amqpClient", "5.25.0")
-            version("metricsJmx", "4.2.30")
+            version("metricsJmx", "4.2.32")
 
             // serialization
             version("jackson", "2.19.0")
