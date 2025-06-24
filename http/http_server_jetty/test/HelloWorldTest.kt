@@ -33,6 +33,7 @@ fun main() {
             ok("Hello $name!", contentType = ContentType(TEXT_PLAIN))
         }
     }
+    println("Try it at http://localhost:${server.runtimePort}/hello/World")
 }
 // hello_world
 
