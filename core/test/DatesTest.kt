@@ -17,18 +17,18 @@ internal class DatesTest {
         val ld = LocalDate.of(2017, 12, 31)
 
         assert(ld.toDate() == d)
-        assert(ld == d.toLocalDate())
+        assert(ld.equals(d.toLocalDate()))
     }
 
     @Test fun `Zoned date`() {
         val now = LocalDateTime.now()
-        assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
-        assert(now.withZone() == ZonedDateTime.of(now, Platform.timeZone.toZoneId()))
+        assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime().equals(now))
+        assert(now.withZone().equals(ZonedDateTime.of(now, Platform.timeZone.toZoneId())))
     }
 
     @Test fun `LocalDateTime can be converted to Date`() {
         val now = LocalDateTime.of(2018, 12, 31, 23, 59, 59)
-        assert(now.toDate().toLocalDateTime() == now)
+        assert(now.toDate().toLocalDateTime().equals(now))
     }
 
     @Test fun `Period days are calculated correctly`() {

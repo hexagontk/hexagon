@@ -1,0 +1,14 @@
+
+# Declare files that will always have LF line endings on checkout
+* text eol=lf
+
+# Windows CMD does not like LF in batch files
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Files that are truly binary and should not be modified
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.jar binary
+*.p12 binary

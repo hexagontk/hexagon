@@ -100,7 +100,7 @@ public final class com/hexagontk/http/model/Headers : com/hexagontk/http/model/H
 }
 
 public abstract interface class com/hexagontk/http/model/HttpBase {
-	public abstract fun bodyString ()Ljava/lang/String;
+	public fun bodyString ()Ljava/lang/String;
 	public abstract fun getBody ()Ljava/lang/Object;
 	public abstract fun getContentType ()Lcom/hexagontk/http/model/ContentType;
 	public abstract fun getHeaders ()Lcom/hexagontk/http/model/Headers;
@@ -254,7 +254,7 @@ public final class com/hexagontk/http/model/HttpKt {
 }
 
 public abstract interface class com/hexagontk/http/model/HttpMessage : com/hexagontk/http/model/HttpBase {
-	public abstract fun cookiesMap ()Ljava/util/Map;
+	public fun cookiesMap ()Ljava/util/Map;
 	public abstract fun getCookies ()Ljava/util/List;
 }
 
@@ -351,8 +351,8 @@ public final class com/hexagontk/http/model/HttpRequest : com/hexagontk/http/mod
 }
 
 public abstract interface class com/hexagontk/http/model/HttpRequestPort : com/hexagontk/http/model/HttpMessage {
-	public abstract fun authorization ()Lcom/hexagontk/http/model/Authorization;
-	public abstract fun certificate ()Ljava/security/cert/X509Certificate;
+	public fun authorization ()Lcom/hexagontk/http/model/Authorization;
+	public fun certificate ()Ljava/security/cert/X509Certificate;
 	public abstract fun getAccept ()Ljava/util/List;
 	public abstract fun getAuthorization ()Lcom/hexagontk/http/model/Authorization;
 	public abstract fun getCertificateChain ()Ljava/util/List;
@@ -367,16 +367,17 @@ public abstract interface class com/hexagontk/http/model/HttpRequestPort : com/h
 	public abstract fun getPort ()I
 	public abstract fun getProtocol ()Lcom/hexagontk/http/model/HttpProtocol;
 	public abstract fun getQueryParameters ()Lcom/hexagontk/http/model/Parameters;
-	public abstract fun origin ()Ljava/lang/String;
-	public abstract fun partsMap ()Ljava/util/Map;
-	public abstract fun plus (Lcom/hexagontk/http/model/Cookie;)Lcom/hexagontk/http/model/HttpRequestPort;
-	public abstract fun plus (Lcom/hexagontk/http/model/Headers;)Lcom/hexagontk/http/model/HttpRequestPort;
-	public abstract fun plus (Lcom/hexagontk/http/model/HttpField;)Lcom/hexagontk/http/model/HttpRequestPort;
-	public abstract fun plus (Lcom/hexagontk/http/model/HttpPart;)Lcom/hexagontk/http/model/HttpRequestPort;
-	public abstract fun referer ()Ljava/lang/String;
-	public abstract fun uri ()Ljava/net/URI;
-	public abstract fun userAgent ()Ljava/lang/String;
+	public fun origin ()Ljava/lang/String;
+	public fun partsMap ()Ljava/util/Map;
+	public fun plus (Lcom/hexagontk/http/model/Cookie;)Lcom/hexagontk/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagontk/http/model/Headers;)Lcom/hexagontk/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagontk/http/model/HttpField;)Lcom/hexagontk/http/model/HttpRequestPort;
+	public fun plus (Lcom/hexagontk/http/model/HttpPart;)Lcom/hexagontk/http/model/HttpRequestPort;
+	public fun referer ()Ljava/lang/String;
+	public fun uri ()Ljava/net/URI;
+	public fun userAgent ()Ljava/lang/String;
 	public abstract fun with (Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Lcom/hexagontk/http/model/HttpMethod;Lcom/hexagontk/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagontk/http/model/Parameters;Ljava/util/List;Lcom/hexagontk/http/model/Parameters;Ljava/util/List;Ljava/util/List;Lcom/hexagontk/http/model/Authorization;Ljava/util/List;Lcom/hexagontk/http/patterns/PathPattern;Ljava/util/Map;)Lcom/hexagontk/http/model/HttpRequestPort;
+	public static synthetic fun with$default (Lcom/hexagontk/http/model/HttpRequestPort;Ljava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Lcom/hexagontk/http/model/HttpMethod;Lcom/hexagontk/http/model/HttpProtocol;Ljava/lang/String;ILjava/lang/String;Lcom/hexagontk/http/model/Parameters;Ljava/util/List;Lcom/hexagontk/http/model/Parameters;Ljava/util/List;Ljava/util/List;Lcom/hexagontk/http/model/Authorization;Ljava/util/List;Lcom/hexagontk/http/patterns/PathPattern;Ljava/util/Map;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpRequestPort;
 }
 
 public final class com/hexagontk/http/model/HttpRequestPort$DefaultImpls {
@@ -432,11 +433,12 @@ public abstract interface class com/hexagontk/http/model/HttpResponsePort : com/
 	public abstract fun getOnText ()Lkotlin/jvm/functions/Function2;
 	public abstract fun getReason ()Ljava/lang/String;
 	public abstract fun getStatus ()I
-	public abstract fun plus (Lcom/hexagontk/http/model/Cookie;)Lcom/hexagontk/http/model/HttpResponsePort;
-	public abstract fun plus (Lcom/hexagontk/http/model/Headers;)Lcom/hexagontk/http/model/HttpResponsePort;
-	public abstract fun plus (Lcom/hexagontk/http/model/HttpField;)Lcom/hexagontk/http/model/HttpResponsePort;
-	public abstract fun plus (Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
+	public fun plus (Lcom/hexagontk/http/model/Cookie;)Lcom/hexagontk/http/model/HttpResponsePort;
+	public fun plus (Lcom/hexagontk/http/model/Headers;)Lcom/hexagontk/http/model/HttpResponsePort;
+	public fun plus (Lcom/hexagontk/http/model/HttpField;)Lcom/hexagontk/http/model/HttpResponsePort;
+	public fun plus (Ljava/util/List;)Lcom/hexagontk/http/model/HttpResponsePort;
 	public abstract fun with (ILjava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagontk/http/model/HttpResponsePort;
+	public static synthetic fun with$default (Lcom/hexagontk/http/model/HttpResponsePort;ILjava/lang/Object;Lcom/hexagontk/http/model/Headers;Lcom/hexagontk/http/model/ContentType;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)Lcom/hexagontk/http/model/HttpResponsePort;
 }
 
 public final class com/hexagontk/http/model/HttpResponsePort$DefaultImpls {
@@ -490,6 +492,7 @@ public final class com/hexagontk/http/model/ws/CloseStatusesKt {
 
 public abstract interface class com/hexagontk/http/model/ws/WsSession {
 	public abstract fun close (ILjava/lang/String;)V
+	public static synthetic fun close$default (Lcom/hexagontk/http/model/ws/WsSession;ILjava/lang/String;ILjava/lang/Object;)V
 	public abstract fun getAttributes ()Ljava/util/Map;
 	public abstract fun getException ()Ljava/lang/Exception;
 	public abstract fun getPathParameters ()Ljava/util/Map;
@@ -520,11 +523,11 @@ public final class com/hexagontk/http/patterns/LiteralPathPattern : com/hexagont
 
 public abstract interface class com/hexagontk/http/patterns/PathPattern {
 	public abstract fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/patterns/PathPattern;
-	public abstract fun describe ()Ljava/lang/String;
+	public fun describe ()Ljava/lang/String;
 	public abstract fun extractParameters (Ljava/lang/String;)Ljava/util/Map;
 	public abstract fun getPattern ()Ljava/lang/String;
 	public abstract fun getPrefix ()Z
-	public abstract fun insertParameters (Ljava/util/Map;)Ljava/lang/String;
+	public fun insertParameters (Ljava/util/Map;)Ljava/lang/String;
 	public abstract fun matches (Ljava/lang/String;)Z
 }
 

@@ -141,13 +141,14 @@ internal class MongoDbStoreCompanyTest {
             ))
             store.findOne(key, fields + "foundation" + "creationDate")?.apply {
                 assert(get("web") == "http://update1.example.org")
-                assert((get("foundation") as? LocalDateTime)?.toLocalDate() == LocalDate.of(2015, 1, 1))
-                assert(get("creationDate") == LocalDateTime.of(2015, 1, 1, 23, 59))
+                assert((get("foundation") as? LocalDateTime)?.toLocalDate()
+                    ?.equals(LocalDate.of(2015, 1, 1)) ?: (LocalDate.of(2015, 1, 1) == null))
+                assert(get("creationDate")?.equals(LocalDateTime.of(2015, 1, 1, 23, 59)) ?: (LocalDateTime.of(2015, 1, 1, 23, 59) == null))
             }
             store.findOne(key)?.apply {
-                assert(web == urlOf("http://update1.example.org"))
-                assert(foundation == LocalDate.of(2015, 1, 1))
-                assert(creationDate == LocalDateTime.of(2015, 1, 1, 23, 59))
+                assert(web?.equals(urlOf("http://update1.example.org")) ?: false)
+                assert(foundation.equals(LocalDate.of(2015, 1, 1)))
+                assert(creationDate.equals(LocalDateTime.of(2015, 1, 1, 23, 59)))
             }
 
             assert(store.count() == 1L)

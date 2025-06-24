@@ -34,7 +34,7 @@ public abstract interface class com/hexagontk/handlers/Context {
 	public abstract fun getNextHandler ()I
 	public abstract fun getNextHandlers ()[Lcom/hexagontk/handlers/Handler;
 	public abstract fun getPredicate ()Lkotlin/jvm/functions/Function1;
-	public abstract fun next ()Lcom/hexagontk/handlers/Context;
+	public fun next ()Lcom/hexagontk/handlers/Context;
 	public abstract fun setAttributes (Ljava/util/Map;)V
 	public abstract fun setEvent (Ljava/lang/Object;)V
 	public abstract fun setException (Ljava/lang/Exception;)V
@@ -43,6 +43,7 @@ public abstract interface class com/hexagontk/handlers/Context {
 	public abstract fun setNextHandlers ([Lcom/hexagontk/handlers/Handler;)V
 	public abstract fun setPredicate (Lkotlin/jvm/functions/Function1;)V
 	public abstract fun with (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;[Lcom/hexagontk/handlers/Handler;ILjava/lang/Exception;Ljava/util/Map;Z)Lcom/hexagontk/handlers/Context;
+	public static synthetic fun with$default (Lcom/hexagontk/handlers/Context;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;[Lcom/hexagontk/handlers/Handler;ILjava/lang/Exception;Ljava/util/Map;ZILjava/lang/Object;)Lcom/hexagontk/handlers/Context;
 }
 
 public final class com/hexagontk/handlers/Context$DefaultImpls {

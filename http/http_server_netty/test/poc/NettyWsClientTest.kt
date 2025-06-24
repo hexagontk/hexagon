@@ -67,7 +67,7 @@ internal class NettyWsClientTest {
                 pipeline.addLast(
                     HttpClientCodec(),
                     HttpObjectAggregator(8192),
-                    WebSocketClientCompressionHandler.INSTANCE,
+                    WebSocketClientCompressionHandler(0),
                     clientHandler
                 )
             }

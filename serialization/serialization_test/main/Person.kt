@@ -15,7 +15,7 @@ internal class Person(
 
         if (givenName != other.givenName) return false
         if (familyName != other.familyName) return false
-        if (birthDate != other.birthDate) return false
+        if (!birthDate.equals(other.birthDate)) return false
 
         return true
     }
