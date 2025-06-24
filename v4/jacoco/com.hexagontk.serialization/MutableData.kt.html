@@ -18,16 +18,16 @@ interface MutableData : Map&lt;String, Any?&gt; {
     override val values: Collection&lt;*&gt;
 <span class="nc" id="L19">        get() = data().values</span>
 
-    override fun isEmpty(): Boolean =
+<span class="nc" id="L21">    override fun isEmpty(): Boolean =</span>
 <span class="nc" id="L22">        data().isEmpty()</span>
 
-    override fun get(key: String): Any? =
-<span class="fc" id="L25">        data()[key]</span>
+<span class="nc" id="L24">    override fun get(key: String): Any? =</span>
+<span class="pc" id="L25">        data()[key]</span>
 
-    override fun containsValue(value: Any?): Boolean =
+<span class="nc" id="L27">    override fun containsValue(value: Any?): Boolean =</span>
 <span class="nc" id="L28">        data().containsValue(value)</span>
 
-    override fun containsKey(key: String): Boolean =
+<span class="nc" id="L30">    override fun containsKey(key: String): Boolean =</span>
 <span class="nc" id="L31">        data().containsKey(key)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

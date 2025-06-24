@@ -8,7 +8,7 @@ interface Data&lt;T&gt; : Map&lt;String, Any?&gt; {
     fun with(data: Map&lt;String, *&gt;): T
 
     override val entries: Set&lt;Entry&lt;String, *&gt;&gt;
-<span class="fc" id="L11">        get() = data.entries</span>
+<span class="pc" id="L11">        get() = data.entries</span>
 
     override val keys: Set&lt;String&gt;
 <span class="nc" id="L14">        get() = data.keys</span>
@@ -19,19 +19,19 @@ interface Data&lt;T&gt; : Map&lt;String, Any?&gt; {
     override val values: Collection&lt;*&gt;
 <span class="nc" id="L20">        get() = data.values</span>
 
-    override fun isEmpty(): Boolean =
-<span class="fc" id="L23">        data.isEmpty()</span>
+<span class="nc" id="L22">    override fun isEmpty(): Boolean =</span>
+<span class="pc" id="L23">        data.isEmpty()</span>
 
-    override fun get(key: String): Any? =
+<span class="nc" id="L25">    override fun get(key: String): Any? =</span>
 <span class="nc" id="L26">        data[key]</span>
 
-    override fun containsValue(value: Any?): Boolean =
+<span class="nc" id="L28">    override fun containsValue(value: Any?): Boolean =</span>
 <span class="nc" id="L29">        data.containsValue(value)</span>
 
-    override fun containsKey(key: String): Boolean =
+<span class="nc" id="L31">    override fun containsKey(key: String): Boolean =</span>
 <span class="nc" id="L32">        data.containsKey(key)</span>
 
-    operator fun get(key: KProperty1&lt;T, *&gt;): Any? =
+<span class="nc" id="L34">    operator fun get(key: KProperty1&lt;T, *&gt;): Any? =</span>
 <span class="nc" id="L35">        data[key.name]</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

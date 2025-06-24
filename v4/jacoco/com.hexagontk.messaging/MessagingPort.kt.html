@@ -10,14 +10,14 @@ interface MessagingPort {
 
     fun publish(message: Message, address: String)
 
-    fun &lt;T : Message&gt; consume(
+<span class="nc" id="L13">    fun &lt;T : Message&gt; consume(</span>
         type: KClass&lt;T&gt;, decoder: (Map&lt;String, *&gt;) -&gt; T, consumer: (T) -&gt; Unit
     ) {
 <span class="fc" id="L16">        consume(type, type.java.name, decoder, consumer)</span>
-<span class="fc" id="L17">    }</span>
+<span class="pc" id="L17">    }</span>
 
-    fun publish(message: Message) {
+<span class="nc" id="L19">    fun publish(message: Message) {</span>
 <span class="fc" id="L20">        publish(message, message.javaClass.name)</span>
-<span class="fc" id="L21">    }</span>
+<span class="pc" id="L21">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

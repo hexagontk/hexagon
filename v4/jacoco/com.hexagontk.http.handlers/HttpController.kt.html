@@ -10,12 +10,12 @@ import com.hexagontk.http.model.HttpCall
     val handler: HttpHandler
 
     override val handlerPredicate: HttpPredicate
-<span class="fc" id="L13">        get() = handler.handlerPredicate</span>
+<span class="pc" id="L13">        get() = handler.handlerPredicate</span>
 
-    override fun addPrefix(prefix: String): HttpHandler =
-<span class="fc" id="L16">        handler.addPrefix(prefix)</span>
+<span class="nc" id="L15">    override fun addPrefix(prefix: String): HttpHandler =</span>
+<span class="pc" id="L16">        handler.addPrefix(prefix)</span>
 
-    override fun process(context: Context&lt;HttpCall&gt;): Context&lt;HttpCall&gt; =
+<span class="nc" id="L18">    override fun process(context: Context&lt;HttpCall&gt;): Context&lt;HttpCall&gt; =</span>
 <span class="nc" id="L19">        handler.process(context)</span>
 
     override val predicate: (Context&lt;HttpCall&gt;) -&gt; Boolean

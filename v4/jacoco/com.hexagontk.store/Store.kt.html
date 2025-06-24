@@ -18,8 +18,8 @@ interface Store&lt;T : Any, K : Any&gt; {
 
     fun insertMany(instances: List&lt;T&gt;): List&lt;K&gt;
 
-    fun insertMany(vararg instances: T): List&lt;K&gt; =
-<span class="fc" id="L22">        insertMany(instances.toList())</span>
+<span class="nc" id="L21">    fun insertMany(vararg instances: T): List&lt;K&gt; =</span>
+<span class="pc" id="L22">        insertMany(instances.toList())</span>
 
     fun saveOne(instance: T): K? // returns key if created, null if updated
 
@@ -29,13 +29,13 @@ interface Store&lt;T : Any, K : Any&gt; {
 
     fun replaceMany(instances: List&lt;T&gt;): List&lt;T&gt;
 
-    fun replaceMany(vararg instances: T): List&lt;T&gt; =
-<span class="fc" id="L33">        replaceMany(instances.toList())</span>
+<span class="nc" id="L32">    fun replaceMany(vararg instances: T): List&lt;T&gt; =</span>
+<span class="pc" id="L33">        replaceMany(instances.toList())</span>
 
     fun updateOne(key: K, updates: Map&lt;String, *&gt;): Boolean
 
-    fun updateOne(key: K, vararg updates: Pair&lt;KProperty1&lt;T, *&gt;, *&gt;): Boolean =
-<span class="fc" id="L38">        updateOne(key, fields(*updates))</span>
+<span class="nc" id="L37">    fun updateOne(key: K, vararg updates: Pair&lt;KProperty1&lt;T, *&gt;, *&gt;): Boolean =</span>
+<span class="pc" id="L38">        updateOne(key, fields(*updates))</span>
 
     fun updateMany(filter: Map&lt;String, *&gt;, updates: Map&lt;String, *&gt;): Long
 
@@ -47,46 +47,46 @@ interface Store&lt;T : Any, K : Any&gt; {
 
     fun findOne(key: K, fields: List&lt;String&gt;): Map&lt;String, *&gt;?
 
-    fun findOne(filter: Map&lt;String, *&gt;): T? =
+<span class="nc" id="L50">    fun findOne(filter: Map&lt;String, *&gt;): T? =</span>
 <span class="pc bpc" id="L51" title="2 of 4 branches missed.">        findMany(filter).apply { check(size &lt; 2) }.firstOrNull()</span>
 
-    fun findOne(filter: Map&lt;String, *&gt;, fields: List&lt;String&gt;): Map&lt;String, *&gt;? =
+<span class="nc" id="L53">    fun findOne(filter: Map&lt;String, *&gt;, fields: List&lt;String&gt;): Map&lt;String, *&gt;? =</span>
 <span class="pc bpc" id="L54" title="2 of 4 branches missed.">        findMany(filter, fields).apply { check(size &lt; 2) }.firstOrNull()</span>
 
-<span class="fc" id="L56">    fun findMany(</span>
+<span class="pc" id="L56">    fun findMany(</span>
         filter: Map&lt;String, *&gt;,
 <span class="fc" id="L58">        limit: Int? = null,</span>
 <span class="fc" id="L59">        skip: Int? = null,</span>
-<span class="fc" id="L60">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;T&gt;</span>
+<span class="pc" id="L60">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;T&gt;</span>
 
-<span class="fc" id="L62">    fun findMany(</span>
+<span class="pc" id="L62">    fun findMany(</span>
         filter: Map&lt;String, *&gt;,
         fields: List&lt;String&gt;,
 <span class="fc" id="L65">        limit: Int? = null,</span>
 <span class="fc" id="L66">        skip: Int? = null,</span>
-<span class="fc" id="L67">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;Map&lt;String, *&gt;&gt;</span>
+<span class="pc" id="L67">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;Map&lt;String, *&gt;&gt;</span>
 
-<span class="fc" id="L69">    fun findAll(</span>
+<span class="pc" id="L69">    fun findAll(</span>
 <span class="fc" id="L70">        limit: Int? = null,</span>
 <span class="fc" id="L71">        skip: Int? = null,</span>
 <span class="fc" id="L72">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;T&gt; =</span>
-<span class="fc" id="L73">            findMany(emptyMap&lt;String, Any&gt;(), limit, skip, sort)</span>
+<span class="pc" id="L73">            findMany(emptyMap&lt;String, Any&gt;(), limit, skip, sort)</span>
 
-<span class="fc" id="L75">    fun findAll(</span>
+<span class="pc" id="L75">    fun findAll(</span>
         fields: List&lt;String&gt;,
 <span class="fc" id="L77">        limit: Int? = null,</span>
 <span class="fc" id="L78">        skip: Int? = null,</span>
 <span class="fc" id="L79">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;Map&lt;String, *&gt;&gt; =</span>
-<span class="fc" id="L80">            findMany(emptyMap&lt;String, Any&gt;(), fields, limit, skip, sort)</span>
+<span class="pc" id="L80">            findMany(emptyMap&lt;String, Any&gt;(), fields, limit, skip, sort)</span>
 
-<span class="fc" id="L82">    fun count(filter: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;()): Long</span>
+<span class="pc" id="L82">    fun count(filter: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;()): Long</span>
 
     fun drop()
 
-    fun fields(updates: Map&lt;KProperty1&lt;T, *&gt;, *&gt;): Map&lt;String, *&gt; =
-<span class="fc" id="L87">        updates.mapKeys { it.key.name }</span>
+<span class="nc" id="L86">    fun fields(updates: Map&lt;KProperty1&lt;T, *&gt;, *&gt;): Map&lt;String, *&gt; =</span>
+<span class="pc" id="L87">        updates.mapKeys { it.key.name }</span>
 
-    fun fields(vararg updates: Pair&lt;KProperty1&lt;T, *&gt;, *&gt;): Map&lt;String, *&gt; =
-<span class="fc" id="L90">        fields(updates.toMap())</span>
+<span class="nc" id="L89">    fun fields(vararg updates: Pair&lt;KProperty1&lt;T, *&gt;, *&gt;): Map&lt;String, *&gt; =</span>
+<span class="pc" id="L90">        fields(updates.toMap())</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

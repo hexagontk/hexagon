@@ -24,7 +24,7 @@ object JacksonHelper {
 <span class="fc bfc" id="L24" title="All 2 branches covered.">            is ObjectNode -&gt; {</span>
 <span class="fc" id="L25">                var map = emptyMap&lt;String, Any?&gt;()</span>
 
-<span class="fc bfc" id="L27" title="All 2 branches covered.">                for (f in node.fields())</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">                for (f in node.properties())</span>
 <span class="fc" id="L28">                    map = map + (f.key to nodeToCollection(f.value))</span>
 
 <span class="fc" id="L30">                map</span>

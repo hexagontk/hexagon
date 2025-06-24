@@ -21,22 +21,22 @@ interface SerializationFormat {
     fun serialize(instance: Any, output: OutputStream)
     fun parse(input: InputStream): Any
 
-    fun serializeBytes(instance: Any): ByteArray =
+<span class="nc" id="L24">    fun serializeBytes(instance: Any): ByteArray =</span>
 <span class="fc" id="L25">        ByteArrayOutputStream().let {</span>
 <span class="fc" id="L26">            serialize(instance, it)</span>
 <span class="fc" id="L27">            it.toByteArray()</span>
-<span class="fc" id="L28">        }</span>
+<span class="pc" id="L28">        }</span>
 
-    fun serialize(instance: Any): String {
+<span class="nc" id="L30">    fun serialize(instance: Any): String {</span>
 <span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (assertEnabled)</span>
 <span class="fc bfc" id="L32" title="All 2 branches covered.">            check(textFormat) { SERIALIZATION_ERROR }</span>
 <span class="fc" id="L33">        return String(serializeBytes(instance))</span>
-    }
+<span class="nc" id="L34">    }</span>
 
-    fun parse(input: String): Any {
+<span class="nc" id="L36">    fun parse(input: String): Any {</span>
 <span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if (assertEnabled)</span>
 <span class="fc bfc" id="L38" title="All 2 branches covered.">            check(textFormat) { PARSING_ERROR }</span>
 <span class="fc" id="L39">        return parse(input.toStream())</span>
-    }
+<span class="nc" id="L40">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

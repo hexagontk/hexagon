@@ -30,10 +30,10 @@ sealed interface Property&lt;T : Any&gt; {
 
     fun clearValues(): Property&lt;T&gt;
 
-    fun typeText(): String =
+<span class="nc" id="L33">    fun typeText(): String =</span>
 <span class="pc bpc" id="L34" title="1 of 2 branches missed.">        type.simpleName ?: error(&quot;Unknown type name&quot;)</span>
 
-    fun check(component: String, namePattern: Regex) {
+<span class="nc" id="L36">    fun check(component: String, namePattern: Regex) {</span>
 <span class="fc bfc" id="L37" title="All 2 branches covered.">        require(type in parsedClasses) {</span>
 <span class="fc" id="L38">            val types = parsedClasses.map(KClass&lt;*&gt;::simpleName)</span>
 <span class="fc" id="L39">            &quot;Type ${type.simpleName} not in allowed types: $types&quot;</span>
@@ -59,7 +59,7 @@ sealed interface Property&lt;T : Any&gt; {
 <span class="fc bfc" id="L59" title="All 4 branches covered.">            require(values.size &lt;= 1) {</span>
 <span class="fc" id="L60">                &quot;$component '${names.first()}' can only have one value: $values&quot;</span>
             }
-<span class="fc" id="L62">    }</span>
+<span class="pc" id="L62">    }</span>
 
     companion object {
 <span class="fc" id="L65">        val VERSION: Flag = Flag('v', &quot;version&quot;, &quot;Show the program's version along its description&quot;)</span>

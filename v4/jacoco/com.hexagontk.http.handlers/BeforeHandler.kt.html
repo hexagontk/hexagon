@@ -5,7 +5,7 @@ import com.hexagontk.handlers.Handler
 import com.hexagontk.http.model.HttpMethod
 import com.hexagontk.http.model.HttpCall
 
-<span class="fc" id="L8">class BeforeHandler(</span>
+<span class="pc" id="L8">class BeforeHandler(</span>
 <span class="fc" id="L9">    override val handlerPredicate: HttpPredicate = HttpPredicate(),</span>
 <span class="fc" id="L10">    val block: HttpCallbackType,</span>
 <span class="fc" id="L11">) : HttpHandler, Handler&lt;HttpCall&gt; by BeforeHandler(handlerPredicate, toCallback(block)) {</span>

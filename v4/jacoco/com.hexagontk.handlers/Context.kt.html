@@ -14,7 +14,7 @@ interface Context&lt;T : Any&gt; {
     var attributes: Map&lt;*, *&gt;
     var handled: Boolean
 
-<span class="fc" id="L17">    fun with(</span>
+<span class="pc" id="L17">    fun with(</span>
 <span class="fc" id="L18">        event: T = this.event,</span>
 <span class="fc" id="L19">        predicate: (Context&lt;T&gt;) -&gt; Boolean = this.predicate,</span>
 <span class="fc" id="L20">        nextHandlers: Array&lt;Handler&lt;T&gt;&gt; = this.nextHandlers,</span>
@@ -22,9 +22,9 @@ interface Context&lt;T : Any&gt; {
 <span class="fc" id="L22">        exception: Exception? = this.exception,</span>
 <span class="fc" id="L23">        attributes: Map&lt;*, *&gt; = this.attributes,</span>
 <span class="fc" id="L24">        handled: Boolean = this.handled,</span>
-    ): Context&lt;T&gt;
+<span class="nc" id="L25">    ): Context&lt;T&gt;</span>
 
-    fun next(): Context&lt;T&gt; {
+<span class="nc" id="L27">    fun next(): Context&lt;T&gt; {</span>
 <span class="fc bfc" id="L28" title="All 2 branches covered.">        for (index in nextHandler until nextHandlers.size) {</span>
 <span class="fc" id="L29">            val handler = nextHandlers[index]</span>
 <span class="fc" id="L30">            val p = handler.predicate</span>
@@ -39,6 +39,6 @@ interface Context&lt;T : Any&gt; {
         }
 
 <span class="fc" id="L41">        return this</span>
-    }
+<span class="nc" id="L42">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

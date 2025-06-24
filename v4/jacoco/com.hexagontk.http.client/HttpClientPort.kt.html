@@ -28,7 +28,7 @@ interface HttpClientPort {
 <span class="nc" id="L28">        onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
 <span class="nc" id="L29">        onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
         onClose: WsSession.(status: Int, reason: String) -&gt; Unit,
-    ): WsSession
+<span class="nc" id="L31">    ): WsSession</span>
 
     /**
      * Return the client adapter's supported features.

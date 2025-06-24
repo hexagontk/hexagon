@@ -13,11 +13,11 @@ interface TemplatePort {
         templates: Map&lt;String, String&gt;,
         context: Map&lt;String, *&gt;,
 <span class="nc" id="L15">        locale: Locale = Platform.locale</span>
-    ): String
+<span class="nc" id="L16">    ): String</span>
 
-<span class="fc" id="L18">    fun render(</span>
+<span class="pc" id="L18">    fun render(</span>
 <span class="fc" id="L19">        template: String, context: Map&lt;String, *&gt;, locale: Locale = Platform.locale</span>
     ): String =
-<span class="fc" id="L21">        render(&quot;_template_&quot;, mapOf(&quot;_template_&quot; to template), context, locale)</span>
+<span class="pc" id="L21">        render(&quot;_template_&quot;, mapOf(&quot;_template_&quot; to template), context, locale)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
