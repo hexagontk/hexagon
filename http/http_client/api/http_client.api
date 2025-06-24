@@ -43,6 +43,7 @@ public abstract interface class com/hexagontk/http/client/HttpClientPort {
 	public abstract fun supportedFeatures ()Ljava/util/Set;
 	public abstract fun supportedProtocols ()Ljava/util/Set;
 	public abstract fun ws (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Lcom/hexagontk/http/model/ws/WsSession;
+	public static synthetic fun ws$default (Lcom/hexagontk/http/client/HttpClientPort;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)Lcom/hexagontk/http/model/ws/WsSession;
 }
 
 public final class com/hexagontk/http/client/HttpClientPort$DefaultImpls {

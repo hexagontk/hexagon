@@ -30,10 +30,6 @@
 
 ---
 
-> [!WARNING]
-> Development will not continue to be in the open. Use this toolkit only if you are willing to
-> fork it and maintain it by yourself.
-
 ## What is Hexagon
 
 Hexagon is a microservices' toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
@@ -145,6 +141,7 @@ fun main() {
             ok("Hello $name!", contentType = ContentType(TEXT_PLAIN))
         }
     }
+    println("Try it at http://localhost:${server.runtimePort}/hello/World")
 }
 // hello_world
 ```

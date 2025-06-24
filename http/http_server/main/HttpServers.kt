@@ -22,7 +22,7 @@ val serverBanner: String = """
     $CYAN      \/$BLUE   /  /   /   /$CYAN    T O O L K I T$RESET
     $BLUE          /  /___/   /
     $BLUE         /          /
-    $BLUE         \_________/       https://hexagontk.com/http_server
+    $BLUE         \_________/       https://hexagontk.com/stable/http_server
     $RESET
     """.trimIndent()
 

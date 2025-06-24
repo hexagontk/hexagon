@@ -33,9 +33,9 @@ internal data class Company(
         other as Company
 
         if (id != other.id) return false
-        if (foundation != other.foundation) return false
-        if (closeTime != other.closeTime) return false
-        if (openTime != other.openTime) return false
+        if (!foundation.equals(other.foundation)) return false
+        if (!closeTime.equals(other.closeTime)) return false
+        if (!openTime.equals(other.openTime)) return false
         if (web != other.web) return false
         if (clients != other.clients) return false
         if (logo != null) {
@@ -45,7 +45,7 @@ internal data class Company(
         if (notes != other.notes) return false
         if (people != other.people) return false
         if (departments != other.departments) return false
-        if (creationDate != other.creationDate) return false
+        if (!creationDate.equals(other.creationDate)) return false
 
         return true
     }

@@ -11,8 +11,8 @@ public class com/hexagontk/messaging/Message {
 
 public abstract interface class com/hexagontk/messaging/MessagingPort {
 	public abstract fun consume (Lkotlin/reflect/KClass;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
-	public abstract fun consume (Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
-	public abstract fun publish (Lcom/hexagontk/messaging/Message;)V
+	public fun consume (Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public fun publish (Lcom/hexagontk/messaging/Message;)V
 	public abstract fun publish (Lcom/hexagontk/messaging/Message;Ljava/lang/String;)V
 }
 

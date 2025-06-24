@@ -280,6 +280,6 @@ internal class HttpClientTest {
         if (a.httpOnly != b.httpOnly) assert(false)
         if (a.domain != b.domain) assert(false)
         if (a.sameSite != b.sameSite) assert(false)
-        if (a.expires != b.expires) assert(false)
+        if (!(a.expires?.equals(b.expires) ?: (b.expires == null))) assert(false)
     }
 }

@@ -144,7 +144,7 @@ public abstract interface class com/hexagontk/shell/Property {
 	public static final field Companion Lcom/hexagontk/shell/Property$Companion;
 	public abstract fun addValue (Ljava/lang/String;)Lcom/hexagontk/shell/Property;
 	public abstract fun addValues (Lcom/hexagontk/shell/Property;)Lcom/hexagontk/shell/Property;
-	public abstract fun check (Ljava/lang/String;Lkotlin/text/Regex;)V
+	public fun check (Ljava/lang/String;Lkotlin/text/Regex;)V
 	public abstract fun clearValues ()Lcom/hexagontk/shell/Property;
 	public abstract fun getDescription ()Ljava/lang/String;
 	public abstract fun getMultiple ()Z
@@ -154,7 +154,7 @@ public abstract interface class com/hexagontk/shell/Property {
 	public abstract fun getTag ()Ljava/lang/String;
 	public abstract fun getType ()Lkotlin/reflect/KClass;
 	public abstract fun getValues ()Ljava/util/List;
-	public abstract fun typeText ()Ljava/lang/String;
+	public fun typeText ()Ljava/lang/String;
 }
 
 public final class com/hexagontk/shell/Property$Companion {

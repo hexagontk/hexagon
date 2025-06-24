@@ -249,11 +249,11 @@ public final class com/hexagontk/http/handlers/HttpContext : com/hexagontk/handl
 }
 
 public abstract interface class com/hexagontk/http/handlers/HttpController : com/hexagontk/http/handlers/HttpHandler {
-	public abstract fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
+	public fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public abstract fun getHandler ()Lcom/hexagontk/http/handlers/HttpHandler;
-	public abstract fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
-	public abstract fun getPredicate ()Lkotlin/jvm/functions/Function1;
-	public abstract fun process (Lcom/hexagontk/handlers/Context;)Lcom/hexagontk/handlers/Context;
+	public fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
+	public fun getPredicate ()Lkotlin/jvm/functions/Function1;
+	public fun process (Lcom/hexagontk/handlers/Context;)Lcom/hexagontk/handlers/Context;
 }
 
 public final class com/hexagontk/http/handlers/HttpController$DefaultImpls {
@@ -272,11 +272,11 @@ public abstract interface class com/hexagontk/http/handlers/HttpExceptionCallbac
 
 public abstract interface class com/hexagontk/http/handlers/HttpHandler : com/hexagontk/handlers/Handler {
 	public abstract fun addPrefix (Ljava/lang/String;)Lcom/hexagontk/http/handlers/HttpHandler;
-	public abstract fun byMethod ()Ljava/util/Map;
-	public abstract fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
+	public fun byMethod ()Ljava/util/Map;
+	public fun filter (Lcom/hexagontk/http/model/HttpMethod;)Lcom/hexagontk/http/handlers/HttpHandler;
 	public abstract fun getHandlerPredicate ()Lcom/hexagontk/http/handlers/HttpPredicate;
-	public abstract fun process (Lcom/hexagontk/http/model/HttpRequestPort;)Lcom/hexagontk/http/handlers/HttpContext;
-	public abstract fun processHttp (Lcom/hexagontk/http/handlers/HttpContext;)Lcom/hexagontk/http/handlers/HttpContext;
+	public fun process (Lcom/hexagontk/http/model/HttpRequestPort;)Lcom/hexagontk/http/handlers/HttpContext;
+	public fun processHttp (Lcom/hexagontk/http/handlers/HttpContext;)Lcom/hexagontk/http/handlers/HttpContext;
 }
 
 public final class com/hexagontk/http/handlers/HttpHandler$DefaultImpls {

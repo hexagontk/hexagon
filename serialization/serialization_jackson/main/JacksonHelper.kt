@@ -24,7 +24,7 @@ object JacksonHelper {
             is ObjectNode -> {
                 var map = emptyMap<String, Any?>()
 
-                for (f in node.fields())
+                for (f in node.properties())
                     map = map + (f.key to nodeToCollection(f.value))
 
                 map

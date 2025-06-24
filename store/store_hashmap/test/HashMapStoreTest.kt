@@ -150,8 +150,8 @@ internal class HashMapStoreTest {
         ))
         store.findOne(key, fields + "foundation" + "creationDate")?.apply {
             assert(get("web").toString() == "http://update1.example.org")
-            assert(get("foundation") == LocalDate.of(2015, 1, 1))
-            assert(get("creationDate") == LocalDateTime.of(2015, 1, 1, 23, 59))
+            assert(get("foundation")?.equals(LocalDate.of(2015, 1, 1)) ?: (LocalDate.of(2015, 1, 1) == null))
+            assert(get("creationDate")?.equals(LocalDateTime.of(2015, 1, 1, 23, 59)) ?: (LocalDateTime.of(2015, 1, 1, 23, 59) == null))
         }
 
         assert(store.count() == 1L)

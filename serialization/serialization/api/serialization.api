@@ -1,14 +1,20 @@
 public abstract interface class com/hexagontk/serialization/Data : java/util/Map, kotlin/jvm/internal/markers/KMappedMarker {
-	public abstract fun containsKey (Ljava/lang/String;)Z
-	public abstract fun containsValue (Ljava/lang/Object;)Z
-	public abstract fun get (Ljava/lang/String;)Ljava/lang/Object;
-	public abstract fun get (Lkotlin/reflect/KProperty1;)Ljava/lang/Object;
+	public fun containsKey (Ljava/lang/Object;)Z
+	public fun containsKey (Ljava/lang/String;)Z
+	public fun containsValue (Ljava/lang/Object;)Z
+	public fun entrySet ()Ljava/util/Set;
+	public fun get (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun get (Ljava/lang/String;)Ljava/lang/Object;
+	public fun get (Lkotlin/reflect/KProperty1;)Ljava/lang/Object;
 	public abstract fun getData ()Ljava/util/Map;
-	public abstract fun getEntries ()Ljava/util/Set;
-	public abstract fun getKeys ()Ljava/util/Set;
-	public abstract fun getSize ()I
-	public abstract fun getValues ()Ljava/util/Collection;
-	public abstract fun isEmpty ()Z
+	public fun getEntries ()Ljava/util/Set;
+	public fun getKeys ()Ljava/util/Set;
+	public fun getSize ()I
+	public fun getValues ()Ljava/util/Collection;
+	public fun isEmpty ()Z
+	public fun keySet ()Ljava/util/Set;
+	public fun size ()I
+	public fun values ()Ljava/util/Collection;
 	public abstract fun with (Ljava/util/Map;)Ljava/lang/Object;
 }
 
@@ -25,15 +31,21 @@ public final class com/hexagontk/serialization/Data$DefaultImpls {
 }
 
 public abstract interface class com/hexagontk/serialization/MutableData : java/util/Map, kotlin/jvm/internal/markers/KMappedMarker {
-	public abstract fun containsKey (Ljava/lang/String;)Z
-	public abstract fun containsValue (Ljava/lang/Object;)Z
+	public fun containsKey (Ljava/lang/Object;)Z
+	public fun containsKey (Ljava/lang/String;)Z
+	public fun containsValue (Ljava/lang/Object;)Z
 	public abstract fun data ()Ljava/util/Map;
-	public abstract fun get (Ljava/lang/String;)Ljava/lang/Object;
-	public abstract fun getEntries ()Ljava/util/Set;
-	public abstract fun getKeys ()Ljava/util/Set;
-	public abstract fun getSize ()I
-	public abstract fun getValues ()Ljava/util/Collection;
-	public abstract fun isEmpty ()Z
+	public fun entrySet ()Ljava/util/Set;
+	public fun get (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun get (Ljava/lang/String;)Ljava/lang/Object;
+	public fun getEntries ()Ljava/util/Set;
+	public fun getKeys ()Ljava/util/Set;
+	public fun getSize ()I
+	public fun getValues ()Ljava/util/Collection;
+	public fun isEmpty ()Z
+	public fun keySet ()Ljava/util/Set;
+	public fun size ()I
+	public fun values ()Ljava/util/Collection;
 	public abstract fun with (Ljava/util/Map;)V
 }
 
@@ -54,10 +66,10 @@ public abstract interface class com/hexagontk/serialization/SerializationFormat 
 	public abstract fun getMediaType ()Lcom/hexagontk/core/media/MediaType;
 	public abstract fun getTextFormat ()Z
 	public abstract fun parse (Ljava/io/InputStream;)Ljava/lang/Object;
-	public abstract fun parse (Ljava/lang/String;)Ljava/lang/Object;
-	public abstract fun serialize (Ljava/lang/Object;)Ljava/lang/String;
+	public fun parse (Ljava/lang/String;)Ljava/lang/Object;
+	public fun serialize (Ljava/lang/Object;)Ljava/lang/String;
 	public abstract fun serialize (Ljava/lang/Object;Ljava/io/OutputStream;)V
-	public abstract fun serializeBytes (Ljava/lang/Object;)[B
+	public fun serializeBytes (Ljava/lang/Object;)[B
 }
 
 public final class com/hexagontk/serialization/SerializationFormat$DefaultImpls {
