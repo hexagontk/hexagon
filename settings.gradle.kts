@@ -26,11 +26,11 @@ dependencyResolutionManagement {
             version("kotlin", "2.2.0")
             version("dokka", "2.0.0")
             version("licenseReport", "2.9")
-            version("binValidator", "0.17.0")
+            version("binValidator", "0.18.0")
             version("nativeTools", "0.10.6")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "8.14.2")
-            version("mkdocsMaterial", "9.6.14")
+            version("gradleWrapper", "8.14.3")
+            version("mkdocsMaterial", "9.6.15")
             version("maven", "3.9.10")
             version("jreleaser", "1.15.0")
 
@@ -38,7 +38,7 @@ dependencyResolutionManagement {
             version("mockk", "1.14.4")
             version("jacoco", "0.8.13")
             version("jmh", "1.37")
-            version("testcontainers", "1.21.2")
+            version("testcontainers", "1.21.3")
             version("commonsCompress", "1.27.1")
 
             // Shared
@@ -53,7 +53,7 @@ dependencyResolutionManagement {
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.0.22")
+            version("jetty", "12.0.23")
 
             // rest_tools
             version("swaggerRequestValidator", "2.44.9")
