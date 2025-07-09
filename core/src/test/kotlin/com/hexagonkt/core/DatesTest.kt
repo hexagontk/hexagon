@@ -19,18 +19,18 @@ internal class DatesTest {
         val ld = LocalDate.of(2017, 12, 31)
 
         assert(ld.toDate() == d)
-        assert(ld == d.toLocalDate())
+        assert(ld.equals(d.toLocalDate()))
     }
 
     @Test fun `Zoned date`() {
         val now = LocalDateTime.now()
-        assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
-        assert(now.withZone() == ZonedDateTime.of(now, Jvm.timeZone.toZoneId()))
+        assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime().equals(now))
+        assert(now.withZone().equals(ZonedDateTime.of(now, Jvm.timeZone.toZoneId())))
     }
 
     @Test fun `LocalDateTime can be converted to Date`() {
         val now = LocalDateTime.of(2018, 12, 31, 23, 59, 59)
-        assert(now.toDate().toLocalDateTime() == now)
+        assert(now.toDate().toLocalDateTime().equals(now))
     }
 
     @Test fun `A local date time returns a valid int timestamp` () {
@@ -40,10 +40,10 @@ internal class DatesTest {
     }
 
     @Test fun `Dates are parsed from ints`() {
-        assert(2016_09_05_17_45_59_101.toLocalDateTime() ==
-            LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
-        assert(2016_09_05_17_45_58_101.toLocalDateTime() !=
-            LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
+        assert(2016_09_05_17_45_59_101.toLocalDateTime()
+            .equals(LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000)))
+        assert(!2016_09_05_17_45_58_101.toLocalDateTime()
+            .equals(LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000)))
     }
 
     @Test fun `Negative numbers raise error when converted to dates`() {
