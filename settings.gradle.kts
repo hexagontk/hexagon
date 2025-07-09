@@ -18,55 +18,54 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.0.21")
+            version("kotlin", "2.2.0")
             version("dokka", "1.9.20")
             version("licenseReport", "2.9")
-            version("binValidator", "0.17.0")
-            version("nativeTools", "0.10.4")
-            version("detekt", "1.23.7")
-            version("jmhGradle", "0.7.2")
-            version("gradleWrapper", "8.10.2")
-            version("mkdocsMaterial", "9.5.50")
+            version("binValidator", "0.18.0")
+            version("nativeTools", "0.10.6")
+            version("jmhGradle", "0.7.3")
+            version("gradleWrapper", "8.14.2")
+            version("mkdocsMaterial", "9.6.15")
             version("mermaidDokka", "0.6.0")
-            version("maven", "3.9.9")
+            version("maven", "3.9.10")
 
             // Testing
-            version("mockk", "1.13.16")
+            version("mockk", "1.14.4")
             version("gatling", "3.10.5")
             version("jmh", "1.37")
 
             // Shared
-            version("slf4j", "2.0.16")
+            version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.1.117.Final")
-            version("nettyTcNative", "2.0.69.Final")
+            version("netty", "4.2.2.Final")
+            version("nettyTcNative", "2.0.72.Final")
 
             // http_server_helidon
-            version("helidon", "4.1.6")
+            version("helidon", "4.2.3")
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.0.16")
+            version("jetty", "12.0.23")
 
             // rest_tools
-            version("swaggerRequestValidator", "2.44.1")
+            version("swaggerRequestValidator", "2.44.9")
 
             // serialization
-            version("jackson", "2.18.2")
+            version("jackson", "2.19.1")
             version("dslJson", "2.0.2")
 
             // templates_freemarker
             version("freemarker", "2.3.34")
 
             // templates_jte
-            version("jte", "3.1.16")
+            version("jte", "3.2.1")
 
             // templates_pebble
-            version("pebble", "3.2.2")
+            version("pebble", "3.2.4")
 
             // templates_rocker
-            version("rocker", "2.1.0")
+            version("rocker", "2.2.1")
         }
     }
 }
