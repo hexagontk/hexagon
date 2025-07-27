@@ -27,15 +27,15 @@ dependencyResolutionManagement {
             version("dokka", "2.0.0")
             version("licenseReport", "2.9")
             version("binValidator", "0.18.0")
-            version("nativeTools", "0.10.6")
+            version("nativeTools", "0.11.0")
             version("jmhGradle", "0.7.3")
             version("gradleWrapper", "8.14.3")
-            version("mkdocsMaterial", "9.6.15")
-            version("maven", "3.9.10")
+            version("mkdocsMaterial", "9.6.16")
+            version("maven", "3.9.11")
             version("jreleaser", "1.15.0")
 
             // Testing
-            version("mockk", "1.14.4")
+            version("mockk", "1.14.5")
             version("jacoco", "0.8.13")
             version("jmh", "1.37")
             version("testcontainers", "1.21.3")
@@ -45,11 +45,11 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.2.2.Final")
+            version("netty", "4.2.3.Final")
             version("nettyTcNative", "2.0.72.Final")
 
             // http_server_helidon
-            version("helidon", "4.2.3")
+            version("helidon", "4.2.4")
 
             // http_server_servlet
             version("servlet", "6.1.0")
@@ -59,11 +59,11 @@ dependencyResolutionManagement {
             version("swaggerRequestValidator", "2.44.9")
 
             // messaging_rabbitmq
-            version("amqpClient", "5.25.0")
+            version("amqpClient", "5.26.0")
             version("metricsJmx", "4.2.33")
 
             // serialization
-            version("jackson", "2.19.1")
+            version("jackson", "2.19.2")
             version("dslJson", "2.0.2")
 
             // serverless_http_google
