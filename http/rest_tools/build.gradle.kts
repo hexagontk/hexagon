@@ -20,7 +20,12 @@ dependencies {
     "api"(project(":http:rest"))
     "api"(project(":http:http_server"))
     "api"(project(":http:http_client"))
-    "api"("com.atlassian.oai:swagger-request-validator-core:$swaggerRequestValidatorVersion")
+    "api"("com.atlassian.oai:swagger-request-validator-core:$swaggerRequestValidatorVersion") {
+        exclude(module = "commons-lang3")
+        exclude(module = "commons-codec")
+    }
+    "api"("org.apache.commons:commons-lang3:3.18.0")
+    "api"("commons-codec:commons-codec:1.13")
 
     "testImplementation"(project(":http:http_client_jetty"))
     "testImplementation"(project(":http:http_server_jetty"))

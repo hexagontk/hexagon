@@ -39,7 +39,7 @@ dependencyResolutionManagement {
             version("jacoco", "0.8.13")
             version("jmh", "1.37")
             version("testcontainers", "1.21.3")
-            version("commonsCompress", "1.27.1")
+            version("commonsCompress", "1.28.0")
 
             // Shared
             version("slf4j", "2.0.17")
