@@ -26,44 +26,44 @@ dependencyResolutionManagement {
             version("kotlin", "2.2.0")
             version("dokka", "2.0.0")
             version("licenseReport", "2.9")
-            version("binValidator", "0.17.0")
-            version("nativeTools", "0.10.6")
+            version("binValidator", "0.18.0")
+            version("nativeTools", "0.11.0")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "8.14.2")
-            version("mkdocsMaterial", "9.6.14")
-            version("maven", "3.9.10")
+            version("gradleWrapper", "8.14.3")
+            version("mkdocsMaterial", "9.6.16")
+            version("maven", "3.9.11")
             version("jreleaser", "1.15.0")
 
             // Testing
-            version("mockk", "1.14.4")
+            version("mockk", "1.14.5")
             version("jacoco", "0.8.13")
             version("jmh", "1.37")
-            version("testcontainers", "1.21.2")
-            version("commonsCompress", "1.27.1")
+            version("testcontainers", "1.21.3")
+            version("commonsCompress", "1.28.0")
 
             // Shared
             version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.2.2.Final")
+            version("netty", "4.2.3.Final")
             version("nettyTcNative", "2.0.72.Final")
 
             // http_server_helidon
-            version("helidon", "4.2.3")
+            version("helidon", "4.2.4")
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.0.22")
+            version("jetty", "12.0.23")
 
             // rest_tools
             version("swaggerRequestValidator", "2.44.9")
 
             // messaging_rabbitmq
-            version("amqpClient", "5.25.0")
+            version("amqpClient", "5.26.0")
             version("metricsJmx", "4.2.33")
 
             // serialization
-            version("jackson", "2.19.1")
+            version("jackson", "2.19.2")
             version("dslJson", "2.0.2")
 
             // serverless_http_google
