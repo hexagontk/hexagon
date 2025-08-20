@@ -23,14 +23,14 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.2.0")
+            version("kotlin", "2.2.10")
             version("dokka", "2.0.0")
             version("licenseReport", "2.9")
             version("binValidator", "0.18.0")
             version("nativeTools", "0.11.0")
             version("jmhGradle", "0.7.3")
             version("gradleWrapper", "8.14.3")
-            version("mkdocsMaterial", "9.6.16")
+            version("mkdocsMaterial", "9.6.17")
             version("maven", "3.9.11")
             version("jreleaser", "1.15.0")
 
@@ -45,18 +45,18 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.2.3.Final")
+            version("netty", "4.2.4.Final")
             version("nettyTcNative", "2.0.72.Final")
 
             // http_server_helidon
-            version("helidon", "4.2.5")
+            version("helidon", "4.2.6")
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.0.23")
+            version("jetty", "12.1.0")
 
             // rest_tools
-            version("swaggerRequestValidator", "2.44.9")
+            version("swaggerRequestValidator", "2.45.1")
 
             // messaging_rabbitmq
             version("amqpClient", "5.26.0")
