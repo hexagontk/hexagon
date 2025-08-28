@@ -17,6 +17,7 @@ extensions.configure<PublishingExtension> {
                 "jetty.version" to libs.versions.jetty.get(),
                 "netty.version" to libs.versions.netty.get(),
                 "jackson.version" to libs.versions.jackson.get(),
+                "junit.version" to libs.versions.junit.get(),
             ))
 
             withXml {
@@ -52,16 +53,16 @@ extensions.configure<PublishingExtension> {
                 "doxia-module-markdown.version" to "2.0.0",
                 "maven-antrun-plugin.version" to "3.1.0",
                 "maven-assembly-plugin.version" to "3.7.1",
-                "maven-clean-plugin.version" to "3.4.0",
+                "maven-clean-plugin.version" to "3.5.0",
                 "maven-compiler-plugin.version" to "3.14.0",
-                "maven-gpg-plugin.version" to "3.2.7",
+                "maven-gpg-plugin.version" to "3.2.8",
                 "maven-install-plugin.version" to "3.1.3",
                 "maven-jar-plugin.version" to "3.4.2",
-                "maven-javadoc-plugin.version" to "3.5.0",
+                "maven-javadoc-plugin.version" to "3.11.3",
                 "maven-jlink-plugin.version" to "3.2.0",
                 "maven-resources-plugin.version" to "3.3.1",
                 "maven-site-plugin.version" to "3.21.0",
-                "maven-source-plugin.version" to "3.3.0",
+                "maven-source-plugin.version" to "3.3.1",
                 "maven-surefire-plugin.version" to "3.5.3",
             ))
 

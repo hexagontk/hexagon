@@ -23,15 +23,16 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.2.10")
+            version("kotlin", "2.2.20-RC")
             version("dokka", "2.0.0")
             version("licenseReport", "2.9")
             version("binValidator", "0.18.0")
             version("nativeTools", "0.11.0")
             version("jmhGradle", "0.7.3")
             version("gradleWrapper", "8.14.3")
-            version("mkdocsMaterial", "9.6.17")
+            version("mkdocsMaterial", "9.6.18")
             version("maven", "3.9.11")
+            version("junit", "6.0.0-RC2")
             version("jreleaser", "1.15.0")
 
             // Testing
@@ -60,10 +61,10 @@ dependencyResolutionManagement {
 
             // messaging_rabbitmq
             version("amqpClient", "5.26.0")
-            version("metricsJmx", "4.2.33")
+            version("metricsJmx", "4.2.34")
 
             // serialization
-            version("jackson", "2.19.2")
+            version("jackson", "2.20.0-rc1")
             version("dslJson", "2.0.2")
 
             // serverless_http_google
