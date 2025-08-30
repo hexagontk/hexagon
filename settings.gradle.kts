@@ -26,7 +26,7 @@ dependencyResolutionManagement {
             version("kotlin", "2.2.20-RC")
             version("dokka", "2.0.0")
             version("licenseReport", "2.9")
-            version("binValidator", "0.18.0")
+            version("binValidator", "0.18.1")
             version("nativeTools", "0.11.0")
             version("jmhGradle", "0.7.3")
             version("gradleWrapper", "8.14.3")
