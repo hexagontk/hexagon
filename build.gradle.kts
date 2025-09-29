@@ -6,6 +6,7 @@ import com.github.jk1.license.render.InventoryMarkdownReportRenderer
 import com.github.jk1.license.render.ReportRenderer
 import org.gradle.api.tasks.wrapper.Wrapper.DistributionType.ALL
 import org.jreleaser.model.Active.ALWAYS
+import java.io.BufferedReader
 
 /*
  * Main build script, responsible for:
@@ -59,7 +60,7 @@ mapOf(
 apply(from = "gradle/certificates.gradle")
 
 allprojects {
-    version = "4.2.3"
+    version = "4.2.4"
     group = "com.hexagontk"
 }
 
@@ -231,7 +232,17 @@ private fun execute(command: String) {
 }
 
 private fun execute(command: List<String>) {
-    exec { commandLine(command) }
+    Runtime
+        .getRuntime()
+        .exec(command.toTypedArray())
+        .let { process ->
+            process.waitFor()
+            val output = process.inputStream.use {
+                it.bufferedReader().use(BufferedReader::readText)
+            }
+            process.destroy()
+            output.trim()
+        }
 }
 
 private val generatedDir = "build/generated/sources/annotationProcessor/java/main"

@@ -1,5 +1,6 @@
 
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier.Public
+import java.io.BufferedReader
 import kotlin.math.floor
 
 plugins {
@@ -97,7 +98,7 @@ tasks.register<JacocoReport>("jacocoRootReport") {
     }
 }
 
-task("mkDocs") {
+tasks.register("mkDocs") {
     dependsOn(tasks["jacocoRootReport"])
 //    dependsOn("icons")
 
@@ -135,7 +136,7 @@ task("mkDocs") {
     }
 }
 
-task("checkDocs") {
+tasks.register("checkDocs") {
     dependsOn("mkDocs")
     doLast {
         val readme = rootProject.file("README.md")
@@ -184,25 +185,25 @@ tasks.register<Exec>("buildSite") {
     val siteAlias = if (rootVersion.contains(Regex("-[AB]"))) "dev" else "stable"
     val majorVersion = "v" + rootVersion.split(".").first()
     val command = "$mike deploy $pushSite--update-aliases $majorVersion $siteAlias"
-    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    environment["PATH"] = System.getenv("PATH") + ":$venv/bin"
     commandLine(command.split(" "))
 }
 
 tasks.register<Exec>("deleteSite") {
     dependsOn("installMkDocs")
-    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    environment["PATH"] = System.getenv("PATH") + ":$venv/bin"
     commandLine("$venv/bin/mike delete --all".split(" "))
 }
 
 tasks.register<Exec>("defaultSite") {
     dependsOn("installMkDocs")
-    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    environment["PATH"] = System.getenv("PATH") + ":$venv/bin"
     commandLine("$venv/bin/mike set-default stable".split(" "))
 }
 
 tasks.register<Exec>("serveSite") {
     dependsOn("checkDocs", "installMkDocs")
-    environment.put("PATH", System.getenv("PATH") + ":$venv/bin")
+    environment["PATH"] = System.getenv("PATH") + ":$venv/bin"
     commandLine("$venv/bin/mike serve".split(" "))
 }
 
@@ -304,5 +305,15 @@ private fun execute(command: String) {
 }
 
 private fun execute(command: List<String>) {
-    exec { commandLine(command) }
+    Runtime
+        .getRuntime()
+        .exec(command.toTypedArray())
+        .let { process ->
+            process.waitFor()
+            val output = process.inputStream.use {
+                it.bufferedReader().use(BufferedReader::readText)
+            }
+            process.destroy()
+            output.trim()
+        }
 }
