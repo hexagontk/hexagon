@@ -27,13 +27,13 @@ dependencyResolutionManagement {
             version("dokka", "2.0.0")
             version("licenseReport", "2.9")
             version("binValidator", "0.18.1")
-            version("nativeTools", "0.11.0")
+            version("nativeTools", "0.11.1")
             version("jmhGradle", "0.7.3")
             version("gradleWrapper", "9.1.0")
             version("mkdocsMaterial", "9.6.20")
             version("maven", "3.9.11")
             version("junit", "6.0.0-RC3")
-            version("jreleaser", "1.15.0")
+            version("jreleaser", "1.20.0")
 
             // Testing
             version("mockk", "1.14.5")
