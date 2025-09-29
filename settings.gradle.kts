@@ -33,7 +33,7 @@ dependencyResolutionManagement {
             version("mkdocsMaterial", "9.6.20")
             version("maven", "3.9.11")
             version("junit", "6.0.0-RC3")
-            version("jreleaser", "1.20.0")
+            version("jreleaser", "1.19.0")
 
             // Testing
             version("mockk", "1.14.5")
