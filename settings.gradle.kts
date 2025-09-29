@@ -29,7 +29,7 @@ dependencyResolutionManagement {
             version("binValidator", "0.18.1")
             version("nativeTools", "0.11.0")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "8.14.3")
+            version("gradleWrapper", "9.1.0")
             version("mkdocsMaterial", "9.6.20")
             version("maven", "3.9.11")
             version("junit", "6.0.0-RC3")
@@ -47,17 +47,17 @@ dependencyResolutionManagement {
 
             // http_server_netty
             version("netty", "4.2.6.Final")
-            version("nettyTcNative", "2.0.73.Final")
+            version("nettyTcNative", "2.0.74.Final")
 
             // http_server_helidon
-            version("helidon", "4.2.7")
+            version("helidon", "4.3.0")
 
             // http_server_servlet
             version("servlet", "6.1.0")
             version("jetty", "12.1.1")
 
             // rest_tools
-            version("swaggerRequestValidator", "2.45.1")
+            version("swaggerRequestValidator", "2.46.0")
 
             // messaging_rabbitmq
             version("amqpClient", "5.26.0")
