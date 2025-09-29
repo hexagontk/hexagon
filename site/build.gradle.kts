@@ -1,6 +1,5 @@
 
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier.Public
-import java.io.BufferedReader
 import kotlin.math.floor
 
 plugins {
@@ -310,10 +309,6 @@ private fun execute(command: List<String>) {
         .exec(command.toTypedArray())
         .let { process ->
             process.waitFor()
-            val output = process.inputStream.use {
-                it.bufferedReader().use(BufferedReader::readText)
-            }
             process.destroy()
-            output.trim()
         }
 }

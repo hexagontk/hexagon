@@ -6,7 +6,6 @@ import com.github.jk1.license.render.InventoryMarkdownReportRenderer
 import com.github.jk1.license.render.ReportRenderer
 import org.gradle.api.tasks.wrapper.Wrapper.DistributionType.ALL
 import org.jreleaser.model.Active.ALWAYS
-import java.io.BufferedReader
 
 /*
  * Main build script, responsible for:
@@ -237,11 +236,7 @@ private fun execute(command: List<String>) {
         .exec(command.toTypedArray())
         .let { process ->
             process.waitFor()
-            val output = process.inputStream.use {
-                it.bufferedReader().use(BufferedReader::readText)
-            }
             process.destroy()
-            output.trim()
         }
 }
 
