@@ -29,11 +29,11 @@ dependencyResolutionManagement {
             version("binValidator", "0.18.1")
             version("nativeTools", "0.11.1")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "9.1.0")
+            version("gradleWrapper", "8.14.3")
             version("mkdocsMaterial", "9.6.20")
             version("maven", "3.9.11")
             version("junit", "6.0.0-RC3")
-            version("jreleaser", "1.19.0")
+            version("jreleaser", "1.15.0")
 
             // Testing
             version("mockk", "1.14.5")
