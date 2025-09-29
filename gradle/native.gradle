@@ -37,7 +37,10 @@ graalvmNative {
             jvmArgs.add("-Xmx6g")
             buildArgs.add("--parallelism=" + parallelism)
             buildArgs.add("-ea")
+            buildArgs.add("-R:MaxHeapSize=2g")
+            buildArgs.add("-march=compatibility")
             buildArgs.add("-H:IncludeResources=.*")
+            buildArgs.add("--strict-image-heap")
             buildArgs.add("--initialize-at-build-time=kotlin.annotation.AnnotationRetention")
             buildArgs.add("--initialize-at-build-time=kotlin.annotation.AnnotationTarget")
         }
