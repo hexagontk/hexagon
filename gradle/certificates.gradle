@@ -82,6 +82,14 @@ tasks.register("createIdentities") {
     }
 }
 
+private void execute(final List<String> command) {
+    final String[] arguments = command.toArray()
+    final Process process = Runtime.getRuntime().exec(arguments)
+
+    process.waitFor()
+    process.destroy()
+}
+
 private void createKeyPair(
     final String file,
     final String alias,
@@ -139,7 +147,7 @@ private void keytool(
 
     commandList.addAll(others.collect { it.toString() })
     logCommand(commandList)
-    project.exec { commandLine(commandList) }
+    execute(commandList)
 }
 
 private void logCommand(final List<Object> fullCommand) {
