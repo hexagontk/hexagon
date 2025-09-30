@@ -45,6 +45,7 @@ extensions.configure<PublishingExtension> {
                 "native.tools.version" to libs.versions.nativeTools.get(),
                 "jacoco.version" to libs.versions.jacoco.get(),
                 "jmh.version" to libs.versions.jmh.get(),
+                "junit.version" to libs.versions.junit.get(),
                 "mainSource" to "src/main/kotlin",
                 "mainResources" to "src/main/resources",
                 "testSource" to "src/test/kotlin",

@@ -48,7 +48,7 @@ jobs:
         run: |
           export JRELEASER_GPG_PUBLIC_KEY="$(cat site/assets/project_hexagontk_com_public.key)"
           ./gradlew --no-daemon -x test publish
-          ./gradlew --info --no-daemon -x test jreleaserFullRelease
+          ./gradlew --no-daemon -x test jreleaserFullRelease
           git push --tags
 
   build_site:
