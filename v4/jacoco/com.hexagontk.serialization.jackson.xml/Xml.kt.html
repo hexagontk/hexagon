@@ -16,7 +16,7 @@ import java.io.InputStream
 import java.io.OutputStream
 
 // TODO Implement with Java XML support (Jackson is not the best option here)
-<span class="pc" id="L19">object Xml : SerializationFormat {</span>
+object Xml : SerializationFormat {
 
 <span class="fc" id="L21">    private val mapper: ObjectMapper = XmlMapper(JacksonXmlModule())</span>
 <span class="fc" id="L22">        .configure(INDENT_OUTPUT, true)</span>

@@ -76,12 +76,12 @@ object ConvertersManager {
 
 <span class="fc" id="L77">        val converter = converters[sourceType to target]</span>
 <span class="fc bfc" id="L78" title="All 2 branches covered.">        if (converter != null)</span>
-<span class="fc" id="L79">            return converter as? (S) -&gt; T</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">            return converter as? (S) -&gt; T</span>
 
 <span class="fc bfc" id="L81" title="All 2 branches covered.">        if (source is Map&lt;*, *&gt;) {</span>
 <span class="fc" id="L82">            val superTypeConverter = converters[Map::class to target]</span>
 <span class="pc bpc" id="L83" title="1 of 2 branches missed.">            if (superTypeConverter != null)</span>
-<span class="fc" id="L84">                return superTypeConverter as? (S) -&gt; T</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">                return superTypeConverter as? (S) -&gt; T</span>
         }
 
 <span class="fc" id="L87">        return null</span>

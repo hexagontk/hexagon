@@ -5,7 +5,7 @@ import com.hexagontk.handlers.Handler
 import com.hexagontk.http.model.HttpMethod
 import com.hexagontk.http.model.HttpCall
 
-<span class="pc" id="L8">class FilterHandler(</span>
+<span class="fc" id="L8">class FilterHandler(</span>
 <span class="fc" id="L9">    override val handlerPredicate: HttpPredicate = HttpPredicate(),</span>
 <span class="fc" id="L10">    val block: HttpCallbackType,</span>
 <span class="fc" id="L11">) : HttpHandler, Handler&lt;HttpCall&gt; by FilterHandler(handlerPredicate, toCallback(block)) {</span>

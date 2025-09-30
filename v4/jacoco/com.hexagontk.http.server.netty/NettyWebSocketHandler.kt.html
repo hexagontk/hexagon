@@ -12,7 +12,7 @@ import io.netty.handler.codec.http.websocketx.*
 <span class="pc" id="L12">    private val onPing: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
 <span class="pc" id="L13">    private val onPong: WsSession.(data: ByteArray) -&gt; Unit = {},</span>
 <span class="pc" id="L14">    private val onClose: WsSession.(status: Int, reason: String) -&gt; Unit = { _, _ -&gt; },</span>
-<span class="pc" id="L15">) : ChannelInboundHandlerAdapter() {</span>
+<span class="nc" id="L15">) : ChannelInboundHandlerAdapter() {</span>
 
     override fun channelRead(context: ChannelHandlerContext, message: Any) {
 <span class="pc bpc" id="L18" title="1 of 2 branches missed.">        if (message !is WebSocketFrame)</span>
