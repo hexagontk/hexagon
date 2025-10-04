@@ -1,7 +1,7 @@
 
 plugins {
     id("java-library")
-    id("nu.studer.rocker") version("3.0.4")
+    id("nu.studer.rocker") version("3.2")
     // TODO Check 'official' plugin
 //    id("com.fizzed.rocker") version(libs.versions.rocker.get())
 }
