@@ -22,7 +22,7 @@ dependencies {
     "api"("org.mongodb:mongodb-driver-sync:$mongodbVersion")
 
     "testImplementation"("org.apache.commons:commons-compress:$commonsCompressVersion")
-    "testImplementation"("org.testcontainers:mongodb:$testcontainersVersion") {
+    "testImplementation"("org.testcontainers:testcontainers-mongodb:$testcontainersVersion") {
         exclude(module = "commons-compress")
     }
 }

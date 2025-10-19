@@ -71,7 +71,7 @@ internal class JacksonTextFormatTest {
 
     @Test fun `Errors parsing input are handled`() {
         assertEquals(
-            "Unknown node type: com.fasterxml.jackson.databind.node.MissingNode",
+            "Unknown node type: tools.jackson.databind.node.MissingNode",
             assertFailsWith<IllegalStateException> { RelaxedTextFormat.parse("") }.message
         )
         assertEquals(
@@ -131,7 +131,7 @@ internal class JacksonTextFormatTest {
 
     @Test fun `Errors parsing input are handled (strict)`() {
         assertEquals(
-            "Unknown node type: com.fasterxml.jackson.databind.node.MissingNode",
+            "Unknown node type: tools.jackson.databind.node.MissingNode",
             assertFailsWith<IllegalStateException> { TextFormat.parse("") }.message
         )
         assertEquals(

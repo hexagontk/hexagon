@@ -64,7 +64,7 @@ dependencyResolutionManagement {
             version("metricsJmx", "4.2.37")
 
             // serialization
-            version("jackson", "2.20.0")
+            version("jackson", "3.0.0")
             version("dslJson", "2.0.2")
 
             // serverless_http_google

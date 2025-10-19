@@ -17,7 +17,7 @@ dependencies {
     val jacksonVersion = libs.versions.jackson.get()
 
     "api"(project(":serialization:serialization"))
-    "api"("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+    "api"("tools.jackson.core:jackson-databind:$jacksonVersion")
 
     "testImplementation"("org.jetbrains.kotlin:kotlin-reflect")
 }

@@ -1,6 +1,6 @@
 package com.hexagontk.store.mongodb
 
-import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.mongodb.MongoDBContainer
 import org.testcontainers.utility.DockerImageName
 import java.net.URL
 import java.time.LocalDate
