@@ -1,71 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JacksonHelper.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.serialization.jackson</a> &gt; <span class="el_source">JacksonHelper.kt</span></div><h1>JacksonHelper.kt</h1><pre class="source lang-java linenums">package com.hexagontk.serialization.jackson
 
-import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.core.json.JsonReadFeature.*
-import com.fasterxml.jackson.core.json.JsonWriteFeature.QUOTE_FIELD_NAMES
-import com.fasterxml.jackson.databind.*
-import com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY
-import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES
-import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
-import com.fasterxml.jackson.databind.MapperFeature.SORT_PROPERTIES_ALPHABETICALLY
-import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
-import com.fasterxml.jackson.databind.json.JsonMapper
-import com.fasterxml.jackson.databind.node.*
+import tools.jackson.databind.*
+import tools.jackson.databind.node.*
 
 object JacksonHelper {
 
     fun mapNode(node: JsonNode): Any =
-<span class="fc bfc" id="L18" title="All 2 branches covered.">        nodeToCollection(node) ?: error(&quot;Parsed content is 'null'&quot;)</span>
+<span class="fc bfc" id="L9" title="All 2 branches covered.">        nodeToCollection(node) ?: error(&quot;Parsed content is 'null'&quot;)</span>
 
     internal fun nodeToCollection(node: JsonNode): Any? =
-<span class="fc" id="L21">        when (node) {</span>
+<span class="fc" id="L12">        when (node) {</span>
 
-<span class="fc bfc" id="L23" title="All 2 branches covered.">            is ArrayNode -&gt; node.toList().map { nodeToCollection(it) }</span>
-<span class="fc bfc" id="L24" title="All 2 branches covered.">            is ObjectNode -&gt; {</span>
-<span class="fc" id="L25">                var map = emptyMap&lt;String, Any?&gt;()</span>
+<span class="fc bfc" id="L14" title="All 2 branches covered.">            is ArrayNode -&gt; node.toList().map { nodeToCollection(it) }</span>
+<span class="fc bfc" id="L15" title="All 2 branches covered.">            is ObjectNode -&gt; {</span>
+<span class="fc" id="L16">                var map = emptyMap&lt;String, Any?&gt;()</span>
 
-<span class="fc bfc" id="L27" title="All 2 branches covered.">                for (f in node.properties())</span>
-<span class="fc" id="L28">                    map = map + (f.key to nodeToCollection(f.value))</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">                for (f in node.properties())</span>
+<span class="fc" id="L19">                    map = map + (f.key to nodeToCollection(f.value))</span>
 
-<span class="fc" id="L30">                map</span>
+<span class="fc" id="L21">                map</span>
             }
 
-<span class="fc bfc" id="L33" title="All 2 branches covered.">            is TextNode -&gt; node.textValue()</span>
-<span class="fc bfc" id="L34" title="All 2 branches covered.">            is BigIntegerNode -&gt; node.bigIntegerValue()</span>
-<span class="fc bfc" id="L35" title="All 2 branches covered.">            is BooleanNode -&gt; node.booleanValue()</span>
-<span class="fc bfc" id="L36" title="All 2 branches covered.">            is DecimalNode -&gt; node.doubleValue()</span>
-<span class="fc bfc" id="L37" title="All 2 branches covered.">            is DoubleNode -&gt; node.doubleValue()</span>
-<span class="fc bfc" id="L38" title="All 2 branches covered.">            is FloatNode -&gt; node.floatValue()</span>
-<span class="fc bfc" id="L39" title="All 2 branches covered.">            is IntNode -&gt; node.intValue()</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">            is LongNode -&gt; node.longValue()</span>
-<span class="fc bfc" id="L41" title="All 2 branches covered.">            is NullNode -&gt; null</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">            is BinaryNode -&gt; node.binaryValue()</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">            is StringNode -&gt; node.stringValue()</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">            is BigIntegerNode -&gt; node.bigIntegerValue()</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            is BooleanNode -&gt; node.booleanValue()</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            is DecimalNode -&gt; node.doubleValue()</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">            is DoubleNode -&gt; node.doubleValue()</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">            is FloatNode -&gt; node.floatValue()</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">            is IntNode -&gt; node.intValue()</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">            is LongNode -&gt; node.longValue()</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            is NullNode -&gt; null</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">            is BinaryNode -&gt; node.binaryValue()</span>
 
-<span class="fc" id="L44">            else -&gt; error(&quot;Unknown node type: ${node::class.qualifiedName}&quot;)</span>
-<span class="fc" id="L45">        }</span>
-
-    internal fun createMapper(mapperFactory: JsonFactory): JsonMapper =
-<span class="fc" id="L48">        baseMapper(mapperFactory).build()</span>
-
-    internal fun createRelaxedMapper(mapperFactory: JsonFactory): JsonMapper =
-<span class="fc" id="L51">        baseMapper(mapperFactory)</span>
-<span class="fc" id="L52">            .configure(ALLOW_UNQUOTED_FIELD_NAMES, true)</span>
-<span class="fc" id="L53">            .configure(ALLOW_JAVA_COMMENTS, true)</span>
-<span class="fc" id="L54">            .configure(ALLOW_SINGLE_QUOTES, true)</span>
-<span class="fc" id="L55">            .configure(ALLOW_TRAILING_COMMA, true)</span>
-<span class="fc" id="L56">            .configure(ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true)</span>
-<span class="fc" id="L57">            .configure(ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS, true)</span>
-<span class="fc" id="L58">            .configure(ALLOW_UNESCAPED_CONTROL_CHARS, true)</span>
-<span class="fc" id="L59">            .configure(QUOTE_FIELD_NAMES, false)</span>
-<span class="fc" id="L60">            .build()</span>
-
-    private fun baseMapper(mapperFactory: JsonFactory): JsonMapper.Builder =
-<span class="fc" id="L63">        JsonMapper.builder(mapperFactory)</span>
-<span class="fc" id="L64">            .findAndAddModules()</span>
-<span class="fc" id="L65">            .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)</span>
-<span class="fc" id="L66">            .configure(FAIL_ON_EMPTY_BEANS, false)</span>
-<span class="fc" id="L67">            .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)</span>
-<span class="fc" id="L68">            .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)</span>
-<span class="fc" id="L69">            .configure(SORT_PROPERTIES_ALPHABETICALLY, false)</span>
+<span class="fc" id="L35">            else -&gt; error(&quot;Unknown node type: ${node::class.qualifiedName}&quot;)</span>
+<span class="fc" id="L36">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

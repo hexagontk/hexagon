@@ -1,44 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JacksonTextFormat.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagontk.serialization.jackson</a> &gt; <span class="el_source">JacksonTextFormat.kt</span></div><h1>JacksonTextFormat.kt</h1><pre class="source lang-java linenums">package com.hexagontk.serialization.jackson
 
-import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.hexagontk.serialization.SerializationFormat
-import com.hexagontk.serialization.jackson.JacksonHelper.createMapper
-import com.hexagontk.serialization.jackson.JacksonHelper.createRelaxedMapper
 import com.hexagontk.serialization.jackson.JacksonHelper.mapNode
+
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.core.json.JsonReadFeature.*
+import tools.jackson.core.json.JsonWriteFeature.*
+import tools.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
+import tools.jackson.core.util.DefaultPrettyPrinter
+import tools.jackson.databind.DeserializationFeature.*
+import tools.jackson.databind.MapperFeature.*
+import tools.jackson.databind.SerializationFeature.*
+
 import java.io.InputStream
 import java.io.OutputStream
 
-<span class="fc" id="L13">abstract class JacksonTextFormat(</span>
-<span class="fc" id="L14">    factoryGenerator: () -&gt; JsonFactory = { JsonFactory() },</span>
-<span class="fc" id="L15">    prettyPrint: Boolean = true,</span>
-<span class="fc" id="L16">    relaxed: Boolean = false,</span>
-<span class="fc" id="L17">) : SerializationFormat {</span>
+<span class="fc" id="L19">abstract class JacksonTextFormat(</span>
+<span class="fc" id="L20">    prettyPrint: Boolean = true,</span>
+<span class="fc" id="L21">    relaxed: Boolean = false,</span>
+<span class="fc" id="L22">) : SerializationFormat {</span>
 
-<span class="fc" id="L19">    private val mapper by lazy {</span>
-<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (relaxed)</span>
-<span class="fc" id="L21">            createRelaxedMapper(factoryGenerator())</span>
+<span class="fc" id="L24">    private val mapper by lazy {</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (relaxed)</span>
+<span class="fc" id="L26">            createRelaxedMapper()</span>
         else
-<span class="fc" id="L23">            createMapper(factoryGenerator())</span>
+<span class="fc" id="L28">            createMapper()</span>
     }
 
-<span class="fc" id="L26">    override val textFormat = true</span>
+<span class="fc" id="L31">    override val textFormat = true</span>
 
-<span class="fc" id="L28">    private val writer by lazy {</span>
-<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (prettyPrint)</span>
-<span class="fc" id="L30">            mapper.writer(DefaultPrettyPrinter().withArrayIndenter(SYSTEM_LINEFEED_INSTANCE))</span>
+<span class="fc" id="L33">    private val writer by lazy {</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (prettyPrint)</span>
+<span class="fc" id="L35">            mapper.writerWithDefaultPrettyPrinter()</span>
         else
-<span class="fc" id="L32">            mapper.writer()</span>
+<span class="fc" id="L37">            mapper.writer()</span>
     }
 
     override fun serialize(instance: Any, output: OutputStream) =
-<span class="fc" id="L36">        writer.writeValue(output, instance)</span>
+<span class="fc" id="L41">        writer.writeValue(output, instance)</span>
 
     override fun serialize(instance: Any): String =
-<span class="fc" id="L39">        writer.writeValueAsString(instance)</span>
+<span class="fc" id="L44">        writer.writeValueAsString(instance)</span>
 
     override fun parse(input: InputStream): Any =
-<span class="fc" id="L42">        mapNode(mapper.readTree(input))</span>
+<span class="fc" id="L47">        mapNode(mapper.readTree(input))</span>
+
+    protected open fun createRelaxedMapper(): ObjectMapper =
+<span class="fc" id="L50">        baseMapper()</span>
+<span class="fc" id="L51">            .configure(ALLOW_UNQUOTED_PROPERTY_NAMES, true)</span>
+<span class="fc" id="L52">            .configure(ALLOW_JAVA_COMMENTS, true)</span>
+<span class="fc" id="L53">            .configure(ALLOW_SINGLE_QUOTES, true)</span>
+<span class="fc" id="L54">            .configure(ALLOW_TRAILING_COMMA, true)</span>
+<span class="fc" id="L55">            .configure(ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true)</span>
+<span class="fc" id="L56">            .configure(ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS, true)</span>
+<span class="fc" id="L57">            .configure(ALLOW_UNESCAPED_CONTROL_CHARS, true)</span>
+<span class="fc" id="L58">            .configure(QUOTE_PROPERTY_NAMES, false)</span>
+<span class="fc" id="L59">            .build()</span>
+
+    protected open fun createMapper(): ObjectMapper =
+<span class="fc" id="L62">        baseMapper().build()</span>
+
+    private fun baseMapper(): JsonMapper.Builder =
+<span class="fc" id="L65">        JsonMapper.builder()</span>
+<span class="fc" id="L66">            .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)</span>
+<span class="fc" id="L67">            .configure(FAIL_ON_EMPTY_BEANS, false)</span>
+<span class="fc" id="L68">            .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)</span>
+<span class="fc" id="L69">            .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)</span>
+<span class="fc" id="L70">            .configure(SORT_PROPERTIES_ALPHABETICALLY, false)</span>
+<span class="fc" id="L71">            .defaultPrettyPrinter(</span>
+<span class="fc" id="L72">                DefaultPrettyPrinter().withArrayIndenter(SYSTEM_LINEFEED_INSTANCE)</span>
+<span class="fc" id="L73">            )</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
