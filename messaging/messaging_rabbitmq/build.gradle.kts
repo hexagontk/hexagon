@@ -15,7 +15,6 @@ description = "."
 dependencies {
     val amqpClientVersion = libs.versions.amqpClient.get()
     val metricsJmxVersion = libs.versions.metricsJmx.get()
-    val jacksonVersion = libs.versions.jackson.get()
     val testcontainersVersion = libs.versions.testcontainers.get()
     val commonsCompressVersion = libs.versions.commonsCompress.get()
 
@@ -27,9 +26,8 @@ dependencies {
     "api"("io.dropwizard.metrics:metrics-jmx:$metricsJmxVersion")
 
     "testImplementation"(project(":serialization:serialization_jackson_json"))
-    "testImplementation"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     "testImplementation"("org.apache.commons:commons-compress:$commonsCompressVersion")
-    "testImplementation"("org.testcontainers:rabbitmq:$testcontainersVersion") {
+    "testImplementation"("org.testcontainers:testcontainers-rabbitmq:$testcontainersVersion") {
         exclude(module = "commons-compress")
     }
 }

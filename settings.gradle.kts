@@ -29,42 +29,42 @@ dependencyResolutionManagement {
             version("binValidator", "0.18.1")
             version("nativeTools", "0.11.1")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "8.14.3")
-            version("mkdocsMaterial", "9.6.20")
-            version("maven", "3.9.11")
-            version("junit", "6.0.0-RC3")
-            version("jreleaser", "1.15.0")
+            version("gradleWrapper", "9.1.0")
+            version("mkdocsMaterial", "9.6.22")
+            version("maven", "4.0.0-rc-4")
+            version("junit", "6.0.0")
+            version("jreleaser", "1.20.0")
 
             // Testing
-            version("mockk", "1.14.5")
-            version("jacoco", "0.8.13")
+            version("mockk", "1.14.6")
+            version("jacoco", "0.8.14")
             version("jmh", "1.37")
-            version("testcontainers", "1.21.3")
+            version("testcontainers", "2.0.1")
             version("commonsCompress", "1.28.0")
 
             // Shared
             version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.2.6.Final")
+            version("netty", "4.2.7.Final")
             version("nettyTcNative", "2.0.74.Final")
 
             // http_server_helidon
-            version("helidon", "4.3.0")
+            version("helidon", "4.3.1")
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.1.1")
+            version("jetty", "12.1.2")
 
             // rest_tools
             version("swaggerRequestValidator", "2.46.0")
 
             // messaging_rabbitmq
-            version("amqpClient", "5.26.0")
+            version("amqpClient", "5.27.0")
             version("metricsJmx", "4.2.37")
 
             // serialization
-            version("jackson", "2.20.0")
+            version("jackson", "3.0.0")
             version("dslJson", "2.0.2")
 
             // serverless_http_google

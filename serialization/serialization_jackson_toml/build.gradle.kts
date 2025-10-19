@@ -17,8 +17,8 @@ dependencies {
     val jacksonVersion = libs.versions.jackson.get()
 
     "api"(project(":serialization:serialization_jackson"))
-    "api"(platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
-    "api"("com.fasterxml.jackson.dataformat:jackson-dataformat-toml")
+    "api"(platform("tools.jackson:jackson-bom:$jacksonVersion"))
+    "api"("tools.jackson.dataformat:jackson-dataformat-toml")
 
     "testImplementation"(project(":serialization:serialization_test"))
 }

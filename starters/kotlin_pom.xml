@@ -64,21 +64,33 @@
   <build>
     <defaultGoal>verify</defaultGoal>
 
-    <sourceDirectory>${project.basedir}/${mainSource}</sourceDirectory>
-    <testSourceDirectory>${project.basedir}/${testSource}</testSourceDirectory>
-
     <resources>
       <resource>
-        <directory>${project.basedir}/${mainResources}</directory>
+        <directory>${project.basedir}/main</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+          <exclude>**/*.kt</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>${project.basedir}/src/main/resources</directory>
         <excludes>
           <exclude>**/*.kt</exclude>
           <exclude>**/*.java</exclude>
         </excludes>
       </resource>
     </resources>
+
     <testResources>
       <testResource>
-        <directory>${project.basedir}/${testResources}</directory>
+        <directory>${project.basedir}/test</directory>
+        <excludes>
+          <exclude>**/*.kt</exclude>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+      <testResource>
+        <directory>${project.basedir}/src/test/resources</directory>
         <excludes>
           <exclude>**/*.kt</exclude>
           <exclude>**/*.java</exclude>
@@ -231,10 +243,16 @@
             <stripDebug>true</stripDebug>
             <verbose>true</verbose>
             <classifier>image</classifier>
-            <launcher>
-              ${project.artifactId}=${project.groupId}.${project.artifactId}/${exec.mainClass}
-            </launcher>
+            <launcher>${jlink.launcher}</launcher>
           </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>jlink</goal>
+              </goals>
+              <phase>${jlink.phase}</phase>
+            </execution>
+          </executions>
         </plugin>
 
         <plugin>
@@ -298,8 +316,9 @@
               <goals>
                 <goal>compile-no-fork</goal>
               </goals>
-              <phase>none</phase>
+              <phase>package</phase>
               <configuration>
+                <skip>${skip.executable}</skip>
                 <mainClass>${exec.mainClass}</mainClass>
               </configuration>
             </execution>
@@ -313,6 +332,8 @@
                 <quickBuild>true</quickBuild>
                 <buildArgs>
                   <buildArg>-ea</buildArg>
+                  <buildArg>-R:MaxHeapSize=4g</buildArg>
+                  <buildArg>-march=compatibility</buildArg>
                   <buildArg>-H:IncludeResources=.*</buildArg>
                   <buildArg>--initialize-at-build-time=kotlin.annotation.AnnotationTarget</buildArg>
                   <buildArg>
@@ -323,9 +344,21 @@
             </execution>
           </executions>
           <configuration>
+            <jvmArgs>
+              <jvmArg>-Xmx6g</jvmArg>
+              <jvmArg>-XX:+UnlockExperimentalVMOptions</jvmArg>
+              <jvmArg>-XX:+UseCompactObjectHeaders</jvmArg>
+            </jvmArgs>
+            <buildArgs>
+              <buildArg>--parallelism=6</buildArg>
+              <buildArg>--enable-native-access=ALL-UNNAMED</buildArg>
+            </buildArgs>
             <metadataRepository>
               <enabled>true</enabled>
             </metadataRepository>
+            <agent>
+              <enabled>true</enabled>
+            </agent>
           </configuration>
         </plugin>
 
@@ -431,22 +464,6 @@
 
   <profiles>
     <profile>
-      <id>lean</id>
-      <activation>
-        <file>
-          <exists>main</exists>
-        </file>
-      </activation>
-      <properties>
-        <mainSource>main</mainSource>
-        <mainResource>main</mainResource>
-        <testSource>test</testSource>
-        <testResource>test</testResource>
-        <siteSource>site</siteSource>
-      </properties>
-    </profile>
-
-    <profile>
       <id>native</id>
       <build>
         <plugins>
@@ -465,12 +482,6 @@
           <plugin>
             <groupId>org.graalvm.buildtools</groupId>
             <artifactId>native-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>build-native</id>
-                <phase>package</phase>
-              </execution>
-            </executions>
           </plugin>
         </plugins>
       </build>

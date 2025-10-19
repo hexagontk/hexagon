@@ -41,7 +41,7 @@ SOFTWARE.
 
 ### Serialization
 * [com.dslplatform](https://github.com/ngs-doo/dsl-json): [BSD 3-Clause License]
-* [com.fasterxml.jackson](https://github.com/FasterXML/jackson): [Apache License, Version 2.0]
+* [tools.jackson](https://github.com/FasterXML/jackson): [Apache License, Version 2.0]
 * [org.yaml](https://www.snakeyaml.org): [Apache License, Version 2.0]
 
 ### Templates

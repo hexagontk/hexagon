@@ -6,10 +6,10 @@ import com.hexagontk.messaging.rabbitmq.RabbitMqClient.Companion.createConnectio
 import com.hexagontk.messaging.rabbitmq.RabbitTest.Companion.PORT
 import com.hexagontk.serialization.jackson.json.Json
 import com.hexagontk.serialization.serialize
-import junit.framework.TestCase.assertEquals
 import org.junit.jupiter.api.Disabled
 
 import kotlin.test.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import org.junit.jupiter.api.condition.DisabledOnOs
