@@ -23,15 +23,15 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.2.20")
+            version("kotlin", "2.3.0-RC")
             version("dokka", "2.0.0")
-            version("licenseReport", "3.0.0")
+            version("licenseReport", "3.0.1")
             version("binValidator", "0.18.1")
-            version("nativeTools", "0.11.2")
+            version("nativeTools", "0.11.3")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "9.2.0")
-            version("mkdocsMaterial", "9.6.23")
-            version("maven", "4.0.0-rc-4")
+            version("gradleWrapper", "9.2.1")
+            version("mkdocsMaterial", "9.7.0")
+            version("maven", "4.0.0-rc-5")
             version("junit", "6.0.1")
             version("jreleaser", "1.20.0")
 
@@ -39,7 +39,7 @@ dependencyResolutionManagement {
             version("mockk", "1.14.6")
             version("jacoco", "0.8.14")
             version("jmh", "1.37")
-            version("testcontainers", "2.0.1")
+            version("testcontainers", "2.0.2")
             version("commonsCompress", "1.28.0")
 
             // Shared
@@ -50,11 +50,11 @@ dependencyResolutionManagement {
             version("nettyTcNative", "2.0.74.Final")
 
             // http_server_helidon
-            version("helidon", "4.3.1")
+            version("helidon", "4.3.2")
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.1.3")
+            version("jetty", "12.1.4")
 
             // rest_tools
             version("swaggerRequestValidator", "2.46.0")
@@ -64,7 +64,7 @@ dependencyResolutionManagement {
             version("metricsJmx", "4.2.37")
 
             // serialization
-            version("jackson", "3.0.1")
+            version("jackson", "3.0.2")
             version("dslJson", "2.0.2")
 
             // serverless_http_google
