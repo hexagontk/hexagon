@@ -360,6 +360,7 @@
               <configuration>
                 <imageName>${project.name}</imageName>
                 <mainClass>${main.class}</mainClass>
+                <skip>${native.build.skip}</skip>
                 <buildArgs>
                   <buildArg>--parallelism=6</buildArg>
                   <buildArg>--future-defaults=all</buildArg>
@@ -374,6 +375,7 @@
               <phase>test</phase>
               <configuration>
                 <quickBuild>true</quickBuild>
+                <skipNativeTests>${native.tests.skip}</skipNativeTests>
                 <buildArgs>
                   <buildArg>--parallelism=6</buildArg>
                   <buildArg>--future-defaults=all</buildArg>
