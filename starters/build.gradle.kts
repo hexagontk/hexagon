@@ -65,6 +65,7 @@ extensions.configure<PublishingExtension> {
                 "maven-javadoc-plugin.version" to "3.12.0",
                 "maven-jlink-plugin.version" to "3.2.0",
                 "maven-resources-plugin.version" to "3.3.1",
+                "maven-shade-plugin.version" to "3.6.1",
                 "maven-site-plugin.version" to "3.21.0",
                 "maven-source-plugin.version" to "3.3.1",
                 "maven-surefire-plugin.version" to "3.5.4",
