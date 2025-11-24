@@ -81,7 +81,7 @@ dependencyResolutionManagement {
             version("jte", "3.2.1")
 
             // templates_pebble
-            version("pebble", "3.2.4")
+            version("pebble", "4.0.0")
 
             // templates_rocker
             version("rocker", "2.2.1")
