@@ -36,7 +36,7 @@ dependencyResolutionManagement {
             version("jreleaser", "1.20.0")
 
             // Testing
-            version("mockk", "1.14.6")
+            version("mockk", "1.14.7")
             version("jacoco", "0.8.14")
             version("jmh", "1.37")
             version("testcontainers", "2.0.2")
@@ -54,17 +54,17 @@ dependencyResolutionManagement {
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.1.4")
+            version("jetty", "12.1.5")
 
             // rest_tools
             version("swaggerRequestValidator", "2.46.0")
 
             // messaging_rabbitmq
-            version("amqpClient", "5.27.0")
+            version("amqpClient", "5.28.0")
             version("metricsJmx", "4.2.37")
 
             // serialization
-            version("jackson", "3.0.2")
+            version("jackson", "3.0.3")
             version("dslJson", "2.0.2")
 
             // serverless_http_google
