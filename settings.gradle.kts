@@ -23,7 +23,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.3.0-RC3")
+            version("kotlin", "2.3.0")
             version("dokka", "2.0.0")
             version("licenseReport", "3.0.1")
             version("binValidator", "0.18.1")
@@ -39,14 +39,14 @@ dependencyResolutionManagement {
             version("mockk", "1.14.7")
             version("jacoco", "0.8.14")
             version("jmh", "1.37")
-            version("testcontainers", "2.0.2")
+            version("testcontainers", "2.0.3")
             version("commonsCompress", "1.28.0")
 
             // Shared
             version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.2.7.Final")
+            version("netty", "4.2.9.Final")
             version("nettyTcNative", "2.0.74.Final")
 
             // http_server_helidon
@@ -72,7 +72,7 @@ dependencyResolutionManagement {
             version("invoker", "1.4.1")
 
             // store_mongodb
-            version("mongodb", "5.6.1")
+            version("mongodb", "5.6.2")
 
             // templates_freemarker
             version("freemarker", "2.3.34")
@@ -81,10 +81,10 @@ dependencyResolutionManagement {
             version("jte", "3.2.1")
 
             // templates_pebble
-            version("pebble", "4.0.0")
+            version("pebble", "4.1.0")
 
             // templates_rocker
-            version("rocker", "2.2.1")
+            version("rocker", "2.4.0")
 
             // scheduler
             version("cronutils", "9.2.1")
