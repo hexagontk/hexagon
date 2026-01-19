@@ -29,10 +29,10 @@ dependencyResolutionManagement {
             version("binValidator", "0.18.1")
             version("nativeTools", "0.11.3")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "9.2.1")
-            version("mkdocsMaterial", "9.7.0")
+            version("gradleWrapper", "9.3.0")
+            version("mkdocsMaterial", "9.7.1")
             version("maven", "4.0.0-rc-5")
-            version("junit", "6.0.1")
+            version("junit", "6.0.2")
             version("jreleaser", "1.20.0")
 
             // Testing
@@ -50,7 +50,7 @@ dependencyResolutionManagement {
             version("nettyTcNative", "2.0.74.Final")
 
             // http_server_helidon
-            version("helidon", "4.3.2")
+            version("helidon", "4.3.3")
 
             // http_server_servlet
             version("servlet", "6.1.0")
@@ -78,7 +78,7 @@ dependencyResolutionManagement {
             version("freemarker", "2.3.34")
 
             // templates_jte
-            version("jte", "3.2.1")
+            version("jte", "3.2.2")
 
             // templates_pebble
             version("pebble", "4.1.0")

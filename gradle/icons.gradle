@@ -20,14 +20,24 @@ tasks.register("icons") {
 }
 
 private void createPng(final String svg, final String out, final int width, final int height) {
-    exec {
-        commandLine(
-            "magick",
-            project.file(svg).toString(),
-            "-gravity", "center",
-            "-background", "transparent",
-            "-resize", "${width}x${height}",
-            project.file(out).toString()
-        )
+    Process process = null
+    try {
+        process = Runtime
+            .getRuntime()
+            .exec(
+                "magick",
+                new String []{
+                    project.file(svg).toString(),
+                    "-gravity", "center",
+                    "-background", "transparent",
+                    "-resize", "${width}x${height}",
+                    project.file(out).toString()
+                }
+            )
+        process.waitFor()
+    }
+    finally {
+        if (process != null)
+            process.destroy()
     }
 }
