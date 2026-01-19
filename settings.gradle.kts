@@ -29,7 +29,7 @@ dependencyResolutionManagement {
             version("binValidator", "0.18.1")
             version("nativeTools", "0.11.3")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "9.2.1")
+            version("gradleWrapper", "9.3.0")
             version("mkdocsMaterial", "9.7.1")
             version("maven", "4.0.0-rc-5")
             version("junit", "6.0.2")
