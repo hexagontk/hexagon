@@ -23,20 +23,20 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.3.0")
+            version("kotlin", "2.3.10")
             version("dokka", "2.0.0")
-            version("licenseReport", "3.0.1")
+            version("licenseReport", "3.1.1")
             version("binValidator", "0.18.1")
-            version("nativeTools", "0.11.3")
+            version("nativeTools", "0.11.5")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "9.3.0")
-            version("mkdocsMaterial", "9.7.1")
+            version("gradleWrapper", "9.4.0")
+            version("mkdocsMaterial", "9.7.5")
             version("maven", "4.0.0-rc-5")
-            version("junit", "6.0.2")
+            version("junit", "6.0.3")
             version("jreleaser", "1.20.0")
 
             // Testing
-            version("mockk", "1.14.7")
+            version("mockk", "1.14.9")
             version("jacoco", "0.8.14")
             version("jmh", "1.37")
             version("testcontainers", "2.0.3")
@@ -46,25 +46,25 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.2.9.Final")
-            version("nettyTcNative", "2.0.74.Final")
+            version("netty", "4.2.10.Final")
+            version("nettyTcNative", "2.0.75.Final")
 
             // http_server_helidon
-            version("helidon", "4.3.3")
+            version("helidon", "4.4.0")
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.1.5")
+            version("jetty", "12.1.7")
 
             // rest_tools
             version("swaggerRequestValidator", "2.46.0")
 
             // messaging_rabbitmq
-            version("amqpClient", "5.28.0")
-            version("metricsJmx", "4.2.37")
+            version("amqpClient", "5.29.0")
+            version("metricsJmx", "4.2.38")
 
             // serialization
-            version("jackson", "3.0.3")
+            version("jackson", "3.1.0")
             version("dslJson", "2.0.2")
 
             // serverless_http_google
@@ -72,16 +72,16 @@ dependencyResolutionManagement {
             version("invoker", "1.4.1")
 
             // store_mongodb
-            version("mongodb", "5.6.2")
+            version("mongodb", "5.6.4")
 
             // templates_freemarker
             version("freemarker", "2.3.34")
 
             // templates_jte
-            version("jte", "3.2.2")
+            version("jte", "3.2.3")
 
             // templates_pebble
-            version("pebble", "4.1.0")
+            version("pebble", "4.1.1")
 
             // templates_rocker
             version("rocker", "2.4.0")
