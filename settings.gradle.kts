@@ -30,7 +30,7 @@ dependencyResolutionManagement {
             version("nativeTools", "0.11.5")
             version("jmhGradle", "0.7.3")
             version("gradleWrapper", "9.4.0")
-            version("mkdocsMaterial", "9.7.5")
+            version("mkdocsMaterial", "9.7.6")
             version("maven", "4.0.0-rc-5")
             version("junit", "6.0.3")
             version("jreleaser", "1.20.0")
