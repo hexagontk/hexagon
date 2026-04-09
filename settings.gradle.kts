@@ -29,7 +29,7 @@ dependencyResolutionManagement {
             version("binValidator", "0.18.1")
             version("nativeTools", "0.11.5")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "9.4.0")
+            version("gradleWrapper", "9.4.1")
             version("mkdocsMaterial", "9.7.6")
             version("maven", "4.0.0-rc-5")
             version("junit", "6.0.3")
@@ -46,7 +46,7 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.2.10.Final")
+            version("netty", "4.2.12.Final")
             version("nettyTcNative", "2.0.75.Final")
 
             // http_server_helidon
@@ -54,17 +54,17 @@ dependencyResolutionManagement {
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.1.7")
+            version("jetty", "12.1.8")
 
             // rest_tools
-            version("swaggerRequestValidator", "2.46.0")
+            version("swaggerRequestValidator", "2.46.1")
 
             // messaging_rabbitmq
             version("amqpClient", "5.29.0")
             version("metricsJmx", "4.2.38")
 
             // serialization
-            version("jackson", "3.1.0")
+            version("jackson", "3.1.1")
             version("dslJson", "2.0.2")
 
             // serverless_http_google
@@ -72,7 +72,7 @@ dependencyResolutionManagement {
             version("invoker", "1.4.1")
 
             // store_mongodb
-            version("mongodb", "5.6.4")
+            version("mongodb", "5.6.5")
 
             // templates_freemarker
             version("freemarker", "2.3.34")

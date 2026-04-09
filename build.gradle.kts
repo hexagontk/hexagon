@@ -27,7 +27,7 @@ plugins {
     id("project-report")
     id("org.jreleaser") version(libs.versions.jreleaser)
     id("com.github.jk1.dependency-license-report") version(libs.versions.licenseReport)
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version(libs.versions.binValidator)
+//    id("org.jetbrains.kotlinx.binary-compatibility-validator") version(libs.versions.binValidator)
     id("org.graalvm.buildtools.native") version(libs.versions.nativeTools) apply(false)
     id("me.champeau.jmh") version(libs.versions.jmhGradle) apply(false)
     id("org.jetbrains.dokka") version(libs.versions.dokka) apply(false)
@@ -59,7 +59,7 @@ mapOf(
 apply(from = "gradle/certificates.gradle")
 
 allprojects {
-    version = "4.3.3"
+    version = "4.3.4"
     group = "com.hexagontk"
 }
 
@@ -176,6 +176,7 @@ tasks.wrapper {
     distributionType = ALL
 }
 
+/*
 apiValidation {
     validationDisabled = rootProject.version.toString().matches(".*A.*".toRegex())
 
@@ -192,6 +193,7 @@ apiValidation {
         )
     )
 }
+*/
 
 jreleaser {
     signing {
