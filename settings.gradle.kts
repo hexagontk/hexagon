@@ -27,7 +27,7 @@ dependencyResolutionManagement {
             version("dokka", "2.0.0")
             version("licenseReport", "3.1.1")
             version("binValidator", "0.18.1")
-            version("nativeTools", "0.11.5")
+            version("nativeTools", "1.1.0")
             version("jmhGradle", "0.7.3")
             version("gradleWrapper", "9.5.0")
             version("mkdocsMaterial", "9.7.6")
@@ -76,9 +76,6 @@ dependencyResolutionManagement {
 
             // templates_freemarker
             version("freemarker", "2.3.34")
-
-            // templates_jte
-            version("jte", "3.2.4")
 
             // templates_pebble
             version("pebble", "4.1.1")

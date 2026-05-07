@@ -46,7 +46,6 @@ dependencies {
 
     dokka(project(":templates:templates"))
     dokka(project(":templates:templates_freemarker"))
-    dokka(project(":templates:templates_jte"))
     dokka(project(":templates:templates_pebble"))
     dokka(project(":templates:templates_rocker"))
     dokka(project(":templates:templates_test"))
