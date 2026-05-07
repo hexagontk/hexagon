@@ -24,7 +24,7 @@ dependencyResolutionManagement {
         create("libs") {
             // Build
             version("kotlin", "2.3.21")
-            version("dokka", "2.0.0")
+            version("dokka", "2.2.0")
             version("licenseReport", "3.1.1")
             version("binValidator", "0.18.1")
             version("nativeTools", "1.1.0")

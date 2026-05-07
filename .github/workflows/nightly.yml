@@ -56,7 +56,7 @@ jobs:
           ref: develop
       - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: 25
+          java-version: 25.0.2
           distribution: graalvm-community
           cache: gradle
       - run: echo "COMMIT_COUNT=$(git log --oneline --since '24 hours ago' | wc -l)" >> $GITHUB_ENV
