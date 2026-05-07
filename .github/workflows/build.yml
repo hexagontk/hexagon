@@ -46,7 +46,7 @@ jobs:
           ref: develop
       - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: 21
+          java-version: 25
           distribution: graalvm-community
           cache: gradle
       - run: ./gradlew --stacktrace nativeTest
