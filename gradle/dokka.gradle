@@ -10,7 +10,7 @@ apply(plugin: "org.jetbrains.dokka-javadoc")
 tasks.register("dokkaJar", Jar) {
     group = "distribution"
     description = "Create a jar file with the source code documentation in Javadoc format."
-    dependsOn("dokkaJavadoc")
+    dependsOn("dokkaGenerateJavadoc")
 
     archiveClassifier.set("javadoc")
     duplicatesStrategy = DuplicatesStrategy.INCLUDE

@@ -213,11 +213,6 @@
       </dependency>
       <dependency>
         <groupId>com.hexagontk.templates</groupId>
-        <artifactId>templates_jte</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagontk.templates</groupId>
         <artifactId>templates_pebble</artifactId>
         <version>${hexagon.version}</version>
       </dependency>

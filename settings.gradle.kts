@@ -24,15 +24,15 @@ dependencyResolutionManagement {
         create("libs") {
             // Build
             version("kotlin", "2.3.21")
-            version("dokka", "2.0.0")
-            version("licenseReport", "3.0.1")
+            version("dokka", "2.2.0")
+            version("licenseReport", "3.1.1")
             version("binValidator", "0.18.1")
-            version("nativeTools", "0.11.3")
+            version("nativeTools", "1.1.0")
             version("jmhGradle", "0.7.3")
             version("gradleWrapper", "9.5.0")
-            version("mkdocsMaterial", "9.7.1")
+            version("mkdocsMaterial", "9.7.6")
             version("maven", "4.0.0-rc-5")
-            version("junit", "6.0.2")
+            version("junit", "6.0.3")
             version("jreleaser", "1.20.0")
 
             // Testing
@@ -76,9 +76,6 @@ dependencyResolutionManagement {
 
             // templates_freemarker
             version("freemarker", "2.3.34")
-
-            // templates_jte
-            version("jte", "3.2.4")
 
             // templates_pebble
             version("pebble", "4.1.1")

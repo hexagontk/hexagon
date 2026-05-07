@@ -131,7 +131,7 @@ Ports with their provided implementations (Adapters).
 |-------------------------|-------------------------------------------------------|
 | [HTTP Server]           | [Netty], [Netty Epoll], [Jetty], [Servlet], [Helidon] |
 | [HTTP Client]           | [JDK][JDK Client], [Jetty][Jetty Client]            |
-| [Templates]             | [Pebble], [FreeMarker], [Rocker], [jte]               |
+| [Templates]             | [Pebble], [FreeMarker], [Rocker]                      |
 | [Serialization Formats] | [JSON], [YAML], [CSV], [XML], [TOML]                  |
 
 [HTTP Server]: http_server.md
@@ -147,7 +147,6 @@ Ports with their provided implementations (Adapters).
 [Pebble]: templates_pebble.md
 [FreeMarker]: templates_freemarker.md
 [Rocker]: templates_rocker.md
-[jte]: templates_jte.md
 [Serialization Formats]: serialization.md
 [JSON]: api/serialization/serialization_jackson_json/com.hexagontk.serialization.jackson.json/-json
 [YAML]: api/serialization/serialization_jackson_yaml/com.hexagontk.serialization.jackson.yaml/-yaml
