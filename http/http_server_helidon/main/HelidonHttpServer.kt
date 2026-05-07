@@ -103,7 +103,7 @@ class HelidonHttpServer(
             }
 
         if (sslSettings != null)
-            serverBuilder.tls {
+            serverBuilder.tls { it ->
                 val sslClientAuth = sslSettings.clientAuth
                 it
                     .sslParameters(SSLParameters().apply { needClientAuth = sslClientAuth })
