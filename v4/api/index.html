@@ -1,45 +1,43 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>All modules</title>
     <link href="images/logo-icon.svg" rel="icon" type="image/svg">
-    <script>var pathToRoot = "";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+        <script>var pathToRoot = "";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
 <script type="text/javascript" src="scripts/sourceset_dependencies.js" async="async"></script>
 <link href="styles/style.css" rel="Stylesheet">
 <link href="styles/main.css" rel="Stylesheet">
 <link href="styles/prism.css" rel="Stylesheet">
 <link href="styles/logo-styles.css" rel="Stylesheet">
-<link href="styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="scripts/navigation-loader.js" async="async"></script>
 <script type="text/javascript" src="scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="scripts/prism.js" async="async"></script>
 <script type="text/javascript" src="ui-kit/ui-kit.min.js" defer="defer"></script>
-<script type="text/javascript" src="scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 <link href="images/logo.svg">
 <link href="styles/dokka.css" rel="Stylesheet">
 </head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-            <a class="library-name--link" href="index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+            <a class="library-name--link" href="index.html" tabindex="1">
                     hexagon
             </a>
         <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
@@ -47,7 +45,7 @@
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
         <div class="library-version" id="library-version">
-4.3.3        </div>
+4.3.4        </div>
         <div class="navigation-controls">
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
                     type="button">Switch theme
@@ -56,32 +54,34 @@
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
-                        data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     hexagon
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" id="content" pageIds="hexagon::.ext/allModules///PointingToDeclaration//0">
   <div class="breadcrumbs"></div>
   <div class="cover ">
     <h2 class="">All modules:</h2>
     <div class="table"><a data-name="-387464810%2FMain%2F0" anchor-label="core" id="-387464810%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="core/index.html">core</a></div>
@@ -94,7 +94,7 @@
         </div>
       </div>
 <a data-name="-2064448500%2FMain%2F0" anchor-label="handlers" id="-2064448500%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="handlers/index.html">handlers</a></div>
@@ -107,7 +107,7 @@
         </div>
       </div>
 <a data-name="-435363160%2FMain%2F0" anchor-label="helpers" id="-435363160%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="helpers/index.html">helpers</a></div>
@@ -120,7 +120,7 @@
         </div>
       </div>
 <a data-name="-226160435%2FMain%2F0" anchor-label="http" id="-226160435%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http/index.html">http</a></div>
@@ -133,7 +133,7 @@
         </div>
       </div>
 <a data-name="-1405960597%2FMain%2F0" anchor-label="http_client" id="-1405960597%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http_client/index.html">http_client</a></div>
@@ -146,7 +146,7 @@
         </div>
       </div>
 <a data-name="966996985%2FMain%2F0" anchor-label="http_client_jdk" id="966996985%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http_client_jdk/index.html">http_client_jdk</a></div>
@@ -159,7 +159,7 @@
         </div>
       </div>
 <a data-name="-1476400660%2FMain%2F0" anchor-label="http_client_jetty" id="-1476400660%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http_client_jetty/index.html">http_client_jetty</a></div>
@@ -172,7 +172,7 @@
         </div>
       </div>
 <a data-name="714561613%2FMain%2F0" anchor-label="http_handlers" id="714561613%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http_handlers/index.html">http_handlers</a></div>
@@ -185,7 +185,7 @@
         </div>
       </div>
 <a data-name="1613421043%2FMain%2F0" anchor-label="http_server" id="1613421043%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http_server/index.html">http_server</a></div>
@@ -198,7 +198,7 @@
         </div>
       </div>
 <a data-name="-1189106519%2FMain%2F0" anchor-label="http_server_helidon" id="-1189106519%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http_server_helidon/index.html">http_server_helidon</a></div>
@@ -211,7 +211,7 @@
         </div>
       </div>
 <a data-name="-1248703615%2FMain%2F0" anchor-label="http_server_jdk" id="-1248703615%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http_server_jdk/index.html">http_server_jdk</a></div>
@@ -224,7 +224,7 @@
         </div>
       </div>
 <a data-name="-460898444%2FMain%2F0" anchor-label="http_server_jetty" id="-460898444%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http_server_jetty/index.html">http_server_jetty</a></div>
@@ -237,7 +237,7 @@
         </div>
       </div>
 <a data-name="-415633936%2FMain%2F0" anchor-label="http_server_netty" id="-415633936%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http_server_netty/index.html">http_server_netty</a></div>
@@ -250,7 +250,7 @@
         </div>
       </div>
 <a data-name="79860141%2FMain%2F0" anchor-label="http_server_servlet" id="79860141%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http_server_servlet/index.html">http_server_servlet</a></div>
@@ -263,7 +263,7 @@
         </div>
       </div>
 <a data-name="-1043648316%2FMain%2F0" anchor-label="http_test" id="-1043648316%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/http_test/index.html">http_test</a></div>
@@ -276,7 +276,7 @@
         </div>
       </div>
 <a data-name="1098435329%2FMain%2F0" anchor-label="rest" id="1098435329%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/rest/index.html">rest</a></div>
@@ -289,7 +289,7 @@
         </div>
       </div>
 <a data-name="-1801735771%2FMain%2F0" anchor-label="rest_tools" id="-1801735771%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/rest_tools/index.html">rest_tools</a></div>
@@ -300,7 +300,7 @@
         </div>
       </div>
 <a data-name="2121811613%2FMain%2F0" anchor-label="serialization" id="2121811613%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="serialization/serialization/index.html">serialization</a></div>
@@ -313,7 +313,7 @@
         </div>
       </div>
 <a data-name="-1567810596%2FMain%2F0" anchor-label="serialization_dsl_json" id="-1567810596%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="serialization/serialization_dsl_json/index.html">serialization_dsl_json</a></div>
@@ -324,7 +324,7 @@
         </div>
       </div>
 <a data-name="-1271046903%2FMain%2F0" anchor-label="serialization_jackson" id="-1271046903%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="serialization/serialization_jackson/index.html">serialization_jackson</a></div>
@@ -335,7 +335,7 @@
         </div>
       </div>
 <a data-name="-1035948638%2FMain%2F0" anchor-label="serialization_jackson_csv" id="-1035948638%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="serialization/serialization_jackson_csv/index.html">serialization_jackson_csv</a></div>
@@ -346,7 +346,7 @@
         </div>
       </div>
 <a data-name="129527410%2FMain%2F0" anchor-label="serialization_jackson_json" id="129527410%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="serialization/serialization_jackson_json/index.html">serialization_jackson_json</a></div>
@@ -357,7 +357,7 @@
         </div>
       </div>
 <a data-name="1799255616%2FMain%2F0" anchor-label="serialization_jackson_toml" id="1799255616%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="serialization/serialization_jackson_toml/index.html">serialization_jackson_toml</a></div>
@@ -368,7 +368,7 @@
         </div>
       </div>
 <a data-name="419603633%2FMain%2F0" anchor-label="serialization_jackson_xml" id="419603633%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="serialization/serialization_jackson_xml/index.html">serialization_jackson_xml</a></div>
@@ -379,7 +379,7 @@
         </div>
       </div>
 <a data-name="241141139%2FMain%2F0" anchor-label="serialization_jackson_yaml" id="241141139%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="serialization/serialization_jackson_yaml/index.html">serialization_jackson_yaml</a></div>
@@ -390,7 +390,7 @@
         </div>
       </div>
 <a data-name="-1988027148%2FMain%2F0" anchor-label="serialization_test" id="-1988027148%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="serialization/serialization_test/index.html">serialization_test</a></div>
@@ -401,7 +401,7 @@
         </div>
       </div>
 <a data-name="-1303945592%2FMain%2F0" anchor-label="serverless_http_google" id="-1303945592%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="serverless/serverless_http_google/index.html">serverless_http_google</a></div>
@@ -414,7 +414,7 @@
         </div>
       </div>
 <a data-name="1981845876%2FMain%2F0" anchor-label="templates" id="1981845876%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="templates/templates/index.html">templates</a></div>
@@ -427,7 +427,7 @@
         </div>
       </div>
 <a data-name="-1595126935%2FMain%2F0" anchor-label="templates_freemarker" id="-1595126935%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="templates/templates_freemarker/index.html">templates_freemarker</a></div>
@@ -439,21 +439,8 @@
             </span></div>
         </div>
       </div>
-<a data-name="1827107800%2FMain%2F0" anchor-label="templates_jte" id="1827107800%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
-        <div class="main-subrow ">
-          <div class="w-100"><span class="inline-flex">
-              <div><a href="templates/templates_jte/index.html">templates_jte</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1827107800%2FMain%2F0"></span>
-                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-              </span></span></div>
-          <div><span class="brief-comment">
-              <p class="paragraph"><a href="https://jte.gg">jte</a> template engine adapter for Hexagon.</p>
-            </span></div>
-        </div>
-      </div>
 <a data-name="-677074975%2FMain%2F0" anchor-label="templates_pebble" id="-677074975%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="templates/templates_pebble/index.html">templates_pebble</a></div>
@@ -466,7 +453,7 @@
         </div>
       </div>
 <a data-name="800052925%2FMain%2F0" anchor-label="templates_rocker" id="800052925%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="templates/templates_rocker/index.html">templates_rocker</a></div>
@@ -479,7 +466,7 @@
         </div>
       </div>
 <a data-name="-799473539%2FMain%2F0" anchor-label="templates_test" id="-799473539%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="templates/templates_test/index.html">templates_test</a></div>
@@ -490,7 +477,7 @@
         </div>
       </div>
 <a data-name="2115355321%2FMain%2F0" anchor-label="web" id="2115355321%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="http/web/index.html">web</a></div>
@@ -506,17 +493,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagontk/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagontk/hexagon/blob/main/license.md"> MIT License</a></span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagontk/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagontk/hexagon/blob/main/license.md"> MIT License</a></div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

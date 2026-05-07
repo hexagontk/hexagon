@@ -1,56 +1,53 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>com.hexagontk.handlers</title>
-<link href="../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
 <script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../styles/style.css" rel="Stylesheet">
 <link href="../../styles/main.css" rel="Stylesheet">
 <link href="../../styles/prism.css" rel="Stylesheet">
 <link href="../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer></script>
-<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer></script></head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-<a class="library-name--link" href="../../index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../index.html" tabindex="1">
                     hexagon
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">4.3.3
+        <div class="library-version" id="library-version">4.3.4
         </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":handlers/main">jvm</button>
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":handlers/main">jvm</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -64,45 +61,47 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
             </button>
             <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     hexagon
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="package" id="content" pageids="handlers::com.hexagontk.handlers////PointingToDeclaration//-1930178583">
   <div class="breadcrumbs"><a href="../index.html">handlers</a><span class="delimiter">/</span><span class="current">com.hexagontk.handlers</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
-    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":handlers/main"><p class="paragraph">Provide general utilities to attach many handlers to be applied on events processing. Events can be of any type.</p><p class="paragraph">Handlers may or may not be applied to certain events at runtime based on rules provided as a predicate (function).</p><p class="paragraph">If an event doesn't match a handler's predicate, that handler is ignored, and the next one will be processed.</p><p class="paragraph">When a handler's predicate returns true, its callback will be called. That block will process the event, and return a modified copy with the changes.</p><p class="paragraph">The callback block will decide if subsequent handler's will be evaluated by calling the next handler explicitly (if <code class="lang-kotlin">next</code> method is not called, the handlers defined later won't be evaluated).</p><p class="paragraph">There are types of handlers like 'After' y 'Before' that call <code class="lang-kotlin">next</code> as part as their operation discharging the user of doing so.</p><p class="paragraph">The events are passed to handlers' callbacks wrapped in a 'context'. The context can also pass information among handlers in the <code class="lang-kotlin">attributes</code> field. And store an exception if it is thrown in a previous handler processing.</p><p class="paragraph">Concepts:</p><ul><li><p class="paragraph">Events</p></li><ul><li><p class="paragraph">Context</p></li></ul><li><p class="paragraph">Handlers</p></li><ul><li><p class="paragraph">Predicates</p></li><li><p class="paragraph">Callbacks</p></li></ul></ul><p class="paragraph">Types of handlers:</p><ul><li><p class="paragraph">On Handler: the callback is executed before calling the remaining handlers. <code class="lang-kotlin">next</code> is called after   the callback.</p></li><li><p class="paragraph">After Handler: the predicate is evaluated after the remaining handlers return, and the callback is   executed after. <code class="lang-kotlin">next</code> is called before the callback</p></li><li><p class="paragraph">Filter Handler: <code class="lang-kotlin">next</code> is not called by this handler, its callback is responsible for doing so if   needed.</p></li><li><p class="paragraph">Chain Handler: this handler contains a list of handlers that will be applied in order.</p></li></ul><p class="paragraph">IMPORTANT: the definition order is NOT the execution order, it is the depth. Handlers are not linked, they are NESTED. The <code class="lang-kotlin">next()</code> method passes control to the next level.</p><p class="paragraph">This definition:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">H1<br>H2<br>H3</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Is really this execution:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">H1 (on)<br>  H2 (on)<br>    H3 (on)<br>  H2 (after)<br>H1 (after)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":handlers/main"><p class="paragraph">Provide general utilities to attach many handlers to be applied on events processing. Events can be of any type.</p><p class="paragraph">Handlers may or may not be applied to certain events at runtime based on rules provided as a predicate (function).</p><p class="paragraph">If an event doesn't match a handler's predicate, that handler is ignored, and the next one will be processed.</p><p class="paragraph">When a handler's predicate returns true, its callback will be called. That block will process the event, and return a modified copy with the changes.</p><p class="paragraph">The callback block will decide if subsequent handler's will be evaluated by calling the next handler explicitly (if <code class="lang-kotlin">next</code> method is not called, the handlers defined later won't be evaluated).</p><p class="paragraph">There are types of handlers like 'After' y 'Before' that call <code class="lang-kotlin">next</code> as part as their operation discharging the user of doing so.</p><p class="paragraph">The events are passed to handlers' callbacks wrapped in a 'context'. The context can also pass information among handlers in the <code class="lang-kotlin">attributes</code> field. And store an exception if it is thrown in a previous handler processing.</p><p class="paragraph">Concepts:</p><ul><li><p class="paragraph">Events</p></li><ul><li><p class="paragraph">Context</p></li></ul><li><p class="paragraph">Handlers</p></li><ul><li><p class="paragraph">Predicates</p></li><li><p class="paragraph">Callbacks</p></li></ul></ul><p class="paragraph">Types of handlers:</p><ul><li><p class="paragraph">On Handler: the callback is executed before calling the remaining handlers. <code class="lang-kotlin">next</code> is called after   the callback.</p></li><li><p class="paragraph">After Handler: the predicate is evaluated after the remaining handlers return, and the callback is   executed after. <code class="lang-kotlin">next</code> is called before the callback</p></li><li><p class="paragraph">Filter Handler: <code class="lang-kotlin">next</code> is not called by this handler, its callback is responsible for doing so if   needed.</p></li><li><p class="paragraph">Chain Handler: this handler contains a list of handlers that will be applied in order.</p></li></ul><p class="paragraph">IMPORTANT: the definition order is NOT the execution order, it is the depth. Handlers are not linked, they are NESTED. The <code class="lang-kotlin">next()</code> method passes control to the next level.</p><p class="paragraph">This definition:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">H1<br>H2<br>H3</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><p class="paragraph">Is really this execution:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">H1 (on)<br>  H2 (on)<br>    H3 (on)<br>  H2 (after)<br>H1 (after)</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button></div>
     <div class="tabs-section-body">
       <div data-togglable="TYPE">
-        <h2 class="">Types</h2>
+        <h2 class="tableheader">Types</h2>
         <div class="table"><a data-name="1069862625%2FClasslikes%2F-1930178583" anchor-label="AfterHandler" id="1069862625%2FClasslikes%2F-1930178583" data-filterable-set=":handlers/main"></a>
-          <div class="table-row" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
+          <div class="table-row table-row_content" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-after-handler/index.html"><span>After</span><wbr><span><span>Handler</span></span></a></div>
@@ -117,7 +116,7 @@
             </div>
           </div>
 <a data-name="-158075192%2FClasslikes%2F-1930178583" anchor-label="BeforeHandler" id="-158075192%2FClasslikes%2F-1930178583" data-filterable-set=":handlers/main"></a>
-          <div class="table-row" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
+          <div class="table-row table-row_content" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-before-handler/index.html"><span>Before</span><wbr><span><span>Handler</span></span></a></div>
@@ -132,7 +131,7 @@
             </div>
           </div>
 <a data-name="-1432564794%2FClasslikes%2F-1930178583" anchor-label="ChainHandler" id="-1432564794%2FClasslikes%2F-1930178583" data-filterable-set=":handlers/main"></a>
-          <div class="table-row" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
+          <div class="table-row table-row_content" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-chain-handler/index.html"><span>Chain</span><wbr><span><span>Handler</span></span></a></div>
@@ -147,7 +146,7 @@
             </div>
           </div>
 <a data-name="1743947236%2FClasslikes%2F-1930178583" anchor-label="Context" id="1743947236%2FClasslikes%2F-1930178583" data-filterable-set=":handlers/main"></a>
-          <div class="table-row" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
+          <div class="table-row table-row_content" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-context/index.html"><span><span>Context</span></span></a></div>
@@ -162,7 +161,7 @@
             </div>
           </div>
 <a data-name="1089306196%2FClasslikes%2F-1930178583" anchor-label="ExceptionHandler" id="1089306196%2FClasslikes%2F-1930178583" data-filterable-set=":handlers/main"></a>
-          <div class="table-row" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
+          <div class="table-row table-row_content" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-exception-handler/index.html"><span>Exception</span><wbr><span><span>Handler</span></span></a></div>
@@ -171,13 +170,13 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":handlers/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-exception-handler/index.html">ExceptionHandler</a><span class="token operator">&lt;</span><a href="-exception-handler/index.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="-exception-handler/index.html">E</a><span class="token operator"> : </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Exception.html">Exception</a><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>exception<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><a href="-exception-handler/index.html">E</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>exceptionCallback<span class="token operator">: </span><span class="token punctuation">(</span><a href="-context/index.html">Context</a><span class="token operator">&lt;</span><a href="-exception-handler/index.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><a href="-exception-handler/index.html">E</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="-context/index.html">Context</a><span class="token operator">&lt;</span><a href="-exception-handler/index.html">T</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span> : <a href="-handler/index.html">Handler</a><span class="token operator">&lt;</span><a href="-exception-handler/index.html">T</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">After handlers are executed even if a filter don't call next handler (if after was added before filter).</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":handlers/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-exception-handler/index.html">ExceptionHandler</a><span class="token operator">&lt;</span><a href="-exception-handler/index.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="-exception-handler/index.html">E</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-exception/index.html">Exception</a><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>exception<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><a href="-exception-handler/index.html">E</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>exceptionCallback<span class="token operator">: </span><span class="token punctuation">(</span><a href="-context/index.html">Context</a><span class="token operator">&lt;</span><a href="-exception-handler/index.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><a href="-exception-handler/index.html">E</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="-context/index.html">Context</a><span class="token operator">&lt;</span><a href="-exception-handler/index.html">T</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span> : <a href="-handler/index.html">Handler</a><span class="token operator">&lt;</span><a href="-exception-handler/index.html">T</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">After handlers are executed even if a filter don't call next handler (if after was added before filter).</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="-812884287%2FClasslikes%2F-1930178583" anchor-label="FilterHandler" id="-812884287%2FClasslikes%2F-1930178583" data-filterable-set=":handlers/main"></a>
-          <div class="table-row" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
+          <div class="table-row table-row_content" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-filter-handler/index.html"><span>Filter</span><wbr><span><span>Handler</span></span></a></div>
@@ -192,7 +191,7 @@
             </div>
           </div>
 <a data-name="-1473587031%2FClasslikes%2F-1930178583" anchor-label="Handler" id="-1473587031%2FClasslikes%2F-1930178583" data-filterable-set=":handlers/main"></a>
-          <div class="table-row" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
+          <div class="table-row table-row_content" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-handler/index.html"><span><span>Handler</span></span></a></div>
@@ -207,7 +206,7 @@
             </div>
           </div>
 <a data-name="1458116136%2FClasslikes%2F-1930178583" anchor-label="OnHandler" id="1458116136%2FClasslikes%2F-1930178583" data-filterable-set=":handlers/main"></a>
-          <div class="table-row" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
+          <div class="table-row table-row_content" data-filterable-current=":handlers/main" data-filterable-set=":handlers/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-on-handler/index.html"><span>On</span><wbr><span><span>Handler</span></span></a></div>
@@ -227,17 +226,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>© 2026 Copyright</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -68,9 +68,9 @@ import java.util.concurrent.Flow.Publisher
 <span class="fc bfc" id="L68" title="All 2 branches covered.">        if (!started())</span>
 <span class="fc" id="L69">            error(&quot;HTTP client *MUST BE STARTED* before sending requests&quot;)</span>
         else
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">            rootHandler</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">            rootHandler</span>
 <span class="fc bfc" id="L72" title="All 2 branches covered.">                ?.process(request.setUp())</span>
-<span class="pc bpc" id="L73" title="1 of 2 branches missed.">                ?.let {</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">                ?.let {</span>
 <span class="fc bfc" id="L74" title="All 2 branches covered.">                    if (it.exception != null) throw it.exception as Exception</span>
 <span class="fc" id="L75">                    else it.response</span>
                 }
@@ -226,4 +226,4 @@ import java.util.concurrent.Flow.Publisher
             )
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

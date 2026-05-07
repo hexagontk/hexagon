@@ -1,56 +1,53 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>com.hexagontk.http.model.ws</title>
-<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
 <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../../styles/style.css" rel="Stylesheet">
 <link href="../../../styles/main.css" rel="Stylesheet">
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script>
-<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script></head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-<a class="library-name--link" href="../../../index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../index.html" tabindex="1">
                     hexagon
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">4.3.3
+        <div class="library-version" id="library-version">4.3.4
         </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http/main">jvm</button>
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":http:http/main">jvm</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -64,32 +61,34 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
             </button>
             <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     hexagon
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="package" id="content" pageids="http::com.hexagontk.http.model.ws////PointingToDeclaration//942159528">
   <div class="breadcrumbs"><a href="../index.html">http</a><span class="delimiter">/</span><span class="current">com.hexagontk.http.model.ws</span></div>
   <div class="cover ">
@@ -100,9 +99,9 @@
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="PROPERTY,EXTENSION_PROPERTY">Properties</button></div>
     <div class="tabs-section-body">
       <div data-togglable="TYPE">
-        <h2 class="">Types</h2>
+        <h2 class="tableheader">Types</h2>
         <div class="table"><a data-name="1155700003%2FClasslikes%2F942159528" anchor-label="WsSession" id="1155700003%2FClasslikes%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-ws-session/index.html"><span>Ws</span><wbr><span><span>Session</span></span></a></div>
@@ -119,9 +118,9 @@
         </div>
       </div>
       <div data-togglable="PROPERTY">
-        <h2 class="">Properties</h2>
+        <h2 class="tableheader">Properties</h2>
         <div class="table"><a data-name="431544274%2FProperties%2F942159528" anchor-label="ABNORMAL" id="431544274%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-a-b-n-o-r-m-a-l.html"><span><span>ABNORMAL</span></span></a></div>
@@ -136,7 +135,7 @@
             </div>
           </div>
 <a data-name="-376041514%2FProperties%2F942159528" anchor-label="BAD_DATA" id="-376041514%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-a-d_-d-a-t-a.html"><span>BAD_</span><wbr><span>DATA</span></a></div>
@@ -151,7 +150,7 @@
             </div>
           </div>
 <a data-name="-1839277396%2FProperties%2F942159528" anchor-label="BAD_PAYLOAD" id="-1839277396%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-a-d_-p-a-y-l-o-a-d.html"><span>BAD_</span><wbr><span>PAYLOAD</span></a></div>
@@ -166,7 +165,7 @@
             </div>
           </div>
 <a data-name="-1134096439%2FProperties%2F942159528" anchor-label="FAILED_TLS_HANDSHAKE" id="-1134096439%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-f-a-i-l-e-d_-t-l-s_-h-a-n-d-s-h-a-k-e.html"><span>FAILED_</span><wbr><span>TLS_</span><wbr><span>HANDSHAKE</span></a></div>
@@ -181,7 +180,7 @@
             </div>
           </div>
 <a data-name="-421868829%2FProperties%2F942159528" anchor-label="INVALID_UPSTREAM_RESPONSE" id="-421868829%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-i-n-v-a-l-i-d_-u-p-s-t-r-e-a-m_-r-e-s-p-o-n-s-e.html"><span>INVALID_</span><wbr><span>UPSTREAM_</span><wbr><span>RESPONSE</span></a></div>
@@ -196,7 +195,7 @@
             </div>
           </div>
 <a data-name="785141256%2FProperties%2F942159528" anchor-label="MESSAGE_TOO_LARGE" id="785141256%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-m-e-s-s-a-g-e_-t-o-o_-l-a-r-g-e.html"><span>MESSAGE_</span><wbr><span>TOO_</span><wbr><span>LARGE</span></a></div>
@@ -211,7 +210,7 @@
             </div>
           </div>
 <a data-name="-1476231552%2FProperties%2F942159528" anchor-label="NO_CLOSE" id="-1476231552%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-n-o_-c-l-o-s-e.html"><span>NO_</span><wbr><span>CLOSE</span></a></div>
@@ -226,7 +225,7 @@
             </div>
           </div>
 <a data-name="-328927883%2FProperties%2F942159528" anchor-label="NO_CODE" id="-328927883%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-n-o_-c-o-d-e.html"><span>NO_</span><wbr><span>CODE</span></a></div>
@@ -241,7 +240,7 @@
             </div>
           </div>
 <a data-name="-1234184365%2FProperties%2F942159528" anchor-label="NORMAL" id="-1234184365%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-n-o-r-m-a-l.html"><span><span>NORMAL</span></span></a></div>
@@ -256,7 +255,7 @@
             </div>
           </div>
 <a data-name="168191714%2FProperties%2F942159528" anchor-label="POLICY_VIOLATION" id="168191714%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-p-o-l-i-c-y_-v-i-o-l-a-t-i-o-n.html"><span>POLICY_</span><wbr><span>VIOLATION</span></a></div>
@@ -271,7 +270,7 @@
             </div>
           </div>
 <a data-name="1392373634%2FProperties%2F942159528" anchor-label="PROTOCOL" id="1392373634%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-p-r-o-t-o-c-o-l.html"><span><span>PROTOCOL</span></span></a></div>
@@ -286,7 +285,7 @@
             </div>
           </div>
 <a data-name="1609898043%2FProperties%2F942159528" anchor-label="REQUIRED_EXTENSION" id="1609898043%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-r-e-q-u-i-r-e-d_-e-x-t-e-n-s-i-o-n.html"><span>REQUIRED_</span><wbr><span>EXTENSION</span></a></div>
@@ -301,7 +300,7 @@
             </div>
           </div>
 <a data-name="2125102126%2FProperties%2F942159528" anchor-label="SERVER_ERROR" id="2125102126%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-s-e-r-v-e-r_-e-r-r-o-r.html"><span>SERVER_</span><wbr><span>ERROR</span></a></div>
@@ -316,7 +315,7 @@
             </div>
           </div>
 <a data-name="1560005403%2FProperties%2F942159528" anchor-label="SERVICE_RESTART" id="1560005403%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-s-e-r-v-i-c-e_-r-e-s-t-a-r-t.html"><span>SERVICE_</span><wbr><span>RESTART</span></a></div>
@@ -331,7 +330,7 @@
             </div>
           </div>
 <a data-name="1236273540%2FProperties%2F942159528" anchor-label="SHUTDOWN" id="1236273540%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-s-h-u-t-d-o-w-n.html"><span><span>SHUTDOWN</span></span></a></div>
@@ -346,7 +345,7 @@
             </div>
           </div>
 <a data-name="1402913239%2FProperties%2F942159528" anchor-label="TRY_AGAIN_LATER" id="1402913239%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-t-r-y_-a-g-a-i-n_-l-a-t-e-r.html"><span>TRY_</span><wbr><span>AGAIN_</span><wbr><span>LATER</span></a></div>
@@ -361,7 +360,7 @@
             </div>
           </div>
 <a data-name="-1451023152%2FProperties%2F942159528" anchor-label="UNDEFINED" id="-1451023152%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-u-n-d-e-f-i-n-e-d.html"><span><span>UNDEFINED</span></span></a></div>
@@ -381,17 +380,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>© 2026 Copyright</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

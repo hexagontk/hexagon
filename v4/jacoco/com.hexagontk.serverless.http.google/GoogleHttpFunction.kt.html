@@ -29,8 +29,8 @@ import java.net.URI
 <span class="pc bpc" id="L29" title="1 of 2 branches missed.">        val accept = request.headers[&quot;accept&quot;]?.map { parseContentType(it) } ?: emptyList()</span>
 <span class="fc" id="L30">        val authorization = request.headers[&quot;authorization&quot;]</span>
 <span class="fc bfc" id="L31" title="All 2 branches covered.">            ?.first()</span>
-<span class="pc bpc" id="L32" title="1 of 2 branches missed.">            ?.split(&quot; &quot;, limit = 2)</span>
-<span class="pc bpc" id="L33" title="1 of 2 branches missed.">            ?.let { Authorization(it.first(), it.last()) }</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            ?.split(&quot; &quot;, limit = 2)</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">            ?.let { Authorization(it.first(), it.last()) }</span>
 
         // TODO Fix parts upload
 <span class="fc" id="L36">        val parts = emptyList&lt;HttpPart&gt;()</span>
@@ -82,4 +82,4 @@ import java.net.URI
         }
 <span class="fc" id="L83">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

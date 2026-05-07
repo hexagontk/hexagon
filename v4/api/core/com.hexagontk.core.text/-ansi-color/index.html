@@ -1,56 +1,53 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>AnsiColor</title>
-<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
 <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../../styles/style.css" rel="Stylesheet">
 <link href="../../../styles/main.css" rel="Stylesheet">
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script>
-<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script></head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-<a class="library-name--link" href="../../../index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../index.html" tabindex="1">
                     hexagon
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">4.3.3
+        <div class="library-version" id="library-version">4.3.4
         </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":core/main">jvm</button>
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":core/main">jvm</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -64,32 +61,34 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
             </button>
             <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     hexagon
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="classlike" id="content" pageids="core::com.hexagontk.core.text/AnsiColor///PointingToDeclaration//-431355489">
   <div class="breadcrumbs"><a href="../../index.html">core</a><span class="delimiter">/</span><a href="../index.html">com.hexagontk.core.text</a><span class="delimiter">/</span><span class="current">AnsiColor</span></div>
   <div class="cover ">
@@ -100,9 +99,9 @@
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="PROPERTY">
-        <h2 class="">Properties</h2>
+        <h2 class="tableheader">Properties</h2>
         <div class="table"><a data-name="1094667652%2FProperties%2F-431355489" anchor-label="BLACK" id="1094667652%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-l-a-c-k.html"><span><span>BLACK</span></span></a></div>
@@ -117,7 +116,7 @@
             </div>
           </div>
 <a data-name="-369365966%2FProperties%2F-431355489" anchor-label="BLACK_BG" id="-369365966%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-l-a-c-k_-b-g.html"><span>BLACK_</span><wbr><span>BG</span></a></div>
@@ -132,7 +131,7 @@
             </div>
           </div>
 <a data-name="-77493475%2FProperties%2F-431355489" anchor-label="BLUE" id="-77493475%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-l-u-e.html"><span><span>BLUE</span></span></a></div>
@@ -147,7 +146,7 @@
             </div>
           </div>
 <a data-name="-2137383943%2FProperties%2F-431355489" anchor-label="BLUE_BG" id="-2137383943%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-l-u-e_-b-g.html"><span>BLUE_</span><wbr><span>BG</span></a></div>
@@ -162,7 +161,7 @@
             </div>
           </div>
 <a data-name="349953821%2FProperties%2F-431355489" anchor-label="BRIGHT_BLACK" id="349953821%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-b-l-a-c-k.html"><span>BRIGHT_</span><wbr><span>BLACK</span></a></div>
@@ -177,7 +176,7 @@
             </div>
           </div>
 <a data-name="1661945849%2FProperties%2F-431355489" anchor-label="BRIGHT_BLACK_BG" id="1661945849%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-b-l-a-c-k_-b-g.html"><span>BRIGHT_</span><wbr><span>BLACK_</span><wbr><span>BG</span></a></div>
@@ -192,7 +191,7 @@
             </div>
           </div>
 <a data-name="1838146148%2FProperties%2F-431355489" anchor-label="BRIGHT_BLUE" id="1838146148%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-b-l-u-e.html"><span>BRIGHT_</span><wbr><span>BLUE</span></a></div>
@@ -207,7 +206,7 @@
             </div>
           </div>
 <a data-name="-547837102%2FProperties%2F-431355489" anchor-label="BRIGHT_BLUE_BG" id="-547837102%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-b-l-u-e_-b-g.html"><span>BRIGHT_</span><wbr><span>BLUE_</span><wbr><span>BG</span></a></div>
@@ -222,7 +221,7 @@
             </div>
           </div>
 <a data-name="1741407163%2FProperties%2F-431355489" anchor-label="BRIGHT_CYAN" id="1741407163%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-c-y-a-n.html"><span>BRIGHT_</span><wbr><span>CYAN</span></a></div>
@@ -237,7 +236,7 @@
             </div>
           </div>
 <a data-name="-575883621%2FProperties%2F-431355489" anchor-label="BRIGHT_CYAN_BG" id="-575883621%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-c-y-a-n_-b-g.html"><span>BRIGHT_</span><wbr><span>CYAN_</span><wbr><span>BG</span></a></div>
@@ -252,7 +251,7 @@
             </div>
           </div>
 <a data-name="1267518617%2FProperties%2F-431355489" anchor-label="BRIGHT_GREEN" id="1267518617%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-g-r-e-e-n.html"><span>BRIGHT_</span><wbr><span>GREEN</span></a></div>
@@ -267,7 +266,7 @@
             </div>
           </div>
 <a data-name="-632055555%2FProperties%2F-431355489" anchor-label="BRIGHT_GREEN_BG" id="-632055555%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-g-r-e-e-n_-b-g.html"><span>BRIGHT_</span><wbr><span>GREEN_</span><wbr><span>BG</span></a></div>
@@ -282,7 +281,7 @@
             </div>
           </div>
 <a data-name="-927782413%2FProperties%2F-431355489" anchor-label="BRIGHT_MAGENTA" id="-927782413%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-m-a-g-e-n-t-a.html"><span>BRIGHT_</span><wbr><span>MAGENTA</span></a></div>
@@ -297,7 +296,7 @@
             </div>
           </div>
 <a data-name="-1378024093%2FProperties%2F-431355489" anchor-label="BRIGHT_MAGENTA_BG" id="-1378024093%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-m-a-g-e-n-t-a_-b-g.html"><span>BRIGHT_</span><wbr><span>MAGENTA_</span><wbr><span>BG</span></a></div>
@@ -312,7 +311,7 @@
             </div>
           </div>
 <a data-name="-1581306229%2FProperties%2F-431355489" anchor-label="BRIGHT_RED" id="-1581306229%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-r-e-d.html"><span>BRIGHT_</span><wbr><span>RED</span></a></div>
@@ -327,7 +326,7 @@
             </div>
           </div>
 <a data-name="-1419273781%2FProperties%2F-431355489" anchor-label="BRIGHT_RED_BG" id="-1419273781%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-r-e-d_-b-g.html"><span>BRIGHT_</span><wbr><span>RED_</span><wbr><span>BG</span></a></div>
@@ -342,7 +341,7 @@
             </div>
           </div>
 <a data-name="-946289101%2FProperties%2F-431355489" anchor-label="BRIGHT_WHITE" id="-946289101%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-w-h-i-t-e.html"><span>BRIGHT_</span><wbr><span>WHITE</span></a></div>
@@ -357,7 +356,7 @@
             </div>
           </div>
 <a data-name="1340014883%2FProperties%2F-431355489" anchor-label="BRIGHT_WHITE_BG" id="1340014883%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-w-h-i-t-e_-b-g.html"><span>BRIGHT_</span><wbr><span>WHITE_</span><wbr><span>BG</span></a></div>
@@ -372,7 +371,7 @@
             </div>
           </div>
 <a data-name="-1351370934%2FProperties%2F-431355489" anchor-label="BRIGHT_YELLOW" id="-1351370934%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-y-e-l-l-o-w.html"><span>BRIGHT_</span><wbr><span>YELLOW</span></a></div>
@@ -387,7 +386,7 @@
             </div>
           </div>
 <a data-name="-1889737556%2FProperties%2F-431355489" anchor-label="BRIGHT_YELLOW_BG" id="-1889737556%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-b-r-i-g-h-t_-y-e-l-l-o-w_-b-g.html"><span>BRIGHT_</span><wbr><span>YELLOW_</span><wbr><span>BG</span></a></div>
@@ -402,7 +401,7 @@
             </div>
           </div>
 <a data-name="-174232460%2FProperties%2F-431355489" anchor-label="CYAN" id="-174232460%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-c-y-a-n.html"><span><span>CYAN</span></span></a></div>
@@ -417,7 +416,7 @@
             </div>
           </div>
 <a data-name="2129536834%2FProperties%2F-431355489" anchor-label="CYAN_BG" id="2129536834%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-c-y-a-n_-b-g.html"><span>CYAN_</span><wbr><span>BG</span></a></div>
@@ -432,7 +431,7 @@
             </div>
           </div>
 <a data-name="1011423234%2FProperties%2F-431355489" anchor-label="DEFAULT" id="1011423234%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-d-e-f-a-u-l-t.html"><span><span>DEFAULT</span></span></a></div>
@@ -447,7 +446,7 @@
             </div>
           </div>
 <a data-name="-2107692812%2FProperties%2F-431355489" anchor-label="DEFAULT_BG" id="-2107692812%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-d-e-f-a-u-l-t_-b-g.html"><span>DEFAULT_</span><wbr><span>BG</span></a></div>
@@ -462,7 +461,7 @@
             </div>
           </div>
 <a data-name="2012232448%2FProperties%2F-431355489" anchor-label="GREEN" id="2012232448%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-g-r-e-e-n.html"><span><span>GREEN</span></span></a></div>
@@ -477,7 +476,7 @@
             </div>
           </div>
 <a data-name="1631599926%2FProperties%2F-431355489" anchor-label="GREEN_BG" id="1631599926%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-g-r-e-e-n_-b-g.html"><span>GREEN_</span><wbr><span>BG</span></a></div>
@@ -492,7 +491,7 @@
             </div>
           </div>
 <a data-name="1777638042%2FProperties%2F-431355489" anchor-label="MAGENTA" id="1777638042%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-m-a-g-e-n-t-a.html"><span><span>MAGENTA</span></span></a></div>
@@ -507,7 +506,7 @@
             </div>
           </div>
 <a data-name="741441372%2FProperties%2F-431355489" anchor-label="MAGENTA_BG" id="741441372%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-m-a-g-e-n-t-a_-b-g.html"><span>MAGENTA_</span><wbr><span>BG</span></a></div>
@@ -522,7 +521,7 @@
             </div>
           </div>
 <a data-name="19466930%2FProperties%2F-431355489" anchor-label="RED" id="19466930%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-r-e-d.html"><span><span>RED</span></span></a></div>
@@ -537,7 +536,7 @@
             </div>
           </div>
 <a data-name="192018500%2FProperties%2F-431355489" anchor-label="RED_BG" id="192018500%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-r-e-d_-b-g.html"><span>RED_</span><wbr><span>BG</span></a></div>
@@ -552,7 +551,7 @@
             </div>
           </div>
 <a data-name="-201575270%2FProperties%2F-431355489" anchor-label="WHITE" id="-201575270%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-w-h-i-t-e.html"><span><span>WHITE</span></span></a></div>
@@ -567,7 +566,7 @@
             </div>
           </div>
 <a data-name="-691296932%2FProperties%2F-431355489" anchor-label="WHITE_BG" id="-691296932%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-w-h-i-t-e_-b-g.html"><span>WHITE_</span><wbr><span>BG</span></a></div>
@@ -582,7 +581,7 @@
             </div>
           </div>
 <a data-name="259921347%2FProperties%2F-431355489" anchor-label="YELLOW" id="259921347%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-y-e-l-l-o-w.html"><span><span>YELLOW</span></span></a></div>
@@ -597,7 +596,7 @@
             </div>
           </div>
 <a data-name="-435894381%2FProperties%2F-431355489" anchor-label="YELLOW_BG" id="-435894381%2FProperties%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-y-e-l-l-o-w_-b-g.html"><span>YELLOW_</span><wbr><span>BG</span></a></div>
@@ -614,9 +613,9 @@
         </div>
       </div>
       <div data-togglable="FUNCTION">
-        <h2 class="">Functions</h2>
+        <h2 class="tableheader">Functions</h2>
         <div class="table"><a data-name="-1693538544%2FFunctions%2F-431355489" anchor-label="bg" id="-1693538544%2FFunctions%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="bg.html"><span><span>bg</span></span></a></div>
@@ -631,7 +630,7 @@
             </div>
           </div>
 <a data-name="-572138988%2FFunctions%2F-431355489" anchor-label="fg" id="-572138988%2FFunctions%2F-431355489" data-filterable-set=":core/main"></a>
-          <div class="table-row" data-filterable-current=":core/main" data-filterable-set=":core/main">
+          <div class="table-row table-row_content" data-filterable-current=":core/main" data-filterable-set=":core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="fg.html"><span><span>fg</span></span></a></div>
@@ -651,17 +650,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>© 2026 Copyright</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

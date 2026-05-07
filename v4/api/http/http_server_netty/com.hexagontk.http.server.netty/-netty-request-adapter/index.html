@@ -1,56 +1,53 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>NettyRequestAdapter</title>
-<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
 <script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../../../styles/style.css" rel="Stylesheet">
 <link href="../../../../styles/main.css" rel="Stylesheet">
 <link href="../../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script>
-<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script></head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-<a class="library-name--link" href="../../../../index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../../index.html" tabindex="1">
                     hexagon
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">4.3.3
+        <div class="library-version" id="library-version">4.3.4
         </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http_server_netty/main">jvm</button>
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":http:http_server_netty/main">jvm</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -64,32 +61,34 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
             </button>
             <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     hexagon
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="classlike" id="content" pageids="http_server_netty::com.hexagontk.http.server.netty/NettyRequestAdapter///PointingToDeclaration//-742613365">
   <div class="breadcrumbs"><a href="../../index.html">http_server_netty</a><span class="delimiter">/</span><a href="../index.html">com.hexagontk.http.server.netty</a><span class="delimiter">/</span><span class="current">NettyRequestAdapter</span></div>
   <div class="cover ">
@@ -100,9 +99,9 @@
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
-        <h2 class="">Constructors</h2>
+        <h2 class="tableheader">Constructors</h2>
         <div class="table"><a data-name="370217343%2FConstructors%2F-742613365" anchor-label="NettyRequestAdapter" id="370217343%2FConstructors%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-netty-request-adapter.html"><span>Netty</span><wbr><span>Request</span><wbr><span><span>Adapter</span></span></a></div>
@@ -119,9 +118,9 @@
         </div>
       </div>
       <div data-togglable="PROPERTY">
-        <h2 class="">Properties</h2>
+        <h2 class="tableheader">Properties</h2>
         <div class="table"><a data-name="-1273534638%2FProperties%2F-742613365" anchor-label="accept" id="-1273534638%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="accept.html"><span><span>accept</span></span></a></div>
@@ -136,7 +135,7 @@
             </div>
           </div>
 <a data-name="592343847%2FProperties%2F-742613365" anchor-label="authorization" id="592343847%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="authorization.html"><span><span>authorization</span></span></a></div>
@@ -151,7 +150,7 @@
             </div>
           </div>
 <a data-name="1853794104%2FProperties%2F-742613365" anchor-label="body" id="1853794104%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="body.html"><span><span>body</span></span></a></div>
@@ -166,7 +165,7 @@
             </div>
           </div>
 <a data-name="1695449840%2FProperties%2F-742613365" anchor-label="certificateChain" id="1695449840%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="certificate-chain.html"><span>certificate</span><wbr><span><span>Chain</span></span></a></div>
@@ -181,7 +180,7 @@
             </div>
           </div>
 <a data-name="-2096942687%2FProperties%2F-742613365" anchor-label="contentLength" id="-2096942687%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="content-length.html"><span>content</span><wbr><span><span>Length</span></span></a></div>
@@ -196,7 +195,7 @@
             </div>
           </div>
 <a data-name="1054056013%2FProperties%2F-742613365" anchor-label="contentType" id="1054056013%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="content-type.html"><span>content</span><wbr><span><span>Type</span></span></a></div>
@@ -211,7 +210,7 @@
             </div>
           </div>
 <a data-name="1174062097%2FProperties%2F-742613365" anchor-label="cookies" id="1174062097%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="cookies.html"><span><span>cookies</span></span></a></div>
@@ -226,7 +225,7 @@
             </div>
           </div>
 <a data-name="934605900%2FProperties%2F-742613365" anchor-label="formParameters" id="934605900%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="form-parameters.html"><span>form</span><wbr><span><span>Parameters</span></span></a></div>
@@ -241,7 +240,7 @@
             </div>
           </div>
 <a data-name="420301562%2FProperties%2F-742613365" anchor-label="headers" id="420301562%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="headers.html"><span><span>headers</span></span></a></div>
@@ -256,7 +255,7 @@
             </div>
           </div>
 <a data-name="-1193320974%2FProperties%2F-742613365" anchor-label="host" id="-1193320974%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="host.html"><span><span>host</span></span></a></div>
@@ -271,7 +270,7 @@
             </div>
           </div>
 <a data-name="-365616743%2FProperties%2F-742613365" anchor-label="method" id="-365616743%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="method.html"><span><span>method</span></span></a></div>
@@ -286,7 +285,7 @@
             </div>
           </div>
 <a data-name="-1835180640%2FProperties%2F-742613365" anchor-label="parts" id="-1835180640%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="parts.html"><span><span>parts</span></span></a></div>
@@ -301,7 +300,7 @@
             </div>
           </div>
 <a data-name="-82754027%2FProperties%2F-742613365" anchor-label="path" id="-82754027%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="path.html"><span><span>path</span></span></a></div>
@@ -316,7 +315,7 @@
             </div>
           </div>
 <a data-name="-1588750005%2FProperties%2F-742613365" anchor-label="pathParameters" id="-1588750005%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="path-parameters.html"><span>path</span><wbr><span><span>Parameters</span></span></a></div>
@@ -331,7 +330,7 @@
             </div>
           </div>
 <a data-name="-1342740235%2FProperties%2F-742613365" anchor-label="pathPattern" id="-1342740235%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="path-pattern.html"><span>path</span><wbr><span><span>Pattern</span></span></a></div>
@@ -346,7 +345,7 @@
             </div>
           </div>
 <a data-name="-905088711%2FProperties%2F-742613365" anchor-label="port" id="-905088711%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="port.html"><span><span>port</span></span></a></div>
@@ -361,7 +360,7 @@
             </div>
           </div>
 <a data-name="-44565374%2FProperties%2F-742613365" anchor-label="protocol" id="-44565374%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="protocol.html"><span><span>protocol</span></span></a></div>
@@ -376,7 +375,7 @@
             </div>
           </div>
 <a data-name="1245771822%2FProperties%2F-742613365" anchor-label="queryParameters" id="1245771822%2FProperties%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="query-parameters.html"><span>query</span><wbr><span><span>Parameters</span></span></a></div>
@@ -393,9 +392,9 @@
         </div>
       </div>
       <div data-togglable="FUNCTION">
-        <h2 class="">Functions</h2>
+        <h2 class="tableheader">Functions</h2>
         <div class="table"><a data-name="873893939%2FFunctions%2F-742613365" anchor-label="authorization" id="873893939%2FFunctions%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#873893939%2FFunctions%2F-742613365"><span><span>authorization</span></span></a></div>
@@ -410,7 +409,7 @@
             </div>
           </div>
 <a data-name="-1466001892%2FFunctions%2F-742613365" anchor-label="bodyString" id="-1466001892%2FFunctions%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-1466001892%2FFunctions%2F-742613365"><span>body</span><wbr><span><span>String</span></span></a></div>
@@ -425,7 +424,7 @@
             </div>
           </div>
 <a data-name="-532122475%2FFunctions%2F-742613365" anchor-label="certificate" id="-532122475%2FFunctions%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-532122475%2FFunctions%2F-742613365"><span><span>certificate</span></span></a></div>
@@ -440,7 +439,7 @@
             </div>
           </div>
 <a data-name="1666644088%2FFunctions%2F-742613365" anchor-label="cookiesMap" id="1666644088%2FFunctions%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#1666644088%2FFunctions%2F-742613365"><span>cookies</span><wbr><span><span>Map</span></span></a></div>
@@ -455,7 +454,7 @@
             </div>
           </div>
 <a data-name="-2112642200%2FFunctions%2F-742613365" anchor-label="origin" id="-2112642200%2FFunctions%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-2112642200%2FFunctions%2F-742613365"><span><span>origin</span></span></a></div>
@@ -470,7 +469,7 @@
             </div>
           </div>
 <a data-name="-1281207118%2FFunctions%2F-742613365" anchor-label="partsMap" id="-1281207118%2FFunctions%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-1281207118%2FFunctions%2F-742613365"><span>parts</span><wbr><span><span>Map</span></span></a></div>
@@ -485,7 +484,7 @@
             </div>
           </div>
 <a data-name="-1499161521%2FFunctions%2F-742613365" anchor-label="plus" id="-1499161521%2FFunctions%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#331493283%2FFunctions%2F-742613365"><span><span>plus</span></span></a></div>
@@ -500,7 +499,7 @@
             </div>
           </div>
 <a data-name="-1015344833%2FFunctions%2F-742613365" anchor-label="referer" id="-1015344833%2FFunctions%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-1015344833%2FFunctions%2F-742613365"><span><span>referer</span></span></a></div>
@@ -515,7 +514,7 @@
             </div>
           </div>
 <a data-name="100694368%2FFunctions%2F-742613365" anchor-label="uri" id="100694368%2FFunctions%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#100694368%2FFunctions%2F-742613365"><span><span>uri</span></span></a></div>
@@ -530,7 +529,7 @@
             </div>
           </div>
 <a data-name="2003281234%2FFunctions%2F-742613365" anchor-label="userAgent" id="2003281234%2FFunctions%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#2003281234%2FFunctions%2F-742613365"><span>user</span><wbr><span><span>Agent</span></span></a></div>
@@ -545,7 +544,7 @@
             </div>
           </div>
 <a data-name="1636803763%2FFunctions%2F-742613365" anchor-label="with" id="1636803763%2FFunctions%2F-742613365" data-filterable-set=":http:http_server_netty/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_server_netty/main" data-filterable-set=":http:http_server_netty/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="with.html"><span><span>with</span></span></a></div>
@@ -565,17 +564,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>© 2026 Copyright</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

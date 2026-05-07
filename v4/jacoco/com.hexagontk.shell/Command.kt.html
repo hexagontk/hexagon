@@ -131,7 +131,7 @@ import com.hexagontk.helpers.requireNotBlank
 <span class="fc" id="L131">            }</span>
 
     private fun parseParameter(value: String, parsedParameter: Int): Property&lt;*&gt; =
-<span class="pc bpc" id="L134" title="1 of 2 branches missed.">        (emptyParametersList.getOrNull(parsedParameter) ?: emptyParametersList.lastOrNull())</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        (emptyParametersList.getOrNull(parsedParameter) ?: emptyParametersList.lastOrNull())</span>
 <span class="fc bfc" id="L135" title="All 2 branches covered.">            ?.addValue(value)</span>
 <span class="pc bpc" id="L136" title="1 of 2 branches missed.">            ?: error(&quot;No parameters&quot;)</span>
 
@@ -223,4 +223,4 @@ import com.hexagontk.helpers.requireNotBlank
 <span class="fc" id="L223">        return result</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

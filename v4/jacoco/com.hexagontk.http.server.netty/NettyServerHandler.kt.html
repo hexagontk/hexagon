@@ -44,7 +44,7 @@ import com.hexagontk.http.model.HttpRequest as HexagonHttpRequest
 
 <span class="fc" id="L45">    private var certificates: List&lt;X509Certificate&gt; = emptyList()</span>
     private val httpRequestProcessor: (ChannelHandlerContext, HttpRequest) -&gt; Unit =
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        executor</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        executor</span>
 <span class="fc bfc" id="L48" title="All 2 branches covered.">            ?.let { x -&gt;</span>
 <span class="fc" id="L49">                { context: ChannelHandlerContext, nettyRequest: HttpRequest -&gt;</span>
 <span class="fc" id="L50">                    x.execute {</span>
@@ -327,4 +327,4 @@ import com.hexagontk.http.model.HttpRequest as HexagonHttpRequest
 <span class="fc" id="L327">            else -&gt; HttpResponseStatus(status, status.toString())</span>
 <span class="fc" id="L328">        }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

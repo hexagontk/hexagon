@@ -213,7 +213,7 @@ import javax.net.ssl.TrustManagerFactory
 <span class="fc" id="L213">        val context = SSLContext.getInstance(&quot;TLSv1.3&quot;)</span>
 <span class="fc" id="L214">        context.init(</span>
 <span class="fc" id="L215">            keyManager.keyManagers,</span>
-<span class="pc bpc" id="L216" title="1 of 4 branches missed.">            trustManager?.trustManagers ?: emptyArray(),</span>
+<span class="fc bfc" id="L216" title="All 4 branches covered.">            trustManager?.trustManagers ?: emptyArray(),</span>
 <span class="fc" id="L217">            SecureRandom.getInstanceStrong()</span>
         )
 <span class="fc" id="L219">        return context</span>
@@ -231,4 +231,4 @@ import javax.net.ssl.TrustManagerFactory
 <span class="fc" id="L231">        return createKeyManagerFactory(keyStoreUrl, keyStorePassword)</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

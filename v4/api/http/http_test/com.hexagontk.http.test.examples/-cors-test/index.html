@@ -1,56 +1,53 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>CorsTest</title>
-<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
 <script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../../../styles/style.css" rel="Stylesheet">
 <link href="../../../../styles/main.css" rel="Stylesheet">
 <link href="../../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script>
-<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script></head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-<a class="library-name--link" href="../../../../index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../../index.html" tabindex="1">
                     hexagon
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">4.3.3
+        <div class="library-version" id="library-version">4.3.4
         </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http_test/main">jvm</button>
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":http:http_test/main">jvm</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -64,32 +61,34 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
             </button>
             <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     hexagon
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="classlike" id="content" pageids="http_test::com.hexagontk.http.test.examples/CorsTest///PointingToDeclaration//83408951">
   <div class="breadcrumbs"><a href="../../index.html">http_test</a><span class="delimiter">/</span><a href="../index.html">com.hexagontk.http.test.examples</a><span class="delimiter">/</span><span class="current">CorsTest</span></div>
   <div class="cover ">
@@ -100,9 +99,9 @@
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
-        <h2 class="">Constructors</h2>
+        <h2 class="tableheader">Constructors</h2>
         <div class="table"><a data-name="-357414237%2FConstructors%2F83408951" anchor-label="CorsTest" id="-357414237%2FConstructors%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-cors-test.html"><span>Cors</span><wbr><span><span>Test</span></span></a></div>
@@ -119,9 +118,9 @@
         </div>
       </div>
       <div data-togglable="PROPERTY">
-        <h2 class="">Properties</h2>
+        <h2 class="tableheader">Properties</h2>
         <div class="table"><a data-name="2013710196%2FProperties%2F83408951" anchor-label="path" id="2013710196%2FProperties%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="path.html"><span><span>path</span></span></a></div>
@@ -138,9 +137,9 @@
         </div>
       </div>
       <div data-togglable="FUNCTION">
-        <h2 class="">Functions</h2>
+        <h2 class="tableheader">Functions</h2>
         <div class="table"><a data-name="1738147504%2FFunctions%2F83408951" anchor-label="Allowed CORS pre-flight without origin" id="1738147504%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-allowed -c-o-r-s pre-flight without origin.html"><span><span>Allowed</span></span> <span><span>CORS</span></span> <span><span>pre-flight</span></span> <span><span>without</span></span> <span><span>origin</span></span></a></div>
@@ -155,7 +154,7 @@
             </div>
           </div>
 <a data-name="1336331399%2FFunctions%2F83408951" anchor-label="Allowed origin is returned properly" id="1336331399%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-allowed origin is returned properly.html"><span><span>Allowed</span></span> <span><span>origin</span></span> <span><span>is</span></span> <span><span>returned</span></span> <span><span>properly</span></span></a></div>
@@ -170,7 +169,7 @@
             </div>
           </div>
 <a data-name="-1789756319%2FFunctions%2F83408951" anchor-label="CORS full pre-flight" id="-1789756319%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-c-o-r-s full pre-flight.html"><span><span>CORS</span></span> <span><span>full</span></span> <span><span>pre-flight</span></span></a></div>
@@ -185,7 +184,7 @@
             </div>
           </div>
 <a data-name="-1641546380%2FFunctions%2F83408951" anchor-label="CORS pre-flight" id="-1641546380%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-c-o-r-s pre-flight.html"><span><span>CORS</span></span> <span><span>pre-flight</span></span></a></div>
@@ -200,7 +199,7 @@
             </div>
           </div>
 <a data-name="156832530%2FFunctions%2F83408951" anchor-label="CORS pre-flight with allowed headers" id="156832530%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-c-o-r-s pre-flight with allowed headers.html"><span><span>CORS</span></span> <span><span>pre-flight</span></span> <span><span>with</span></span> <span><span>allowed</span></span> <span><span>headers</span></span></a></div>
@@ -215,7 +214,7 @@
             </div>
           </div>
 <a data-name="-922998315%2FFunctions%2F83408951" anchor-label="CORS pre-flight with empty request method" id="-922998315%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-c-o-r-s pre-flight with empty request method.html"><span><span>CORS</span></span> <span><span>pre-flight</span></span> <span><span>with</span></span> <span><span>empty</span></span> <span><span>request</span></span> <span><span>method</span></span></a></div>
@@ -230,7 +229,7 @@
             </div>
           </div>
 <a data-name="-1456528889%2FFunctions%2F83408951" anchor-label="CORS pre-flight with mismatched origin" id="-1456528889%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-c-o-r-s pre-flight with mismatched origin.html"><span><span>CORS</span></span> <span><span>pre-flight</span></span> <span><span>with</span></span> <span><span>mismatched</span></span> <span><span>origin</span></span></a></div>
@@ -245,7 +244,7 @@
             </div>
           </div>
 <a data-name="567527487%2FFunctions%2F83408951" anchor-label="CORS pre-flight with not allowed headers" id="567527487%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-c-o-r-s pre-flight with not allowed headers.html"><span><span>CORS</span></span> <span><span>pre-flight</span></span> <span><span>with</span></span> <span><span>not</span></span> <span><span>allowed</span></span> <span><span>headers</span></span></a></div>
@@ -260,7 +259,7 @@
             </div>
           </div>
 <a data-name="-776509516%2FFunctions%2F83408951" anchor-label="CORS pre-flight with not allowed method" id="-776509516%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-c-o-r-s pre-flight with not allowed method.html"><span><span>CORS</span></span> <span><span>pre-flight</span></span> <span><span>with</span></span> <span><span>not</span></span> <span><span>allowed</span></span> <span><span>method</span></span></a></div>
@@ -275,7 +274,7 @@
             </div>
           </div>
 <a data-name="1700414792%2FFunctions%2F83408951" anchor-label="CORS pre-flight without origin" id="1700414792%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-c-o-r-s pre-flight without origin.html"><span><span>CORS</span></span> <span><span>pre-flight</span></span> <span><span>without</span></span> <span><span>origin</span></span></a></div>
@@ -290,7 +289,7 @@
             </div>
           </div>
 <a data-name="-1639879332%2FFunctions%2F83408951" anchor-label="CORS pre-flight without request method" id="-1639879332%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-c-o-r-s pre-flight without request method.html"><span><span>CORS</span></span> <span><span>pre-flight</span></span> <span><span>without</span></span> <span><span>request</span></span> <span><span>method</span></span></a></div>
@@ -305,7 +304,7 @@
             </div>
           </div>
 <a data-name="1657062954%2FFunctions%2F83408951" anchor-label="Request with not allowed origin is forbidden" id="1657062954%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-request with not allowed origin is forbidden.html"><span><span>Request</span></span> <span><span>with</span></span> <span><span>not</span></span> <span><span>allowed</span></span> <span><span>origin</span></span> <span><span>is</span></span> <span><span>forbidden</span></span></a></div>
@@ -320,7 +319,7 @@
             </div>
           </div>
 <a data-name="642147920%2FFunctions%2F83408951" anchor-label="Request without origin continues as non CORS" id="642147920%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-request without origin continues as non -c-o-r-s.html"><span><span>Request</span></span> <span><span>without</span></span> <span><span>origin</span></span> <span><span>continues</span></span> <span><span>as</span></span> <span><span>non</span></span> <span><span>CORS</span></span></a></div>
@@ -335,7 +334,7 @@
             </div>
           </div>
 <a data-name="616948375%2FFunctions%2F83408951" anchor-label="Simple CORS request" id="616948375%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-simple -c-o-r-s request.html"><span><span>Simple</span></span> <span><span>CORS</span></span> <span><span>request</span></span></a></div>
@@ -350,7 +349,7 @@
             </div>
           </div>
 <a data-name="937803095%2FFunctions%2F83408951" anchor-label="Simple CORS request with exposed headers" id="937803095%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-simple -c-o-r-s request with exposed headers.html"><span><span>Simple</span></span> <span><span>CORS</span></span> <span><span>request</span></span> <span><span>with</span></span> <span><span>exposed</span></span> <span><span>headers</span></span></a></div>
@@ -365,7 +364,7 @@
             </div>
           </div>
 <a data-name="-657402921%2FFunctions%2F83408951" anchor-label="Simple CORS request with not allowed method" id="-657402921%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-simple -c-o-r-s request with not allowed method.html"><span><span>Simple</span></span> <span><span>CORS</span></span> <span><span>request</span></span> <span><span>with</span></span> <span><span>not</span></span> <span><span>allowed</span></span> <span><span>method</span></span></a></div>
@@ -380,7 +379,7 @@
             </div>
           </div>
 <a data-name="-215439727%2FFunctions%2F83408951" anchor-label="startUp" id="-215439727%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../../com.hexagontk.http.test/-base-test/start-up.html"><span>start</span><wbr><span><span>Up</span></span></a></div>
@@ -400,17 +399,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>© 2026 Copyright</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

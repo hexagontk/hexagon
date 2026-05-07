@@ -1,56 +1,53 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>ClientTest</title>
-<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
 <script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../../../styles/style.css" rel="Stylesheet">
 <link href="../../../../styles/main.css" rel="Stylesheet">
 <link href="../../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script>
-<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script></head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-<a class="library-name--link" href="../../../../index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../../index.html" tabindex="1">
                     hexagon
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">4.3.3
+        <div class="library-version" id="library-version">4.3.4
         </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http_test/main">jvm</button>
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":http:http_test/main">jvm</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -64,32 +61,34 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
             </button>
             <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     hexagon
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="classlike" id="content" pageids="http_test::com.hexagontk.http.test.examples/ClientTest///PointingToDeclaration//83408951">
   <div class="breadcrumbs"><a href="../../index.html">http_test</a><span class="delimiter">/</span><a href="../index.html">com.hexagontk.http.test.examples</a><span class="delimiter">/</span><span class="current">ClientTest</span></div>
   <div class="cover ">
@@ -100,9 +99,9 @@
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
-        <h2 class="">Constructors</h2>
+        <h2 class="tableheader">Constructors</h2>
         <div class="table"><a data-name="-1402914467%2FConstructors%2F83408951" anchor-label="ClientTest" id="-1402914467%2FConstructors%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-client-test.html"><span>Client</span><wbr><span><span>Test</span></span></a></div>
@@ -119,9 +118,9 @@
         </div>
       </div>
       <div data-togglable="FUNCTION">
-        <h2 class="">Functions</h2>
+        <h2 class="tableheader">Functions</h2>
         <div class="table"><a data-name="930975279%2FFunctions%2F83408951" anchor-label="Create HTTP clients" id="930975279%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-create -h-t-t-p clients.html"><span><span>Create</span></span> <span><span>HTTP</span></span> <span><span>clients</span></span></a></div>
@@ -136,7 +135,7 @@
             </div>
           </div>
 <a data-name="-1811162823%2FFunctions%2F83408951" anchor-label="Exceptions are returned as internal server errors" id="-1811162823%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-exceptions are returned as internal server errors.html"><span><span>Exceptions</span></span> <span><span>are</span></span> <span><span>returned</span></span> <span><span>as</span></span> <span><span>internal</span></span> <span><span>server</span></span> <span><span>errors</span></span></a></div>
@@ -151,7 +150,7 @@
             </div>
           </div>
 <a data-name="-2011020173%2FFunctions%2F83408951" anchor-label="HTTP generic requests work ok" id="-2011020173%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-h-t-t-p generic requests work ok.html"><span><span>HTTP</span></span> <span><span>generic</span></span> <span><span>requests</span></span> <span><span>work</span></span> <span><span>ok</span></span></a></div>
@@ -166,7 +165,7 @@
             </div>
           </div>
 <a data-name="1626601604%2FFunctions%2F83408951" anchor-label="HTTP methods with body and content type work ok" id="1626601604%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-h-t-t-p methods with body and content type work ok.html"><span><span>HTTP</span></span> <span><span>methods</span></span> <span><span>with</span></span> <span><span>body</span></span> <span><span>and</span></span> <span><span>content</span></span> <span><span>type</span></span> <span><span>work</span></span> <span><span>ok</span></span></a></div>
@@ -181,7 +180,7 @@
             </div>
           </div>
 <a data-name="-1309668138%2FFunctions%2F83408951" anchor-label="HTTP methods with body work ok" id="-1309668138%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-h-t-t-p methods with body work ok.html"><span><span>HTTP</span></span> <span><span>methods</span></span> <span><span>with</span></span> <span><span>body</span></span> <span><span>work</span></span> <span><span>ok</span></span></a></div>
@@ -196,7 +195,7 @@
             </div>
           </div>
 <a data-name="972467480%2FFunctions%2F83408951" anchor-label="HTTP methods without body work ok" id="972467480%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-h-t-t-p methods without body work ok.html"><span><span>HTTP</span></span> <span><span>methods</span></span> <span><span>without</span></span> <span><span>body</span></span> <span><span>work</span></span> <span><span>ok</span></span></a></div>
@@ -211,7 +210,7 @@
             </div>
           </div>
 <a data-name="840717961%2FFunctions%2F83408951" anchor-label="Integers are sent properly" id="840717961%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-integers are sent properly.html"><span><span>Integers</span></span> <span><span>are</span></span> <span><span>sent</span></span> <span><span>properly</span></span></a></div>
@@ -226,7 +225,7 @@
             </div>
           </div>
 <a data-name="-118341121%2FFunctions%2F83408951" anchor-label="JSON requests works as expected" id="-118341121%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-j-s-o-n requests works as expected.html"><span><span>JSON</span></span> <span><span>requests</span></span> <span><span>works</span></span> <span><span>as</span></span> <span><span>expected</span></span></a></div>
@@ -241,7 +240,7 @@
             </div>
           </div>
 <a data-name="-642307386%2FFunctions%2F83408951" anchor-label="Parameters are set properly" id="-642307386%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-parameters are set properly.html"><span><span>Parameters</span></span> <span><span>are</span></span> <span><span>set</span></span> <span><span>properly</span></span></a></div>
@@ -256,7 +255,7 @@
             </div>
           </div>
 <a data-name="1005277326%2FFunctions%2F83408951" anchor-label="Redirects are handled correctly correctly" id="1005277326%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-redirects are handled correctly correctly.html"><span><span>Redirects</span></span> <span><span>are</span></span> <span><span>handled</span></span> <span><span>correctly</span></span> <span><span>correctly</span></span></a></div>
@@ -271,7 +270,7 @@
             </div>
           </div>
 <a data-name="42480892%2FFunctions%2F83408951" anchor-label="resetHandler" id="42480892%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="reset-handler.html"><span>reset</span><wbr><span><span>Handler</span></span></a></div>
@@ -286,7 +285,7 @@
             </div>
           </div>
 <a data-name="-1275636038%2FFunctions%2F83408951" anchor-label="setUpSerializationFormats" id="-1275636038%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="set-up-serialization-formats.html"><span>set</span><wbr><span>Up</span><wbr><span>Serialization</span><wbr><span><span>Formats</span></span></a></div>
@@ -301,7 +300,7 @@
             </div>
           </div>
 <a data-name="-215439727%2FFunctions%2F83408951" anchor-label="startUp" id="-215439727%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../../com.hexagontk.http.test/-base-test/start-up.html"><span>start</span><wbr><span><span>Up</span></span></a></div>
@@ -316,7 +315,7 @@
             </div>
           </div>
 <a data-name="1186535720%2FFunctions%2F83408951" anchor-label="Strings are sent properly" id="1186535720%2FFunctions%2F83408951" data-filterable-set=":http:http_test/main"></a>
-          <div class="table-row" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http_test/main" data-filterable-set=":http:http_test/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-strings are sent properly.html"><span><span>Strings</span></span> <span><span>are</span></span> <span><span>sent</span></span> <span><span>properly</span></span></a></div>
@@ -336,17 +335,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>© 2026 Copyright</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

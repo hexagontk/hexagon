@@ -102,7 +102,7 @@ import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 <span class="fc" id="L102">                secure = it.isSecure,</span>
 <span class="pc bpc" id="L103" title="1 of 2 branches missed.">                path = it.path() ?: &quot;/&quot;,</span>
 <span class="fc" id="L104">                httpOnly = it.isHttpOnly,</span>
-<span class="pc bpc" id="L105" title="3 of 6 branches missed.">                sameSite = (it as? DefaultCookie)?.sameSite()?.let { ss -&gt;</span>
+<span class="pc bpc" id="L105" title="2 of 6 branches missed.">                sameSite = (it as? DefaultCookie)?.sameSite()?.let { ss -&gt;</span>
 <span class="nc bnc" id="L106" title="All 3 branches missed.">                    when (ss) {</span>
 <span class="nc" id="L107">                        Strict -&gt; CookieSameSite.STRICT</span>
 <span class="nc" id="L108">                        Lax -&gt; CookieSameSite.LAX</span>
@@ -163,4 +163,4 @@ import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
     ): HttpRequestPort =
 <span class="nc" id="L164">        throw UnsupportedOperationException()</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

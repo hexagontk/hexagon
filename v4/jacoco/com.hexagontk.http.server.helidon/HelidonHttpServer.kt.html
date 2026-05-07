@@ -103,7 +103,7 @@ import javax.net.ssl.TrustManagerFactory
 <span class="fc" id="L103">            }</span>
 
 <span class="fc bfc" id="L105" title="All 2 branches covered.">        if (sslSettings != null)</span>
-<span class="fc" id="L106">            serverBuilder.tls {</span>
+<span class="fc" id="L106">            serverBuilder.tls { it -&gt;</span>
 <span class="fc" id="L107">                val sslClientAuth = sslSettings.clientAuth</span>
 <span class="fc" id="L108">                it</span>
 <span class="fc" id="L109">                    .sslParameters(SSLParameters().apply { needClientAuth = sslClientAuth })</span>
@@ -220,7 +220,7 @@ import javax.net.ssl.TrustManagerFactory
 <span class="fc" id="L220">        val context = SSLContext.getInstance(&quot;TLSv1.3&quot;)</span>
 <span class="fc" id="L221">        context.init(</span>
 <span class="fc" id="L222">            keyManager.keyManagers,</span>
-<span class="pc bpc" id="L223" title="1 of 4 branches missed.">            trustManager?.trustManagers ?: emptyArray(),</span>
+<span class="fc bfc" id="L223" title="All 4 branches covered.">            trustManager?.trustManagers ?: emptyArray(),</span>
 <span class="fc" id="L224">            SecureRandom.getInstanceStrong()</span>
         )
 <span class="fc" id="L226">        return context</span>
@@ -238,4 +238,4 @@ import javax.net.ssl.TrustManagerFactory
 <span class="fc" id="L238">        return createKeyManagerFactory(keyStoreUrl, keyStorePassword)</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -52,7 +52,7 @@ object ConvertersManager {
 <span class="fc bfc" id="L52" title="All 2 branches covered.">        if (source::class == target)</span>
 <span class="fc" id="L53">            source as T</span>
         else
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            searchConverter(source, target)</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            searchConverter(source, target)</span>
 <span class="fc bfc" id="L56" title="All 2 branches covered.">                ?.invoke(source)</span>
 <span class="fc" id="L57">                ?: error(&quot;No converter for ${source::class.simpleName} -&gt; ${target.simpleName}&quot;)</span>
 
@@ -87,4 +87,4 @@ object ConvertersManager {
 <span class="fc" id="L87">        return null</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

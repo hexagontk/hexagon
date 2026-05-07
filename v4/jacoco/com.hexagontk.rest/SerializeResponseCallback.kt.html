@@ -20,14 +20,14 @@ import com.hexagontk.serialization.serialize
 <span class="fc bfc" id="L20" title="All 4 branches covered.">        if (responseBody is String || responseBody is ByteArray)</span>
 <span class="fc" id="L21">            return context</span>
 
-<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        return (context.request.accept - anyContentType)</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        return (context.request.accept - anyContentType)</span>
 <span class="pc bpc" id="L24" title="3 of 6 branches missed.">            .ifEmpty { context.response.contentType?.let(::listOf) ?: emptyList() }</span>
 <span class="fc" id="L25">            .associateWith { SerializationManager.formatOfOrNull(it.mediaType) }</span>
 <span class="fc bfc" id="L26" title="All 2 branches covered.">            .mapNotNull { (k, v) -&gt; v?.let { k to it } }</span>
 <span class="fc" id="L27">            .firstOrNull()</span>
 <span class="fc bfc" id="L28" title="All 2 branches covered.">            ?.let { (ct, sf) -&gt; ct to responseBody.serialize(sf) }</span>
-<span class="pc bpc" id="L29" title="1 of 2 branches missed.">            ?.let { (ct, c) -&gt; context.send(body = c, contentType = ct) }</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">            ?.let { (ct, c) -&gt; context.send(body = c, contentType = ct) }</span>
 <span class="fc" id="L30">            ?: context</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

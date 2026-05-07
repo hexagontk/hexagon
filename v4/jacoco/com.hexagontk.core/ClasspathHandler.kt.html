@@ -11,7 +11,7 @@ object ClasspathHandler : URLStreamHandler() {
     }
 
     override fun openConnection(url: URL): URLConnection =
-<span class="pc bpc" id="L14" title="1 of 4 branches missed.">        classLoader.getResource(url.path)?.openConnection()</span>
+<span class="fc bfc" id="L14" title="All 4 branches covered.">        classLoader.getResource(url.path)?.openConnection()</span>
 <span class="fc" id="L15">            ?: throw ResourceNotFoundException(&quot;$url cannot be open&quot;)</span>
 
     fun registerHandler() {
@@ -29,4 +29,4 @@ object ClasspathHandler : URLStreamHandler() {
 <span class="fc" id="L29">        return protocolHandlers[protocol]</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

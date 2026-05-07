@@ -18,7 +18,7 @@ import kotlin.reflect.cast
 
     internal companion object {
         fun &lt;T : Exception&gt; castException(exception: Exception?, exceptionClass: KClass&lt;T&gt;): T =
-<span class="pc bpc" id="L21" title="1 of 2 branches missed.">            exception</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">            exception</span>
 <span class="fc bfc" id="L22" title="All 2 branches covered.">                ?.let { exceptionClass.cast(exception) }</span>
 <span class="fc" id="L23">                ?: error(&quot;Exception 'null' or incorrect type&quot;)</span>
     }
@@ -41,8 +41,8 @@ import kotlin.reflect.cast
     }
 
     private fun afterPredicate(context: Context&lt;T&gt;): Boolean {
-<span class="pc bpc" id="L44" title="1 of 4 branches missed.">        val exceptionClass = context.exception?.javaClass ?: return false</span>
+<span class="fc bfc" id="L44" title="All 4 branches covered.">        val exceptionClass = context.exception?.javaClass ?: return false</span>
 <span class="fc" id="L45">        return exception.java.isAssignableFrom(exceptionClass)</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

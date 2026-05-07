@@ -1,56 +1,53 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>HttpResponse</title>
-<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
 <script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../../../styles/style.css" rel="Stylesheet">
 <link href="../../../../styles/main.css" rel="Stylesheet">
 <link href="../../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script>
-<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script></head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-<a class="library-name--link" href="../../../../index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../../index.html" tabindex="1">
                     hexagon
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">4.3.3
+        <div class="library-version" id="library-version">4.3.4
         </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":http:http/main">jvm</button>
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":http:http/main">jvm</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -64,32 +61,34 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
             </button>
             <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     hexagon
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="classlike" id="content" pageids="http::com.hexagontk.http.model/HttpResponse///PointingToDeclaration//942159528">
   <div class="breadcrumbs"><a href="../../index.html">http</a><span class="delimiter">/</span><a href="../index.html">com.hexagontk.http.model</a><span class="delimiter">/</span><span class="current">HttpResponse</span></div>
   <div class="cover ">
@@ -100,9 +99,9 @@
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
-        <h2 class="">Constructors</h2>
+        <h2 class="tableheader">Constructors</h2>
         <div class="table"><a data-name="-1768524645%2FConstructors%2F942159528" anchor-label="HttpResponse" id="-1768524645%2FConstructors%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-http-response.html"><span>Http</span><wbr><span><span>Response</span></span></a></div>
@@ -119,9 +118,9 @@
         </div>
       </div>
       <div data-togglable="PROPERTY">
-        <h2 class="">Properties</h2>
+        <h2 class="tableheader">Properties</h2>
         <div class="table"><a data-name="-2039812451%2FProperties%2F942159528" anchor-label="body" id="-2039812451%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="body.html"><span><span>body</span></span></a></div>
@@ -136,7 +135,7 @@
             </div>
           </div>
 <a data-name="1408265180%2FProperties%2F942159528" anchor-label="contentLength" id="1408265180%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="content-length.html"><span>content</span><wbr><span><span>Length</span></span></a></div>
@@ -151,7 +150,7 @@
             </div>
           </div>
 <a data-name="347089736%2FProperties%2F942159528" anchor-label="contentType" id="347089736%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="content-type.html"><span>content</span><wbr><span><span>Type</span></span></a></div>
@@ -166,7 +165,7 @@
             </div>
           </div>
 <a data-name="922945164%2FProperties%2F942159528" anchor-label="cookies" id="922945164%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="cookies.html"><span><span>cookies</span></span></a></div>
@@ -181,7 +180,7 @@
             </div>
           </div>
 <a data-name="169184629%2FProperties%2F942159528" anchor-label="headers" id="169184629%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="headers.html"><span><span>headers</span></span></a></div>
@@ -196,7 +195,7 @@
             </div>
           </div>
 <a data-name="-1821167041%2FProperties%2F942159528" anchor-label="onBinary" id="-1821167041%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="on-binary.html"><span>on</span><wbr><span><span>Binary</span></span></a></div>
@@ -211,7 +210,7 @@
             </div>
           </div>
 <a data-name="1030892802%2FProperties%2F942159528" anchor-label="onClose" id="1030892802%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="on-close.html"><span>on</span><wbr><span><span>Close</span></span></a></div>
@@ -226,7 +225,7 @@
             </div>
           </div>
 <a data-name="826690320%2FProperties%2F942159528" anchor-label="onConnect" id="826690320%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="on-connect.html"><span>on</span><wbr><span><span>Connect</span></span></a></div>
@@ -241,7 +240,7 @@
             </div>
           </div>
 <a data-name="-706704722%2FProperties%2F942159528" anchor-label="onPing" id="-706704722%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="on-ping.html"><span>on</span><wbr><span><span>Ping</span></span></a></div>
@@ -256,7 +255,7 @@
             </div>
           </div>
 <a data-name="2059843304%2FProperties%2F942159528" anchor-label="onPong" id="2059843304%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="on-pong.html"><span>on</span><wbr><span><span>Pong</span></span></a></div>
@@ -271,7 +270,7 @@
             </div>
           </div>
 <a data-name="219144019%2FProperties%2F942159528" anchor-label="onText" id="219144019%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="on-text.html"><span>on</span><wbr><span><span>Text</span></span></a></div>
@@ -286,7 +285,7 @@
             </div>
           </div>
 <a data-name="2068031419%2FProperties%2F942159528" anchor-label="reason" id="2068031419%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="reason.html"><span><span>reason</span></span></a></div>
@@ -301,7 +300,7 @@
             </div>
           </div>
 <a data-name="-331314739%2FProperties%2F942159528" anchor-label="status" id="-331314739%2FProperties%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="status.html"><span><span>status</span></span></a></div>
@@ -318,9 +317,9 @@
         </div>
       </div>
       <div data-togglable="FUNCTION">
-        <h2 class="">Functions</h2>
+        <h2 class="tableheader">Functions</h2>
         <div class="table"><a data-name="-1466001892%2FFunctions%2F942159528" anchor-label="bodyString" id="-1466001892%2FFunctions%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-http-base/body-string.html"><span>body</span><wbr><span><span>String</span></span></a></div>
@@ -335,7 +334,7 @@
             </div>
           </div>
 <a data-name="1666644088%2FFunctions%2F942159528" anchor-label="cookiesMap" id="1666644088%2FFunctions%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-http-message/cookies-map.html"><span>cookies</span><wbr><span><span>Map</span></span></a></div>
@@ -350,7 +349,7 @@
             </div>
           </div>
 <a data-name="-796884892%2FFunctions%2F942159528" anchor-label="plus" id="-796884892%2FFunctions%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-http-response-port/plus.html"><span><span>plus</span></span></a></div>
@@ -365,7 +364,7 @@
             </div>
           </div>
 <a data-name="510027275%2FFunctions%2F942159528" anchor-label="with" id="510027275%2FFunctions%2F942159528" data-filterable-set=":http:http/main"></a>
-          <div class="table-row" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
+          <div class="table-row table-row_content" data-filterable-current=":http:http/main" data-filterable-set=":http:http/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="with.html"><span><span>with</span></span></a></div>
@@ -374,7 +373,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="with.html"><span class="token function">with</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">status<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">body<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter ">headers<span class="token operator">: </span><a href="../-headers/index.html">Headers</a><span class="token punctuation">, </span></span><span class="parameter ">contentType<span class="token operator">: </span><a href="../-content-type/index.html">ContentType</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">cookies<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-cookie/index.html">Cookie</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onConnect<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter ">onBinary<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span>data<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter ">onText<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span>text<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter ">onPing<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span>data<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter ">onPong<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span>data<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter ">onClose<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span>status<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span>reason<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-http-response-port/index.html">HttpResponsePort</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":http:http/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="with.html"><span class="token function">with</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">status<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>this.status<span class="token punctuation">, </span></span><span class="parameter ">body<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator"> = </span>this.body<span class="token punctuation">, </span></span><span class="parameter ">headers<span class="token operator">: </span><a href="../-headers/index.html">Headers</a><span class="token operator"> = </span>this.headers<span class="token punctuation">, </span></span><span class="parameter ">contentType<span class="token operator">: </span><a href="../-content-type/index.html">ContentType</a><span class="token operator">?</span><span class="token operator"> = </span>this.contentType<span class="token punctuation">, </span></span><span class="parameter ">cookies<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-cookie/index.html">Cookie</a><span class="token operator">&gt;</span><span class="token operator"> = </span>this.cookies<span class="token punctuation">, </span></span><span class="parameter ">onConnect<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>this.onConnect<span class="token punctuation">, </span></span><span class="parameter ">onBinary<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span>data<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>this.onBinary<span class="token punctuation">, </span></span><span class="parameter ">onText<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span>text<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>this.onText<span class="token punctuation">, </span></span><span class="parameter ">onPing<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span>data<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>this.onPing<span class="token punctuation">, </span></span><span class="parameter ">onPong<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span>data<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>this.onPong<span class="token punctuation">, </span></span><span class="parameter ">onClose<span class="token operator">: </span><a href="../../com.hexagontk.http.model.ws/-ws-session/index.html">WsSession</a><span class="token punctuation">.</span><span class="token punctuation">(</span>status<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span>reason<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>this.onClose</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-http-response-port/index.html">HttpResponsePort</a></div></div></div>
                 </div>
               </div>
             </div>
@@ -385,17 +384,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>© 2026 Copyright</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

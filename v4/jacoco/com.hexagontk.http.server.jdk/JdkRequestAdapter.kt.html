@@ -34,7 +34,7 @@ import javax.net.ssl.SSLSession
     }
 
 <span class="fc" id="L36">    override val queryParameters: Parameters by lazy {</span>
-<span class="pc bpc" id="L37" title="1 of 4 branches missed.">        exchange.requestURI.query?.let {parseQueryString(it) } ?: Parameters()</span>
+<span class="fc bfc" id="L37" title="All 4 branches covered.">        exchange.requestURI.query?.let {parseQueryString(it) } ?: Parameters()</span>
     }
 
 <span class="fc" id="L40">    override val parts: List&lt;HttpPart&gt; by lazy {</span>
@@ -109,4 +109,4 @@ import javax.net.ssl.SSLSession
     ): HttpRequestPort =
 <span class="nc" id="L110">        throw UnsupportedOperationException()</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
