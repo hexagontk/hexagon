@@ -23,13 +23,13 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Build
-            version("kotlin", "2.3.20")
+            version("kotlin", "2.3.21")
             version("dokka", "2.0.0")
             version("licenseReport", "3.1.1")
             version("binValidator", "0.18.1")
             version("nativeTools", "0.11.5")
             version("jmhGradle", "0.7.3")
-            version("gradleWrapper", "9.4.1")
+            version("gradleWrapper", "9.5.0")
             version("mkdocsMaterial", "9.7.6")
             version("maven", "4.0.0-rc-5")
             version("junit", "6.0.3")
@@ -39,32 +39,32 @@ dependencyResolutionManagement {
             version("mockk", "1.14.9")
             version("jacoco", "0.8.14")
             version("jmh", "1.37")
-            version("testcontainers", "2.0.3")
+            version("testcontainers", "2.0.5")
             version("commonsCompress", "1.28.0")
 
             // Shared
             version("slf4j", "2.0.17")
 
             // http_server_netty
-            version("netty", "4.2.12.Final")
-            version("nettyTcNative", "2.0.75.Final")
+            version("netty", "4.2.13.Final")
+            version("nettyTcNative", "2.0.77.Final")
 
             // http_server_helidon
-            version("helidon", "4.4.0")
+            version("helidon", "4.4.1")
 
             // http_server_servlet
             version("servlet", "6.1.0")
-            version("jetty", "12.1.8")
+            version("jetty", "12.1.9")
 
             // rest_tools
             version("swaggerRequestValidator", "2.46.1")
 
             // messaging_rabbitmq
-            version("amqpClient", "5.29.0")
+            version("amqpClient", "5.30.0")
             version("metricsJmx", "4.2.38")
 
             // serialization
-            version("jackson", "3.1.1")
+            version("jackson", "3.1.3")
             version("dslJson", "2.0.2")
 
             // serverless_http_google
@@ -72,13 +72,13 @@ dependencyResolutionManagement {
             version("invoker", "1.4.1")
 
             // store_mongodb
-            version("mongodb", "5.6.5")
+            version("mongodb", "5.7.0")
 
             // templates_freemarker
             version("freemarker", "2.3.34")
 
             // templates_jte
-            version("jte", "3.2.3")
+            version("jte", "3.2.4")
 
             // templates_pebble
             version("pebble", "4.1.1")
